@@ -321,7 +321,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300024, guid: feda0c18015b3284cabbc0da85254f9a, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 86a4c2003ef6afe4d99a5f2276a17899, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -370,7 +370,7 @@ PolygonCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.375, y: 1.375}
+    oldSize: {x: 3.77, y: 6.49}
     newSize: {x: 1.375, y: 1.375}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -449,15 +449,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 0
-  shotPower: 15
   projectile: {fileID: 6104711158203355607, guid: 56ef0b4526c6e0d4795adb5837e2749e,
     type: 3}
-  bulletSpeed: 15
-  pistolShot: {fileID: 8300000, guid: 0d9f85d9ea69a734895afc382b692db2, type: 3}
   horizontalAxis: Horizontal2
   verticalAxis: Vertical2
   shootAxis: Shoot
   healthBar: {fileID: 209011892}
+  currentWeapon: {fileID: 0}
 --- !u!82 &9155107791467020174
 AudioSource:
   m_ObjectHideFlags: 0
