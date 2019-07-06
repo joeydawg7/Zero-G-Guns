@@ -27,22 +27,22 @@ public class CameraController : MonoBehaviour
             yAvg += player.transform.position.y;
 
             //find largest x and y dist to use for determining camera z dist
-            if(player.transform.position.x > largestX)
-            {
-                largestX = player.transform.position.x;
-            }
-            if (player.transform.position.y > largestY)
-            {
-                largestY = player.transform.position.y;
-            }
+            //if(player.transform.position.x > largestX)
+            //{
+            //    largestX = player.transform.position.x;
+            //}
+            //if (player.transform.position.y > largestY)
+            //{
+            //    largestY = player.transform.position.y;
+            //}
 
         }
 
         xAvg = xAvg / players.Count;
         yAvg = yAvg / players.Count;
 
-        float zDist = (largestX - largestY)*2;
+        //float zDist = (largestX - largestY)*2;
 
-        transform.position = new Vector3(xAvg, yAvg, zDist);
+        transform.position = new Vector3(xAvg, yAvg, gameObject.transform.position.z);
     }
 }

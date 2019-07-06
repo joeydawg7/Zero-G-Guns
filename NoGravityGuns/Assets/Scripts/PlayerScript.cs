@@ -7,23 +7,28 @@ public class PlayerScript : MonoBehaviour
 
     Rigidbody2D rb;
 
+    int shotPower = 5;
+
     private void Awake()
     {
         rb = gameObject.GetComponent<Rigidbody2D>();
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        if(Input.GetMouseButtonDown(0))
+        if(Input.GetAxisRaw("Shoot") >0)
         {
-            rb.AddForce((Camera.main.ScreenToWorldPoint(Input.mousePosition) * -1), ForceMode2D.Impulse);
+            Vector2 shootTarget = new Vector2(transform.position.x + Input.GetAxis("Horizontal2"), transform.position.y + Input.GetAxis("Vertical2"));
+
+           rb.AddForce(5 * shootTarget , ForceMode2D.Impulse);
         }
     }
 
     private void OnDrawGizmos()
     {
-        Gizmos.DrawLine(gameObject.transform.position, Camera.main.ScreenToWorldPoint(Input.mousePosition));
+        //Camera.main.ScreenToWorldPoint(Input.mousePosition
+        Gizmos.DrawLine(new Vector2(gameObject.transform.position.x, gameObject.transform.position.y), new Vector2(transform.position.x + Input.GetAxis("Horizontal2"), transform.position.y + Input.GetAxis("Vertical2")));
     }
 
     //TODO: track mouse location in relation to center point of char
