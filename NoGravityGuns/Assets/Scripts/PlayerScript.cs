@@ -9,27 +9,44 @@ public class PlayerScript : MonoBehaviour
 
     int shotPower = 5;
 
+    float recoilTimer;
+
+    const float RECOIL_DELAY = 0.2f;
+
     private void Awake()
     {
         rb = gameObject.GetComponent<Rigidbody2D>();
+        recoilTimer = 0;
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        if(Input.GetAxisRaw("Shoot") >0)
+        if (Input.GetAxisRaw("Shoot") > 0)
         {
-            Vector2 shootTarget = new Vector2(transform.position.x + Input.GetAxis("Horizontal2"), transform.position.y + Input.GetAxis("Vertical2"));
+            recoilTimer -= Time.deltaTime;
 
-           rb.AddForce(5 * shootTarget , ForceMode2D.Impulse);
+            if (recoilTimer <=0)
+            {
+                Vector2 shootDir = Vector2.right * Input.GetAxis("Horizontal2") + Vector2.up * Input.GetAxis("Vertical2");
+                rb.AddForce(-shootDir, ForceMode2D.Impulse);
+                recoilTimer = RECOIL_DELAY;
+            }
+                
         }
+        else
+            recoilTimer = 0;
     }
 
     private void OnDrawGizmos()
     {
-        //Camera.main.ScreenToWorldPoint(Input.mousePosition
-        Gizmos.DrawLine(new Vector2(gameObject.transform.position.x, gameObject.transform.position.y), new Vector2(transform.position.x + Input.GetAxis("Horizontal2"), transform.position.y + Input.GetAxis("Vertical2")));
+        Vector2 shootDir = Vector2.right * Input.GetAxis("Horizontal2") + Vector2.up * Input.GetAxis("Vertical2");
+        Ray ray = new Ray();
+        ray.origin = transform.position;
+        ray.direction = shootDir;
+        Gizmos.DrawRay(ray);
     }
+
 
     //TODO: track mouse location in relation to center point of char
     //TODO: add negative force on click
