@@ -150,8 +150,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   players:
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 1102371016}
+  - {fileID: 1077378852}
   offset: {x: 0, y: 0, z: -45}
   smoothTime: 0.0001
   minZoom: 40
@@ -333,12 +333,22 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 7fd22f149c506184fa9866c1766bbedb,
         type: 3}
+    - target: {fileID: 1895147461783535538, guid: 3dd1c661ee0ce6047a746bb2d7d94fce,
+        type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.x
+      value: 3.78
+      objectReference: {fileID: 0}
     - target: {fileID: 9116545300983313045, guid: 3dd1c661ee0ce6047a746bb2d7d94fce,
         type: 3}
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 7f9bcb914b7c7c540ab78aa1d1cf4ae9,
         type: 3}
+    - target: {fileID: 9116545300983313045, guid: 3dd1c661ee0ce6047a746bb2d7d94fce,
+        type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1417364878301547680, guid: 3dd1c661ee0ce6047a746bb2d7d94fce,
         type: 3}
       propertyPath: m_Sprite
@@ -875,6 +885,18 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!4 &1077378852 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1895147461783535543, guid: 3dd1c661ee0ce6047a746bb2d7d94fce,
+    type: 3}
+  m_PrefabInstance: {fileID: 286598558}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1102371016 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1895147461783535543, guid: 3dd1c661ee0ce6047a746bb2d7d94fce,
+    type: 3}
+  m_PrefabInstance: {fileID: 319687924}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1184826924
 GameObject:
   m_ObjectHideFlags: 0
