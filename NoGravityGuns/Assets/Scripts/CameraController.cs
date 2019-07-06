@@ -4,45 +4,68 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-    public List<GameObject> players;
+    public List<Transform> players;
 
-    // Start is called before the first frame update
-    void Start()
-    {
+    public Vector3 offset;
+    public float smoothTime = 0.5f;
 
-    }
+    public float minZoom = 40f;
+    public float maxZoom = 10f;
+    public float zoomLimit = 50f;
+
+    Vector3 velocity;
 
     // Update is called once per frame
-    void Update()
+    void LateUpdate()
     {
-        float xAvg = 0;
-        float yAvg = 0;
+        if (players.Count == 0)
+            return;
 
-        float largestX =0;
-        float largestY =0;
+        Move();
+        Zoom();
 
-        foreach (var player in players)
+    }
+
+    void Move()
+    {
+        Vector3 centerPoint = GetCenterPoint();
+        Vector3 newPosition = centerPoint + offset;
+        transform.position = Vector3.SmoothDamp(transform.position, newPosition, ref velocity, smoothTime);
+    }
+
+    void Zoom()
+    {
+        float newZoom = Mathf.Lerp(maxZoom, minZoom, GetGreatestDistance() / zoomLimit);
+        Camera.main.fieldOfView = Mathf.Lerp(Camera.main.fieldOfView, newZoom, Time.deltaTime );
+    }
+
+    Vector3 GetCenterPoint()
+    {
+        if (players.Count == 1)
         {
-            xAvg += player.transform.position.x;
-            yAvg += player.transform.position.y;
-
-            //find largest x and y dist to use for determining camera z dist
-            //if(player.transform.position.x > largestX)
-            //{
-            //    largestX = player.transform.position.x;
-            //}
-            //if (player.transform.position.y > largestY)
-            //{
-            //    largestY = player.transform.position.y;
-            //}
-
+            return players[0].position;
         }
 
-        xAvg = xAvg / players.Count;
-        yAvg = yAvg / players.Count;
+        var bounds = new Bounds(players[0].position, Vector3.zero);
 
-        //float zDist = (largestX - largestY)*2;
+        for (int i = 0; i < players.Count; i++)
+        {
+            bounds.Encapsulate(players[i].position);
+        }
 
-        transform.position = new Vector3(xAvg, yAvg, gameObject.transform.position.z);
+        return bounds.center;
     }
+
+    //returns between 0 and 1
+    float GetGreatestDistance()
+    {
+        var bounds = new Bounds(players[0].position, Vector3.zero);
+        for (int i = 0; i < players.Count; i++)
+        {
+            bounds.Encapsulate(players[i].position);
+        }
+
+        return bounds.size.x;
+    }
+
 }

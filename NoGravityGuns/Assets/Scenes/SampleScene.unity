@@ -160,8 +160,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   players:
-  - {fileID: 881197696}
-  - {fileID: 866907541}
+  - {fileID: 881197700}
+  - {fileID: 866907546}
+  offset: {x: 0, y: 0, z: -15}
+  smoothTime: 0.5
+  minZoom: 40
+  maxZoom: 10
+  zoomLimit: 10
 --- !u!20 &519420031
 Camera:
   m_ObjectHideFlags: 0
@@ -188,7 +193,7 @@ Camera:
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
-  orthographic: 1
+  orthographic: 0
   orthographic size: 5
   m_Depth: -1
   m_CullingMask:
@@ -409,7 +414,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &866907542
 MonoBehaviour:
   m_ObjectHideFlags: 0
