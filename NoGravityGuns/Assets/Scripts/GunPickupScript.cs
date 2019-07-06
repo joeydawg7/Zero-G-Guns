@@ -23,7 +23,7 @@ public class GunPickupScript : MonoBehaviour
     {
         if(collision.tag == "Player")
         {
-            collision.GetComponent<PlayerScript>().currentWeapon = gun;
+            collision.GetComponentInChildren<ArmsScript>().currentWeapon = gun;
             Destroy(gameObject, 0.1f);
         }
 
