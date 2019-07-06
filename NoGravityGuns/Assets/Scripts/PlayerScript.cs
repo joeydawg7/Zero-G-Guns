@@ -9,33 +9,55 @@ public class PlayerScript : MonoBehaviour
 
     int shotPower = 5;
 
-    float recoilTimer;
+    float timeSinceLastShot;
 
     const float RECOIL_DELAY = 0.2f;
+
+    public Rigidbody2D projectile;
+    Vector3 bulletSpawn = new Vector3();
+    Vector3 aim;
+    public float bulletSpeed;
+    public AudioClip pistolShot;
 
     private void Awake()
     {
         rb = gameObject.GetComponent<Rigidbody2D>();
-        recoilTimer = 0;
+        timeSinceLastShot = 0;
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
+        timeSinceLastShot += Time.deltaTime;
+
         if (Input.GetAxisRaw("Shoot") > 0)
         {
-            recoilTimer -= Time.deltaTime;
+            
+            
 
-            if (recoilTimer <=0)
+            if (Input.GetAxis("Horizontal2") != 0 || Input.GetAxis("Vertical2") != 0)
             {
-                Vector2 shootDir = Vector2.right * Input.GetAxis("Horizontal2") + Vector2.up * Input.GetAxis("Vertical2");
-                rb.AddForce(-shootDir, ForceMode2D.Impulse);
-                recoilTimer = RECOIL_DELAY;
+                aim = new Vector3(Input.GetAxis("Horizontal2"), Input.GetAxis("Vertical2"), 0).normalized;
             }
+            if (aim.magnitude != 0)
+            {
+                if (timeSinceLastShot >= RECOIL_DELAY)
+                {
+                    bulletSpawn.x = transform.position.x + aim.x;
+                    bulletSpawn.y = transform.position.y + aim.y;
 
+                    Rigidbody2D bullet = (Rigidbody2D)Instantiate(projectile, bulletSpawn, Quaternion.identity);
+                    bullet.AddForce(aim * bulletSpeed, ForceMode2D.Impulse);
+                    Vector2 shootDir = Vector2.right * Input.GetAxis("Horizontal2") + Vector2.up * Input.GetAxis("Vertical2");
+                    rb.AddForce(-shootDir, ForceMode2D.Impulse);
+                    Camera.main.GetComponent<CameraShake>().shakeDuration =0.1f;
+                    timeSinceLastShot = 0;
+
+                    GetComponent<AudioSource>().PlayOneShot(pistolShot);
+                }
+            }
         }
-        else
-            recoilTimer = 0;
+
     }
 
     private void OnDrawGizmos()

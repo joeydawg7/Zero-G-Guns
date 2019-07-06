@@ -4,9 +4,7 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
-    public Rigidbody2D projectile;
-    Vector3 bulletSpawn = new Vector3();
-    Vector3 aim;
+
 
     // Start is called before the first frame update
     void Start()
@@ -19,18 +17,6 @@ public class Projectile : MonoBehaviour
     {
         if (Input.GetAxisRaw("Shoot") > 0)
         {
-            if (Input.GetAxis("Horizontal2") != 0 || Input.GetAxis("Vertical2") != 0)
-            {
-                aim = new Vector3(Input.GetAxis("Horizontal2"), Input.GetAxis("Vertical2"), 0).normalized;
-            }
-            if (aim.magnitude != 0)
-            {
-                bulletSpawn.x = transform.position.x + aim.x;
-                bulletSpawn.y = transform.position.y + aim.y;
-                Debug.Log(bulletSpawn.y);
-                Rigidbody2D bullet = (Rigidbody2D)Instantiate(projectile, bulletSpawn, Quaternion.identity);
-                bullet.AddForce(aim * 10, ForceMode2D.Impulse);
-            }
         }
     }
 

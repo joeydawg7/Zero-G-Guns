@@ -7,11 +7,12 @@ public class CameraController : MonoBehaviour
     public List<Transform> players;
 
     public Vector3 offset;
-    public float smoothTime = 0.5f;
+    public float smoothTime;
 
-    public float minZoom = 40f;
-    public float maxZoom = 10f;
-    public float zoomLimit = 50f;
+    public float minZoom;
+    public float maxZoom;
+    public float zoomLimit;
+    public float zoomSpeed;
 
     Vector3 velocity;
 
@@ -36,7 +37,7 @@ public class CameraController : MonoBehaviour
     void Zoom()
     {
         float newZoom = Mathf.Lerp(maxZoom, minZoom, GetGreatestDistance() / zoomLimit);
-        Camera.main.fieldOfView = Mathf.Lerp(Camera.main.fieldOfView, newZoom, Time.deltaTime );
+        Camera.main.fieldOfView = Mathf.Lerp(Camera.main.fieldOfView, newZoom, Time.deltaTime * zoomSpeed);
     }
 
     Vector3 GetCenterPoint()
