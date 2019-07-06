@@ -23,14 +23,14 @@ public class GunSO : ScriptableObject
     public GameObject projectile;
 
 
-    public AudioClip GetRandomGunshotSFX()
+    public AudioClip GetRandomGunshotSFX
     {
-        return bulletSounds[Random.Range(0, bulletSounds.Count)];
+        get { return bulletSounds[Random.Range(0, bulletSounds.Count)];  }
     }
 
-    public int GunDamage()
+    public int GunDamage
     {
-        return Random.Range(minDamageRange, maxDamageRange);
+        get { return Random.Range(minDamageRange, maxDamageRange); }
     }
 
 }

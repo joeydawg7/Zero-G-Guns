@@ -21,6 +21,7 @@ public class PlayerScript : MonoBehaviour
     public float turnSpeed;
 
     Rigidbody2D rb;
+    AudioSource audioSource;
     float angle;
 
     public string horizontalAxis;
@@ -31,6 +32,17 @@ public class PlayerScript : MonoBehaviour
     public int playerID;
 
 
+    const float HEADSHOT_MULTIPLIER = 2f;
+    const float TORSOSHOT_MULTIPLIER = 1f;
+    const float FOOTSHOT_MULTIPLIER = 0.5f;
+    const float LEGSHOT_MULTIPLIER = 0.75f;
+
+    public enum DamageType {head, torso, legs, feet };
+
+
+    [Header("AudioClips")]
+    public AudioClip headShot;
+    public AudioClip standardShot;
 
     private void Awake()
     {
@@ -42,6 +54,7 @@ public class PlayerScript : MonoBehaviour
         statusText.text = "";
         spawnPoint = transform.position;
         rb = GetComponent<Rigidbody2D>();
+        audioSource = GetComponent<AudioSource>();
 
     }
 
@@ -51,8 +64,15 @@ public class PlayerScript : MonoBehaviour
         if (!isDead)
         {
             //do left stick rotaty
-            transform.Rotate(0, 0, -Input.GetAxis(horizontalAxis)* turnSpeed);
+
+            //transform.Rotate(0, 0, -Input.GetAxis(horizontalAxis)* turnSpeed);
+            /*Vector2 shootDir = Vector2.right * Input.GetAxis(horizontalAxis) + Vector2.up * Input.GetAxis(verticalAxis);
+
+            float angle =  Vector2.SignedAngle(transform.position, shootDir.normalized);
+
+            rb.MoveRotation(rb.rotation + angle *  Time.fixedDeltaTime);
             //rb.MoveRotation(-Input.GetAxis(horizontalAxis) * turnSpeed);
+            */
         }
     }
 
@@ -72,7 +92,10 @@ public class PlayerScript : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        Vector2 shootDir = Vector2.right * Input.GetAxis("Horizontal") + Vector2.up * Input.GetAxis("Vertical");
+        Vector2 shootDir = Vector2.right * Input.GetAxis(horizontalAxis) + Vector2.up * Input.GetAxis(verticalAxis);
+
+        float angle = Vector2.SignedAngle(transform.position, shootDir);
+
         Ray ray = new Ray();
         ray.origin = transform.position;
         ray.direction = shootDir;
@@ -80,9 +103,30 @@ public class PlayerScript : MonoBehaviour
     }
 
 
-    public void TakeDamage(float damage)
+    public void TakeDamage(float damage, DamageType damageType)
     {
-        Debug.Log("Took " + damage + " damage");
+
+        switch (damageType)
+        {
+            case DamageType.head:
+                damage *= HEADSHOT_MULTIPLIER;
+                audioSource.PlayOneShot(headShot);
+                break;
+            case DamageType.torso:
+                damage *= TORSOSHOT_MULTIPLIER;
+                audioSource.PlayOneShot(standardShot);
+                break;
+            case DamageType.legs:
+                damage *= LEGSHOT_MULTIPLIER;
+                audioSource.PlayOneShot(standardShot);
+                break;
+            case DamageType.feet:
+                damage *= FOOTSHOT_MULTIPLIER;
+                audioSource.PlayOneShot(standardShot);
+                break;
+            default:
+                break;
+        }
 
         health -= (int)damage;
         float barVal = ((float)health / 100f);
@@ -98,9 +142,12 @@ public class PlayerScript : MonoBehaviour
   
     public PlayerScript Die()
     {
-        isDead = true;
+        if (!isDead)
+        {
+            isDead = true;
 
-        StartCoroutine(WaitForRespawn());
+            StartCoroutine(WaitForRespawn());
+        }
 
         return this;
     }

@@ -39,7 +39,7 @@ public class ArmsScript : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        Vector2 shootDir = Vector2.right * Input.GetAxis("Horizontal2") + Vector2.up * Input.GetAxis("Vertical2");
+        Vector2 shootDir = Vector2.right * Input.GetAxis(horizontalAxis) + Vector2.up * Input.GetAxis(verticalAxis);
         Ray ray = new Ray();
         ray.origin = transform.position;
         ray.direction = shootDir;
@@ -128,11 +128,11 @@ public class ArmsScript : MonoBehaviour
         currentRecoil += currentWeapon.recoilPerShot;
 
         Rigidbody2D bullet = (Rigidbody2D)Instantiate(projectile, bulletSpawnPoint, Quaternion.identity);
-        bullet.GetComponent<Bullet>().Construct(basePlayer.GetComponent<PlayerScript>().playerID, currentWeapon.GunDamage(), basePlayer);
+        bullet.GetComponent<Bullet>().Construct(basePlayer.GetComponent<PlayerScript>().playerID, currentWeapon.GunDamage, basePlayer);
         bullet.AddForce(aim * currentWeapon.bulletSpeed, ForceMode2D.Impulse);
 
         
-        GetComponent<AudioSource>().PlayOneShot(currentWeapon.GetRandomGunshotSFX());
+        GetComponent<AudioSource>().PlayOneShot(currentWeapon.GetRandomGunshotSFX);
     }
 
     IEnumerator FireInBurst()
@@ -147,11 +147,11 @@ public class ArmsScript : MonoBehaviour
             currentRecoil += currentWeapon.recoilPerShot;
 
             Rigidbody2D bullet = (Rigidbody2D)Instantiate(projectile, bulletSpawnPoint, Quaternion.identity);
-            bullet.GetComponent<Bullet>().Construct(basePlayer.GetComponent<PlayerScript>().playerID, currentWeapon.GunDamage(), basePlayer);
+            bullet.GetComponent<Bullet>().Construct(basePlayer.GetComponent<PlayerScript>().playerID, currentWeapon.GunDamage, basePlayer);
             bullet.AddForce(aim * currentWeapon.bulletSpeed, ForceMode2D.Impulse);
 
            
-            GetComponent<AudioSource>().PlayOneShot(currentWeapon.GetRandomGunshotSFX());
+            GetComponent<AudioSource>().PlayOneShot(currentWeapon.GetRandomGunshotSFX);
             yield return new WaitForSeconds(0.08f);
         }
     }
@@ -168,11 +168,11 @@ public class ArmsScript : MonoBehaviour
             currentRecoil += currentWeapon.recoilPerShot;
 
             Rigidbody2D bullet = (Rigidbody2D)Instantiate(projectile, bulletSpawnPoint, Quaternion.identity);
-            bullet.GetComponent<Bullet>().Construct(basePlayer.GetComponent<PlayerScript>().playerID, currentWeapon.GunDamage(), basePlayer);
+            bullet.GetComponent<Bullet>().Construct(basePlayer.GetComponent<PlayerScript>().playerID, currentWeapon.GunDamage, basePlayer);
             bullet.AddForce(aim * currentWeapon.bulletSpeed, ForceMode2D.Impulse);
 
             
-            GetComponent<AudioSource>().PlayOneShot(currentWeapon.GetRandomGunshotSFX());
+            GetComponent<AudioSource>().PlayOneShot(currentWeapon.GetRandomGunshotSFX);
         }
     }
 

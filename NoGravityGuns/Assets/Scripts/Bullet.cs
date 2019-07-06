@@ -8,10 +8,6 @@ public class Bullet : MonoBehaviour
     float damage;
     public GameObject sparkyBoom;
 
-    const float HEADSHOT_MULTIPLIER =2f;
-    const float TORSOSHOT_MULTIPLIER = 1f;
-    const float FOOTSHOT_MULTIPLIER = 0.5f;
-    const float LEGSHOT_MULTIPLIER = 0.75f;
 
 
     int playerID;
@@ -19,11 +15,10 @@ public class Bullet : MonoBehaviour
 
     bool canImapact;
 
+
     private void Awake()
     {
         canImapact = false;
-        //GetComponent<Collider>().isTrigger = true;
-
     }
 
     public void Construct(int playerID, float damage, GameObject player)
@@ -52,19 +47,19 @@ public class Bullet : MonoBehaviour
                 //checks where we hit the other guy, and that it isnt self damage so we cant shoot ourselves in the knees
                 if (collision.collider.tag == "Torso" && collision.gameObject.GetComponent<PlayerScript>().playerID != playerID )
                 {
-                    collision.gameObject.GetComponent<PlayerScript>().TakeDamage(damage*TORSOSHOT_MULTIPLIER);
+                    collision.gameObject.GetComponent<PlayerScript>().TakeDamage(damage, PlayerScript.DamageType.torso);
                 }
                 if (collision.collider.tag == "Head" && collision.gameObject.GetComponent<PlayerScript>().playerID != playerID)
                 {
-                    collision.gameObject.GetComponent<PlayerScript>().TakeDamage(damage*HEADSHOT_MULTIPLIER);
+                    collision.gameObject.GetComponent<PlayerScript>().TakeDamage(damage, PlayerScript.DamageType.head);
                 }
                 if (collision.collider.tag == "Feet" && collision.gameObject.GetComponent<PlayerScript>().playerID != playerID)
                 {
-                    collision.gameObject.GetComponent<PlayerScript>().TakeDamage(damage * FOOTSHOT_MULTIPLIER);
+                    collision.gameObject.GetComponent<PlayerScript>().TakeDamage(damage, PlayerScript.DamageType.feet);
                 }
                 if (collision.collider.tag == "Leg" && collision.gameObject.GetComponent<PlayerScript>().playerID != playerID)
                 {
-                    collision.gameObject.GetComponent<PlayerScript>().TakeDamage(damage * LEGSHOT_MULTIPLIER);
+                    collision.gameObject.GetComponent<PlayerScript>().TakeDamage(damage, PlayerScript.DamageType.legs);
                 }
 
                 GameObject sparkyObj = GameObject.Instantiate(sparkyBoom);
