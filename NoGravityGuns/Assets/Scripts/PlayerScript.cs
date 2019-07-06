@@ -48,6 +48,7 @@ public class PlayerScript : MonoBehaviour
 
                     Rigidbody2D bullet = (Rigidbody2D)Instantiate(projectile, bulletSpawn, Quaternion.identity);
                     bullet.AddForce(aim * bulletSpeed, ForceMode2D.Impulse);
+                    bullet.GetComponent<Bullet>().playerID = 1;
                     Vector2 shootDir = Vector2.right * Input.GetAxis("Horizontal2") + Vector2.up * Input.GetAxis("Vertical2");
                     rb.AddForce(-shootDir, ForceMode2D.Impulse);
                     Camera.main.GetComponent<CameraShake>().shakeDuration =0.1f;
