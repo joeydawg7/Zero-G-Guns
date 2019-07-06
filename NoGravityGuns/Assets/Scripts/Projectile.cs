@@ -6,7 +6,6 @@ public class Projectile : MonoBehaviour
 {
     public Rigidbody2D projectile;
     Vector3 bulletSpawn = new Vector3();
-    Vector3 colliderBounds;
     Vector3 aim;
 
     // Start is called before the first frame update
@@ -16,17 +15,22 @@ public class Projectile : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         if (Input.GetAxisRaw("Shoot") > 0)
         {
-            aim = new Vector3(Input.GetAxis("Horizontal2"), Input.GetAxis("Vertical2"), 0).normalized;
-            //colliderBounds = GetComponent<Collider2D>().bounds.size/2;
-            bulletSpawn.x = aim.x;
-            bulletSpawn.y = aim.y;
-            Debug.Log(bulletSpawn.y);
-            Rigidbody2D bullet = (Rigidbody2D)Instantiate(projectile, bulletSpawn, Quaternion.identity);
-            //bullet.AddForce(aim, ForceMode2D.Impulse);
+            if (Input.GetAxis("Horizontal2") != 0 || Input.GetAxis("Vertical2") != 0)
+            {
+                aim = new Vector3(Input.GetAxis("Horizontal2"), Input.GetAxis("Vertical2"), 0).normalized;
+            }
+            if (aim.magnitude != 0)
+            {
+                bulletSpawn.x = transform.position.x + aim.x;
+                bulletSpawn.y = transform.position.y + aim.y;
+                Debug.Log(bulletSpawn.y);
+                Rigidbody2D bullet = (Rigidbody2D)Instantiate(projectile, bulletSpawn, Quaternion.identity);
+                bullet.AddForce(aim * 10, ForceMode2D.Impulse);
+            }
         }
     }
 

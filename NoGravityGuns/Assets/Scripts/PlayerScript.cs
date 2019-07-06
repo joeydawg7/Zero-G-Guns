@@ -13,12 +13,6 @@ public class PlayerScript : MonoBehaviour
 
     const float RECOIL_DELAY = 0.2f;
 
-    public Rigidbody2D projectile;
-    Vector3 bulletSpawn = new Vector3();
-    Vector3 colliderBounds;
-    Vector3 aim;
-
-
     private void Awake()
     {
         rb = gameObject.GetComponent<Rigidbody2D>();
@@ -39,12 +33,6 @@ public class PlayerScript : MonoBehaviour
                 recoilTimer = RECOIL_DELAY;
             }
 
-            aim = new Vector3(Input.GetAxis("Horizontal2"), Input.GetAxis("Vertical2"), 0).normalized;
-            bulletSpawn.x = transform.position.x + aim.x;
-            bulletSpawn.y = transform.position.y + aim.y;
-            Debug.Log(bulletSpawn.y);
-            Rigidbody2D bullet = (Rigidbody2D)Instantiate(projectile, bulletSpawn, Quaternion.identity);
-            bullet.AddForce(aim*3, ForceMode2D.Impulse);
         }
         else
             recoilTimer = 0;

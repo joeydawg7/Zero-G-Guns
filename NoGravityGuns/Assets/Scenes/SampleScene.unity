@@ -422,7 +422,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 259c23886f3fed942a029985bb6cdafd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  projectile: {fileID: 0}
 --- !u!60 &866907543
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -602,6 +601,7 @@ GameObject:
   - component: {fileID: 881197698}
   - component: {fileID: 881197697}
   - component: {fileID: 881197701}
+  - component: {fileID: 881197702}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -785,6 +785,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 259c23886f3fed942a029985bb6cdafd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &881197702
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 881197696}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: acf85f06c196a3e45ba87f07c8b1ca18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   projectile: {fileID: 6104711158203355607, guid: 56ef0b4526c6e0d4795adb5837e2749e,
