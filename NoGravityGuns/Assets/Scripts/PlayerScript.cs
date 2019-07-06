@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class PlayerScript : MonoBehaviour
 {
@@ -11,17 +12,11 @@ public class PlayerScript : MonoBehaviour
 
     Rigidbody2D rb;
 
-    //public int shotPower = 5;
-
     float timeSinceLastShot;
-
-    //const float RECOIL_DELAY_PISTOL = 0.2f;
 
     public Rigidbody2D projectile;
     Vector3 bulletSpawn = new Vector3();
     Vector3 aim;
-    //public float bulletSpeed;
-    //public AudioClip pistolShot;
 
 
     public string horizontalAxis;
@@ -34,6 +29,12 @@ public class PlayerScript : MonoBehaviour
 
     float currentRecoil;
 
+    public bool isDead;
+
+    public TextMeshProUGUI statusText;
+
+    public Vector3 spawnPoint;
+
 
     private void Awake()
     {
@@ -43,6 +44,9 @@ public class PlayerScript : MonoBehaviour
         float barVal = ((float)health / 100f);
         healthBar.fillAmount = barVal;
         currentRecoil = 0;
+        isDead = false;
+        statusText.text = "";
+        spawnPoint = transform.position;
     }
 
     // Update is called once per frame
@@ -58,48 +62,50 @@ public class PlayerScript : MonoBehaviour
         if (currentRecoil > currentWeapon.recoilMax)
             currentRecoil = currentWeapon.recoilMax;
 
-
-        if (Input.GetAxisRaw(shootAxis) > 0)
+        if (!isDead)
         {
+            if (Input.GetAxisRaw(shootAxis) > 0)
+            {
 
-            if (Input.GetAxis("Horizontal2") != 0 || Input.GetAxis("Vertical2") != 0)
-            {
-                aim = new Vector3(Input.GetAxis(horizontalAxis), Input.GetAxis(verticalAxis), 0).normalized;
-            }
-            if (aim.magnitude != 0)
-            {
-                if (timeSinceLastShot >= currentWeapon.recoilDelay)
+                if (Input.GetAxis("Horizontal2") != 0 || Input.GetAxis("Vertical2") != 0)
                 {
-                    bulletSpawn.x = transform.position.x + aim.x;
-                    bulletSpawn.y = transform.position.y + aim.y;
-
-                    switch (currentWeapon.fireType)
+                    aim = new Vector3(Input.GetAxis(horizontalAxis), Input.GetAxis(verticalAxis), 0).normalized;
+                }
+                if (aim.magnitude != 0)
+                {
+                    if (timeSinceLastShot >= currentWeapon.recoilDelay)
                     {
-                        case GunSO.FireType.semiAuto:
-                            ShootyGunTemp();
-                            break;
-                        case GunSO.FireType.buckshot:
-                            BuckShot();
-                            break;
-                        case GunSO.FireType.fullAuto:
-                            ShootyGunTemp();
-                            break;
-                        case GunSO.FireType.Burst:
-                            StartCoroutine(FireInBurst());
-                            break;
-                        default:
-                            ShootyGunTemp();
-                            break;
+                        bulletSpawn.x = transform.position.x + aim.x;
+                        bulletSpawn.y = transform.position.y + aim.y;
+
+                        switch (currentWeapon.fireType)
+                        {
+                            case GunSO.FireType.semiAuto:
+                                ShootyGunTemp();
+                                break;
+                            case GunSO.FireType.buckshot:
+                                BuckShot();
+                                break;
+                            case GunSO.FireType.fullAuto:
+                                ShootyGunTemp();
+                                break;
+                            case GunSO.FireType.Burst:
+                                StartCoroutine(FireInBurst());
+                                break;
+                            default:
+                                ShootyGunTemp();
+                                break;
+                        }
+
+
+                        //add force to player in opposite direction of shot
+                        Vector2 shootDir = Vector2.right * Input.GetAxis("Horizontal2") + Vector2.up * Input.GetAxis("Vertical2");
+                        rb.AddForce(-shootDir, ForceMode2D.Impulse);
+                        Camera.main.GetComponent<CameraShake>().shakeDuration = currentWeapon.cameraShakeDuration;
+                        timeSinceLastShot = 0;
+
+
                     }
-
-
-                    //add force to player in opposite direction of shot
-                    Vector2 shootDir = Vector2.right * Input.GetAxis("Horizontal2") + Vector2.up * Input.GetAxis("Vertical2");
-                    rb.AddForce(-shootDir, ForceMode2D.Impulse);
-                    Camera.main.GetComponent<CameraShake>().shakeDuration = currentWeapon.cameraShakeDuration;
-                    timeSinceLastShot = 0;
-
-                    
                 }
             }
         }
@@ -122,6 +128,11 @@ public class PlayerScript : MonoBehaviour
         float barVal = ((float)health / 100f);
 
         healthBar.fillAmount = barVal;
+
+        if(health<0)
+        {
+            Die();
+        }
     }
 
     void ShootyGunTemp()
@@ -177,6 +188,35 @@ public class PlayerScript : MonoBehaviour
             bullet.GetComponent<Bullet>().damage = currentWeapon.GunDamage();
             GetComponent<AudioSource>().PlayOneShot(currentWeapon.GetRandomGunshotSFX());
         }
+    }
+
+    public PlayerScript Die()
+    {
+        isDead = true;
+
+        StartCoroutine(WaitForRespawn());
+
+        return this;
+    }
+
+    IEnumerator WaitForRespawn()
+    {
+        statusText.text = "Respawning in 3...";
+        yield return new WaitForSeconds(1f);
+        statusText.text = "Respawning in 2...";
+        yield return new WaitForSeconds(1f);
+        statusText.text = "Respawning in 1...";
+        yield return new WaitForSeconds(1f);
+        statusText.text = "";
+        transform.position = spawnPoint;
+        health = 100;
+        float barVal = ((float)health / 100f);
+
+        healthBar.fillAmount = barVal;
+
+        rb.velocity = Vector2.zero;
+        rb.rotation = 0;
+
     }
 
     //TODO: track mouse location in relation to center point of char
