@@ -8,11 +8,11 @@ public class Bullet : MonoBehaviour
     public int playerID { get; set; }
     public int damage;
     public GameObject sparkyBoom;
+    public bool inert;
 
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
-
+        inert = false; 
     }
 
     // Update is called once per frame
@@ -33,8 +33,11 @@ public class Bullet : MonoBehaviour
                 //TODO: prevent self damage, maybe make bullets bouncing off walls not hurt so bad
                 if (collision.collider.tag == "Player")
                 {
-                    collision.gameObject.GetComponent<PlayerScript>().TakeDamage(damage);
+                    if (inert == false)
+                        collision.gameObject.GetComponent<PlayerScript>().TakeDamage(damage);
                 }
+                else
+                    inert = true;
 
                 GameObject sparkyObj = GameObject.Instantiate(sparkyBoom);
 
