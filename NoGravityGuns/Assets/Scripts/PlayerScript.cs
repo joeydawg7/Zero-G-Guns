@@ -18,7 +18,7 @@ public class PlayerScript : MonoBehaviour
     public Vector3 spawnPoint;
     public GameObject arms;
 
-    public float turnSpeed=300;
+    public float turnSpeed;
 
     Rigidbody2D rb;
     float angle;
@@ -27,6 +27,8 @@ public class PlayerScript : MonoBehaviour
     public string verticalAxis;
 
     Quaternion targetRotation;
+
+    public int playerID;
 
 
 
@@ -48,26 +50,24 @@ public class PlayerScript : MonoBehaviour
     {
         if (!isDead)
         {
-            //Vector2 shootDir = Vector2.right * Input.GetAxis("Horizontal") + Vector2.up * Input.GetAxis("Vertical");
-            CalculateDirection();
-            Rotate();
-            //Vector3 forwardVector = Quaternion.Euler(shootDir) * Vector3.forward;
-            
+            //do left stick rotaty
+            transform.Rotate(0, 0, -Input.GetAxis(horizontalAxis)* turnSpeed);
+            //rb.MoveRotation(-Input.GetAxis(horizontalAxis) * turnSpeed);
         }
     }
 
-    void CalculateDirection()
-    {
-        angle = Mathf.Atan2(Input.GetAxis(horizontalAxis), Input.GetAxis(verticalAxis));
-        angle = Mathf.Rad2Deg * angle;
-        angle += Camera.main.transform.eulerAngles.y;
-    }
+    //void CalculateDirection()
+    //{
+    //    angle = Mathf.Atan2(Input.GetAxis(horizontalAxis), Input.GetAxis(verticalAxis));
+    //    angle = Mathf.Rad2Deg * angle;
+    //    angle += Camera.main.transform.eulerAngles.y;
+    //}
 
-    void Rotate()
-    {
-        targetRotation = Quaternion.Euler(0, 0, -angle);
-        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, turnSpeed * Time.deltaTime);
-    }
+    //void Rotate()
+    //{
+    //    targetRotation = Quaternion.Euler(0, 0, -angle);
+    //    transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, turnSpeed * Time.deltaTime);
+    //}
 
 
     private void OnDrawGizmos()
@@ -80,9 +80,11 @@ public class PlayerScript : MonoBehaviour
     }
 
 
-    public void TakeDamage(int damage)
+    public void TakeDamage(float damage)
     {
-        health -= damage;
+        Debug.Log("Took " + damage + " damage");
+
+        health -= (int)damage;
         float barVal = ((float)health / 100f);
 
         healthBar.fillAmount = barVal;

@@ -30,7 +30,7 @@ public class ArmsScript : MonoBehaviour
         timeSinceLastShot = 0;
         currentRecoil = 0;
 
-        bulletSpawnPoint = bulletSpawn.position;
+        
 
         facing = transform.rotation;
 
@@ -48,6 +48,8 @@ public class ArmsScript : MonoBehaviour
 
     void FixedUpdate()
     {
+        bulletSpawnPoint = bulletSpawn.position;
+
         timeSinceLastShot += Time.deltaTime;
 
         if (currentRecoil > 0)
@@ -73,14 +75,13 @@ public class ArmsScript : MonoBehaviour
 
                 if (Input.GetAxis("Horizontal2") != 0 || Input.GetAxis("Vertical2") != 0)
                 {
-                    aim = new Vector3(Input.GetAxis(horizontalAxis), Input.GetAxis(verticalAxis), 0).normalized;
+                    //aim = new Vector3(Input.GetAxis(horizontalAxis), Input.GetAxis(verticalAxis), 0).normalized;
+                    aim = shootDir;
                 }
                 if (aim.magnitude != 0)
                 {
                     if (timeSinceLastShot >= currentWeapon.recoilDelay)
                     {
-                        bulletSpawnPoint.x = transform.position.x + aim.x;
-                        bulletSpawnPoint.y = transform.position.y + aim.y;
 
                         switch (currentWeapon.fireType)
                         {
@@ -101,13 +102,8 @@ public class ArmsScript : MonoBehaviour
                                 break;
                         }
 
-
                         //add force to player in opposite direction of shot
-
-                        basePlayer.GetComponent<Rigidbody2D>().AddForce(-shootDir, ForceMode2D.Impulse);
-                        Camera.main.GetComponent<CameraShake>().shakeDuration = currentWeapon.cameraShakeDuration;
-                        timeSinceLastShot = 0;
-
+                        KnockBack(shootDir);
 
                     }
                 }
@@ -115,19 +111,27 @@ public class ArmsScript : MonoBehaviour
         }
     }
 
+    void KnockBack(Vector2 shootDir)
+    {
+        basePlayer.GetComponent<Rigidbody2D>().AddForce(-shootDir, ForceMode2D.Impulse);
+        Camera.main.GetComponent<CameraShake>().shakeDuration = currentWeapon.cameraShakeDuration;
+        timeSinceLastShot = 0;
+    }
+
     void ShootyGunTemp()
     {
         //cone of -1 to 1 multiplied by current recoil amount to determine just how random it can be
         float recoilMod = Random.Range(-1f, 1f) * currentRecoil;
 
-        bulletSpawnPoint = new Vector3(bulletSpawnPoint.x, bulletSpawnPoint.y + recoilMod);
+        bulletSpawnPoint = new Vector3(bulletSpawnPoint.x, bulletSpawnPoint.y );
 
         currentRecoil += currentWeapon.recoilPerShot;
 
         Rigidbody2D bullet = (Rigidbody2D)Instantiate(projectile, bulletSpawnPoint, Quaternion.identity);
+        bullet.GetComponent<Bullet>().Construct(basePlayer.GetComponent<PlayerScript>().playerID, currentWeapon.GunDamage(), basePlayer);
         bullet.AddForce(aim * currentWeapon.bulletSpeed, ForceMode2D.Impulse);
 
-        bullet.GetComponent<Bullet>().damage = currentWeapon.GunDamage();
+        
         GetComponent<AudioSource>().PlayOneShot(currentWeapon.GetRandomGunshotSFX());
     }
 
@@ -138,14 +142,15 @@ public class ArmsScript : MonoBehaviour
             //cone of -1 to 1 multiplied by current recoil amount to determine just how random it can be
             float recoilMod = Random.Range(-1f, 1f) * currentRecoil;
 
-            bulletSpawnPoint = new Vector3(bulletSpawnPoint.x, bulletSpawnPoint.y + recoilMod);
+            bulletSpawnPoint = new Vector3(bulletSpawnPoint.x, bulletSpawnPoint.y );
 
             currentRecoil += currentWeapon.recoilPerShot;
 
             Rigidbody2D bullet = (Rigidbody2D)Instantiate(projectile, bulletSpawnPoint, Quaternion.identity);
+            bullet.GetComponent<Bullet>().Construct(basePlayer.GetComponent<PlayerScript>().playerID, currentWeapon.GunDamage(), basePlayer);
             bullet.AddForce(aim * currentWeapon.bulletSpeed, ForceMode2D.Impulse);
 
-            bullet.GetComponent<Bullet>().damage = currentWeapon.GunDamage();
+           
             GetComponent<AudioSource>().PlayOneShot(currentWeapon.GetRandomGunshotSFX());
             yield return new WaitForSeconds(0.08f);
         }
@@ -158,14 +163,15 @@ public class ArmsScript : MonoBehaviour
             //cone of -1 to 1 multiplied by current recoil amount to determine just how random it can be
             float recoilMod = Random.Range(-1f, 1f) * currentRecoil;
 
-            bulletSpawnPoint = new Vector3(bulletSpawnPoint.x, bulletSpawnPoint.y + recoilMod);
+            bulletSpawnPoint = new Vector3(bulletSpawnPoint.x, bulletSpawnPoint.y );
 
             currentRecoil += currentWeapon.recoilPerShot;
 
             Rigidbody2D bullet = (Rigidbody2D)Instantiate(projectile, bulletSpawnPoint, Quaternion.identity);
+            bullet.GetComponent<Bullet>().Construct(basePlayer.GetComponent<PlayerScript>().playerID, currentWeapon.GunDamage(), basePlayer);
             bullet.AddForce(aim * currentWeapon.bulletSpeed, ForceMode2D.Impulse);
 
-            bullet.GetComponent<Bullet>().damage = currentWeapon.GunDamage();
+            
             GetComponent<AudioSource>().PlayOneShot(currentWeapon.GetRandomGunshotSFX());
         }
     }
