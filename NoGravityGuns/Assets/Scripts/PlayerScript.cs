@@ -32,7 +32,7 @@ public class PlayerScript : MonoBehaviour
                 rb.AddForce(-shootDir, ForceMode2D.Impulse);
                 recoilTimer = RECOIL_DELAY;
             }
-                
+
         }
         else
             recoilTimer = 0;
