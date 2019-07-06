@@ -6,6 +6,7 @@ public class Bullet : MonoBehaviour
 {
 
     public int playerID { get; set; }
+    public int damage;
 
     // Start is called before the first frame update
     void Start()
@@ -27,8 +28,14 @@ public class Bullet : MonoBehaviour
         {
             if (collision.collider.tag != "Bullet" || collision.collider.GetComponent<Bullet>().playerID != playerID)
             {
+                if (collision.collider.tag == "Player")
+                {
+                    collision.gameObject.GetComponent<PlayerScript>().TakeDamage(damage);
+                }
                 Destroy(gameObject);
             }
+
+           
         }
     }
 
