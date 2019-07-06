@@ -5,13 +5,16 @@ using UnityEngine;
 public class PlayerScript : MonoBehaviour
 {
 
+
+    public int health;
+
     Rigidbody2D rb;
 
     int shotPower = 5;
 
     float timeSinceLastShot;
 
-    const float RECOIL_DELAY = 0.2f;
+    const float RECOIL_DELAY_PISTOL = 0.2f;
 
     public Rigidbody2D projectile;
     Vector3 bulletSpawn = new Vector3();
@@ -23,6 +26,7 @@ public class PlayerScript : MonoBehaviour
     {
         rb = gameObject.GetComponent<Rigidbody2D>();
         timeSinceLastShot = 0;
+        health = 100;
     }
 
     // Update is called once per frame
@@ -31,9 +35,7 @@ public class PlayerScript : MonoBehaviour
         timeSinceLastShot += Time.deltaTime;
 
         if (Input.GetAxisRaw("Shoot") > 0)
-        {
-            
-            
+        {      
 
             if (Input.GetAxis("Horizontal2") != 0 || Input.GetAxis("Vertical2") != 0)
             {
@@ -41,13 +43,14 @@ public class PlayerScript : MonoBehaviour
             }
             if (aim.magnitude != 0)
             {
-                if (timeSinceLastShot >= RECOIL_DELAY)
+                if (timeSinceLastShot >= RECOIL_DELAY_PISTOL)
                 {
                     bulletSpawn.x = transform.position.x + aim.x;
                     bulletSpawn.y = transform.position.y + aim.y;
 
                     Rigidbody2D bullet = (Rigidbody2D)Instantiate(projectile, bulletSpawn, Quaternion.identity);
                     bullet.AddForce(aim * bulletSpeed, ForceMode2D.Impulse);
+
                     Vector2 shootDir = Vector2.right * Input.GetAxis("Horizontal2") + Vector2.up * Input.GetAxis("Vertical2");
                     rb.AddForce(-shootDir, ForceMode2D.Impulse);
                     Camera.main.GetComponent<CameraShake>().shakeDuration =0.1f;
@@ -67,6 +70,12 @@ public class PlayerScript : MonoBehaviour
         ray.origin = transform.position;
         ray.direction = shootDir;
         Gizmos.DrawRay(ray);
+    }
+
+
+    public int PistolDamage()
+    {
+        return Random.Range(20, 40);
     }
 
 
