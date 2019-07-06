@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9819fd665faaac644a61ef4053cfca33, type: 3}
+  m_Name: Shotgun
+  m_EditorClassIdentifier: 
+  name: Shotgun
+  minDamageRange: 10
+  maxDamageRange: 25
+  knockback: 25
+  bulletSpeed: 12
+  recoilDelay: 0.8
+  recoilPerShot: 0.3
+  recoilMax: 1.4
+  fireType: 1
+  cameraShakeDuration: 0.3
+  bulletSounds:
+  - {fileID: 8300000, guid: 0d9f85d9ea69a734895afc382b692db2, type: 3}
+  projectile: {fileID: 5680163158229233766, guid: 56ef0b4526c6e0d4795adb5837e2749e,
+    type: 3}

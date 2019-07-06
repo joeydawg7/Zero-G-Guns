@@ -11,17 +11,17 @@ public class PlayerScript : MonoBehaviour
 
     Rigidbody2D rb;
 
-    public int shotPower = 5;
+    //public int shotPower = 5;
 
     float timeSinceLastShot;
 
-    const float RECOIL_DELAY_PISTOL = 0.2f;
+    //const float RECOIL_DELAY_PISTOL = 0.2f;
 
     public Rigidbody2D projectile;
     Vector3 bulletSpawn = new Vector3();
     Vector3 aim;
-    public float bulletSpeed;
-    public AudioClip pistolShot;
+    //public float bulletSpeed;
+    //public AudioClip pistolShot;
 
 
     public string horizontalAxis;
@@ -29,6 +29,10 @@ public class PlayerScript : MonoBehaviour
     public string shootAxis;
 
     public Image healthBar;
+
+    public GunSO currentWeapon;
+
+    float currentRecoil;
 
 
     private void Awake()
@@ -38,12 +42,21 @@ public class PlayerScript : MonoBehaviour
         health = 100;
         float barVal = ((float)health / 100f);
         healthBar.fillAmount = barVal;
+        currentRecoil = 0;
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
         timeSinceLastShot += Time.deltaTime;
+
+        if (currentRecoil > 0)
+        {
+            currentRecoil -= Time.deltaTime;
+        }
+
+        if (currentRecoil > currentWeapon.recoilMax)
+            currentRecoil = currentWeapon.recoilMax;
 
 
         if (Input.GetAxisRaw(shootAxis) > 0)
@@ -55,22 +68,38 @@ public class PlayerScript : MonoBehaviour
             }
             if (aim.magnitude != 0)
             {
-                if (timeSinceLastShot >= RECOIL_DELAY_PISTOL)
+                if (timeSinceLastShot >= currentWeapon.recoilDelay)
                 {
                     bulletSpawn.x = transform.position.x + aim.x;
                     bulletSpawn.y = transform.position.y + aim.y;
 
-                    Rigidbody2D bullet = (Rigidbody2D)Instantiate(projectile, bulletSpawn, Quaternion.identity);
-                    bullet.AddForce(aim * bulletSpeed, ForceMode2D.Impulse);
+                    switch (currentWeapon.fireType)
+                    {
+                        case GunSO.FireType.semiAuto:
+                            ShootyGunTemp();
+                            break;
+                        case GunSO.FireType.buckshot:
+                            BuckShot();
+                            break;
+                        case GunSO.FireType.fullAuto:
+                            ShootyGunTemp();
+                            break;
+                        case GunSO.FireType.Burst:
+                            StartCoroutine(FireInBurst());
+                            break;
+                        default:
+                            ShootyGunTemp();
+                            break;
+                    }
 
-                    bullet.GetComponent<Bullet>().damage = PistolDamage();
 
+                    //add force to player in opposite direction of shot
                     Vector2 shootDir = Vector2.right * Input.GetAxis("Horizontal2") + Vector2.up * Input.GetAxis("Vertical2");
                     rb.AddForce(-shootDir, ForceMode2D.Impulse);
-                    Camera.main.GetComponent<CameraShake>().shakeDuration = 0.1f;
+                    Camera.main.GetComponent<CameraShake>().shakeDuration = currentWeapon.cameraShakeDuration;
                     timeSinceLastShot = 0;
 
-                    GetComponent<AudioSource>().PlayOneShot(pistolShot);
+                    
                 }
             }
         }
@@ -87,19 +116,67 @@ public class PlayerScript : MonoBehaviour
         Gizmos.DrawRay(ray);
     }
 
-
-    public int PistolDamage()
-    {
-        return Random.Range(10, 20);
-    }
-
-
     public void TakeDamage(int damage)
     {
         health -= damage;
         float barVal = ((float)health / 100f);
-        
+
         healthBar.fillAmount = barVal;
+    }
+
+    void ShootyGunTemp()
+    {
+        //cone of -1 to 1 multiplied by current recoil amount to determine just how random it can be
+        float recoilMod = Random.Range(-1f, 1f) * currentRecoil;
+
+        bulletSpawn = new Vector3(bulletSpawn.x, bulletSpawn.y + recoilMod);
+
+        currentRecoil += currentWeapon.recoilPerShot;
+
+        Rigidbody2D bullet = (Rigidbody2D)Instantiate(projectile, bulletSpawn, Quaternion.identity);
+        bullet.AddForce(aim * currentWeapon.bulletSpeed, ForceMode2D.Impulse);
+
+        bullet.GetComponent<Bullet>().damage = currentWeapon.GunDamage();
+        GetComponent<AudioSource>().PlayOneShot(currentWeapon.GetRandomGunshotSFX());
+    }
+
+    IEnumerator FireInBurst()
+    {
+        for (int i = 0; i < 3; i++)
+        {
+            //cone of -1 to 1 multiplied by current recoil amount to determine just how random it can be
+            float recoilMod = Random.Range(-1f, 1f) * currentRecoil;
+
+            bulletSpawn = new Vector3(bulletSpawn.x, bulletSpawn.y + recoilMod);
+
+            currentRecoil += currentWeapon.recoilPerShot;
+
+            Rigidbody2D bullet = (Rigidbody2D)Instantiate(projectile, bulletSpawn, Quaternion.identity);
+            bullet.AddForce(aim * currentWeapon.bulletSpeed, ForceMode2D.Impulse);
+
+            bullet.GetComponent<Bullet>().damage = currentWeapon.GunDamage();
+            GetComponent<AudioSource>().PlayOneShot(currentWeapon.GetRandomGunshotSFX());
+            yield return new WaitForSeconds(0.08f);
+        }
+    }
+
+    public void BuckShot()
+    {
+        for (int i = 0; i < Random.Range(8, 13); i++)
+        {
+            //cone of -1 to 1 multiplied by current recoil amount to determine just how random it can be
+            float recoilMod = Random.Range(-1f, 1f) * currentRecoil;
+
+            bulletSpawn = new Vector3(bulletSpawn.x, bulletSpawn.y + recoilMod);
+
+            currentRecoil += currentWeapon.recoilPerShot;
+
+            Rigidbody2D bullet = (Rigidbody2D)Instantiate(projectile, bulletSpawn, Quaternion.identity);
+            bullet.AddForce(aim * currentWeapon.bulletSpeed, ForceMode2D.Impulse);
+
+            bullet.GetComponent<Bullet>().damage = currentWeapon.GunDamage();
+            GetComponent<AudioSource>().PlayOneShot(currentWeapon.GetRandomGunshotSFX());
+        }
     }
 
     //TODO: track mouse location in relation to center point of char

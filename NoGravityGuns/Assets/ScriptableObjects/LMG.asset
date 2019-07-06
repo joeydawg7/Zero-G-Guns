@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9819fd665faaac644a61ef4053cfca33, type: 3}
+  m_Name: LMG
+  m_EditorClassIdentifier: 
+  name: LMG
+  minDamageRange: 5
+  maxDamageRange: 9
+  knockback: 0.2
+  bulletSpeed: 15
+  recoilDelay: 0.08
+  recoilPerShot: 0.1
+  recoilMax: 1
+  fireType: 2
+  cameraShakeDuration: 0.1
+  bulletSounds:
+  - {fileID: 8300000, guid: c65145c99133da6438e0e50e668fdd4c, type: 3}
+  - {fileID: 8300000, guid: e2578fbb8b476124ebad1ac8cfb0c0dc, type: 3}
+  - {fileID: 8300000, guid: dec9b10c25832d64d93f35ec5c52509f, type: 3}
+  - {fileID: 8300000, guid: c5fbfbeca1933284e9fc4fcfe714739b, type: 3}
+  - {fileID: 8300000, guid: e910bc635a8f4a84f90cdda3d72fc86e, type: 3}
+  - {fileID: 8300000, guid: e206603e378599143a876880fe0836bd, type: 3}
+  projectile: {fileID: 5680163158229233766, guid: 56ef0b4526c6e0d4795adb5837e2749e,
+    type: 3}
