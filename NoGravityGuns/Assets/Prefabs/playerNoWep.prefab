@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 1895147461783535542}
   - component: {fileID: 1895147461783535540}
   m_Layer: 0
-  m_Name: Player_NoWep
+  m_Name: playerNoWep
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -288,6 +288,9 @@ MonoBehaviour:
   shootAxis: Shoot
   healthBar: {fileID: 7296271839233246350}
   currentWeapon: {fileID: 11400000, guid: 49ead892372b5274e987c2ac71fbb8e3, type: 2}
+  isDead: 0
+  statusText: {fileID: 0}
+  spawnPoint: {x: 0, y: 0, z: 0}
 --- !u!82 &1895147461783535540
 AudioSource:
   m_ObjectHideFlags: 0
@@ -453,7 +456,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: b4b5aceccb5622940b750cd43c906dcd, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
