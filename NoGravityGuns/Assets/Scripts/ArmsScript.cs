@@ -33,7 +33,7 @@ public class ArmsScript : MonoBehaviour
     Quaternion facing;
     Quaternion rotation;
     Vector2 shootDir;
-
+    Transform startingTransform;
 
     public Sprite armColor;
 
@@ -51,12 +51,18 @@ public class ArmsScript : MonoBehaviour
         currentAmmo = currentWeapon.clipSize;
         reloadingText.alpha = 0;
 
+        startingTransform = transform;
+
     }
 
     private void OnEnable()
     {
         currentClips = currentWeapon.clipNum;
         currentAmmo = currentWeapon.clipSize;
+
+        transform.rotation = startingTransform.rotation;
+        transform.position = startingTransform.position;
+        transform.localScale = startingTransform.localScale;
     }
 
 
