@@ -60,6 +60,8 @@ public class ArmsScript : MonoBehaviour
 
         shootDir = new Vector3(0, 0, 0);
         aim = shootDir;
+        facing = transform.rotation;
+        transform.rotation = rotation;
 
         currentClips = currentWeapon.clipNum;
         currentAmmo = currentWeapon.clipSize;
