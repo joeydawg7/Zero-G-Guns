@@ -123,7 +123,8 @@ public class ArmsScript : MonoBehaviour
 
     void KnockBack(Vector2 shootDir)
     {
-        basePlayer.GetComponent<Rigidbody2D>().AddForce(-shootDir * currentWeapon.knockback, ForceMode2D.Impulse);
+        basePlayer.GetComponent<Rigidbody2D>().AddForce(-shootDir*currentWeapon.knockback, ForceMode2D.Impulse);
+
         Camera.main.GetComponent<CameraShake>().shakeDuration = currentWeapon.cameraShakeDuration;
         timeSinceLastShot = 0;
     }
@@ -139,7 +140,9 @@ public class ArmsScript : MonoBehaviour
 
         Rigidbody2D bullet = (Rigidbody2D)Instantiate(projectile, bulletSpawnPoint, Quaternion.identity);
         bullet.GetComponent<Bullet>().Construct(basePlayer.GetComponent<PlayerScript>().playerID, currentWeapon.GunDamage, basePlayer);
-        bullet.transform.rotation = Quaternion.Euler(shootDir);
+        Quaternion bulletFacing = transform.rotation;
+        bullet.transform.rotation = Quaternion.LookRotation(shootDir.normalized);
+        bullet.transform.rotation *= facing;
         bullet.AddForce(aim * currentWeapon.bulletSpeed, ForceMode2D.Impulse);
 
         
