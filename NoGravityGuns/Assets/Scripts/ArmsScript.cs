@@ -124,6 +124,7 @@ public class ArmsScript : MonoBehaviour
     void KnockBack(Vector2 shootDir)
     {
         basePlayer.GetComponent<Rigidbody2D>().AddForce(-shootDir*currentWeapon.knockback, ForceMode2D.Impulse);
+
         Camera.main.GetComponent<CameraShake>().shakeDuration = currentWeapon.cameraShakeDuration;
         timeSinceLastShot = 0;
     }
