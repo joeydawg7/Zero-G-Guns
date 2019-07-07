@@ -56,7 +56,7 @@ public class GameManager : MonoBehaviour
 
         joiningPlayerScript.OnGameStart();
 
-        //guiManager.OnGameStart();
+        guiManager.OnGameStart();
 
         isGameStarted = true;
         timer = matchTime;
