@@ -178,6 +178,7 @@ public class PlayerScript : MonoBehaviour
 
         rb.velocity = Vector2.zero;
         rb.rotation = 0;
+        isDead = false;
 
     }
 
