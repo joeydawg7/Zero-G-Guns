@@ -7,16 +7,14 @@ using TMPro;
 public class PlayerScript : MonoBehaviour
 {
 
-
     public int health;
-
 
     public Image healthBar;
 
     public bool isDead;
     public TextMeshProUGUI statusText;
     public Vector3 spawnPoint;
-    public GameObject arms;
+    public GameObject currentArms;
 
     public float turnSpeed;
 
@@ -39,10 +37,17 @@ public class PlayerScript : MonoBehaviour
 
     public enum DamageType {head, torso, legs, feet };
 
+    public enum GunType { pistol, assaultRifle, LMG, shotgun };
+
+    public Sprite spriteColor;
 
     [Header("AudioClips")]
     public AudioClip headShot;
     public AudioClip standardShot;
+
+    [Header("armedArms")]
+    public GameObject pistolArms;
+    public GameObject assaultRifleArms;
 
     private void Awake()
     {
@@ -78,12 +83,47 @@ public class PlayerScript : MonoBehaviour
 
     public void OnGameStart()
     {
-        Debug.Log(playerID);
         if(playerID<1)
         {
             Destroy(gameObject);
         }
+
+        assaultRifleArms.SetActive(false);
+
     }
+
+    public void equipArms(GunType gunType)
+    {
+        HideAllArms();
+
+        switch (gunType)
+        {
+            case GunType.pistol:
+                pistolArms.SetActive(true);
+                break;
+            case GunType.assaultRifle:
+                assaultRifleArms.SetActive(true);
+                break;
+            case GunType.LMG:
+                break;
+            case GunType.shotgun:
+                break;
+            default:
+                break;
+        }
+    }
+
+    void HideAllArms()
+    {
+        foreach (Transform child in transform)
+        {
+            if(child.tag == "Arms")
+            {
+                child.gameObject.SetActive(false);
+            }
+        }
+    }
+
 
     //void CalculateDirection()
     //{
@@ -188,9 +228,16 @@ public class PlayerScript : MonoBehaviour
 
         //horizontalAxis = "J" + playerID + "Horizontal";
         //verticalAxis = "J" + playerID + "Vertical";
-        GetComponentInChildren<ArmsScript>().triggerAXis = "J" + playerID + "Trigger";
-        GetComponentInChildren<ArmsScript>().horizontalAxis = "J" + playerID + "Horizontal";
-        GetComponentInChildren<ArmsScript>().verticalAxis = "J" + playerID + "Vertical";
+        foreach (Transform child in transform)
+        {
+            if(child.tag == "Arms")
+            {
+                child.GetComponent<ArmsScript>().triggerAXis = "J" + playerID + "Trigger";
+                child.GetComponent<ArmsScript>().horizontalAxis = "J" + playerID + "Horizontal";
+                child.GetComponent<ArmsScript>().verticalAxis = "J" + playerID + "Vertical";
+            }
+        }
+
     }
 
     //TODO: track mouse location in relation to center point of char

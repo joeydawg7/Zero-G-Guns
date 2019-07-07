@@ -17,8 +17,13 @@ public class GunSO : ScriptableObject
     public int clipNum;
     public int reloadTime;
 
+
+    public Sprite weaponPad;
+
     public enum FireType { semiAuto, buckshot, fullAuto, Burst  };
     public FireType fireType;
+
+    public PlayerScript.GunType GunType;
 
     public float cameraShakeDuration;
 
