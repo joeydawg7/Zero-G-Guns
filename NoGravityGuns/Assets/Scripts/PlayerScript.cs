@@ -143,6 +143,7 @@ public class PlayerScript : MonoBehaviour
         {
             if (child.tag == "Arms")
             {
+                child.gameObject.GetComponent<ArmsScript>().OnEnable();
                 child.gameObject.SetActive(false);
             }
         }

@@ -33,9 +33,7 @@ public class ArmsScript : MonoBehaviour
     Quaternion facing;
     Quaternion rotation;
     Vector2 shootDir;
-    Transform startingTransform;
-
-    public Sprite armColor;
+    public Transform startingTransform;
 
     public TextMeshProUGUI reloadingText;
 
@@ -55,20 +53,16 @@ public class ArmsScript : MonoBehaviour
 
     }
 
-    private void OnEnable()
+    public void OnEnable()
     {
 
-        shootDir = new Vector3(0, 0, 0);
-        aim = shootDir;
-        facing = transform.rotation;
+        rotation = Quaternion.LookRotation(Vector3.forward, -shootDir);
+        rotation *= facing;
         transform.rotation = rotation;
 
-        currentClips = currentWeapon.clipNum;
-        currentAmmo = currentWeapon.clipSize;
-
-        transform.rotation = startingTransform.rotation;
+        /*transform.rotation = startingTransform.rotation;
         transform.position = startingTransform.position;
-        transform.localScale = startingTransform.localScale;
+        transform.localScale = startingTransform.localScale;*/
     }
 
 
