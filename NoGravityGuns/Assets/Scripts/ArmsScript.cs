@@ -286,7 +286,7 @@ public class ArmsScript : MonoBehaviour
         {
             float angle = Vector2.SignedAngle(transform.position, aim);
 
-            float offset = Random.Range(-0.0008f, 0.0008f) * angle;
+            float offset = Random.Range(-0.0022f, 0.0022f) * angle;
 
 
             Vector2 nomralizedOffset = new Vector2(aim.x + offset, aim.y + offset).normalized;
