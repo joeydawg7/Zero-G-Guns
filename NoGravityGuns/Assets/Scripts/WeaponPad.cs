@@ -50,7 +50,7 @@ public class WeaponPad : MonoBehaviour
         {
             //Debug.Log(collision.gameObject.name);
 
-            collision.transform.parent.GetComponent<PlayerScript>().equipArms(currentWeapon.GunType);
+            collision.transform.parent.GetComponent<PlayerScript>().EquipArms(currentWeapon.GunType);
             GetComponent<SpriteRenderer>().sprite = emptyPad;
             timer = 0;
             timeToNextSpawn = Random.Range(5, 25f);

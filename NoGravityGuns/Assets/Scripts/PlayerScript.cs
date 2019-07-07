@@ -29,6 +29,7 @@ public class PlayerScript : MonoBehaviour
 
     public int playerID;
 
+    public int numKills;
 
     const float HEADSHOT_MULTIPLIER = 2f;
     const float TORSOSHOT_MULTIPLIER = 1f;
@@ -60,6 +61,7 @@ public class PlayerScript : MonoBehaviour
         spawnPoint = transform.position;
         rb = GetComponent<Rigidbody2D>();
         audioSource = GetComponent<AudioSource>();
+        numKills = 0;
 
     }
 
@@ -88,11 +90,18 @@ public class PlayerScript : MonoBehaviour
             Destroy(gameObject);
         }
 
+        health = 100;
+        float barVal = ((float)health / 100f);
+        healthBar.fillAmount = barVal;
+        isDead = false;
+        statusText.text = "";
+        numKills = 0;
+
         assaultRifleArms.SetActive(false);
 
     }
 
-    public void equipArms(GunType gunType)
+    public void EquipArms(GunType gunType)
     {
         HideAllArms();
 
@@ -100,9 +109,11 @@ public class PlayerScript : MonoBehaviour
         {
             case GunType.pistol:
                 pistolArms.SetActive(true);
+                pistolArms.GetComponent<ArmsScript>().isReloading = false;
                 break;
             case GunType.assaultRifle:
                 assaultRifleArms.SetActive(true);
+                pistolArms.GetComponent<ArmsScript>().isReloading = false;
                 break;
             case GunType.LMG:
                 break;
@@ -111,6 +122,8 @@ public class PlayerScript : MonoBehaviour
             default:
                 break;
         }
+
+
     }
 
     void HideAllArms()
@@ -152,7 +165,7 @@ public class PlayerScript : MonoBehaviour
     }
 
 
-    public void TakeDamage(float damage, DamageType damageType)
+    public void TakeDamage(float damage, DamageType damageType, int attackerID)
     {
 
         switch (damageType)
@@ -184,6 +197,14 @@ public class PlayerScript : MonoBehaviour
 
         if(health<0)
         {
+            PlayerScript[] players =  GameObject.FindObjectsOfType<PlayerScript>();
+
+            foreach (var player in players)
+            {
+                //find the real killer
+                if (player.playerID == attackerID)
+                    player.numKills++;
+            }
             Die();
         }
     }
@@ -221,7 +242,7 @@ public class PlayerScript : MonoBehaviour
         isDead = false;
 
         StopAllCoroutines();
-        equipArms(GunType.pistol);
+        EquipArms(GunType.pistol);
 
     }
 

@@ -39,7 +39,7 @@ public class ArmsScript : MonoBehaviour
 
     public TextMeshProUGUI reloadingText;
 
-    bool isReloading;
+    public bool isReloading;
 
     private void Awake()
     {
@@ -211,7 +211,7 @@ public class ArmsScript : MonoBehaviour
         reloadingText.alpha = 0;
 
         if (currentClips <= 0)
-            basePlayer.GetComponent<PlayerScript>().equipArms(PlayerScript.GunType.pistol);
+            basePlayer.GetComponent<PlayerScript>().EquipArms(PlayerScript.GunType.pistol);
 
     }
 
@@ -228,11 +228,11 @@ public class ArmsScript : MonoBehaviour
 
             SpawnBullet();
 
-            currentAmmo --;
+            currentAmmo--;
 
             GetComponent<AudioSource>().PlayOneShot(currentWeapon.GetRandomGunshotSFX);
 
-      
+
             yield return new WaitForSeconds(0.08f);
         }
 
