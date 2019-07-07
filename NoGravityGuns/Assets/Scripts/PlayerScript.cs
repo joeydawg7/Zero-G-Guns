@@ -36,9 +36,9 @@ public class PlayerScript : MonoBehaviour
     const float FOOTSHOT_MULTIPLIER = 0.5f;
     const float LEGSHOT_MULTIPLIER = 0.75f;
 
-    public enum DamageType {head, torso, legs, feet };
+    public enum DamageType { head, torso, legs, feet };
 
-    public enum GunType { pistol, assaultRifle, LMG, shotgun };
+    public enum GunType { pistol, assaultRifle, LMG, shotgun, healthPack };
 
     public Sprite spriteColor;
 
@@ -81,11 +81,16 @@ public class PlayerScript : MonoBehaviour
             //rb.MoveRotation(-Input.GetAxis(horizontalAxis) * turnSpeed);
             */
         }
+
+        if(Input.GetKeyDown(KeyCode.K))
+        {
+            TakeDamage(50, DamageType.torso, 0);
+        }
     }
 
     public void OnGameStart()
     {
-        if(playerID<1)
+        if (playerID < 1)
         {
             Destroy(gameObject);
         }
@@ -130,7 +135,7 @@ public class PlayerScript : MonoBehaviour
     {
         foreach (Transform child in transform)
         {
-            if(child.tag == "Arms")
+            if (child.tag == "Arms")
             {
                 child.gameObject.SetActive(false);
             }
@@ -167,49 +172,103 @@ public class PlayerScript : MonoBehaviour
 
     public void TakeDamage(float damage, DamageType damageType, int attackerID)
     {
-
-        switch (damageType)
+        if (!isDead)
         {
-            case DamageType.head:
-                damage *= HEADSHOT_MULTIPLIER;
-                audioSource.PlayOneShot(headShot);
-                break;
-            case DamageType.torso:
-                damage *= TORSOSHOT_MULTIPLIER;
-                audioSource.PlayOneShot(standardShot);
-                break;
-            case DamageType.legs:
-                damage *= LEGSHOT_MULTIPLIER;
-                audioSource.PlayOneShot(standardShot);
-                break;
-            case DamageType.feet:
-                damage *= FOOTSHOT_MULTIPLIER;
-                audioSource.PlayOneShot(standardShot);
-                break;
-            default:
-                break;
-        }
-
-        health -= (int)damage;
-        float barVal = ((float)health / 100f);
-
-        healthBar.fillAmount = barVal;
-
-        if(health<0)
-        {
-            PlayerScript[] players =  GameObject.FindObjectsOfType<PlayerScript>();
-
-            foreach (var player in players)
+            switch (damageType)
             {
-                //find the real killer
-                if (player.playerID == attackerID)
-                    player.numKills++;
+                case DamageType.head:
+                    damage *= HEADSHOT_MULTIPLIER;
+                    audioSource.PlayOneShot(headShot);
+                    break;
+                case DamageType.torso:
+                    damage *= TORSOSHOT_MULTIPLIER;
+                    audioSource.PlayOneShot(standardShot);
+                    break;
+                case DamageType.legs:
+                    damage *= LEGSHOT_MULTIPLIER;
+                    audioSource.PlayOneShot(standardShot);
+                    break;
+                case DamageType.feet:
+                    damage *= FOOTSHOT_MULTIPLIER;
+                    audioSource.PlayOneShot(standardShot);
+                    break;
+                default:
+                    break;
             }
-            Die();
+
+            health -= (int)damage;
+            float barVal = ((float)health / 100f);
+
+            healthBar.fillAmount = barVal;
+
+            if (health <= 0)
+            {
+                PlayerScript[] players = GameObject.FindObjectsOfType<PlayerScript>();
+
+                foreach (var player in players)
+                {
+                    //find the real killer
+                    if (player.playerID == attackerID)
+                        player.numKills++;
+                }
+                Die();
+            }
         }
+
+        if (health > 100)
+            health = 100;
     }
 
-  
+    //overload to force custom SFX
+    public void TakeDamage(float damage, DamageType damageType, int attackerID, AudioClip SFX)
+    {
+        audioSource.PlayOneShot(SFX);
+
+        if (!isDead)
+        {
+            switch (damageType)
+            {
+                case DamageType.head:
+                    damage *= HEADSHOT_MULTIPLIER;
+                    break;
+                case DamageType.torso:
+                    damage *= TORSOSHOT_MULTIPLIER;
+                    break;
+                case DamageType.legs:
+                    damage *= LEGSHOT_MULTIPLIER;
+                    break;
+                case DamageType.feet:
+                    damage *= FOOTSHOT_MULTIPLIER;
+                    break;
+                default:
+                    break;
+            }
+
+            health -= (int)damage;
+            float barVal = ((float)health / 100f);
+
+            healthBar.fillAmount = barVal;
+
+            if (health <= 0)
+            {
+                PlayerScript[] players = GameObject.FindObjectsOfType<PlayerScript>();
+
+                foreach (var player in players)
+                {
+                    //find the real killer
+                    if (player.playerID == attackerID)
+                        player.numKills++;
+                }
+                Die();
+            }
+        }
+
+        if (health > 100)
+            health = 100;
+    }
+
+
+
     public PlayerScript Die()
     {
         if (!isDead)
@@ -254,7 +313,7 @@ public class PlayerScript : MonoBehaviour
         //verticalAxis = "J" + playerID + "Vertical";
         foreach (Transform child in transform)
         {
-            if(child.tag == "Arms")
+            if (child.tag == "Arms")
             {
                 child.GetComponent<ArmsScript>().triggerAXis = "J" + playerID + "Trigger";
                 child.GetComponent<ArmsScript>().horizontalAxis = "J" + playerID + "Horizontal";
