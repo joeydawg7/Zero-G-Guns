@@ -24,6 +24,7 @@ public class ArmsScript : MonoBehaviour
     float currentRecoil;
 
     Quaternion facing;
+    Quaternion rotation;
 
     Vector2 shootDir;
 
@@ -74,9 +75,9 @@ public class ArmsScript : MonoBehaviour
         {
             shootDir = Vector2.right * Input.GetAxis(horizontalAxis) + Vector2.up * Input.GetAxis(verticalAxis);
 
-            Vector3 forwardVector = Quaternion.Euler(shootDir) * Vector3.forward;
+            shootDir = shootDir.normalized;
 
-            var rotation = Quaternion.LookRotation(Vector3.forward, -shootDir.normalized);
+            rotation = Quaternion.LookRotation(Vector3.forward, -shootDir);
             rotation *= facing;
             transform.rotation = rotation;
 
@@ -124,7 +125,6 @@ public class ArmsScript : MonoBehaviour
     void KnockBack(Vector2 shootDir)
     {
         basePlayer.GetComponent<Rigidbody2D>().AddForce(-shootDir*currentWeapon.knockback, ForceMode2D.Impulse);
-
         Camera.main.GetComponent<CameraShake>().shakeDuration = currentWeapon.cameraShakeDuration;
         timeSinceLastShot = 0;
     }
@@ -138,14 +138,29 @@ public class ArmsScript : MonoBehaviour
 
         currentRecoil += currentWeapon.recoilPerShot;
 
-        Rigidbody2D bullet = (Rigidbody2D)Instantiate(projectile, bulletSpawnPoint, Quaternion.identity);
+        Rigidbody2D bullet = (Rigidbody2D)Instantiate(projectile, bulletSpawnPoint, Quaternion.LookRotation(Vector3.forward, -shootDir));
         bullet.GetComponent<Bullet>().Construct(basePlayer.GetComponent<PlayerScript>().playerID, currentWeapon.GunDamage, basePlayer);
-        Quaternion bulletFacing = transform.rotation;
-        bullet.transform.rotation = Quaternion.LookRotation(shootDir.normalized);
-        bullet.transform.rotation *= facing;
+        //bullet.rotation
         bullet.AddForce(aim * currentWeapon.bulletSpeed, ForceMode2D.Impulse);
+        bullet.transform.rotation = rotation;
+        /*
+        Quaternion newRotation = Quaternion.LookRotation(shootDir, Vector3.forward);
+        newRotation.x = 0.0f;
+        newRotation.y = 0.0f;
+        newRotation.r
+        bullet.transform.rotation = newRotation;
+        /*
+        Vector2 direction = bullet.velocity.normalized;
 
-        
+        float ang = Vector2.Angle(bullet.transform.position, direction);
+        Vector3 cross = Vector3.Cross(bullet.transform.position, direction);
+
+        if (cross.z > 0)
+            ang = 360 - ang;
+        Quaternion q = Quaternion.AngleAxis(ang, Vector3.forward);
+        bullet.MoveRotation(q);
+        */
+
         GetComponent<AudioSource>().PlayOneShot(currentWeapon.GetRandomGunshotSFX);
     }
 
@@ -163,7 +178,7 @@ public class ArmsScript : MonoBehaviour
             Rigidbody2D bullet = (Rigidbody2D)Instantiate(projectile, bulletSpawnPoint, Quaternion.identity);
             bullet.GetComponent<Bullet>().Construct(basePlayer.GetComponent<PlayerScript>().playerID, currentWeapon.GunDamage, basePlayer);
             bullet.AddForce(aim * currentWeapon.bulletSpeed, ForceMode2D.Impulse);
-
+            bullet.transform.rotation = Quaternion.LookRotation(shootDir, Vector3.forward);
            
             GetComponent<AudioSource>().PlayOneShot(currentWeapon.GetRandomGunshotSFX);
             yield return new WaitForSeconds(0.08f);
