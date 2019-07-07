@@ -35,6 +35,14 @@ public class Bullet : MonoBehaviour
     }
 
 
+    private void Update()
+    {
+        //transform.rotation = Quaternion.LookRotation(GetComponent<Rigidbody2D>().velocity * Vector3.forward);
+        //transform.rotation = Quaternion.
+
+        
+    }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.collider.gameObject.layer != LayerMask.NameToLayer("NonBulletCollide") && canImapact == true)
