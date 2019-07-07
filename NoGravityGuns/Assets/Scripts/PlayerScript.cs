@@ -220,6 +220,9 @@ public class PlayerScript : MonoBehaviour
         rb.rotation = 0;
         isDead = false;
 
+        StopAllCoroutines();
+        equipArms(GunType.pistol);
+
     }
 
     public void SetControllerNumber(int number)
