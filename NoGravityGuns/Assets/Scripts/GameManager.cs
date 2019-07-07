@@ -18,6 +18,12 @@ public class GameManager : MonoBehaviour
 
     public GunSO pistol;
 
+    public float matchTime;
+
+    public GUIManager guiManager;
+
+    public float timer;
+
     private void Awake()
     {
         if (_instance != null && _instance != this)
@@ -31,6 +37,8 @@ public class GameManager : MonoBehaviour
         }
 
         isGameStarted = false;
+
+        
     }
 
 
@@ -48,7 +56,20 @@ public class GameManager : MonoBehaviour
 
         joiningPlayerScript.OnGameStart();
 
+        guiManager.OnGameStart();
+
         isGameStarted = true;
+        timer = matchTime;
+    }
+
+    private void Update()
+    {
+        timer -= Time.deltaTime;
+
+        if(timer<=0)
+        {
+            isGameStarted = false;
+        }
     }
 
 }
