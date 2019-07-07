@@ -49,6 +49,8 @@ public class PlayerScript : MonoBehaviour
     [Header("armedArms")]
     public GameObject pistolArms;
     public GameObject assaultRifleArms;
+    public GameObject LMGArms;
+    public GameObject shotGunArms;
 
     private void Awake()
     {
@@ -118,11 +120,15 @@ public class PlayerScript : MonoBehaviour
                 break;
             case GunType.assaultRifle:
                 assaultRifleArms.SetActive(true);
-                pistolArms.GetComponent<ArmsScript>().isReloading = false;
+                assaultRifleArms.GetComponent<ArmsScript>().isReloading = false;
                 break;
             case GunType.LMG:
+                LMGArms.SetActive(true);
+                LMGArms.GetComponent<ArmsScript>().isReloading = false;
                 break;
             case GunType.shotgun:
+                shotGunArms.SetActive(true);
+                shotGunArms.GetComponent<ArmsScript>().isReloading = false;
                 break;
             default:
                 break;

@@ -154,7 +154,7 @@ public class ArmsScript : MonoBehaviour
     void KnockBack(Vector2 shootDir)
     {
         basePlayer.GetComponent<Rigidbody2D>().AddForce(-shootDir * currentWeapon.knockback, ForceMode2D.Impulse);
-        Camera.main.GetComponent<CameraShake>().shakeDuration = currentWeapon.cameraShakeDuration;
+        Camera.main.GetComponent<CameraShake>().shakeDuration += currentWeapon.cameraShakeDuration;
         timeSinceLastShot = 0;
     }
 
@@ -245,20 +245,46 @@ public class ArmsScript : MonoBehaviour
 
     public void BuckShot()
     {
-        for (int i = 0; i < Random.Range(8, 13); i++)
+        currentAmmo--;
+
+        //cone of -1 to 1 multiplied by current recoil amount to determine just how random it can be
+        float recoilMod = Random.Range(-1f, 1f) * currentRecoil;
+
+        bulletSpawnPoint = new Vector3(bulletSpawnPoint.x, bulletSpawnPoint.y);
+
+        currentRecoil += currentWeapon.recoilPerShot;
+
+        SpawnBuckShot();
+
+
+        GetComponent<AudioSource>().PlayOneShot(currentWeapon.GetRandomGunshotSFX);
+
+
+        if (currentAmmo <= 0)
         {
-            //cone of -1 to 1 multiplied by current recoil amount to determine just how random it can be
-            float recoilMod = Random.Range(-1f, 1f) * currentRecoil;
-
-            bulletSpawnPoint = new Vector3(bulletSpawnPoint.x, bulletSpawnPoint.y);
-
-            currentRecoil += currentWeapon.recoilPerShot;
-
-            SpawnBullet();
-
-
-            GetComponent<AudioSource>().PlayOneShot(currentWeapon.GetRandomGunshotSFX);
+            StartCoroutine(Reload());
         }
+
+    }
+
+    void SpawnBuckShot()
+    {
+        for (int i = 0; i < Random.Range(5, 8); i++)
+        {
+            float angle = Vector2.SignedAngle(transform.position, aim);
+
+            float offset = Random.Range(-0.0008f, 0.0008f) * angle;
+
+
+            Vector2 nomralizedOffset = new Vector2(aim.x + offset, aim.y + offset).normalized;
+
+
+            Rigidbody2D bullet = (Rigidbody2D)Instantiate(projectile, bulletSpawnPoint, Quaternion.LookRotation(Vector3.forward, -shootDir));
+            bullet.GetComponent<Bullet>().Construct(basePlayer.GetComponent<PlayerScript>().playerID, currentWeapon.GunDamage, basePlayer);
+            bullet.AddForce(nomralizedOffset * currentWeapon.bulletSpeed, ForceMode2D.Impulse);
+            bullet.transform.rotation = rotation;
+        }
+
     }
 
 

@@ -72,4 +72,57 @@ public class GameManager : MonoBehaviour
         }
     }
 
+
+    void OnGameEnd()
+    {
+       List<PlayerScript> winner = DetermineWinner();
+
+        if(winner.Count > 1)
+        {
+            Debug.Log("Winners are");
+
+            for (int i = 0; i < winner.Count; i++)
+            {
+                Debug.Log("Player " + winner[i].playerID);
+            }
+
+        }
+        //one winner
+        else
+        {
+            Debug.Log("Winner is");
+
+            for (int i = 0; i < winner.Count; i++)
+            {
+                Debug.Log("Player " + winner[i].playerID);
+            }
+        }
+    }
+
+    List<PlayerScript> DetermineWinner()
+    {
+        int highestkills = 0;
+        List<PlayerScript> highestKillPlayer = new List<PlayerScript>();
+
+        for (int i = 0; i < players.Count; i++)
+        {
+            if(players[i].numKills == highestkills)
+            {
+                highestKillPlayer.Add(players[i]);
+                highestkills = players[i].numKills;
+            }
+            else if (players[i].numKills > highestkills)
+            {
+                highestKillPlayer.Clear();
+                highestKillPlayer.Add(players[i]);
+                highestkills = players[i].numKills;
+            }
+
+
+        }
+
+        return highestKillPlayer;
+    }
+
+
 }
