@@ -66,7 +66,7 @@ public class GameManager : MonoBehaviour
     {
         timer -= Time.deltaTime;
 
-        if(timer<=0)
+        if(timer<=0 && isGameStarted)
         {
             isGameStarted = false;
             OnGameEnd();
