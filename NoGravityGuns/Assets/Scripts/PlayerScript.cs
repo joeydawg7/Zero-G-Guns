@@ -76,6 +76,15 @@ public class PlayerScript : MonoBehaviour
         }
     }
 
+    public void OnGameStart()
+    {
+        Debug.Log(playerID);
+        if(playerID<1)
+        {
+            Destroy(gameObject);
+        }
+    }
+
     //void CalculateDirection()
     //{
     //    angle = Mathf.Atan2(Input.GetAxis(horizontalAxis), Input.GetAxis(verticalAxis));
@@ -170,6 +179,17 @@ public class PlayerScript : MonoBehaviour
         rb.velocity = Vector2.zero;
         rb.rotation = 0;
 
+    }
+
+    public void SetControllerNumber(int number)
+    {
+        playerID = number;
+
+        //horizontalAxis = "J" + playerID + "Horizontal";
+        //verticalAxis = "J" + playerID + "Vertical";
+        GetComponentInChildren<ArmsScript>().triggerAXis = "J" + playerID + "Trigger";
+        GetComponentInChildren<ArmsScript>().horizontalAxis = "J" + playerID + "Horizontal";
+        GetComponentInChildren<ArmsScript>().verticalAxis = "J" + playerID + "Vertical";
     }
 
     //TODO: track mouse location in relation to center point of char

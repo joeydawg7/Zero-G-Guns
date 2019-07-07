@@ -17,7 +17,7 @@ public class ArmsScript : MonoBehaviour
 
     public string horizontalAxis;
     public string verticalAxis;
-    public string shootAxis;
+    public string triggerAXis;
 
     public GunSO currentWeapon;
 
@@ -25,12 +25,12 @@ public class ArmsScript : MonoBehaviour
 
     Quaternion facing;
 
+    Vector2 shootDir;
+
     private void Awake()
     {
         timeSinceLastShot = 0;
         currentRecoil = 0;
-
-        
 
         facing = transform.rotation;
 
@@ -39,14 +39,24 @@ public class ArmsScript : MonoBehaviour
 
     private void OnDrawGizmos()
     {
+        /*
         Vector2 shootDir = Vector2.right * Input.GetAxis(horizontalAxis) + Vector2.up * Input.GetAxis(verticalAxis);
         Ray ray = new Ray();
         ray.origin = transform.position;
         ray.direction = shootDir;
         Gizmos.DrawRay(ray);
+        */
     }
 
     void FixedUpdate()
+    {
+        if(GameManager.Instance.isGameStarted)
+            ShootController();
+      
+    }
+
+
+    void ShootController()
     {
         bulletSpawnPoint = bulletSpawn.position;
 
@@ -62,18 +72,18 @@ public class ArmsScript : MonoBehaviour
 
         if (!basePlayer.GetComponent<PlayerScript>().isDead)
         {
-            Vector2 shootDir = Vector2.right * Input.GetAxis("Horizontal2") + Vector2.up * Input.GetAxis("Vertical2");
+            shootDir = Vector2.right * Input.GetAxis(horizontalAxis) + Vector2.up * Input.GetAxis(verticalAxis);
 
             Vector3 forwardVector = Quaternion.Euler(shootDir) * Vector3.forward;
 
-            var rotation = Quaternion.LookRotation(Vector3.forward , -shootDir.normalized);
+            var rotation = Quaternion.LookRotation(Vector3.forward, -shootDir.normalized);
             rotation *= facing;
             transform.rotation = rotation;
 
-            if (Input.GetAxisRaw(shootAxis) > 0)
+            if (Input.GetAxisRaw(triggerAXis) > 0)
             {
 
-                if (Input.GetAxis("Horizontal2") != 0 || Input.GetAxis("Vertical2") != 0)
+                if (Input.GetAxis(horizontalAxis) != 0 || Input.GetAxis(verticalAxis) != 0)
                 {
                     //aim = new Vector3(Input.GetAxis(horizontalAxis), Input.GetAxis(verticalAxis), 0).normalized;
                     aim = shootDir;
@@ -129,6 +139,7 @@ public class ArmsScript : MonoBehaviour
 
         Rigidbody2D bullet = (Rigidbody2D)Instantiate(projectile, bulletSpawnPoint, Quaternion.identity);
         bullet.GetComponent<Bullet>().Construct(basePlayer.GetComponent<PlayerScript>().playerID, currentWeapon.GunDamage, basePlayer);
+        bullet.transform.rotation = Quaternion.Euler(shootDir);
         bullet.AddForce(aim * currentWeapon.bulletSpeed, ForceMode2D.Impulse);
 
         

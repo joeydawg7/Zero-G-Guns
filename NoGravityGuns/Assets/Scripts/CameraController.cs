@@ -16,6 +16,11 @@ public class CameraController : MonoBehaviour
 
     Vector3 velocity;
 
+    private void Awake()
+    {
+        players = new List<Transform>();
+    }
+
     // Update is called once per frame
     void LateUpdate()
     {
@@ -67,6 +72,24 @@ public class CameraController : MonoBehaviour
         }
 
         return bounds.size.x;
+    }
+
+    public void OnGameStart()
+    {
+        StartCoroutine(DelayOnGameStart());
+    }
+
+
+    IEnumerator DelayOnGameStart()
+    {
+        yield return new WaitForSeconds(0.25f);
+
+        GameObject[] playersArray = GameObject.FindGameObjectsWithTag("Player");
+
+        for (int i = 0; i < playersArray.Length; i++)
+        {
+            players.Add(playersArray[i].transform);
+        }
     }
 
 }
