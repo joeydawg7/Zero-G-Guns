@@ -14,7 +14,6 @@ public class PlayerScript : MonoBehaviour
     public bool isDead;
     public TextMeshProUGUI statusText;
     public Vector3 spawnPoint;
-    public GameObject currentArms;
 
     public float turnSpeed;
 
@@ -105,7 +104,8 @@ public class PlayerScript : MonoBehaviour
         numKills = 0;
 
         assaultRifleArms.SetActive(false);
-
+        shotGunArms.SetActive(false);
+        LMGArms.SetActive(false);
     }
 
     public void EquipArms(GunType gunType)

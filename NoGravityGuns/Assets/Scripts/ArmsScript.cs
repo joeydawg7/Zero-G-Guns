@@ -57,6 +57,10 @@ public class ArmsScript : MonoBehaviour
 
     private void OnEnable()
     {
+
+        shootDir = new Vector3(0, 0, 0);
+        aim = shootDir;
+
         currentClips = currentWeapon.clipNum;
         currentAmmo = currentWeapon.clipSize;
 
@@ -89,6 +93,13 @@ public class ArmsScript : MonoBehaviour
         if (GameManager.Instance.isGameStarted)
             ShootController();
 
+    }
+
+
+    private void OnDisable()
+    {
+        shootDir = new Vector3(0, 0, 0);
+        aim = shootDir;
     }
 
 
