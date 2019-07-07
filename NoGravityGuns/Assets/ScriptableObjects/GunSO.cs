@@ -13,6 +13,9 @@ public class GunSO : ScriptableObject
     public float recoilDelay;
     public float recoilPerShot;
     public float recoilMax;
+    public int clipSize;
+    public int clipNum;
+    public int reloadTime;
 
     public enum FireType { semiAuto, buckshot, fullAuto, Burst  };
     public FireType fireType;

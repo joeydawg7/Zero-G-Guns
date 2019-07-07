@@ -16,6 +16,8 @@ public class GameManager : MonoBehaviour
 
     public JoiningPlayerScript joiningPlayerScript;
 
+    public GunSO pistol;
+
     private void Awake()
     {
         if (_instance != null && _instance != this)

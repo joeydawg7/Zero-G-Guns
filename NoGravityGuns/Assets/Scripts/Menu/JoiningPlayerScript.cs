@@ -63,6 +63,7 @@ public class JoiningPlayerScript : MonoBehaviour
             if (Input.GetButton("Submit") && assignedControllers.Count > 0)
             {
                 GameManager.Instance.StartGame();
+                tipToStart.alpha = 0;
             }
         }
 
