@@ -69,6 +69,7 @@ public class GameManager : MonoBehaviour
         if(timer<=0)
         {
             isGameStarted = false;
+            OnGameEnd();
         }
     }
 
