@@ -116,18 +116,22 @@ public class PlayerScript : MonoBehaviour
         {
             case GunType.pistol:
                 pistolArms.SetActive(true);
+                pistolArms.GetComponent<ArmsScript>().SetOnEquip();
                 pistolArms.GetComponent<ArmsScript>().isReloading = false;
                 break;
             case GunType.assaultRifle:
                 assaultRifleArms.SetActive(true);
+                pistolArms.GetComponent<ArmsScript>().SetOnEquip();
                 assaultRifleArms.GetComponent<ArmsScript>().isReloading = false;
                 break;
             case GunType.LMG:
                 LMGArms.SetActive(true);
+                pistolArms.GetComponent<ArmsScript>().SetOnEquip();
                 LMGArms.GetComponent<ArmsScript>().isReloading = false;
                 break;
             case GunType.shotgun:
                 shotGunArms.SetActive(true);
+                pistolArms.GetComponent<ArmsScript>().SetOnEquip();
                 shotGunArms.GetComponent<ArmsScript>().isReloading = false;
                 break;
             default:
@@ -143,7 +147,7 @@ public class PlayerScript : MonoBehaviour
         {
             if (child.tag == "Arms")
             {
-                child.gameObject.GetComponent<ArmsScript>().OnEnable();
+                child.gameObject.GetComponent<ArmsScript>().SetOnEquip();
                 child.gameObject.SetActive(false);
             }
         }

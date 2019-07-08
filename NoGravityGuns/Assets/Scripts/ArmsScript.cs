@@ -58,30 +58,34 @@ public class ArmsScript : MonoBehaviour
     public void Start()
     {
 
-    	startingRot = transform.rotation;
+        startingRot = transform.rotation;
 
     }
 
-    public void OnEnable()
+    //public void OnEnable()
+    //{
+
+       
+    //    /*transform.rotation = startingTransform.rotation;
+    //    transform.position = startingTransform.position;
+    //    transform.localScale = startingTransform.localScale;*/
+    //}
+
+
+    public void SetOnEquip()
     {
+        if (GameManager.Instance.isGameStarted)
+        {
 
-    	if(GameManager.Instance.isGameStarted)
+            facing = startingRot;
+            shootDir = new Vector2(0, 0);
 
-		{	
+            rotation = Quaternion.LookRotation(Vector3.forward, -shootDir);
+            rotation *= facing;
+            transform.rotation = rotation;
+        }
 
-    	facing = startingRot;
-        shootDir = new Vector2(0, 0);
-
-        rotation = Quaternion.LookRotation(Vector3.forward, -shootDir);
-        rotation *= facing;
-        transform.rotation = rotation;
-    	}
-
-        /*transform.rotation = startingTransform.rotation;
-        transform.position = startingTransform.position;
-        transform.localScale = startingTransform.localScale;*/
     }
-
 
     private void OnDrawGizmos()
     {
@@ -311,7 +315,7 @@ public class ArmsScript : MonoBehaviour
             bullet.GetComponent<Bullet>().Construct(basePlayer.GetComponent<PlayerScript>().playerID, currentWeapon.GunDamage, basePlayer);
 
 
-            Vector3 dir = -Vector2.up * currentWeapon.bulletSpeed;            
+            Vector3 dir = -Vector2.up * currentWeapon.bulletSpeed;
             bullet.transform.rotation = rotation;
             Vector2 nomralizedOffset = new Vector2(dir.x + offset, dir.y + offset).normalized;
 
