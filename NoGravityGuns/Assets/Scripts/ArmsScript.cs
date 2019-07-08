@@ -65,51 +65,51 @@ public class ArmsScript : MonoBehaviour
 
     }
 
-    public void Start()
-    {
+    // public void Start()
+    // {
 
-        startingEulers = transform.eulerAngles;
-
-
-    }
+    //     startingEulers = transform.eulerAngles;
 
 
-
-    IEnumerator PickupWeaponDelay()
-    {
-        canRotateGun = false;
-        SetOnEquip();
-        yield return new WaitForSeconds(0.1f);
-
-        canRotateGun = true;
-        Debug.Log(canRotateGun);
-    }
+    // }
 
 
-    //public void OnEnable()
-    //{
+
+    // IEnumerator PickupWeaponDelay()
+    // {
+    //     canRotateGun = false;
+    //     SetOnEquip();
+    //     yield return new WaitForSeconds(0.1f);
+
+    //     canRotateGun = true;
+    //     Debug.Log(canRotateGun);
+    // }
 
 
-    //    /*transform.rotation = startingTransform.rotation;
-    //    transform.position = startingTransform.position;
-    //    transform.localScale = startingTransform.localScale;*/
-    //}
+    // //public void OnEnable()
+    // //{
 
 
-    public void SetOnEquip()
-    {
-        if (GameManager.Instance.isGameStarted)
-        {
+    // //    /*transform.rotation = startingTransform.rotation;
+    // //    transform.position = startingTransform.position;
+    // //    transform.localScale = startingTransform.localScale;*/
+    // //}
 
-            facing = startingRot;
-            //shootDir = new Vector2(0, 0);
-            //aim = shootDir;
-            rotation = Quaternion.LookRotation(Vector3.forward, -shootDir);
-            rotation *= facing;
-            transform.rotation = rotation;
-        }
 
-    }
+    // public void SetOnEquip()
+    // {
+    //     if (GameManager.Instance.isGameStarted)
+    //     {
+
+    //         facing = startingRot;
+    //         //shootDir = new Vector2(0, 0);
+    //         //aim = shootDir;
+    //         rotation = Quaternion.LookRotation(Vector3.forward, -shootDir);
+    //         rotation *= facing;
+    //         transform.rotation = rotation;
+    //     }
+
+    // }
 
 
     public void SetChildrenWithAxis(int playerID)
