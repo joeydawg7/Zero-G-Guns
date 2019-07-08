@@ -71,19 +71,10 @@ public class PlayerScript : MonoBehaviour
     {
         if (!isDead)
         {
-            //do left stick rotaty
 
-            //transform.Rotate(0, 0, -Input.GetAxis(horizontalAxis)* turnSpeed);
-            /*Vector2 shootDir = Vector2.right * Input.GetAxis(horizontalAxis) + Vector2.up * Input.GetAxis(verticalAxis);
-
-            float angle =  Vector2.SignedAngle(transform.position, shootDir.normalized);
-
-            rb.MoveRotation(rb.rotation + angle *  Time.fixedDeltaTime);
-            //rb.MoveRotation(-Input.GetAxis(horizontalAxis) * turnSpeed);
-            */
         }
 
-        if(Input.GetKeyDown(KeyCode.K))
+        if (Input.GetKeyDown(KeyCode.K))
         {
             TakeDamage(50, DamageType.torso, 0);
         }
@@ -115,23 +106,20 @@ public class PlayerScript : MonoBehaviour
         switch (gunType)
         {
             case GunType.pistol:
-                pistolArms.SetActive(true);
-                pistolArms.GetComponent<ArmsScript>().PickupWeapon();
+                pistolArms.GetComponent<ArmsScript>().SetActivePistol(); 
                 pistolArms.GetComponent<ArmsScript>().isReloading = false;
+                //code here to actually refill bullets to stop crap from hapening that is bad
                 break;
             case GunType.assaultRifle:
                 assaultRifleArms.SetActive(true);
-                assaultRifleArms.GetComponent<ArmsScript>().PickupWeapon();
                 assaultRifleArms.GetComponent<ArmsScript>().isReloading = false;
                 break;
             case GunType.LMG:
                 LMGArms.SetActive(true);
-                LMGArms.GetComponent<ArmsScript>().PickupWeapon();
                 LMGArms.GetComponent<ArmsScript>().isReloading = false;
                 break;
             case GunType.shotgun:
                 shotGunArms.SetActive(true);
-                shotGunArms.GetComponent<ArmsScript>().PickupWeapon();
                 shotGunArms.GetComponent<ArmsScript>().isReloading = false;
                 break;
             default:
@@ -147,8 +135,10 @@ public class PlayerScript : MonoBehaviour
         {
             if (child.tag == "Arms")
             {
-                child.gameObject.GetComponent<ArmsScript>().SetOnEquip();
-                child.gameObject.SetActive(false);
+                if (child.GetComponent<ArmsScript>().currentWeapon.GunType == GunType.pistol)
+                {
+                    child.GetComponent<ArmsScript>().SetInactive();
+                }
             }
         }
     }
@@ -329,6 +319,8 @@ public class PlayerScript : MonoBehaviour
                 child.GetComponent<ArmsScript>().triggerAXis = "J" + playerID + "Trigger";
                 child.GetComponent<ArmsScript>().horizontalAxis = "J" + playerID + "Horizontal";
                 child.GetComponent<ArmsScript>().verticalAxis = "J" + playerID + "Vertical";
+
+                child.GetComponent<ArmsScript>().SetChildrenWithAxis(playerID);
             }
         }
 

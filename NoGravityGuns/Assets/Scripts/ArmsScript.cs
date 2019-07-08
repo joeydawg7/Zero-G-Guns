@@ -41,7 +41,10 @@ public class ArmsScript : MonoBehaviour
     public bool isReloading;
 
     bool canRotateGun;
-    
+
+    public bool canShoot;
+    public Color32 invisible;
+    Color32 startingColor;
 
     private void Awake()
     {
@@ -53,6 +56,8 @@ public class ArmsScript : MonoBehaviour
         currentClips = int.MaxValue;
         currentAmmo = currentWeapon.clipSize;
         reloadingText.alpha = 0;
+
+        canShoot = true;
 
         // startingTransform = transform;
 
@@ -75,18 +80,16 @@ public class ArmsScript : MonoBehaviour
         canRotateGun = false;
         SetOnEquip();
         yield return new WaitForSeconds(0.1f);
+
         canRotateGun = true;
+        Debug.Log(canRotateGun);
     }
 
 
-    public void PickupWeapon()
-    {
-        StartCoroutine(PickupWeaponDelay());
-    }
     //public void OnEnable()
     //{
 
-       
+
     //    /*transform.rotation = startingTransform.rotation;
     //    transform.position = startingTransform.position;
     //    transform.localScale = startingTransform.localScale;*/
@@ -99,8 +102,8 @@ public class ArmsScript : MonoBehaviour
         {
 
             facing = startingRot;
-            shootDir = new Vector2(0, 0);
-            aim = shootDir;
+            //shootDir = new Vector2(0, 0);
+            //aim = shootDir;
             rotation = Quaternion.LookRotation(Vector3.forward, -shootDir);
             rotation *= facing;
             transform.rotation = rotation;
@@ -108,15 +111,24 @@ public class ArmsScript : MonoBehaviour
 
     }
 
+
+    public void SetChildrenWithAxis(int playerID)
+    {
+        foreach (Transform child in transform)
+        {
+            if (child.tag == "Arms")
+            {
+                child.GetComponent<ArmsScript>().triggerAXis = "J" + playerID + "Trigger";
+                child.GetComponent<ArmsScript>().horizontalAxis = "J" + playerID + "Horizontal";
+                child.GetComponent<ArmsScript>().verticalAxis = "J" + playerID + "Vertical";
+
+            }
+        }
+
+    }
+
     private void OnDrawGizmos()
     {
-        /*
-        Vector2 shootDir = Vector2.right * Input.GetAxis(horizontalAxis) + Vector2.up * Input.GetAxis(verticalAxis);
-        Ray ray = new Ray();
-        ray.origin = transform.position;
-        ray.direction = shootDir;
-        Gizmos.DrawRay(ray);
-        */
 
 
         Ray ray = new Ray();
@@ -155,9 +167,12 @@ public class ArmsScript : MonoBehaviour
         if (currentRecoil > currentWeapon.recoilMax)
             currentRecoil = currentWeapon.recoilMax;
 
-        if (!basePlayer.GetComponent<PlayerScript>().isDead && canRotateGun)
+        if (!basePlayer.GetComponent<PlayerScript>().isDead)
         {
+
             shootDir = Vector2.right * Input.GetAxis(horizontalAxis) + Vector2.up * Input.GetAxis(verticalAxis);
+            // else
+            // shootDir = startingEulers;
 
             shootDir = shootDir.normalized;
 
@@ -177,33 +192,58 @@ public class ArmsScript : MonoBehaviour
                 {
                     if (timeSinceLastShot >= currentWeapon.recoilDelay)
                     {
-
-                        switch (currentWeapon.fireType)
+                        if (canShoot)
                         {
-                            case GunSO.FireType.semiAuto:
-                                ShootyGunTemp();
-                                break;
-                            case GunSO.FireType.buckshot:
-                                BuckShot();
-                                break;
-                            case GunSO.FireType.fullAuto:
-                                ShootyGunTemp();
-                                break;
-                            case GunSO.FireType.Burst:
-                                StartCoroutine(FireInBurst());
-                                break;
-                            default:
-                                ShootyGunTemp();
-                                break;
+                            switch (currentWeapon.fireType)
+                            {
+                                case GunSO.FireType.semiAuto:
+                                    ShootyGunTemp();
+                                    break;
+                                case GunSO.FireType.buckshot:
+                                    BuckShot();
+                                    break;
+                                case GunSO.FireType.fullAuto:
+                                    ShootyGunTemp();
+                                    break;
+                                case GunSO.FireType.Burst:
+                                    StartCoroutine(FireInBurst());
+                                    break;
+                                default:
+                                    ShootyGunTemp();
+                                    break;
+                            }
+
+                            //add force to player in opposite direction of shot
+                            KnockBack(shootDir);
                         }
-
-                        //add force to player in opposite direction of shot
-                        KnockBack(shootDir);
-
                     }
                 }
+
             }
         }
+    }
+
+    public void SetInactive()
+    {
+        canShoot = false;
+        startingColor = GetComponent<SpriteRenderer>().color;
+        //GetComponent<SpriteRenderer>().color = invisible;
+
+        foreach (Transform child in transform)
+        {
+            if (child.tag == "Arms")
+            {
+
+                //child.gameObject.GetComponent<ArmsScript>().SetOnEquip();
+                child.gameObject.SetActive(false);
+            }
+        }
+    }
+
+    public void SetActivePistol()
+    {
+        canShoot = true;
+        GetComponent<SpriteRenderer>().color = startingColor;
     }
 
     void KnockBack(Vector2 shootDir)
