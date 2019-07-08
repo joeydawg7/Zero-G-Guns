@@ -199,7 +199,9 @@ public class ArmsScript : MonoBehaviour
     {
         Rigidbody2D bullet = (Rigidbody2D)Instantiate(projectile, bulletSpawnPoint, Quaternion.LookRotation(Vector3.forward, -shootDir));
         bullet.GetComponent<Bullet>().Construct(basePlayer.GetComponent<PlayerScript>().playerID, currentWeapon.GunDamage, basePlayer);
-        bullet.AddForce(aim * currentWeapon.bulletSpeed, ForceMode2D.Impulse);
+
+        Vector3 dir = -Vector2.up * currentWeapon.bulletSpeed;
+        bullet.AddRelativeForce(dir, ForceMode2D.Force);
         bullet.transform.rotation = rotation;
     }
 
@@ -289,15 +291,17 @@ public class ArmsScript : MonoBehaviour
         {
             float angle = Vector2.SignedAngle(transform.position, aim);
 
-            float offset = Random.Range(-0.0022f, 0.0022f) * angle;
-
-
-            Vector2 nomralizedOffset = new Vector2(aim.x + offset, aim.y + offset).normalized;
-
+            float offset = Random.Range(-2.5f, 2.5f) * angle;
 
             Rigidbody2D bullet = (Rigidbody2D)Instantiate(projectile, bulletSpawnPoint, Quaternion.LookRotation(Vector3.forward, -shootDir));
             bullet.GetComponent<Bullet>().Construct(basePlayer.GetComponent<PlayerScript>().playerID, currentWeapon.GunDamage, basePlayer);
-            bullet.AddForce(nomralizedOffset * currentWeapon.bulletSpeed, ForceMode2D.Impulse);
+
+
+            Vector3 dir = -Vector2.up * currentWeapon.bulletSpeed;            
+            bullet.transform.rotation = rotation;
+            Vector2 nomralizedOffset = new Vector2(dir.x + offset, dir.y + offset).normalized;
+
+            bullet.AddRelativeForce(nomralizedOffset * 20, ForceMode2D.Impulse);
             bullet.transform.rotation = rotation;
         }
 
