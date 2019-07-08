@@ -40,12 +40,14 @@ public class ArmsScript : MonoBehaviour
 
     public bool isReloading;
 
+    bool canRotateGun;
     
 
     private void Awake()
     {
         timeSinceLastShot = 0;
         currentRecoil = 0;
+        canRotateGun = true;
 
         facing = transform.rotation;
         currentClips = int.MaxValue;
@@ -70,7 +72,10 @@ public class ArmsScript : MonoBehaviour
 
     IEnumerator PickupWeaponDelay()
     {
+        canRotateGun = false;
+        SetOnEquip();
         yield return new WaitForSeconds(0.1f);
+        canRotateGun = true;
     }
 
 
@@ -150,7 +155,7 @@ public class ArmsScript : MonoBehaviour
         if (currentRecoil > currentWeapon.recoilMax)
             currentRecoil = currentWeapon.recoilMax;
 
-        if (!basePlayer.GetComponent<PlayerScript>().isDead)
+        if (!basePlayer.GetComponent<PlayerScript>().isDead && canRotateGun)
         {
             shootDir = Vector2.right * Input.GetAxis(horizontalAxis) + Vector2.up * Input.GetAxis(verticalAxis);
 
