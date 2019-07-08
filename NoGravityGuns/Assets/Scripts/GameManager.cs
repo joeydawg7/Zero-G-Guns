@@ -41,6 +41,12 @@ public class GameManager : MonoBehaviour
         
     }
 
+    void OnEnable()
+    {
+
+        isGameStarted = false;
+
+    }
 
     public void StartGame()
     {

@@ -33,7 +33,7 @@ public class ArmsScript : MonoBehaviour
     Quaternion facing;
     Quaternion rotation;
     Vector2 shootDir;
-    public Transform startingTransform;
+    public Quaternion startingRot;
 
     public TextMeshProUGUI reloadingText;
 
@@ -49,21 +49,33 @@ public class ArmsScript : MonoBehaviour
         currentAmmo = currentWeapon.clipSize;
         reloadingText.alpha = 0;
 
-        startingTransform = transform;
+        // startingTransform = transform;
 
         shootDir = new Vector3(0, 0, 0);
+
+    }
+
+    public void Start()
+    {
+
+    	startingRot = transform.rotation;
 
     }
 
     public void OnEnable()
     {
 
+    	if(GameManager.Instance.isGameStarted)
 
+		{	
+
+    	facing = startingRot;
         shootDir = new Vector2(0, 0);
 
         rotation = Quaternion.LookRotation(Vector3.forward, -shootDir);
         rotation *= facing;
         transform.rotation = rotation;
+    	}
 
         /*transform.rotation = startingTransform.rotation;
         transform.position = startingTransform.position;
