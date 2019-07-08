@@ -100,7 +100,7 @@ public class ArmsScript : MonoBehaviour
 
             facing = startingRot;
             shootDir = new Vector2(0, 0);
-
+            aim = shootDir;
             rotation = Quaternion.LookRotation(Vector3.forward, -shootDir);
             rotation *= facing;
             transform.rotation = rotation;
