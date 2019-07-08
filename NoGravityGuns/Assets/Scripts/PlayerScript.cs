@@ -116,22 +116,26 @@ public class PlayerScript : MonoBehaviour
         {
             case GunType.pistol:
                 pistolArms.SetActive(true);
-                pistolArms.GetComponent<ArmsScript>().SetOnEquip();
+                //pistolArms.GetComponent<ArmsScript>().SetOnEquip();
+                pistolArms.GetComponent<ArmsScript>().PickupWeapon();
                 pistolArms.GetComponent<ArmsScript>().isReloading = false;
                 break;
             case GunType.assaultRifle:
                 assaultRifleArms.SetActive(true);
-                pistolArms.GetComponent<ArmsScript>().SetOnEquip();
+                assaultRifleArms.GetComponent<ArmsScript>().PickupWeapon();
+                //pistolArms.GetComponent<ArmsScript>().SetOnEquip();
                 assaultRifleArms.GetComponent<ArmsScript>().isReloading = false;
                 break;
             case GunType.LMG:
                 LMGArms.SetActive(true);
-                pistolArms.GetComponent<ArmsScript>().SetOnEquip();
+                //pistolArms.GetComponent<ArmsScript>().SetOnEquip();
+                LMGArms.GetComponent<ArmsScript>().PickupWeapon();
                 LMGArms.GetComponent<ArmsScript>().isReloading = false;
                 break;
             case GunType.shotgun:
                 shotGunArms.SetActive(true);
-                pistolArms.GetComponent<ArmsScript>().SetOnEquip();
+                //pistolArms.GetComponent<ArmsScript>().SetOnEquip();
+                shotGunArms.GetComponent<ArmsScript>().PickupWeapon();
                 shotGunArms.GetComponent<ArmsScript>().isReloading = false;
                 break;
             default:

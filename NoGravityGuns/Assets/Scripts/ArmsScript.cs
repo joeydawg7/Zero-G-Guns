@@ -34,10 +34,13 @@ public class ArmsScript : MonoBehaviour
     Quaternion rotation;
     Vector2 shootDir;
     public Quaternion startingRot;
+    public Vector3 startingEulers;
 
     public TextMeshProUGUI reloadingText;
 
     public bool isReloading;
+
+    
 
     private void Awake()
     {
@@ -58,10 +61,23 @@ public class ArmsScript : MonoBehaviour
     public void Start()
     {
 
-        startingRot = transform.rotation;
+        startingEulers = transform.eulerAngles;
+
 
     }
 
+
+
+    IEnumerator PickupWeaponDelay()
+    {
+        yield return new WaitForSeconds(0.1f);
+    }
+
+
+    public void PickupWeapon()
+    {
+        StartCoroutine(PickupWeaponDelay());
+    }
     //public void OnEnable()
     //{
 
