@@ -51,6 +51,8 @@ public class ArmsScript : MonoBehaviour
 
         startingTransform = transform;
 
+        shootDir = new Vector3(0, 0, 0);
+
     }
 
     public void OnEnable()
@@ -134,7 +136,7 @@ public class ArmsScript : MonoBehaviour
                     //aim = new Vector3(Input.GetAxis(horizontalAxis), Input.GetAxis(verticalAxis), 0).normalized;
                     aim = shootDir;
                 }
-                if (aim.magnitude != 0)
+                if (aim.sqrMagnitude >= 0.1f)
                 {
                     if (timeSinceLastShot >= currentWeapon.recoilDelay)
                     {
