@@ -8,12 +8,12 @@ public class Bullet : MonoBehaviour
     float damage;
     public GameObject sparkyBoom;
 
-
-
     int playerID;
 
 
     bool canImapact;
+
+    public GameObject somethingSexy;
 
 
     private void Awake()
@@ -21,10 +21,18 @@ public class Bullet : MonoBehaviour
         canImapact = false;
     }
 
-    public void Construct(int playerID, float damage, GameObject player)
+    private void Start()
+    {
+        //kill the gameobject after 20 seconds in case it makes it this far without hitting a wall
+        Destroy(gameObject, 20f);
+    }
+
+    public void Construct(int playerID, float damage, GameObject player, Sprite bulletSprite)
     {
         this.playerID = playerID;
         this.damage = damage;
+
+        GetComponent<SpriteRenderer>().sprite = bulletSprite;
 
         foreach (var collider in player.GetComponentsInChildren<Collider2D>())
         {
@@ -74,9 +82,11 @@ public class Bullet : MonoBehaviour
 
                 sparkyObj.transform.position = transform.position;
                 sparkyObj.GetComponent<ParticleSystem>().Emit(100);
+
+                somethingSexy.GetComponent<ParticleSystem>().Stop();
+                somethingSexy.transform.parent = null;
+
                 Destroy(sparkyObj, 0.2f);
-
-
                 Destroy(gameObject, 0.16f);
             }
 

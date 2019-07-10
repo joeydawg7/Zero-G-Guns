@@ -9,37 +9,24 @@ public class PlayerScript : MonoBehaviour
 
     public int health;
 
+    [Header("Gui")]
     public Image healthBar;
-
-    public bool isDead;
     public TextMeshProUGUI statusText;
-    public Vector3 spawnPoint;
 
-    public float turnSpeed;
-
-    Rigidbody2D rb;
-    AudioSource audioSource;
-    float angle;
-
-    public string horizontalAxis;
-    public string verticalAxis;
-
-    Quaternion targetRotation;
-
+    [Header("Controller Stuff")]
     public int playerID;
+    public string BButton;
 
-    public int numKills;
-
-    const float HEADSHOT_MULTIPLIER = 2f;
-    const float TORSOSHOT_MULTIPLIER = 1f;
-    const float FOOTSHOT_MULTIPLIER = 0.5f;
-    const float LEGSHOT_MULTIPLIER = 0.75f;
-
+    [HideInInspector]
     public enum DamageType { head, torso, legs, feet };
-
+    [HideInInspector]
     public enum GunType { pistol, assaultRifle, LMG, shotgun, healthPack };
 
-    public Sprite spriteColor;
+
+
+    [Header("Bools")]
+    public bool isDead;
+    public bool isInvulnerable;
 
     [Header("AudioClips")]
     public AudioClip headShot;
@@ -50,6 +37,25 @@ public class PlayerScript : MonoBehaviour
     public GameObject assaultRifleArms;
     public GameObject LMGArms;
     public GameObject shotGunArms;
+    public ArmsScript armsScript;
+
+    [Header("Spawning and kills")]
+    public Vector3 spawnPoint;
+    public Color32 invulnerabilityColorFlash;
+    public float invulnerablityTime;
+    public int numKills;
+
+    //Private
+    Quaternion targetRotation;
+    Color32 defaultColor;
+    Rigidbody2D rb;
+    AudioSource audioSource;
+    float angle;
+
+    const float HEADSHOT_MULTIPLIER = 2f;
+    const float TORSOSHOT_MULTIPLIER = 1f;
+    const float FOOTSHOT_MULTIPLIER = 0.5f;
+    const float LEGSHOT_MULTIPLIER = 0.75f;
 
     private void Awake()
     {
@@ -63,7 +69,7 @@ public class PlayerScript : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         audioSource = GetComponent<AudioSource>();
         numKills = 0;
-
+        defaultColor = GetComponent<SpriteRenderer>().color;
     }
 
     // Update is called once per frame
@@ -78,6 +84,12 @@ public class PlayerScript : MonoBehaviour
         {
             TakeDamage(50, DamageType.torso, 0);
         }
+    }
+
+    private void Update()
+    {
+        if (GameManager.Instance.isGameStarted && Input.GetButton(BButton))
+            EquipArms(GunType.pistol, GameManager.Instance.pistol);
     }
 
     public void OnGameStart()
@@ -99,28 +111,28 @@ public class PlayerScript : MonoBehaviour
         LMGArms.SetActive(false);
     }
 
-    public void EquipArms(GunType gunType)
+    public void EquipArms(GunType gunType, GunSO gun)
     {
         HideAllArms();
 
         switch (gunType)
         {
             case GunType.pistol:
-                pistolArms.GetComponent<ArmsScript>().SetActivePistol(); 
-                pistolArms.GetComponent<ArmsScript>().isReloading = false;
+                pistolArms.SetActive(true);
+                armsScript.EquipGun(gun, pistolArms);
                 //code here to actually refill bullets to stop crap from hapening that is bad
                 break;
             case GunType.assaultRifle:
                 assaultRifleArms.SetActive(true);
-                assaultRifleArms.GetComponent<ArmsScript>().isReloading = false;
+                armsScript.EquipGun(gun, assaultRifleArms);
                 break;
             case GunType.LMG:
                 LMGArms.SetActive(true);
-                LMGArms.GetComponent<ArmsScript>().isReloading = false;
+                armsScript.EquipGun(gun, LMGArms);
                 break;
             case GunType.shotgun:
                 shotGunArms.SetActive(true);
-                shotGunArms.GetComponent<ArmsScript>().isReloading = false;
+                armsScript.EquipGun(gun, shotGunArms);
                 break;
             default:
                 break;
@@ -131,49 +143,21 @@ public class PlayerScript : MonoBehaviour
 
     void HideAllArms()
     {
-        foreach (Transform child in transform)
+        foreach (Transform child in armsScript.gameObject.transform)
         {
-            if (child.tag == "Arms")
+            if (child.tag == "Gun")
             {
-                if (child.GetComponent<ArmsScript>().currentWeapon.GunType == GunType.pistol)
-                {
-                    child.GetComponent<ArmsScript>().SetInactive();
-                }
+                child.gameObject.SetActive(false);
+
             }
         }
     }
 
 
-    //void CalculateDirection()
-    //{
-    //    angle = Mathf.Atan2(Input.GetAxis(horizontalAxis), Input.GetAxis(verticalAxis));
-    //    angle = Mathf.Rad2Deg * angle;
-    //    angle += Camera.main.transform.eulerAngles.y;
-    //}
-
-    //void Rotate()
-    //{
-    //    targetRotation = Quaternion.Euler(0, 0, -angle);
-    //    transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, turnSpeed * Time.deltaTime);
-    //}
-
-
-    private void OnDrawGizmos()
-    {
-        Vector2 shootDir = Vector2.right * Input.GetAxis(horizontalAxis) + Vector2.up * Input.GetAxis(verticalAxis);
-
-        float angle = Vector2.SignedAngle(transform.position, shootDir);
-
-        Ray ray = new Ray();
-        ray.origin = transform.position;
-        ray.direction = shootDir;
-        Gizmos.DrawRay(ray);
-    }
-
 
     public void TakeDamage(float damage, DamageType damageType, int attackerID)
     {
-        if (!isDead)
+        if (!isDead && !isInvulnerable)
         {
             switch (damageType)
             {
@@ -225,7 +209,7 @@ public class PlayerScript : MonoBehaviour
     {
         audioSource.PlayOneShot(SFX);
 
-        if (!isDead)
+        if (!isDead && !isInvulnerable)
         {
             switch (damageType)
             {
@@ -301,9 +285,30 @@ public class PlayerScript : MonoBehaviour
         rb.rotation = 0;
         isDead = false;
 
-        StopAllCoroutines();
-        EquipArms(GunType.pistol);
+        EquipArms(GunType.pistol, GameManager.Instance.pistol);
+        StartCoroutine(RespawnInvulernability());
 
+    }
+
+    IEnumerator RespawnInvulernability()
+    {
+        isInvulnerable = true;
+
+        float invulnerabilityFlashIncriments = (float)invulnerablityTime / 6f;
+
+        for (int i = 0; i < invulnerablityTime; i++)
+        {
+            GetComponent<SpriteRenderer>().color = invulnerabilityColorFlash;
+            yield return new WaitForSeconds(invulnerabilityFlashIncriments);
+            GetComponent<SpriteRenderer>().color = defaultColor;
+            yield return new WaitForSeconds(invulnerabilityFlashIncriments);
+            GetComponent<SpriteRenderer>().color = invulnerabilityColorFlash;
+            yield return new WaitForSeconds(invulnerabilityFlashIncriments);
+            GetComponent<SpriteRenderer>().color = defaultColor;
+        }
+
+        GetComponent<SpriteRenderer>().color = defaultColor;
+        isInvulnerable = false;
     }
 
     public void SetControllerNumber(int number)
@@ -316,9 +321,11 @@ public class PlayerScript : MonoBehaviour
         {
             if (child.tag == "Arms")
             {
-                child.GetComponent<ArmsScript>().triggerAXis = "J" + playerID + "Trigger";
+                child.GetComponent<ArmsScript>().triggerAxis = "J" + playerID + "Trigger";
                 child.GetComponent<ArmsScript>().horizontalAxis = "J" + playerID + "Horizontal";
                 child.GetComponent<ArmsScript>().verticalAxis = "J" + playerID + "Vertical";
+                child.GetComponent<ArmsScript>().XButton = "J" + playerID + "X";
+                BButton = "J" + playerID + "B";
 
                 child.GetComponent<ArmsScript>().SetChildrenWithAxis(playerID);
             }

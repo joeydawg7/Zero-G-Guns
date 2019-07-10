@@ -28,6 +28,8 @@ public class GunSO : ScriptableObject
     public float cameraShakeDuration;
 
     public List<AudioClip> bulletSounds;
+    public AudioClip reloadSound;
+
     public GameObject projectile;
 
 

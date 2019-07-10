@@ -17,6 +17,9 @@ public class GameManager : MonoBehaviour
     public JoiningPlayerScript joiningPlayerScript;
 
     public GunSO pistol;
+    public GunSO shotgun;
+    public GunSO LMG;
+    public GunSO assaultRifle;
 
     public float matchTime;
 
@@ -38,14 +41,11 @@ public class GameManager : MonoBehaviour
 
         isGameStarted = false;
 
-        
     }
 
 
     public void StartGame()
     {
-        Debug.Log("ytea");
-
         for (int i = 0; i < players.Count; i++)
         {
             players[i].OnGameStart();

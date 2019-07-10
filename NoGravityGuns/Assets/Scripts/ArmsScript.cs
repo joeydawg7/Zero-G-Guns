@@ -18,7 +18,9 @@ public class ArmsScript : MonoBehaviour
 
     public string horizontalAxis;
     public string verticalAxis;
-    public string triggerAXis;
+    public string triggerAxis;
+    public string XButton;
+    
 
     public GunSO currentWeapon;
 
@@ -33,24 +35,22 @@ public class ArmsScript : MonoBehaviour
     Quaternion facing;
     Quaternion rotation;
     Vector2 shootDir;
-    public Quaternion startingRot;
-    public Vector3 startingEulers;
+
 
     public TextMeshProUGUI reloadingText;
 
     public bool isReloading;
 
-    bool canRotateGun;
-
     public bool canShoot;
     public Color32 invisible;
     Color32 startingColor;
+
+    public Sprite bulletSprite;
 
     private void Awake()
     {
         timeSinceLastShot = 0;
         currentRecoil = 0;
-        canRotateGun = true;
 
         facing = transform.rotation;
         currentClips = int.MaxValue;
@@ -59,55 +59,7 @@ public class ArmsScript : MonoBehaviour
 
         canShoot = true;
 
-        // startingTransform = transform;
-
         shootDir = new Vector3(0, 0, 0);
-
-    }
-
-    public void Start()
-    {
-
-        startingEulers = transform.eulerAngles;
-
-
-    }
-
-
-
-    IEnumerator PickupWeaponDelay()
-    {
-        canRotateGun = false;
-        SetOnEquip();
-        yield return new WaitForSeconds(0.1f);
-
-        canRotateGun = true;
-        Debug.Log(canRotateGun);
-    }
-
-
-    //public void OnEnable()
-    //{
-
-
-    //    /*transform.rotation = startingTransform.rotation;
-    //    transform.position = startingTransform.position;
-    //    transform.localScale = startingTransform.localScale;*/
-    //}
-
-
-    public void SetOnEquip()
-    {
-        if (GameManager.Instance.isGameStarted)
-        {
-
-            facing = startingRot;
-            //shootDir = new Vector2(0, 0);
-            //aim = shootDir;
-            rotation = Quaternion.LookRotation(Vector3.forward, -shootDir);
-            rotation *= facing;
-            transform.rotation = rotation;
-        }
 
     }
 
@@ -118,7 +70,7 @@ public class ArmsScript : MonoBehaviour
         {
             if (child.tag == "Arms")
             {
-                child.GetComponent<ArmsScript>().triggerAXis = "J" + playerID + "Trigger";
+                child.GetComponent<ArmsScript>().triggerAxis = "J" + playerID + "Trigger";
                 child.GetComponent<ArmsScript>().horizontalAxis = "J" + playerID + "Horizontal";
                 child.GetComponent<ArmsScript>().verticalAxis = "J" + playerID + "Vertical";
 
@@ -129,12 +81,17 @@ public class ArmsScript : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-
-
         Ray ray = new Ray();
         ray.origin = transform.position;
         ray.direction = calibrationVector;
         Gizmos.DrawRay(ray);
+
+    }
+
+    private void Update()
+    {
+        if (GameManager.Instance.isGameStarted && Input.GetButton(XButton) && !isReloading && currentAmmo < currentWeapon.clipSize )
+            StartCoroutine(Reload());
 
     }
 
@@ -146,10 +103,13 @@ public class ArmsScript : MonoBehaviour
     }
 
 
-    private void OnDisable()
+    public void EquipGun(GunSO weaponToEquip, GameObject gunObj)
     {
-        shootDir = new Vector3(0, 0, 0);
-        aim = shootDir;
+        currentWeapon = weaponToEquip;
+        currentClips = weaponToEquip.clipNum;
+        currentAmmo = weaponToEquip.clipSize;
+        isReloading = false;
+        bulletSpawn = gunObj.transform.Find("BulletSpawner");
     }
 
 
@@ -180,7 +140,7 @@ public class ArmsScript : MonoBehaviour
             rotation *= facing;
             transform.rotation = rotation;
 
-            if (Input.GetAxisRaw(triggerAXis) > 0 && !isReloading)
+            if (Input.GetAxisRaw(triggerAxis) > 0 && !isReloading)
             {
 
                 if (Input.GetAxis(horizontalAxis) != 0 || Input.GetAxis(verticalAxis) != 0)
@@ -223,28 +183,6 @@ public class ArmsScript : MonoBehaviour
         }
     }
 
-    public void SetInactive()
-    {
-        canShoot = false;
-        startingColor = GetComponent<SpriteRenderer>().color;
-        //GetComponent<SpriteRenderer>().color = invisible;
-
-        foreach (Transform child in transform)
-        {
-            if (child.tag == "Arms")
-            {
-
-                //child.gameObject.GetComponent<ArmsScript>().SetOnEquip();
-                child.gameObject.SetActive(false);
-            }
-        }
-    }
-
-    public void SetActivePistol()
-    {
-        canShoot = true;
-        GetComponent<SpriteRenderer>().color = startingColor;
-    }
 
     void KnockBack(Vector2 shootDir)
     {
@@ -277,7 +215,7 @@ public class ArmsScript : MonoBehaviour
     void SpawnBullet()
     {
         Rigidbody2D bullet = (Rigidbody2D)Instantiate(projectile, bulletSpawnPoint, Quaternion.LookRotation(Vector3.forward, -shootDir));
-        bullet.GetComponent<Bullet>().Construct(basePlayer.GetComponent<PlayerScript>().playerID, currentWeapon.GunDamage, basePlayer);
+        bullet.GetComponent<Bullet>().Construct(basePlayer.GetComponent<PlayerScript>().playerID, currentWeapon.GunDamage, basePlayer, bulletSprite);
 
         Vector3 dir = -Vector2.up * currentWeapon.bulletSpeed;
         bullet.AddRelativeForce(dir, ForceMode2D.Force);
@@ -287,28 +225,57 @@ public class ArmsScript : MonoBehaviour
 
     IEnumerator Reload()
     {
+        currentClips--;
+
+        if (currentClips < 0)
+        {
+            //if its our last clip no need to reload just drop the gun
+            basePlayer.GetComponent<PlayerScript>().EquipArms(PlayerScript.GunType.pistol, GameManager.Instance.pistol);
+            yield return null;
+        }
+
         isReloading = true;
         reloadingText.alpha = 1;
 
         float reloadtimeIncrememnts = (float)currentWeapon.reloadTime / 6;
 
-        for (int i = 0; i < currentWeapon.reloadTime; i++)
+        //change sfx type base on reload type of the gun
+        if (currentWeapon.GunType == PlayerScript.GunType.LMG || currentWeapon.GunType == PlayerScript.GunType.shotgun)
         {
-            yield return new WaitForSeconds(reloadtimeIncrememnts);
-            reloadingText.text = "Reloading.";
-            yield return new WaitForSeconds(reloadtimeIncrememnts);
-            reloadingText.text = "Reloading..";
-            yield return new WaitForSeconds(reloadtimeIncrememnts);
-            reloadingText.text = "Reloading...";
+            for (int i = 0; i < currentWeapon.reloadTime; i++)
+            {
+                yield return new WaitForSeconds(reloadtimeIncrememnts);
+                GetComponent<AudioSource>().PlayOneShot(currentWeapon.reloadSound);
+                reloadingText.text = "Reloading.";
+                yield return new WaitForSeconds(reloadtimeIncrememnts);
+                GetComponent<AudioSource>().PlayOneShot(currentWeapon.reloadSound);
+                reloadingText.text = "Reloading..";
+                yield return new WaitForSeconds(reloadtimeIncrememnts);
+                GetComponent<AudioSource>().PlayOneShot(currentWeapon.reloadSound);
+                reloadingText.text = "Reloading...";
+            }
+        }
+        else
+        {
+            GetComponent<AudioSource>().PlayOneShot(currentWeapon.reloadSound);
+
+            for (int i = 0; i < currentWeapon.reloadTime; i++)
+            {
+                yield return new WaitForSeconds(reloadtimeIncrememnts);
+                reloadingText.text = "Reloading.";
+                yield return new WaitForSeconds(reloadtimeIncrememnts);
+                reloadingText.text = "Reloading..";
+                yield return new WaitForSeconds(reloadtimeIncrememnts);
+                reloadingText.text = "Reloading...";
+            }
         }
 
         isReloading = false;
-        currentClips--;
+        
         currentAmmo = currentWeapon.clipSize;
         reloadingText.alpha = 0;
 
-        if (currentClips <= 0)
-            basePlayer.GetComponent<PlayerScript>().EquipArms(PlayerScript.GunType.pistol);
+       
 
     }
 
@@ -373,7 +340,7 @@ public class ArmsScript : MonoBehaviour
             float offset = Random.Range(-2.5f, 2.5f) * angle;
 
             Rigidbody2D bullet = (Rigidbody2D)Instantiate(projectile, bulletSpawnPoint, Quaternion.LookRotation(Vector3.forward, -shootDir));
-            bullet.GetComponent<Bullet>().Construct(basePlayer.GetComponent<PlayerScript>().playerID, currentWeapon.GunDamage, basePlayer);
+            bullet.GetComponent<Bullet>().Construct(basePlayer.GetComponent<PlayerScript>().playerID, currentWeapon.GunDamage, basePlayer, bulletSprite);
 
 
             Vector3 dir = -Vector2.up * currentWeapon.bulletSpeed;

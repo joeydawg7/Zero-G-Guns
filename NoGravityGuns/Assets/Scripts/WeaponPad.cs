@@ -56,30 +56,28 @@ public class WeaponPad : MonoBehaviour
 
             if (currentWeapon.GunType == PlayerScript.GunType.healthPack)
             {
-                if (player.health < 100)
-                {
-                    player.TakeDamage(currentWeapon.GunDamage, PlayerScript.DamageType.torso, 0, healthKitSFX);
-                }
+
+                player.TakeDamage(currentWeapon.GunDamage, PlayerScript.DamageType.torso, 0, healthKitSFX);
+
             }
             else
             {
-                player.EquipArms(currentWeapon.GunType);
-
+                player.EquipArms(currentWeapon.GunType, currentWeapon);
+                GetComponent<AudioSource>().PlayOneShot(pickupSFX);
             }
 
             GetComponent<SpriteRenderer>().sprite = emptyPad;
             timer = 0;
             timeToNextSpawn = Random.Range(5, 25f);
-            weaponToSpawn = potentialGunsToSpawn[Random.Range(0, potentialGunsToSpawn.Count)];
-            GetComponent<AudioSource>().PlayOneShot(pickupSFX);
+            weaponToSpawn = potentialGunsToSpawn[Random.Range(0, potentialGunsToSpawn.Count)];            
             currentWeapon = null;
             hasWeapon = false;
 
         }
     }
 
-   /* private void  (Collider2D collision)
-    {
-       
-    }*/
+    /* private void  (Collider2D collision)
+     {
+
+     }*/
 }
