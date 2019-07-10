@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System;
 
 public class ArmsScript : MonoBehaviour
 {
@@ -36,7 +37,7 @@ public class ArmsScript : MonoBehaviour
     Quaternion rotation;
     Vector2 shootDir;
 
-    AudioSource audio;
+    AudioSource audioS;
 
     public TextMeshProUGUI reloadingText;
 
@@ -48,6 +49,10 @@ public class ArmsScript : MonoBehaviour
 
     public Sprite bulletSprite;
 
+    public AudioClip dryFire;
+
+    public TextMeshProUGUI gunAndAmmo;
+
     private void Awake()
     {
         timeSinceLastShot = 0;
@@ -57,11 +62,14 @@ public class ArmsScript : MonoBehaviour
         currentClips = int.MaxValue;
         currentAmmo = currentWeapon.clipSize;
 
-        audio = GetComponent<AudioSource>();
+        audioS = GetComponent<AudioSource>();
 
         canShoot = true;
 
         shootDir = new Vector3(0, 0, 0);
+
+        gunAndAmmo.text = GetGunsAndAmmoText();
+        gunAndAmmo.alpha = 0;
 
     }
 
@@ -132,6 +140,7 @@ public class ArmsScript : MonoBehaviour
         currentAmmo = weaponToEquip.clipSize;
         isReloading = false;
         bulletSpawn = gunObj.transform.Find("BulletSpawner");
+        gunAndAmmo.text = GetGunsAndAmmoText();
     }
 
 
@@ -161,6 +170,15 @@ public class ArmsScript : MonoBehaviour
             rotation = Quaternion.LookRotation(Vector3.forward, -shootDir);
             rotation *= facing;
             transform.rotation = rotation;
+
+            if (Input.GetAxisRaw(triggerAxis) > 0 && isReloading)
+            {
+                if (timeSinceLastShot >= currentWeapon.recoilDelay)
+                {
+                    audioS.PlayOneShot(dryFire);
+                    timeSinceLastShot = 0;
+                }
+            }
 
             if (Input.GetAxisRaw(triggerAxis) > 0 && !isReloading)
             {
@@ -197,12 +215,20 @@ public class ArmsScript : MonoBehaviour
 
                             //add force to player in opposite direction of shot
                             KnockBack(shootDir);
+
+                            gunAndAmmo.text = GetGunsAndAmmoText();
                         }
                     }
                 }
 
             }
         }
+    }
+
+    public string GetGunsAndAmmoText()
+    {
+        return gunAndAmmo.text = currentWeapon.name + ": " + currentAmmo + "/" + currentWeapon.clipSize + " (" + ((currentClips < 2000) ? currentClips.ToString() : "\u221E") + 
+            "/" + ((currentWeapon.clipNum < 2000) ? currentWeapon.clipNum.ToString() : "\u221E") + ")";
     }
 
 
@@ -216,7 +242,7 @@ public class ArmsScript : MonoBehaviour
     void ShootyGunTemp()
     {
         //cone of -1 to 1 multiplied by current recoil amount to determine just how random it can be
-        float recoilMod = Random.Range(-1f, 1f) * currentRecoil;
+        float recoilMod = UnityEngine.Random.Range(-1f, 1f) * currentRecoil;
 
         bulletSpawnPoint = new Vector3(bulletSpawnPoint.x, bulletSpawnPoint.y);
 
@@ -231,7 +257,7 @@ public class ArmsScript : MonoBehaviour
             StartCoroutine(Reload());
         }
 
-        audio.PlayOneShot(currentWeapon.GetRandomGunshotSFX);
+        audioS.PlayOneShot(currentWeapon.GetRandomGunshotSFX);
     }
 
     void SpawnBullet()
@@ -258,11 +284,12 @@ public class ArmsScript : MonoBehaviour
 
         isReloading = true;
         reloadingText.alpha = 1;
+        gunAndAmmo.text = "Reloading...";
 
         float reloadtimeIncrememnts = (float)currentWeapon.reloadTime / 6;
 
         //change sfx type base on reload type of the gun
-        if (currentWeapon.GunType == PlayerScript.GunType.LMG || currentWeapon.GunType == PlayerScript.GunType.shotgun)
+        if (currentWeapon.GunType == PlayerScript.GunType.LMG )
         {
             for (int i = 0; i < currentWeapon.reloadTime; i++)
             {
@@ -275,13 +302,26 @@ public class ArmsScript : MonoBehaviour
                 yield return new WaitForSeconds(reloadtimeIncrememnts);
                 GetComponent<AudioSource>().PlayOneShot(currentWeapon.reloadSound);
                 reloadingText.text = "Reloading...";
+            }
+        }
+        else if (currentWeapon.GunType == PlayerScript.GunType.shotgun)
+        {
+
+
+            reloadtimeIncrememnts = (currentWeapon.reloadTime / ((float)currentAmmo+1) )/2;
+
+            int shotsToLoad = Mathf.Abs(currentAmmo - currentWeapon.clipSize);
+
+            for (int i = 0; i < shotsToLoad; i++)
+            {             
+                GetComponent<AudioSource>().PlayOneShot(currentWeapon.reloadSound);
+                yield return new WaitForSeconds(reloadtimeIncrememnts);
+                reloadingText.text = "Reloading..." ;
             }
         }
         else
         {
-            if (audio.isPlaying)
-                audio.Stop();
-            audio.PlayOneShot(currentWeapon.reloadSound);
+            audioS.PlayOneShot(currentWeapon.reloadSound);
 
             for (int i = 0; i < currentWeapon.reloadTime; i++)
             {
@@ -294,12 +334,12 @@ public class ArmsScript : MonoBehaviour
             }
         }
 
-        isReloading = false;
-
+        isReloading = false;       
         currentAmmo = currentWeapon.clipSize;
         reloadingText.alpha = 0;
 
-
+        //do last
+        gunAndAmmo.text = GetGunsAndAmmoText();
 
     }
 
@@ -308,7 +348,7 @@ public class ArmsScript : MonoBehaviour
         for (int i = 0; i < 3; i++)
         {
             //cone of -1 to 1 multiplied by current recoil amount to determine just how random it can be
-            float recoilMod = Random.Range(-1f, 1f) * currentRecoil;
+            float recoilMod = UnityEngine.Random.Range(-1f, 1f) * currentRecoil;
 
             bulletSpawnPoint = new Vector3(bulletSpawnPoint.x, bulletSpawnPoint.y);
 
@@ -318,10 +358,10 @@ public class ArmsScript : MonoBehaviour
 
             currentAmmo--;
 
-            if (audio.isPlaying)
-                audio.Stop();
+            if (audioS.isPlaying)
+                audioS.Stop();
 
-            audio.PlayOneShot(currentWeapon.GetRandomGunshotSFX);
+            audioS.PlayOneShot(currentWeapon.GetRandomGunshotSFX);
 
 
             yield return new WaitForSeconds(0.08f);
@@ -339,7 +379,7 @@ public class ArmsScript : MonoBehaviour
         currentAmmo--;
 
         //cone of -1 to 1 multiplied by current recoil amount to determine just how random it can be
-        float recoilMod = Random.Range(-1f, 1f) * currentRecoil;
+        float recoilMod = UnityEngine.Random.Range(-1f, 1f) * currentRecoil;
 
         bulletSpawnPoint = new Vector3(bulletSpawnPoint.x, bulletSpawnPoint.y);
 
@@ -347,9 +387,9 @@ public class ArmsScript : MonoBehaviour
 
         SpawnBuckShot();
 
-        if (audio.isPlaying)
-            audio.Stop();
-        audio.PlayOneShot(currentWeapon.GetRandomGunshotSFX);
+        if (audioS.isPlaying)
+            audioS.Stop();
+        audioS.PlayOneShot(currentWeapon.GetRandomGunshotSFX);
 
 
         if (currentAmmo <= 0)
@@ -361,11 +401,11 @@ public class ArmsScript : MonoBehaviour
 
     void SpawnBuckShot()
     {
-        for (int i = 0; i < Random.Range(5, 8); i++)
+        for (int i = 0; i < UnityEngine.Random.Range(5, 8); i++)
         {
             float angle = Vector2.SignedAngle(transform.position, aim);
 
-            float offset = Random.Range(-2.5f, 2.5f) * angle;
+            float offset = UnityEngine.Random.Range(-2.5f, 2.5f) * angle;
 
             Rigidbody2D bullet = (Rigidbody2D)Instantiate(projectile, bulletSpawnPoint, Quaternion.LookRotation(Vector3.forward, -shootDir));
             bullet.GetComponent<Bullet>().Construct(basePlayer.GetComponent<PlayerScript>().playerID, currentWeapon.GunDamage, basePlayer, bulletSprite);

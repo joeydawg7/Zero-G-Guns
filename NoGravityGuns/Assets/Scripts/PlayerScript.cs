@@ -12,6 +12,7 @@ public class PlayerScript : MonoBehaviour
     [Header("Gui")]
     public Image healthBar;
     public TextMeshProUGUI statusText;
+    
 
     [Header("Controller Stuff")]
     public int playerID;
@@ -111,12 +112,14 @@ public class PlayerScript : MonoBehaviour
         float barVal = ((float)health / 100f);
         healthBar.fillAmount = barVal;
         isDead = false;
-        statusText.text = "";
+        statusText.text = playerName;
         numKills = 0;
 
         assaultRifleArms.SetActive(false);
         shotGunArms.SetActive(false);
         LMGArms.SetActive(false);
+        armsScript.gunAndAmmo.alpha = 1;
+        StartCoroutine(RespawnInvulernability());
     }
 
     public void EquipArms(GunType gunType, GunSO gun)
@@ -145,6 +148,8 @@ public class PlayerScript : MonoBehaviour
             default:
                 break;
         }
+
+        armsScript.gunAndAmmo.text = armsScript.GetGunsAndAmmoText();
 
 
     }
