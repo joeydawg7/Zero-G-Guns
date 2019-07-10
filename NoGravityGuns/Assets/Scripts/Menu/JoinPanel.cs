@@ -11,21 +11,39 @@ public class JoinPanel : MonoBehaviour
 
     public PlayerScript player;
     public TextMeshProUGUI MainText;
-    public Color32 panelSelectedColor;
+
+    Image image;
+
+    public Sprite readySprite;
+    public Sprite notReadySprite;
 
     private void Awake()
     {
+        image = GetComponent<Image>();
         hasAssignedController = false;
         MainText.text = "Press A to Join";
+        
     }
+
 
     public PlayerScript AssignController(int controller)
     {
-        GetComponent<Image>().color = panelSelectedColor;
+        image.sprite = readySprite;
         MainText.text = "Player " + controller + " joined!";
         hasAssignedController = true;
 
         player.SetControllerNumber(controller);
+
+        return player;
+    }
+
+    public PlayerScript UnAssignController(int controller)
+    {
+        image.sprite = notReadySprite;
+        MainText.text = "Press A to join";
+        hasAssignedController = false;
+
+        player.UnsetControllerNumber(controller);
 
         return player;
     }

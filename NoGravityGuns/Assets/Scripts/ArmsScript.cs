@@ -20,7 +20,7 @@ public class ArmsScript : MonoBehaviour
     public string verticalAxis;
     public string triggerAxis;
     public string XButton;
-    
+
 
     public GunSO currentWeapon;
 
@@ -36,6 +36,7 @@ public class ArmsScript : MonoBehaviour
     Quaternion rotation;
     Vector2 shootDir;
 
+    AudioSource audio;
 
     public TextMeshProUGUI reloadingText;
 
@@ -55,7 +56,8 @@ public class ArmsScript : MonoBehaviour
         facing = transform.rotation;
         currentClips = int.MaxValue;
         currentAmmo = currentWeapon.clipSize;
-        reloadingText.alpha = 0;
+
+        audio = GetComponent<AudioSource>();
 
         canShoot = true;
 
@@ -63,52 +65,10 @@ public class ArmsScript : MonoBehaviour
 
     }
 
-
-    // public void Start()
-    // {
-
-    //     startingEulers = transform.eulerAngles;
-
-
-    // }
-
-
-
-    // IEnumerator PickupWeaponDelay()
-    // {
-    //     canRotateGun = false;
-    //     SetOnEquip();
-    //     yield return new WaitForSeconds(0.1f);
-
-    //     canRotateGun = true;
-    //     Debug.Log(canRotateGun);
-    // }
-
-
-    // //public void OnEnable()
-    // //{
-
-
-    // //    /*transform.rotation = startingTransform.rotation;
-    // //    transform.position = startingTransform.position;
-    // //    transform.localScale = startingTransform.localScale;*/
-    // //}
-
-
-    // public void SetOnEquip()
-    // {
-    //     if (GameManager.Instance.isGameStarted)
-    //     {
-
-    //         facing = startingRot;
-    //         //shootDir = new Vector2(0, 0);
-    //         //aim = shootDir;
-    //         rotation = Quaternion.LookRotation(Vector3.forward, -shootDir);
-    //         rotation *= facing;
-    //         transform.rotation = rotation;
-    //     }
-
-    // }
+    private void Start()
+    {
+        reloadingText.alpha = 0;
+    }
 
 
     public void SetChildrenWithAxis(int playerID)
@@ -126,6 +86,21 @@ public class ArmsScript : MonoBehaviour
 
     }
 
+    public void UnsetChildrenWithAxis(int playerID)
+    {
+        foreach (Transform child in transform)
+        {
+            if (child.tag == "Arms")
+            {
+                child.GetComponent<ArmsScript>().triggerAxis = "";
+                child.GetComponent<ArmsScript>().horizontalAxis = "";
+                child.GetComponent<ArmsScript>().verticalAxis = "";
+
+            }
+        }
+
+    }
+
     private void OnDrawGizmos()
     {
         Ray ray = new Ray();
@@ -137,7 +112,7 @@ public class ArmsScript : MonoBehaviour
 
     private void Update()
     {
-        if (GameManager.Instance.isGameStarted && Input.GetButton(XButton) && !isReloading && currentAmmo < currentWeapon.clipSize )
+        if (GameManager.Instance.isGameStarted && Input.GetButton(XButton) && !isReloading && currentAmmo < currentWeapon.clipSize)
             StartCoroutine(Reload());
 
     }
@@ -256,7 +231,7 @@ public class ArmsScript : MonoBehaviour
             StartCoroutine(Reload());
         }
 
-        GetComponent<AudioSource>().PlayOneShot(currentWeapon.GetRandomGunshotSFX);
+        audio.PlayOneShot(currentWeapon.GetRandomGunshotSFX);
     }
 
     void SpawnBullet()
@@ -304,7 +279,9 @@ public class ArmsScript : MonoBehaviour
         }
         else
         {
-            GetComponent<AudioSource>().PlayOneShot(currentWeapon.reloadSound);
+            if (audio.isPlaying)
+                audio.Stop();
+            audio.PlayOneShot(currentWeapon.reloadSound);
 
             for (int i = 0; i < currentWeapon.reloadTime; i++)
             {
@@ -318,11 +295,11 @@ public class ArmsScript : MonoBehaviour
         }
 
         isReloading = false;
-        
+
         currentAmmo = currentWeapon.clipSize;
         reloadingText.alpha = 0;
 
-       
+
 
     }
 
@@ -341,7 +318,10 @@ public class ArmsScript : MonoBehaviour
 
             currentAmmo--;
 
-            GetComponent<AudioSource>().PlayOneShot(currentWeapon.GetRandomGunshotSFX);
+            if (audio.isPlaying)
+                audio.Stop();
+
+            audio.PlayOneShot(currentWeapon.GetRandomGunshotSFX);
 
 
             yield return new WaitForSeconds(0.08f);
@@ -367,8 +347,9 @@ public class ArmsScript : MonoBehaviour
 
         SpawnBuckShot();
 
-
-        GetComponent<AudioSource>().PlayOneShot(currentWeapon.GetRandomGunshotSFX);
+        if (audio.isPlaying)
+            audio.Stop();
+        audio.PlayOneShot(currentWeapon.GetRandomGunshotSFX);
 
 
         if (currentAmmo <= 0)

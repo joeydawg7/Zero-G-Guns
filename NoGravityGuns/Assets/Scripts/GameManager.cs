@@ -24,8 +24,33 @@ public class GameManager : MonoBehaviour
     public float matchTime;
 
     public GUIManager guiManager;
+    public EndGameScript EndGameScript;
 
     public float timer;
+
+    private void OnLevelWasLoaded(int level)
+    {
+
+        players.Clear();
+
+        PlayerScript[] playersArray = FindObjectsOfType<PlayerScript>();
+
+        for (int i = 0; i < playersArray.Length; i++)
+        {
+            players.Add(playersArray[i]);
+        }
+
+        joiningPlayerScript = FindObjectOfType<JoiningPlayerScript>();
+        cameraController = FindObjectOfType<CameraController>();
+        guiManager = FindObjectOfType<GUIManager>();
+        EndGameScript = FindObjectOfType<EndGameScript>();
+
+        isGameStarted = false;
+        matchTime = 300;
+        timer = 300;
+
+
+    }
 
     private void Awake()
     {
@@ -43,12 +68,32 @@ public class GameManager : MonoBehaviour
 
     }
 
+    private void Start()
+    {
+        //loading delay to prevent fuckupery
+        StartCoroutine(Delay());
+    }
+
+    IEnumerator Delay()
+    {
+        yield return new WaitForSeconds(0.5f);
+    }
+
 
     public void StartGame()
     {
-        for (int i = 0; i < players.Count; i++)
+        for (int i = players.Count - 1; i >= 0; i--)
         {
-            players[i].OnGameStart();
+
+            if (players[i].playerID < 1)
+            {
+                players[i].gameObject.SetActive(false);
+                players.Remove(players[i]);
+            }
+            else
+            {
+                players[i].OnGameStart();
+            }
         }
 
         //camera does its shit after
@@ -64,9 +109,10 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        timer -= Time.deltaTime;
+        if(isGameStarted)
+            timer -= Time.deltaTime;
 
-        if(timer<=0 && isGameStarted)
+        if (timer <= 0 && isGameStarted)
         {
             isGameStarted = false;
             OnGameEnd();
@@ -76,28 +122,11 @@ public class GameManager : MonoBehaviour
 
     void OnGameEnd()
     {
-       List<PlayerScript> winner = DetermineWinner();
+        List<PlayerScript> winner = DetermineWinner();
 
-        if(winner.Count > 1)
-        {
-            Debug.Log("Winners are");
 
-            for (int i = 0; i < winner.Count; i++)
-            {
-                Debug.Log("Player " + winner[i].playerID);
-            }
+        EndGameScript.StartEndGame(winner);
 
-        }
-        //one winner
-        else
-        {
-            Debug.Log("Winner is");
-
-            for (int i = 0; i < winner.Count; i++)
-            {
-                Debug.Log("Player " + winner[i].playerID);
-            }
-        }
     }
 
     List<PlayerScript> DetermineWinner()
@@ -107,7 +136,7 @@ public class GameManager : MonoBehaviour
 
         for (int i = 0; i < players.Count; i++)
         {
-            if(players[i].numKills == highestkills)
+            if (players[i].numKills == highestkills)
             {
                 highestKillPlayer.Add(players[i]);
                 highestkills = players[i].numKills;

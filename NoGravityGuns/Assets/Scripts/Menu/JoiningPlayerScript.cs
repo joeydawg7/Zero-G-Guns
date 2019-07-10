@@ -17,50 +17,58 @@ public class JoiningPlayerScript : MonoBehaviour
 
     public Image[] joinPanels;
 
-    List<int> assignedControllers;
+    List<string> assignedControllers;
 
     private void Awake()
     {
         tipToStart.alpha = 0;
-        assignedControllers = new List<int>();
+        assignedControllers = new List<string>();
+        //for (int i = 0; i < joinPanels.Length; i++)
+        //{
+        //    joinPanels[i].color = emptySlotColor;
+        //}
     }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        for (int i = 0; i < joinPanels.Length; i++)
-        {
-            joinPanels[i].color = emptySlotColor;
-        }
-    }
 
     // Update is called once per frame
     void Update()
     {
 
-   
-
         if (!GameManager.Instance.isGameStarted)
         {
+            string cont;
+
             for (int i = 1; i <= joinPanels.Length; i++)
             {
-                if (assignedControllers.Contains(i))
-                    continue;
+                cont = "cont" + i;
+
+               // if (assignedControllers.Contains(cont))
+               //     continue;
 
                 if (Input.GetButtonDown("J" + i + "A"))
                 {
-                    //Debug.Log(i);
-                    AddPlayerController(i);
+                    AddPlayerController(i, cont);
                     break;
                 }
             }
 
-            if (assignedControllers.Count > 0)
+            for (int i = 1; i <= joinPanels.Length; i++)
+            {
+                cont = "cont" + i;
+
+                if (Input.GetButtonDown("J" + i + "B"))
+                {
+                    RemovePlayerController(i, cont);
+                    break;
+                }
+            }
+
+            if (assignedControllers.Count >= 1)
                 tipToStart.alpha = 1;
             else
                 tipToStart.alpha = 0;
 
-            if (Input.GetButton("Submit") && assignedControllers.Count > 0)
+            if (Input.GetButton("Submit") && assignedControllers.Count >= 1)
             {
                 GameManager.Instance.StartGame();
                 tipToStart.alpha = 0;
@@ -70,15 +78,32 @@ public class JoiningPlayerScript : MonoBehaviour
     }
 
 
-    public PlayerScript AddPlayerController(int controller)
+    public PlayerScript AddPlayerController(int controller, string contString)
     {
-        assignedControllers.Add(controller);
+
 
         for (int i = 0; i < joinPanels.Length; i++)
         {
             if (joinPanels[i].GetComponent<JoinPanel>().hasAssignedController == false)
             {
+                assignedControllers.Add(contString);
                 return joinPanels[i].GetComponent<JoinPanel>().AssignController(controller);
+            }
+        }
+
+        return null;
+    }
+
+    PlayerScript RemovePlayerController(int controller, string contString)
+    {
+        Debug.Log(contString);
+        assignedControllers.Remove(contString);
+        Debug.Log(assignedControllers.Count);
+        for (int i = joinPanels.Length - 1; i >= 0; i--)
+        {
+            if (joinPanels[i].GetComponent<JoinPanel>().hasAssignedController == true)
+            {
+                return joinPanels[i].GetComponent<JoinPanel>().UnAssignController(controller);
             }
         }
 
@@ -87,7 +112,7 @@ public class JoiningPlayerScript : MonoBehaviour
 
     public void OnGameStart()
     {
-        Destroy(gameObject);
+        gameObject.SetActive(false);
     }
 
 }

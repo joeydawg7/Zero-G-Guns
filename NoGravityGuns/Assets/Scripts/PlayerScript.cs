@@ -45,6 +45,12 @@ public class PlayerScript : MonoBehaviour
     public float invulnerablityTime;
     public int numKills;
 
+
+    [HideInInspector]
+    public string playerName;
+    [HideInInspector]
+    public string hexColorCode;
+
     //Private
     Quaternion targetRotation;
     Color32 defaultColor;
@@ -56,6 +62,7 @@ public class PlayerScript : MonoBehaviour
     const float TORSOSHOT_MULTIPLIER = 1f;
     const float FOOTSHOT_MULTIPLIER = 0.5f;
     const float LEGSHOT_MULTIPLIER = 0.75f;
+
 
     private void Awake()
     {
@@ -94,10 +101,11 @@ public class PlayerScript : MonoBehaviour
 
     public void OnGameStart()
     {
+        /*
         if (playerID < 1)
         {
-            Destroy(gameObject);
-        }
+            Destroy(gameObject);       
+        }*/
 
         health = 100;
         float barVal = ((float)health / 100f);
@@ -314,9 +322,26 @@ public class PlayerScript : MonoBehaviour
     public void SetControllerNumber(int number)
     {
         playerID = number;
+        switch(playerID)
+        {
+            case 1:
+                playerName = "Red Player";
+                hexColorCode = "#B1342F";
+                break;
+            case 2:
+                playerName = "Blue Player";
+                hexColorCode = "#2C7EC2";
+                break;
+            case 3:
+                playerName = "Green Player";
+                hexColorCode = "#13BC1E";
+                break;
+            case 4:
+                playerName = "Yellow Player";
+                hexColorCode = "#EA9602";
+                break;
+        }
 
-        //horizontalAxis = "J" + playerID + "Horizontal";
-        //verticalAxis = "J" + playerID + "Vertical";
         foreach (Transform child in transform)
         {
             if (child.tag == "Arms")
@@ -333,8 +358,28 @@ public class PlayerScript : MonoBehaviour
 
     }
 
-    //TODO: track mouse location in relation to center point of char
-    //TODO: add negative force on click
-    //TODO: raycast direction on click, check for hittables
-    //TODO: deal dmg knockback, etc,
+    public void UnsetControllerNumber(int number)
+    {
+        playerID = 0;
+        playerName = "";
+
+        //horizontalAxis = "J" + playerID + "Horizontal";
+        //verticalAxis = "J" + playerID + "Vertical";
+        foreach (Transform child in transform)
+        {
+            if (child.tag == "Arms")
+            {
+                child.GetComponent<ArmsScript>().triggerAxis = "";
+                child.GetComponent<ArmsScript>().horizontalAxis = "";
+                child.GetComponent<ArmsScript>().verticalAxis = "";
+                child.GetComponent<ArmsScript>().XButton = "";
+                BButton = "";
+
+                child.GetComponent<ArmsScript>().UnsetChildrenWithAxis(playerID);
+            }
+        }
+
+    }
+
+
 }

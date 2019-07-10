@@ -38,7 +38,6 @@ public class Bullet : MonoBehaviour
         {
             Physics2D.IgnoreCollision(GetComponent<Collider2D>(), collider, true);
         }
-
         canImapact = true;
     }
 
@@ -81,12 +80,13 @@ public class Bullet : MonoBehaviour
                 GameObject sparkyObj = GameObject.Instantiate(sparkyBoom);
 
                 sparkyObj.transform.position = transform.position;
-                sparkyObj.GetComponent<ParticleSystem>().Emit(100);
+                sparkyObj.GetComponent<ParticleSystem>().Emit(10);
 
                 somethingSexy.GetComponent<ParticleSystem>().Stop();
+                somethingSexy.GetComponent<KillOverTime>().StartKilling();
                 somethingSexy.transform.parent = null;
 
-                Destroy(sparkyObj, 0.2f);
+                Destroy(sparkyObj, 2f);
                 Destroy(gameObject, 0.16f);
             }
 
