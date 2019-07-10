@@ -42,8 +42,8 @@ public class JoiningPlayerScript : MonoBehaviour
             {
                 cont = "cont" + i;
 
-               // if (assignedControllers.Contains(cont))
-               //     continue;
+               if (assignedControllers.Contains(cont))
+                   continue;
 
                 if (Input.GetButtonDown("J" + i + "A"))
                 {
