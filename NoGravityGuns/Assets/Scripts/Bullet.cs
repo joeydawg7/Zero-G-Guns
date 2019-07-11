@@ -13,6 +13,7 @@ public class Bullet : MonoBehaviour
     PlayerScript.GunType bulletType;
 
     bool canImapact;
+    bool noBounce = true;
 
     public GameObject somethingSexy;
 
@@ -76,12 +77,16 @@ public class Bullet : MonoBehaviour
 
                 Destroy(sparkyObj, 2f);
 
-                if (bulletType != PlayerScript.GunType.railGun)
+                if (bulletType != PlayerScript.GunType.railGun || noBounce == false)
                 {
                     Destroy(gameObject, 0.16f);
                     somethingSexy.GetComponent<ParticleSystem>().Stop();
                     somethingSexy.GetComponent<KillOverTime>().StartKilling();
                     somethingSexy.transform.parent = null;
+                }
+                else
+                {
+                    noBounce = false;
                 }
 
 
