@@ -12,7 +12,8 @@ public class PlayerScript : MonoBehaviour
     [Header("Gui")]
     public Image healthBar;
     public TextMeshProUGUI statusText;
-    
+    public TextMeshProUGUI floatingText;
+    public Transform floatingTextSpawnPoint;
 
     [Header("Controller Stuff")]
     public int playerID;
@@ -47,6 +48,9 @@ public class PlayerScript : MonoBehaviour
     public float invulnerablityTime;
     public int numKills;
 
+    [Header("Particle Effects")]
+    public ParticleSystem HS_Flash;
+    public ParticleSystem HS_Streaks;
 
     [HideInInspector]
     public string playerName;
@@ -180,19 +184,33 @@ public class PlayerScript : MonoBehaviour
             switch (damageType)
             {
                 case DamageType.head:
+
                     damage *= HEADSHOT_MULTIPLIER;
+                    SpawnFloatingDamageText(Mathf.RoundToInt(damage).ToString(), Color.red, "Crit");
                     audioSource.PlayOneShot(headShot);
+                    HS_Flash.Emit(1);
+                    HS_Flash.Emit(Random.Range(35, 45));
                     break;
                 case DamageType.torso:
+
                     damage *= TORSOSHOT_MULTIPLIER;
+                    if (damage >= 0)
+                        SpawnFloatingDamageText(Mathf.RoundToInt(damage).ToString(), Color.yellow, "FloatAway");
+                    else
+                        SpawnFloatingDamageText(Mathf.RoundToInt(damage).ToString(), Color.green, "FloatAway");
+
                     audioSource.PlayOneShot(standardShot);
                     break;
                 case DamageType.legs:
+
                     damage *= LEGSHOT_MULTIPLIER;
+                    SpawnFloatingDamageText(Mathf.RoundToInt(damage).ToString(), Color.black, "FloatAway");
                     audioSource.PlayOneShot(standardShot);
                     break;
                 case DamageType.feet:
+
                     damage *= FOOTSHOT_MULTIPLIER;
+                    SpawnFloatingDamageText(Mathf.RoundToInt(damage).ToString(), Color.gray, "FloatAway");
                     audioSource.PlayOneShot(standardShot);
                     break;
                 default:
@@ -232,16 +250,32 @@ public class PlayerScript : MonoBehaviour
             switch (damageType)
             {
                 case DamageType.head:
+
                     damage *= HEADSHOT_MULTIPLIER;
+                    SpawnFloatingDamageText(Mathf.RoundToInt(damage).ToString(), Color.red, "Crit");
+                    audioSource.PlayOneShot(headShot);
                     break;
                 case DamageType.torso:
+
                     damage *= TORSOSHOT_MULTIPLIER;
+                    if (damage >= 0)
+                        SpawnFloatingDamageText(Mathf.RoundToInt(damage).ToString(), Color.yellow, "FloatAway");
+                    else
+                        SpawnFloatingDamageText("+" + Mathf.Abs(Mathf.RoundToInt(damage)).ToString(), Color.green, "FloatAway");
+
+                    audioSource.PlayOneShot(standardShot);
                     break;
                 case DamageType.legs:
+
                     damage *= LEGSHOT_MULTIPLIER;
+                    SpawnFloatingDamageText(Mathf.RoundToInt(damage).ToString(), Color.black, "FloatAway");
+                    audioSource.PlayOneShot(standardShot);
                     break;
                 case DamageType.feet:
+
                     damage *= FOOTSHOT_MULTIPLIER;
+                    SpawnFloatingDamageText(Mathf.RoundToInt(damage).ToString(), Color.gray, "FloatAway");
+                    audioSource.PlayOneShot(standardShot);
                     break;
                 default:
                     break;
@@ -251,6 +285,8 @@ public class PlayerScript : MonoBehaviour
             float barVal = ((float)health / 100f);
 
             healthBar.fillAmount = barVal;
+
+
 
             if (health <= 0)
             {
@@ -312,7 +348,7 @@ public class PlayerScript : MonoBehaviour
     {
         isInvulnerable = true;
 
-        float invulnerabilityFlashIncriments = (float)invulnerablityTime / 6f;
+        float invulnerabilityFlashIncriments = (float)invulnerablityTime / 12f;
 
         for (int i = 0; i < invulnerablityTime; i++)
         {
@@ -332,7 +368,7 @@ public class PlayerScript : MonoBehaviour
     public void SetControllerNumber(int number)
     {
         playerID = number;
-        switch(playerID)
+        switch (playerID)
         {
             case 1:
                 playerName = "Red Player";
@@ -394,7 +430,7 @@ public class PlayerScript : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.collider.tag == "ImpactObject")
+        if (collision.collider.tag == "ImpactObject" || collision.collider.tag == "Torso" || collision.collider.tag == "Head" || collision.collider.tag == "Feet" || collision.collider.tag == "Legs" )
         {
             float dmg = Mathf.Abs(rb.velocity.x + rb.velocity.y);
 
@@ -403,11 +439,23 @@ public class PlayerScript : MonoBehaviour
 
             if (dmg > 25)
             {
-            	dmg = dmg/2;
+                dmg = dmg / 4;
                 TakeDamage(dmg, PlayerScript.DamageType.torso, 0);
             }
 
         }
+    }
+
+    void SpawnFloatingDamageText(string textToShow, Color32 color, string animType)
+    {
+        TextMeshProUGUI floatTxt = Instantiate(floatingText, floatingTextSpawnPoint);
+        floatTxt.text = textToShow.ToString();
+        floatTxt.color = color;
+        floatTxt.GetComponent<Animator>().SetTrigger(animType);
+        floatingText.transform.position = new Vector2(Random.Range(-1f, 1f), 0);
+
+
+
     }
 
 

@@ -20,6 +20,8 @@ public class Bullet : MonoBehaviour
     Rigidbody2D rb;
     Vector2 startingForce;
 
+    bool canHurty;
+
     private void Awake()
     {
         canImapact = false;
@@ -51,6 +53,7 @@ public class Bullet : MonoBehaviour
             Physics2D.IgnoreCollision(GetComponent<Collider2D>(), collider, true);
         }
         canImapact = true;
+        canHurty = true;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -61,19 +64,19 @@ public class Bullet : MonoBehaviour
             {
 
                 //checks where we hit the other guy, and that it isnt self damage so we cant shoot ourselves in the knees
-                if (collision.collider.tag == "Torso" && collision.gameObject.GetComponent<PlayerScript>().playerID != playerID )
+                if (collision.collider.tag == "Torso" && collision.gameObject.GetComponent<PlayerScript>().playerID != playerID && canHurty )
                 {
-                    collision.gameObject.GetComponent<PlayerScript>().TakeDamage(damage, PlayerScript.DamageType.torso, playerID);
+                    collision.gameObject.GetComponent<PlayerScript>().TakeDamage(damage, PlayerScript.DamageType.torso, playerID );
                 }
-                if (collision.collider.tag == "Head" && collision.gameObject.GetComponent<PlayerScript>().playerID != playerID)
+                if (collision.collider.tag == "Head" && collision.gameObject.GetComponent<PlayerScript>().playerID != playerID && canHurty)
                 {
                     collision.gameObject.GetComponent<PlayerScript>().TakeDamage(damage, PlayerScript.DamageType.head, playerID);
                 }
-                if (collision.collider.tag == "Feet" && collision.gameObject.GetComponent<PlayerScript>().playerID != playerID)
+                if (collision.collider.tag == "Feet" && collision.gameObject.GetComponent<PlayerScript>().playerID != playerID && canHurty)
                 {
                     collision.gameObject.GetComponent<PlayerScript>().TakeDamage(damage, PlayerScript.DamageType.feet, playerID);
                 }
-                if (collision.collider.tag == "Leg" && collision.gameObject.GetComponent<PlayerScript>().playerID != playerID)
+                if (collision.collider.tag == "Leg" && collision.gameObject.GetComponent<PlayerScript>().playerID != playerID && canHurty)
                 {
                     collision.gameObject.GetComponent<PlayerScript>().TakeDamage(damage, PlayerScript.DamageType.legs , playerID);
                 }
@@ -92,7 +95,8 @@ public class Bullet : MonoBehaviour
 
                 if (bulletType != PlayerScript.GunType.railGun || noBounce == false)
                 {
-                    Destroy(gameObject, 0.16f);
+                    canHurty = false;
+                    Destroy(gameObject);
                     somethingSexy.GetComponent<ParticleSystem>().Stop();
                     somethingSexy.GetComponent<KillOverTime>().StartKilling();
                     somethingSexy.transform.parent = null;

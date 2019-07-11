@@ -35,8 +35,14 @@ public class BoxImpact : MonoBehaviour
 
         //    float dmg = Mathf.Abs(rb.velocity.x + rb.velocity.y);
 
-        //    if (dmg > 5)
+        //    if(dmg>25)
         //    {
+        //        dmg = 25;
+        //    }
+
+        //    if (dmg > 10)
+        //    {
+        //        dmg = dmg / 2;
         //        collision.gameObject.GetComponent<PlayerScript>().TakeDamage(dmg, PlayerScript.DamageType.torso, 0);
         //    }
 

@@ -29,10 +29,7 @@ public class ArmsScript : MonoBehaviour
     public GunSO currentWeapon;
 
     public int currentAmmo;
-    public int currentClips;
-
-    public Vector2 calibrationVector;
-
+    public int maxBullets;
 
     float currentRecoil;
 
@@ -56,14 +53,16 @@ public class ArmsScript : MonoBehaviour
 
     public TextMeshProUGUI gunAndAmmo;
 
+    public GameObject reloadTimer;
+
     private void Awake()
     {
         timeSinceLastShot = 0;
         currentRecoil = 0;
 
         facing = transform.rotation;
-        currentClips = int.MaxValue;
         currentAmmo = currentWeapon.clipSize;
+        maxBullets = currentWeapon.numBullets;
 
         audioS = GetComponent<AudioSource>();
 
@@ -73,6 +72,8 @@ public class ArmsScript : MonoBehaviour
 
         gunAndAmmo.text = GetGunsAndAmmoText();
         gunAndAmmo.alpha = 0;
+
+        reloadTimer.SetActive(false);
 
     }
 
@@ -112,20 +113,6 @@ public class ArmsScript : MonoBehaviour
 
     }
 
-    private void OnDrawGizmos()
-    {
-        Ray ray = new Ray();
-        ray.origin = transform.position;
-
-        Vector2 mouseScreenPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-
-        // get direction you want to point at
-        shootDir = ((Vector2)Input.mousePosition - (Vector2)transform.position).normalized;
-
-        ray.direction = -shootDir;
-        Gizmos.DrawRay(ray);
-
-    }
 
     private void Update()
     {
@@ -141,101 +128,16 @@ public class ArmsScript : MonoBehaviour
             if (GameManager.Instance.isGameStarted)
                 ShootController();
         }
-        else
-        {
-            if (GameManager.Instance.isGameStarted)
-                ShootWithMouseController();
-        }
-
-    }
 
 
-    void ShootWithMouseController()
-    {
-        bulletSpawnPoint = bulletSpawn.position;
-
-        timeSinceLastShot += Time.deltaTime;
-
-        if (currentRecoil > 0)
-        {
-            currentRecoil -= Time.deltaTime;
-        }
-
-        if (currentRecoil > currentWeapon.recoilMax)
-            currentRecoil = currentWeapon.recoilMax;
-
-        if (!basePlayer.GetComponent<PlayerScript>().isDead)
-        {
-
-            // convert mouse position into world coordinates
-            Vector2 mouseScreenPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-
-            // get direction you want to point at
-            shootDir = ((Vector2)Input.mousePosition - (Vector2)transform.position).normalized;
-
-            // set vector of transform directly
-            transform.up = -shootDir;
-
-
-            if (Input.GetAxisRaw(triggerAxis) > 0 && isReloading)
-            {
-                if (timeSinceLastShot >= currentWeapon.recoilDelay)
-                {
-                    audioS.PlayOneShot(dryFire);
-                    timeSinceLastShot = 0;
-                }
-            }
-
-            if (Input.GetMouseButtonDown(0) && !isReloading)
-            {
-
-                if (Input.GetAxis(horizontalAxis) != 0 || Input.GetAxis(verticalAxis) != 0)
-                {
-                    //aim = shootDir;
-                }
-               // if (aim.sqrMagnitude >= 0.1f)
-                //{
-                    if (timeSinceLastShot >= currentWeapon.recoilDelay)
-                    {
-                        if (canShoot)
-                        {
-                            switch (currentWeapon.fireType)
-                            {
-                                case GunSO.FireType.semiAuto:
-                                    ShootyGunTemp();
-                                    break;
-                                case GunSO.FireType.buckshot:
-                                    BuckShot();
-                                    break;
-                                case GunSO.FireType.fullAuto:
-                                    ShootyGunTemp();
-                                    break;
-                                case GunSO.FireType.Burst:
-                                    StartCoroutine(FireInBurst());
-                                    break;
-                                default:
-                                    ShootyGunTemp();
-                                    break;
-                            }
-
-                            //add force to player in opposite direction of shot
-                            KnockBack(shootDir);
-
-                            gunAndAmmo.text = GetGunsAndAmmoText();
-                        }
-                    }
-                //}
-
-            }
-        }
     }
 
 
     public void EquipGun(GunSO weaponToEquip, GameObject gunObj)
     {
         currentWeapon = weaponToEquip;
-        currentClips = weaponToEquip.clipNum;
         currentAmmo = weaponToEquip.clipSize;
+        maxBullets = weaponToEquip.numBullets;
         isReloading = false;
         bulletSpawn = gunObj.transform.Find("BulletSpawner");
         gunAndAmmo.text = GetGunsAndAmmoText();
@@ -260,8 +162,6 @@ public class ArmsScript : MonoBehaviour
         {
 
             shootDir = Vector2.right * Input.GetAxis(horizontalAxis) + Vector2.up * Input.GetAxis(verticalAxis);
-            // else
-            // shootDir = startingEulers;
 
             shootDir = shootDir.normalized;
 
@@ -325,8 +225,10 @@ public class ArmsScript : MonoBehaviour
 
     public string GetGunsAndAmmoText()
     {
-        return gunAndAmmo.text = currentWeapon.name + ": " + currentAmmo + "/" + currentWeapon.clipSize + " (" + ((currentClips < 2000) ? currentClips.ToString() : "\u221E") + 
-            "/" + ((currentWeapon.clipNum < 2000) ? currentWeapon.clipNum.ToString() : "\u221E") + ")";
+        return gunAndAmmo.text = currentWeapon.name + ": " + currentAmmo + "/" + currentWeapon.clipSize + " (" + ((maxBullets < 2000) ? maxBullets.ToString() : "\u221E" ) + ")";
+            
+            /*((currentClips < 2000) ? currentClips.ToString() : "\u221E") + 
+            "/" + ((currentWeapon.clipNum < 2000) ? currentWeapon.clipNum.ToString() : "\u221E") + ")";*/
     }
 
     void KnockBack(Vector2 shootDir)
@@ -348,6 +250,7 @@ public class ArmsScript : MonoBehaviour
         SpawnBullet();
 
         currentAmmo--;
+        maxBullets--;
 
         if (currentAmmo <= 0)
         {
@@ -369,36 +272,48 @@ public class ArmsScript : MonoBehaviour
 
     }
 
+    IEnumerator Rotate(float duration)
+    {
+        reloadTimer.SetActive(true);
+
+        float startRotation = transform.eulerAngles.z;
+        float endRotation = startRotation + 360.0f;
+        float t = 0.0f;
+        while (t < duration)
+        {
+            t += Time.deltaTime;
+            float zRotation = Mathf.Lerp(startRotation, endRotation, t / duration) % 360.0f;
+            reloadTimer.transform.eulerAngles = new Vector3(reloadTimer.transform.eulerAngles.x, reloadTimer.transform.eulerAngles.y, zRotation);
+            yield return null;
+        }
+
+         reloadTimer.SetActive(false);
+    }
+
     IEnumerator Reload()
     {
-        currentClips--;
+      
 
-        if (currentClips < 0)
+        if (maxBullets <= 0)
         {
-            //if its our last clip no need to reload just drop the gun
+            //if its our last shot no need to reload just drop the gun
             basePlayer.GetComponent<PlayerScript>().EquipArms(PlayerScript.GunType.pistol, GameManager.Instance.pistol);
             yield return null;
         }
 
-        
+        StartCoroutine(Rotate(currentWeapon.reloadTime));
 
         isReloading = true;
         reloadingText.alpha = 1;
         gunAndAmmo.text = "Reloading...";
 
-        float reloadtimeIncrememnts = (float)currentWeapon.reloadTime / 6;
+        float reloadtimeIncrememnts = (float)currentWeapon.reloadTime / 6;    
 
         //change sfx type base on reload type of the gun
         if (currentWeapon.GunType == PlayerScript.GunType.LMG )
         {
             for (int i = 0; i < currentWeapon.reloadTime; i++)
             {
-                yield return new WaitForSeconds(reloadtimeIncrememnts);
-                GetComponent<AudioSource>().PlayOneShot(currentWeapon.reloadSound);
-                reloadingText.text = "Reloading.";
-                yield return new WaitForSeconds(reloadtimeIncrememnts);
-                GetComponent<AudioSource>().PlayOneShot(currentWeapon.reloadSound);
-                reloadingText.text = "Reloading..";
                 yield return new WaitForSeconds(reloadtimeIncrememnts);
                 GetComponent<AudioSource>().PlayOneShot(currentWeapon.reloadSound);
                 reloadingText.text = "Reloading...";
@@ -455,6 +370,7 @@ public class ArmsScript : MonoBehaviour
             SpawnBullet();
 
             currentAmmo--;
+            maxBullets--;
 
             if (audioS.isPlaying)
                 audioS.Stop();
@@ -475,6 +391,7 @@ public class ArmsScript : MonoBehaviour
     public void BuckShot()
     {
         currentAmmo--;
+        maxBullets--;
 
         //cone of -1 to 1 multiplied by current recoil amount to determine just how random it can be
         float recoilMod = UnityEngine.Random.Range(-1f, 1f) * currentRecoil;

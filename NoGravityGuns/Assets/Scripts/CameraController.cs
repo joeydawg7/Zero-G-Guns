@@ -71,7 +71,7 @@ public class CameraController : MonoBehaviour
             bounds.Encapsulate(players[i].position);
         }
 
-        return bounds.size.x;
+        return Mathf.Max(bounds.size.x, bounds.size.y);
     }
 
     public void OnGameStart()
