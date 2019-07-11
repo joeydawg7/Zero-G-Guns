@@ -73,17 +73,20 @@ public class Bullet : MonoBehaviour
                 sparkyObj.transform.position = transform.position;
                 sparkyObj.GetComponent<ParticleSystem>().Emit(10);
 
-                somethingSexy.GetComponent<ParticleSystem>().Stop();
-                somethingSexy.GetComponent<KillOverTime>().StartKilling();
-                somethingSexy.transform.parent = null;
 
                 Destroy(sparkyObj, 2f);
 
-                Destroy(gameObject, 0.16f);
                 if (bulletType != PlayerScript.GunType.railGun)
                 {
                     Destroy(gameObject, 0.16f);
+                    somethingSexy.GetComponent<ParticleSystem>().Stop();
+                    somethingSexy.GetComponent<KillOverTime>().StartKilling();
+                    somethingSexy.transform.parent = null;
                 }
+
+
+
+
             }
 
 
