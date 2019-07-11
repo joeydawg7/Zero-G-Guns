@@ -392,4 +392,22 @@ public class PlayerScript : MonoBehaviour
     }
 
 
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.collider.tag == "ImpactObject")
+        {
+            float dmg = Mathf.Abs(rb.velocity.x + rb.velocity.y);
+
+            if (dmg > 25)
+                dmg = 25;
+
+            if (dmg > 5)
+            {
+                TakeDamage(dmg, PlayerScript.DamageType.torso, 0);
+            }
+
+        }
+    }
+
+
 }
