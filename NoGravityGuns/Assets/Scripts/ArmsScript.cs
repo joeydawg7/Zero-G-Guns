@@ -263,10 +263,12 @@ public class ArmsScript : MonoBehaviour
     {
         Rigidbody2D bullet = (Rigidbody2D)Instantiate(projectile, bulletSpawnPoint, Quaternion.LookRotation(Vector3.forward, -shootDir));
         bullet.GetComponent<Bullet>().Construct(basePlayer.GetComponent<PlayerScript>().playerID, currentWeapon.GunDamage, basePlayer, bulletSprite, currentWeapon.GunType);
-
         Vector3 dir = -Vector2.up * currentWeapon.bulletSpeed;
+
         bullet.AddRelativeForce(dir, ForceMode2D.Force);
         bullet.transform.rotation = rotation;
+        bullet.GetComponent<Bullet>().SetStartingForce(dir);
+
     }
 
     IEnumerator Reload()

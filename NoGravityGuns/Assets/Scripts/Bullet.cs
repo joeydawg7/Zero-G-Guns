@@ -16,10 +16,13 @@ public class Bullet : MonoBehaviour
 
     public GameObject somethingSexy;
 
+    Rigidbody2D rb;
+    Vector2 startingForce;
 
     private void Awake()
     {
         canImapact = false;
+        rb = GetComponent<Rigidbody2D>();
     }
 
     private void Start()
@@ -27,6 +30,12 @@ public class Bullet : MonoBehaviour
         //kill the gameobject after 20 seconds in case it makes it this far without hitting a wall
         Destroy(gameObject, 20f);
     }
+
+    public void SetStartingForce(Vector2 vel)
+    {
+        startingForce = new Vector2 (vel.x, vel.y);
+    }
+
 
     public void Construct(int playerID, float damage, GameObject player, Sprite bulletSprite, PlayerScript.GunType gunType)
     {
@@ -76,6 +85,8 @@ public class Bullet : MonoBehaviour
 
                 Destroy(sparkyObj, 2f);
 
+                rb.AddForce(Reflect(startingForce, collision.contacts[0].normal));
+
                 if (bulletType != PlayerScript.GunType.railGun)
                 {
                     Destroy(gameObject, 0.16f);
@@ -93,4 +104,9 @@ public class Bullet : MonoBehaviour
         }
     }
 
+
+     Vector2 Reflect(Vector2 vector, Vector2 normal)
+    {
+        return vector - 2 * Vector2.Dot(vector, normal) * normal;
+    }
 }
