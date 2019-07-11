@@ -90,7 +90,7 @@ public class Bullet : MonoBehaviour
                 Destroy(sparkyObj, 2f);
 
 
-                rb.AddForce(Reflect(startingForce, collision.contacts[0].normal));
+                rb.AddForce(Reflect(startingForce, collision.GetContact(0).normal));
 
 
                 if (bulletType != PlayerScript.GunType.railGun || noBounce == false)
