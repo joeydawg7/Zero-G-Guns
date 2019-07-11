@@ -393,11 +393,12 @@ public class PlayerScript : MonoBehaviour
         {
             float dmg = Mathf.Abs(rb.velocity.x + rb.velocity.y);
 
-            if (dmg > 25)
-                dmg = 25;
+            if (dmg > 50)
+                dmg = 50;
 
-            if (dmg > 5)
+            if (dmg > 25)
             {
+            	dmg = dmg/2;
                 TakeDamage(dmg, PlayerScript.DamageType.torso, 0);
             }
 

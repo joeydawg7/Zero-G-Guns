@@ -887,7 +887,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.0065501, y: 3.5863}
+  m_AnchoredPosition: {x: -0.00000026496, y: 3.84}
   m_SizeDelta: {x: 2.6439, y: 0.4823}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4180111875739284690
@@ -1163,7 +1163,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 3.25}
-  m_SizeDelta: {x: 1595.565, y: 132.8763}
+  m_SizeDelta: {x: 4925.201, y: 535.91}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4180111876506764625
 CanvasRenderer:
@@ -1240,7 +1240,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: -0.28, y: 0.584}
-  m_SizeDelta: {x: 2.657, y: 7.655}
+  m_SizeDelta: {x: 6.644, y: 10.966}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &4180111876535723064
 Canvas:
@@ -1336,8 +1336,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -0}
-  m_SizeDelta: {x: 1536.6, y: 90}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 4822, y: 450}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4180111876721588427
 CanvasRenderer:
@@ -1967,7 +1967,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 0
-  healthBar: {fileID: 4180111876721588426}
+  healthBar: {fileID: 0}
   statusText: {fileID: 0}
   playerID: 0
   BButton: 
@@ -2332,6 +2332,7 @@ MonoBehaviour:
     rgba: 0
   bulletSprite: {fileID: 21300000, guid: 8101d209ae24bb041b7ba5836494d518, type: 3}
   dryFire: {fileID: 8300000, guid: 045de3ddf8a33af44badcb0cc91d836c, type: 3}
+  gunAndAmmo: {fileID: 0}
 --- !u!82 &1261354532
 AudioSource:
   m_ObjectHideFlags: 0
