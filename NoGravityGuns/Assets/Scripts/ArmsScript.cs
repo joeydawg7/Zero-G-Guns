@@ -8,6 +8,9 @@ using System;
 public class ArmsScript : MonoBehaviour
 {
 
+
+    public bool allowMouseControls;
+
     public GameObject basePlayer;
 
     float timeSinceLastShot;
@@ -113,7 +116,13 @@ public class ArmsScript : MonoBehaviour
     {
         Ray ray = new Ray();
         ray.origin = transform.position;
-        ray.direction = calibrationVector;
+
+        Vector2 mouseScreenPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
+        // get direction you want to point at
+        shootDir = ((Vector2)Input.mousePosition - (Vector2)transform.position).normalized;
+
+        ray.direction = -shootDir;
         Gizmos.DrawRay(ray);
 
     }
@@ -127,9 +136,98 @@ public class ArmsScript : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (GameManager.Instance.isGameStarted)
-            ShootController();
+        if (!allowMouseControls)
+        {
+            if (GameManager.Instance.isGameStarted)
+                ShootController();
+        }
+        else
+        {
+            if (GameManager.Instance.isGameStarted)
+                ShootWithMouseController();
+        }
 
+    }
+
+
+    void ShootWithMouseController()
+    {
+        bulletSpawnPoint = bulletSpawn.position;
+
+        timeSinceLastShot += Time.deltaTime;
+
+        if (currentRecoil > 0)
+        {
+            currentRecoil -= Time.deltaTime;
+        }
+
+        if (currentRecoil > currentWeapon.recoilMax)
+            currentRecoil = currentWeapon.recoilMax;
+
+        if (!basePlayer.GetComponent<PlayerScript>().isDead)
+        {
+
+            // convert mouse position into world coordinates
+            Vector2 mouseScreenPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
+            // get direction you want to point at
+            shootDir = ((Vector2)Input.mousePosition - (Vector2)transform.position).normalized;
+
+            // set vector of transform directly
+            transform.up = -shootDir;
+
+
+            if (Input.GetAxisRaw(triggerAxis) > 0 && isReloading)
+            {
+                if (timeSinceLastShot >= currentWeapon.recoilDelay)
+                {
+                    audioS.PlayOneShot(dryFire);
+                    timeSinceLastShot = 0;
+                }
+            }
+
+            if (Input.GetMouseButtonDown(0) && !isReloading)
+            {
+
+                if (Input.GetAxis(horizontalAxis) != 0 || Input.GetAxis(verticalAxis) != 0)
+                {
+                    //aim = shootDir;
+                }
+               // if (aim.sqrMagnitude >= 0.1f)
+                //{
+                    if (timeSinceLastShot >= currentWeapon.recoilDelay)
+                    {
+                        if (canShoot)
+                        {
+                            switch (currentWeapon.fireType)
+                            {
+                                case GunSO.FireType.semiAuto:
+                                    ShootyGunTemp();
+                                    break;
+                                case GunSO.FireType.buckshot:
+                                    BuckShot();
+                                    break;
+                                case GunSO.FireType.fullAuto:
+                                    ShootyGunTemp();
+                                    break;
+                                case GunSO.FireType.Burst:
+                                    StartCoroutine(FireInBurst());
+                                    break;
+                                default:
+                                    ShootyGunTemp();
+                                    break;
+                            }
+
+                            //add force to player in opposite direction of shot
+                            KnockBack(shootDir);
+
+                            gunAndAmmo.text = GetGunsAndAmmoText();
+                        }
+                    }
+                //}
+
+            }
+        }
     }
 
 
