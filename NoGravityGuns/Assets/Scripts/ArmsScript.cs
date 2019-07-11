@@ -273,7 +273,7 @@ public class ArmsScript : MonoBehaviour
     {
         currentClips--;
 
-        if (currentClips <= 0)
+        if (currentClips < 0)
         {
             //if its our last clip no need to reload just drop the gun
             basePlayer.GetComponent<PlayerScript>().EquipArms(PlayerScript.GunType.pistol, GameManager.Instance.pistol);

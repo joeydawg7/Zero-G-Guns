@@ -27,7 +27,7 @@ public class Bullet : MonoBehaviour
         Destroy(gameObject, 20f);
     }
 
-    public void Construct(int playerID, float damage, GameObject player, Sprite bulletSprite)
+    public void Construct(int playerID, float damage, GameObject player, Sprite bulletSprite, PlayerScript.GunType gunType)
     {
         this.playerID = playerID;
         this.damage = damage;
@@ -41,23 +41,12 @@ public class Bullet : MonoBehaviour
         canImapact = true;
     }
 
-
-    private void Update()
-    {
-        //transform.rotation = Quaternion.LookRotation(GetComponent<Rigidbody2D>().velocity * Vector3.forward);
-        //transform.rotation = Quaternion.
-
-        
-    }
-
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.collider.gameObject.layer != LayerMask.NameToLayer("NonBulletCollide") && canImapact == true)
         {
             if (collision.collider.tag != "Bullet" || collision.collider.GetComponent<Bullet>().playerID != playerID)
             {
-
-                //TODO: prevent self damage, maybe make bullets bouncing off walls not hurt so bad
 
                 //checks where we hit the other guy, and that it isnt self damage so we cant shoot ourselves in the knees
                 if (collision.collider.tag == "Torso" && collision.gameObject.GetComponent<PlayerScript>().playerID != playerID )
@@ -87,6 +76,7 @@ public class Bullet : MonoBehaviour
                 somethingSexy.transform.parent = null;
 
                 Destroy(sparkyObj, 2f);
+
                 Destroy(gameObject, 0.16f);
             }
 
