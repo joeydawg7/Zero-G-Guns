@@ -10,6 +10,7 @@ public class Bullet : MonoBehaviour
 
     int playerID;
 
+    PlayerScript.GunType bulletType;
 
     bool canImapact;
 
@@ -27,10 +28,11 @@ public class Bullet : MonoBehaviour
         Destroy(gameObject, 20f);
     }
 
-    public void Construct(int playerID, float damage, GameObject player, Sprite bulletSprite)
+    public void Construct(int playerID, float damage, GameObject player, Sprite bulletSprite, PlayerScript.GunType gunType)
     {
         this.playerID = playerID;
         this.damage = damage;
+        this.bulletType = gunType;
 
         GetComponent<SpriteRenderer>().sprite = bulletSprite;
 
@@ -56,8 +58,6 @@ public class Bullet : MonoBehaviour
         {
             if (collision.collider.tag != "Bullet" || collision.collider.GetComponent<Bullet>().playerID != playerID)
             {
-
-                //TODO: prevent self damage, maybe make bullets bouncing off walls not hurt so bad
 
                 //checks where we hit the other guy, and that it isnt self damage so we cant shoot ourselves in the knees
                 if (collision.collider.tag == "Torso" && collision.gameObject.GetComponent<PlayerScript>().playerID != playerID )
@@ -87,7 +87,10 @@ public class Bullet : MonoBehaviour
                 somethingSexy.transform.parent = null;
 
                 Destroy(sparkyObj, 2f);
-                Destroy(gameObject, 0.16f);
+                if (bulletType != PlayerScript.GunType.railGun)
+                {
+                    Destroy(gameObject, 0.16f);
+                }
             }
 
 
