@@ -88,14 +88,7 @@ public class Bullet : MonoBehaviour
                 {
                     noBounce = false;
                 }
-
-
-
-
             }
-
-
         }
     }
-
 }
