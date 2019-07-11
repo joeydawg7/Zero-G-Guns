@@ -262,7 +262,7 @@ public class ArmsScript : MonoBehaviour
     void SpawnBullet()
     {
         Rigidbody2D bullet = (Rigidbody2D)Instantiate(projectile, bulletSpawnPoint, Quaternion.LookRotation(Vector3.forward, -shootDir));
-        bullet.GetComponent<Bullet>().Construct(basePlayer.GetComponent<PlayerScript>().playerID, currentWeapon.GunDamage, basePlayer, bulletSprite);
+        bullet.GetComponent<Bullet>().Construct(basePlayer.GetComponent<PlayerScript>().playerID, currentWeapon.GunDamage, basePlayer, bulletSprite, currentWeapon.GunType);
 
         Vector3 dir = -Vector2.up * currentWeapon.bulletSpeed;
         bullet.AddRelativeForce(dir, ForceMode2D.Force);
@@ -406,7 +406,7 @@ public class ArmsScript : MonoBehaviour
             float offset = UnityEngine.Random.Range(-2.5f, 2.5f) * angle;
 
             Rigidbody2D bullet = (Rigidbody2D)Instantiate(projectile, bulletSpawnPoint, Quaternion.LookRotation(Vector3.forward, -shootDir));
-            bullet.GetComponent<Bullet>().Construct(basePlayer.GetComponent<PlayerScript>().playerID, currentWeapon.GunDamage, basePlayer, bulletSprite);
+            bullet.GetComponent<Bullet>().Construct(basePlayer.GetComponent<PlayerScript>().playerID, currentWeapon.GunDamage, basePlayer, bulletSprite, currentWeapon.GunType);
 
 
             Vector3 dir = -Vector2.up * currentWeapon.bulletSpeed;

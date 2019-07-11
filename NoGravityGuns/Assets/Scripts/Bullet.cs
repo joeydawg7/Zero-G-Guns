@@ -10,6 +10,7 @@ public class Bullet : MonoBehaviour
 
     int playerID;
 
+    PlayerScript.GunType bulletType;
 
     bool canImapact;
 
@@ -31,6 +32,7 @@ public class Bullet : MonoBehaviour
     {
         this.playerID = playerID;
         this.damage = damage;
+        this.bulletType = gunType;
 
         GetComponent<SpriteRenderer>().sprite = bulletSprite;
 
@@ -78,6 +80,10 @@ public class Bullet : MonoBehaviour
                 Destroy(sparkyObj, 2f);
 
                 Destroy(gameObject, 0.16f);
+                if (bulletType != PlayerScript.GunType.railGun)
+                {
+                    Destroy(gameObject, 0.16f);
+                }
             }
 
 
