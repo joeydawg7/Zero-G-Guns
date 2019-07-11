@@ -29,17 +29,17 @@ public class BoxImpact : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
 
-        if (collision.collider.tag == "Torso" || collision.collider.tag == "Head" || collision.collider.tag == "Foot")
-        {
-            //Debug.Log(rb.velocity);
+        //if (collision.collider.tag == "Torso" || collision.collider.tag == "Head" || collision.collider.tag == "Legs")
+        //{
+        //    //Debug.Log(rb.velocity);
 
-            float dmg = Mathf.Abs(rb.velocity.x + rb.velocity.y);
+        //    float dmg = Mathf.Abs(rb.velocity.x + rb.velocity.y);
 
-            if (dmg > 5)
-            {
-                collision.gameObject.GetComponent<PlayerScript>().TakeDamage(dmg, PlayerScript.DamageType.torso, 0);
-            }
+        //    if (dmg > 5)
+        //    {
+        //        collision.gameObject.GetComponent<PlayerScript>().TakeDamage(dmg, PlayerScript.DamageType.torso, 0);
+        //    }
 
-        }
+        //}
     }
 }
