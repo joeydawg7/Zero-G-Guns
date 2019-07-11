@@ -292,7 +292,7 @@ public class PlayerScript : MonoBehaviour
         yield return new WaitForSeconds(1f);
         statusText.text = "Respawning in 1...";
         yield return new WaitForSeconds(1f);
-        statusText.text = "";
+        statusText.text = playerName;
         transform.position = spawnPoint;
         health = 100;
         float barVal = ((float)health / 100f);
