@@ -20,6 +20,7 @@ public class GameManager : MonoBehaviour
     public GunSO shotgun;
     public GunSO LMG;
     public GunSO assaultRifle;
+    public GunSO railGun;
 
     public float matchTime;
 

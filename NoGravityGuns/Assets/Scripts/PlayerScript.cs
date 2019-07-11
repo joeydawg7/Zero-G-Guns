@@ -21,7 +21,7 @@ public class PlayerScript : MonoBehaviour
     [HideInInspector]
     public enum DamageType { head, torso, legs, feet };
     [HideInInspector]
-    public enum GunType { pistol, assaultRifle, LMG, shotgun, healthPack };
+    public enum GunType { pistol, assaultRifle, LMG, shotgun, railGun, healthPack };
 
 
 
@@ -38,6 +38,7 @@ public class PlayerScript : MonoBehaviour
     public GameObject assaultRifleArms;
     public GameObject LMGArms;
     public GameObject shotGunArms;
+    public GameObject railGunArms;
     public ArmsScript armsScript;
 
     [Header("Spawning and kills")]
@@ -132,6 +133,10 @@ public class PlayerScript : MonoBehaviour
                 pistolArms.SetActive(true);
                 armsScript.EquipGun(gun, pistolArms);
                 //code here to actually refill bullets to stop crap from hapening that is bad
+                break;
+            case GunType.railGun:
+                railGunArms.SetActive(true);
+                armsScript.EquipGun(gun, railGunArms);
                 break;
             case GunType.assaultRifle:
                 assaultRifleArms.SetActive(true);
