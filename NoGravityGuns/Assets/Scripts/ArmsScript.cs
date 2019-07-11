@@ -270,7 +270,6 @@ public class ArmsScript : MonoBehaviour
         bullet.transform.rotation = rotation;
     }
 
-
     IEnumerator Reload()
     {
         currentClips--;
@@ -281,6 +280,8 @@ public class ArmsScript : MonoBehaviour
             basePlayer.GetComponent<PlayerScript>().EquipArms(PlayerScript.GunType.pistol, GameManager.Instance.pistol);
             yield return null;
         }
+
+        
 
         isReloading = true;
         reloadingText.alpha = 1;
@@ -306,8 +307,6 @@ public class ArmsScript : MonoBehaviour
         }
         else if (currentWeapon.GunType == PlayerScript.GunType.shotgun)
         {
-
-
             reloadtimeIncrememnts = (currentWeapon.reloadTime / ((float)currentAmmo+1) )/2;
 
             int shotsToLoad = Mathf.Abs(currentAmmo - currentWeapon.clipSize);
@@ -418,7 +417,6 @@ public class ArmsScript : MonoBehaviour
             bullet.AddRelativeForce(nomralizedOffset * 20, ForceMode2D.Impulse);
             bullet.transform.rotation = rotation;
         }
-
     }
 
 

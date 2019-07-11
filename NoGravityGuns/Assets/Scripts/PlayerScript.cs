@@ -96,7 +96,7 @@ public class PlayerScript : MonoBehaviour
 
     private void Update()
     {
-        if (GameManager.Instance.isGameStarted && Input.GetButton(BButton))
+        if (GameManager.Instance.isGameStarted && Input.GetButton(BButton) && armsScript.currentWeapon.GunType != GunType.pistol)
             EquipArms(GunType.pistol, GameManager.Instance.pistol);
     }
 
