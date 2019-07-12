@@ -245,65 +245,7 @@ public class PlayerScript : MonoBehaviour
     {
         audioSource.PlayOneShot(SFX);
 
-        if (!isDead && !isInvulnerable)
-        {
-            switch (damageType)
-            {
-                case DamageType.head:
-
-                    damage *= HEADSHOT_MULTIPLIER;
-                    SpawnFloatingDamageText(Mathf.RoundToInt(damage).ToString(), Color.red, "Crit");
-                    audioSource.PlayOneShot(headShot);
-                    break;
-                case DamageType.torso:
-
-                    damage *= TORSOSHOT_MULTIPLIER;
-                    if (damage >= 0)
-                        SpawnFloatingDamageText(Mathf.RoundToInt(damage).ToString(), Color.yellow, "FloatAway");
-                    else
-                        SpawnFloatingDamageText("+" + Mathf.Abs(Mathf.RoundToInt(damage)).ToString(), Color.green, "FloatAway");
-
-                    audioSource.PlayOneShot(standardShot);
-                    break;
-                case DamageType.legs:
-
-                    damage *= LEGSHOT_MULTIPLIER;
-                    SpawnFloatingDamageText(Mathf.RoundToInt(damage).ToString(), Color.black, "FloatAway");
-                    audioSource.PlayOneShot(standardShot);
-                    break;
-                case DamageType.feet:
-
-                    damage *= FOOTSHOT_MULTIPLIER;
-                    SpawnFloatingDamageText(Mathf.RoundToInt(damage).ToString(), Color.gray, "FloatAway");
-                    audioSource.PlayOneShot(standardShot);
-                    break;
-                default:
-                    break;
-            }
-
-            health -= (int)damage;
-            float barVal = ((float)health / 100f);
-
-            healthBar.fillAmount = barVal;
-
-
-
-            if (health <= 0)
-            {
-                PlayerScript[] players = GameObject.FindObjectsOfType<PlayerScript>();
-
-                foreach (var player in players)
-                {
-                    //find the real killer
-                    if (player.playerID == attackerID)
-                        player.numKills++;
-                }
-                Die();
-            }
-        }
-
-        if (health > 100)
-            health = 100;
+        TakeDamage(damage, damageType, attackerID);
     }
 
 
