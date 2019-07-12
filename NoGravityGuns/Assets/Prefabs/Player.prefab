@@ -12352,7 +12352,7 @@ MonoBehaviour:
   XButton: 
   currentWeapon: {fileID: 11400000, guid: 49ead892372b5274e987c2ac71fbb8e3, type: 2}
   currentAmmo: 0
-  maxBullets: 0
+  totalBulletsGunCanLoad: 0
   reloadingText: {fileID: 4180111875739284693}
   isReloading: 0
   canShoot: 0
@@ -12545,6 +12545,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4180111876535723069}
     m_Modifications:
+    - target: {fileID: 8110459844112800215, guid: be7d39b310e12b84990311f11b0c50db,
+        type: 3}
+      propertyPath: m_Name
+      value: DMGTextSpawn
+      objectReference: {fileID: 0}
+    - target: {fileID: 8110459844112800209, guid: be7d39b310e12b84990311f11b0c50db,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8110459844112800214, guid: be7d39b310e12b84990311f11b0c50db,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -12650,15 +12660,20 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 8110459844112800209, guid: be7d39b310e12b84990311f11b0c50db,
+    - target: {fileID: 8110459844112800214, guid: be7d39b310e12b84990311f11b0c50db,
         type: 3}
-      propertyPath: m_Enabled
-      value: 0
+      propertyPath: m_LocalScale.x
+      value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 8110459844112800215, guid: be7d39b310e12b84990311f11b0c50db,
+    - target: {fileID: 8110459844112800214, guid: be7d39b310e12b84990311f11b0c50db,
         type: 3}
-      propertyPath: m_Name
-      value: DMGTextSpawn
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8110459844112800214, guid: be7d39b310e12b84990311f11b0c50db,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8110459844112800211, guid: be7d39b310e12b84990311f11b0c50db,
         type: 3}

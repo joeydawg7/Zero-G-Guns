@@ -17,6 +17,7 @@ public class PlayerScript : MonoBehaviour
     public TextMeshProUGUI floatingText;
     public Transform floatingTextSpawnPoint;
     public Color32 playerColor;
+    public Color32 deadColor;
 
     [Header("Controller Stuff")]
     public int playerID;
@@ -96,7 +97,6 @@ public class PlayerScript : MonoBehaviour
     void FixedUpdate()
     {
 
-
         if (Input.GetKeyDown(KeyCode.K))
         {
             TakeDamage(50, DamageType.torso, 0);
@@ -107,6 +107,7 @@ public class PlayerScript : MonoBehaviour
     {
         if (GameManager.Instance.isGameStarted && Input.GetButton(BButton) && armsScript.currentWeapon.GunType != GunType.pistol)
             EquipArms(GunType.pistol, GameManager.Instance.pistol);
+
     }
 
     public void OnGameStart()
@@ -263,6 +264,7 @@ public class PlayerScript : MonoBehaviour
         if (!isDead)
         {
             isDead = true;
+            GetComponent<SpriteRenderer>().color = deadColor;
 
             StartCoroutine(WaitForRespawn());
         }
@@ -413,15 +415,11 @@ public class PlayerScript : MonoBehaviour
         TextMeshProUGUI floatTxt = Instantiate(floatingText, floatingTextSpawnPoint);
         floatTxt.text = textToShow.ToString();
 
-        floatingText.transform.position = new Vector2(Random.Range(-1f, 1f), 0);
+        floatingText.transform.position = new Vector2(Random.Range(-1.5f, 1.5f), Random.Range(-1.5f, 1.5f));
         floatTxt.color = color;
         floatTxt.GetComponent<Animator>().SetTrigger(animType);
 
-
-
-
-
-
+        //floatingText.transform.localScale = new Vector3(floatingText.transform.localScale.x *1, floatingText.transform.localScale.y *1, floatingText.transform.localScale.z * 1);
     }
 
 
