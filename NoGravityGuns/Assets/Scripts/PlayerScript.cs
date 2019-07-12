@@ -409,9 +409,13 @@ public class PlayerScript : MonoBehaviour
     {
         TextMeshProUGUI floatTxt = Instantiate(floatingText, floatingTextSpawnPoint);
         floatTxt.text = textToShow.ToString();
+
+        floatingText.transform.position = new Vector2(Random.Range(-1f, 1f), 0);
         floatTxt.color = color;
         floatTxt.GetComponent<Animator>().SetTrigger(animType);
-        floatingText.transform.position = new Vector2(Random.Range(-1f, 1f), 0);
+        
+
+        
 
 
 

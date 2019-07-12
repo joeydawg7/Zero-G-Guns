@@ -11602,6 +11602,7 @@ GameObject:
   - component: {fileID: 4976415590657393653}
   - component: {fileID: 4976415590657393650}
   - component: {fileID: 4976415590657393648}
+  - component: {fileID: 1883880610}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -11711,11 +11712,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 0
+  playerUIPanel: {fileID: 0}
   healthBar: {fileID: 0}
   statusText: {fileID: 0}
   floatingText: {fileID: 8110459844112800209, guid: be7d39b310e12b84990311f11b0c50db,
     type: 3}
   floatingTextSpawnPoint: {fileID: 17695758235233505}
+  playerColor:
+    serializedVersion: 2
+    rgba: 4281283761
   playerID: 0
   BButton: 
   isDead: 0
@@ -11835,6 +11840,21 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1883880610
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4976415590657393655}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee11e6a70d06b8344b9fe8ee31cf5b0b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerHealthBar: {fileID: 0}
+  playerStatusText: {fileID: 0}
+  playerAmmoGun: {fileID: 0}
 --- !u!1 &6222977343473641410
 GameObject:
   m_ObjectHideFlags: 0
@@ -12341,7 +12361,6 @@ MonoBehaviour:
     rgba: 0
   bulletSprite: {fileID: 21300000, guid: 8101d209ae24bb041b7ba5836494d518, type: 3}
   dryFire: {fileID: 8300000, guid: 045de3ddf8a33af44badcb0cc91d836c, type: 3}
-  gunAndAmmo: {fileID: 0}
   reloadTimer: {fileID: 120857029}
 --- !u!82 &1261354532
 AudioSource:
@@ -12526,11 +12545,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4180111876535723069}
     m_Modifications:
-    - target: {fileID: 8110459844112800215, guid: be7d39b310e12b84990311f11b0c50db,
-        type: 3}
-      propertyPath: m_Name
-      value: DMGTextSpawn
-      objectReference: {fileID: 0}
     - target: {fileID: 8110459844112800214, guid: be7d39b310e12b84990311f11b0c50db,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -12640,6 +12654,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Enabled
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8110459844112800215, guid: be7d39b310e12b84990311f11b0c50db,
+        type: 3}
+      propertyPath: m_Name
+      value: DMGTextSpawn
       objectReference: {fileID: 0}
     - target: {fileID: 8110459844112800211, guid: be7d39b310e12b84990311f11b0c50db,
         type: 3}

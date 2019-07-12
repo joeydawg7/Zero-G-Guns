@@ -15,7 +15,7 @@ public class GunSO : ScriptableObject
     public float recoilMax;
     public int clipSize;
     public int numBullets;
-    public int reloadTime;
+    public float reloadTime;
 
 
     public Sprite weaponPad;

@@ -53,6 +53,9 @@ public class ArmsScript : MonoBehaviour
 
     public GameObject reloadTimer;
 
+
+    bool interruptReload;
+
     private void Awake()
     {
         timeSinceLastShot = 0;
@@ -70,6 +73,7 @@ public class ArmsScript : MonoBehaviour
 
 
         reloadTimer.SetActive(false);
+        interruptReload = false;
 
     }
 
@@ -173,8 +177,8 @@ public class ArmsScript : MonoBehaviour
                     timeSinceLastShot = 0;
                 }
             }
-
-            if (Input.GetAxisRaw(triggerAxis) > 0 && !isReloading)
+            //can't shoot during reload except for shotgun interupt
+            if ((Input.GetAxisRaw(triggerAxis) > 0 && !isReloading) || (Input.GetAxisRaw(triggerAxis) > 0 && currentWeapon.GunType == PlayerScript.GunType.shotgun && currentAmmo >0))
             {
 
                 if (Input.GetAxis(horizontalAxis) != 0 || Input.GetAxis(verticalAxis) != 0)
@@ -188,6 +192,11 @@ public class ArmsScript : MonoBehaviour
                     {
                         if (canShoot)
                         {
+                            interruptReload = true;
+
+                            //add force to player in opposite direction of shot
+                            KnockBack(shootDir);
+
                             switch (currentWeapon.fireType)
                             {
                                 case GunSO.FireType.semiAuto:
@@ -207,8 +216,6 @@ public class ArmsScript : MonoBehaviour
                                     break;
                             }
 
-                            //add force to player in opposite direction of shot
-                            KnockBack(shootDir);
 
                             SendGunText();
                         }
@@ -218,14 +225,14 @@ public class ArmsScript : MonoBehaviour
             }
         }
     }
-    public string GunInfo ()
+    public string GunInfo()
     {
         return currentWeapon.name + ": " + currentAmmo + "/" + currentWeapon.clipSize + " (" + ((maxBullets < 2000) ? maxBullets.ToString() : "\u221E") + ")";
     }
 
     public void SendGunText()
     {
-        basePlayer.GetComponent<PlayerScript>().playerUIPanel.setGun(GunInfo());        
+        basePlayer.GetComponent<PlayerScript>().playerUIPanel.setGun(GunInfo());
     }
 
     public void SendGunText(string s)
@@ -289,12 +296,13 @@ public class ArmsScript : MonoBehaviour
             yield return null;
         }
 
-         reloadTimer.SetActive(false);
+        reloadTimer.SetActive(false);
     }
+
 
     IEnumerator Reload()
     {
-      
+
 
         if (maxBullets <= 0)
         {
@@ -303,56 +311,69 @@ public class ArmsScript : MonoBehaviour
             yield return null;
         }
 
-        StartCoroutine(Rotate(currentWeapon.reloadTime));
+        int shotsToReload = maxBullets - currentAmmo;
 
         isReloading = true;
         reloadingText.alpha = 1;
         //gunAndAmmo.text = "Reloading...";
         SendGunText("Reloading...");
 
-        float reloadtimeIncrememnts = (float)currentWeapon.reloadTime / 6;    
+        float reloadtimeIncrememnts = (float)currentWeapon.reloadTime / 6;
 
         //change sfx type base on reload type of the gun
-        if (currentWeapon.GunType == PlayerScript.GunType.LMG )
+        if (currentWeapon.GunType == PlayerScript.GunType.LMG)
         {
+            StartCoroutine(Rotate(currentWeapon.reloadTime * reloadtimeIncrememnts));
             for (int i = 0; i < currentWeapon.reloadTime; i++)
             {
                 yield return new WaitForSeconds(reloadtimeIncrememnts);
                 GetComponent<AudioSource>().PlayOneShot(currentWeapon.reloadSound);
-                reloadingText.text = "Reloading...";
+                SendGunText("Reloading...");
             }
         }
         else if (currentWeapon.GunType == PlayerScript.GunType.shotgun)
         {
-            reloadtimeIncrememnts = (currentWeapon.reloadTime / ((float)currentAmmo+1) )/4;
+            reloadtimeIncrememnts = (float)currentWeapon.reloadTime /3f;
 
             int shotsToLoad = Mathf.Abs(currentAmmo - currentWeapon.clipSize);
-
+            StartCoroutine(Rotate(reloadtimeIncrememnts * shotsToLoad));
             for (int i = 0; i < shotsToLoad; i++)
-            {             
-                GetComponent<AudioSource>().PlayOneShot(currentWeapon.reloadSound);
+            {              
                 yield return new WaitForSeconds(reloadtimeIncrememnts);
-                reloadingText.text = "Reloading..." ;
+
+                GetComponent<AudioSource>().PlayOneShot(currentWeapon.reloadSound);
+                currentAmmo++;
+                SendGunText();
+
+                if (interruptReload)
+                {
+                    interruptReload = false;
+                    isReloading = false;
+                    SendGunText();
+                    yield break;
+                }
+
+
             }
         }
         else
         {
             audioS.PlayOneShot(currentWeapon.reloadSound);
-
+            StartCoroutine(Rotate(currentWeapon.reloadTime));
             for (int i = 0; i < currentWeapon.reloadTime; i++)
             {
                 yield return new WaitForSeconds(reloadtimeIncrememnts);
-                reloadingText.text = "Reloading.";
+                SendGunText("Reloading.");
                 yield return new WaitForSeconds(reloadtimeIncrememnts);
-                reloadingText.text = "Reloading..";
+                SendGunText("Reloading..");
                 yield return new WaitForSeconds(reloadtimeIncrememnts);
-                reloadingText.text = "Reloading...";
+                SendGunText("Reloading...");
             }
         }
 
-        isReloading = false;       
+        isReloading = false;
+
         currentAmmo = currentWeapon.clipSize;
-        reloadingText.alpha = 0;
 
         //do last
         SendGunText();
@@ -423,7 +444,11 @@ public class ArmsScript : MonoBehaviour
         {
             float angle = Vector2.SignedAngle(transform.position, aim);
 
-            float offset = UnityEngine.Random.Range(-2.5f, 2.5f) * angle;
+
+            float cone = 1.5f * UnityEngine.Random.Range(-1.5f, 1.5f);
+            cone += cone;
+
+            float offset = cone * angle;
 
             Rigidbody2D bullet = (Rigidbody2D)Instantiate(projectile, bulletSpawnPoint, Quaternion.LookRotation(Vector3.forward, -shootDir));
             bullet.GetComponent<Bullet>().Construct(basePlayer.GetComponent<PlayerScript>().playerID, currentWeapon.GunDamage, basePlayer, bulletSprite, currentWeapon.GunType);
