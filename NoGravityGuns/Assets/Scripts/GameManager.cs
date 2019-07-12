@@ -22,6 +22,9 @@ public class GameManager : MonoBehaviour
     public GunSO assaultRifle;
     public GunSO railGun;
 
+    public GameObject playUIPrefab;
+    public Transform playerUIParent;
+
     public float matchTime;
 
     public GUIManager guiManager;
@@ -93,6 +96,7 @@ public class GameManager : MonoBehaviour
             }
             else
             {
+                SpawnPlayerPanel(players[i]);
                 players[i].OnGameStart();
             }
         }
@@ -107,7 +111,13 @@ public class GameManager : MonoBehaviour
         isGameStarted = true;
         timer = matchTime;
     }
+    
+    private void SpawnPlayerPanel(PlayerScript player)
+    {
+        PlayerUIPanel gO = Instantiate(playUIPrefab, playerUIParent).GetComponent<PlayerUIPanel>();
+        gO.setAll((float)player.health / 100f, player.playerName, player.armsScript.GunInfo());
 
+    }
     private void Update()
     {
         if(isGameStarted)

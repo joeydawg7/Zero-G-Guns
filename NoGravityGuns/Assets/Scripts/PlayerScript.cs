@@ -10,6 +10,7 @@ public class PlayerScript : MonoBehaviour
     public int health;
 
     [Header("Gui")]
+    public PlayerUIPanel playerUIPanel;
     public Image healthBar;
     public TextMeshProUGUI statusText;
     public TextMeshProUGUI floatingText;
@@ -75,9 +76,9 @@ public class PlayerScript : MonoBehaviour
 
         health = 100;
         float barVal = ((float)health / 100f);
-        healthBar.fillAmount = barVal;
+        playerUIPanel.setHealth(barVal);
         isDead = false;
-        statusText.text = "";
+        playerUIPanel.setStatusText("");
         spawnPoint = transform.position;
         rb = GetComponent<Rigidbody2D>();
         audioSource = GetComponent<AudioSource>();
@@ -115,7 +116,7 @@ public class PlayerScript : MonoBehaviour
 
         health = 100;
         float barVal = ((float)health / 100f);
-        healthBar.fillAmount = barVal;
+        playerUIPanel.setHealth(barVal);
         isDead = false;
         statusText.text = playerName;
         numKills = 0;
@@ -158,7 +159,7 @@ public class PlayerScript : MonoBehaviour
                 break;
         }
 
-        armsScript.gunAndAmmo.text = armsScript.GetGunsAndAmmoText();
+        armsScript.SendGunText();
 
 
     }
@@ -219,14 +220,12 @@ public class PlayerScript : MonoBehaviour
 
             health -= (int)damage;
             float barVal = ((float)health / 100f);
-
-            healthBar.fillAmount = barVal;
+            playerUIPanel.setHealth(barVal);
 
             if (health <= 0)
             {
-                PlayerScript[] players = GameObject.FindObjectsOfType<PlayerScript>();
-
-                foreach (var player in players)
+                //PlayerScript[] players = GameObject.FindObjectsOfType<PlayerScript>();
+                foreach (var player in GameManager.Instance.players)
                 {
                     //find the real killer
                     if (player.playerID == attackerID)
@@ -264,18 +263,18 @@ public class PlayerScript : MonoBehaviour
 
     IEnumerator WaitForRespawn()
     {
-        statusText.text = "Respawning in 3...";
+        playerUIPanel.setStatusText("Respawning in 3...");
         yield return new WaitForSeconds(1f);
-        statusText.text = "Respawning in 2...";
+        playerUIPanel.setStatusText("Respawning in 2...");
         yield return new WaitForSeconds(1f);
-        statusText.text = "Respawning in 1...";
+        playerUIPanel.setStatusText("Respawning in 1...");
         yield return new WaitForSeconds(1f);
-        statusText.text = playerName;
+        playerUIPanel.setStatusText(playerName);
         transform.position = spawnPoint;
         health = 100;
         float barVal = ((float)health / 100f);
 
-        healthBar.fillAmount = barVal;
+        playerUIPanel.setHealth(barVal);
 
         rb.velocity = Vector2.zero;
         rb.rotation = 0;

@@ -70,7 +70,7 @@ public class ArmsScript : MonoBehaviour
 
         shootDir = new Vector3(0, 0, 0);
 
-        gunAndAmmo.text = GetGunsAndAmmoText();
+        SendGunText();
         gunAndAmmo.alpha = 0;
 
         reloadTimer.SetActive(false);
@@ -140,7 +140,7 @@ public class ArmsScript : MonoBehaviour
         maxBullets = weaponToEquip.numBullets;
         isReloading = false;
         bulletSpawn = gunObj.transform.Find("BulletSpawner");
-        gunAndAmmo.text = GetGunsAndAmmoText();
+        SendGunText();
     }
 
 
@@ -214,7 +214,7 @@ public class ArmsScript : MonoBehaviour
                             //add force to player in opposite direction of shot
                             KnockBack(shootDir);
 
-                            gunAndAmmo.text = GetGunsAndAmmoText();
+                            SendGunText();
                         }
                     }
                 }
@@ -222,13 +222,13 @@ public class ArmsScript : MonoBehaviour
             }
         }
     }
-
-    public string GetGunsAndAmmoText()
+    public string GunInfo ()
     {
-        return gunAndAmmo.text = currentWeapon.name + ": " + currentAmmo + "/" + currentWeapon.clipSize + " (" + ((maxBullets < 2000) ? maxBullets.ToString() : "\u221E" ) + ")";
-            
-            /*((currentClips < 2000) ? currentClips.ToString() : "\u221E") + 
-            "/" + ((currentWeapon.clipNum < 2000) ? currentWeapon.clipNum.ToString() : "\u221E") + ")";*/
+        return currentWeapon.name + ": " + currentAmmo + "/" + currentWeapon.clipSize + " (" + ((maxBullets < 2000) ? maxBullets.ToString() : "\u221E") + ")";
+    }
+    public void SendGunText()
+    {
+        basePlayer.GetComponent<PlayerScript>().playerUIPanel.setGun(GunInfo());        
     }
 
     void KnockBack(Vector2 shootDir)
@@ -352,7 +352,7 @@ public class ArmsScript : MonoBehaviour
         reloadingText.alpha = 0;
 
         //do last
-        gunAndAmmo.text = GetGunsAndAmmoText();
+        SendGunText();
 
     }
 
