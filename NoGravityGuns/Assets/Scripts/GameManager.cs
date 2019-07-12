@@ -86,6 +86,7 @@ public class GameManager : MonoBehaviour
 
     public void StartGame()
     {
+
         for (int i = players.Count - 1; i >= 0; i--)
         {
 
@@ -101,6 +102,7 @@ public class GameManager : MonoBehaviour
             }
         }
 
+
         //camera does its shit after
         cameraController.OnGameStart();
 
@@ -115,7 +117,7 @@ public class GameManager : MonoBehaviour
     private void SpawnPlayerPanel(PlayerScript player)
     {
         PlayerUIPanel gO = Instantiate(playUIPrefab, playerUIParent).GetComponent<PlayerUIPanel>();
-        gO.setAll((float)player.health / 100f, player.playerName, player.armsScript.GunInfo());
+        gO.setAll((float)player.health / 100f, player.playerName, player.armsScript.GunInfo(), player.playerColor);
         player.playerUIPanel = gO;
 
     }

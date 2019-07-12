@@ -16,6 +16,7 @@ public class PlayerScript : MonoBehaviour
     public TextMeshProUGUI statusText;
     public TextMeshProUGUI floatingText;
     public Transform floatingTextSpawnPoint;
+    public Color32 playerColor;
 
     [Header("Controller Stuff")]
     public int playerID;
@@ -64,12 +65,15 @@ public class PlayerScript : MonoBehaviour
     Rigidbody2D rb;
     AudioSource audioSource;
     float angle;
+    int lastHitByID;
+    bool immuneToCollisions;
 
     const float HEADSHOT_MULTIPLIER = 2f;
     const float TORSOSHOT_MULTIPLIER = 1f;
     const float FOOTSHOT_MULTIPLIER = 0.5f;
     const float LEGSHOT_MULTIPLIER = 0.75f;
 
+   
 
     private void Awake()
     {
@@ -84,6 +88,8 @@ public class PlayerScript : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
         numKills = 0;
         defaultColor = GetComponent<SpriteRenderer>().color;
+        lastHitByID = 0;
+        immuneToCollisions = false;
     }
 
     // Update is called once per frame
@@ -178,6 +184,8 @@ public class PlayerScript : MonoBehaviour
     {
         if (!isDead && !isInvulnerable)
         {
+            lastHitByID = attackerID;
+
             switch (damageType)
             {
                 case DamageType.head:
@@ -218,13 +226,15 @@ public class PlayerScript : MonoBehaviour
             float barVal = ((float)health / 100f);
             playerUIPanel.setHealth(barVal);
 
+            immuneToCollisions = false;
+
             if (health <= 0)
             {
                 //PlayerScript[] players = GameObject.FindObjectsOfType<PlayerScript>();
                 foreach (var player in GameManager.Instance.players)
                 {
                     //find the real killer
-                    if (player.playerID == attackerID)
+                    if (player.playerID == lastHitByID)
                         player.numKills++;
                 }
                 Die();
@@ -367,19 +377,31 @@ public class PlayerScript : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.collider.tag == "ImpactObject" || collision.collider.tag == "Torso" || collision.collider.tag == "Head" || collision.collider.tag == "Feet" || collision.collider.tag == "Legs" )
+
+        if (collision.collider.tag == "ImpactObject")
         {
-            float dmg = Mathf.Abs(rb.velocity.x + rb.velocity.y);
+            DealColliderDamage(collision);
+        }
+        else if (collision.collider.tag == "Torso" || collision.collider.tag == "Head" || collision.collider.tag == "Feet" || collision.collider.tag == "Legs")
+        {
+            collision.gameObject.GetComponent<PlayerScript>().lastHitByID = playerID;
+            DealColliderDamage(collision);
+        }
 
-            if (dmg > 50)
-                dmg = 50;
+    }
 
-            if (dmg > 25)
-            {
-                dmg = dmg / 4;
-                TakeDamage(dmg, PlayerScript.DamageType.torso, 0);
-            }
+    void DealColliderDamage(Collision2D collision)
+    {
+        float dmg = collision.relativeVelocity.magnitude;
 
+        if (dmg > 100)
+            dmg = 100;
+
+        if (dmg > 50 && !immuneToCollisions)
+        {
+            dmg = dmg / 4;
+            immuneToCollisions = true;
+            TakeDamage(dmg, PlayerScript.DamageType.torso, 0);
         }
     }
 

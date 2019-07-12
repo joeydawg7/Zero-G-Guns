@@ -10,11 +10,17 @@ public class PlayerUIPanel : MonoBehaviour
     public TextMeshProUGUI playerStatusText;
     public TextMeshProUGUI playerAmmoGun;
 
-    public void setAll(float fillDamage, string statusMsg, string gunMsg)
+    public void setAll(float fillDamage, string statusMsg, string gunMsg, Color32 color)
     {
         setHealth(fillDamage);
         setStatusText(statusMsg);
         setGun(gunMsg);
+
+        foreach (var text in GetComponentsInChildren<TextMeshProUGUI>())
+        {
+            text.color = color;
+        } 
+
     }
     public void setHealth(float fillDamage)
     {
