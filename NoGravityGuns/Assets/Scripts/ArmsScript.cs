@@ -11,7 +11,7 @@ public class ArmsScript : MonoBehaviour
 
     public bool allowMouseControls;
 
-    public GameObject basePlayer;
+    public PlayerScript basePlayer;
 
     float timeSinceLastShot;
 
@@ -158,7 +158,7 @@ public class ArmsScript : MonoBehaviour
         if (currentRecoil > currentWeapon.recoilMax)
             currentRecoil = currentWeapon.recoilMax;
 
-        if (!basePlayer.GetComponent<PlayerScript>().isDead)
+        if (!basePlayer.isDead)
         {
 
             shootDir = Vector2.right * Input.GetAxis(horizontalAxis) + Vector2.up * Input.GetAxis(verticalAxis);
@@ -217,7 +217,7 @@ public class ArmsScript : MonoBehaviour
                             }
 
                             if (currentAmmo <= 0 && totalBulletsGunCanLoad <= 0)
-                                basePlayer.GetComponent<PlayerScript>().EquipArms(PlayerScript.GunType.pistol, GameManager.Instance.pistol);
+                                basePlayer.EquipArms(PlayerScript.GunType.pistol, GameManager.Instance.pistol);
 
                             SendGunText();
                         }
@@ -234,17 +234,17 @@ public class ArmsScript : MonoBehaviour
 
     public void SendGunText()
     {
-        basePlayer.GetComponent<PlayerScript>().playerUIPanel.setGun(GunInfo());
+        basePlayer.playerUIPanel.setGun(GunInfo());
     }
 
     public void SendGunText(string s)
     {
-        basePlayer.GetComponent<PlayerScript>().playerUIPanel.setGun(s);
+        basePlayer.playerUIPanel.setGun(s);
     }
 
     void KnockBack(Vector2 shootDir)
     {
-        basePlayer.GetComponent<Rigidbody2D>().AddForce(-shootDir * currentWeapon.knockback, ForceMode2D.Impulse);
+        basePlayer.rb.AddForce(-shootDir * currentWeapon.knockback, ForceMode2D.Impulse);
         Camera.main.GetComponent<CameraShake>().shakeDuration += currentWeapon.cameraShakeDuration;
         timeSinceLastShot = 0;
     }
@@ -270,17 +270,6 @@ public class ArmsScript : MonoBehaviour
         audioS.PlayOneShot(currentWeapon.GetRandomGunshotSFX);
     }
 
-    void SpawnBullet()
-    {
-        Rigidbody2D bullet = (Rigidbody2D)Instantiate(projectile, bulletSpawnPoint, Quaternion.LookRotation(Vector3.forward, -shootDir));
-        bullet.GetComponent<Bullet>().Construct(basePlayer.GetComponent<PlayerScript>().playerID, currentWeapon.GunDamage, basePlayer, bulletSprite, currentWeapon.GunType);
-        Vector3 dir = -Vector2.up * currentWeapon.bulletSpeed;
-
-        bullet.AddRelativeForce(dir, ForceMode2D.Force);
-        bullet.transform.rotation = rotation;
-        bullet.GetComponent<Bullet>().SetStartingForce(dir);
-
-    }
 
     IEnumerator Rotate(float duration)
     {
@@ -389,13 +378,6 @@ public class ArmsScript : MonoBehaviour
         }
 
 
-        //if (totalBulletsGunCanLoad <= 0)
-        //{
-        //    //if its our last shot no need to reload just drop the gun
-        //    basePlayer.GetComponent<PlayerScript>().EquipArms(PlayerScript.GunType.pistol, GameManager.Instance.pistol);
-        //}
-
-
         //do last
         SendGunText();
 
@@ -468,17 +450,32 @@ public class ArmsScript : MonoBehaviour
 
             float offset = cone * angle;
 
-            Rigidbody2D bullet = (Rigidbody2D)Instantiate(projectile, bulletSpawnPoint, Quaternion.LookRotation(Vector3.forward, -shootDir));
-            bullet.GetComponent<Bullet>().Construct(basePlayer.GetComponent<PlayerScript>().playerID, currentWeapon.GunDamage, basePlayer, bulletSprite, currentWeapon.GunType);
-
-
+            GameObject bulletGo = ObjectPooler.Instance.SpawnFromPool("Bullet", bulletSpawnPoint, Quaternion.LookRotation(Vector3.forward, -shootDir));
             Vector3 dir = -Vector2.up * currentWeapon.bulletSpeed;
-            bullet.transform.rotation = rotation;
-            Vector2 nomralizedOffset = new Vector2(dir.x + offset, dir.y + offset).normalized;
+            Vector2 nomralizedOffset = new Vector2(dir.x + offset, dir.y + offset);
+            //bullet.AddRelativeForce(nomralizedOffset * 20, ForceMode2D.Impulse);
 
-            bullet.AddRelativeForce(nomralizedOffset * 20, ForceMode2D.Impulse);
-            bullet.transform.rotation = rotation;
+            bulletGo.GetComponent<Bullet>().Construct(basePlayer.playerID, currentWeapon.GunDamage, basePlayer.gameObject, bulletSprite, currentWeapon.GunType, (nomralizedOffset));
+           
+            //bullet.transform.rotation = rotation;
+
+            //bullet.transform.rotation = rotation;
         }
+    }
+
+    void SpawnBullet()
+    {
+        //Rigidbody2D bullet = (Rigidbody2D)Instantiate(projectile, bulletSpawnPoint, Quaternion.LookRotation(Vector3.forward, -shootDir));
+        GameObject bulletGo = ObjectPooler.Instance.SpawnFromPool("Bullet", bulletSpawnPoint, Quaternion.LookRotation(Vector3.forward, -shootDir));
+        Vector3 dir = -Vector2.up * currentWeapon.bulletSpeed;
+        //Rigidbody2D bullet = bulletGo.GetComponent<Rigidbody2D>();
+
+        bulletGo.GetComponent<Bullet>().Construct(basePlayer.playerID, currentWeapon.GunDamage, basePlayer.gameObject, bulletSprite, currentWeapon.GunType, dir);
+
+        //bullet.AddRelativeForce(dir, ForceMode2D.Force);
+        //bullet.transform.rotation = rotation;
+        //bullet.GetComponent<Bullet>().SetStartingForce(dir);
+
     }
 
 

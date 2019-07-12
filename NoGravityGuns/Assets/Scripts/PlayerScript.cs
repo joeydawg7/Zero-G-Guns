@@ -60,10 +60,11 @@ public class PlayerScript : MonoBehaviour
     [HideInInspector]
     public string hexColorCode;
 
+    public Rigidbody2D rb;
+
     //Private
     Quaternion targetRotation;
-    Color32 defaultColor;
-    Rigidbody2D rb;
+    Color32 defaultColor;  
     AudioSource audioSource;
     float angle;
     int lastHitByID;

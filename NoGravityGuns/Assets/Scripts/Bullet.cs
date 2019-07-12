@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Bullet : MonoBehaviour
+public class Bullet : MonoBehaviour, IPooledObject
 {
 
     float damage;
-    public GameObject sparkyBoom;
 
     int playerID;
 
@@ -15,32 +14,31 @@ public class Bullet : MonoBehaviour
     bool canImapact;
     bool noBounce = true;
 
-    public GameObject somethingSexy;
-
     Rigidbody2D rb;
     Vector2 startingForce;
 
     bool canHurty;
 
-    private void Awake()
+    ObjectPooler objectPooler;
+
+
+    public void OnObjectSpawn()
     {
         canImapact = false;
         rb = GetComponent<Rigidbody2D>();
-    }
+        objectPooler = ObjectPooler.Instance;
 
-    private void Start()
-    {
-        //kill the gameobject after 20 seconds in case it makes it this far without hitting a wall
-        Destroy(gameObject, 20f);
     }
 
     public void SetStartingForce(Vector2 vel)
     {
-        startingForce = new Vector2 (vel.x, vel.y);
+        startingForce = new Vector2(vel.x, vel.y);
     }
 
 
-    public void Construct(int playerID, float damage, GameObject player, Sprite bulletSprite, PlayerScript.GunType gunType)
+    ParticleSystem somethingSexy;
+
+    public void Construct(int playerID, float damage, GameObject player, Sprite bulletSprite, PlayerScript.GunType gunType, Vector3 dir)
     {
         this.playerID = playerID;
         this.damage = damage;
@@ -52,8 +50,19 @@ public class Bullet : MonoBehaviour
         {
             Physics2D.IgnoreCollision(GetComponent<Collider2D>(), collider, true);
         }
+
+        rb.simulated = true;
+
+        rb.AddRelativeForce(dir, ForceMode2D.Force);
+        SetStartingForce(dir);
+
         canImapact = true;
         canHurty = true;
+
+        GameObject temp = objectPooler.SpawnFromPool("BulletTrail", gameObject.transform.position, Quaternion.identity);
+        somethingSexy = temp.GetComponent<ParticleSystem>();
+        somethingSexy.transform.parent = transform;
+
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -64,9 +73,9 @@ public class Bullet : MonoBehaviour
             {
 
                 //checks where we hit the other guy, and that it isnt self damage so we cant shoot ourselves in the knees
-                if (collision.collider.tag == "Torso" && collision.gameObject.GetComponent<PlayerScript>().playerID != playerID && canHurty )
+                if (collision.collider.tag == "Torso" && collision.gameObject.GetComponent<PlayerScript>().playerID != playerID && canHurty)
                 {
-                    collision.gameObject.GetComponent<PlayerScript>().TakeDamage(damage, PlayerScript.DamageType.torso, playerID );
+                    collision.gameObject.GetComponent<PlayerScript>().TakeDamage(damage, PlayerScript.DamageType.torso, playerID);
                 }
                 if (collision.collider.tag == "Head" && collision.gameObject.GetComponent<PlayerScript>().playerID != playerID && canHurty)
                 {
@@ -78,17 +87,12 @@ public class Bullet : MonoBehaviour
                 }
                 if (collision.collider.tag == "Leg" && collision.gameObject.GetComponent<PlayerScript>().playerID != playerID && canHurty)
                 {
-                    collision.gameObject.GetComponent<PlayerScript>().TakeDamage(damage, PlayerScript.DamageType.legs , playerID);
+                    collision.gameObject.GetComponent<PlayerScript>().TakeDamage(damage, PlayerScript.DamageType.legs, playerID);
                 }
 
-                GameObject sparkyObj = GameObject.Instantiate(sparkyBoom);
-
-                sparkyObj.transform.position = transform.position;
+                GameObject sparkyObj = objectPooler.SpawnFromPool("BulletImpact", transform.position, Quaternion.identity);
                 sparkyObj.GetComponent<ParticleSystem>().Emit(10);
-
-
-                Destroy(sparkyObj, 2f);
-
+                sparkyObj.GetComponent<DisableOverTime>().DisableOverT(2f);
 
                 rb.AddForce(Reflect(startingForce, collision.GetContact(0).normal));
 
@@ -96,9 +100,10 @@ public class Bullet : MonoBehaviour
                 if (bulletType != PlayerScript.GunType.railGun || noBounce == false)
                 {
                     canHurty = false;
-                    Destroy(gameObject);
-                    somethingSexy.GetComponent<ParticleSystem>().Stop();
-                    somethingSexy.GetComponent<KillOverTime>().StartKilling();
+                    StartCoroutine(DisableOverTime(0.16f));
+                    rb.simulated = false;
+                    somethingSexy.Stop();
+                    somethingSexy.GetComponent<DisableOverTime>().DisableOverT(3.1f);
                     somethingSexy.transform.parent = null;
                 }
                 else
@@ -110,9 +115,15 @@ public class Bullet : MonoBehaviour
     }
 
 
-     Vector2 Reflect(Vector2 vector, Vector2 normal)
+    Vector2 Reflect(Vector2 vector, Vector2 normal)
     {
         return vector - 2 * Vector2.Dot(vector, normal) * normal;
+    }
+
+    IEnumerator DisableOverTime(float t)
+    {
+        yield return new WaitForSeconds(t);
+        gameObject.SetActive(false);
     }
 
 

@@ -11721,6 +11721,9 @@ MonoBehaviour:
   playerColor:
     serializedVersion: 2
     rgba: 4281283761
+  deadColor:
+    serializedVersion: 2
+    rgba: 2868903936
   playerID: 0
   BButton: 
   isDead: 0
@@ -11743,6 +11746,7 @@ MonoBehaviour:
   HS_Streaks: {fileID: 2015997958}
   playerName: 
   hexColorCode: 
+  rb: {fileID: 0}
 --- !u!82 &4976415590657393648
 AudioSource:
   m_ObjectHideFlags: 0
@@ -12342,7 +12346,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   allowMouseControls: 0
-  basePlayer: {fileID: 4976415590657393655}
+  basePlayer: {fileID: 4976415590657393650}
   projectile: {fileID: 6104711158203355607, guid: 56ef0b4526c6e0d4795adb5837e2749e,
     type: 3}
   bulletSpawn: {fileID: 4868978610939038248}
