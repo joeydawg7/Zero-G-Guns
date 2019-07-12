@@ -51,8 +51,6 @@ public class ArmsScript : MonoBehaviour
 
     public AudioClip dryFire;
 
-    public TextMeshProUGUI gunAndAmmo;
-
     public GameObject reloadTimer;
 
     private void Awake()
@@ -70,8 +68,6 @@ public class ArmsScript : MonoBehaviour
 
         shootDir = new Vector3(0, 0, 0);
 
-        SendGunText();
-        gunAndAmmo.alpha = 0;
 
         reloadTimer.SetActive(false);
 
@@ -226,9 +222,15 @@ public class ArmsScript : MonoBehaviour
     {
         return currentWeapon.name + ": " + currentAmmo + "/" + currentWeapon.clipSize + " (" + ((maxBullets < 2000) ? maxBullets.ToString() : "\u221E") + ")";
     }
+
     public void SendGunText()
     {
         basePlayer.GetComponent<PlayerScript>().playerUIPanel.setGun(GunInfo());        
+    }
+
+    public void SendGunText(string s)
+    {
+        basePlayer.GetComponent<PlayerScript>().playerUIPanel.setGun(s);
     }
 
     void KnockBack(Vector2 shootDir)
@@ -305,7 +307,8 @@ public class ArmsScript : MonoBehaviour
 
         isReloading = true;
         reloadingText.alpha = 1;
-        gunAndAmmo.text = "Reloading...";
+        //gunAndAmmo.text = "Reloading...";
+        SendGunText("Reloading...");
 
         float reloadtimeIncrememnts = (float)currentWeapon.reloadTime / 6;    
 

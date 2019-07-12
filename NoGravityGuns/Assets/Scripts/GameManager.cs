@@ -116,6 +116,7 @@ public class GameManager : MonoBehaviour
     {
         PlayerUIPanel gO = Instantiate(playUIPrefab, playerUIParent).GetComponent<PlayerUIPanel>();
         gO.setAll((float)player.health / 100f, player.playerName, player.armsScript.GunInfo());
+        player.playerUIPanel = gO;
 
     }
     private void Update()

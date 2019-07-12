@@ -10,6 +10,7 @@ public class PlayerScript : MonoBehaviour
     public int health;
 
     [Header("Gui")]
+    [HideInInspector]
     public PlayerUIPanel playerUIPanel;
     public Image healthBar;
     public TextMeshProUGUI statusText;
@@ -24,7 +25,6 @@ public class PlayerScript : MonoBehaviour
     public enum DamageType { head, torso, legs, feet };
     [HideInInspector]
     public enum GunType { pistol, assaultRifle, LMG, shotgun, railGun, healthPack };
-
 
 
     [Header("Bools")]
@@ -76,9 +76,9 @@ public class PlayerScript : MonoBehaviour
 
         health = 100;
         float barVal = ((float)health / 100f);
-        playerUIPanel.setHealth(barVal);
+        //playerUIPanel.setHealth(barVal);
         isDead = false;
-        playerUIPanel.setStatusText("");
+        //playerUIPanel.setStatusText("");
         spawnPoint = transform.position;
         rb = GetComponent<Rigidbody2D>();
         audioSource = GetComponent<AudioSource>();
@@ -89,10 +89,7 @@ public class PlayerScript : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (!isDead)
-        {
 
-        }
 
         if (Input.GetKeyDown(KeyCode.K))
         {
@@ -124,7 +121,6 @@ public class PlayerScript : MonoBehaviour
         assaultRifleArms.SetActive(false);
         shotGunArms.SetActive(false);
         LMGArms.SetActive(false);
-        armsScript.gunAndAmmo.alpha = 1;
         StartCoroutine(RespawnInvulernability());
     }
 
