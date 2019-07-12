@@ -29,7 +29,7 @@ public class ArmsScript : MonoBehaviour
     public GunSO currentWeapon;
 
     public int currentAmmo;
-    public int maxBullets;
+    public int totalBulletsGunCanLoad;
 
     float currentRecoil;
 
@@ -63,7 +63,7 @@ public class ArmsScript : MonoBehaviour
 
         facing = transform.rotation;
         currentAmmo = currentWeapon.clipSize;
-        maxBullets = currentWeapon.numBullets;
+        totalBulletsGunCanLoad = currentWeapon.numBullets;
 
         audioS = GetComponent<AudioSource>();
 
@@ -137,7 +137,7 @@ public class ArmsScript : MonoBehaviour
     {
         currentWeapon = weaponToEquip;
         currentAmmo = weaponToEquip.clipSize;
-        maxBullets = weaponToEquip.numBullets;
+        totalBulletsGunCanLoad = weaponToEquip.numBullets;
         isReloading = false;
         bulletSpawn = gunObj.transform.Find("BulletSpawner");
         SendGunText();
@@ -178,7 +178,7 @@ public class ArmsScript : MonoBehaviour
                 }
             }
             //can't shoot during reload except for shotgun interupt
-            if ((Input.GetAxisRaw(triggerAxis) > 0 && !isReloading) || (Input.GetAxisRaw(triggerAxis) > 0 && currentWeapon.GunType == PlayerScript.GunType.shotgun && currentAmmo >0))
+            if ((Input.GetAxisRaw(triggerAxis) > 0 && !isReloading) || (Input.GetAxisRaw(triggerAxis) > 0 && currentWeapon.GunType == PlayerScript.GunType.shotgun && currentAmmo > 0))
             {
 
                 if (Input.GetAxis(horizontalAxis) != 0 || Input.GetAxis(verticalAxis) != 0)
@@ -216,6 +216,8 @@ public class ArmsScript : MonoBehaviour
                                     break;
                             }
 
+                            if (currentAmmo <= 0 && totalBulletsGunCanLoad <= 0)
+                                basePlayer.GetComponent<PlayerScript>().EquipArms(PlayerScript.GunType.pistol, GameManager.Instance.pistol);
 
                             SendGunText();
                         }
@@ -227,7 +229,7 @@ public class ArmsScript : MonoBehaviour
     }
     public string GunInfo()
     {
-        return currentWeapon.name + ": " + currentAmmo + "/" + currentWeapon.clipSize + " (" + ((maxBullets < 2000) ? maxBullets.ToString() : "\u221E") + ")";
+        return currentWeapon.name + ": " + currentAmmo + "/" + currentWeapon.clipSize + " (" + ((totalBulletsGunCanLoad < 2000) ? totalBulletsGunCanLoad.ToString() : "\u221E") + ")";
     }
 
     public void SendGunText()
@@ -259,7 +261,6 @@ public class ArmsScript : MonoBehaviour
         SpawnBullet();
 
         currentAmmo--;
-        maxBullets--;
 
         if (currentAmmo <= 0)
         {
@@ -302,78 +303,98 @@ public class ArmsScript : MonoBehaviour
 
     IEnumerator Reload()
     {
-
-
-        if (maxBullets <= 0)
+        if (totalBulletsGunCanLoad > 0)
         {
-            //if its our last shot no need to reload just drop the gun
-            basePlayer.GetComponent<PlayerScript>().EquipArms(PlayerScript.GunType.pistol, GameManager.Instance.pistol);
-            yield return null;
-        }
+            int shotsToReload = 0;
 
-        int shotsToReload = maxBullets - currentAmmo;
+            shotsToReload = (totalBulletsGunCanLoad - currentWeapon.clipSize) + currentAmmo;
+            shotsToReload = totalBulletsGunCanLoad - shotsToReload;
 
-        isReloading = true;
-        reloadingText.alpha = 1;
-        //gunAndAmmo.text = "Reloading...";
-        SendGunText("Reloading...");
 
-        float reloadtimeIncrememnts = (float)currentWeapon.reloadTime / 6;
+            isReloading = true;
+            reloadingText.alpha = 1;
+            //gunAndAmmo.text = "Reloading...";
+            SendGunText("Reloading...");
 
-        //change sfx type base on reload type of the gun
-        if (currentWeapon.GunType == PlayerScript.GunType.LMG)
-        {
-            StartCoroutine(Rotate(currentWeapon.reloadTime * reloadtimeIncrememnts));
-            for (int i = 0; i < currentWeapon.reloadTime; i++)
+            float reloadtimeIncrememnts = (float)currentWeapon.reloadTime / 6;
+
+            //change sfx type base on reload type of the gun
+            if (currentWeapon.GunType == PlayerScript.GunType.LMG)
             {
-                yield return new WaitForSeconds(reloadtimeIncrememnts);
-                GetComponent<AudioSource>().PlayOneShot(currentWeapon.reloadSound);
-                SendGunText("Reloading...");
-            }
-        }
-        else if (currentWeapon.GunType == PlayerScript.GunType.shotgun)
-        {
-            reloadtimeIncrememnts = (float)currentWeapon.reloadTime /3f;
-
-            int shotsToLoad = Mathf.Abs(currentAmmo - currentWeapon.clipSize);
-            StartCoroutine(Rotate(reloadtimeIncrememnts * shotsToLoad));
-            for (int i = 0; i < shotsToLoad; i++)
-            {              
-                yield return new WaitForSeconds(reloadtimeIncrememnts);
-
-                GetComponent<AudioSource>().PlayOneShot(currentWeapon.reloadSound);
-                currentAmmo++;
-                SendGunText();
-
-                if (interruptReload)
+                StartCoroutine(Rotate(currentWeapon.reloadTime * reloadtimeIncrememnts));
+                for (int i = 0; i < currentWeapon.reloadTime; i++)
                 {
-                    interruptReload = false;
-                    isReloading = false;
-                    SendGunText();
-                    yield break;
+                    yield return new WaitForSeconds(reloadtimeIncrememnts);
+                    GetComponent<AudioSource>().PlayOneShot(currentWeapon.reloadSound);
+                    SendGunText("Reloading...");
                 }
-
-
             }
-        }
-        else
-        {
-            audioS.PlayOneShot(currentWeapon.reloadSound);
-            StartCoroutine(Rotate(currentWeapon.reloadTime));
-            for (int i = 0; i < currentWeapon.reloadTime; i++)
+            else if (currentWeapon.GunType == PlayerScript.GunType.shotgun)
             {
-                yield return new WaitForSeconds(reloadtimeIncrememnts);
-                SendGunText("Reloading.");
-                yield return new WaitForSeconds(reloadtimeIncrememnts);
-                SendGunText("Reloading..");
-                yield return new WaitForSeconds(reloadtimeIncrememnts);
-                SendGunText("Reloading...");
+                reloadtimeIncrememnts = (float)currentWeapon.reloadTime / 3f;
+
+                int shotsToLoad = Mathf.Abs(currentAmmo - currentWeapon.clipSize);
+
+                if (shotsToLoad >= totalBulletsGunCanLoad)
+                    shotsToLoad -= totalBulletsGunCanLoad;
+
+                StartCoroutine(Rotate(reloadtimeIncrememnts * shotsToLoad));
+                for (int i = 0; i < shotsToLoad; i++)
+                {
+                    yield return new WaitForSeconds(reloadtimeIncrememnts);
+
+                    GetComponent<AudioSource>().PlayOneShot(currentWeapon.reloadSound);
+                    currentAmmo++;
+                    totalBulletsGunCanLoad--;
+                    SendGunText();
+
+                    if (interruptReload)
+                    {
+                        interruptReload = false;
+                        isReloading = false;
+                        SendGunText();
+                        yield break;
+                    }
+                }
             }
+            else
+            {
+                audioS.PlayOneShot(currentWeapon.reloadSound);
+                StartCoroutine(Rotate(currentWeapon.reloadTime));
+                for (int i = 0; i < currentWeapon.reloadTime; i++)
+                {
+                    yield return new WaitForSeconds(reloadtimeIncrememnts);
+                    SendGunText("Reloading.");
+                    yield return new WaitForSeconds(reloadtimeIncrememnts);
+                    SendGunText("Reloading..");
+                    yield return new WaitForSeconds(reloadtimeIncrememnts);
+                    SendGunText("Reloading...");
+                }
+            }
+
+            isReloading = false;
+
+            if (currentWeapon.GunType == PlayerScript.GunType.pistol)
+            {
+                currentAmmo = currentWeapon.clipSize;
+            }
+            else if (currentWeapon.GunType != PlayerScript.GunType.shotgun)
+            {
+                totalBulletsGunCanLoad -= shotsToReload;
+                currentAmmo += shotsToReload;
+            }
+
+            if (totalBulletsGunCanLoad < 0)
+                totalBulletsGunCanLoad = 0;
         }
 
-        isReloading = false;
 
-        currentAmmo = currentWeapon.clipSize;
+        //if (totalBulletsGunCanLoad <= 0)
+        //{
+        //    //if its our last shot no need to reload just drop the gun
+        //    basePlayer.GetComponent<PlayerScript>().EquipArms(PlayerScript.GunType.pistol, GameManager.Instance.pistol);
+        //}
+
 
         //do last
         SendGunText();
@@ -394,14 +415,13 @@ public class ArmsScript : MonoBehaviour
             SpawnBullet();
 
             currentAmmo--;
-            maxBullets--;
 
             if (audioS.isPlaying)
                 audioS.Stop();
 
             audioS.PlayOneShot(currentWeapon.GetRandomGunshotSFX);
 
-
+            SendGunText();
             yield return new WaitForSeconds(0.08f);
         }
 
@@ -415,7 +435,6 @@ public class ArmsScript : MonoBehaviour
     public void BuckShot()
     {
         currentAmmo--;
-        maxBullets--;
 
         //cone of -1 to 1 multiplied by current recoil amount to determine just how random it can be
         float recoilMod = UnityEngine.Random.Range(-1f, 1f) * currentRecoil;
@@ -443,7 +462,6 @@ public class ArmsScript : MonoBehaviour
         for (int i = 0; i < UnityEngine.Random.Range(5, 8); i++)
         {
             float angle = Vector2.SignedAngle(transform.position, aim);
-
 
             float cone = 1.5f * UnityEngine.Random.Range(-1.5f, 1.5f);
             cone += cone;

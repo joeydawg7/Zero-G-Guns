@@ -73,7 +73,7 @@ public class PlayerScript : MonoBehaviour
     const float FOOTSHOT_MULTIPLIER = 0.5f;
     const float LEGSHOT_MULTIPLIER = 0.75f;
 
-   
+
 
     private void Awake()
     {
@@ -186,40 +186,43 @@ public class PlayerScript : MonoBehaviour
         {
             lastHitByID = attackerID;
 
-            switch (damageType)
+            if (damage < 0)
             {
-                case DamageType.head:
+                damage = Mathf.Abs(damage);
+                SpawnFloatingDamageText("+" + Mathf.RoundToInt(damage).ToString(), Color.green, "FloatAway");
+                damage = damage * -1;
+            }
+            else
+            {
+                switch (damageType)
+                {
+                    case DamageType.head:
 
-                    damage *= HEADSHOT_MULTIPLIER;
-                    SpawnFloatingDamageText(Mathf.RoundToInt(damage).ToString(), Color.red, "Crit");
-                    audioSource.PlayOneShot(headShot);
-                    HS_Flash.Emit(1);
-                    HS_Flash.Emit(Random.Range(35, 45));
-                    break;
-                case DamageType.torso:
-
-                    damage *= TORSOSHOT_MULTIPLIER;
-                    if (damage >= 0)
+                        damage *= HEADSHOT_MULTIPLIER;
+                        SpawnFloatingDamageText(Mathf.RoundToInt(damage).ToString(), Color.red, "Crit");
+                        audioSource.PlayOneShot(headShot);
+                        HS_Flash.Emit(1);
+                        HS_Flash.Emit(Random.Range(35, 45));
+                        break;
+                    case DamageType.torso:
+                        damage *= TORSOSHOT_MULTIPLIER;
                         SpawnFloatingDamageText(Mathf.RoundToInt(damage).ToString(), Color.yellow, "FloatAway");
-                    else
-                        SpawnFloatingDamageText(Mathf.RoundToInt(damage).ToString(), Color.green, "FloatAway");
+                        audioSource.PlayOneShot(standardShot);
+                        break;
+                    case DamageType.legs:
+                        damage *= LEGSHOT_MULTIPLIER;
+                        SpawnFloatingDamageText(Mathf.RoundToInt(damage).ToString(), Color.black, "FloatAway");
+                        audioSource.PlayOneShot(standardShot);
+                        break;
+                    case DamageType.feet:
 
-                    audioSource.PlayOneShot(standardShot);
-                    break;
-                case DamageType.legs:
-
-                    damage *= LEGSHOT_MULTIPLIER;
-                    SpawnFloatingDamageText(Mathf.RoundToInt(damage).ToString(), Color.black, "FloatAway");
-                    audioSource.PlayOneShot(standardShot);
-                    break;
-                case DamageType.feet:
-
-                    damage *= FOOTSHOT_MULTIPLIER;
-                    SpawnFloatingDamageText(Mathf.RoundToInt(damage).ToString(), Color.gray, "FloatAway");
-                    audioSource.PlayOneShot(standardShot);
-                    break;
-                default:
-                    break;
+                        damage *= FOOTSHOT_MULTIPLIER;
+                        SpawnFloatingDamageText(Mathf.RoundToInt(damage).ToString(), Color.gray, "FloatAway");
+                        audioSource.PlayOneShot(standardShot);
+                        break;
+                    default:
+                        break;
+                }
             }
 
             health -= (int)damage;
@@ -413,9 +416,9 @@ public class PlayerScript : MonoBehaviour
         floatingText.transform.position = new Vector2(Random.Range(-1f, 1f), 0);
         floatTxt.color = color;
         floatTxt.GetComponent<Animator>().SetTrigger(animType);
-        
 
-        
+
+
 
 
 
