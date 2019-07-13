@@ -64,11 +64,11 @@ public class PlayerScript : MonoBehaviour
 
     //Private
     Quaternion targetRotation;
-    Color32 defaultColor;  
+    Color32 defaultColor;
     AudioSource audioSource;
     float angle;
     int lastHitByID;
-    bool immuneToCollisions;
+    float immuneToCollisionsTimer;
 
     const float HEADSHOT_MULTIPLIER = 2f;
     const float TORSOSHOT_MULTIPLIER = 1f;
@@ -91,7 +91,8 @@ public class PlayerScript : MonoBehaviour
         numKills = 0;
         defaultColor = GetComponent<SpriteRenderer>().color;
         lastHitByID = 0;
-        immuneToCollisions = false;
+        immuneToCollisionsTimer = 0;
+        
     }
 
     // Update is called once per frame
@@ -108,6 +109,9 @@ public class PlayerScript : MonoBehaviour
     {
         if (GameManager.Instance.isGameStarted && Input.GetButton(BButton) && armsScript.currentWeapon.GunType != GunType.pistol)
             EquipArms(GunType.pistol, GameManager.Instance.pistol);
+
+        if (GameManager.Instance.isGameStarted)
+            immuneToCollisionsTimer += Time.deltaTime;
 
     }
 
@@ -129,6 +133,7 @@ public class PlayerScript : MonoBehaviour
         assaultRifleArms.SetActive(false);
         shotGunArms.SetActive(false);
         LMGArms.SetActive(false);
+        EquipArms(GunType.pistol, GameManager.Instance.pistol);
         StartCoroutine(RespawnInvulernability());
     }
 
@@ -141,23 +146,28 @@ public class PlayerScript : MonoBehaviour
             case GunType.pistol:
                 pistolArms.SetActive(true);
                 armsScript.EquipGun(gun, pistolArms);
+                armsScript.currentArms = pistolArms;
                 //code here to actually refill bullets to stop crap from hapening that is bad
                 break;
             case GunType.railGun:
                 railGunArms.SetActive(true);
                 armsScript.EquipGun(gun, railGunArms);
+                armsScript.currentArms = railGunArms;
                 break;
             case GunType.assaultRifle:
                 assaultRifleArms.SetActive(true);
                 armsScript.EquipGun(gun, assaultRifleArms);
+                armsScript.currentArms = assaultRifleArms;
                 break;
             case GunType.LMG:
                 LMGArms.SetActive(true);
                 armsScript.EquipGun(gun, LMGArms);
+                armsScript.currentArms = LMGArms;
                 break;
             case GunType.shotgun:
                 shotGunArms.SetActive(true);
                 armsScript.EquipGun(gun, shotGunArms);
+                armsScript.currentArms = shotGunArms;
                 break;
             default:
                 break;
@@ -190,9 +200,7 @@ public class PlayerScript : MonoBehaviour
 
             if (damage < 0)
             {
-                damage = Mathf.Abs(damage);
-                SpawnFloatingDamageText("+" + Mathf.RoundToInt(damage).ToString(), Color.green, "FloatAway");
-                damage = damage * -1;
+                SpawnFloatingDamageText(Mathf.RoundToInt(damage), Color.green, "FloatAway");
             }
             else
             {
@@ -201,25 +209,25 @@ public class PlayerScript : MonoBehaviour
                     case DamageType.head:
 
                         damage *= HEADSHOT_MULTIPLIER;
-                        SpawnFloatingDamageText(Mathf.RoundToInt(damage).ToString(), Color.red, "Crit");
+                        SpawnFloatingDamageText(Mathf.RoundToInt(damage), Color.red, "Crit");
                         audioSource.PlayOneShot(headShot);
                         HS_Flash.Emit(1);
                         HS_Flash.Emit(Random.Range(35, 45));
                         break;
                     case DamageType.torso:
                         damage *= TORSOSHOT_MULTIPLIER;
-                        SpawnFloatingDamageText(Mathf.RoundToInt(damage).ToString(), Color.yellow, "FloatAway");
+                        SpawnFloatingDamageText(Mathf.RoundToInt(damage), Color.yellow, "FloatAway");
                         audioSource.PlayOneShot(standardShot);
                         break;
                     case DamageType.legs:
                         damage *= LEGSHOT_MULTIPLIER;
-                        SpawnFloatingDamageText(Mathf.RoundToInt(damage).ToString(), Color.black, "FloatAway");
+                        SpawnFloatingDamageText(Mathf.RoundToInt(damage), Color.black, "FloatAway");
                         audioSource.PlayOneShot(standardShot);
                         break;
                     case DamageType.feet:
 
                         damage *= FOOTSHOT_MULTIPLIER;
-                        SpawnFloatingDamageText(Mathf.RoundToInt(damage).ToString(), Color.gray, "FloatAway");
+                        SpawnFloatingDamageText(Mathf.RoundToInt(damage), Color.gray, "FloatAway");
                         audioSource.PlayOneShot(standardShot);
                         break;
                     default:
@@ -230,8 +238,6 @@ public class PlayerScript : MonoBehaviour
             health -= (int)damage;
             float barVal = ((float)health / 100f);
             playerUIPanel.setHealth(barVal);
-
-            immuneToCollisions = false;
 
             if (health <= 0)
             {
@@ -266,6 +272,7 @@ public class PlayerScript : MonoBehaviour
         {
             isDead = true;
             GetComponent<SpriteRenderer>().color = deadColor;
+            armsScript.currentArms.GetComponent<SpriteRenderer>().color = deadColor;
 
             StartCoroutine(WaitForRespawn());
         }
@@ -290,6 +297,8 @@ public class PlayerScript : MonoBehaviour
 
         rb.velocity = Vector2.zero;
         rb.rotation = 0;
+        rb.simulated = false;
+        rb.simulated = true;
         isDead = false;
 
         EquipArms(GunType.pistol, GameManager.Instance.pistol);
@@ -302,19 +311,26 @@ public class PlayerScript : MonoBehaviour
         isInvulnerable = true;
 
         float invulnerabilityFlashIncriments = (float)invulnerablityTime / 12f;
+        SpriteRenderer armsSR = armsScript.currentArms.GetComponent<SpriteRenderer>();
+        SpriteRenderer sr = GetComponent<SpriteRenderer>();
 
         for (int i = 0; i < invulnerablityTime; i++)
         {
-            GetComponent<SpriteRenderer>().color = invulnerabilityColorFlash;
+            sr.color = invulnerabilityColorFlash;
+            armsSR.color = invulnerabilityColorFlash;
             yield return new WaitForSeconds(invulnerabilityFlashIncriments);
-            GetComponent<SpriteRenderer>().color = defaultColor;
+            sr.color = defaultColor;
+            armsSR.color = defaultColor;
             yield return new WaitForSeconds(invulnerabilityFlashIncriments);
-            GetComponent<SpriteRenderer>().color = invulnerabilityColorFlash;
+            sr.color = invulnerabilityColorFlash;
+            armsSR.color = invulnerabilityColorFlash;
             yield return new WaitForSeconds(invulnerabilityFlashIncriments);
-            GetComponent<SpriteRenderer>().color = defaultColor;
+            sr.color = defaultColor;
+            armsSR.color = defaultColor;
         }
 
-        GetComponent<SpriteRenderer>().color = defaultColor;
+        sr.color = defaultColor;
+        armsSR.color = defaultColor;
         isInvulnerable = false;
     }
 
@@ -362,8 +378,6 @@ public class PlayerScript : MonoBehaviour
         playerID = 0;
         playerName = "";
 
-        //horizontalAxis = "J" + playerID + "Horizontal";
-        //verticalAxis = "J" + playerID + "Vertical";
         foreach (Transform child in transform)
         {
             if (child.tag == "Arms")
@@ -403,24 +417,35 @@ public class PlayerScript : MonoBehaviour
         if (dmg > 100)
             dmg = 100;
 
-        if (dmg > 50 && !immuneToCollisions)
+        if (dmg > 50 && immuneToCollisionsTimer >= 1)
         {
             dmg = dmg / 4;
-            immuneToCollisions = true;
+            immuneToCollisionsTimer = 0;
             TakeDamage(dmg, PlayerScript.DamageType.torso, 0);
         }
     }
 
-    void SpawnFloatingDamageText(string textToShow, Color32 color, string animType)
+    void SpawnFloatingDamageText(int dmgToShow, Color32 color, string animType)
     {
+        floatingText.transform.localScale = new Vector3(1,1,1);
+
         TextMeshProUGUI floatTxt = Instantiate(floatingText, floatingTextSpawnPoint);
-        floatTxt.text = textToShow.ToString();
+        if (dmgToShow < 0)
+        {
+            dmgToShow = Mathf.Abs(dmgToShow);
+            floatTxt.text = "+" + dmgToShow.ToString();
+        }
+        else
+            floatTxt.text = dmgToShow.ToString();
 
         floatingText.transform.position = new Vector2(Random.Range(-1.5f, 1.5f), Random.Range(-1.5f, 1.5f));
         floatTxt.color = color;
         floatTxt.GetComponent<Animator>().SetTrigger(animType);
 
-        //floatingText.transform.localScale = new Vector3(floatingText.transform.localScale.x *1, floatingText.transform.localScale.y *1, floatingText.transform.localScale.z * 1);
+        dmgToShow *= 2;
+
+        floatingText.transform.localScale = new Vector3(floatingText.transform.localScale.x *((float)dmgToShow/50f) , floatingText.transform.localScale.y * ((float)dmgToShow / 50f),
+            floatingText.transform.localScale.z * ((float)dmgToShow / 50f));
     }
 
 

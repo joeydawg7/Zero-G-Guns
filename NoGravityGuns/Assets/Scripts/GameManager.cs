@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
@@ -32,6 +33,8 @@ public class GameManager : MonoBehaviour
 
     public float timer;
 
+    public TextMeshProUGUI countdownText;
+
     private void OnLevelWasLoaded(int level)
     {
 
@@ -49,6 +52,8 @@ public class GameManager : MonoBehaviour
         guiManager = FindObjectOfType<GUIManager>();
         EndGameScript = FindObjectOfType<EndGameScript>();
         playerUIParent = GameObject.FindGameObjectWithTag("UILayout").transform;
+        countdownText = GameObject.Find("CountdownText").GetComponent<TextMeshProUGUI>();
+        countdownText.gameObject.SetActive(false);
 
         isGameStarted = false;
         matchTime = 300;
@@ -70,6 +75,7 @@ public class GameManager : MonoBehaviour
         }
 
         isGameStarted = false;
+        countdownText.gameObject.SetActive(false);
 
     }
 
@@ -111,8 +117,25 @@ public class GameManager : MonoBehaviour
 
         guiManager.OnGameStart();
 
+
+        StartCoroutine(Countdown());
+    }
+
+    IEnumerator Countdown()
+    {     
+        countdownText.text = "3";
+        countdownText.gameObject.SetActive(true);
+        yield return new WaitForSeconds(0.75f);
+        countdownText.text = "2";
+        yield return new WaitForSeconds(0.75f);
+        countdownText.text = "1";
+        yield return new WaitForSeconds(0.75f);
+        countdownText.text = "Go!";
         isGameStarted = true;
         timer = matchTime;
+        yield return new WaitForSeconds(0.25f);
+
+        countdownText.gameObject.SetActive(false);
     }
     
     private void SpawnPlayerPanel(PlayerScript player)

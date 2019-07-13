@@ -12345,11 +12345,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 375154d03f5477b4eb14ad83736791f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  allowMouseControls: 0
   basePlayer: {fileID: 4976415590657393650}
-  projectile: {fileID: 6104711158203355607, guid: 56ef0b4526c6e0d4795adb5837e2749e,
-    type: 3}
-  bulletSpawn: {fileID: 4868978610939038248}
   horizontalAxis: 
   verticalAxis: 
   triggerAxis: 
@@ -12357,15 +12353,13 @@ MonoBehaviour:
   currentWeapon: {fileID: 11400000, guid: 49ead892372b5274e987c2ac71fbb8e3, type: 2}
   currentAmmo: 0
   totalBulletsGunCanLoad: 0
+  reloadTimer: {fileID: 120857029}
   reloadingText: {fileID: 4180111875739284693}
   isReloading: 0
-  canShoot: 0
-  invisible:
-    serializedVersion: 2
-    rgba: 0
+  bulletSpawn: {fileID: 4868978610939038248}
   bulletSprite: {fileID: 21300000, guid: 8101d209ae24bb041b7ba5836494d518, type: 3}
+  currentArms: {fileID: 0}
   dryFire: {fileID: 8300000, guid: 045de3ddf8a33af44badcb0cc91d836c, type: 3}
-  reloadTimer: {fileID: 120857029}
 --- !u!82 &1261354532
 AudioSource:
   m_ObjectHideFlags: 0
@@ -12549,16 +12543,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4180111876535723069}
     m_Modifications:
-    - target: {fileID: 8110459844112800215, guid: be7d39b310e12b84990311f11b0c50db,
-        type: 3}
-      propertyPath: m_Name
-      value: DMGTextSpawn
-      objectReference: {fileID: 0}
-    - target: {fileID: 8110459844112800209, guid: be7d39b310e12b84990311f11b0c50db,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 8110459844112800214, guid: be7d39b310e12b84990311f11b0c50db,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -12678,6 +12662,41 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.z
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8110459844112800209, guid: be7d39b310e12b84990311f11b0c50db,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8110459844112800209, guid: be7d39b310e12b84990311f11b0c50db,
+        type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 1494352127
+      objectReference: {fileID: 0}
+    - target: {fileID: 8110459844112800209, guid: be7d39b310e12b84990311f11b0c50db,
+        type: 3}
+      propertyPath: m_textInfo.characterCount
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8110459844112800209, guid: be7d39b310e12b84990311f11b0c50db,
+        type: 3}
+      propertyPath: m_textInfo.wordCount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8110459844112800209, guid: be7d39b310e12b84990311f11b0c50db,
+        type: 3}
+      propertyPath: m_textInfo.lineCount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8110459844112800209, guid: be7d39b310e12b84990311f11b0c50db,
+        type: 3}
+      propertyPath: m_textInfo.pageCount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8110459844112800215, guid: be7d39b310e12b84990311f11b0c50db,
+        type: 3}
+      propertyPath: m_Name
+      value: DMGTextSpawn
       objectReference: {fileID: 0}
     - target: {fileID: 8110459844112800211, guid: be7d39b310e12b84990311f11b0c50db,
         type: 3}

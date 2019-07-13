@@ -100,7 +100,7 @@ public class Bullet : MonoBehaviour, IPooledObject
                 if (bulletType != PlayerScript.GunType.railGun || noBounce == false)
                 {
                     canHurty = false;
-                    StartCoroutine(DisableOverTime(0.16f));
+                    StartCoroutine(DisableOverTime(0.05f));
                     
                     somethingSexy.Stop();
                     somethingSexy.GetComponent<DisableOverTime>().DisableOverT(3.1f);

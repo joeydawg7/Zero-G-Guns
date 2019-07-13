@@ -8,52 +8,40 @@ using System;
 public class ArmsScript : MonoBehaviour
 {
 
-
-    public bool allowMouseControls;
-
     public PlayerScript basePlayer;
 
-    float timeSinceLastShot;
-
-    public Rigidbody2D projectile;
-    public Transform bulletSpawn;
-    Vector3 bulletSpawnPoint;
-    Vector3 aim;
-
+    [Header("Controller Settings")]
     public string horizontalAxis;
     public string verticalAxis;
     public string triggerAxis;
     public string XButton;
 
-
+    [Header("Gun")]
     public GunSO currentWeapon;
-
     public int currentAmmo;
     public int totalBulletsGunCanLoad;
+    public GameObject reloadTimer;
+    public TextMeshProUGUI reloadingText;
+    public bool isReloading;
+    public Transform bulletSpawn;
+    public Sprite bulletSprite;
+    public GameObject currentArms;
 
-    float currentRecoil;
+    [Header("Audio")]
+    public AudioClip dryFire;
+    
 
+    //private
+    bool interruptReload;
     Quaternion facing;
     Quaternion rotation;
     Vector2 shootDir;
-
+    Vector3 bulletSpawnPoint;
+    Vector3 aim;
+    float currentRecoil;
     AudioSource audioS;
-
-    public TextMeshProUGUI reloadingText;
-
-    public bool isReloading;
-
-    public Color32 invisible;
     Color32 startingColor;
-
-    public Sprite bulletSprite;
-
-    public AudioClip dryFire;
-
-    public GameObject reloadTimer;
-
-
-    bool interruptReload;
+    float timeSinceLastShot;
 
     private void Awake()
     {
@@ -120,11 +108,10 @@ public class ArmsScript : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (!allowMouseControls)
-        {
-            if (GameManager.Instance.isGameStarted)
-                ShootController();
-        }
+
+        if (GameManager.Instance.isGameStarted)
+            ShootController();
+
 
 
     }
@@ -432,7 +419,7 @@ public class ArmsScript : MonoBehaviour
 
     }
 
-    public void BuckShot()
+    void BuckShot()
     {
         currentAmmo--;
 
@@ -463,8 +450,8 @@ public class ArmsScript : MonoBehaviour
         {
             float angle = Vector2.SignedAngle(transform.position, aim);
 
-            float cone = 1.5f * UnityEngine.Random.Range(-1.5f, 1.5f);
-            cone += cone;
+            float cone = UnityEngine.Random.Range(-1f, 1f);
+            cone += cone*2;
 
             float offset = cone * angle;
 
