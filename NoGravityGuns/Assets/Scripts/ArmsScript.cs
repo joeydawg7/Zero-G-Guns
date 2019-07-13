@@ -43,7 +43,6 @@ public class ArmsScript : MonoBehaviour
 
     public bool isReloading;
 
-    public bool canShoot;
     public Color32 invisible;
     Color32 startingColor;
 
@@ -66,8 +65,6 @@ public class ArmsScript : MonoBehaviour
         totalBulletsGunCanLoad = currentWeapon.numBullets;
 
         audioS = GetComponent<AudioSource>();
-
-        canShoot = true;
 
         shootDir = new Vector3(0, 0, 0);
 
@@ -178,8 +175,12 @@ public class ArmsScript : MonoBehaviour
                 }
             }
             //can't shoot during reload except for shotgun interupt
-            if ((Input.GetAxisRaw(triggerAxis) > 0 && !isReloading) || (Input.GetAxisRaw(triggerAxis) > 0 && currentWeapon.GunType == PlayerScript.GunType.shotgun && currentAmmo > 0))
+            if ((Input.GetAxisRaw(triggerAxis) > 0 && !isReloading) || ((Input.GetAxisRaw(triggerAxis) > 0 && currentWeapon.GunType == PlayerScript.GunType.shotgun && currentAmmo > 0)))
             {
+                if (currentWeapon.GunType == PlayerScript.GunType.shotgun && isReloading)
+                {
+                    interruptReload = true;
+                }
 
                 if (Input.GetAxis(horizontalAxis) != 0 || Input.GetAxis(verticalAxis) != 0)
                 {
@@ -190,37 +191,32 @@ public class ArmsScript : MonoBehaviour
                 {
                     if (timeSinceLastShot >= currentWeapon.recoilDelay)
                     {
-                        if (canShoot)
+                        //add force to player in opposite direction of shot
+                        KnockBack(shootDir);
+
+                        switch (currentWeapon.fireType)
                         {
-                            interruptReload = true;
-
-                            //add force to player in opposite direction of shot
-                            KnockBack(shootDir);
-
-                            switch (currentWeapon.fireType)
-                            {
-                                case GunSO.FireType.semiAuto:
-                                    ShootyGunTemp();
-                                    break;
-                                case GunSO.FireType.buckshot:
-                                    BuckShot();
-                                    break;
-                                case GunSO.FireType.fullAuto:
-                                    ShootyGunTemp();
-                                    break;
-                                case GunSO.FireType.Burst:
-                                    StartCoroutine(FireInBurst());
-                                    break;
-                                default:
-                                    ShootyGunTemp();
-                                    break;
-                            }
-
-                            if (currentAmmo <= 0 && totalBulletsGunCanLoad <= 0)
-                                basePlayer.EquipArms(PlayerScript.GunType.pistol, GameManager.Instance.pistol);
-
-                            SendGunText();
+                            case GunSO.FireType.semiAuto:
+                                ShootyGunTemp();
+                                break;
+                            case GunSO.FireType.buckshot:
+                                BuckShot();
+                                break;
+                            case GunSO.FireType.fullAuto:
+                                ShootyGunTemp();
+                                break;
+                            case GunSO.FireType.Burst:
+                                StartCoroutine(FireInBurst());
+                                break;
+                            default:
+                                ShootyGunTemp();
+                                break;
                         }
+
+                        if (currentAmmo <= 0 && totalBulletsGunCanLoad <= 0)
+                            basePlayer.EquipArms(PlayerScript.GunType.pistol, GameManager.Instance.pistol);
+
+                        SendGunText();
                     }
                 }
 
@@ -278,14 +274,20 @@ public class ArmsScript : MonoBehaviour
         float startRotation = transform.eulerAngles.z;
         float endRotation = startRotation + 360.0f;
         float t = 0.0f;
+        float FinalZRot = 0;
         while (t < duration)
         {
+            if (interruptReload)
+                break;
+
             t += Time.deltaTime;
             float zRotation = Mathf.Lerp(startRotation, endRotation, t / duration) % 360.0f;
             reloadTimer.transform.eulerAngles = new Vector3(reloadTimer.transform.eulerAngles.x, reloadTimer.transform.eulerAngles.y, zRotation);
+            FinalZRot = zRotation;
             yield return null;
         }
 
+        reloadTimer.transform.eulerAngles = new Vector3(reloadTimer.transform.eulerAngles.x, reloadTimer.transform.eulerAngles.y, FinalZRot);
         reloadTimer.SetActive(false);
     }
 
@@ -322,28 +324,44 @@ public class ArmsScript : MonoBehaviour
             {
                 reloadtimeIncrememnts = (float)currentWeapon.reloadTime / 3f;
 
-                int shotsToLoad = Mathf.Abs(currentAmmo - currentWeapon.clipSize);
+                StartCoroutine(Rotate(reloadtimeIncrememnts * shotsToReload));
 
-                if (shotsToLoad >= totalBulletsGunCanLoad)
-                    shotsToLoad -= totalBulletsGunCanLoad;
-
-                StartCoroutine(Rotate(reloadtimeIncrememnts * shotsToLoad));
-                for (int i = 0; i < shotsToLoad; i++)
+                for (int i = 0; i < currentWeapon.clipSize; i++)
                 {
-                    yield return new WaitForSeconds(reloadtimeIncrememnts);
 
-                    GetComponent<AudioSource>().PlayOneShot(currentWeapon.reloadSound);
-                    currentAmmo++;
-                    totalBulletsGunCanLoad--;
-                    SendGunText();
-
-                    if (interruptReload)
+                    if (totalBulletsGunCanLoad > 0 && currentAmmo < currentWeapon.clipSize)
                     {
-                        interruptReload = false;
+                        if (interruptReload)
+                        {
+                            interruptReload = false;
+                            isReloading = false;
+                            SendGunText();
+                            yield break;
+                        }
+
+                        yield return new WaitForSeconds(reloadtimeIncrememnts);
+
+                        GetComponent<AudioSource>().PlayOneShot(currentWeapon.reloadSound);
+                        currentAmmo++;
+                        totalBulletsGunCanLoad--;
+                        SendGunText();
+
+                        if (interruptReload)
+                        {
+                            interruptReload = false;
+                            isReloading = false;
+                            SendGunText();
+                            yield break;
+                        }
+                    }
+                    else
+                    {
                         isReloading = false;
+                        interruptReload = false;
                         SendGunText();
                         yield break;
                     }
+
                 }
             }
             else
@@ -453,28 +471,18 @@ public class ArmsScript : MonoBehaviour
             GameObject bulletGo = ObjectPooler.Instance.SpawnFromPool("Bullet", bulletSpawnPoint, Quaternion.LookRotation(Vector3.forward, -shootDir));
             Vector3 dir = -Vector2.up * currentWeapon.bulletSpeed;
             Vector2 nomralizedOffset = new Vector2(dir.x + offset, dir.y + offset);
-            //bullet.AddRelativeForce(nomralizedOffset * 20, ForceMode2D.Impulse);
 
             bulletGo.GetComponent<Bullet>().Construct(basePlayer.playerID, currentWeapon.GunDamage, basePlayer.gameObject, bulletSprite, currentWeapon.GunType, (nomralizedOffset));
-           
-            //bullet.transform.rotation = rotation;
 
-            //bullet.transform.rotation = rotation;
         }
     }
 
     void SpawnBullet()
     {
-        //Rigidbody2D bullet = (Rigidbody2D)Instantiate(projectile, bulletSpawnPoint, Quaternion.LookRotation(Vector3.forward, -shootDir));
         GameObject bulletGo = ObjectPooler.Instance.SpawnFromPool("Bullet", bulletSpawnPoint, Quaternion.LookRotation(Vector3.forward, -shootDir));
         Vector3 dir = -Vector2.up * currentWeapon.bulletSpeed;
-        //Rigidbody2D bullet = bulletGo.GetComponent<Rigidbody2D>();
 
         bulletGo.GetComponent<Bullet>().Construct(basePlayer.playerID, currentWeapon.GunDamage, basePlayer.gameObject, bulletSprite, currentWeapon.GunType, dir);
-
-        //bullet.AddRelativeForce(dir, ForceMode2D.Force);
-        //bullet.transform.rotation = rotation;
-        //bullet.GetComponent<Bullet>().SetStartingForce(dir);
 
     }
 

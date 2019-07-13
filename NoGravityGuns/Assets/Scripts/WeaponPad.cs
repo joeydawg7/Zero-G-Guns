@@ -4,6 +4,12 @@ using UnityEngine;
 
 public class WeaponPad : MonoBehaviour
 {
+
+    [Header("DEBUG")]
+    public bool SpawnSelectedWeaponInstant;
+
+    [Header("Non-Debug")]
+
     public Sprite emptyPad;
 
     public bool hasWeapon;
@@ -28,9 +34,18 @@ public class WeaponPad : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        timer = 0;
-        timeToNextSpawn = Random.Range(5, 25f);
-        weaponToSpawn = potentialGunsToSpawn[Random.Range(0, potentialGunsToSpawn.Count)];
+        if (!SpawnSelectedWeaponInstant)
+        {
+            timer = 0;
+            timeToNextSpawn = Random.Range(5, 25f);
+            weaponToSpawn = potentialGunsToSpawn[Random.Range(0, potentialGunsToSpawn.Count)];
+        }
+        else
+        {
+            hasWeapon = true;
+            currentWeapon = weaponToSpawn;
+            GetComponent<SpriteRenderer>().sprite = currentWeapon.weaponPad;
+        }
     }
 
     // Update is called once per frame
