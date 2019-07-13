@@ -101,7 +101,7 @@ public class Bullet : MonoBehaviour, IPooledObject
                 {
                     canHurty = false;
                     StartCoroutine(DisableOverTime(0.16f));
-                    rb.simulated = false;
+                    
                     somethingSexy.Stop();
                     somethingSexy.GetComponent<DisableOverTime>().DisableOverT(3.1f);
                     somethingSexy.transform.parent = null;
@@ -124,6 +124,7 @@ public class Bullet : MonoBehaviour, IPooledObject
     {
         yield return new WaitForSeconds(t);
         gameObject.SetActive(false);
+        rb.simulated = false;
     }
 
 

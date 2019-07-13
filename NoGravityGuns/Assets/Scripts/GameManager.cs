@@ -48,6 +48,7 @@ public class GameManager : MonoBehaviour
         cameraController = FindObjectOfType<CameraController>();
         guiManager = FindObjectOfType<GUIManager>();
         EndGameScript = FindObjectOfType<EndGameScript>();
+        playerUIParent = GameObject.FindGameObjectWithTag("UILayout").transform;
 
         isGameStarted = false;
         matchTime = 300;
