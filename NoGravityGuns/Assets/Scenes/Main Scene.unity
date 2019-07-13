@@ -5933,6 +5933,10 @@ MonoBehaviour:
     prefab: {fileID: 4588612623504299601, guid: 2b6becb3990e4a740bd762c507c895e0,
       type: 3}
     size: 1000
+  - tag: FloatingText
+    prefab: {fileID: 8110459844112800215, guid: be7d39b310e12b84990311f11b0c50db,
+      type: 3}
+    size: 20
 --- !u!4 &1252973330
 Transform:
   m_ObjectHideFlags: 0
@@ -9524,6 +9528,11 @@ PrefabInstance:
     - target: {fileID: 4976415590657393651, guid: 7bd5c672901594f4b8326383fb19eb33,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3193743689209403321, guid: 7bd5c672901594f4b8326383fb19eb33,
+        type: 3}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

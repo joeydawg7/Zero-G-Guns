@@ -20,4 +20,11 @@ public class KillScript : MonoBehaviour
     {
         Destroy(gameObject);
     }
+
+    public void TurnMeOff(string animType)
+    {
+        gameObject.SetActive(false);
+        GetComponent<Animator>().SetTrigger(animType);
+
+    }
 }

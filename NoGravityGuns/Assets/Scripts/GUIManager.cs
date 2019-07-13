@@ -8,14 +8,15 @@ public class GUIManager : MonoBehaviour
 {
 
     public TextMeshProUGUI timerText;
-    
+    GameManager gameManager;
 
 
     // Start is called before the first frame update
     void Start()
     {
+        gameManager = GameManager.Instance;
         timerText.alpha = 0;
-        timerText.text = GameManager.Instance.timer.ToString("mmss");
+        timerText.text = gameManager.timer.ToString("mmss");
     }
 
     // Update is called once per frame
@@ -23,9 +24,9 @@ public class GUIManager : MonoBehaviour
     {
         if(GameManager.Instance.isGameStarted)
         {
-            GameManager.Instance.timer -= Time.deltaTime;
-            string minutes = Mathf.Floor(GameManager.Instance.timer / 60).ToString("00");
-            string seconds = Mathf.Floor(GameManager.Instance.timer % 60).ToString("00");
+            gameManager.timer -= Time.deltaTime;
+            string minutes = Mathf.Floor(gameManager.timer / 60).ToString("00");
+            string seconds = Mathf.Floor(gameManager.timer % 60).ToString("00");
 
             timerText.text = string.Format("{0}:{1}", minutes, seconds); 
         }

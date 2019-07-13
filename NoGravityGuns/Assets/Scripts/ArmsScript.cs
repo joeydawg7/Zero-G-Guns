@@ -21,7 +21,6 @@ public class ArmsScript : MonoBehaviour
     public int currentAmmo;
     public int totalBulletsGunCanLoad;
     public GameObject reloadTimer;
-    public TextMeshProUGUI reloadingText;
     public bool isReloading;
     public Transform bulletSpawn;
     public Sprite bulletSprite;
@@ -42,6 +41,7 @@ public class ArmsScript : MonoBehaviour
     AudioSource audioS;
     Color32 startingColor;
     float timeSinceLastShot;
+    private CameraShake cameraShake;
 
     private void Awake()
     {
@@ -60,13 +60,9 @@ public class ArmsScript : MonoBehaviour
         reloadTimer.SetActive(false);
         interruptReload = false;
 
-    }
+        cameraShake = Camera.main.GetComponent<CameraShake>();
 
-    private void Start()
-    {
-        reloadingText.alpha = 0;
     }
-
 
     public void SetChildrenWithAxis(int playerID)
     {
@@ -74,10 +70,10 @@ public class ArmsScript : MonoBehaviour
         {
             if (child.tag == "Arms")
             {
-                child.GetComponent<ArmsScript>().triggerAxis = "J" + playerID + "Trigger";
-                child.GetComponent<ArmsScript>().horizontalAxis = "J" + playerID + "Horizontal";
-                child.GetComponent<ArmsScript>().verticalAxis = "J" + playerID + "Vertical";
-
+                ArmsScript arms = child.GetComponent<ArmsScript>();
+                arms.triggerAxis = "J" + playerID + "Trigger";
+                arms.horizontalAxis = "J" + playerID + "Horizontal";
+                arms.verticalAxis = "J" + playerID + "Vertical";
             }
         }
 
@@ -89,9 +85,10 @@ public class ArmsScript : MonoBehaviour
         {
             if (child.tag == "Arms")
             {
-                child.GetComponent<ArmsScript>().triggerAxis = "";
-                child.GetComponent<ArmsScript>().horizontalAxis = "";
-                child.GetComponent<ArmsScript>().verticalAxis = "";
+                ArmsScript arms = child.GetComponent<ArmsScript>();
+                arms.triggerAxis = "";
+                arms.horizontalAxis = "";
+                arms.verticalAxis = "";
 
             }
         }
@@ -228,7 +225,7 @@ public class ArmsScript : MonoBehaviour
     void KnockBack(Vector2 shootDir)
     {
         basePlayer.rb.AddForce(-shootDir * currentWeapon.knockback, ForceMode2D.Impulse);
-        Camera.main.GetComponent<CameraShake>().shakeDuration += currentWeapon.cameraShakeDuration;
+        cameraShake.shakeDuration += currentWeapon.cameraShakeDuration;
         timeSinceLastShot = 0;
     }
 
@@ -290,8 +287,6 @@ public class ArmsScript : MonoBehaviour
 
 
             isReloading = true;
-            reloadingText.alpha = 1;
-            //gunAndAmmo.text = "Reloading...";
             SendGunText("Reloading...");
 
             float reloadtimeIncrememnts = (float)currentWeapon.reloadTime / 6;
@@ -328,7 +323,7 @@ public class ArmsScript : MonoBehaviour
 
                         yield return new WaitForSeconds(reloadtimeIncrememnts);
 
-                        GetComponent<AudioSource>().PlayOneShot(currentWeapon.reloadSound);
+                        audioS.PlayOneShot(currentWeapon.reloadSound);
                         currentAmmo++;
                         totalBulletsGunCanLoad--;
                         SendGunText();

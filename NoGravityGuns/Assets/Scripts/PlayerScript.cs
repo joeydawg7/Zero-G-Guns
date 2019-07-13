@@ -14,7 +14,7 @@ public class PlayerScript : MonoBehaviour
     public PlayerUIPanel playerUIPanel;
     public Image healthBar;
     public TextMeshProUGUI statusText;
-    public TextMeshProUGUI floatingText;
+    //public TextMeshProUGUI floatingText;
     public Transform floatingTextSpawnPoint;
     public Color32 playerColor;
     public Color32 deadColor;
@@ -82,9 +82,7 @@ public class PlayerScript : MonoBehaviour
 
         health = 100;
         float barVal = ((float)health / 100f);
-        //playerUIPanel.setHealth(barVal);
         isDead = false;
-        //playerUIPanel.setStatusText("");
         spawnPoint = transform.position;
         rb = GetComponent<Rigidbody2D>();
         audioSource = GetComponent<AudioSource>();
@@ -92,17 +90,14 @@ public class PlayerScript : MonoBehaviour
         defaultColor = GetComponent<SpriteRenderer>().color;
         lastHitByID = 0;
         immuneToCollisionsTimer = 0;
-        
+
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
 
-        if (Input.GetKeyDown(KeyCode.K))
-        {
-            TakeDamage(50, DamageType.torso, 0);
-        }
+
     }
 
     private void Update()
@@ -113,15 +108,16 @@ public class PlayerScript : MonoBehaviour
         if (GameManager.Instance.isGameStarted)
             immuneToCollisionsTimer += Time.deltaTime;
 
+
+        //DEBUG: take damage
+        if (Input.GetKeyDown(KeyCode.K))
+            TakeDamage(50, DamageType.torso, 0);
+
+
     }
 
     public void OnGameStart()
     {
-        /*
-        if (playerID < 1)
-        {
-            Destroy(gameObject);       
-        }*/
 
         health = 100;
         float barVal = ((float)health / 100f);
@@ -427,9 +423,12 @@ public class PlayerScript : MonoBehaviour
 
     void SpawnFloatingDamageText(int dmgToShow, Color32 color, string animType)
     {
-        floatingText.transform.localScale = new Vector3(1,1,1);
 
-        TextMeshProUGUI floatTxt = Instantiate(floatingText, floatingTextSpawnPoint);
+        GameObject floatingTextGo = ObjectPooler.Instance.SpawnFromPool("FloatingText", floatingTextSpawnPoint.transform.position, Quaternion.identity, floatingTextSpawnPoint);
+        floatingTextGo.transform.localPosition = new Vector3(0, 0, 0);
+        floatingTextGo.transform.localScale = new Vector3(1, 1, 1);
+        TextMeshProUGUI floatTxt = floatingTextGo.GetComponent<TextMeshProUGUI>();
+
         if (dmgToShow < 0)
         {
             dmgToShow = Mathf.Abs(dmgToShow);
@@ -438,14 +437,14 @@ public class PlayerScript : MonoBehaviour
         else
             floatTxt.text = dmgToShow.ToString();
 
-        floatingText.transform.position = new Vector2(Random.Range(-1.5f, 1.5f), Random.Range(-1.5f, 1.5f));
+        floatingTextGo.transform.position = new Vector2(Random.Range(-1.5f, 1.5f), Random.Range(-1.5f, 1.5f));
         floatTxt.color = color;
         floatTxt.GetComponent<Animator>().SetTrigger(animType);
 
         dmgToShow *= 2;
 
-        floatingText.transform.localScale = new Vector3(floatingText.transform.localScale.x *((float)dmgToShow/50f) , floatingText.transform.localScale.y * ((float)dmgToShow / 50f),
-            floatingText.transform.localScale.z * ((float)dmgToShow / 50f));
+        floatingTextGo.transform.localScale = new Vector3(floatingTextGo.transform.localScale.x * ((float)dmgToShow / 50f), floatingTextGo.transform.localScale.y * ((float)dmgToShow / 50f),
+            floatingTextGo.transform.localScale.z * ((float)dmgToShow / 50f));
     }
 
 

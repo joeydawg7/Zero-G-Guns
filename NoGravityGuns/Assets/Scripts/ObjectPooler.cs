@@ -79,6 +79,38 @@ public class ObjectPooler : MonoBehaviour
         return objectToSpawn;
 
     }
+    public GameObject SpawnFromPool(string tag, Vector3 position, Quaternion rotation, Transform parent)
+    {
+
+        if (!poolDictionary.ContainsKey(tag))
+        {
+            Debug.Log("Pool with tag " + tag + " doesn't exist");
+            return null;
+        }
+        GameObject objectToSpawn = poolDictionary[tag].Dequeue();
+        objectToSpawn.SetActive(true);
+        objectToSpawn.transform.parent = parent;
+        objectToSpawn.transform.position = position;
+        objectToSpawn.transform.rotation = rotation;
+
+
+        IPooledObject pooledObject = objectToSpawn.GetComponent<IPooledObject>();
+
+        if (pooledObject != null)
+        {
+            pooledObject.OnObjectSpawn();
+        }
+
+        poolDictionary[tag].Enqueue(objectToSpawn);
+
+        
+
+        //resetDisableTimer = true;
+
+        return objectToSpawn;
+
+    }
+
 
     /*
     public void DisableOverTime(GameObject go, float time)
