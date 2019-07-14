@@ -181,7 +181,7 @@ public class GameManager : MonoBehaviour
 
         foreach (var player in players)
         {
-            if (player.numLives >= 0)
+            if (player.numLives > 0)
                 leftAlive++;
         }
 
