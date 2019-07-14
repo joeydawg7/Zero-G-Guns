@@ -74,6 +74,7 @@ public class PlayerScript : MonoBehaviour
     float immuneToCollisionsTimer;
 
 
+
     const float HEADSHOT_MULTIPLIER = 2f;
     const float TORSOSHOT_MULTIPLIER = 1f;
     const float FOOTSHOT_MULTIPLIER = 0.5f;
@@ -272,8 +273,11 @@ public class PlayerScript : MonoBehaviour
         {
             isDead = true;
             numLives--;
-            if(numLives<=0)
-                GameManager.Instance.
+            
+            if (numLives <= 0)
+            {
+                GameManager.Instance.CheckForLastManStanding();                            
+            }
 
             GetComponent<SpriteRenderer>().color = deadColor;
             armsScript.currentArms.GetComponent<SpriteRenderer>().color = deadColor;
@@ -306,6 +310,14 @@ public class PlayerScript : MonoBehaviour
         isDead = false;
 
         EquipArms(GunType.pistol, GameManager.Instance.pistol);
+
+
+        if (numLives <= 0)
+        {
+            gameObject.SetActive(false);
+            yield break;
+        }
+
         StartCoroutine(RespawnInvulernability());
 
     }

@@ -74,8 +74,6 @@ public class EndGameScript : MonoBehaviour
         else
         {
 
-
-
             winOrTie.text = "<" + winnersList[0].hexColorCode + ">" + winnersList[0].playerName + " Is the winner!" + "</color>";
             yield return new WaitForSeconds(0.5f);
 

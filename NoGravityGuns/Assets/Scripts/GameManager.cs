@@ -166,12 +166,29 @@ public class GameManager : MonoBehaviour
 
         foreach (var player in players)
         {
-            if (player.numLives >= 0)
+            if (player.numLives > 0)
                 winner.Add(player);
         }
 
 
         EndGameScript.StartEndGame(winner);
+
+    }
+
+    public void CheckForLastManStanding()
+    {
+        int leftAlive = 0;
+
+        foreach (var player in players)
+        {
+            if (player.numLives >= 0)
+                leftAlive++;
+        }
+
+        if (leftAlive == 1)
+        {
+            OnGameEnd();
+        }
 
     }
 
