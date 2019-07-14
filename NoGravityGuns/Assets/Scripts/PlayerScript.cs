@@ -272,12 +272,13 @@ public class PlayerScript : MonoBehaviour
         if (!isDead)
         {
             isDead = true;
-            numLives--;
-            
+            numLives--;   
+                     
             if (numLives <= 0)
             {
                 GameManager.Instance.CheckForLastManStanding();                            
             }
+
 
             GetComponent<SpriteRenderer>().color = deadColor;
             armsScript.currentArms.GetComponent<SpriteRenderer>().color = deadColor;
