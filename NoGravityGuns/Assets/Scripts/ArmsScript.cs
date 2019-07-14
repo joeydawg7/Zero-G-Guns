@@ -28,7 +28,7 @@ public class ArmsScript : MonoBehaviour
 
     [Header("Audio")]
     public AudioClip dryFire;
-    
+
 
     //private
     bool interruptReload;
@@ -42,6 +42,9 @@ public class ArmsScript : MonoBehaviour
     Color32 startingColor;
     float timeSinceLastShot;
     private CameraShake cameraShake;
+    Coroutine reloadCoroutine;
+    Coroutine rotateCoroutine;
+    Vector3 dir;
 
     private void Awake()
     {
@@ -99,7 +102,11 @@ public class ArmsScript : MonoBehaviour
     private void Update()
     {
         if (GameManager.Instance.isGameStarted && Input.GetButton(XButton) && !isReloading && currentAmmo < currentWeapon.clipSize)
-            StartCoroutine(Reload());
+            reloadCoroutine = StartCoroutine(Reload());
+
+
+        //if (currentWeapon != null)
+        //    dir = -transform.right;
 
     }
 
@@ -116,6 +123,21 @@ public class ArmsScript : MonoBehaviour
 
     public void EquipGun(GunSO weaponToEquip, GameObject gunObj)
     {
+        if (isReloading)
+        {
+            if (reloadCoroutine != null)
+            {
+                StopCoroutine(reloadCoroutine);
+                reloadCoroutine = null;
+            }
+            if (rotateCoroutine != null)
+            {
+                StopCoroutine(rotateCoroutine);
+                reloadTimer.SetActive(false);
+                rotateCoroutine = null;
+            }
+        }
+
         currentWeapon = weaponToEquip;
         currentAmmo = weaponToEquip.clipSize;
         totalBulletsGunCanLoad = weaponToEquip.numBullets;
@@ -123,6 +145,7 @@ public class ArmsScript : MonoBehaviour
         bulletSpawn = gunObj.transform.Find("BulletSpawner");
         SendGunText();
     }
+
 
 
     void ShootController()
@@ -159,7 +182,7 @@ public class ArmsScript : MonoBehaviour
                 }
             }
             //can't shoot during reload except for shotgun interupt
-            if (((Input.GetAxisRaw(triggerAxis) > 0 && !isReloading) || ((Input.GetAxisRaw(triggerAxis) > 0 && currentWeapon.GunType == PlayerScript.GunType.shotgun && currentAmmo > 0))) && shootDir.magnitude!=0)
+            if (((Input.GetAxisRaw(triggerAxis) > 0 && !isReloading) || ((Input.GetAxisRaw(triggerAxis) > 0 && currentWeapon.GunType == PlayerScript.GunType.shotgun && currentAmmo > 0))) && shootDir.magnitude != 0)
             {
                 if (currentWeapon.GunType == PlayerScript.GunType.shotgun && isReloading)
                 {
@@ -255,7 +278,7 @@ public class ArmsScript : MonoBehaviour
     {
         reloadTimer.SetActive(true);
 
-        float startRotation = transform.eulerAngles.z;
+        float startRotation = 0f;
         float endRotation = startRotation + 360.0f;
         float t = 0.0f;
         float FinalZRot = 0;
@@ -294,7 +317,7 @@ public class ArmsScript : MonoBehaviour
             //change sfx type base on reload type of the gun
             if (currentWeapon.GunType == PlayerScript.GunType.LMG)
             {
-                StartCoroutine(Rotate(currentWeapon.reloadTime * reloadtimeIncrememnts));
+                rotateCoroutine = StartCoroutine(Rotate(reloadtimeIncrememnts * 6));
                 for (int i = 0; i < currentWeapon.reloadTime; i++)
                 {
                     yield return new WaitForSeconds(reloadtimeIncrememnts);
@@ -306,7 +329,7 @@ public class ArmsScript : MonoBehaviour
             {
                 reloadtimeIncrememnts = (float)currentWeapon.reloadTime / 3f;
 
-                StartCoroutine(Rotate(reloadtimeIncrememnts * shotsToReload));
+                rotateCoroutine = StartCoroutine(Rotate(reloadtimeIncrememnts * shotsToReload));
 
                 for (int i = 0; i < currentWeapon.clipSize; i++)
                 {
@@ -349,7 +372,7 @@ public class ArmsScript : MonoBehaviour
             else
             {
                 audioS.PlayOneShot(currentWeapon.reloadSound);
-                StartCoroutine(Rotate(currentWeapon.reloadTime));
+                rotateCoroutine = StartCoroutine(Rotate(currentWeapon.reloadTime));
                 for (int i = 0; i < currentWeapon.reloadTime; i++)
                 {
                     yield return new WaitForSeconds(reloadtimeIncrememnts);
@@ -446,12 +469,12 @@ public class ArmsScript : MonoBehaviour
             float angle = Vector2.SignedAngle(transform.position, aim);
 
             float cone = UnityEngine.Random.Range(-1f, 1f);
-            cone += cone*2;
+            cone += cone * 2;
 
             float offset = cone * angle;
 
             GameObject bulletGo = ObjectPooler.Instance.SpawnFromPool("Bullet", bulletSpawnPoint, Quaternion.LookRotation(Vector3.forward, -shootDir));
-            Vector3 dir = -Vector2.up * currentWeapon.bulletSpeed;
+            dir = bulletSpawn.transform.right;
             Vector2 nomralizedOffset = new Vector2(dir.x + offset, dir.y + offset);
 
             bulletGo.GetComponent<Bullet>().Construct(basePlayer.playerID, currentWeapon.GunDamage, basePlayer.gameObject, bulletSprite, currentWeapon.GunType, (nomralizedOffset));
@@ -462,10 +485,28 @@ public class ArmsScript : MonoBehaviour
     void SpawnBullet()
     {
         GameObject bulletGo = ObjectPooler.Instance.SpawnFromPool("Bullet", bulletSpawnPoint, Quaternion.LookRotation(Vector3.forward, -shootDir));
-        Vector3 dir = -Vector2.up * currentWeapon.bulletSpeed;
+        dir = bulletSpawn.transform.right;
 
         bulletGo.GetComponent<Bullet>().Construct(basePlayer.playerID, currentWeapon.GunDamage, basePlayer.gameObject, bulletSprite, currentWeapon.GunType, dir);
 
+    }
+
+    private void OnDrawGizmos()
+    {
+
+        Color color;
+
+        color = Color.red;
+        // local right
+        DrawHelperAtCenter(bulletSpawn.transform.right, color, -2f);
+    }
+
+    private void DrawHelperAtCenter(
+                     Vector3 direction, Color color, float scale)
+    {
+        Gizmos.color = color;
+        Vector3 destination = transform.position + direction * scale;
+        Gizmos.DrawLine(bulletSpawn.transform.position, destination);
     }
 
 

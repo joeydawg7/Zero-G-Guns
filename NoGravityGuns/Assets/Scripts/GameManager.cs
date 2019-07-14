@@ -35,6 +35,45 @@ public class GameManager : MonoBehaviour
 
     public TextMeshProUGUI countdownText;
 
+    public GameObject PlayerObject;
+
+    [Header("Red Sprites")]
+    public Sprite redBody;
+    public Sprite redFrontLeg;
+    public Sprite redForeLeg;
+    public Sprite redFoot;
+    public Sprite redBackLeg;
+    public Sprite redBackForeLeg;
+    public Sprite redBackFoot;
+
+    [Header("Blue Sprites")]
+    public Sprite blueBody;
+    public Sprite blueFrontLeg;
+    public Sprite blueForeLeg;
+    public Sprite blueFoot;
+    public Sprite blueBackLeg;
+    public Sprite blueBackForeLeg;
+    public Sprite blueBackFoot;
+
+    [Header("green Sprites")]
+    public Sprite greenBody;
+    public Sprite greenFrontLeg;
+    public Sprite greenForeLeg;
+    public Sprite greenFoot;
+    public Sprite greenBackLeg;
+    public Sprite greenBackForeLeg;
+    public Sprite greenBackFoot;
+
+    [Header("yellow Sprites")]
+    public Sprite yellowBody;
+    public Sprite yellowFrontLeg;
+    public Sprite yellowForeLeg;
+    public Sprite yellowFoot;
+    public Sprite yellowBackLeg;
+    public Sprite yellowBackForeLeg;
+    public Sprite yellowBackFoot;
+
+
     private void OnLevelWasLoaded(int level)
     {
 

@@ -75,20 +75,19 @@ public class Bullet : MonoBehaviour, IPooledObject
                 //checks where we hit the other guy, and that it isnt self damage so we cant shoot ourselves in the knees
                 if (collision.collider.tag == "Torso" && collision.gameObject.GetComponent<PlayerScript>().playerID != playerID && canHurty)
                 {
-                    collision.gameObject.GetComponent<PlayerScript>().TakeDamage(damage, PlayerScript.DamageType.torso, playerID);
+                    collision.gameObject.GetComponent<PlayerScript>().TakeDamage(damage, PlayerScript.DamageType.torso, playerID, true);
                 }
                 if (collision.collider.tag == "Head" && collision.gameObject.GetComponent<PlayerScript>().playerID != playerID && canHurty)
                 {
-                    collision.gameObject.GetComponent<PlayerScript>().TakeDamage(damage, PlayerScript.DamageType.head, playerID);
+                    collision.gameObject.GetComponent<PlayerScript>().TakeDamage(damage, PlayerScript.DamageType.head, playerID, true);
                 }
                 if (collision.collider.tag == "Feet" && collision.transform.root.GetComponent<PlayerScript>().playerID != playerID && canHurty)
                 {
-                    Debug.Log(collision.transform.root.name);
-                    collision.transform.root.GetComponent<PlayerScript>().TakeDamage(damage, PlayerScript.DamageType.feet, playerID);
+                    collision.transform.root.GetComponent<PlayerScript>().TakeDamage(damage, PlayerScript.DamageType.feet, playerID, true);
                 }
                 if (collision.collider.tag == "Leg" && collision.transform.root.GetComponent<PlayerScript>().playerID != playerID && canHurty)
                 {
-                    collision.transform.root.gameObject.GetComponent<PlayerScript>().TakeDamage(damage, PlayerScript.DamageType.legs, playerID);
+                    collision.transform.root.gameObject.GetComponent<PlayerScript>().TakeDamage(damage, PlayerScript.DamageType.legs, playerID, true);
                 }
 
                 GameObject sparkyObj = objectPooler.SpawnFromPool("BulletImpact", transform.position, Quaternion.identity);

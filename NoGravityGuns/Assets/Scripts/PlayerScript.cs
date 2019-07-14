@@ -33,9 +33,15 @@ public class PlayerScript : MonoBehaviour
     public bool isDead;
     public bool isInvulnerable;
 
-    [Header("AudioClips")]
+    [Header("Audio")]
+    public AudioSource audioSource;
     public AudioClip headShot;
     public AudioClip standardShot;
+    public AudioClip torsoImpact;
+    public AudioClip legsImpact;
+    public AudioClip headImpact;
+    public AudioClip deathClip;
+    public AudioClip respawnClip;
 
     [Header("armedArms")]
     public GameObject pistolArms;
@@ -45,11 +51,15 @@ public class PlayerScript : MonoBehaviour
     public GameObject railGunArms;
     public ArmsScript armsScript;
 
+    [Header("Armed Legs")]
+    public GameObject legsCollider;
+
     [Header("Spawning and kills")]
     public Vector3 spawnPoint;
     public Color32 invulnerabilityColorFlash;
     public float invulnerablityTime;
     public int numKills;
+    public int lastHitByID;
 
     [Header("Particle Effects")]
     public ParticleSystem HS_Flash;
@@ -68,11 +78,12 @@ public class PlayerScript : MonoBehaviour
     //Private
     Quaternion targetRotation;
     Color32 defaultColor;
-    AudioSource audioSource;
     float angle;
-    int lastHitByID;
     float immuneToCollisionsTimer;
 
+    SpriteRenderer[] legsSR;
+    SpriteRenderer torsoSR;
+    SpriteRenderer armsSR;
 
 
     const float HEADSHOT_MULTIPLIER = 2f;
@@ -92,9 +103,12 @@ public class PlayerScript : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         audioSource = GetComponent<AudioSource>();
         numKills = 0;
-        defaultColor = GetComponent<SpriteRenderer>().color;
+
+        defaultColor = gameObject.GetComponent<SpriteRenderer>().color;
         lastHitByID = 0;
         immuneToCollisionsTimer = 0;
+
+     
 
     }
 
@@ -116,7 +130,7 @@ public class PlayerScript : MonoBehaviour
 
         //DEBUG: take damage
         if (Input.GetKeyDown(KeyCode.K))
-            TakeDamage(50, DamageType.torso, 0);
+            TakeDamage(50, DamageType.torso, 0, true);
 
 
     }
@@ -135,6 +149,11 @@ public class PlayerScript : MonoBehaviour
         shotGunArms.SetActive(false);
         LMGArms.SetActive(false);
         EquipArms(GunType.pistol, GameManager.Instance.pistol);
+
+        torsoSR = GetComponent<SpriteRenderer>();
+        armsSR = armsScript.currentArms.GetComponent<SpriteRenderer>();
+        legsSR = GetComponentsInChildren<SpriteRenderer>();
+
         StartCoroutine(RespawnInvulernability());
     }
 
@@ -193,11 +212,13 @@ public class PlayerScript : MonoBehaviour
 
 
 
-    public void TakeDamage(float damage, DamageType damageType, int attackerID)
+    public void TakeDamage(float damage, DamageType damageType, int attackerID, bool playBulletSFX)
     {
         if (!isDead && !isInvulnerable)
         {
-            lastHitByID = attackerID;
+            //only reset if it wasnt a world kill
+            if (attackerID != 0)
+                lastHitByID = attackerID;
 
             if (damage < 0)
             {
@@ -208,33 +229,33 @@ public class PlayerScript : MonoBehaviour
                 switch (damageType)
                 {
                     case DamageType.head:
-
                         damage *= HEADSHOT_MULTIPLIER;
                         SpawnFloatingDamageText(Mathf.RoundToInt(damage), Color.red, "Crit");
-                        audioSource.PlayOneShot(headShot);
                         HS_Flash.Emit(1);
                         HS_Flash.Emit(Random.Range(35, 45));
+                        if (playBulletSFX)
+                            audioSource.PlayOneShot(headShot);
                         break;
                     case DamageType.torso:
                         damage *= TORSOSHOT_MULTIPLIER;
                         SpawnFloatingDamageText(Mathf.RoundToInt(damage), Color.yellow, "FloatAway");
-                        audioSource.PlayOneShot(standardShot);
                         break;
                     case DamageType.legs:
                         damage *= LEGSHOT_MULTIPLIER;
                         SpawnFloatingDamageText(Mathf.RoundToInt(damage), Color.black, "FloatAway");
-                        audioSource.PlayOneShot(standardShot);
                         break;
                     case DamageType.feet:
-
                         damage *= FOOTSHOT_MULTIPLIER;
                         SpawnFloatingDamageText(Mathf.RoundToInt(damage), Color.gray, "FloatAway");
-                        audioSource.PlayOneShot(standardShot);
                         break;
                     default:
                         break;
                 }
+
+                if (damageType != DamageType.head && playBulletSFX)
+                    audioSource.PlayOneShot(standardShot);
             }
+
 
             health -= (int)damage;
             float barVal = ((float)health / 100f);
@@ -257,31 +278,30 @@ public class PlayerScript : MonoBehaviour
             health = 100;
     }
 
-    //overload to force custom SFX
-    public void TakeDamage(float damage, DamageType damageType, int attackerID, AudioClip SFX)
-    {
-        audioSource.PlayOneShot(SFX);
-
-        TakeDamage(damage, damageType, attackerID);
-    }
-
-
 
     public PlayerScript Die()
     {
         if (!isDead)
         {
+            audioSource.Stop();
+
             isDead = true;
             numLives--;
+            audioSource.PlayOneShot(deathClip);
 
             if (numLives <= 0)
             {
                 GameManager.Instance.CheckForLastManStanding();
             }
+            armsSR = armsScript.currentArms.GetComponent<SpriteRenderer>();
 
+            torsoSR.color = deadColor;
+            armsSR.color = deadColor;
 
-            GetComponent<SpriteRenderer>().color = deadColor;
-            armsScript.currentArms.GetComponent<SpriteRenderer>().color = deadColor;
+            foreach (var sr in legsSR)
+            {
+                sr.color = deadColor;
+            }        
 
             StartCoroutine(WaitForRespawn());
         }
@@ -301,14 +321,17 @@ public class PlayerScript : MonoBehaviour
         transform.position = spawnPoint;
         health = 100;
         float barVal = ((float)health / 100f);
+        audioSource.PlayOneShot(respawnClip);
 
         playerUIPanel.setHealth(barVal);
 
-        rb.velocity = Vector2.zero;
         rb.rotation = 0;
-        rb.simulated = false;
-        rb.simulated = true;
+        rb.velocity = new Vector2(0, 0);
+        rb.angularVelocity = 0;
+        
         isDead = false;
+        //last thing you were hit by set back to world, just in case you suicide without help
+        lastHitByID = 0;
 
         EquipArms(GunType.pistol, GameManager.Instance.pistol);
 
@@ -326,28 +349,50 @@ public class PlayerScript : MonoBehaviour
     IEnumerator RespawnInvulernability()
     {
         isInvulnerable = true;
+        armsSR = armsScript.currentArms.GetComponent<SpriteRenderer>();
 
         float invulnerabilityFlashIncriments = (float)invulnerablityTime / 12f;
-        SpriteRenderer armsSR = armsScript.currentArms.GetComponent<SpriteRenderer>();
-        SpriteRenderer sr = GetComponent<SpriteRenderer>();
 
         for (int i = 0; i < invulnerablityTime; i++)
         {
-            sr.color = invulnerabilityColorFlash;
+            torsoSR.color = invulnerabilityColorFlash;
             armsSR.color = invulnerabilityColorFlash;
+            foreach (var sr in legsSR)
+            {
+                sr.color = invulnerabilityColorFlash;
+            }
+
             yield return new WaitForSeconds(invulnerabilityFlashIncriments);
-            sr.color = defaultColor;
+            torsoSR.color = defaultColor;
             armsSR.color = defaultColor;
+            foreach (var sr in legsSR)
+            {
+                sr.color = defaultColor;
+            }
+
             yield return new WaitForSeconds(invulnerabilityFlashIncriments);
-            sr.color = invulnerabilityColorFlash;
+            torsoSR.color = invulnerabilityColorFlash;
             armsSR.color = invulnerabilityColorFlash;
+            foreach (var sr in legsSR)
+            {
+                sr.color = invulnerabilityColorFlash;
+            }
+
             yield return new WaitForSeconds(invulnerabilityFlashIncriments);
-            sr.color = defaultColor;
+            torsoSR.color = defaultColor;
             armsSR.color = defaultColor;
+            foreach (var sr in legsSR)
+            {
+                sr.color = defaultColor;
+            }
         }
 
-        sr.color = defaultColor;
+        torsoSR.color = defaultColor;
         armsSR.color = defaultColor;
+        foreach (var sr in legsSR)
+        {
+            sr.color = defaultColor;
+        }
         isInvulnerable = false;
     }
 
@@ -417,29 +462,68 @@ public class PlayerScript : MonoBehaviour
 
         if (collision.collider.tag == "ImpactObject")
         {
-            DealColliderDamage(collision);
+            DealColliderDamage(collision, "Torso", 0);
         }
         else if (collision.collider.tag == "Torso" || collision.collider.tag == "Head" || collision.collider.tag == "Feet" || collision.collider.tag == "Legs")
         {
-            //collision.gameObject.GetComponent<PlayerScript>().lastHitByID = playerID;
-            collision.transform.root.GetComponent<PlayerScript>().lastHitByID = playerID;
-            DealColliderDamage(collision);
+            int hitByID = collision.transform.root.GetComponent<PlayerScript>().lastHitByID;
+            DealColliderDamage(collision, "Torso", hitByID);
         }
 
     }
 
-    void DealColliderDamage(Collision2D collision)
+    public void DealColliderDamage(Collision2D collision, string hitLocation, int hitByID)
     {
         float dmg = collision.relativeVelocity.magnitude;
 
-        if (dmg > 100)
-            dmg = 100;
-
-        if (dmg > 50 && immuneToCollisionsTimer >= 1)
+        //dont bother dealing damage unless unmitigated damage indicates fast enough collision
+        if (dmg > 50)
         {
-            dmg = dmg / 4;
-            immuneToCollisionsTimer = 0;
-            TakeDamage(dmg, PlayerScript.DamageType.torso, 0);
+
+            DamageType dmgType;
+            AudioClip soundClipToPlay;
+
+            switch (hitLocation)
+            {
+                case ("Torso"):
+                    dmg *= TORSOSHOT_MULTIPLIER;
+                    dmgType = DamageType.torso;
+                    soundClipToPlay = torsoImpact;
+                    break;
+                case ("Leg"):
+                    dmg *= LEGSHOT_MULTIPLIER;
+                    dmgType = DamageType.legs;
+                    soundClipToPlay = legsImpact;
+                    break;
+                case ("Head"):
+                    dmg *= HEADSHOT_MULTIPLIER;
+                    dmgType = DamageType.head;
+                    soundClipToPlay = headImpact;
+                    break;
+                case ("Foot"):
+                    dmg *= FOOTSHOT_MULTIPLIER;
+                    dmgType = DamageType.feet;
+                    soundClipToPlay = legsImpact;
+                    break;
+                default:
+                    dmg *= TORSOSHOT_MULTIPLIER;
+                    dmgType = DamageType.torso;
+                    soundClipToPlay = torsoImpact;
+                    break;
+            }
+
+            //caps unmitigated damage
+            if (dmg > 100)
+                dmg = 100;
+
+            if (immuneToCollisionsTimer >= 1)
+            {
+                //reduces damage so its not bullshit
+                dmg = dmg / 6;
+                immuneToCollisionsTimer = 0;
+                audioSource.PlayOneShot(soundClipToPlay);
+                TakeDamage(dmg, dmgType, hitByID, false);
+            }
         }
     }
 
