@@ -159,7 +159,7 @@ public class ArmsScript : MonoBehaviour
                 }
             }
             //can't shoot during reload except for shotgun interupt
-            if ((Input.GetAxisRaw(triggerAxis) > 0 && !isReloading) || ((Input.GetAxisRaw(triggerAxis) > 0 && currentWeapon.GunType == PlayerScript.GunType.shotgun && currentAmmo > 0)))
+            if (((Input.GetAxisRaw(triggerAxis) > 0 && !isReloading) || ((Input.GetAxisRaw(triggerAxis) > 0 && currentWeapon.GunType == PlayerScript.GunType.shotgun && currentAmmo > 0))) && shootDir.magnitude!=0)
             {
                 if (currentWeapon.GunType == PlayerScript.GunType.shotgun && isReloading)
                 {
