@@ -62,6 +62,9 @@ public class PlayerScript : MonoBehaviour
 
     public Rigidbody2D rb;
 
+
+    public int numLives;
+
     //Private
     Quaternion targetRotation;
     Color32 defaultColor;
@@ -69,6 +72,7 @@ public class PlayerScript : MonoBehaviour
     float angle;
     int lastHitByID;
     float immuneToCollisionsTimer;
+
 
     const float HEADSHOT_MULTIPLIER = 2f;
     const float TORSOSHOT_MULTIPLIER = 1f;
@@ -267,6 +271,10 @@ public class PlayerScript : MonoBehaviour
         if (!isDead)
         {
             isDead = true;
+            numLives--;
+            if(numLives<=0)
+                GameManager.Instance.
+
             GetComponent<SpriteRenderer>().color = deadColor;
             armsScript.currentArms.GetComponent<SpriteRenderer>().color = deadColor;
 

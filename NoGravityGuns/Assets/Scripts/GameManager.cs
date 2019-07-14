@@ -158,9 +158,17 @@ public class GameManager : MonoBehaviour
     }
 
 
-    void OnGameEnd()
+    public void OnGameEnd()
     {
-        List<PlayerScript> winner = DetermineWinner();
+        //List<PlayerScript> winner = DetermineWinner();
+        //PlayerScript winner = 
+        List<PlayerScript> winner = new List<PlayerScript>();
+
+        foreach (var player in players)
+        {
+            if (player.numLives >= 0)
+                winner.Add(player);
+        }
 
 
         EndGameScript.StartEndGame(winner);
