@@ -272,11 +272,11 @@ public class PlayerScript : MonoBehaviour
         if (!isDead)
         {
             isDead = true;
-            numLives--;   
-                     
+            numLives--;
+
             if (numLives <= 0)
             {
-                GameManager.Instance.CheckForLastManStanding();                            
+                GameManager.Instance.CheckForLastManStanding();
             }
 
 
@@ -421,7 +421,8 @@ public class PlayerScript : MonoBehaviour
         }
         else if (collision.collider.tag == "Torso" || collision.collider.tag == "Head" || collision.collider.tag == "Feet" || collision.collider.tag == "Legs")
         {
-            collision.gameObject.GetComponent<PlayerScript>().lastHitByID = playerID;
+            //collision.gameObject.GetComponent<PlayerScript>().lastHitByID = playerID;
+            collision.transform.root.GetComponent<PlayerScript>().lastHitByID = playerID;
             DealColliderDamage(collision);
         }
 

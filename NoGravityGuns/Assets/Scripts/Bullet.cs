@@ -81,13 +81,14 @@ public class Bullet : MonoBehaviour, IPooledObject
                 {
                     collision.gameObject.GetComponent<PlayerScript>().TakeDamage(damage, PlayerScript.DamageType.head, playerID);
                 }
-                if (collision.collider.tag == "Feet" && collision.gameObject.GetComponent<PlayerScript>().playerID != playerID && canHurty)
+                if (collision.collider.tag == "Feet" && collision.transform.root.GetComponent<PlayerScript>().playerID != playerID && canHurty)
                 {
-                    collision.gameObject.GetComponent<PlayerScript>().TakeDamage(damage, PlayerScript.DamageType.feet, playerID);
+                    Debug.Log(collision.transform.root.name);
+                    collision.transform.root.GetComponent<PlayerScript>().TakeDamage(damage, PlayerScript.DamageType.feet, playerID);
                 }
-                if (collision.collider.tag == "Leg" && collision.gameObject.GetComponent<PlayerScript>().playerID != playerID && canHurty)
+                if (collision.collider.tag == "Leg" && collision.transform.root.GetComponent<PlayerScript>().playerID != playerID && canHurty)
                 {
-                    collision.gameObject.GetComponent<PlayerScript>().TakeDamage(damage, PlayerScript.DamageType.legs, playerID);
+                    collision.transform.root.gameObject.GetComponent<PlayerScript>().TakeDamage(damage, PlayerScript.DamageType.legs, playerID);
                 }
 
                 GameObject sparkyObj = objectPooler.SpawnFromPool("BulletImpact", transform.position, Quaternion.identity);
