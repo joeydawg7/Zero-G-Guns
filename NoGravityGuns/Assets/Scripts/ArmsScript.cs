@@ -473,8 +473,8 @@ public class ArmsScript : MonoBehaviour
 
             float offset = cone * angle;
 
-            GameObject bulletGo = ObjectPooler.Instance.SpawnFromPool("Bullet", bulletSpawnPoint, Quaternion.LookRotation(Vector3.forward, -shootDir));
-            dir = bulletSpawn.transform.right;
+            GameObject bulletGo = ObjectPooler.Instance.SpawnFromPool("Bullet", bulletSpawnPoint, Quaternion.identity);
+            dir = bulletSpawn.transform.right * currentWeapon.bulletSpeed;
             Vector2 nomralizedOffset = new Vector2(dir.x + offset, dir.y + offset);
 
             bulletGo.GetComponent<Bullet>().Construct(basePlayer.playerID, currentWeapon.GunDamage, basePlayer.gameObject, bulletSprite, currentWeapon.GunType, (nomralizedOffset));
@@ -484,8 +484,8 @@ public class ArmsScript : MonoBehaviour
 
     void SpawnBullet()
     {
-        GameObject bulletGo = ObjectPooler.Instance.SpawnFromPool("Bullet", bulletSpawnPoint, Quaternion.LookRotation(Vector3.forward, -shootDir));
-        dir = bulletSpawn.transform.right;
+        GameObject bulletGo = ObjectPooler.Instance.SpawnFromPool("Bullet", bulletSpawnPoint, Quaternion.identity);
+        dir = bulletSpawn.transform.right * currentWeapon.bulletSpeed;
 
         bulletGo.GetComponent<Bullet>().Construct(basePlayer.playerID, currentWeapon.GunDamage, basePlayer.gameObject, bulletSprite, currentWeapon.GunType, dir);
 
@@ -493,12 +493,23 @@ public class ArmsScript : MonoBehaviour
 
     private void OnDrawGizmos()
     {
+        //Color color;
+        //color = Color.red;
+        //// local right
 
-        Color color;
+        //DrawHelperAtCenter(bulletSpawn.transform.right * shootDir, color, -2f);
+        //Vector2.right* Input.GetAxis(horizontalAxis) + Vector2.up * Input.GetAxis(verticalAxis);
 
-        color = Color.red;
-        // local right
-        DrawHelperAtCenter(bulletSpawn.transform.right, color, -2f);
+        Ray ray= new Ray();
+        //ray.direction = bulletSpawn.transform.right * shootDir;
+        // Debug.Log((Vector2)bulletSpawn.transform.right + -bulletSpawn.transform.up * shootDir);
+
+        ray.direction = bulletSpawn.transform.right ;
+
+        ray.origin = bulletSpawn.transform.position;
+
+        Gizmos.DrawRay(ray);
+
     }
 
     private void DrawHelperAtCenter(
