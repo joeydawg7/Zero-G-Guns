@@ -24,9 +24,10 @@ public class GUIManager : MonoBehaviour
     {
         if(GameManager.Instance.isGameStarted)
         {
+            timerText.alpha = 1;
             gameManager.timer -= Time.deltaTime;
-            string minutes = Mathf.Floor(gameManager.timer / 60).ToString("00");
-            string seconds = Mathf.Floor(gameManager.timer % 60).ToString("00");
+            string minutes = Mathf.Floor(gameManager.timer / 60f).ToString("00");
+            string seconds = Mathf.Floor(gameManager.timer % 60f).ToString("00");
 
             timerText.text = string.Format("{0}:{1}", minutes, seconds); 
         }
