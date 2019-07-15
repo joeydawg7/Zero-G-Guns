@@ -9,7 +9,7 @@ public class Bullet : MonoBehaviour, IPooledObject
 
     int playerID;
 
-    PlayerScript.GunType bulletType;
+    public PlayerScript.GunType bulletType;
 
     bool canImapact;
     bool noBounce = true;
@@ -72,23 +72,32 @@ public class Bullet : MonoBehaviour, IPooledObject
             if (collision.collider.tag != "Bullet" || collision.collider.GetComponent<Bullet>().playerID != playerID)
             {
 
+                PlayerScript.DamageType dmgType;
+
                 //checks where we hit the other guy, and that it isnt self damage so we cant shoot ourselves in the knees
-                if (collision.collider.tag == "Torso" && collision.gameObject.GetComponent<PlayerScript>().playerID != playerID && canHurty)
+                if (collision.collider.tag == "Torso" )
                 {
-                    collision.gameObject.GetComponent<PlayerScript>().TakeDamage(damage, PlayerScript.DamageType.torso, playerID, true);
+                    dmgType = PlayerScript.DamageType.torso;
                 }
-                if (collision.collider.tag == "Head" && collision.gameObject.GetComponent<PlayerScript>().playerID != playerID && canHurty)
+                if (collision.collider.tag == "Head" )
                 {
-                    collision.gameObject.GetComponent<PlayerScript>().TakeDamage(damage, PlayerScript.DamageType.head, playerID, true);
+                    dmgType = PlayerScript.DamageType.head;
                 }
-                if (collision.collider.tag == "Feet" && collision.transform.root.GetComponent<PlayerScript>().playerID != playerID && canHurty)
+                if (collision.collider.tag == "Feet")
                 {
-                    collision.transform.root.GetComponent<PlayerScript>().TakeDamage(damage, PlayerScript.DamageType.feet, playerID, true);
+                    dmgType = PlayerScript.DamageType.feet;
                 }
-                if (collision.collider.tag == "Leg" && collision.transform.root.GetComponent<PlayerScript>().playerID != playerID && canHurty)
+                if (collision.collider.tag == "Leg")
                 {
-                    collision.transform.root.gameObject.GetComponent<PlayerScript>().TakeDamage(damage, PlayerScript.DamageType.legs, playerID, true);
+                    dmgType = PlayerScript.DamageType.legs;                   
                 }
+                else
+                {
+                    dmgType = PlayerScript.DamageType.torso;
+                }
+
+                if(collision.gameObject.GetComponent<PlayerScript>() && collision.gameObject.GetComponent<PlayerScript>().playerID != playerID && canHurty)
+                    collision.transform.root.gameObject.GetComponent<PlayerScript>().TakeDamage(damage, dmgType, playerID, true, bulletType);
 
                 GameObject sparkyObj = objectPooler.SpawnFromPool("BulletImpact", transform.position, Quaternion.identity);
                 sparkyObj.GetComponent<ParticleSystem>().Emit(10);

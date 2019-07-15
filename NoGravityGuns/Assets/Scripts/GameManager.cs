@@ -37,42 +37,59 @@ public class GameManager : MonoBehaviour
 
     public GameObject PlayerObject;
 
-    [Header("Red Sprites")]
-    public Sprite redBody;
-    public Sprite redFrontLeg;
-    public Sprite redForeLeg;
-    public Sprite redFoot;
-    public Sprite redBackLeg;
-    public Sprite redBackForeLeg;
-    public Sprite redBackFoot;
+    //[Header("Red Sprites")]
+    //public Sprite redBody;
+    //public Sprite redFrontLeg;
+    //public Sprite redForeLeg;
+    //public Sprite redFoot;
+    //public Sprite redBackLeg;
+    //public Sprite redBackForeLeg;
+    //public Sprite redBackFoot;
 
-    [Header("Blue Sprites")]
-    public Sprite blueBody;
-    public Sprite blueFrontLeg;
-    public Sprite blueForeLeg;
-    public Sprite blueFoot;
-    public Sprite blueBackLeg;
-    public Sprite blueBackForeLeg;
-    public Sprite blueBackFoot;
+    //[Header("Blue Sprites")]
+    //public Sprite blueBody;
+    //public Sprite blueFrontLeg;
+    //public Sprite blueForeLeg;
+    //public Sprite blueFoot;
+    //public Sprite blueBackLeg;
+    //public Sprite blueBackForeLeg;
+    //public Sprite blueBackFoot;
 
-    [Header("green Sprites")]
-    public Sprite greenBody;
-    public Sprite greenFrontLeg;
-    public Sprite greenForeLeg;
-    public Sprite greenFoot;
-    public Sprite greenBackLeg;
-    public Sprite greenBackForeLeg;
-    public Sprite greenBackFoot;
+    //[Header("green Sprites")]
+    //public Sprite greenBody;
+    //public Sprite greenFrontLeg;
+    //public Sprite greenForeLeg;
+    //public Sprite greenFoot;
+    //public Sprite greenBackLeg;
+    //public Sprite greenBackForeLeg;
+    //public Sprite greenBackFoot;
 
-    [Header("yellow Sprites")]
-    public Sprite yellowBody;
-    public Sprite yellowFrontLeg;
-    public Sprite yellowForeLeg;
-    public Sprite yellowFoot;
-    public Sprite yellowBackLeg;
-    public Sprite yellowBackForeLeg;
-    public Sprite yellowBackFoot;
+    //[Header("yellow Sprites")]
+    //public Sprite yellowBody;
+    //public Sprite yellowFrontLeg;
+    //public Sprite yellowForeLeg;
+    //public Sprite yellowFoot;
+    //public Sprite yellowBackLeg;
+    //public Sprite yellowBackForeLeg;
+    //public Sprite yellowBackFoot;
 
+
+    public float pistolKills;
+    public float shotGunKills;
+    public float railgunKills;
+    public float minigunKills;
+    public float assaultRifleKills;
+    public float collisionKills;
+
+    public float pistolDamage;
+    public float shotGunDamage;
+    public float railgunDamage;
+    public float minigunDamage;
+    public float assaultDamage;
+    public float collisionDamage;
+    public float healthPackHeals;
+
+    DataManager dataManager;
 
     private void OnLevelWasLoaded(int level)
     {
@@ -98,7 +115,7 @@ public class GameManager : MonoBehaviour
         matchTime = 300;
         timer = 300;
 
-
+        dataManager = GetComponent<DataManager>();
     }
 
     private void Awake()
@@ -115,6 +132,7 @@ public class GameManager : MonoBehaviour
 
         isGameStarted = false;
         countdownText.gameObject.SetActive(false);
+        dataManager = GetComponent<DataManager>();
 
     }
 
@@ -156,6 +174,7 @@ public class GameManager : MonoBehaviour
 
         guiManager.OnGameStart();
 
+        dataManager.OnGameStart();
 
         StartCoroutine(Countdown());
     }
@@ -199,8 +218,7 @@ public class GameManager : MonoBehaviour
 
     public void OnGameEnd()
     {
-        //List<PlayerScript> winner = DetermineWinner();
-        //PlayerScript winner = 
+
         List<PlayerScript> winner = new List<PlayerScript>();
 
         foreach (var player in players)
@@ -209,6 +227,7 @@ public class GameManager : MonoBehaviour
                 winner.Add(player);
         }
 
+        dataManager.OnGameEnd(winner);
 
         EndGameScript.StartEndGame(winner);
 

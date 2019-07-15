@@ -104,20 +104,12 @@ public class ArmsScript : MonoBehaviour
         if (GameManager.Instance.isGameStarted && Input.GetButton(XButton) && !isReloading && currentAmmo < currentWeapon.clipSize)
             reloadCoroutine = StartCoroutine(Reload());
 
-
-        //if (currentWeapon != null)
-        //    dir = -transform.right;
-
     }
 
     void FixedUpdate()
     {
-
         if (GameManager.Instance.isGameStarted)
             ShootController();
-
-
-
     }
 
 
@@ -138,9 +130,14 @@ public class ArmsScript : MonoBehaviour
             }
         }
 
+        if (weaponToEquip == currentWeapon)
+            totalBulletsGunCanLoad += weaponToEquip.numBullets;
+        else
+            totalBulletsGunCanLoad = weaponToEquip.numBullets;
+
         currentWeapon = weaponToEquip;
         currentAmmo = weaponToEquip.clipSize;
-        totalBulletsGunCanLoad = weaponToEquip.numBullets;
+
         isReloading = false;
         bulletSpawn = gunObj.transform.Find("BulletSpawner");
         SendGunText();
@@ -155,9 +152,9 @@ public class ArmsScript : MonoBehaviour
         timeSinceLastShot += Time.deltaTime;
 
         if (currentRecoil > 0)
-        {
             currentRecoil -= Time.deltaTime;
-        }
+        else
+            currentRecoil = 0;
 
         if (currentRecoil > currentWeapon.recoilMax)
             currentRecoil = currentWeapon.recoilMax;
@@ -442,7 +439,7 @@ public class ArmsScript : MonoBehaviour
         currentAmmo--;
 
         //cone of -1 to 1 multiplied by current recoil amount to determine just how random it can be
-        float recoilMod = UnityEngine.Random.Range(-1f, 1f) * currentRecoil;
+        //float recoilMod = UnityEngine.Random.Range(-1f, 1f) * currentRecoil;
 
         bulletSpawnPoint = new Vector3(bulletSpawnPoint.x, bulletSpawnPoint.y);
 

@@ -26,7 +26,7 @@ public class PlayerScript : MonoBehaviour
     [HideInInspector]
     public enum DamageType { head, torso, legs, feet };
     [HideInInspector]
-    public enum GunType { pistol, assaultRifle, LMG, shotgun, railGun, healthPack };
+    public enum GunType { pistol, assaultRifle, LMG, shotgun, railGun, healthPack, collision };
 
 
     [Header("Bools")]
@@ -132,7 +132,7 @@ public class PlayerScript : MonoBehaviour
 
         //DEBUG: take damage
         if (Input.GetKeyDown(KeyCode.K))
-            TakeDamage(50, DamageType.torso, 0, true);
+            TakeDamage(50, DamageType.torso, 0, true, GunType.collision);
 
 
     }
@@ -172,7 +172,6 @@ public class PlayerScript : MonoBehaviour
                 pistolArms.GetComponent<SpriteRenderer>().color = defaultColor;
                 armsScript.EquipGun(gun, pistolArms);
                 armsScript.currentArms = pistolArms;
-                //code here to actually refill bullets to stop crap from hapening that is bad
                 break;
             case GunType.railGun:
                 railGunArms.SetActive(true);
@@ -219,13 +218,15 @@ public class PlayerScript : MonoBehaviour
         }
     }
 
-    public void TakeDamage(float damage, DamageType damageType, int attackerID, bool playBulletSFX)
+    public void TakeDamage(float damage, DamageType damageType, int attackerID, bool playBulletSFX, GunType gunType)
     {
         if (!isDead && !isInvulnerable)
         {
             //only reset if it wasnt a world kill
             if (attackerID != 0)
                 lastHitByID = attackerID;
+
+            float unModdedDmg=damage;
 
             if (damage < 0)
             {
@@ -277,13 +278,64 @@ public class PlayerScript : MonoBehaviour
                     if (player.playerID == lastHitByID)
                         player.numKills++;
                 }
+
+                SaveDamageData(gunType, Mathf.RoundToInt(damage), true);
+
                 Die();
             }
+            else
+                SaveDamageData(gunType, Mathf.RoundToInt(damage), false);
         }
 
         if (health > 100)
             health = 100;
     }
+
+
+    void SaveDamageData(GunType gunType, float dmg, bool dead)
+    {
+        GameManager gameManager = GameManager.Instance;
+
+        switch (gunType)
+        {
+            case GunType.pistol:
+                gameManager.pistolDamage += dmg;
+                if (dead)
+                    gameManager.pistolKills++;
+                break;
+            case GunType.assaultRifle:
+                gameManager.assaultDamage += dmg;
+                if (dead)
+                    gameManager.assaultRifleKills++;
+                break;
+            case GunType.LMG:
+                gameManager.minigunDamage += dmg;
+                if (dead)
+                    gameManager.minigunKills++;
+                break;
+            case GunType.shotgun:
+                gameManager.shotGunDamage += dmg;
+                if (dead)
+                    gameManager.shotGunKills++;
+                break;
+            case GunType.railGun:
+                gameManager.railgunDamage += dmg;
+                if (dead)
+                    gameManager.railgunKills++;
+                break;
+            case GunType.healthPack:
+                gameManager.healthPackHeals += dmg;
+                break;
+            case GunType.collision:
+                gameManager.collisionDamage += dmg;
+                if (dead)
+                    gameManager.collisionKills++;
+                break;
+            default:
+                break;
+        }
+    }
+
 
 
     public PlayerScript Die()
@@ -308,7 +360,9 @@ public class PlayerScript : MonoBehaviour
             foreach (var sr in legsSR)
             {
                 sr.color = deadColor;
-            }        
+            }
+
+            armsScript.reloadTimer.SetActive(false);
 
             StartCoroutine(WaitForRespawn());
         }
@@ -536,7 +590,7 @@ public class PlayerScript : MonoBehaviour
                 dmg = dmg / 6;
                 immuneToCollisionsTimer = 0;
                 audioSource.PlayOneShot(soundClipToPlay);
-                TakeDamage(dmg, dmgType, hitByID, false);
+                TakeDamage(dmg, dmgType, hitByID, false, GunType.collision);
             }
         }
     }
