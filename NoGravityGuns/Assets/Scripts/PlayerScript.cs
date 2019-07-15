@@ -510,7 +510,7 @@ public class PlayerScript : MonoBehaviour
                     soundClipToPlay = legsImpact;
                     break;
                 case ("Head"):
-                    dmg *= HEADSHOT_MULTIPLIER;
+                    dmg *= TORSOSHOT_MULTIPLIER;
                     dmgType = DamageType.head;
                     soundClipToPlay = headImpact;
                     break;
