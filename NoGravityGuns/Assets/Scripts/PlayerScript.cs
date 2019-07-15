@@ -71,7 +71,7 @@ public class PlayerScript : MonoBehaviour
     public string hexColorCode;
 
     public Rigidbody2D rb;
-
+    public Transform legsParent;
 
     public int numLives;
 
@@ -84,6 +84,8 @@ public class PlayerScript : MonoBehaviour
     SpriteRenderer[] legsSR;
     SpriteRenderer torsoSR;
     SpriteRenderer armsSR;
+
+    Rigidbody2D[] legRBs;
 
 
     const float HEADSHOT_MULTIPLIER = 2f;
@@ -153,6 +155,7 @@ public class PlayerScript : MonoBehaviour
         torsoSR = GetComponent<SpriteRenderer>();
         armsSR = armsScript.currentArms.GetComponent<SpriteRenderer>();
         legsSR = GetComponentsInChildren<SpriteRenderer>();
+        legRBs =  legsParent.GetComponentsInChildren<Rigidbody2D>();
 
         StartCoroutine(RespawnInvulernability());
     }
@@ -160,32 +163,38 @@ public class PlayerScript : MonoBehaviour
     public void EquipArms(GunType gunType, GunSO gun)
     {
         HideAllArms();
+      
 
         switch (gunType)
         {
             case GunType.pistol:
                 pistolArms.SetActive(true);
+                pistolArms.GetComponent<SpriteRenderer>().color = defaultColor;
                 armsScript.EquipGun(gun, pistolArms);
                 armsScript.currentArms = pistolArms;
                 //code here to actually refill bullets to stop crap from hapening that is bad
                 break;
             case GunType.railGun:
                 railGunArms.SetActive(true);
+                railGunArms.GetComponent<SpriteRenderer>().color = defaultColor;
                 armsScript.EquipGun(gun, railGunArms);
                 armsScript.currentArms = railGunArms;
                 break;
             case GunType.assaultRifle:
                 assaultRifleArms.SetActive(true);
+                assaultRifleArms.GetComponent<SpriteRenderer>().color = defaultColor;
                 armsScript.EquipGun(gun, assaultRifleArms);
                 armsScript.currentArms = assaultRifleArms;
                 break;
             case GunType.LMG:
                 LMGArms.SetActive(true);
+                LMGArms.GetComponent<SpriteRenderer>().color = defaultColor;
                 armsScript.EquipGun(gun, LMGArms);
                 armsScript.currentArms = LMGArms;
                 break;
             case GunType.shotgun:
                 shotGunArms.SetActive(true);
+                shotGunArms.GetComponent<SpriteRenderer>().color = defaultColor;
                 armsScript.EquipGun(gun, shotGunArms);
                 armsScript.currentArms = shotGunArms;
                 break;
@@ -209,8 +218,6 @@ public class PlayerScript : MonoBehaviour
             }
         }
     }
-
-
 
     public void TakeDamage(float damage, DamageType damageType, int attackerID, bool playBulletSFX)
     {
@@ -324,10 +331,6 @@ public class PlayerScript : MonoBehaviour
         audioSource.PlayOneShot(respawnClip);
 
         playerUIPanel.setHealth(barVal);
-
-        rb.rotation = 0;
-        rb.velocity = new Vector2(0, 0);
-        rb.angularVelocity = 0;
         
         isDead = false;
         //last thing you were hit by set back to world, just in case you suicide without help
@@ -340,6 +343,17 @@ public class PlayerScript : MonoBehaviour
         {
             gameObject.SetActive(false);
             yield break;
+        }
+
+        rb.rotation = 0;
+        rb.velocity = new Vector2(0, 0);
+        rb.angularVelocity = 0;
+
+        foreach (var rb in legRBs)
+        {
+            rb.angularVelocity = 0;
+            rb.velocity = new Vector2(0, 0);
+            rb.rotation = 0;
         }
 
         StartCoroutine(RespawnInvulernability());

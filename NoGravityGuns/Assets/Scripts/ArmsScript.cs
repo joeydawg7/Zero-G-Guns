@@ -491,26 +491,6 @@ public class ArmsScript : MonoBehaviour
 
     }
 
-    private void OnDrawGizmos()
-    {
-        //Color color;
-        //color = Color.red;
-        //// local right
-
-        //DrawHelperAtCenter(bulletSpawn.transform.right * shootDir, color, -2f);
-        //Vector2.right* Input.GetAxis(horizontalAxis) + Vector2.up * Input.GetAxis(verticalAxis);
-
-        Ray ray= new Ray();
-        //ray.direction = bulletSpawn.transform.right * shootDir;
-        // Debug.Log((Vector2)bulletSpawn.transform.right + -bulletSpawn.transform.up * shootDir);
-
-        ray.direction = bulletSpawn.transform.right ;
-
-        ray.origin = bulletSpawn.transform.position;
-
-        Gizmos.DrawRay(ray);
-
-    }
 
     private void DrawHelperAtCenter(
                      Vector3 direction, Color color, float scale)
