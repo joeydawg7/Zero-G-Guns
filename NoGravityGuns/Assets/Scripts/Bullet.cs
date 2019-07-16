@@ -72,7 +72,7 @@ public class Bullet : MonoBehaviour, IPooledObject
             if (collision.collider.tag != "Bullet" || collision.collider.GetComponent<Bullet>().playerID != playerID)
             {
 
-                PlayerScript.DamageType dmgType;
+                PlayerScript.DamageType dmgType = PlayerScript.DamageType.torso;
 
                 //checks where we hit the other guy, and that it isnt self damage so we cant shoot ourselves in the knees
                 if (collision.collider.tag == "Torso" )
@@ -95,11 +95,7 @@ public class Bullet : MonoBehaviour, IPooledObject
                     dmgType = PlayerScript.DamageType.legs;
                     collision.transform.root.gameObject.GetComponent<PlayerScript>().TakeDamage(damage, dmgType, playerID, true, bulletType);
                 }
-                else
-                {
-                    dmgType = PlayerScript.DamageType.torso;
-                    collision.transform.root.gameObject.GetComponent<PlayerScript>().TakeDamage(damage, dmgType, playerID, true, bulletType);
-                }
+
                     
                 GameObject sparkyObj = objectPooler.SpawnFromPool("BulletImpact", transform.position, Quaternion.identity);
                 sparkyObj.GetComponent<ParticleSystem>().Emit(10);
