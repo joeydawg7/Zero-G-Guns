@@ -78,27 +78,29 @@ public class Bullet : MonoBehaviour, IPooledObject
                 if (collision.collider.tag == "Torso" )
                 {
                     dmgType = PlayerScript.DamageType.torso;
+                    collision.transform.root.gameObject.GetComponent<PlayerScript>().TakeDamage(damage, dmgType, playerID, true, bulletType);
                 }
                 if (collision.collider.tag == "Head" )
                 {
                     dmgType = PlayerScript.DamageType.head;
+                    collision.transform.root.gameObject.GetComponent<PlayerScript>().TakeDamage(damage, dmgType, playerID, true, bulletType);
                 }
                 if (collision.collider.tag == "Feet")
                 {
                     dmgType = PlayerScript.DamageType.feet;
+                    collision.transform.root.gameObject.GetComponent<PlayerScript>().TakeDamage(damage, dmgType, playerID, true, bulletType);
                 }
                 if (collision.collider.tag == "Leg")
                 {
-                    dmgType = PlayerScript.DamageType.legs;                   
+                    dmgType = PlayerScript.DamageType.legs;
+                    collision.transform.root.gameObject.GetComponent<PlayerScript>().TakeDamage(damage, dmgType, playerID, true, bulletType);
                 }
                 else
                 {
                     dmgType = PlayerScript.DamageType.torso;
-                }
-
-                if(collision.gameObject.GetComponent<PlayerScript>() && collision.gameObject.GetComponent<PlayerScript>().playerID != playerID && canHurty)
                     collision.transform.root.gameObject.GetComponent<PlayerScript>().TakeDamage(damage, dmgType, playerID, true, bulletType);
-
+                }
+                    
                 GameObject sparkyObj = objectPooler.SpawnFromPool("BulletImpact", transform.position, Quaternion.identity);
                 sparkyObj.GetComponent<ParticleSystem>().Emit(10);
                 sparkyObj.GetComponent<DisableOverTime>().DisableOverT(2f);

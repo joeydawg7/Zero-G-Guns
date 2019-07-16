@@ -624,7 +624,7 @@ public class PlayerScript : MonoBehaviour
             if (immuneToCollisionsTimer >= 1)
             {
                 //reduces damage so its not bullshit
-                dmg = dmg / 6;
+                dmg = dmg / 10;
                 immuneToCollisionsTimer = 0;
                 audioSource.PlayOneShot(soundClipToPlay);
                 TakeDamage(dmg, dmgType, hitByID, false, GunType.collision);
