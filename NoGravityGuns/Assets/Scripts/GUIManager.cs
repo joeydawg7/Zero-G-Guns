@@ -11,6 +11,11 @@ public class GUIManager : MonoBehaviour
     GameManager gameManager;
 
 
+    public Sprite redHeadSprite;
+    public Sprite blueHeadSprite;
+    public Sprite greenHeadSprite;
+    public Sprite yellowHeadSprite;
+
     // Start is called before the first frame update
     void Start()
     {

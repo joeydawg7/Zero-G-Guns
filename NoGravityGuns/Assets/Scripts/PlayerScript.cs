@@ -18,6 +18,7 @@ public class PlayerScript : MonoBehaviour
     public Transform floatingTextSpawnPoint;
     public Color32 playerColor;
     public Color32 deadColor;
+    public Sprite playerHead;
 
     [Header("Controller Stuff")]
     public int playerID;
@@ -93,7 +94,16 @@ public class PlayerScript : MonoBehaviour
     const float FOOTSHOT_MULTIPLIER = 0.5f;
     const float LEGSHOT_MULTIPLIER = 0.75f;
 
-
+    [HideInInspector]
+    public float pistolTime;
+    [HideInInspector]
+    public float rifleTime;
+    [HideInInspector]
+    public float shotgunTime;
+    [HideInInspector]
+    public float railgunTime;
+    [HideInInspector]
+    public float miniGunTime;
 
     private void Awake()
     {
@@ -110,7 +120,7 @@ public class PlayerScript : MonoBehaviour
         lastHitByID = 0;
         immuneToCollisionsTimer = 0;
 
-     
+
 
     }
 
@@ -127,12 +137,37 @@ public class PlayerScript : MonoBehaviour
             EquipArms(GunType.pistol, GameManager.Instance.pistol);
 
         if (GameManager.Instance.isGameStarted)
+        {
             immuneToCollisionsTimer += Time.deltaTime;
+
+            if (armsScript.currentArms == pistolArms)
+            {
+                pistolTime += Time.deltaTime;
+            }
+            else if (armsScript.currentArms == assaultRifleArms)
+            {
+                rifleTime += Time.deltaTime;
+            }
+            else if (armsScript.currentArms == shotGunArms)
+            {
+                shotgunTime += Time.deltaTime;
+            }
+            else if (armsScript.currentArms == railGunArms)
+            {
+                railgunTime += Time.deltaTime;
+            }
+            else if (armsScript.currentArms == LMGArms)
+            {
+                miniGunTime += Time.deltaTime;
+            }
+
+        }
 
 
         //DEBUG: take damage
         if (Input.GetKeyDown(KeyCode.K))
             TakeDamage(50, DamageType.torso, 0, true, GunType.collision);
+
 
 
     }
@@ -155,7 +190,9 @@ public class PlayerScript : MonoBehaviour
         torsoSR = GetComponent<SpriteRenderer>();
         armsSR = armsScript.currentArms.GetComponent<SpriteRenderer>();
         legsSR = GetComponentsInChildren<SpriteRenderer>();
-        legRBs =  legsParent.GetComponentsInChildren<Rigidbody2D>();
+        legRBs = legsParent.GetComponentsInChildren<Rigidbody2D>();
+
+        playerUIPanel.SetLives(numLives, playerHead);
 
         StartCoroutine(RespawnInvulernability());
     }
@@ -163,7 +200,7 @@ public class PlayerScript : MonoBehaviour
     public void EquipArms(GunType gunType, GunSO gun)
     {
         HideAllArms();
-      
+
 
         switch (gunType)
         {
@@ -226,7 +263,7 @@ public class PlayerScript : MonoBehaviour
             if (attackerID != 0)
                 lastHitByID = attackerID;
 
-            float unModdedDmg=damage;
+            float unModdedDmg = damage;
 
             if (damage < 0)
             {
@@ -347,7 +384,7 @@ public class PlayerScript : MonoBehaviour
             isDead = true;
             numLives--;
             audioSource.PlayOneShot(deathClip);
-
+            playerUIPanel.SetLives(numLives, playerHead);
             if (numLives <= 0)
             {
                 GameManager.Instance.CheckForLastManStanding();
@@ -385,7 +422,7 @@ public class PlayerScript : MonoBehaviour
         audioSource.PlayOneShot(respawnClip);
 
         playerUIPanel.setHealth(barVal);
-        
+
         isDead = false;
         //last thing you were hit by set back to world, just in case you suicide without help
         lastHitByID = 0;

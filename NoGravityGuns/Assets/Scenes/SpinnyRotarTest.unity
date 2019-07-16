@@ -899,6 +899,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timerText: {fileID: 901516189}
+  redHeadSprite: {fileID: 21300000, guid: f8ce19dca9e461a46a89730504fa782f, type: 3}
+  blueHeadSprite: {fileID: 21300000, guid: bf76c43a59bca424cadcb22ca3b8184c, type: 3}
+  greenHeadSprite: {fileID: 21300000, guid: be9904c64e8f4fc498b7022f030890bf, type: 3}
+  yellowHeadSprite: {fileID: 21300000, guid: 4136ef1e575884f4486e77ff11f60bf9, type: 3}
 --- !u!1001 &229174884
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -951,6 +955,12 @@ PrefabInstance:
       propertyPath: legsParent
       value: 
       objectReference: {fileID: 983952501}
+    - target: {fileID: 4976415590657393650, guid: 7bd5c672901594f4b8326383fb19eb33,
+        type: 3}
+      propertyPath: playerHead
+      value: 
+      objectReference: {fileID: 21300000, guid: 4136ef1e575884f4486e77ff11f60bf9,
+        type: 3}
     - target: {fileID: 4976415590657393651, guid: 7bd5c672901594f4b8326383fb19eb33,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3718,6 +3728,12 @@ PrefabInstance:
       propertyPath: legsParent
       value: 
       objectReference: {fileID: 1548832882}
+    - target: {fileID: 4976415590657393650, guid: 7bd5c672901594f4b8326383fb19eb33,
+        type: 3}
+      propertyPath: playerHead
+      value: 
+      objectReference: {fileID: 21300000, guid: be9904c64e8f4fc498b7022f030890bf,
+        type: 3}
     - target: {fileID: 4976415590657393651, guid: 7bd5c672901594f4b8326383fb19eb33,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -5062,6 +5078,12 @@ PrefabInstance:
       propertyPath: legsParent
       value: 
       objectReference: {fileID: 1123631198}
+    - target: {fileID: 4976415590657393650, guid: 7bd5c672901594f4b8326383fb19eb33,
+        type: 3}
+      propertyPath: playerHead
+      value: 
+      objectReference: {fileID: 21300000, guid: bf76c43a59bca424cadcb22ca3b8184c,
+        type: 3}
     - target: {fileID: 4976415590657393651, guid: 7bd5c672901594f4b8326383fb19eb33,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -9232,7 +9254,7 @@ PrefabInstance:
     - target: {fileID: 1266405587583640708, guid: 53b2a148a6b50ea45addede7db15165f,
         type: 3}
       propertyPath: matchTime
-      value: 30
+      value: 500
       objectReference: {fileID: 0}
     - target: {fileID: 1266405587583640708, guid: 53b2a148a6b50ea45addede7db15165f,
         type: 3}
@@ -9459,6 +9481,12 @@ PrefabInstance:
       propertyPath: legsParent
       value: 
       objectReference: {fileID: 839032522}
+    - target: {fileID: 4976415590657393650, guid: 7bd5c672901594f4b8326383fb19eb33,
+        type: 3}
+      propertyPath: playerHead
+      value: 
+      objectReference: {fileID: 21300000, guid: f8ce19dca9e461a46a89730504fa782f,
+        type: 3}
     - target: {fileID: 4976415590657393651, guid: 7bd5c672901594f4b8326383fb19eb33,
         type: 3}
       propertyPath: m_LocalPosition.x

@@ -45,8 +45,6 @@ public class DataManager : MonoBehaviour
 
     void WriteStatsToFile(List<PlayerScript> winners)
     {
-        Debug.Log("writing stats to file!");
-
         File.AppendAllText(path, "\nNew game registered at " + System.DateTime.Now + "\n------------------\n");
 
         //Write some text to the test.txt file
@@ -57,7 +55,17 @@ public class DataManager : MonoBehaviour
         File.AppendAllText(path, "Collision Damage: " + gameManager.collisionDamage + ", Collision Kills: " + gameManager.collisionKills + "\n");
         File.AppendAllText(path, "Healed Damage: " + gameManager.healthPackHeals + "\n");
 
-        File.AppendAllText(path, "\n");
+        foreach (var player in gameManager.players)
+        {
+            File.AppendAllText(path, "\nPlayer: " + player.playerName );
+            File.AppendAllText(path, "\nPistol uptime: " + player.pistolTime);
+            File.AppendAllText(path, "\nAssault rifle uptime: " + player.rifleTime);
+            File.AppendAllText(path, "\nShotgun uptime: " + player.shotgunTime);
+            File.AppendAllText(path, "\nMinigun uptime: " + player.miniGunTime);
+            File.AppendAllText(path, "\nRailgun uptime: " + player.railgunTime);
+        }
+
+        File.AppendAllText(path, "\n\n");
 
         foreach (var winner in winners)
         {
