@@ -92,4 +92,16 @@ public class CameraController : MonoBehaviour
         }
     }
 
+    public void RemovePlayerFromCameraTrack(GameObject player)
+    {
+        if (players.Contains(player.transform))
+            players.Remove(player.transform);
+        else
+        {
+            Debug.LogError("Could not find gameobject " + player.name + " from camera list!");
+            return;
+        }
+        
+    }
+
 }

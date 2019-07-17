@@ -21,6 +21,7 @@ public class Bullet : MonoBehaviour, IPooledObject
 
     ObjectPooler objectPooler;
 
+    PlayerScript player;
 
     public void OnObjectSpawn()
     {
@@ -38,11 +39,12 @@ public class Bullet : MonoBehaviour, IPooledObject
 
     ParticleSystem somethingSexy;
 
-    public void Construct(int playerID, float damage, GameObject player, Sprite bulletSprite, PlayerScript.GunType gunType, Vector3 dir)
+    public void Construct(int playerID, float damage, PlayerScript player, Sprite bulletSprite, PlayerScript.GunType gunType, Vector3 dir)
     {
         this.playerID = playerID;
         this.damage = damage;
         this.bulletType = gunType;
+        this.player = player;
 
         GetComponent<SpriteRenderer>().sprite = bulletSprite;
 
@@ -78,22 +80,22 @@ public class Bullet : MonoBehaviour, IPooledObject
                 if (collision.collider.tag == "Torso" )
                 {
                     dmgType = PlayerScript.DamageType.torso;
-                    collision.transform.root.gameObject.GetComponent<PlayerScript>().TakeDamage(damage, dmgType, playerID, true, bulletType);
+                    collision.transform.root.gameObject.GetComponent<PlayerScript>().TakeDamage(damage, dmgType, player, true, bulletType);
                 }
                 if (collision.collider.tag == "Head" )
                 {
                     dmgType = PlayerScript.DamageType.head;
-                    collision.transform.root.gameObject.GetComponent<PlayerScript>().TakeDamage(damage, dmgType, playerID, true, bulletType);
+                    collision.transform.root.gameObject.GetComponent<PlayerScript>().TakeDamage(damage, dmgType, player, true, bulletType);
                 }
                 if (collision.collider.tag == "Feet")
                 {
                     dmgType = PlayerScript.DamageType.feet;
-                    collision.transform.root.gameObject.GetComponent<PlayerScript>().TakeDamage(damage, dmgType, playerID, true, bulletType);
+                    collision.transform.root.gameObject.GetComponent<PlayerScript>().TakeDamage(damage, dmgType, player, true, bulletType);
                 }
                 if (collision.collider.tag == "Leg")
                 {
                     dmgType = PlayerScript.DamageType.legs;
-                    collision.transform.root.gameObject.GetComponent<PlayerScript>().TakeDamage(damage, dmgType, playerID, true, bulletType);
+                    collision.transform.root.gameObject.GetComponent<PlayerScript>().TakeDamage(damage, dmgType, player, true, bulletType);
                 }
 
                     

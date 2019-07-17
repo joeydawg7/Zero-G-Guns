@@ -60,7 +60,7 @@ public class PlayerScript : MonoBehaviour
     public Color32 invulnerabilityColorFlash;
     public float invulnerablityTime;
     public int numKills;
-    public int lastHitByID;
+    public PlayerScript playerLastHitBy;
 
     [Header("Particle Effects")]
     public ParticleSystem HS_Flash;
@@ -105,6 +105,30 @@ public class PlayerScript : MonoBehaviour
     [HideInInspector]
     public float miniGunTime;
 
+    [HideInInspector]
+    public float pistolDmg;
+    [HideInInspector]
+    public float rifleDmg;
+    [HideInInspector]
+    public float shotgunDmg;
+    [HideInInspector]
+    public float railgunDmg;
+    [HideInInspector]
+    public float miniGunDmg;
+
+    [HideInInspector]
+    public float shotsFired;
+    [HideInInspector]
+    public float shotsHit;
+    [HideInInspector]
+    public float headShots;
+    [HideInInspector]
+    public float torsoShots;
+    [HideInInspector]
+    public float legShots;
+    [HideInInspector]
+    public float footShots;
+
     private void Awake()
     {
 
@@ -117,10 +141,16 @@ public class PlayerScript : MonoBehaviour
         numKills = 0;
 
         defaultColor = gameObject.GetComponent<SpriteRenderer>().color;
-        lastHitByID = 0;
+        playerLastHitBy = null;
         immuneToCollisionsTimer = 0;
 
-
+        //data
+        shotsFired = 0;
+        shotsHit = 0;
+        headShots = 0;
+        torsoShots = 0;
+        legShots = 0;
+        footShots = 0;
 
     }
 
@@ -166,7 +196,7 @@ public class PlayerScript : MonoBehaviour
 
         //DEBUG: take damage
         if (Input.GetKeyDown(KeyCode.K))
-            TakeDamage(50, DamageType.torso, 0, true, GunType.collision);
+            TakeDamage(50, DamageType.torso, null, true, GunType.collision);
 
 
 
@@ -255,15 +285,23 @@ public class PlayerScript : MonoBehaviour
         }
     }
 
-    public void TakeDamage(float damage, DamageType damageType, int attackerID, bool playBulletSFX, GunType gunType)
+    public void TakeDamage(float damage, DamageType damageType, PlayerScript PlayerWhoShotYou, bool playBulletSFX, GunType gunType)
     {
         if (!isDead && !isInvulnerable)
         {
+
             //only reset if it wasnt a world kill
-            if (attackerID != 0)
-                lastHitByID = attackerID;
+            if (PlayerWhoShotYou != null)
+            {
+                playerLastHitBy = PlayerWhoShotYou;
+                PlayerWhoShotYou.shotsHit++;
+            }
+            else
+                playerLastHitBy = null;
 
             float unModdedDmg = damage;
+            
+
 
             if (damage < 0)
             {
@@ -275,23 +313,35 @@ public class PlayerScript : MonoBehaviour
                 {
                     case DamageType.head:
                         damage *= HEADSHOT_MULTIPLIER;
-                        SpawnFloatingDamageText(Mathf.RoundToInt(damage), Color.red, "Crit");
+                        SpawnFloatingDamageText(Mathf.RoundToInt(damage), Color.red, "Crit");                       
                         HS_Flash.Emit(1);
                         HS_Flash.Emit(Random.Range(35, 45));
                         if (playBulletSFX)
                             audioSource.PlayOneShot(headShot);
+
+                        if(PlayerWhoShotYou!=null)
+                            PlayerWhoShotYou.headShots++;
                         break;
                     case DamageType.torso:
                         damage *= TORSOSHOT_MULTIPLIER;
                         SpawnFloatingDamageText(Mathf.RoundToInt(damage), Color.yellow, "FloatAway");
+
+                        if (PlayerWhoShotYou != null)
+                            PlayerWhoShotYou.torsoShots++;
                         break;
                     case DamageType.legs:
                         damage *= LEGSHOT_MULTIPLIER;
                         SpawnFloatingDamageText(Mathf.RoundToInt(damage), Color.black, "FloatAway");
+
+                        if (PlayerWhoShotYou != null)
+                            PlayerWhoShotYou.legShots++;
                         break;
                     case DamageType.feet:
                         damage *= FOOTSHOT_MULTIPLIER;
                         SpawnFloatingDamageText(Mathf.RoundToInt(damage), Color.gray, "FloatAway");
+
+                        if (PlayerWhoShotYou != null)
+                            PlayerWhoShotYou.footShots++;
                         break;
                     default:
                         break;
@@ -308,20 +358,14 @@ public class PlayerScript : MonoBehaviour
 
             if (health <= 0)
             {
-                //PlayerScript[] players = GameObject.FindObjectsOfType<PlayerScript>();
-                foreach (var player in GameManager.Instance.players)
-                {
-                    //find the real killer
-                    if (player.playerID == lastHitByID)
-                        player.numKills++;
-                }
+                PlayerWhoShotYou.numKills++;
 
-                SaveDamageData(gunType, Mathf.RoundToInt(damage), true);
+                SaveDamageData(gunType, Mathf.RoundToInt(damage), true, PlayerWhoShotYou);
 
                 Die();
             }
             else
-                SaveDamageData(gunType, Mathf.RoundToInt(damage), false);
+                SaveDamageData(gunType, Mathf.RoundToInt(damage), false, PlayerWhoShotYou);
         }
 
         if (health > 100)
@@ -329,7 +373,7 @@ public class PlayerScript : MonoBehaviour
     }
 
 
-    void SaveDamageData(GunType gunType, float dmg, bool dead)
+    void SaveDamageData(GunType gunType, float dmg, bool dead, PlayerScript playerWhoShotYou)
     {
         GameManager gameManager = GameManager.Instance;
 
@@ -337,26 +381,31 @@ public class PlayerScript : MonoBehaviour
         {
             case GunType.pistol:
                 gameManager.pistolDamage += dmg;
+                playerWhoShotYou.pistolDmg += dmg;
                 if (dead)
                     gameManager.pistolKills++;
                 break;
             case GunType.assaultRifle:
                 gameManager.assaultDamage += dmg;
+                playerWhoShotYou.rifleDmg += dmg;
                 if (dead)
                     gameManager.assaultRifleKills++;
                 break;
             case GunType.LMG:
                 gameManager.minigunDamage += dmg;
+                playerWhoShotYou.miniGunDmg += dmg;
                 if (dead)
                     gameManager.minigunKills++;
                 break;
             case GunType.shotgun:
                 gameManager.shotGunDamage += dmg;
+                playerWhoShotYou.shotgunDmg += dmg;
                 if (dead)
                     gameManager.shotGunKills++;
                 break;
             case GunType.railGun:
                 gameManager.railgunDamage += dmg;
+                playerWhoShotYou.railgunDmg += dmg;
                 if (dead)
                     gameManager.railgunKills++;
                 break;
@@ -387,6 +436,7 @@ public class PlayerScript : MonoBehaviour
             playerUIPanel.SetLives(numLives, playerHead);
             if (numLives <= 0)
             {
+                Camera.main.transform.parent.GetComponent<CameraController>().RemovePlayerFromCameraTrack(gameObject);
                 GameManager.Instance.CheckForLastManStanding();
             }
             armsSR = armsScript.currentArms.GetComponent<SpriteRenderer>();
@@ -425,7 +475,7 @@ public class PlayerScript : MonoBehaviour
 
         isDead = false;
         //last thing you were hit by set back to world, just in case you suicide without help
-        lastHitByID = 0;
+        playerLastHitBy = null;
 
         EquipArms(GunType.pistol, GameManager.Instance.pistol);
 
@@ -567,22 +617,24 @@ public class PlayerScript : MonoBehaviour
 
         if (collision.collider.tag == "ImpactObject")
         {
-            DealColliderDamage(collision, "Torso", 0);
+            DealColliderDamage(collision, "Torso", null);
         }
         else if (collision.collider.tag == "Torso" || collision.collider.tag == "Head" || collision.collider.tag == "Feet" || collision.collider.tag == "Legs")
         {
-            int hitByID = collision.transform.root.GetComponent<PlayerScript>().lastHitByID;
-            DealColliderDamage(collision, "Torso", hitByID);
+            PlayerScript hitBy = collision.transform.root.GetComponent<PlayerScript>();
+            DealColliderDamage(collision, "Torso", hitBy);
         }
 
     }
 
-    public void DealColliderDamage(Collision2D collision, string hitLocation, int hitByID)
+    public void DealColliderDamage(Collision2D collision, string hitLocation, PlayerScript hitBy)
     {
         float dmg = collision.relativeVelocity.magnitude;
+        //reduces damage so its not bullshit
+        dmg = dmg / 5;
 
         //dont bother dealing damage unless unmitigated damage indicates fast enough collision
-        if (dmg > 50)
+        if (dmg > 10)
         {
 
             DamageType dmgType;
@@ -591,43 +643,36 @@ public class PlayerScript : MonoBehaviour
             switch (hitLocation)
             {
                 case ("Torso"):
-                    dmg *= TORSOSHOT_MULTIPLIER;
                     dmgType = DamageType.torso;
                     soundClipToPlay = torsoImpact;
                     break;
                 case ("Leg"):
-                    dmg *= LEGSHOT_MULTIPLIER;
                     dmgType = DamageType.legs;
                     soundClipToPlay = legsImpact;
                     break;
                 case ("Head"):
-                    dmg *= TORSOSHOT_MULTIPLIER;
-                    dmgType = DamageType.head;
-                    soundClipToPlay = headImpact;
+                    dmgType = DamageType.torso;
+                    soundClipToPlay = torsoImpact;
                     break;
                 case ("Foot"):
-                    dmg *= FOOTSHOT_MULTIPLIER;
                     dmgType = DamageType.feet;
                     soundClipToPlay = legsImpact;
                     break;
                 default:
-                    dmg *= TORSOSHOT_MULTIPLIER;
                     dmgType = DamageType.torso;
                     soundClipToPlay = torsoImpact;
                     break;
             }
 
-            //caps unmitigated damage
+            //caps damage
             if (dmg > 100)
                 dmg = 100;
 
             if (immuneToCollisionsTimer >= 1)
-            {
-                //reduces damage so its not bullshit
-                dmg = dmg / 10;
+            {         
                 immuneToCollisionsTimer = 0;
                 audioSource.PlayOneShot(soundClipToPlay);
-                TakeDamage(dmg, dmgType, hitByID, false, GunType.collision);
+                TakeDamage(dmg, dmgType, hitBy, false, GunType.collision);
             }
         }
     }

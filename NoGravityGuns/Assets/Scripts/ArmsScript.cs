@@ -128,15 +128,24 @@ public class ArmsScript : MonoBehaviour
                 reloadTimer.SetActive(false);
                 rotateCoroutine = null;
             }
+
+            isReloading = false;
         }
 
-        if (weaponToEquip == currentWeapon)
-            totalBulletsGunCanLoad += weaponToEquip.numBullets;
-        else
-            totalBulletsGunCanLoad = weaponToEquip.numBullets;
 
-        currentWeapon = weaponToEquip;
-        currentAmmo = weaponToEquip.clipSize;
+
+        if (weaponToEquip == currentWeapon)
+        {
+            totalBulletsGunCanLoad += weaponToEquip.numBullets;
+            Debug.Log("adding " + totalBulletsGunCanLoad + " to " + weaponToEquip.numBullets);
+        }
+        else
+        {
+            currentWeapon = weaponToEquip;
+            totalBulletsGunCanLoad = weaponToEquip.numBullets;
+            currentAmmo = weaponToEquip.clipSize;
+            Debug.Log("setting ammo = " + weaponToEquip.clipSize);
+        }
 
         isReloading = false;
         bulletSpawn = gunObj.transform.Find("BulletSpawner");
@@ -221,6 +230,7 @@ public class ArmsScript : MonoBehaviour
                             basePlayer.EquipArms(PlayerScript.GunType.pistol, GameManager.Instance.pistol);
 
                         SendGunText();
+                        basePlayer.shotsFired++;
                     }
                 }
 
@@ -262,12 +272,14 @@ public class ArmsScript : MonoBehaviour
 
         currentAmmo--;
 
+        audioS.PlayOneShot(currentWeapon.GetRandomGunshotSFX);
+
         if (currentAmmo <= 0)
         {
-            StartCoroutine(Reload());
+            reloadCoroutine = StartCoroutine(Reload());
         }
 
-        audioS.PlayOneShot(currentWeapon.GetRandomGunshotSFX);
+
     }
 
 
@@ -381,6 +393,9 @@ public class ArmsScript : MonoBehaviour
                 }
             }
 
+
+            Debug.Log("this should never come up if a reload was interupted by pickup!");
+
             isReloading = false;
 
             if (currentWeapon.GunType == PlayerScript.GunType.pistol)
@@ -429,7 +444,7 @@ public class ArmsScript : MonoBehaviour
 
         if (currentAmmo <= 0)
         {
-            StartCoroutine(Reload());
+            reloadCoroutine = StartCoroutine(Reload());
         }
 
     }
@@ -474,7 +489,7 @@ public class ArmsScript : MonoBehaviour
             dir = bulletSpawn.transform.right * currentWeapon.bulletSpeed;
             Vector2 nomralizedOffset = new Vector2(dir.x + offset, dir.y + offset);
 
-            bulletGo.GetComponent<Bullet>().Construct(basePlayer.playerID, currentWeapon.GunDamage, basePlayer.gameObject, bulletSprite, currentWeapon.GunType, (nomralizedOffset));
+            bulletGo.GetComponent<Bullet>().Construct(basePlayer.playerID, currentWeapon.GunDamage, basePlayer, bulletSprite, currentWeapon.GunType, (nomralizedOffset));
 
         }
     }
@@ -484,7 +499,7 @@ public class ArmsScript : MonoBehaviour
         GameObject bulletGo = ObjectPooler.Instance.SpawnFromPool("Bullet", bulletSpawnPoint, Quaternion.identity);
         dir = bulletSpawn.transform.right * currentWeapon.bulletSpeed;
 
-        bulletGo.GetComponent<Bullet>().Construct(basePlayer.playerID, currentWeapon.GunDamage, basePlayer.gameObject, bulletSprite, currentWeapon.GunType, dir);
+        bulletGo.GetComponent<Bullet>().Construct(basePlayer.playerID, currentWeapon.GunDamage, basePlayer, bulletSprite, currentWeapon.GunType, dir);
 
     }
 

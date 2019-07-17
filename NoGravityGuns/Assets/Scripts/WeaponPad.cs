@@ -72,7 +72,7 @@ public class WeaponPad : MonoBehaviour
             if (currentWeapon.GunType == PlayerScript.GunType.healthPack)
             {
                 player.audioSource.PlayOneShot(healthKitSFX);
-                player.TakeDamage(currentWeapon.GunDamage, PlayerScript.DamageType.torso, 0, false, PlayerScript.GunType.healthPack);
+                player.TakeDamage(currentWeapon.GunDamage, PlayerScript.DamageType.torso, null, false, PlayerScript.GunType.healthPack);
 
             }
             else

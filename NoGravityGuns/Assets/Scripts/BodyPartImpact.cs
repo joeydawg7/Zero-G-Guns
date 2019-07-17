@@ -11,12 +11,12 @@ public class BodyPartImpact : MonoBehaviour
     {
         if (collision.collider.tag == "ImpactObject")
         {
-            playerScript.DealColliderDamage(collision, gameObject.tag, 0);
+            playerScript.DealColliderDamage(collision, gameObject.tag, null);
         }
         else if (collision.collider.tag == "Torso" || collision.collider.tag == "Head" || collision.collider.tag == "Feet" || collision.collider.tag == "Legs")
         {
-            int hitByID = collision.transform.root.GetComponent<PlayerScript>().lastHitByID;
-            playerScript.DealColliderDamage(collision, gameObject.tag, hitByID);
+            PlayerScript hitBy = collision.transform.root.GetComponent<PlayerScript>();
+            playerScript.DealColliderDamage(collision, gameObject.tag, hitBy);
         }
     }
 
