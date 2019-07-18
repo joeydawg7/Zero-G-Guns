@@ -21,7 +21,7 @@ public class Bullet : MonoBehaviour, IPooledObject
 
     ObjectPooler objectPooler;
 
-    PlayerScript player;
+    public PlayerScript player;
 
     public void OnObjectSpawn()
     {
@@ -39,7 +39,7 @@ public class Bullet : MonoBehaviour, IPooledObject
 
     ParticleSystem somethingSexy;
 
-    public void Construct(int playerID, float damage, PlayerScript player, Sprite bulletSprite, PlayerScript.GunType gunType, Vector3 dir)
+    public void Construct(int playerID, float damage, PlayerScript player, Sprite bulletSprite, PlayerScript.GunType gunType, Vector3 dir, int collisionLayer)
     {
         this.playerID = playerID;
         this.damage = damage;
@@ -65,12 +65,16 @@ public class Bullet : MonoBehaviour, IPooledObject
         somethingSexy = temp.GetComponent<ParticleSystem>();
         somethingSexy.transform.parent = transform;
 
+        gameObject.layer = collisionLayer;
+
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.collider.gameObject.layer != LayerMask.NameToLayer("NonBulletCollide") && canImapact == true)
+
+        if (collision.collider.gameObject.layer != LayerMask.NameToLayer("NonBulletCollide") && canImapact == true )
         {
+
             if (collision.collider.tag != "Bullet" || collision.collider.GetComponent<Bullet>().playerID != playerID)
             {
 

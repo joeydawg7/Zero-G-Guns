@@ -137,14 +137,12 @@ public class ArmsScript : MonoBehaviour
         if (weaponToEquip == currentWeapon)
         {
             totalBulletsGunCanLoad += weaponToEquip.numBullets;
-            Debug.Log("adding " + totalBulletsGunCanLoad + " to " + weaponToEquip.numBullets);
         }
         else
         {
             currentWeapon = weaponToEquip;
             totalBulletsGunCanLoad = weaponToEquip.numBullets;
             currentAmmo = weaponToEquip.clipSize;
-            Debug.Log("setting ammo = " + weaponToEquip.clipSize);
         }
 
         isReloading = false;
@@ -452,6 +450,7 @@ public class ArmsScript : MonoBehaviour
     void BuckShot()
     {
         currentAmmo--;
+        bulletSpawn.GetComponentInChildren<ParticleSystem>().Emit(30);
 
         //cone of -1 to 1 multiplied by current recoil amount to determine just how random it can be
         //float recoilMod = UnityEngine.Random.Range(-1f, 1f) * currentRecoil;
@@ -478,6 +477,7 @@ public class ArmsScript : MonoBehaviour
     {
         for (int i = 0; i < UnityEngine.Random.Range(5, 8); i++)
         {
+
             float angle = Vector2.SignedAngle(transform.position, aim);
 
             float cone = UnityEngine.Random.Range(-1f, 1f);
@@ -489,17 +489,19 @@ public class ArmsScript : MonoBehaviour
             dir = bulletSpawn.transform.right * currentWeapon.bulletSpeed;
             Vector2 nomralizedOffset = new Vector2(dir.x + offset, dir.y + offset);
 
-            bulletGo.GetComponent<Bullet>().Construct(basePlayer.playerID, currentWeapon.GunDamage, basePlayer, bulletSprite, currentWeapon.GunType, (nomralizedOffset));
+            bulletGo.GetComponent<Bullet>().Construct(basePlayer.playerID, currentWeapon.GunDamage, basePlayer, bulletSprite, currentWeapon.GunType, (nomralizedOffset), basePlayer.collisionLayer);
 
         }
     }
 
     void SpawnBullet()
     {
+        bulletSpawn.GetComponentInChildren<ParticleSystem>().Emit(1);
+
         GameObject bulletGo = ObjectPooler.Instance.SpawnFromPool("Bullet", bulletSpawnPoint, Quaternion.identity);
         dir = bulletSpawn.transform.right * currentWeapon.bulletSpeed;
 
-        bulletGo.GetComponent<Bullet>().Construct(basePlayer.playerID, currentWeapon.GunDamage, basePlayer, bulletSprite, currentWeapon.GunType, dir);
+        bulletGo.GetComponent<Bullet>().Construct(basePlayer.playerID, currentWeapon.GunDamage, basePlayer, bulletSprite, currentWeapon.GunType, dir, basePlayer.collisionLayer);
 
     }
 

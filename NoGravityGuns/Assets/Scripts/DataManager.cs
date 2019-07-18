@@ -64,7 +64,7 @@ public class DataManager : MonoBehaviour
             File.AppendAllText(path, "\nAssault rifle uptime: " + player.rifleTime);
             File.AppendAllText(path, "\nAssault rifle dmg: " + player.rifleDmg);
             File.AppendAllText(path, "\nShotgun uptime: " + player.shotgunTime);
-            File.AppendAllText(path, "\nshotGun dmg: " + player.rifleDmg);
+            File.AppendAllText(path, "\nshotGun dmg: " + player.shotgunDmg);
             File.AppendAllText(path, "\nMinigun uptime: " + player.miniGunTime);
             File.AppendAllText(path, "\nMinigun dmg: " + player.miniGunTime);
             File.AppendAllText(path, "\nRailgun uptime: " + player.railgunTime);
@@ -78,9 +78,9 @@ public class DataManager : MonoBehaviour
             float fsPercent = (player.footShots / player.shotsHit) * 100;
             File.AppendAllText(path, "Fired " + player.shotsFired + " shots (approx), of which " + player.shotsHit + " hit someone. (" + hitPercent + "%)\n");
             File.AppendAllText(path, "Headshots: " + player.headShots + "(" + hsPercent + "% of hits)\n");
-            File.AppendAllText(path, "torsoShots: " + player.headShots + "(" + tsPercent + "% of hits)\n");
-            File.AppendAllText(path, "legShots: " + player.headShots + "(" + lsPercent + "% of hits)\n");
-            File.AppendAllText(path, "footShots: " + player.headShots + "(" + fsPercent + "% of hits)\n");
+            File.AppendAllText(path, "torsoShots: " + player.torsoShots + "(" + tsPercent + "% of hits)\n");
+            File.AppendAllText(path, "legShots: " + player.legShots + "(" + lsPercent + "% of hits)\n");
+            File.AppendAllText(path, "footShots: " + player.footShots + "(" + fsPercent + "% of hits)\n");
 
         }
 

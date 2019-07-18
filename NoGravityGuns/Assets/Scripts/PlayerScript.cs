@@ -19,6 +19,7 @@ public class PlayerScript : MonoBehaviour
     public Color32 playerColor;
     public Color32 deadColor;
     public Sprite playerHead;
+    public int collisionLayer;
 
     [Header("Controller Stuff")]
     public int playerID;
@@ -70,7 +71,7 @@ public class PlayerScript : MonoBehaviour
     public string playerName;
     [HideInInspector]
     public string hexColorCode;
-
+    [HideInInspector]
     public Rigidbody2D rb;
     public Transform legsParent;
 
@@ -358,7 +359,8 @@ public class PlayerScript : MonoBehaviour
 
             if (health <= 0)
             {
-                PlayerWhoShotYou.numKills++;
+                if(playerLastHitBy!=null)
+                    playerLastHitBy.numKills++;
 
                 SaveDamageData(gunType, Mathf.RoundToInt(damage), true, PlayerWhoShotYou);
 
@@ -495,6 +497,8 @@ public class PlayerScript : MonoBehaviour
             rb.angularVelocity = 0;
             rb.velocity = new Vector2(0, 0);
             rb.rotation = 0;
+            rb.gameObject.transform.localPosition = Vector3.zero;
+
         }
 
         StartCoroutine(RespawnInvulernability());
@@ -546,8 +550,9 @@ public class PlayerScript : MonoBehaviour
         armsSR.color = defaultColor;
         foreach (var sr in legsSR)
         {
-            sr.color = defaultColor;
+            sr.color = defaultColor;          
         }
+
         isInvulnerable = false;
     }
 
