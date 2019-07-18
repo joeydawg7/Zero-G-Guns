@@ -45,6 +45,7 @@ public class ArmsScript : MonoBehaviour
     Coroutine reloadCoroutine;
     Coroutine rotateCoroutine;
     Vector3 dir;
+    GameManager gameManager;
 
     private void Awake()
     {
@@ -65,6 +66,66 @@ public class ArmsScript : MonoBehaviour
 
         cameraShake = Camera.main.GetComponent<CameraShake>();
 
+    }
+
+    Vector2 rawAim;
+
+    private void Start()
+    {
+
+        gameManager = GameManager.Instance;
+    }
+
+    void AimController()
+    {
+        if (gameManager.isGameStarted)
+            ShootController();
+    }
+
+    void ReloadController()
+    {
+        if (gameManager.isGameStarted && !isReloading && currentAmmo < currentWeapon.clipSize)
+            reloadCoroutine = StartCoroutine(Reload());
+    }
+
+    private void Update()
+    {
+        if (gameManager.isGameStarted)
+        {
+            Aim();
+            CountShotDelay();
+        }
+
+    }
+
+    void Aim()
+    {
+        // aiming stuff
+        shootDir = Vector2.right * rawAim + Vector2.up * rawAim;
+        shootDir = shootDir.normalized;
+        rotation = Quaternion.LookRotation(Vector3.forward, -shootDir);
+        rotation *= facing;
+        transform.rotation = rotation;
+    }
+
+    void CountShotDelay()
+    {
+
+        //delay shooting stuff
+        timeSinceLastShot += Time.deltaTime;
+
+        if (currentRecoil > 0)
+            currentRecoil -= Time.deltaTime;
+        else
+            currentRecoil = 0;
+    }
+
+    public void ArmsControllerSettings()
+    {
+        Debug.Log("Arming arms");
+        basePlayer.controls.Gameplay.Aim.performed += context => rawAim = context.ReadValue<Vector2>();
+        basePlayer.controls.Gameplay.Reload.performed += context => ReloadController();
+        basePlayer.controls.Gameplay.Shoot.performed += context => ShootController();
     }
 
     public void SetChildrenWithAxis(int playerID)
@@ -98,19 +159,6 @@ public class ArmsScript : MonoBehaviour
 
     }
 
-
-    private void Update()
-    {
-        if (GameManager.Instance.isGameStarted && Input.GetButton(XButton) && !isReloading && currentAmmo < currentWeapon.clipSize)
-            reloadCoroutine = StartCoroutine(Reload());
-
-    }
-
-    void FixedUpdate()
-    {
-        if (GameManager.Instance.isGameStarted)
-            ShootController();
-    }
 
 
     public void EquipGun(GunSO weaponToEquip, GameObject gunObj)
@@ -156,28 +204,21 @@ public class ArmsScript : MonoBehaviour
     {
         bulletSpawnPoint = bulletSpawn.position;
 
-        timeSinceLastShot += Time.deltaTime;
-
-        if (currentRecoil > 0)
-            currentRecoil -= Time.deltaTime;
-        else
-            currentRecoil = 0;
 
         if (currentRecoil > currentWeapon.recoilMax)
             currentRecoil = currentWeapon.recoilMax;
 
         if (!basePlayer.isDead)
         {
+            //shootDir = Vector2.right * Input.GetAxis(horizontalAxis) + Vector2.up * Input.GetAxis(verticalAxis);
 
-            shootDir = Vector2.right * Input.GetAxis(horizontalAxis) + Vector2.up * Input.GetAxis(verticalAxis);
+            //shootDir = shootDir.normalized;
 
-            shootDir = shootDir.normalized;
+            //rotation = Quaternion.LookRotation(Vector3.forward, -shootDir);
+            //rotation *= facing;
+            //transform.rotation = rotation;
 
-            rotation = Quaternion.LookRotation(Vector3.forward, -shootDir);
-            rotation *= facing;
-            transform.rotation = rotation;
-
-            if (Input.GetAxisRaw(triggerAxis) > 0 && isReloading)
+            if (isReloading)
             {
                 if (timeSinceLastShot >= currentWeapon.recoilDelay)
                 {
@@ -186,18 +227,15 @@ public class ArmsScript : MonoBehaviour
                 }
             }
             //can't shoot during reload except for shotgun interupt
-            if (((Input.GetAxisRaw(triggerAxis) > 0 && !isReloading) || ((Input.GetAxisRaw(triggerAxis) > 0 && currentWeapon.GunType == PlayerScript.GunType.shotgun && currentAmmo > 0))) && shootDir.magnitude != 0)
+            if ((!isReloading) || (currentWeapon.GunType == PlayerScript.GunType.shotgun && currentAmmo > 0))
             {
                 if (currentWeapon.GunType == PlayerScript.GunType.shotgun && isReloading)
                 {
                     interruptReload = true;
                 }
 
-                if (Input.GetAxis(horizontalAxis) != 0 || Input.GetAxis(verticalAxis) != 0)
-                {
-                    //aim = new Vector3(Input.GetAxis(horizontalAxis), Input.GetAxis(verticalAxis), 0).normalized;
-                    aim = shootDir;
-                }
+                aim = shootDir;
+
                 if (aim.sqrMagnitude >= 0.1f)
                 {
                     if (timeSinceLastShot >= currentWeapon.recoilDelay)
@@ -225,7 +263,7 @@ public class ArmsScript : MonoBehaviour
                         }
 
                         if (currentAmmo <= 0 && totalBulletsGunCanLoad <= 0)
-                            basePlayer.EquipArms(PlayerScript.GunType.pistol, GameManager.Instance.pistol);
+                            basePlayer.EquipArms(PlayerScript.GunType.pistol, gameManager.pistol);
 
                         SendGunText();
                         basePlayer.shotsFired++;
@@ -450,7 +488,7 @@ public class ArmsScript : MonoBehaviour
     void BuckShot()
     {
         currentAmmo--;
-        bulletSpawn.GetComponentInChildren<ParticleSystem>().Emit(30);
+        //bulletSpawn.GetComponentInChildren<ParticleSystem>().Emit(30);
 
         //cone of -1 to 1 multiplied by current recoil amount to determine just how random it can be
         //float recoilMod = UnityEngine.Random.Range(-1f, 1f) * currentRecoil;
@@ -496,7 +534,7 @@ public class ArmsScript : MonoBehaviour
 
     void SpawnBullet()
     {
-        bulletSpawn.GetComponentInChildren<ParticleSystem>().Emit(1);
+        //bulletSpawn.GetComponentInChildren<ParticleSystem>().Emit(1);
 
         GameObject bulletGo = ObjectPooler.Instance.SpawnFromPool("Bullet", bulletSpawnPoint, Quaternion.identity);
         dir = bulletSpawn.transform.right * currentWeapon.bulletSpeed;

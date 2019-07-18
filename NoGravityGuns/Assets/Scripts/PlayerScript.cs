@@ -3,18 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.InputSystem;
 
 public class PlayerScript : MonoBehaviour
 {
 
+    [Header("Health and Lives")]
     public int health;
+    public int numLives;
 
     [Header("Gui")]
     [HideInInspector]
     public PlayerUIPanel playerUIPanel;
     public Image healthBar;
     public TextMeshProUGUI statusText;
-    //public TextMeshProUGUI floatingText;
     public Transform floatingTextSpawnPoint;
     public Color32 playerColor;
     public Color32 deadColor;
@@ -24,6 +26,8 @@ public class PlayerScript : MonoBehaviour
     [Header("Controller Stuff")]
     public int playerID;
     public string BButton;
+    public PlayerControls controls;
+
 
     [HideInInspector]
     public enum DamageType { head, torso, legs, feet };
@@ -35,16 +39,6 @@ public class PlayerScript : MonoBehaviour
     public bool isDead;
     public bool isInvulnerable;
 
-    [Header("Audio")]
-    public AudioSource audioSource;
-    public AudioClip headShot;
-    public AudioClip standardShot;
-    public AudioClip torsoImpact;
-    public AudioClip legsImpact;
-    public AudioClip headImpact;
-    public AudioClip deathClip;
-    public AudioClip respawnClip;
-
     [Header("armedArms")]
     public GameObject pistolArms;
     public GameObject assaultRifleArms;
@@ -55,6 +49,7 @@ public class PlayerScript : MonoBehaviour
 
     [Header("Armed Legs")]
     public GameObject legsCollider;
+    public Transform legsParent;
 
     [Header("Spawning and kills")]
     public Vector3 spawnPoint;
@@ -67,33 +62,44 @@ public class PlayerScript : MonoBehaviour
     public ParticleSystem HS_Flash;
     public ParticleSystem HS_Streaks;
 
+    #region Audio
+    [Header("Audio")]
+    public AudioSource audioSource;
+    public AudioClip headShot;
+    public AudioClip standardShot;
+    public AudioClip torsoImpact;
+    public AudioClip legsImpact;
+    public AudioClip headImpact;
+    public AudioClip deathClip;
+    public AudioClip respawnClip;
+    #endregion
+    #region hidden publics
     [HideInInspector]
     public string playerName;
     [HideInInspector]
     public string hexColorCode;
     [HideInInspector]
     public Rigidbody2D rb;
-    public Transform legsParent;
-
-    public int numLives;
-
+    #endregion
+    #region privates
     //Private
     Quaternion targetRotation;
     Color32 defaultColor;
     float angle;
     float immuneToCollisionsTimer;
-
     SpriteRenderer[] legsSR;
     SpriteRenderer torsoSR;
     SpriteRenderer armsSR;
-
     Rigidbody2D[] legRBs;
-
-
+    #endregion
+    #region constants
     const float HEADSHOT_MULTIPLIER = 2f;
     const float TORSOSHOT_MULTIPLIER = 1f;
     const float FOOTSHOT_MULTIPLIER = 0.5f;
     const float LEGSHOT_MULTIPLIER = 0.75f;
+    const int COLLIDER_DAMAGE_MITIGATOR = 5;
+    #endregion
+    #region data collection
 
     [HideInInspector]
     public float pistolTime;
@@ -129,6 +135,7 @@ public class PlayerScript : MonoBehaviour
     public float legShots;
     [HideInInspector]
     public float footShots;
+    #endregion
 
     private void Awake()
     {
@@ -155,17 +162,26 @@ public class PlayerScript : MonoBehaviour
 
     }
 
-    // Update is called once per frame
-    void FixedUpdate()
+    private void OnEnable()
     {
+        if (GameManager.Instance.isGameStarted)
+            controls.Gameplay.Enable();
+    }
 
+    private void OnDisable()
+    {
+        if (GameManager.Instance.isGameStarted)
+            controls.Gameplay.Disable();
+    }
 
+    void TryWeaponDrop()
+    {
+        if (GameManager.Instance.isGameStarted && armsScript.currentWeapon.GunType != GunType.pistol)
+            EquipArms(GunType.pistol, GameManager.Instance.pistol);
     }
 
     private void Update()
     {
-        if (GameManager.Instance.isGameStarted && Input.GetButton(BButton) && armsScript.currentWeapon.GunType != GunType.pistol)
-            EquipArms(GunType.pistol, GameManager.Instance.pistol);
 
         if (GameManager.Instance.isGameStarted)
         {
@@ -194,11 +210,9 @@ public class PlayerScript : MonoBehaviour
 
         }
 
-
         //DEBUG: take damage
         if (Input.GetKeyDown(KeyCode.K))
             TakeDamage(50, DamageType.torso, null, true, GunType.collision);
-
 
 
     }
@@ -224,6 +238,9 @@ public class PlayerScript : MonoBehaviour
         legRBs = legsParent.GetComponentsInChildren<Rigidbody2D>();
 
         playerUIPanel.SetLives(numLives, playerHead);
+
+        if (controls != null)
+            controls.Gameplay.Enable();
 
         StartCoroutine(RespawnInvulernability());
     }
@@ -301,7 +318,7 @@ public class PlayerScript : MonoBehaviour
                 playerLastHitBy = null;
 
             float unModdedDmg = damage;
-            
+
 
 
             if (damage < 0)
@@ -314,13 +331,13 @@ public class PlayerScript : MonoBehaviour
                 {
                     case DamageType.head:
                         damage *= HEADSHOT_MULTIPLIER;
-                        SpawnFloatingDamageText(Mathf.RoundToInt(damage), Color.red, "Crit");                       
+                        SpawnFloatingDamageText(Mathf.RoundToInt(damage), Color.red, "Crit");
                         HS_Flash.Emit(1);
                         HS_Flash.Emit(Random.Range(35, 45));
                         if (playBulletSFX)
                             audioSource.PlayOneShot(headShot);
 
-                        if(PlayerWhoShotYou!=null)
+                        if (PlayerWhoShotYou != null)
                             PlayerWhoShotYou.headShots++;
                         break;
                     case DamageType.torso:
@@ -359,7 +376,7 @@ public class PlayerScript : MonoBehaviour
 
             if (health <= 0)
             {
-                if(playerLastHitBy!=null)
+                if (playerLastHitBy != null)
                     playerLastHitBy.numKills++;
 
                 SaveDamageData(gunType, Mathf.RoundToInt(damage), true, PlayerWhoShotYou);
@@ -550,14 +567,41 @@ public class PlayerScript : MonoBehaviour
         armsSR.color = defaultColor;
         foreach (var sr in legsSR)
         {
-            sr.color = defaultColor;          
+            sr.color = defaultColor;
         }
 
         isInvulnerable = false;
     }
 
-    public void SetControllerNumber(int number)
+    //public void SetControllerNumber(int number)
+    //{
+    //    playerID = number;
+    //    switch (playerID)
+    //    {
+    //        case 1:
+    //            playerName = "Red Player";
+    //            hexColorCode = "#B1342F";
+    //            break;
+    //        case 2:
+    //            playerName = "Blue Player";
+    //            hexColorCode = "#2C7EC2";
+    //            break;
+    //        case 3:
+    //            playerName = "Green Player";
+    //            hexColorCode = "#13BC1E";
+    //            break;
+    //        case 4:
+    //            playerName = "Yellow Player";
+    //            hexColorCode = "#EA9602";
+    //            break;
+    //    }
+    //}
+
+    public void SetController(PlayerControls playerControls, int number)
     {
+
+        this.controls = playerControls;
+
         playerID = number;
         switch (playerID)
         {
@@ -579,22 +623,16 @@ public class PlayerScript : MonoBehaviour
                 break;
         }
 
-        foreach (Transform child in transform)
-        {
-            if (child.tag == "Arms")
-            {
-                child.GetComponent<ArmsScript>().triggerAxis = "J" + playerID + "Trigger";
-                child.GetComponent<ArmsScript>().horizontalAxis = "J" + playerID + "Horizontal";
-                child.GetComponent<ArmsScript>().verticalAxis = "J" + playerID + "Vertical";
-                child.GetComponent<ArmsScript>().XButton = "J" + playerID + "X";
-                BButton = "J" + playerID + "B";
+        controls.Gameplay.Drop.performed += context => TryWeaponDrop();
 
-                child.GetComponent<ArmsScript>().SetChildrenWithAxis(playerID);
-            }
-        }
+        transform.Find("Arms").GetComponent<ArmsScript>().ArmsControllerSettings();
+
+
 
     }
 
+    //collision check and damage mutlipliers / modifiers
+    #region collision Damage
     public void UnsetControllerNumber(int number)
     {
         playerID = 0;
@@ -636,7 +674,7 @@ public class PlayerScript : MonoBehaviour
     {
         float dmg = collision.relativeVelocity.magnitude;
         //reduces damage so its not bullshit
-        dmg = dmg / 5;
+        dmg = dmg / COLLIDER_DAMAGE_MITIGATOR;
 
         //dont bother dealing damage unless unmitigated damage indicates fast enough collision
         if (dmg > 10)
@@ -674,13 +712,14 @@ public class PlayerScript : MonoBehaviour
                 dmg = 100;
 
             if (immuneToCollisionsTimer >= 1)
-            {         
+            {
                 immuneToCollisionsTimer = 0;
                 audioSource.PlayOneShot(soundClipToPlay);
                 TakeDamage(dmg, dmgType, hitBy, false, GunType.collision);
             }
         }
     }
+    #endregion
 
     void SpawnFloatingDamageText(int dmgToShow, Color32 color, string animType)
     {
@@ -702,6 +741,7 @@ public class PlayerScript : MonoBehaviour
         floatTxt.color = color;
         floatTxt.GetComponent<Animator>().SetTrigger(animType);
 
+        //temp multiply damage by 2 to affect how big we scale it. trenchfoot math :D
         dmgToShow *= 2;
 
         floatingTextGo.transform.localScale = new Vector3(floatingTextGo.transform.localScale.x * ((float)dmgToShow / 50f), floatingTextGo.transform.localScale.y * ((float)dmgToShow / 50f),
