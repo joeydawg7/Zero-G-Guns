@@ -37,13 +37,13 @@ public class JoinPanel : MonoBehaviour
         return player;
     }
 
-    public PlayerScript UnAssignController(int controller)
+    public PlayerScript UnAssignController()
     {
         image.sprite = notReadySprite;
         MainText.text = "Press A to join";
         hasAssignedController = false;
 
-        player.UnsetControllerNumber(controller);
+        player.UnsetController();
 
         return player;
     }

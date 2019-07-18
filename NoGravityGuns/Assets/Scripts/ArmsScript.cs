@@ -122,7 +122,6 @@ public class ArmsScript : MonoBehaviour
 
     public void ArmsControllerSettings()
     {
-        Debug.Log("Arming arms");
         basePlayer.controls.Gameplay.Aim.performed += context => rawAim = context.ReadValue<Vector2>();
         basePlayer.controls.Gameplay.Reload.performed += context => ReloadController();
         basePlayer.controls.Gameplay.Shoot.performed += context => ShootController();
@@ -428,9 +427,6 @@ public class ArmsScript : MonoBehaviour
                     SendGunText("Reloading...");
                 }
             }
-
-
-            Debug.Log("this should never come up if a reload was interupted by pickup!");
 
             isReloading = false;
 

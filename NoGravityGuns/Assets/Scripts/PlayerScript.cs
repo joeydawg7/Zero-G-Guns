@@ -627,34 +627,19 @@ public class PlayerScript : MonoBehaviour
 
         transform.Find("Arms").GetComponent<ArmsScript>().ArmsControllerSettings();
 
+    }
 
+    public void UnsetController()
+    {
+        playerID = 0;
+        playerName = "";
+
+        controls = null;
 
     }
 
     //collision check and damage mutlipliers / modifiers
     #region collision Damage
-    public void UnsetControllerNumber(int number)
-    {
-        playerID = 0;
-        playerName = "";
-
-        foreach (Transform child in transform)
-        {
-            if (child.tag == "Arms")
-            {
-                child.GetComponent<ArmsScript>().triggerAxis = "";
-                child.GetComponent<ArmsScript>().horizontalAxis = "";
-                child.GetComponent<ArmsScript>().verticalAxis = "";
-                child.GetComponent<ArmsScript>().XButton = "";
-                BButton = "";
-
-                child.GetComponent<ArmsScript>().UnsetChildrenWithAxis(playerID);
-            }
-        }
-
-    }
-
-
     private void OnCollisionEnter2D(Collision2D collision)
     {
 

@@ -42,6 +42,7 @@ public class JoiningPlayerScript : MonoBehaviour
     {
         Debug.Log("hey whatup");
         globalControls.Gameplay.Join.performed += context => JoinButtonPressed();
+        globalControls.Gameplay.Drop.performed += context => DropButtonPressed();
         globalControls.Gameplay.Start.performed += context => StartButtonPressed();
     }
 
@@ -52,6 +53,21 @@ public class JoiningPlayerScript : MonoBehaviour
             AddPlayerControllerSetup(new PlayerControls());
         }
         
+    }
+
+    void DropButtonPressed()
+    {
+        
+        for (int i = joinPanels.Length - 1; i >= 0; i--)
+        {
+            if (joinPanels[i].GetComponent<JoinPanel>().hasAssignedController == true)
+            {
+                assignedControls.RemoveAt(i);
+                joinPanels[i].GetComponent<JoinPanel>().UnAssignController();
+                return;
+            }
+        }
+
     }
 
     void StartButtonPressed()
@@ -142,21 +158,21 @@ public class JoiningPlayerScript : MonoBehaviour
     //    return null;
     //}
 
-    PlayerScript RemovePlayerController(int controller, string contString)
-    {
-        Debug.Log(contString);
-        assignedControllers.Remove(contString);
-        Debug.Log(assignedControllers.Count);
-        for (int i = joinPanels.Length - 1; i >= 0; i--)
-        {
-            if (joinPanels[i].GetComponent<JoinPanel>().hasAssignedController == true)
-            {
-                return joinPanels[i].GetComponent<JoinPanel>().UnAssignController(controller);
-            }
-        }
+    //PlayerScript RemovePlayerController(int controller, string contString)
+    //{
+    //    Debug.Log(contString);
+    //    assignedControllers.Remove(contString);
+    //    Debug.Log(assignedControllers.Count);
+    //    for (int i = joinPanels.Length - 1; i >= 0; i--)
+    //    {
+    //        if (joinPanels[i].GetComponent<JoinPanel>().hasAssignedController == true)
+    //        {
+    //            return joinPanels[i].GetComponent<JoinPanel>().UnAssignController(controller);
+    //        }
+    //    }
 
-        return null;
-    }
+    //    return null;
+    //}
 
     public void OnGameStart()
     {
