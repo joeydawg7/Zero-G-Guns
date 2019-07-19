@@ -51,11 +51,16 @@ public class ArmsScript : MonoBehaviour
     {
         timeSinceLastShot = 0;
         currentRecoil = 0;
+
         facing = transform.rotation;
         currentAmmo = currentWeapon.clipSize;
         totalBulletsGunCanLoad = currentWeapon.numBullets;
+
         audioS = GetComponent<AudioSource>();
+
         shootDir = new Vector3(0, 0, 0);
+
+
         reloadTimer.SetActive(false);
         interruptReload = false;
 
@@ -67,6 +72,7 @@ public class ArmsScript : MonoBehaviour
 
     private void Start()
     {
+
         gameManager = GameManager.Instance;
     }
 
@@ -86,9 +92,7 @@ public class ArmsScript : MonoBehaviour
     {
         if (gameManager.isGameStarted)
         {
-            if(!basePlayer.isDead)
-                Aim();
-
+            Aim();
             CountShotDelay();
         }
 
@@ -106,6 +110,7 @@ public class ArmsScript : MonoBehaviour
 
     void CountShotDelay()
     {
+
         //delay shooting stuff
         timeSinceLastShot += Time.deltaTime;
 
@@ -115,13 +120,44 @@ public class ArmsScript : MonoBehaviour
             currentRecoil = 0;
     }
 
-    //sets controller settings for this arm
     public void ArmsControllerSettings()
     {
         basePlayer.controls.Gameplay.Aim.performed += context => rawAim = context.ReadValue<Vector2>();
         basePlayer.controls.Gameplay.Reload.performed += context => ReloadController();
         basePlayer.controls.Gameplay.Shoot.performed += context => ShootController();
     }
+
+    public void SetChildrenWithAxis(int playerID)
+    {
+        foreach (Transform child in transform)
+        {
+            if (child.tag == "Arms")
+            {
+                ArmsScript arms = child.GetComponent<ArmsScript>();
+                arms.triggerAxis = "J" + playerID + "Trigger";
+                arms.horizontalAxis = "J" + playerID + "Horizontal";
+                arms.verticalAxis = "J" + playerID + "Vertical";
+            }
+        }
+
+    }
+
+    public void UnsetChildrenWithAxis(int playerID)
+    {
+        foreach (Transform child in transform)
+        {
+            if (child.tag == "Arms")
+            {
+                ArmsScript arms = child.GetComponent<ArmsScript>();
+                arms.triggerAxis = "";
+                arms.horizontalAxis = "";
+                arms.verticalAxis = "";
+
+            }
+        }
+
+    }
+
 
 
     public void EquipGun(GunSO weaponToEquip, GameObject gunObj)
@@ -144,6 +180,7 @@ public class ArmsScript : MonoBehaviour
         }
 
 
+
         if (weaponToEquip == currentWeapon)
         {
             totalBulletsGunCanLoad += weaponToEquip.numBullets;
@@ -161,6 +198,7 @@ public class ArmsScript : MonoBehaviour
     }
 
 
+
     void ShootController()
     {
         bulletSpawnPoint = bulletSpawn.position;
@@ -171,6 +209,14 @@ public class ArmsScript : MonoBehaviour
 
         if (!basePlayer.isDead)
         {
+            //shootDir = Vector2.right * Input.GetAxis(horizontalAxis) + Vector2.up * Input.GetAxis(verticalAxis);
+
+            //shootDir = shootDir.normalized;
+
+            //rotation = Quaternion.LookRotation(Vector3.forward, -shootDir);
+            //rotation *= facing;
+            //transform.rotation = rotation;
+
             if (isReloading)
             {
                 if (timeSinceLastShot >= currentWeapon.recoilDelay)
@@ -226,8 +272,6 @@ public class ArmsScript : MonoBehaviour
             }
         }
     }
-
-    #region Gun UI Stuff
     public string GunInfo()
     {
         return currentWeapon.name + ": " + currentAmmo + "/" + currentWeapon.clipSize + " (" + ((totalBulletsGunCanLoad < 2000) ? totalBulletsGunCanLoad.ToString() : "\u221E") + ")";
@@ -249,9 +293,31 @@ public class ArmsScript : MonoBehaviour
         cameraShake.shakeDuration += currentWeapon.cameraShakeDuration;
         timeSinceLastShot = 0;
     }
-    #endregion
 
-    #region reloading coroutines
+    void ShootyGunTemp()
+    {
+        //cone of -1 to 1 multiplied by current recoil amount to determine just how random it can be
+        float recoilMod = UnityEngine.Random.Range(-1f, 1f) * currentRecoil;
+
+        bulletSpawnPoint = new Vector3(bulletSpawnPoint.x, bulletSpawnPoint.y);
+
+        currentRecoil += currentWeapon.recoilPerShot;
+
+        SpawnBullet();
+
+        currentAmmo--;
+
+        audioS.PlayOneShot(currentWeapon.GetRandomGunshotSFX);
+
+        if (currentAmmo <= 0)
+        {
+            reloadCoroutine = StartCoroutine(Reload());
+        }
+
+
+    }
+
+
     IEnumerator Rotate(float duration)
     {
         reloadTimer.SetActive(true);
@@ -383,29 +449,6 @@ public class ArmsScript : MonoBehaviour
         SendGunText();
 
     }
-    #endregion
-
-    void ShootyGunTemp()
-    {
-        //cone of -1 to 1 multiplied by current recoil amount to determine just how random it can be
-        float recoilMod = UnityEngine.Random.Range(-1f, 1f) * currentRecoil;
-
-        bulletSpawnPoint = new Vector3(bulletSpawnPoint.x, bulletSpawnPoint.y);
-
-        currentRecoil += currentWeapon.recoilPerShot;
-
-        SpawnBullet();
-
-        currentAmmo--;
-
-        audioS.PlayOneShot(currentWeapon.GetRandomGunshotSFX);
-
-        if (currentAmmo <= 0)
-        {
-            reloadCoroutine = StartCoroutine(Reload());
-        }
-
-    }
 
     IEnumerator FireInBurst()
     {
@@ -487,6 +530,7 @@ public class ArmsScript : MonoBehaviour
 
     void SpawnBullet()
     {
+        //bulletSpawn.GetComponentInChildren<ParticleSystem>().Emit(1);
 
         GameObject bulletGo = ObjectPooler.Instance.SpawnFromPool("Bullet", bulletSpawnPoint, Quaternion.identity);
         dir = bulletSpawn.transform.right * currentWeapon.bulletSpeed;
@@ -496,7 +540,6 @@ public class ArmsScript : MonoBehaviour
     }
 
 
-    #region unused debug drawing
     private void DrawHelperAtCenter(
                      Vector3 direction, Color color, float scale)
     {
@@ -504,7 +547,7 @@ public class ArmsScript : MonoBehaviour
         Vector3 destination = transform.position + direction * scale;
         Gizmos.DrawLine(bulletSpawn.transform.position, destination);
     }
-    #endregion
+
 
 
 }
