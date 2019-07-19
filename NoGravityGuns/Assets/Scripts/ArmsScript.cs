@@ -76,13 +76,13 @@ public class ArmsScript : MonoBehaviour
         gameManager = GameManager.Instance;
     }
 
-    void AimController()
-    {
-        if (gameManager.isGameStarted)
-            ShootController();
-    }
+    //void AimController()
+    //{
+    //    if (gameManager.isGameStarted)
+    //        ShootController();
+    //}
 
-    void ReloadController()
+    void ReloadController(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
         if (gameManager.isGameStarted && !isReloading && currentAmmo < currentWeapon.clipSize)
             reloadCoroutine = StartCoroutine(Reload());
@@ -95,8 +95,8 @@ public class ArmsScript : MonoBehaviour
             Aim();
             CountShotDelay();
         }
-
     }
+
 
     void Aim()
     {
@@ -123,9 +123,17 @@ public class ArmsScript : MonoBehaviour
     public void ArmsControllerSettings()
     {
         basePlayer.controls.Gameplay.Aim.performed += context => rawAim = context.ReadValue<Vector2>();
-        basePlayer.controls.Gameplay.Reload.performed += context => ReloadController();
-        basePlayer.controls.Gameplay.Shoot.performed += context => ShootController();
+        basePlayer.controls.Gameplay.Reload.performed += ReloadController;
+        basePlayer.controls.Gameplay.Shoot.performed += ShootController;
     }
+
+    public void ArmsControllerUnset()
+    {
+        basePlayer.controls.Gameplay.Aim.performed -= context => rawAim = context.ReadValue<Vector2>();
+        basePlayer.controls.Gameplay.Reload.performed -= ReloadController;
+        basePlayer.controls.Gameplay.Shoot.performed -= ShootController;
+    }
+
 
     public void SetChildrenWithAxis(int playerID)
     {
@@ -199,7 +207,7 @@ public class ArmsScript : MonoBehaviour
 
 
 
-    void ShootController()
+    void ShootController(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
         bulletSpawnPoint = bulletSpawn.position;
 

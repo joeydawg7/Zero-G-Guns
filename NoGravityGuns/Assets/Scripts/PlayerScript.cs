@@ -174,7 +174,7 @@ public class PlayerScript : MonoBehaviour
             controls.Gameplay.Disable();
     }
 
-    void TryWeaponDrop()
+    void TryWeaponDrop(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
         if (GameManager.Instance.isGameStarted && armsScript.currentWeapon.GunType != GunType.pistol)
             EquipArms(GunType.pistol, GameManager.Instance.pistol);
@@ -243,6 +243,8 @@ public class PlayerScript : MonoBehaviour
             controls.Gameplay.Enable();
 
         StartCoroutine(RespawnInvulernability());
+
+        Debug.Log("Player " + playerID + " controls enabled: " + controls.Gameplay.enabled);
     }
 
     public void EquipArms(GunType gunType, GunSO gun)
@@ -623,7 +625,7 @@ public class PlayerScript : MonoBehaviour
                 break;
         }
 
-        controls.Gameplay.Drop.performed += context => TryWeaponDrop();
+        controls.Gameplay.Drop.performed += TryWeaponDrop;
 
         transform.Find("Arms").GetComponent<ArmsScript>().ArmsControllerSettings();
 
@@ -635,6 +637,8 @@ public class PlayerScript : MonoBehaviour
         playerName = "";
 
         controls = null;
+
+        controls.Gameplay.Drop.performed -=TryWeaponDrop;
 
     }
 

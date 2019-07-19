@@ -41,12 +41,12 @@ public class JoiningPlayerScript : MonoBehaviour
     private void Start()
     {
         Debug.Log("hey whatup");
-        globalControls.Gameplay.Join.performed += context => JoinButtonPressed();
-        globalControls.Gameplay.Drop.performed += context => DropButtonPressed();
-        globalControls.Gameplay.Start.performed += context => StartButtonPressed();
+        globalControls.Gameplay.Join.performed +=  JoinButtonPressed;
+        globalControls.Gameplay.Drop.performed +=  DropButtonPressed;
+        globalControls.Gameplay.Start.performed +=  StartButtonPressed;
     }
 
-    void JoinButtonPressed()
+    void JoinButtonPressed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
         if(!GameManager.Instance.isGameStarted && assignedControls.Count <=4)
         {
@@ -55,7 +55,7 @@ public class JoiningPlayerScript : MonoBehaviour
         
     }
 
-    void DropButtonPressed()
+    void DropButtonPressed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
         
         for (int i = joinPanels.Length - 1; i >= 0; i--)
@@ -70,7 +70,7 @@ public class JoiningPlayerScript : MonoBehaviour
 
     }
 
-    void StartButtonPressed()
+    void StartButtonPressed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
         if (assignedControls.Count >= 1)
         {
@@ -176,7 +176,11 @@ public class JoiningPlayerScript : MonoBehaviour
 
     public void OnGameStart()
     {
+        globalControls.Gameplay.Join.performed -=JoinButtonPressed;
+        globalControls.Gameplay.Drop.performed -=  DropButtonPressed;
+        globalControls.Gameplay.Start.performed -=  StartButtonPressed;
         globalControls.Gameplay.Disable();
+        Debug.Log("global controls enabled: " + globalControls.Gameplay.enabled);
         gameObject.SetActive(false);
     }
 
