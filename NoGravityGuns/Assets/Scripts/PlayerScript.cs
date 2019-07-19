@@ -7,7 +7,7 @@ using UnityEngine.InputSystem;
 
 public class PlayerScript : MonoBehaviour
 {
-    #region publics
+
     [Header("Health and Lives")]
     public int health;
     public int numLives;
@@ -27,6 +27,7 @@ public class PlayerScript : MonoBehaviour
     public int playerID;
     public string BButton;
     public PlayerControls controls;
+
 
     [HideInInspector]
     public enum DamageType { head, torso, legs, feet };
@@ -60,7 +61,7 @@ public class PlayerScript : MonoBehaviour
     [Header("Particle Effects")]
     public ParticleSystem HS_Flash;
     public ParticleSystem HS_Streaks;
-    #endregion
+
     #region Audio
     [Header("Audio")]
     public AudioSource audioSource;
@@ -145,31 +146,31 @@ public class PlayerScript : MonoBehaviour
         spawnPoint = transform.position;
         rb = GetComponent<Rigidbody2D>();
         audioSource = GetComponent<AudioSource>();
-        
+        numKills = 0;
+
         defaultColor = gameObject.GetComponent<SpriteRenderer>().color;
         playerLastHitBy = null;
         immuneToCollisionsTimer = 0;
 
-        //data inital settings
+        //data
         shotsFired = 0;
         shotsHit = 0;
         headShots = 0;
         torsoShots = 0;
         legShots = 0;
         footShots = 0;
-        numKills = 0;
 
     }
 
     private void OnEnable()
     {
-        if (GameManager.Instance.isGameStarted && controls != null)
+        if (GameManager.Instance.isGameStarted)
             controls.Gameplay.Enable();
     }
 
     private void OnDisable()
     {
-        if (GameManager.Instance.isGameStarted && controls != null)
+        if (GameManager.Instance.isGameStarted)
             controls.Gameplay.Disable();
     }
 
@@ -302,11 +303,9 @@ public class PlayerScript : MonoBehaviour
         }
     }
 
-    //every type of damage dealt to player is parsed in this region, including healing
-    #region take damage 
     public void TakeDamage(float damage, DamageType damageType, PlayerScript PlayerWhoShotYou, bool playBulletSFX, GunType gunType)
     {
-        if (!isDead && !isInvulnerable && GameManager.Instance.isGameStarted)
+        if (!isDead && !isInvulnerable)
         {
 
             //only reset if it wasnt a world kill
@@ -441,7 +440,7 @@ public class PlayerScript : MonoBehaviour
                 break;
         }
     }
-    #endregion
+
 
 
     public PlayerScript Die()
@@ -574,6 +573,30 @@ public class PlayerScript : MonoBehaviour
         isInvulnerable = false;
     }
 
+    //public void SetControllerNumber(int number)
+    //{
+    //    playerID = number;
+    //    switch (playerID)
+    //    {
+    //        case 1:
+    //            playerName = "Red Player";
+    //            hexColorCode = "#B1342F";
+    //            break;
+    //        case 2:
+    //            playerName = "Blue Player";
+    //            hexColorCode = "#2C7EC2";
+    //            break;
+    //        case 3:
+    //            playerName = "Green Player";
+    //            hexColorCode = "#13BC1E";
+    //            break;
+    //        case 4:
+    //            playerName = "Yellow Player";
+    //            hexColorCode = "#EA9602";
+    //            break;
+    //    }
+    //}
+
     public void SetController(PlayerControls playerControls, int number)
     {
 
@@ -610,7 +633,9 @@ public class PlayerScript : MonoBehaviour
     {
         playerID = 0;
         playerName = "";
+
         controls = null;
+
     }
 
     //collision check and damage mutlipliers / modifiers
@@ -680,7 +705,6 @@ public class PlayerScript : MonoBehaviour
         }
     }
     #endregion
-
 
     void SpawnFloatingDamageText(int dmgToShow, Color32 color, string animType)
     {
