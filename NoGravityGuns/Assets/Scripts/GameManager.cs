@@ -109,7 +109,7 @@ public class GameManager : MonoBehaviour
         EndGameScript = FindObjectOfType<EndGameScript>();
         playerUIParent = GameObject.FindGameObjectWithTag("UILayout").transform;
         countdownText = GameObject.Find("CountdownText").GetComponent<TextMeshProUGUI>();
-        countdownText.gameObject.SetActive(false);
+        countdownText.alpha = 0;
 
         isGameStarted = false;
         matchTime = 300;
@@ -131,7 +131,7 @@ public class GameManager : MonoBehaviour
         }
 
         isGameStarted = false;
-        countdownText.gameObject.SetActive(false);
+        countdownText.alpha = 0;
         dataManager = GetComponent<DataManager>();
 
     }
@@ -182,7 +182,7 @@ public class GameManager : MonoBehaviour
     IEnumerator Countdown()
     {     
         countdownText.text = "3";
-        countdownText.gameObject.SetActive(true);
+        countdownText.alpha = 1;
         yield return new WaitForSeconds(0.75f);
         countdownText.text = "2";
         yield return new WaitForSeconds(0.75f);
@@ -193,7 +193,7 @@ public class GameManager : MonoBehaviour
         timer = matchTime;
         yield return new WaitForSeconds(0.25f);
 
-        countdownText.gameObject.SetActive(false);
+        countdownText.alpha = 0;
     }
     
     private void SpawnPlayerPanel(PlayerScript player)
