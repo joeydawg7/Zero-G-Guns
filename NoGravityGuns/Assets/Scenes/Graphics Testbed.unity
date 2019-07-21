@@ -1487,10 +1487,27 @@ MonoBehaviour:
   LMG: {fileID: 0}
   assaultRifle: {fileID: 0}
   railGun: {fileID: 0}
+  playUIPrefab: {fileID: 0}
+  playerUIParent: {fileID: 0}
   matchTime: 500
   guiManager: {fileID: 0}
   EndGameScript: {fileID: 0}
   timer: 0
+  countdownText: {fileID: 0}
+  PlayerObject: {fileID: 0}
+  pistolKills: 0
+  shotGunKills: 0
+  railgunKills: 0
+  minigunKills: 0
+  assaultRifleKills: 0
+  collisionKills: 0
+  pistolDamage: 0
+  shotGunDamage: 0
+  railgunDamage: 0
+  minigunDamage: 0
+  assaultDamage: 0
+  collisionDamage: 0
+  healthPackHeals: 0
 --- !u!4 &682202428
 Transform:
   m_ObjectHideFlags: 0
@@ -2287,6 +2304,80 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1137848053}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1167804703
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1167804706}
+  - component: {fileID: 1167804705}
+  - component: {fileID: 1167804704}
+  m_Layer: 0
+  m_Name: Panel
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1167804704
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1167804703}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.392}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 1
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+--- !u!222 &1167804705
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1167804703}
+  m_CullTransparentMesh: 0
+--- !u!224 &1167804706
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1167804703}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 15
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: -113.73, y: 43.52}
+  m_SizeDelta: {x: 30.833, y: 10.966}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!4 &1179042557 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6032722872905578696, guid: 78c618ccb65e50e40bb242c036f7d5e3,
@@ -2805,6 +2896,15 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 17695758235233505, guid: 7bd5c672901594f4b8326383fb19eb33,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 120857030, guid: 7bd5c672901594f4b8326383fb19eb33, type: 3}
+      propertyPath: m_RootOrder
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 4180111875739284695, guid: 7bd5c672901594f4b8326383fb19eb33,
         type: 3}
