@@ -7,7 +7,7 @@ using UnityEngine.InputSystem;
 
 public class PlayerScript : MonoBehaviour
 {
-
+    #region publics
     [Header("Health and Lives")]
     public int health;
     public int numLives;
@@ -27,7 +27,6 @@ public class PlayerScript : MonoBehaviour
     public int playerID;
     public string BButton;
     public PlayerControls controls;
-
 
     [HideInInspector]
     public enum DamageType { head, torso, legs, feet };
@@ -61,7 +60,7 @@ public class PlayerScript : MonoBehaviour
     [Header("Particle Effects")]
     public ParticleSystem HS_Flash;
     public ParticleSystem HS_Streaks;
-
+    #endregion
     #region Audio
     [Header("Audio")]
     public AudioSource audioSource;
