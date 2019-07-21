@@ -15,12 +15,11 @@ public class PlayerScript : MonoBehaviour
     [Header("Gui")]
     [HideInInspector]
     public PlayerUIPanel playerUIPanel;
-    public Image healthBar;
-    public TextMeshProUGUI statusText;
     public Transform floatingTextSpawnPoint;
     public Color32 playerColor;
     public Color32 deadColor;
     public Sprite playerHead;
+    public Sprite playerPortrait;
     public int collisionLayer;
 
     [Header("Controller Stuff")]
@@ -223,7 +222,6 @@ public class PlayerScript : MonoBehaviour
         float barVal = ((float)health / 100f);
         playerUIPanel.setHealth(barVal);
         isDead = false;
-        statusText.text = playerName;
         numKills = 0;
 
         assaultRifleArms.SetActive(false);
@@ -479,17 +477,17 @@ public class PlayerScript : MonoBehaviour
 
     IEnumerator WaitForRespawn()
     {
-        playerUIPanel.setStatusText("Respawning in 3...");
+        playerUIPanel.SetAmmoText("Respawning in 3...");
         yield return new WaitForSeconds(1f);
-        playerUIPanel.setStatusText("Respawning in 2...");
+        playerUIPanel.SetAmmoText("Respawning in 2...");
         yield return new WaitForSeconds(1f);
-        playerUIPanel.setStatusText("Respawning in 1...");
-        yield return new WaitForSeconds(1f);
-        playerUIPanel.setStatusText(playerName);
+        playerUIPanel.SetAmmoText("Respawning in 1...");
+        yield return new WaitForSeconds(1f);    
         transform.position = spawnPoint;
         health = 100;
         float barVal = ((float)health / 100f);
         audioSource.PlayOneShot(respawnClip);
+
 
         playerUIPanel.setHealth(barVal);
 
@@ -498,7 +496,7 @@ public class PlayerScript : MonoBehaviour
         playerLastHitBy = null;
 
         EquipArms(GunType.pistol, GameManager.Instance.pistol);
-
+        armsScript.currentAmmo = armsScript.currentWeapon.clipSize;
 
         if (numLives <= 0)
         {
@@ -518,6 +516,8 @@ public class PlayerScript : MonoBehaviour
             rb.gameObject.transform.localPosition = Vector3.zero;
 
         }
+
+        armsScript.SendGunText();
 
         StartCoroutine(RespawnInvulernability());
 

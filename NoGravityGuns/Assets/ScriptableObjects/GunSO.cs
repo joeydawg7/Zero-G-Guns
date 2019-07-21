@@ -31,6 +31,7 @@ public class GunSO : ScriptableObject
     public AudioClip reloadSound;
 
     public GameObject projectile;
+    public Sprite EquipSprite;
 
 
     public AudioClip GetRandomGunshotSFX

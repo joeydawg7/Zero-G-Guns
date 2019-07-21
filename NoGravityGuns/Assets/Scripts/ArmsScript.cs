@@ -282,19 +282,20 @@ public class ArmsScript : MonoBehaviour
             }
         }
     }
-    public string GunInfo()
+    public string AmmoText()
     {
-        return currentWeapon.name + ": " + currentAmmo + "/" + currentWeapon.clipSize + " (" + ((totalBulletsGunCanLoad < 2000) ? totalBulletsGunCanLoad.ToString() : "\u221E") + ")";
+        return currentAmmo + "/" + currentWeapon.clipSize + " (" + ((totalBulletsGunCanLoad < 2000) ? totalBulletsGunCanLoad.ToString() : "\u221E") + ")";
     }
 
     public void SendGunText()
     {
-        basePlayer.playerUIPanel.setGun(GunInfo());
+        basePlayer.playerUIPanel.SetGunText(currentWeapon);
+        basePlayer.playerUIPanel.SetAmmoText(AmmoText());
     }
 
     public void SendGunText(string s)
     {
-        basePlayer.playerUIPanel.setGun(s);
+        basePlayer.playerUIPanel.SetAmmoText(s);
     }
 
     void KnockBack(Vector2 shootDir)

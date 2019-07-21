@@ -6,33 +6,38 @@ using UnityEngine.UI;
 
 public class PlayerUIPanel : MonoBehaviour
 {
+    public Image playerPortrait;
     public Image playerHealthBar;
-    public TextMeshProUGUI playerStatusText;
+    public TextMeshProUGUI currentWeaponText;
     public TextMeshProUGUI playerAmmoGun;
     public Transform stockHolder;
     public GameObject headStock;
+    public Image gunImage;
 
-    public void setAll(float fillDamage, string statusMsg, string gunMsg, Color32 color)
+    public void setAll(float fillDamage, string statusMsg, string gunMsg, Color32 color, Sprite playerPortrait)
     {
         setHealth(fillDamage);
-        setStatusText(statusMsg);
-        setGun(gunMsg);
+        //SetGunText(statusMsg);
+        SetAmmoText(gunMsg);
 
         foreach (var text in GetComponentsInChildren<TextMeshProUGUI>())
         {
             text.color = color;
         }
 
+        this.playerPortrait.sprite = playerPortrait;
+
     }
     public void setHealth(float fillDamage)
     {
         playerHealthBar.fillAmount = fillDamage;
     }
-    public void setStatusText(string msg)
+    public void SetGunText(GunSO gun)
     {
-        playerStatusText.text = msg;
+        gunImage.sprite = gun.EquipSprite;
+        currentWeaponText.text = gun.name;
     }
-    public void setGun(string msg)
+    public void SetAmmoText(string msg)
     {
         playerAmmoGun.text = msg;
     }
