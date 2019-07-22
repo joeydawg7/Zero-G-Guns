@@ -122,18 +122,18 @@ public class ArmsScript : MonoBehaviour
 
     public void ArmsControllerSettings()
     {
-        basePlayer.controls.Gameplay.Aim.performed += context => rawAim = context.ReadValue<Vector2>();
-        basePlayer.controls.Gameplay.Reload.performed += ReloadController;
-        basePlayer.controls.Gameplay.Shoot.performed += ShootController;
+        //basePlayer.controls.Gameplay.Aim.performed += context => rawAim = context.ReadValue<Vector2>();
+        //basePlayer.controls.Gameplay.Reload.performed += ReloadController;
+        //basePlayer.controls.Gameplay.Shoot.performed += ShootController;
 
-       Debug.Log(basePlayer.controls.Gameplay.Shoot.id);
+       //Debug.Log(basePlayer.controls.Gameplay.Shoot.id);
     }
 
     public void ArmsControllerUnset()
     {
-        basePlayer.controls.Gameplay.Aim.performed -= context => rawAim = context.ReadValue<Vector2>();
-        basePlayer.controls.Gameplay.Reload.performed -= ReloadController;
-        basePlayer.controls.Gameplay.Shoot.performed -= ShootController;
+        //basePlayer.controls.Gameplay.Aim.performed -= context => rawAim = context.ReadValue<Vector2>();
+        //basePlayer.controls.Gameplay.Reload.performed -= ReloadController;
+        //basePlayer.controls.Gameplay.Shoot.performed -= ShootController;
     }
 
 

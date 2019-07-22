@@ -25,7 +25,7 @@ public class PlayerScript : MonoBehaviour
     [Header("Controller Stuff")]
     public int playerID;
     public string BButton;
-    public PlayerControls controls;
+    //public PlayerControls controls;
 
     [HideInInspector]
     public enum DamageType { head, torso, legs, feet };
@@ -162,14 +162,14 @@ public class PlayerScript : MonoBehaviour
 
     private void OnEnable()
     {
-        if (GameManager.Instance.isGameStarted)
-            controls.Gameplay.Enable();
+        //if (GameManager.Instance.isGameStarted)
+        //    controls.Gameplay.Enable();
     }
 
     private void OnDisable()
     {
-        if (GameManager.Instance.isGameStarted)
-            controls.Gameplay.Disable();
+        //if (GameManager.Instance.isGameStarted)
+        //    controls.Gameplay.Disable();
     }
 
     void TryWeaponDrop(UnityEngine.InputSystem.InputAction.CallbackContext obj)
@@ -236,12 +236,12 @@ public class PlayerScript : MonoBehaviour
 
         playerUIPanel.SetLives(numLives, playerHead);
 
-        if (controls != null)
-            controls.Gameplay.Enable();
+        //if (controls != null)
+        //    controls.Gameplay.Enable();
 
         StartCoroutine(RespawnInvulernability());
 
-        Debug.Log("Player " + playerID + " controls enabled: " + controls.Gameplay.enabled);
+        //Debug.Log("Player " + playerID + " controls enabled: " + controls.Gameplay.enabled);
     }
 
     public void EquipArms(GunType gunType, GunSO gun)
@@ -601,7 +601,7 @@ public class PlayerScript : MonoBehaviour
     public void SetController(PlayerControls playerControls, int number)
     {
 
-        this.controls = playerControls;
+        //this.controls = playerControls;
 
         playerID = number;
         switch (playerID)
@@ -624,7 +624,7 @@ public class PlayerScript : MonoBehaviour
                 break;
         }
 
-        controls.Gameplay.Drop.performed += TryWeaponDrop;
+        //controls.Gameplay.Drop.performed += TryWeaponDrop;
 
         transform.Find("Arms").GetComponent<ArmsScript>().ArmsControllerSettings();
 
@@ -635,9 +635,9 @@ public class PlayerScript : MonoBehaviour
         playerID = 0;
         playerName = "";
 
-        controls = null;
+        //controls = null;
 
-        controls.Gameplay.Drop.performed -=TryWeaponDrop;
+        //controls.Gameplay.Drop.performed -=TryWeaponDrop;
 
     }
 

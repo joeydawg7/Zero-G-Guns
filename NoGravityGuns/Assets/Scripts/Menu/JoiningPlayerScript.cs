@@ -20,30 +20,40 @@ public class JoiningPlayerScript : MonoBehaviour
 
     List<string> assignedControllers;
 
-    public List<PlayerControls> assignedControls;
+    public List<Gamepad> assignedControls;
 
-    public PlayerControls globalControls;
+    //public PlayerControls globalControls;
+
+    PlayerControls globalControls;
 
     private void Awake()
     {
         tipToStart.alpha = 0;
         assignedControllers = new List<string>();
-        assignedControls = new List<PlayerControls>();
-        globalControls = new PlayerControls();
+        assignedControls = new List<Gamepad>();
+        
+
+        //globalControls = new PlayerControls();
+
+
+        //foreach (var item in globalControls.devices)
+        //{
+        //    Debug.Log(item.device.displayName);
+        //}
         //for (int i = 0; i < joinPanels.Length; i++)
         //{
         //    joinPanels[i].color = emptySlotColor;
         //}
-        globalControls.Enable();
+        //globalControls.Enable();
         //Debug.Log(;
     }
 
     private void Start()
     {
         Debug.Log("hey whatup");
-        globalControls.Gameplay.Join.performed +=  JoinButtonPressed;
-        globalControls.Gameplay.Drop.performed +=  DropButtonPressed;
-        globalControls.Gameplay.Start.performed +=  StartButtonPressed;
+        //globalControls.Gameplay.Join.performed +=  JoinButtonPressed;
+        //globalControls.Gameplay.Drop.performed +=  DropButtonPressed;
+        //globalControls.Gameplay.Start.performed +=  StartButtonPressed;
     }
 
     void JoinButtonPressed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
@@ -88,7 +98,7 @@ public class JoiningPlayerScript : MonoBehaviour
             {
                 //assignedControllers.Add("1");
                 joinPanels[i].GetComponent<JoinPanel>().AssignController(playerControls, (i+1) );
-                assignedControls.Add(playerControls);
+                //assignedControls.Add(playerControls);
                 return;
             }
         }
@@ -97,6 +107,19 @@ public class JoiningPlayerScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        var gamePad = Gamepad.all;
+
+        foreach (var pad in gamePad)
+        {
+            if (pad.aButton.wasPressedThisFrame)
+            {
+                Debug.Log(pad.id);
+                
+                
+            }
+
+        }
+
 
         //if (!GameManager.Instance.isGameStarted)
         //{
@@ -176,11 +199,11 @@ public class JoiningPlayerScript : MonoBehaviour
 
     public void OnGameStart()
     {
-        globalControls.Gameplay.Join.performed -=JoinButtonPressed;
-        globalControls.Gameplay.Drop.performed -=  DropButtonPressed;
-        globalControls.Gameplay.Start.performed -=  StartButtonPressed;
-        globalControls.Gameplay.Disable();
-        Debug.Log("global controls enabled: " + globalControls.Gameplay.enabled);
+        //globalControls.Gameplay.Join.performed -=JoinButtonPressed;
+        //globalControls.Gameplay.Drop.performed -=  DropButtonPressed;
+        //globalControls.Gameplay.Start.performed -=  StartButtonPressed;
+        //globalControls.Gameplay.Disable();
+        //Debug.Log("global controls enabled: " + globalControls.Gameplay.enabled);
         gameObject.SetActive(false);
     }
 

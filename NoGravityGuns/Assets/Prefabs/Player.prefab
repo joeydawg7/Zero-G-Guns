@@ -419,7 +419,7 @@ PolygonCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.39583358, y: 0.28262585}
-    oldSize: {x: 3.77, y: 6.48}
+    oldSize: {x: 3.78, y: 6.49}
     newSize: {x: 3.77, y: 6.48}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -609,7 +609,7 @@ PolygonCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5746031, y: 0.29549605}
-    oldSize: {x: 3.77, y: 6.48}
+    oldSize: {x: 3.78, y: 6.48}
     newSize: {x: 3.77, y: 6.48}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -808,7 +808,7 @@ PolygonCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.18081309, y: 0.12492627}
-    oldSize: {x: 3.77, y: 6.48}
+    oldSize: {x: 3.78, y: 6.48}
     newSize: {x: 3.77, y: 6.48}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -1187,7 +1187,7 @@ PolygonCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.4837546, y: 0.10356339}
-    oldSize: {x: 3.77, y: 6.48}
+    oldSize: {x: 3.77, y: 6.49}
     newSize: {x: 3.77, y: 6.48}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -12692,6 +12692,8 @@ GameObject:
   - component: {fileID: 4976415590657393650}
   - component: {fileID: 4976415590657393648}
   - component: {fileID: 1883880610}
+  - component: {fileID: 690386386}
+  - component: {fileID: 690386392}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -12801,9 +12803,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 0
+  numLives: 3
   playerUIPanel: {fileID: 0}
-  healthBar: {fileID: 0}
-  statusText: {fileID: 0}
   floatingTextSpawnPoint: {fileID: 17695758235233505}
   playerColor:
     serializedVersion: 2
@@ -12812,19 +12813,12 @@ MonoBehaviour:
     serializedVersion: 2
     rgba: 2868903936
   playerHead: {fileID: 21300000, guid: f8ce19dca9e461a46a89730504fa782f, type: 3}
+  playerPortrait: {fileID: 21300000, guid: f3c8128eb3290fa4488b56d7770495d6, type: 3}
   collisionLayer: 19
   playerID: 0
   BButton: 
   isDead: 0
   isInvulnerable: 0
-  audioSource: {fileID: 0}
-  headShot: {fileID: 8300000, guid: 25158bc9838f09741a2bab00f4668a12, type: 3}
-  standardShot: {fileID: 8300000, guid: a687cd31c5747094db4d2f0b08d21e76, type: 3}
-  torsoImpact: {fileID: 8300000, guid: 7721d28d062a65b418a84b929c31c397, type: 3}
-  legsImpact: {fileID: 8300000, guid: 895090f8489469e429bb9732a04f561c, type: 3}
-  headImpact: {fileID: 8300000, guid: 12d79719fc02f904cb07a596d61458a4, type: 3}
-  deathClip: {fileID: 8300000, guid: 3ab6e9857ca9b4740b7579d392158eed, type: 3}
-  respawnClip: {fileID: 8300000, guid: 8d12d04473f30ba4a8f75420de8c901b, type: 3}
   pistolArms: {fileID: 6623725858943237295}
   assaultRifleArms: {fileID: 2018075267427067357}
   LMGArms: {fileID: 732671125457681261}
@@ -12832,6 +12826,7 @@ MonoBehaviour:
   railGunArms: {fileID: 6476758204914062780}
   armsScript: {fileID: 1989796505125463610}
   legsCollider: {fileID: 4180111876155311546}
+  legsParent: {fileID: 4180111876155311547}
   spawnPoint: {x: 0, y: 0, z: 0}
   invulnerabilityColorFlash:
     serializedVersion: 2
@@ -12841,11 +12836,17 @@ MonoBehaviour:
   playerLastHitBy: {fileID: 0}
   HS_Flash: {fileID: 2086647170}
   HS_Streaks: {fileID: 2015997958}
+  audioSource: {fileID: 0}
+  headShot: {fileID: 8300000, guid: 25158bc9838f09741a2bab00f4668a12, type: 3}
+  standardShot: {fileID: 8300000, guid: a687cd31c5747094db4d2f0b08d21e76, type: 3}
+  torsoImpact: {fileID: 8300000, guid: 7721d28d062a65b418a84b929c31c397, type: 3}
+  legsImpact: {fileID: 8300000, guid: 895090f8489469e429bb9732a04f561c, type: 3}
+  headImpact: {fileID: 8300000, guid: 12d79719fc02f904cb07a596d61458a4, type: 3}
+  deathClip: {fileID: 8300000, guid: 3ab6e9857ca9b4740b7579d392158eed, type: 3}
+  respawnClip: {fileID: 8300000, guid: 8d12d04473f30ba4a8f75420de8c901b, type: 3}
   playerName: 
   hexColorCode: 
   rb: {fileID: 0}
-  legsParent: {fileID: 4180111876155311547}
-  numLives: 3
   pistolTime: 0
   rifleTime: 0
   shotgunTime: 0
@@ -12971,11 +12972,131 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee11e6a70d06b8344b9fe8ee31cf5b0b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerPortrait: {fileID: 0}
   playerHealthBar: {fileID: 0}
-  playerStatusText: {fileID: 0}
+  currentWeaponText: {fileID: 0}
   playerAmmoGun: {fileID: 0}
   stockHolder: {fileID: 0}
   headStock: {fileID: 0}
+  gunImage: {fileID: 0}
+--- !u!114 &690386386
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4976415590657393655}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 621567455fd1c4ceb811cc8a00b6a1a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_NotificationBehavior: 0
+  m_MaxPlayerCount: 4
+  m_AllowJoining: 1
+  m_JoinPlayersWithMissingDevices: 0
+  m_JoinBehavior: 1
+  m_PlayerJoinedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.InputSystem.Plugins.PlayerInput.PlayerInputManager+PlayerJoinedEvent,
+      Unity.InputSystem, Version=0.2.10.0, Culture=neutral, PublicKeyToken=null
+  m_PlayerLeftEvent:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.InputSystem.Plugins.PlayerInput.PlayerInputManager+PlayerLeftEvent,
+      Unity.InputSystem, Version=0.2.10.0, Culture=neutral, PublicKeyToken=null
+  m_JoinAction:
+    m_UseReference: 1
+    m_Action:
+      m_Name: Action
+      m_ExpectedControlLayout: 
+      m_Id: 13d43a78-f235-4e54-8cce-c14b5ce2325d
+      m_Flags: 0
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+    m_Reference: {fileID: 1793874302882360547, guid: a0eb370dcfabe0f4b8e9b6fa1e296e45,
+      type: 3}
+  m_PlayerPrefab: {fileID: 4976415590657393655}
+  m_SplitScreen: 0
+  m_MaintainAspectRatioInSplitScreen: 0
+  m_FixedNumberOfSplitScreens: -1
+  m_SplitScreenBorderWidth: 0
+  m_SplitScreenRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
+--- !u!114 &690386392
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4976415590657393655}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Actions: {fileID: -944628639613478452, guid: a0eb370dcfabe0f4b8e9b6fa1e296e45,
+    type: 3}
+  m_NotificationBehavior: 2
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.InputSystem.Plugins.PlayerInput.PlayerInput+DeviceLostEvent,
+      Unity.InputSystem, Version=0.2.10.0, Culture=neutral, PublicKeyToken=null
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.InputSystem.Plugins.PlayerInput.PlayerInput+DeviceRegainedEvent,
+      Unity.InputSystem, Version=0.2.10.0, Culture=neutral, PublicKeyToken=null
+  m_ActionEvents:
+  - m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.InputSystem.Plugins.PlayerInput.PlayerInput+ActionEvent,
+      Unity.InputSystem, Version=0.2.10.0, Culture=neutral, PublicKeyToken=null
+    m_ActionId: 7740cb5e-a6af-43b6-bd60-181d80b175ea
+    m_ActionName: Gameplay/Aim
+  - m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.InputSystem.Plugins.PlayerInput.PlayerInput+ActionEvent,
+      Unity.InputSystem, Version=0.2.10.0, Culture=neutral, PublicKeyToken=null
+    m_ActionId: 1e7a5aed-fdcb-4089-a5d1-e75b27defca4
+    m_ActionName: Gameplay/Reload
+  - m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.InputSystem.Plugins.PlayerInput.PlayerInput+ActionEvent,
+      Unity.InputSystem, Version=0.2.10.0, Culture=neutral, PublicKeyToken=null
+    m_ActionId: 587a58e4-1f17-410c-ae39-99f1c644cc31
+    m_ActionName: Gameplay/Drop
+  - m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.InputSystem.Plugins.PlayerInput.PlayerInput+ActionEvent,
+      Unity.InputSystem, Version=0.2.10.0, Culture=neutral, PublicKeyToken=null
+    m_ActionId: 4c9da691-babc-43a6-b821-dba6c7a81c06
+    m_ActionName: Gameplay/Shoot
+  - m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.InputSystem.Plugins.PlayerInput.PlayerInput+ActionEvent,
+      Unity.InputSystem, Version=0.2.10.0, Culture=neutral, PublicKeyToken=null
+    m_ActionId: 83c5554b-5ffa-4476-8bb9-57fc0f58727f
+    m_ActionName: Gameplay/Join
+  - m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.InputSystem.Plugins.PlayerInput.PlayerInput+ActionEvent,
+      Unity.InputSystem, Version=0.2.10.0, Culture=neutral, PublicKeyToken=null
+    m_ActionId: f67e1fee-b9b4-4094-9b93-10eb00686057
+    m_ActionName: Gameplay/Start
+  m_AutoSwitchControlScheme: 0
+  m_DefaultControlScheme: 
+  m_DefaultActionMap: b6159740-ee60-4415-8288-7fa1b3cd948e
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}
 --- !u!1 &6222977343473641410
 GameObject:
   m_ObjectHideFlags: 0
@@ -13663,6 +13784,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: MuzzleFlash
+      objectReference: {fileID: 0}
+    - target: {fileID: 4387965129256484008, guid: 0fbd6b8e26f768a4595e8752cdf288c6,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 67644896042736764, guid: 0fbd6b8e26f768a4595e8752cdf288c6,
         type: 3}
