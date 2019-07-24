@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Users;
+using UnityEngine.InputSystem.PlayerInput;
 
 public class JoiningPlayerScript : MonoBehaviour
 {
@@ -20,7 +22,7 @@ public class JoiningPlayerScript : MonoBehaviour
 
     List<string> assignedControllers;
 
-    public List<Gamepad> assignedControls;
+    public List<InputActionMap> assignedControls;
 
     //public PlayerControls globalControls;
 
@@ -30,11 +32,12 @@ public class JoiningPlayerScript : MonoBehaviour
     {
         tipToStart.alpha = 0;
         assignedControllers = new List<string>();
-        assignedControls = new List<Gamepad>();
-        
+        assignedControls = new List<InputActionMap>();
 
-        //globalControls = new PlayerControls();
 
+        globalControls = new PlayerControls();
+
+        globalControls.Enable();
 
         //foreach (var item in globalControls.devices)
         //{
@@ -50,24 +53,24 @@ public class JoiningPlayerScript : MonoBehaviour
 
     private void Start()
     {
-        Debug.Log("hey whatup");
-        //globalControls.Gameplay.Join.performed +=  JoinButtonPressed;
-        //globalControls.Gameplay.Drop.performed +=  DropButtonPressed;
-        //globalControls.Gameplay.Start.performed +=  StartButtonPressed;
+        globalControls.Gameplay.Join.performed += JoinButtonPressed;
+        globalControls.Gameplay.Drop.performed += DropButtonPressed;
+        globalControls.Gameplay.Start.performed += StartButtonPressed;
     }
 
     void JoinButtonPressed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
-        if(!GameManager.Instance.isGameStarted && assignedControls.Count <=4)
+        if (!GameManager.Instance.isGameStarted && assignedControls.Count <= 4)
         {
-            AddPlayerControllerSetup(new PlayerControls());
+
+            AddPlayerControllerSetup(globalControls.Gameplay.Get().Clone());
         }
-        
+
     }
 
     void DropButtonPressed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
-        
+
         for (int i = joinPanels.Length - 1; i >= 0; i--)
         {
             if (joinPanels[i].GetComponent<JoinPanel>().hasAssignedController == true)
@@ -84,21 +87,22 @@ public class JoiningPlayerScript : MonoBehaviour
     {
         if (assignedControls.Count >= 1)
         {
+            Debug.Log("start");
             GameManager.Instance.StartGame();
             tipToStart.alpha = 0;
         }
     }
 
 
-    void AddPlayerControllerSetup(PlayerControls playerControls)
+    void AddPlayerControllerSetup(InputActionMap playerControls)
     {
         for (int i = 0; i < joinPanels.Length; i++)
         {
             if (joinPanels[i].GetComponent<JoinPanel>().hasAssignedController == false)
             {
                 //assignedControllers.Add("1");
-                joinPanels[i].GetComponent<JoinPanel>().AssignController(playerControls, (i+1) );
-                //assignedControls.Add(playerControls);
+                joinPanels[i].GetComponent<JoinPanel>().AssignController(playerControls, (i + 1));
+                assignedControls.Add(playerControls);
                 return;
             }
         }
@@ -107,18 +111,28 @@ public class JoiningPlayerScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        var gamePad = Gamepad.all;
+        //var gamePad = Gamepad.all;
 
-        foreach (var pad in gamePad)
-        {
-            if (pad.aButton.wasPressedThisFrame)
-            {
-                Debug.Log(pad.id);
-                
-                
-            }
+        //foreach (var pad in gamePad)
+        //{
+        //    if (pad.aButton.wasPressedThisFrame)
+        //    {
+        //        Debug.Log(pad.id);
+        //        //pad.allControls = globalControls.;
 
-        }
+        //        //globalControls.devices. = gamePad.ToArray();
+
+        //        //foreach (var controller in globalControls.devices)
+        //        //{
+        //        //    Debug.Log(controller.id);
+        //        //    controller.
+        //        //}
+
+        //    }
+
+        //}
+
+
 
 
         //if (!GameManager.Instance.isGameStarted)

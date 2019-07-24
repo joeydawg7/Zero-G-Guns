@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.PlayerInput;
+using UnityEngine.InputSystem.Users;
 
 public class JoinPanel : MonoBehaviour
 {
@@ -26,8 +29,18 @@ public class JoinPanel : MonoBehaviour
     }
 
 
-    public PlayerScript AssignController(PlayerControls controller, int i)
+    public PlayerScript AssignController(InputActionMap controller, int i)
     {
+        //controller =
+
+        //foreach (var device in InputUser.GetUnpairedInputDevices())
+        //{
+        //    if (!device.name.Contains("Controller"))
+        //        continue;
+        //    else
+        //        player2Input.ApplyBindingOverridesOnMatchingControls(device);
+        //}
+
         image.sprite = readySprite;
         MainText.text = "Player " + controller + " joined!";
         hasAssignedController = true;

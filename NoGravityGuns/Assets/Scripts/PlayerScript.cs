@@ -26,6 +26,7 @@ public class PlayerScript : MonoBehaviour
     public int playerID;
     public string BButton;
     //public PlayerControls controls;
+    public InputActionMap controls;
 
     [HideInInspector]
     public enum DamageType { head, torso, legs, feet };
@@ -302,6 +303,7 @@ public class PlayerScript : MonoBehaviour
         }
     }
 
+    #region Take Damage
     public void TakeDamage(float damage, DamageType damageType, PlayerScript PlayerWhoShotYou, bool playBulletSFX, GunType gunType)
     {
         if (!isDead && !isInvulnerable)
@@ -439,9 +441,9 @@ public class PlayerScript : MonoBehaviour
                 break;
         }
     }
+    #endregion
 
-
-
+    #region Die and respawn
     public PlayerScript Die()
     {
         if (!isDead)
@@ -573,6 +575,7 @@ public class PlayerScript : MonoBehaviour
 
         isInvulnerable = false;
     }
+    #endregion
 
     //public void SetControllerNumber(int number)
     //{
@@ -598,10 +601,22 @@ public class PlayerScript : MonoBehaviour
     //    }
     //}
 
-    public void SetController(PlayerControls playerControls, int number)
+    public void SetController(InputActionMap playerControls, int number)
     {
+        //this.controls = playerControls.;
+        controls = playerControls;
 
-        //this.controls = playerControls;
+        //foreach (var device in playerControls.devices)
+        //{
+        //    if (!device.name.Contains("Controller"))
+        //        continue;
+
+        //    //Debug.Log(device.displayName);
+
+        //    //controls.ApplyBindingOverridesOnMatchingControls(device);
+        //}
+
+        
 
         playerID = number;
         switch (playerID)
@@ -628,6 +643,8 @@ public class PlayerScript : MonoBehaviour
 
         transform.Find("Arms").GetComponent<ArmsScript>().ArmsControllerSettings();
 
+
+        controls.Enable();
     }
 
     public void UnsetController()
