@@ -22,20 +22,26 @@ public class JoiningPlayerScript : MonoBehaviour
 
     List<string> assignedControllers;
 
-    public List<InputActionMap> assignedControls;
+    public List<PlayerInput> assignedControls;
 
-    //public PlayerControls globalControls;
+    public PlayerControls globalControls;
 
-    PlayerControls globalControls;
+    InputUser inputUser;
+
+    //PlayerInput globalControls;
+
+    PlayerInput PC;
 
     private void Awake()
     {
         tipToStart.alpha = 0;
         assignedControllers = new List<string>();
-        assignedControls = new List<InputActionMap>();
+        assignedControls = new List<PlayerInput>();
+        inputUser = new InputUser();
 
 
         globalControls = new PlayerControls();
+        PC = new PlayerInput();
 
         globalControls.Enable();
 
@@ -54,34 +60,37 @@ public class JoiningPlayerScript : MonoBehaviour
     private void Start()
     {
         globalControls.Gameplay.Join.performed += JoinButtonPressed;
-        globalControls.Gameplay.Drop.performed += DropButtonPressed;
+        //globalControls.Gameplay.Drop.performed += DropButtonPressed;
         globalControls.Gameplay.Start.performed += StartButtonPressed;
     }
 
     void JoinButtonPressed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
-        if (!GameManager.Instance.isGameStarted && assignedControls.Count <= 4)
+        if (!GameManager.Instance.isGameStarted )
         {
+            PlayerInput PI = new PlayerInput();
+            Debug.Log("hea");
+            //Debug.Log(PI.currentActionMap.name);
 
-            AddPlayerControllerSetup(globalControls.Gameplay.Get().Clone());
+            AddPlayerControllerSetup(PI);
         }
 
     }
 
-    void DropButtonPressed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
-    {
+    //void DropButtonPressed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+    //{
 
-        for (int i = joinPanels.Length - 1; i >= 0; i--)
-        {
-            if (joinPanels[i].GetComponent<JoinPanel>().hasAssignedController == true)
-            {
-                assignedControls.RemoveAt(i);
-                joinPanels[i].GetComponent<JoinPanel>().UnAssignController();
-                return;
-            }
-        }
+    //    for (int i = joinPanels.Length - 1; i >= 0; i--)
+    //    {
+    //        if (joinPanels[i].GetComponent<JoinPanel>().hasAssignedController == true)
+    //        {
+    //            assignedControls.RemoveAt(i);
+    //            joinPanels[i].GetComponent<JoinPanel>().UnAssignController();
+    //            return;
+    //        }
+    //    }
 
-    }
+    //}
 
     void StartButtonPressed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
@@ -94,15 +103,15 @@ public class JoiningPlayerScript : MonoBehaviour
     }
 
 
-    void AddPlayerControllerSetup(InputActionMap playerControls)
+    void AddPlayerControllerSetup(PlayerInput player)
     {
         for (int i = 0; i < joinPanels.Length; i++)
         {
             if (joinPanels[i].GetComponent<JoinPanel>().hasAssignedController == false)
             {
                 //assignedControllers.Add("1");
-                joinPanels[i].GetComponent<JoinPanel>().AssignController(playerControls, (i + 1));
-                assignedControls.Add(playerControls);
+                joinPanels[i].GetComponent<JoinPanel>().AssignController(player, (i + 1));
+                assignedControls.Add(player);
                 return;
             }
         }
@@ -213,12 +222,14 @@ public class JoiningPlayerScript : MonoBehaviour
 
     public void OnGameStart()
     {
-        //globalControls.Gameplay.Join.performed -=JoinButtonPressed;
+        globalControls.Gameplay.Join.performed -=JoinButtonPressed;
         //globalControls.Gameplay.Drop.performed -=  DropButtonPressed;
-        //globalControls.Gameplay.Start.performed -=  StartButtonPressed;
+        globalControls.Gameplay.Start.performed -=  StartButtonPressed;
         //globalControls.Gameplay.Disable();
         //Debug.Log("global controls enabled: " + globalControls.Gameplay.enabled);
+        globalControls.Disable();
         gameObject.SetActive(false);
+        
     }
 
 }

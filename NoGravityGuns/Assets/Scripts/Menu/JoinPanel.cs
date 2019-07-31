@@ -29,7 +29,7 @@ public class JoinPanel : MonoBehaviour
     }
 
 
-    public PlayerScript AssignController(InputActionMap controller, int i)
+    public PlayerScript AssignController(PlayerInput controller, int i)
     {
         //controller =
 
@@ -42,7 +42,7 @@ public class JoinPanel : MonoBehaviour
         //}
 
         image.sprite = readySprite;
-        MainText.text = "Player " + controller + " joined!";
+        //MainText.text = "Player " + controller + " joined!";
         hasAssignedController = true;
 
         player.SetController(controller, i);

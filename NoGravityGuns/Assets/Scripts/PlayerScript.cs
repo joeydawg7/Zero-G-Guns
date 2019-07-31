@@ -4,10 +4,15 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.PlayerInput;
+using UnityEngine.InputSystem.Users;
 
 public class PlayerScript : MonoBehaviour
 {
     #region publics
+
+    public PlayerInput playerInput;
+
     [Header("Health and Lives")]
     public int health;
     public int numLives;
@@ -26,7 +31,7 @@ public class PlayerScript : MonoBehaviour
     public int playerID;
     public string BButton;
     //public PlayerControls controls;
-    public InputActionMap controls;
+    //public PlayerInput controls;
 
     [HideInInspector]
     public enum DamageType { head, torso, legs, feet };
@@ -145,6 +150,7 @@ public class PlayerScript : MonoBehaviour
         spawnPoint = transform.position;
         rb = GetComponent<Rigidbody2D>();
         audioSource = GetComponent<AudioSource>();
+        playerInput = GetComponent<PlayerInput>();
         numKills = 0;
 
         defaultColor = gameObject.GetComponent<SpriteRenderer>().color;
@@ -173,8 +179,9 @@ public class PlayerScript : MonoBehaviour
         //    controls.Gameplay.Disable();
     }
 
-    void TryWeaponDrop(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+    public void OnDrop()
     {
+        Debug.Log("drop");
         if (GameManager.Instance.isGameStarted && armsScript.currentWeapon.GunType != GunType.pistol)
             EquipArms(GunType.pistol, GameManager.Instance.pistol);
     }
@@ -209,7 +216,7 @@ public class PlayerScript : MonoBehaviour
 
         }
 
-        //DEBUG: take damage
+        //DEBUG: take damage to torso
         if (Input.GetKeyDown(KeyCode.K))
             TakeDamage(50, DamageType.torso, null, true, GunType.collision);
 
@@ -218,6 +225,15 @@ public class PlayerScript : MonoBehaviour
 
     public void OnGameStart()
     {
+        playerInput.user.ActivateControlScheme("Controller").AndPairRemainingDevices();
+        playerInput.currentActionMap.Enable();
+        playerInput.PassivateInput();
+        playerInput.ActivateInput();
+        //playerInput.user.
+        //playerInput.
+        //InputUser.
+
+        
 
         health = 100;
         float barVal = ((float)health / 100f);
@@ -243,6 +259,16 @@ public class PlayerScript : MonoBehaviour
         StartCoroutine(RespawnInvulernability());
 
         //Debug.Log("Player " + playerID + " controls enabled: " + controls.Gameplay.enabled);
+    }
+
+
+    public void OnDeviceRegained()
+    {
+        Debug.Log("device regained!");
+    }
+    public void OnDeviceLost()
+    {
+        Debug.Log("Device Lost!");
     }
 
     public void EquipArms(GunType gunType, GunSO gun)
@@ -293,6 +319,7 @@ public class PlayerScript : MonoBehaviour
 
     void HideAllArms()
     {
+        //TODO: just make this a list dumbass
         foreach (Transform child in armsScript.gameObject.transform)
         {
             if (child.tag == "Gun")
@@ -577,34 +604,10 @@ public class PlayerScript : MonoBehaviour
     }
     #endregion
 
-    //public void SetControllerNumber(int number)
-    //{
-    //    playerID = number;
-    //    switch (playerID)
-    //    {
-    //        case 1:
-    //            playerName = "Red Player";
-    //            hexColorCode = "#B1342F";
-    //            break;
-    //        case 2:
-    //            playerName = "Blue Player";
-    //            hexColorCode = "#2C7EC2";
-    //            break;
-    //        case 3:
-    //            playerName = "Green Player";
-    //            hexColorCode = "#13BC1E";
-    //            break;
-    //        case 4:
-    //            playerName = "Yellow Player";
-    //            hexColorCode = "#EA9602";
-    //            break;
-    //    }
-    //}
-
-    public void SetController(InputActionMap playerControls, int number)
+    public void SetController(PlayerInput playerControls, int number)
     {
         //this.controls = playerControls.;
-        controls = playerControls;
+        //controls = playerControls;
 
         //foreach (var device in playerControls.devices)
         //{
@@ -616,7 +619,6 @@ public class PlayerScript : MonoBehaviour
         //    //controls.ApplyBindingOverridesOnMatchingControls(device);
         //}
 
-        
 
         playerID = number;
         switch (playerID)
@@ -643,8 +645,6 @@ public class PlayerScript : MonoBehaviour
 
         transform.Find("Arms").GetComponent<ArmsScript>().ArmsControllerSettings();
 
-
-        controls.Enable();
     }
 
     public void UnsetController()

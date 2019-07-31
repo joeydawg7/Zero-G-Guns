@@ -65,7 +65,7 @@ public class WeaponPad : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if ((collision.tag == "Torso" || collision.tag == "Head" || collision.tag == "Feet") && hasWeapon && currentWeapon != null && !collision.transform.root.GetComponent<PlayerScript>().isDead)
+        if ((collision.tag == "Torso" || collision.tag == "Head" || collision.tag == "Feet" || collision.tag == "Leg") && hasWeapon && currentWeapon != null && !collision.transform.root.GetComponent<PlayerScript>().isDead)
         {
             PlayerScript player = collision.transform.root.GetComponent<PlayerScript>();
 

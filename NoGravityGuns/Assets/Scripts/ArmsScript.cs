@@ -4,6 +4,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System;
+using UnityEngine.InputSystem.PlayerInput;
+using UnityEngine.InputSystem.Controls;
+
 
 public class ArmsScript : MonoBehaviour
 {
@@ -46,6 +49,7 @@ public class ArmsScript : MonoBehaviour
     Coroutine rotateCoroutine;
     Vector3 dir;
     GameManager gameManager;
+    Vector2 rawAim;
 
     private void Awake()
     {
@@ -68,12 +72,13 @@ public class ArmsScript : MonoBehaviour
 
     }
 
-    Vector2 rawAim;
+    
 
     private void Start()
     {
 
         gameManager = GameManager.Instance;
+
     }
 
     //void AimController()
@@ -82,7 +87,7 @@ public class ArmsScript : MonoBehaviour
     //        ShootController();
     //}
 
-    void ReloadController(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+    public void OnReload()
     {
         if (gameManager.isGameStarted && !isReloading && currentAmmo < currentWeapon.clipSize)
             reloadCoroutine = StartCoroutine(Reload());
@@ -92,14 +97,16 @@ public class ArmsScript : MonoBehaviour
     {
         if (gameManager.isGameStarted)
         {
-            Aim();
             CountShotDelay();
         }
     }
 
-
-    void Aim()
+    public void OnAim(InputValue value)
     {
+        Debug.Log("aiming!");
+
+        rawAim = value.Get<Vector2>();
+
         // aiming stuff
         shootDir = Vector2.right * rawAim + Vector2.up * rawAim;
         shootDir = shootDir.normalized;
@@ -122,21 +129,30 @@ public class ArmsScript : MonoBehaviour
 
     public void ArmsControllerSettings()
     {
-        
+
         //basePlayer.controls = new PlayerControls().Gameplay;
 
         //PlayerControls playerControlsSS = new PlayerControls();
 
-        basePlayer.controls.TryGetAction("Aim").performed += context => rawAim = context.ReadValue<Vector2>();
-        basePlayer.controls.TryGetAction("Reload").performed += ReloadController;
-        basePlayer.controls.TryGetAction("Shoot").performed += ShootController;
+        //basePlayer.controls.TryGetAction("Aim").performed += context => rawAim = context.ReadValue<Vector2>();
+        //basePlayer.controls.TryGetAction("Reload").performed += ReloadController;
+        //basePlayer.controls.TryGetAction("Shoot").performed += ShootController;
 
         //playerControlsSS.Gameplay.SetCallbacks(basePlayer.controls.asset.);
         //basePlayer.controls = basePlayer.controls.asset.GetActionMap("Gameplay");
 
-        //basePlayer.controls.Aim.performed += context => rawAim = context.ReadValue<Vector2>();
-        //basePlayer.controls.Reload.performed += ReloadController;
-        //basePlayer.controls.Shoot.performed += ShootController;
+        //basePlayer.controls.currentActionMap = new PlayerControls().Gameplay.Get().Clone();
+        //Debug.Log(basePlayer.controls.currentActionMap.id);
+
+        //foreach (var device in basePlayer.controls.devices)
+        //{
+        //    Debug.Log(basePlayer.controls.currentActionMap.IsUsableWithDevice(device));
+        //}
+      
+
+        //basePlayer.controls.currentActionMap.TryGetAction("Aim").performed += context => rawAim = context.ReadValue<Vector2>();
+        //basePlayer.controls.currentActionMap.TryGetAction("Reload").performed += ReloadController;
+        //basePlayer.controls.currentActionMap.TryGetAction("Shoot").performed += context => ShootController();
     }
 
     public void ArmsControllerUnset()
@@ -219,7 +235,7 @@ public class ArmsScript : MonoBehaviour
 
 
 
-    void ShootController(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+    public void OnShoot()
     {
         bulletSpawnPoint = bulletSpawn.position;
 
@@ -257,7 +273,7 @@ public class ArmsScript : MonoBehaviour
 
                 if (aim.sqrMagnitude >= 0.1f)
                 {
-                    if (timeSinceLastShot >= currentWeapon.recoilDelay)
+                    if (timeSinceLastShot >= currentWeapon.recoilDelay && Time.timeScale !=0)
                     {
                         //add force to player in opposite direction of shot
                         KnockBack(shootDir);

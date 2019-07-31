@@ -19,9 +19,9 @@ public class PlayerControls : IInputActionCollection
             ""actions"": [
                 {
                     ""name"": ""Aim"",
-                    ""type"": ""Button"",
+                    ""type"": ""Value"",
                     ""id"": ""a85544d0-1ed3-47e9-a38a-3fd3193768ee"",
-                    ""expectedControlType"": """",
+                    ""expectedControlType"": ""Axis"",
                     ""processors"": """",
                     ""interactions"": """"
                 },
@@ -51,7 +51,7 @@ public class PlayerControls : IInputActionCollection
                 },
                 {
                     ""name"": ""Shoot"",
-                    ""type"": ""Button"",
+                    ""type"": ""Value"",
                     ""id"": ""4ff36964-69db-4311-8422-3eb7f3e0de8d"",
                     ""expectedControlType"": """",
                     ""processors"": """",
@@ -73,7 +73,7 @@ public class PlayerControls : IInputActionCollection
                     ""path"": ""<Gamepad>/rightStick"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": "";Controller"",
                     ""action"": ""Aim"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -84,7 +84,7 @@ public class PlayerControls : IInputActionCollection
                     ""path"": ""<Gamepad>/buttonSouth"",
                     ""interactions"": ""Tap"",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": "";Controller"",
                     ""action"": ""Join"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -95,7 +95,7 @@ public class PlayerControls : IInputActionCollection
                     ""path"": ""<Gamepad>/buttonEast"",
                     ""interactions"": ""Tap"",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": "";Controller"",
                     ""action"": ""Drop"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -106,7 +106,7 @@ public class PlayerControls : IInputActionCollection
                     ""path"": ""<Gamepad>/buttonWest"",
                     ""interactions"": ""Tap"",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": "";Controller"",
                     ""action"": ""Reload"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -115,9 +115,9 @@ public class PlayerControls : IInputActionCollection
                     ""name"": """",
                     ""id"": ""adec4b8c-6975-45ac-ad4d-11704c7173af"",
                     ""path"": ""<Gamepad>/rightTrigger"",
-                    ""interactions"": """",
+                    ""interactions"": ""Press"",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": "";Controller"",
                     ""action"": ""Shoot"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -128,7 +128,7 @@ public class PlayerControls : IInputActionCollection
                     ""path"": ""<Gamepad>/start"",
                     ""interactions"": ""Tap"",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": "";Controller"",
                     ""action"": ""Start"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -136,7 +136,14 @@ public class PlayerControls : IInputActionCollection
             ]
         }
     ],
-    ""controlSchemes"": []
+    ""controlSchemes"": [
+        {
+            ""name"": ""Controller"",
+            ""basedOn"": """",
+            ""bindingGroup"": ""Controller"",
+            ""devices"": []
+        }
+    ]
 }");
         // Gameplay
         m_Gameplay = asset.GetActionMap("Gameplay");
@@ -264,6 +271,15 @@ public class PlayerControls : IInputActionCollection
         }
     }
     public GameplayActions @Gameplay => new GameplayActions(this);
+    private int m_ControllerSchemeIndex = -1;
+    public InputControlScheme ControllerScheme
+    {
+        get
+        {
+            if (m_ControllerSchemeIndex == -1) m_ControllerSchemeIndex = asset.GetControlSchemeIndex("Controller");
+            return asset.controlSchemes[m_ControllerSchemeIndex];
+        }
+    }
     public interface IGameplayActions
     {
         void OnAim(InputAction.CallbackContext context);

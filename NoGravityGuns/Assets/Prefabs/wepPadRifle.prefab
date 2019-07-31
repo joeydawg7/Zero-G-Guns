@@ -52,7 +52,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -60,6 +60,7 @@ SpriteRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -95,12 +96,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16d579f440752a343b34cb0a76dc44f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SpawnSelectedWeaponInstant: 0
   emptyPad: {fileID: 21300000, guid: 5a9035a777ad473418b3487335086518, type: 3}
   hasWeapon: 0
   weaponToSpawn: {fileID: 11400000, guid: d588e9814200c604d8bdb691ef9e777b, type: 2}
   currentWeapon: {fileID: 0}
   timeToNextSpawn: 0
-  timer: 0
+  timer: 100
   potentialGunsToSpawn:
   - {fileID: 11400000, guid: a0dd7d35dfa9dab4aad1f2d94052eae1, type: 2}
   - {fileID: 11400000, guid: 22454cca2bf8794478041ad549f2bf73, type: 2}
