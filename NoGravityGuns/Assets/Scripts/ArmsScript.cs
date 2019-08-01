@@ -49,7 +49,7 @@ public class ArmsScript : MonoBehaviour
     Coroutine rotateCoroutine;
     Vector3 dir;
     GameManager gameManager;
-    Vector2 rawAim;
+    
 
     private void Awake()
     {
@@ -72,7 +72,7 @@ public class ArmsScript : MonoBehaviour
 
     }
 
-    
+
 
     private void Start()
     {
@@ -81,31 +81,10 @@ public class ArmsScript : MonoBehaviour
 
     }
 
-    //void AimController()
-    //{
-    //    if (gameManager.isGameStarted)
-    //        ShootController();
-    //}
-
-    public void OnReload()
+    void AimController()
     {
-        if (gameManager.isGameStarted && !isReloading && currentAmmo < currentWeapon.clipSize)
-            reloadCoroutine = StartCoroutine(Reload());
-    }
 
-    private void Update()
-    {
-        if (gameManager.isGameStarted)
-        {
-            CountShotDelay();
-        }
-    }
-
-    public void OnAim(InputValue value)
-    {
-        Debug.Log("aiming!");
-
-        rawAim = value.Get<Vector2>();
+        Vector2 rawAim = basePlayer.player.GetAxis2D("Move Horizontal", "Move Vertical");
 
         // aiming stuff
         shootDir = Vector2.right * rawAim + Vector2.up * rawAim;
@@ -113,6 +92,33 @@ public class ArmsScript : MonoBehaviour
         rotation = Quaternion.LookRotation(Vector3.forward, -shootDir);
         rotation *= facing;
         transform.rotation = rotation;
+
+    }
+
+    public void OnReload()
+    {
+
+        if (basePlayer.player.GetButtonDown("Reload"))
+        {
+            if (!isReloading && currentAmmo < currentWeapon.clipSize)
+                reloadCoroutine = StartCoroutine(Reload());
+        }
+
+    }
+
+    private void Update()
+    {
+        if (gameManager.isGameStarted)
+        {
+            CountShotDelay();
+
+            if (!basePlayer.isDead)
+            {
+                AimController();
+                OnReload();
+                ShootController();
+            }
+        }
     }
 
     void CountShotDelay()
@@ -127,39 +133,12 @@ public class ArmsScript : MonoBehaviour
             currentRecoil = 0;
     }
 
-    public void ArmsControllerSettings()
+    void ShootController()
     {
-
-        //basePlayer.controls = new PlayerControls().Gameplay;
-
-        //PlayerControls playerControlsSS = new PlayerControls();
-
-        //basePlayer.controls.TryGetAction("Aim").performed += context => rawAim = context.ReadValue<Vector2>();
-        //basePlayer.controls.TryGetAction("Reload").performed += ReloadController;
-        //basePlayer.controls.TryGetAction("Shoot").performed += ShootController;
-
-        //playerControlsSS.Gameplay.SetCallbacks(basePlayer.controls.asset.);
-        //basePlayer.controls = basePlayer.controls.asset.GetActionMap("Gameplay");
-
-        //basePlayer.controls.currentActionMap = new PlayerControls().Gameplay.Get().Clone();
-        //Debug.Log(basePlayer.controls.currentActionMap.id);
-
-        //foreach (var device in basePlayer.controls.devices)
-        //{
-        //    Debug.Log(basePlayer.controls.currentActionMap.IsUsableWithDevice(device));
-        //}
-      
-
-        //basePlayer.controls.currentActionMap.TryGetAction("Aim").performed += context => rawAim = context.ReadValue<Vector2>();
-        //basePlayer.controls.currentActionMap.TryGetAction("Reload").performed += ReloadController;
-        //basePlayer.controls.currentActionMap.TryGetAction("Shoot").performed += context => ShootController();
-    }
-
-    public void ArmsControllerUnset()
-    {
-        //basePlayer.controls.Gameplay.Aim.performed -= context => rawAim = context.ReadValue<Vector2>();
-        //basePlayer.controls.Gameplay.Reload.performed -= ReloadController;
-        //basePlayer.controls.Gameplay.Shoot.performed -= ShootController;
+        if (basePlayer.player.GetAxis("Shoot") > 0.5f)
+        {
+            OnShoot();
+        }
     }
 
 
@@ -167,6 +146,7 @@ public class ArmsScript : MonoBehaviour
     {
         foreach (Transform child in transform)
         {
+            //TODO: use a list here
             if (child.tag == "Arms")
             {
                 ArmsScript arms = child.GetComponent<ArmsScript>();
@@ -182,6 +162,7 @@ public class ArmsScript : MonoBehaviour
     {
         foreach (Transform child in transform)
         {
+            //TODO: use a list here
             if (child.tag == "Arms")
             {
                 ArmsScript arms = child.GetComponent<ArmsScript>();
@@ -273,7 +254,7 @@ public class ArmsScript : MonoBehaviour
 
                 if (aim.sqrMagnitude >= 0.1f)
                 {
-                    if (timeSinceLastShot >= currentWeapon.recoilDelay && Time.timeScale !=0)
+                    if (timeSinceLastShot >= currentWeapon.recoilDelay && Time.timeScale != 0)
                     {
                         //add force to player in opposite direction of shot
                         KnockBack(shootDir);

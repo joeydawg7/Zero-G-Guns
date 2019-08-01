@@ -12,7 +12,7 @@ public class Bullet : MonoBehaviour, IPooledObject
     public PlayerScript.GunType bulletType;
 
     bool canImapact;
-    bool noBounce = true;
+    bool canBounce = true;
 
     Rigidbody2D rb;
     Vector2 startingForce;
@@ -72,21 +72,22 @@ public class Bullet : MonoBehaviour, IPooledObject
     private void OnCollisionEnter2D(Collision2D collision)
     {
 
-        if (collision.collider.gameObject.layer != LayerMask.NameToLayer("NonBulletCollide") && canImapact == true )
+        if (collision.collider.gameObject.layer != LayerMask.NameToLayer("NonBulletCollide") && canImapact == true)
         {
 
             if (collision.collider.tag != "Bullet" || collision.collider.GetComponent<Bullet>().playerID != playerID)
             {
 
-                PlayerScript.DamageType dmgType = PlayerScript.DamageType.torso;
+                PlayerScript.DamageType dmgType = PlayerScript.DamageType.none;
+
 
                 //checks where we hit the other guy, and that it isnt self damage so we cant shoot ourselves in the knees
-                if (collision.collider.tag == "Torso" )
+                if (collision.collider.tag == "Torso")
                 {
                     dmgType = PlayerScript.DamageType.torso;
                     collision.transform.root.gameObject.GetComponent<PlayerScript>().TakeDamage(damage, dmgType, player, true, bulletType);
                 }
-                if (collision.collider.tag == "Head" )
+                if (collision.collider.tag == "Head")
                 {
                     dmgType = PlayerScript.DamageType.head;
                     collision.transform.root.gameObject.GetComponent<PlayerScript>().TakeDamage(damage, dmgType, player, true, bulletType);
@@ -102,31 +103,40 @@ public class Bullet : MonoBehaviour, IPooledObject
                     collision.transform.root.gameObject.GetComponent<PlayerScript>().TakeDamage(damage, dmgType, player, true, bulletType);
                 }
 
-                    
+
+
                 GameObject sparkyObj = objectPooler.SpawnFromPool("BulletImpact", transform.position, Quaternion.identity);
                 sparkyObj.GetComponent<ParticleSystem>().Emit(10);
                 sparkyObj.GetComponent<DisableOverTime>().DisableOverT(2f);
 
                 rb.AddForce(Reflect(startingForce, collision.GetContact(0).normal));
 
-
-                if (bulletType != PlayerScript.GunType.railGun || noBounce == false)
+                //only bounce if you are a railgun bullet that hasnt hit a player, and only do it once. 
+                if ((bulletType != PlayerScript.GunType.railGun || canBounce == false))
                 {
-                    canHurty = false;
-                    StartCoroutine(DisableOverTime(0.05f));
-                    
-                    somethingSexy.Stop();
-                    somethingSexy.GetComponent<DisableOverTime>().DisableOverT(3.1f);
-                    somethingSexy.transform.parent = null;
+                    KillBullet();
+                }
+                else if (dmgType != PlayerScript.DamageType.none)
+                {
+                    KillBullet();
                 }
                 else
                 {
-                    noBounce = false;
+                    canBounce = false;
                 }
             }
         }
     }
 
+    void KillBullet()
+    {
+        canHurty = false;
+        StartCoroutine(DisableOverTime(0.02f));
+
+        somethingSexy.Stop();
+        somethingSexy.GetComponent<DisableOverTime>().DisableOverT(3.1f);
+        somethingSexy.transform.parent = null;
+    }
 
     Vector2 Reflect(Vector2 vector, Vector2 normal)
     {

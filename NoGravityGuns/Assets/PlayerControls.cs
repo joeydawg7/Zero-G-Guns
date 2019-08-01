@@ -53,7 +53,7 @@ public class PlayerControls : IInputActionCollection
                     ""name"": ""Shoot"",
                     ""type"": ""Value"",
                     ""id"": ""4ff36964-69db-4311-8422-3eb7f3e0de8d"",
-                    ""expectedControlType"": """",
+                    ""expectedControlType"": ""Analog"",
                     ""processors"": """",
                     ""interactions"": """"
                 },
@@ -115,7 +115,7 @@ public class PlayerControls : IInputActionCollection
                     ""name"": """",
                     ""id"": ""adec4b8c-6975-45ac-ad4d-11704c7173af"",
                     ""path"": ""<Gamepad>/rightTrigger"",
-                    ""interactions"": ""Press"",
+                    ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";Controller"",
                     ""action"": ""Shoot"",

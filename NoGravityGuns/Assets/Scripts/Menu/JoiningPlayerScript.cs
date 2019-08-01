@@ -6,6 +6,8 @@ using TMPro;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Users;
 using UnityEngine.InputSystem.PlayerInput;
+using System.Linq;
+using UnityEngine.InputSystem.Utilities;
 
 public class JoiningPlayerScript : MonoBehaviour
 {
@@ -22,7 +24,7 @@ public class JoiningPlayerScript : MonoBehaviour
 
     List<string> assignedControllers;
 
-    public List<PlayerInput> assignedControls;
+    public List<PlayerControls> assignedControls;
 
     public PlayerControls globalControls;
 
@@ -36,7 +38,7 @@ public class JoiningPlayerScript : MonoBehaviour
     {
         tipToStart.alpha = 0;
         assignedControllers = new List<string>();
-        assignedControls = new List<PlayerInput>();
+        assignedControls = new List<PlayerControls>();
         inputUser = new InputUser();
 
 
@@ -44,17 +46,6 @@ public class JoiningPlayerScript : MonoBehaviour
         PC = new PlayerInput();
 
         globalControls.Enable();
-
-        //foreach (var item in globalControls.devices)
-        //{
-        //    Debug.Log(item.device.displayName);
-        //}
-        //for (int i = 0; i < joinPanels.Length; i++)
-        //{
-        //    joinPanels[i].color = emptySlotColor;
-        //}
-        //globalControls.Enable();
-        //Debug.Log(;
     }
 
     private void Start()
@@ -64,18 +55,15 @@ public class JoiningPlayerScript : MonoBehaviour
         globalControls.Gameplay.Start.performed += StartButtonPressed;
     }
 
-    void JoinButtonPressed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+    void JoinButtonPressed(InputAction.CallbackContext context)
     {
         if (!GameManager.Instance.isGameStarted )
         {
-            PlayerInput PI = new PlayerInput();
-            Debug.Log("hea");
-            //Debug.Log(PI.currentActionMap.name);
-
-            AddPlayerControllerSetup(PI);
+            AddPlayerControllerSetup(globalControls);
         }
 
     }
+
 
     //void DropButtonPressed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     //{
@@ -103,13 +91,14 @@ public class JoiningPlayerScript : MonoBehaviour
     }
 
 
-    void AddPlayerControllerSetup(PlayerInput player)
+    void AddPlayerControllerSetup(PlayerControls player)
     {
         for (int i = 0; i < joinPanels.Length; i++)
         {
             if (joinPanels[i].GetComponent<JoinPanel>().hasAssignedController == false)
             {
                 //assignedControllers.Add("1");
+                Debug.Log(i+1);
                 joinPanels[i].GetComponent<JoinPanel>().AssignController(player, (i + 1));
                 assignedControls.Add(player);
                 return;

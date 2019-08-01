@@ -633,7 +633,7 @@ GameObject:
   - component: {fileID: 153552466}
   - component: {fileID: 153552468}
   - component: {fileID: 153552467}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: HealthBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -732,7 +732,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: -180, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0.224}
-  m_AnchoredPosition: {x: 0, y: 3.5005188}
+  m_AnchoredPosition: {x: 0, y: 3.5005493}
   m_SizeDelta: {x: 0, y: 6.6299973}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &153862970
@@ -876,7 +876,7 @@ RectTransform:
   m_GameObject: {fileID: 206274055}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2.9038, y: 2.9038, z: 2.9038}
   m_Children:
   - {fileID: 153862969}
   - {fileID: 901516188}
@@ -1303,6 +1303,10 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1084706267, guid: 7bd5c672901594f4b8326383fb19eb33, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7bd5c672901594f4b8326383fb19eb33, type: 3}
@@ -2230,7 +2234,7 @@ MonoBehaviour:
   m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 1920, y: 720}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
@@ -2246,7 +2250,7 @@ Canvas:
   m_GameObject: {fileID: 487427781}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 1
+  m_RenderMode: 0
   m_Camera: {fileID: 254844082}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
@@ -2430,7 +2434,7 @@ GameObject:
   - component: {fileID: 665499219}
   - component: {fileID: 665499221}
   - component: {fileID: 665499220}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: HealthBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3173,7 +3177,7 @@ GameObject:
   - component: {fileID: 855168259}
   - component: {fileID: 855168261}
   - component: {fileID: 855168260}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: P3Health
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3894,6 +3898,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1084706267, guid: 7bd5c672901594f4b8326383fb19eb33, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7bd5c672901594f4b8326383fb19eb33, type: 3}
 --- !u!1 &979121741
@@ -4467,12 +4475,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1083503972}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1084706264 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4976415590657393655, guid: 7bd5c672901594f4b8326383fb19eb33,
-    type: 3}
-  m_PrefabInstance: {fileID: 4180111875983770141}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1087849542
 GameObject:
   m_ObjectHideFlags: 0
@@ -4535,7 +4537,7 @@ GameObject:
   - component: {fileID: 1099269175}
   - component: {fileID: 1099269177}
   - component: {fileID: 1099269176}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: HealthBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5162,6 +5164,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1084706267, guid: 7bd5c672901594f4b8326383fb19eb33, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3377513773070676111, guid: 7bd5c672901594f4b8326383fb19eb33,
         type: 3}
       propertyPath: currentAmmo
@@ -5543,7 +5549,7 @@ MonoBehaviour:
   m_LightType: 3
   m_BlendStyleIndex: 1
   m_FalloffIntensity: 0.7
-  m_Color: {r: 0.9772253, g: 1, b: 0, a: 1}
+  m_Color: {r: 1, g: 1, b: 0.9490197, a: 1}
   m_Intensity: 1.2
   m_LightVolumeOpacity: 0.22
   m_ApplyToSortingLayers: 00000000
@@ -5764,7 +5770,7 @@ GameObject:
   - component: {fileID: 1224995922}
   - component: {fileID: 1224995924}
   - component: {fileID: 1224995923}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: P1Health
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6099,6 +6105,175 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 76c3ef536836d1747a11a76be492adc7, type: 3}
+--- !u!1001 &1250060537
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 5145387414721088024, guid: 13fcf64b8ba74bd4e83fa71f35fe194c,
+        type: 3}
+      propertyPath: m_Name
+      value: Rewired Input Manager
+      objectReference: {fileID: 0}
+    - target: {fileID: 5056031935020888196, guid: 13fcf64b8ba74bd4e83fa71f35fe194c,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5056031935020888196, guid: 13fcf64b8ba74bd4e83fa71f35fe194c,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5056031935020888196, guid: 13fcf64b8ba74bd4e83fa71f35fe194c,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5056031935020888196, guid: 13fcf64b8ba74bd4e83fa71f35fe194c,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5056031935020888196, guid: 13fcf64b8ba74bd4e83fa71f35fe194c,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5056031935020888196, guid: 13fcf64b8ba74bd4e83fa71f35fe194c,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5056031935020888196, guid: 13fcf64b8ba74bd4e83fa71f35fe194c,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5056031935020888196, guid: 13fcf64b8ba74bd4e83fa71f35fe194c,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 24
+      objectReference: {fileID: 0}
+    - target: {fileID: 5056031935020888196, guid: 13fcf64b8ba74bd4e83fa71f35fe194c,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5056031935020888196, guid: 13fcf64b8ba74bd4e83fa71f35fe194c,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5056031935020888196, guid: 13fcf64b8ba74bd4e83fa71f35fe194c,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4947233617113513924, guid: 13fcf64b8ba74bd4e83fa71f35fe194c,
+        type: 3}
+      propertyPath: _userData.actions.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4947233617113513924, guid: 13fcf64b8ba74bd4e83fa71f35fe194c,
+        type: 3}
+      propertyPath: _userData.actionCategoryMap.list.Array.data[0].actionIds.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4947233617113513924, guid: 13fcf64b8ba74bd4e83fa71f35fe194c,
+        type: 3}
+      propertyPath: _userData.actions.Array.data[2]._type
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4947233617113513924, guid: 13fcf64b8ba74bd4e83fa71f35fe194c,
+        type: 3}
+      propertyPath: _userData.actions.Array.data[2]._behaviorId
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4947233617113513924, guid: 13fcf64b8ba74bd4e83fa71f35fe194c,
+        type: 3}
+      propertyPath: _userData.actions.Array.data[3]._id
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4947233617113513924, guid: 13fcf64b8ba74bd4e83fa71f35fe194c,
+        type: 3}
+      propertyPath: _userData.actions.Array.data[3]._name
+      value: Drop
+      objectReference: {fileID: 0}
+    - target: {fileID: 4947233617113513924, guid: 13fcf64b8ba74bd4e83fa71f35fe194c,
+        type: 3}
+      propertyPath: _userData.actions.Array.data[3]._type
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4947233617113513924, guid: 13fcf64b8ba74bd4e83fa71f35fe194c,
+        type: 3}
+      propertyPath: _userData.actions.Array.data[3]._descriptiveName
+      value: Drop
+      objectReference: {fileID: 0}
+    - target: {fileID: 4947233617113513924, guid: 13fcf64b8ba74bd4e83fa71f35fe194c,
+        type: 3}
+      propertyPath: _userData.actions.Array.data[3]._userAssignable
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4947233617113513924, guid: 13fcf64b8ba74bd4e83fa71f35fe194c,
+        type: 3}
+      propertyPath: _userData.actionCategoryMap.list.Array.data[0].actionIds.Array.data[3]
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4947233617113513924, guid: 13fcf64b8ba74bd4e83fa71f35fe194c,
+        type: 3}
+      propertyPath: _userData.actionIdCounter
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4947233617113513924, guid: 13fcf64b8ba74bd4e83fa71f35fe194c,
+        type: 3}
+      propertyPath: _userData.joystickMaps.Array.data[0].actionElementMaps.Array.data[3]._actionId
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4947233617113513924, guid: 13fcf64b8ba74bd4e83fa71f35fe194c,
+        type: 3}
+      propertyPath: _userData.actions.Array.data[4]._id
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4947233617113513924, guid: 13fcf64b8ba74bd4e83fa71f35fe194c,
+        type: 3}
+      propertyPath: _userData.actions.Array.data[4]._name
+      value: Reload
+      objectReference: {fileID: 0}
+    - target: {fileID: 4947233617113513924, guid: 13fcf64b8ba74bd4e83fa71f35fe194c,
+        type: 3}
+      propertyPath: _userData.actions.Array.data[4]._type
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4947233617113513924, guid: 13fcf64b8ba74bd4e83fa71f35fe194c,
+        type: 3}
+      propertyPath: _userData.actions.Array.data[4]._descriptiveName
+      value: Reload
+      objectReference: {fileID: 0}
+    - target: {fileID: 4947233617113513924, guid: 13fcf64b8ba74bd4e83fa71f35fe194c,
+        type: 3}
+      propertyPath: _userData.actions.Array.data[4]._userAssignable
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4947233617113513924, guid: 13fcf64b8ba74bd4e83fa71f35fe194c,
+        type: 3}
+      propertyPath: _userData.actionCategoryMap.list.Array.data[0].actionIds.Array.data[4]
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4947233617113513924, guid: 13fcf64b8ba74bd4e83fa71f35fe194c,
+        type: 3}
+      propertyPath: _userData.joystickMaps.Array.data[0].actionElementMaps.Array.data[5]._actionId
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4947233617113513924, guid: 13fcf64b8ba74bd4e83fa71f35fe194c,
+        type: 3}
+      propertyPath: _userData.joystickMaps.Array.data[0].actionElementMaps.Array.data[6]._actionId
+      value: 5
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 13fcf64b8ba74bd4e83fa71f35fe194c, type: 3}
 --- !u!1001 &1252156704
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6697,14 +6872,14 @@ RectTransform:
   m_GameObject: {fileID: 1482277328}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2.1633, y: 2.1633, z: 2.1633}
   m_Children: []
   m_Father: {fileID: 487427785}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: 86.5}
+  m_AnchoredPosition: {x: 0, y: 184}
   m_SizeDelta: {x: 308, y: 173}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1482277330
@@ -7034,7 +7209,7 @@ GameObject:
   - component: {fileID: 1606380325}
   - component: {fileID: 1606380327}
   - component: {fileID: 1606380326}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: P4Health
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7130,7 +7305,7 @@ GameObject:
   - component: {fileID: 1657729848}
   - component: {fileID: 1657729850}
   - component: {fileID: 1657729849}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: P2Health
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7305,7 +7480,7 @@ RectTransform:
   m_GameObject: {fileID: 1696215202}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2.2759, y: 2.2759, z: 2.2759}
   m_Children:
   - {fileID: 1837498664}
   - {fileID: 335165961}
@@ -7539,7 +7714,7 @@ GameObject:
   - component: {fileID: 1756660473}
   - component: {fileID: 1756660475}
   - component: {fileID: 1756660474}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: HealthBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9755,6 +9930,16 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 1708084120559429245, guid: 593fc10459129114c8b3ee082968c815,
+        type: 3}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1708084121768745448, guid: 593fc10459129114c8b3ee082968c815,
+        type: 3}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 593fc10459129114c8b3ee082968c815, type: 3}
 --- !u!114 &2456366937035256716
@@ -9851,10 +10036,6 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 254844082}
-    - target: {fileID: 1084706267, guid: 7bd5c672901594f4b8326383fb19eb33, type: 3}
-      propertyPath: m_DefaultActionMap
-      value: 57123031-efeb-4e38-aac4-52ced4d5d9d8
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7bd5c672901594f4b8326383fb19eb33, type: 3}
 --- !u!1001 &5099885807956581758
@@ -10853,7 +11034,6 @@ MonoBehaviour:
   - {fileID: 7941292733035524339}
   - {fileID: 7941292731733773464}
   - {fileID: 7941292731504519641}
-  assignedControls: []
 --- !u!1 &7941292732211261594
 GameObject:
   m_ObjectHideFlags: 0
@@ -10865,7 +11045,6 @@ GameObject:
   - component: {fileID: 7941292732211261595}
   - component: {fileID: 7941292732211261592}
   - component: {fileID: 7941292732211261593}
-  - component: {fileID: 7941292732211261596}
   m_Layer: 5
   m_Name: PlayerJoinPanel
   m_TagString: Untagged
@@ -10882,7 +11061,7 @@ RectTransform:
   m_GameObject: {fileID: 7941292732211261594}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 3.1357, y: 3.1357, z: 3.1357}
   m_Children:
   - {fileID: 7941292731317962030}
   - {fileID: 7941292733035524338}
@@ -10896,55 +11075,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 616, y: 346}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &7941292732211261596
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7941292732211261594}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 621567455fd1c4ceb811cc8a00b6a1a5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_NotificationBehavior: 1
-  m_MaxPlayerCount: -1
-  m_AllowJoining: 1
-  m_JoinPlayersWithMissingDevices: 0
-  m_JoinBehavior: 0
-  m_PlayerJoinedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.InputSystem.PlayerInput.PlayerInputManager+PlayerJoinedEvent,
-      Unity.InputSystem, Version=0.9.0.0, Culture=neutral, PublicKeyToken=null
-  m_PlayerLeftEvent:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.InputSystem.PlayerInput.PlayerInputManager+PlayerLeftEvent,
-      Unity.InputSystem, Version=0.9.0.0, Culture=neutral, PublicKeyToken=null
-  m_JoinAction:
-    m_UseReference: 0
-    m_Action:
-      m_Name: 
-      m_Type: 0
-      m_ExpectedControlType: 
-      m_Id: 
-      m_Processors: 
-      m_Interactions: 
-      m_SingletonActionBindings: []
-    m_Reference: {fileID: 0}
-  m_PlayerPrefab: {fileID: 1084706264}
-  m_SplitScreen: 0
-  m_MaintainAspectRatioInSplitScreen: 0
-  m_FixedNumberOfSplitScreens: -1
-  m_SplitScreenBorderWidth: 0
-  m_SplitScreenRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 1
-    height: 1
 --- !u!114 &7941292732428688168
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11202,7 +11332,7 @@ MonoBehaviour:
     type: 3}
   m_PrefabInstance: {fileID: 4180111875983770141}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1084706264}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 259c23886f3fed942a029985bb6cdafd, type: 3}

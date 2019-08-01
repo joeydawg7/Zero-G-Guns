@@ -6,6 +6,7 @@ using TMPro;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.PlayerInput;
 using UnityEngine.InputSystem.Users;
+using Rewired;
 
 public class PlayerScript : MonoBehaviour
 {
@@ -18,7 +19,6 @@ public class PlayerScript : MonoBehaviour
     public int numLives;
 
     [Header("Gui")]
-    [HideInInspector]
     public PlayerUIPanel playerUIPanel;
     public Transform floatingTextSpawnPoint;
     public Color32 playerColor;
@@ -32,9 +32,13 @@ public class PlayerScript : MonoBehaviour
     public string BButton;
     //public PlayerControls controls;
     //public PlayerInput controls;
+    public InputUser user;
+    //rewired player
+    [HideInInspector]
+    public Player player;
 
     [HideInInspector]
-    public enum DamageType { head, torso, legs, feet };
+    public enum DamageType {none, head, torso, legs, feet };
     [HideInInspector]
     public enum GunType { pistol, assaultRifle, LMG, shotgun, railGun, healthPack, collision };
 
@@ -167,22 +171,9 @@ public class PlayerScript : MonoBehaviour
 
     }
 
-    private void OnEnable()
-    {
-        //if (GameManager.Instance.isGameStarted)
-        //    controls.Gameplay.Enable();
-    }
-
-    private void OnDisable()
-    {
-        //if (GameManager.Instance.isGameStarted)
-        //    controls.Gameplay.Disable();
-    }
-
     public void OnDrop()
     {
-        Debug.Log("drop");
-        if (GameManager.Instance.isGameStarted && armsScript.currentWeapon.GunType != GunType.pistol)
+        if(player.GetButtonDown("Drop"))
             EquipArms(GunType.pistol, GameManager.Instance.pistol);
     }
 
@@ -220,20 +211,13 @@ public class PlayerScript : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.K))
             TakeDamage(50, DamageType.torso, null, true, GunType.collision);
 
+        if (GameManager.Instance.isGameStarted && armsScript.currentWeapon.GunType != GunType.pistol)
+            OnDrop();
 
     }
 
     public void OnGameStart()
     {
-        playerInput.user.ActivateControlScheme("Controller").AndPairRemainingDevices();
-        playerInput.currentActionMap.Enable();
-        playerInput.PassivateInput();
-        playerInput.ActivateInput();
-        //playerInput.user.
-        //playerInput.
-        //InputUser.
-
-        
 
         health = 100;
         float barVal = ((float)health / 100f);
@@ -253,23 +237,11 @@ public class PlayerScript : MonoBehaviour
 
         playerUIPanel.SetLives(numLives, playerHead);
 
-        //if (controls != null)
-        //    controls.Gameplay.Enable();
 
         StartCoroutine(RespawnInvulernability());
 
-        //Debug.Log("Player " + playerID + " controls enabled: " + controls.Gameplay.enabled);
     }
 
-
-    public void OnDeviceRegained()
-    {
-        Debug.Log("device regained!");
-    }
-    public void OnDeviceLost()
-    {
-        Debug.Log("Device Lost!");
-    }
 
     public void EquipArms(GunType gunType, GunSO gun)
     {
@@ -604,22 +576,8 @@ public class PlayerScript : MonoBehaviour
     }
     #endregion
 
-    public void SetController(PlayerInput playerControls, int number)
+    public void SetController(PlayerControls playerControls, int number)
     {
-        //this.controls = playerControls.;
-        //controls = playerControls;
-
-        //foreach (var device in playerControls.devices)
-        //{
-        //    if (!device.name.Contains("Controller"))
-        //        continue;
-
-        //    //Debug.Log(device.displayName);
-
-        //    //controls.ApplyBindingOverridesOnMatchingControls(device);
-        //}
-
-
         playerID = number;
         switch (playerID)
         {
@@ -641,9 +599,9 @@ public class PlayerScript : MonoBehaviour
                 break;
         }
 
-        //controls.Gameplay.Drop.performed += TryWeaponDrop;
+        player = ReInput.players.GetPlayer(playerID-1);
 
-        transform.Find("Arms").GetComponent<ArmsScript>().ArmsControllerSettings();
+        //transform.Find("Arms").GetComponent<ArmsScript>().ArmsControllerSettings();
 
     }
 
@@ -651,11 +609,6 @@ public class PlayerScript : MonoBehaviour
     {
         playerID = 0;
         playerName = "";
-
-        //controls = null;
-
-        //controls.Gameplay.Drop.performed -=TryWeaponDrop;
-
     }
 
     //collision check and damage mutlipliers / modifiers
