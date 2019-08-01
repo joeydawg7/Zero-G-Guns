@@ -38,9 +38,9 @@ public class PlayerScript : MonoBehaviour
     public Player player;
 
     [HideInInspector]
-    public enum DamageType {none, head, torso, legs, feet };
+    public enum DamageType { none, head, torso, legs, feet };
     [HideInInspector]
-    public enum GunType { pistol, assaultRifle, LMG, shotgun, railGun, healthPack, collision };
+    public enum GunType { pistol, assaultRifle, LMG, shotgun, railGun, healthPack, RPG, collision };
 
 
     [Header("Bools")]
@@ -53,6 +53,7 @@ public class PlayerScript : MonoBehaviour
     public GameObject LMGArms;
     public GameObject shotGunArms;
     public GameObject railGunArms;
+    public GameObject RPGArms;
     public ArmsScript armsScript;
 
     [Header("Armed Legs")]
@@ -173,7 +174,7 @@ public class PlayerScript : MonoBehaviour
 
     public void OnDrop()
     {
-        if(player.GetButtonDown("Drop"))
+        if (player.GetButtonDown("Drop"))
             EquipArms(GunType.pistol, GameManager.Instance.pistol);
     }
 
@@ -279,6 +280,12 @@ public class PlayerScript : MonoBehaviour
                 shotGunArms.GetComponent<SpriteRenderer>().color = defaultColor;
                 armsScript.EquipGun(gun, shotGunArms);
                 armsScript.currentArms = shotGunArms;
+                break;
+            case GunType.RPG:
+                RPGArms.SetActive(true);
+                RPGArms.GetComponent<SpriteRenderer>().color = defaultColor;
+                armsScript.EquipGun(gun, RPGArms);
+                armsScript.currentArms = RPGArms;
                 break;
             default:
                 break;
@@ -483,7 +490,7 @@ public class PlayerScript : MonoBehaviour
         playerUIPanel.SetAmmoText("Respawning in 2...");
         yield return new WaitForSeconds(1f);
         playerUIPanel.SetAmmoText("Respawning in 1...");
-        yield return new WaitForSeconds(1f);    
+        yield return new WaitForSeconds(1f);
         transform.position = spawnPoint;
         health = 100;
         float barVal = ((float)health / 100f);
@@ -599,7 +606,7 @@ public class PlayerScript : MonoBehaviour
                 break;
         }
 
-        player = ReInput.players.GetPlayer(playerID-1);
+        player = ReInput.players.GetPlayer(playerID - 1);
 
         //transform.Find("Arms").GetComponent<ArmsScript>().ArmsControllerSettings();
 
@@ -616,11 +623,12 @@ public class PlayerScript : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
 
-        if (collision.collider.tag == "ImpactObject")
+        if (collision.collider.tag == "ImpactObject" )
         {
             DealColliderDamage(collision, "Torso", null);
         }
-        else if (collision.collider.tag == "Torso" || collision.collider.tag == "Head" || collision.collider.tag == "Feet" || collision.collider.tag == "Legs")
+        else if ((collision.collider.tag == "Torso" && collision.gameObject != this.gameObject) || (collision.collider.tag == "Head" && collision.gameObject != this.gameObject)
+            || (collision.collider.tag == "Feet" && collision.gameObject != this.gameObject) || (collision.collider.tag == "Legs" && collision.gameObject != this.gameObject))
         {
             PlayerScript hitBy = collision.transform.root.GetComponent<PlayerScript>();
             DealColliderDamage(collision, "Torso", hitBy);

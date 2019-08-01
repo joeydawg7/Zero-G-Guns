@@ -27,6 +27,7 @@ public class ArmsScript : MonoBehaviour
     public bool isReloading;
     public Transform bulletSpawn;
     public Sprite bulletSprite;
+    public Sprite rocketSprite;
     public GameObject currentArms;
 
     [Header("Audio")]
@@ -312,29 +313,6 @@ public class ArmsScript : MonoBehaviour
         timeSinceLastShot = 0;
     }
 
-    void ShootyGunTemp()
-    {
-        //cone of -1 to 1 multiplied by current recoil amount to determine just how random it can be
-        float recoilMod = UnityEngine.Random.Range(-1f, 1f) * currentRecoil;
-
-        bulletSpawnPoint = new Vector3(bulletSpawnPoint.x, bulletSpawnPoint.y);
-
-        currentRecoil += currentWeapon.recoilPerShot;
-
-        SpawnBullet();
-
-        currentAmmo--;
-
-        audioS.PlayOneShot(currentWeapon.GetRandomGunshotSFX);
-
-        if (currentAmmo <= 0)
-        {
-            reloadCoroutine = StartCoroutine(Reload());
-        }
-
-
-    }
-
 
     IEnumerator Rotate(float duration)
     {
@@ -546,6 +524,53 @@ public class ArmsScript : MonoBehaviour
         }
     }
 
+
+    void ShootyGunTemp()
+    {
+        if (currentWeapon.GunType == PlayerScript.GunType.RPG)
+        {
+            //cone of -1 to 1 multiplied by current recoil amount to determine just how random it can be
+            float recoilMod = UnityEngine.Random.Range(-1f, 1f) * currentRecoil;
+
+            bulletSpawnPoint = new Vector3(bulletSpawnPoint.x, bulletSpawnPoint.y);
+
+            currentRecoil += currentWeapon.recoilPerShot;
+
+            SpawnRocket();
+
+            currentAmmo--;
+
+            audioS.PlayOneShot(currentWeapon.GetRandomGunshotSFX);
+
+            if (currentAmmo <= 0)
+            {
+                reloadCoroutine = StartCoroutine(Reload());
+            }
+        }
+        else
+        {
+            //cone of -1 to 1 multiplied by current recoil amount to determine just how random it can be
+            float recoilMod = UnityEngine.Random.Range(-1f, 1f) * currentRecoil;
+
+            bulletSpawnPoint = new Vector3(bulletSpawnPoint.x, bulletSpawnPoint.y);
+
+            currentRecoil += currentWeapon.recoilPerShot;
+
+            SpawnBullet();
+
+            currentAmmo--;
+
+            audioS.PlayOneShot(currentWeapon.GetRandomGunshotSFX);
+
+            if (currentAmmo <= 0)
+            {
+                reloadCoroutine = StartCoroutine(Reload());
+            }
+        }
+
+
+    }
+
     void SpawnBullet()
     {
         //bulletSpawn.GetComponentInChildren<ParticleSystem>().Emit(1);
@@ -554,6 +579,15 @@ public class ArmsScript : MonoBehaviour
         dir = bulletSpawn.transform.right * currentWeapon.bulletSpeed;
 
         bulletGo.GetComponent<Bullet>().Construct(basePlayer.playerID, currentWeapon.GunDamage, basePlayer, bulletSprite, currentWeapon.GunType, dir, basePlayer.collisionLayer);
+
+    }
+
+    void SpawnRocket()
+    {
+        GameObject bulletGo = ObjectPooler.Instance.SpawnFromPool("Rocket", bulletSpawnPoint, Quaternion.identity);
+        dir = bulletSpawn.transform.right * currentWeapon.bulletSpeed;
+
+        bulletGo.GetComponent<Bullet>().Construct(basePlayer.playerID, currentWeapon.GunDamage, basePlayer, rocketSprite, currentWeapon.GunType, dir, basePlayer.collisionLayer);
 
     }
 

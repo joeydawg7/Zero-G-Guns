@@ -56,6 +56,7 @@ public class Bullet : MonoBehaviour, IPooledObject
         rb.simulated = true;
 
         rb.AddRelativeForce(dir, ForceMode2D.Force);
+
         SetStartingForce(dir);
 
         canImapact = true;
@@ -65,8 +66,22 @@ public class Bullet : MonoBehaviour, IPooledObject
         somethingSexy = temp.GetComponent<ParticleSystem>();
         somethingSexy.transform.parent = transform;
 
-        gameObject.layer = collisionLayer;
+        if(bulletType != PlayerScript.GunType.RPG)
+            gameObject.layer = collisionLayer;
 
+    }
+
+
+    private void FixedUpdate()
+    {
+        if (rb != null)
+        {
+            if (rb.simulated == true && bulletType == PlayerScript.GunType.RPG)
+            {
+                //trench foot 25 babeeee
+                rb.AddRelativeForce(startingForce * Time.deltaTime * 25f, ForceMode2D.Force);
+            }
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -112,9 +127,13 @@ public class Bullet : MonoBehaviour, IPooledObject
                 rb.AddForce(Reflect(startingForce, collision.GetContact(0).normal));
 
                 //only bounce if you are a railgun bullet that hasnt hit a player, and only do it once. 
-                if ((bulletType != PlayerScript.GunType.railGun || canBounce == false))
+                if ((bulletType != PlayerScript.GunType.railGun && bulletType != PlayerScript.GunType.RPG || canBounce == false))
                 {
                     KillBullet();
+                }
+                else if (bulletType == PlayerScript.GunType.RPG)
+                {
+                    ExplodeBullet();
                 }
                 else if (dmgType != PlayerScript.DamageType.none)
                 {
@@ -136,6 +155,24 @@ public class Bullet : MonoBehaviour, IPooledObject
         somethingSexy.Stop();
         somethingSexy.GetComponent<DisableOverTime>().DisableOverT(3.1f);
         somethingSexy.transform.parent = null;
+    }
+
+    void ExplodeBullet()
+    {
+        canHurty = false;
+        gameObject.GetComponent<CircleCollider2D>().enabled = false;
+        Explosion explosion = transform.Find("ExplosionRadius").GetComponent<Explosion>();
+        explosion.gameObject.SetActive(true);
+        explosion.Explode(player);
+        rb.simulated = false;
+        rb.isKinematic = true;
+
+        StartCoroutine(DisableOverTime(0.3f));
+
+        somethingSexy.Stop();
+        somethingSexy.GetComponent<DisableOverTime>().DisableOverT(3.1f);
+        somethingSexy.transform.parent = null;
+
     }
 
     Vector2 Reflect(Vector2 vector, Vector2 normal)
