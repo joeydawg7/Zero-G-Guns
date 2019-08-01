@@ -643,7 +643,7 @@ public class PlayerScript : MonoBehaviour
         dmg = dmg / COLLIDER_DAMAGE_MITIGATOR;
 
         //dont bother dealing damage unless unmitigated damage indicates fast enough collision
-        if (dmg > 10)
+        if (dmg > 15)
         {
 
             DamageType dmgType;

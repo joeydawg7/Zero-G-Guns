@@ -50,7 +50,7 @@ public class ArmsScript : MonoBehaviour
     Coroutine rotateCoroutine;
     Vector3 dir;
     GameManager gameManager;
-    
+
 
     private void Awake()
     {
@@ -480,10 +480,6 @@ public class ArmsScript : MonoBehaviour
     void BuckShot()
     {
         currentAmmo--;
-        //bulletSpawn.GetComponentInChildren<ParticleSystem>().Emit(30);
-
-        //cone of -1 to 1 multiplied by current recoil amount to determine just how random it can be
-        //float recoilMod = UnityEngine.Random.Range(-1f, 1f) * currentRecoil;
 
         bulletSpawnPoint = new Vector3(bulletSpawnPoint.x, bulletSpawnPoint.y);
 
@@ -508,18 +504,36 @@ public class ArmsScript : MonoBehaviour
         for (int i = 0; i < UnityEngine.Random.Range(5, 8); i++)
         {
 
-            float angle = Vector2.SignedAngle(transform.position, aim);
 
-            float cone = UnityEngine.Random.Range(-1f, 1f);
-            cone += cone * 2;
-
-            float offset = cone * angle;
+            // Randomize angle variation between bullets
+            float spreadAngle = UnityEngine.Random.Range(
+           -10f,
+            10f);
 
             GameObject bulletGo = ObjectPooler.Instance.SpawnFromPool("Bullet", bulletSpawnPoint, Quaternion.identity);
-            dir = bulletSpawn.transform.right * currentWeapon.bulletSpeed;
-            Vector2 nomralizedOffset = new Vector2(dir.x + offset, dir.y + offset);
+            dir = bulletSpawn.transform.right;
 
-            bulletGo.GetComponent<Bullet>().Construct(basePlayer.playerID, currentWeapon.GunDamage, basePlayer, bulletSprite, currentWeapon.GunType, (nomralizedOffset), basePlayer.collisionLayer);
+            // Take the random angle variation and add it to the initial
+            // desiredDirection (which we convert into another angle), which in this case is the players aiming direction
+            float rotateAngle = spreadAngle +
+           (Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg);
+
+            Vector2 MovementDirection = new Vector2(
+          Mathf.Cos(rotateAngle * Mathf.Deg2Rad),
+          Mathf.Sin(rotateAngle * Mathf.Deg2Rad)).normalized;
+
+
+            MovementDirection *= currentWeapon.bulletSpeed;
+
+            //float cone = UnityEngine.Random.Range(-10f, 10f);
+            //cone += cone * 2;
+
+            //float offset = cone * angle;
+
+
+            //Vector2 nomralizedOffset = new Vector2(dir.x + offset, dir.y + offset);
+
+            bulletGo.GetComponent<Bullet>().Construct(basePlayer.playerID, currentWeapon.GunDamage, basePlayer, bulletSprite, currentWeapon.GunType, MovementDirection, basePlayer.collisionLayer);
 
         }
     }

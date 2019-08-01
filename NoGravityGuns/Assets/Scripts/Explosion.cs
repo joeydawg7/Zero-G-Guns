@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Explosion : MonoBehaviour
 {
-    float radius = 10f;
+    float radius = 13f;
     float power = 400f;
 
     PlayerScript playerWhoShot;
@@ -24,7 +24,7 @@ public class Explosion : MonoBehaviour
     {
 
         Vector3 originalScale = transform.localScale;
-        Vector3 destinationScale = new Vector3(4.0f, 4.0f, 1.0f);
+        Vector3 destinationScale = new Vector3(5.0f, 5.0f, 1.0f);
         Vector2 explosionPos = transform.position;
 
         bool dealDamage = true;
@@ -43,10 +43,17 @@ public class Explosion : MonoBehaviour
 
             if (rb != null)
             {
-                if (rb.tag != "Explosion" && rb.tag == "Player")
+                if (rb.tag != "Explosion")
                 {
-                    Rigidbody2DExt.AddExplosionForce(rb, power, explosionPos, radius, ForceMode2D.Force, playerWhoShot, dealDamage);
-                    dealDamage = false;
+                    if (rb.tag == "Player")
+                    {
+                        Rigidbody2DExt.AddExplosionForce(rb, power, explosionPos, radius, ForceMode2D.Force, playerWhoShot, dealDamage);
+                        dealDamage = false;
+                    }
+                    else
+                    {
+                        Rigidbody2DExt.AddExplosionForce(rb, power, explosionPos, radius, ForceMode2D.Force);
+                    }
                 }
             }
         }
@@ -94,13 +101,23 @@ public static class Rigidbody2DExt
         Vector2 force = dir.normalized * explosionForce * wearoff;
         body.AddForce(force, mode);
 
-        float dmg = (explosionForce * wearoff)/10f;
+        float dmg = (explosionForce * wearoff)/5f;
 
         if (body.transform.root.GetComponent<PlayerScript>() !=null && dealDamage)
         {
             if(dmg>0)
                 body.transform.root.GetComponent<PlayerScript>().TakeDamage(dmg, PlayerScript.DamageType.torso, playerWhoShot, true, PlayerScript.GunType.RPG);
         }
+    }
+
+    public static void AddExplosionForce(this Rigidbody2D body, float explosionForce, Vector3 explosionPosition, float explosionRadius, ForceMode2D mode)
+    {
+        var dir = (body.transform.position - explosionPosition);
+        float wearoff = 1 - (dir.magnitude / explosionRadius);
+        Vector2 force = dir.normalized * explosionForce * wearoff;
+        body.AddForce(force, mode);
+
+
     }
 
     //public static void AddExplosionForce(this Rigidbody2D body, float explosionForce, Vector3 explosionPosition, float explosionRadius, float upliftModifier)
