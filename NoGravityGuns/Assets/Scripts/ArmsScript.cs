@@ -39,7 +39,6 @@ public class ArmsScript : MonoBehaviour
     Quaternion facing;
     Quaternion rotation;
     Vector2 shootDir;
-    Vector3 bulletSpawnPoint;
     Vector3 aim;
     float currentRecoil;
     AudioSource audioS;
@@ -219,7 +218,7 @@ public class ArmsScript : MonoBehaviour
 
     public void OnShoot()
     {
-        bulletSpawnPoint = bulletSpawn.position;
+
 
 
         if (currentRecoil > currentWeapon.recoilMax)
@@ -227,13 +226,6 @@ public class ArmsScript : MonoBehaviour
 
         if (!basePlayer.isDead)
         {
-            //shootDir = Vector2.right * Input.GetAxis(horizontalAxis) + Vector2.up * Input.GetAxis(verticalAxis);
-
-            //shootDir = shootDir.normalized;
-
-            //rotation = Quaternion.LookRotation(Vector3.forward, -shootDir);
-            //rotation *= facing;
-            //transform.rotation = rotation;
 
             if (isReloading)
             {
@@ -258,7 +250,8 @@ public class ArmsScript : MonoBehaviour
                     if (timeSinceLastShot >= currentWeapon.recoilDelay && Time.timeScale != 0)
                     {
                         //add force to player in opposite direction of shot
-                        KnockBack(shootDir);
+                        if (currentWeapon.GunType != PlayerScript.GunType.RPG)
+                            KnockBack(shootDir);
 
                         switch (currentWeapon.fireType)
                         {
@@ -429,6 +422,7 @@ public class ArmsScript : MonoBehaviour
             if (currentWeapon.GunType == PlayerScript.GunType.pistol)
             {
                 currentAmmo = currentWeapon.clipSize;
+                currentAmmo = currentWeapon.clipSize;
             }
             else if (currentWeapon.GunType != PlayerScript.GunType.shotgun)
             {
@@ -453,7 +447,6 @@ public class ArmsScript : MonoBehaviour
             //cone of -1 to 1 multiplied by current recoil amount to determine just how random it can be
             float recoilMod = UnityEngine.Random.Range(-1f, 1f) * currentRecoil;
 
-            bulletSpawnPoint = new Vector3(bulletSpawnPoint.x, bulletSpawnPoint.y);
 
             currentRecoil += currentWeapon.recoilPerShot;
 
@@ -481,7 +474,6 @@ public class ArmsScript : MonoBehaviour
     {
         currentAmmo--;
 
-        bulletSpawnPoint = new Vector3(bulletSpawnPoint.x, bulletSpawnPoint.y);
 
         currentRecoil += currentWeapon.recoilPerShot;
 
@@ -504,17 +496,14 @@ public class ArmsScript : MonoBehaviour
         for (int i = 0; i < UnityEngine.Random.Range(5, 8); i++)
         {
 
-
-            // Randomize angle variation between bullets
+            // randomize angle variation between bullets
             float spreadAngle = UnityEngine.Random.Range(
            -10f,
             10f);
 
-            GameObject bulletGo = ObjectPooler.Instance.SpawnFromPool("Bullet", bulletSpawnPoint, Quaternion.identity);
+            GameObject bulletGo = ObjectPooler.Instance.SpawnFromPool("Bullet", bulletSpawn.transform.position, Quaternion.identity);
             dir = bulletSpawn.transform.right;
 
-            // Take the random angle variation and add it to the initial
-            // desiredDirection (which we convert into another angle), which in this case is the players aiming direction
             float rotateAngle = spreadAngle +
            (Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg);
 
@@ -522,16 +511,7 @@ public class ArmsScript : MonoBehaviour
           Mathf.Cos(rotateAngle * Mathf.Deg2Rad),
           Mathf.Sin(rotateAngle * Mathf.Deg2Rad)).normalized;
 
-
             MovementDirection *= currentWeapon.bulletSpeed;
-
-            //float cone = UnityEngine.Random.Range(-10f, 10f);
-            //cone += cone * 2;
-
-            //float offset = cone * angle;
-
-
-            //Vector2 nomralizedOffset = new Vector2(dir.x + offset, dir.y + offset);
 
             bulletGo.GetComponent<Bullet>().Construct(basePlayer.playerID, currentWeapon.GunDamage, basePlayer, bulletSprite, currentWeapon.GunType, MovementDirection, basePlayer.collisionLayer);
 
@@ -541,47 +521,63 @@ public class ArmsScript : MonoBehaviour
 
     void ShootyGunTemp()
     {
+
+        float recoilMod = UnityEngine.Random.Range(-1f, 1f) * currentRecoil;
+
+        currentRecoil += currentWeapon.recoilPerShot;
+
+        
+
+        audioS.PlayOneShot(currentWeapon.GetRandomGunshotSFX);
+
+        currentAmmo--;
+
+
         if (currentWeapon.GunType == PlayerScript.GunType.RPG)
-        {
-            //cone of -1 to 1 multiplied by current recoil amount to determine just how random it can be
-            float recoilMod = UnityEngine.Random.Range(-1f, 1f) * currentRecoil;
-
-            bulletSpawnPoint = new Vector3(bulletSpawnPoint.x, bulletSpawnPoint.y);
-
-            currentRecoil += currentWeapon.recoilPerShot;
-
-            SpawnRocket();
-
-            currentAmmo--;
-
-            audioS.PlayOneShot(currentWeapon.GetRandomGunshotSFX);
-
-            if (currentAmmo <= 0)
-            {
-                reloadCoroutine = StartCoroutine(Reload());
-            }
+        {            
+            RocketKnockBack(shootDir);
         }
         else
         {
-            //cone of -1 to 1 multiplied by current recoil amount to determine just how random it can be
-            float recoilMod = UnityEngine.Random.Range(-1f, 1f) * currentRecoil;
-
-            bulletSpawnPoint = new Vector3(bulletSpawnPoint.x, bulletSpawnPoint.y);
-
-            currentRecoil += currentWeapon.recoilPerShot;
-
             SpawnBullet();
-
-            currentAmmo--;
-
-            audioS.PlayOneShot(currentWeapon.GetRandomGunshotSFX);
-
-            if (currentAmmo <= 0)
-            {
-                reloadCoroutine = StartCoroutine(Reload());
-            }
         }
 
+        if (currentAmmo <= 0)
+        {
+            reloadCoroutine = StartCoroutine(Reload());
+
+        }
+
+
+    }
+
+    void RocketKnockBack(Vector2 shootDir)
+    {
+        StartCoroutine(PushBackBeforeKnockBack(shootDir));
+    }
+
+    IEnumerator PushBackBeforeKnockBack(Vector2 shootDir)
+    {
+        float timer = 0;
+
+        cameraShake.shakeDuration += currentWeapon.cameraShakeDuration;
+
+        while (timer <0.5f)
+        {
+            basePlayer.rb.AddForce(-shootDir * currentWeapon.knockback * Time.deltaTime, ForceMode2D.Impulse);
+           
+            timer += Time.deltaTime;
+
+            yield return null;
+        }
+
+        
+        SpawnRocket();
+        
+
+        basePlayer.rb.AddForce(-shootDir * currentWeapon.knockback , ForceMode2D.Impulse);
+        cameraShake.shakeDuration += currentWeapon.cameraShakeDuration;
+        timeSinceLastShot = 0;
 
     }
 
@@ -589,7 +585,7 @@ public class ArmsScript : MonoBehaviour
     {
         //bulletSpawn.GetComponentInChildren<ParticleSystem>().Emit(1);
 
-        GameObject bulletGo = ObjectPooler.Instance.SpawnFromPool("Bullet", bulletSpawnPoint, Quaternion.identity);
+        GameObject bulletGo = ObjectPooler.Instance.SpawnFromPool("Bullet", bulletSpawn.transform.position, Quaternion.identity);
         dir = bulletSpawn.transform.right * currentWeapon.bulletSpeed;
 
         bulletGo.GetComponent<Bullet>().Construct(basePlayer.playerID, currentWeapon.GunDamage, basePlayer, bulletSprite, currentWeapon.GunType, dir, basePlayer.collisionLayer);
@@ -598,7 +594,7 @@ public class ArmsScript : MonoBehaviour
 
     void SpawnRocket()
     {
-        GameObject bulletGo = ObjectPooler.Instance.SpawnFromPool("Rocket", bulletSpawnPoint, Quaternion.identity);
+        GameObject bulletGo = ObjectPooler.Instance.SpawnFromPool("Rocket", bulletSpawn.transform.position, Quaternion.identity);
         dir = bulletSpawn.transform.right * currentWeapon.bulletSpeed;
 
         bulletGo.GetComponent<Bullet>().Construct(basePlayer.playerID, currentWeapon.GunDamage, basePlayer, rocketSprite, currentWeapon.GunType, dir, basePlayer.collisionLayer);
