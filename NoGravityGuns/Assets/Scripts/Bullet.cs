@@ -128,7 +128,6 @@ public class Bullet : MonoBehaviour, IPooledObject
                 sparkyObj.GetComponent<ParticleSystem>().Emit(10);
                 sparkyObj.GetComponent<DisableOverTime>().DisableOverT(2f);
 
-                rb.AddForce(Reflect(startingForce, collision.GetContact(0).normal));
 
                 //only bounce if you are a railgun bullet that hasnt hit a player, and only do it once. 
                 if ((bulletType != PlayerScript.GunType.railGun && bulletType != PlayerScript.GunType.RPG || canBounce == false))
@@ -147,6 +146,8 @@ public class Bullet : MonoBehaviour, IPooledObject
                 {
                     canBounce = false;
                 }
+
+                rb.AddForce(Reflect(startingForce, collision.GetContact(0).normal));
             }
         }
     }
