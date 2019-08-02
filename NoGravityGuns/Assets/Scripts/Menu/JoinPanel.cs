@@ -6,6 +6,7 @@ using UnityEngine.UI;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.PlayerInput;
 using UnityEngine.InputSystem.Users;
+using Rewired;
 
 public class JoinPanel : MonoBehaviour
 {
@@ -25,11 +26,11 @@ public class JoinPanel : MonoBehaviour
         image = GetComponent<Image>();
         hasAssignedController = false;
         MainText.text = "Press A to Join";
-        
+
     }
 
 
-    public PlayerScript AssignController(PlayerControls controller, int i)
+    public PlayerScript AssignController(int i, Controller controller)
     {
         //controller =
 
@@ -45,7 +46,7 @@ public class JoinPanel : MonoBehaviour
         //MainText.text = "Player " + controller + " joined!";
         hasAssignedController = true;
 
-        player.SetController(controller, i);
+        player.SetController(i, controller);
 
         return player;
     }

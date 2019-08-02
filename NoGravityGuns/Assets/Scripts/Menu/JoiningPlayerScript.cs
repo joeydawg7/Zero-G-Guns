@@ -3,11 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Users;
 using UnityEngine.InputSystem.PlayerInput;
-using System.Linq;
-using UnityEngine.InputSystem.Utilities;
+using Rewired;
 
 public class JoiningPlayerScript : MonoBehaviour
 {
@@ -21,69 +19,144 @@ public class JoiningPlayerScript : MonoBehaviour
     public TextMeshProUGUI tipToStart;
 
     public Image[] joinPanels;
+    public List<int> assignedControls;
 
-    List<string> assignedControllers;
-
-    public List<PlayerControls> assignedControls;
-
-    public PlayerControls globalControls;
-
-    InputUser inputUser;
-
-    //PlayerInput globalControls;
-
-    PlayerInput PC;
+    public int maxPlayers = 4;
+    private int rewiredPlayerIdCounter = 0;
 
     private void Awake()
     {
         tipToStart.alpha = 0;
-        assignedControllers = new List<string>();
-        assignedControls = new List<PlayerControls>();
-        inputUser = new InputUser();
+        assignedControls = new List<int>();
 
+        // Subscribe to controller connected events
+        ReInput.ControllerConnectedEvent += OnControllerConnected;
 
-        globalControls = new PlayerControls();
-        PC = new PlayerInput();
-
-        globalControls.Enable();
     }
 
-    private void Start()
+    void Start()
     {
-        globalControls.Gameplay.Join.performed += JoinButtonPressed;
-        //globalControls.Gameplay.Drop.performed += DropButtonPressed;
-        globalControls.Gameplay.Start.performed += StartButtonPressed;
+        AssignAllJoysticksToSystemPlayer(true);
     }
 
-    void JoinButtonPressed(InputAction.CallbackContext context)
+    void OnControllerConnected(ControllerStatusChangedEventArgs args)
     {
-        if (!GameManager.Instance.isGameStarted )
+        if (args.controllerType != ControllerType.Joystick) return;
+
+        // Check if this Joystick has already been assigned. If so, just let Auto-Assign do its job.
+        if (assignedControls.Contains(args.controllerId)) return;
+
+        // Joystick hasn't ever been assigned before. Make sure it's assigned to the System Player until it's been explicitly assigned
+        ReInput.players.GetSystemPlayer().controllers.AddController(
+            args.controllerType,
+            args.controllerId,
+            true // remove any auto-assignments that might have happened
+        );
+    }
+
+
+    void AssignAllJoysticksToSystemPlayer(bool removeFromOtherPlayers)
+    {
+        foreach (var j in ReInput.controllers.Joysticks)
         {
-            AddPlayerControllerSetup(globalControls);
+            ReInput.players.GetSystemPlayer().controllers.AddController(j, removeFromOtherPlayers);
         }
 
+        //ReInput.players.GetSystemPlayer().controllers.maps.set
+        //// Enable UI map so Player can start controlling the UI
+        //rewiredPlayer.controllers.maps.SetMapsEnabled(true, "UI");
+    }
+
+    private int GetNextGamePlayerId()
+    {
+        return rewiredPlayerIdCounter++;
+    }
+
+    void AssignNextPlayer()
+    {
+        if (assignedControls.Count >= 4)
+        {
+            Debug.Log("Max player limit already reached!");
+            return;
+        }
+
+        // Get the next Rewired Player Id
+        int rewiredPlayerId = GetNextGamePlayerId();
+
+        // Get the Rewired Player
+        Player rewiredPlayer = ReInput.players.GetPlayer(rewiredPlayerId);
+
+        // Determine which Controller was used to generate the JoinGame Action
+        Player systemPlayer = ReInput.players.GetSystemPlayer();
+        var inputSources = systemPlayer.GetCurrentInputSources("Join");
+
+        foreach (var source in inputSources)
+        {
+
+            if (source.controllerType == ControllerType.Keyboard || source.controllerType == ControllerType.Mouse)
+            { // Assigning keyboard/mouse
+
+                // Assign KB/Mouse to the Player
+                //AssignKeyboardAndMouseToPlayer(rewiredPlayer);
+
+                //// Disable KB/Mouse Assignment category in System Player so it doesn't assign through the keyboard/mouse anymore
+                //ReInput.players.GetSystemPlayer().controllers.maps.SetMapsEnabled(false, ControllerType.Keyboard, "Assignment");
+                //ReInput.players.GetSystemPlayer().controllers.maps.SetMapsEnabled(false, ControllerType.Mouse, "Assignment");
+                //break;
+
+            }
+            else if (source.controllerType == ControllerType.Joystick)
+            { // assigning a joystick
+
+                // Assign the joystick to the Player. This will also un-assign it from System Player
+                AssignJoystickToPlayer(rewiredPlayer, source.controller as Joystick);
+                break;
+
+            }
+            else
+            { // Custom Controller
+                throw new System.NotImplementedException();
+            }
+        }
+
+        // Enable UI map so Player can start controlling the UI
+       // rewiredPlayer.controllers.maps.SetMapsEnabled(true, "UI");
+    }
+
+    private void AssignJoystickToPlayer(Player player, Joystick joystick)
+    {
+        // Assign the joystick to the Player, removing it from System Player
+        //player.controllers.AddController(joystick, true);
+
+        // Mark this joystick as assigned so we don't give it to the System Player again
+        assignedControls.Add(joystick.id);
+        AddPlayerControllerSetup(joystick.id, joystick);
+
+        Debug.Log("Assigned " + joystick.name + " to Player " + joystick.id);
     }
 
 
-    //void DropButtonPressed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
-    //{
-
-    //    for (int i = joinPanels.Length - 1; i >= 0; i--)
-    //    {
-    //        if (joinPanels[i].GetComponent<JoinPanel>().hasAssignedController == true)
-    //        {
-    //            assignedControls.RemoveAt(i);
-    //            joinPanels[i].GetComponent<JoinPanel>().UnAssignController();
-    //            return;
-    //        }
-    //    }
-
-    //}
-
-    void StartButtonPressed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+    void StartButtonPressed()
     {
+
+        Debug.Log("start Pressed");
         if (assignedControls.Count >= 1)
         {
+            //foreach (var player in ReInput.players.AllPlayers)
+            //{
+            //    //player.controllers.AddController()
+            //}
+
+            ReInput.players.SystemPlayer.controllers.ClearAllControllers();
+
+            //ReInput.players.SystemPlayer.controllers.ClearAllControllers();
+
+            //foreach(var bleh in ReInput.players.SystemPlayer.controllers.Joysticks)
+            //{
+            //    Debug.Log(bleh.name);
+            //}
+            
+
             Debug.Log("start");
             GameManager.Instance.StartGame();
             tipToStart.alpha = 0;
@@ -91,134 +164,43 @@ public class JoiningPlayerScript : MonoBehaviour
     }
 
 
-    void AddPlayerControllerSetup(PlayerControls player)
+    void AddPlayerControllerSetup(int i, Controller controller)
     {
-        for (int i = 0; i < joinPanels.Length; i++)
+
+        if (joinPanels[i].GetComponent<JoinPanel>().hasAssignedController == false)
         {
-            if (joinPanels[i].GetComponent<JoinPanel>().hasAssignedController == false)
-            {
-                //assignedControllers.Add("1");
-                Debug.Log(i+1);
-                joinPanels[i].GetComponent<JoinPanel>().AssignController(player, (i + 1));
-                assignedControls.Add(player);
-                return;
-            }
+            joinPanels[i].GetComponent<JoinPanel>().AssignController((i + 1), controller);
+            return;
         }
+
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        //var gamePad = Gamepad.all;
+        if (!GameManager.Instance.isGameStarted)
+        {
 
-        //foreach (var pad in gamePad)
-        //{
-        //    if (pad.aButton.wasPressedThisFrame)
-        //    {
-        //        Debug.Log(pad.id);
-        //        //pad.allControls = globalControls.;
-
-        //        //globalControls.devices. = gamePad.ToArray();
-
-        //        //foreach (var controller in globalControls.devices)
-        //        //{
-        //        //    Debug.Log(controller.id);
-        //        //    controller.
-        //        //}
-
-        //    }
-
-        //}
+            // Watch for JoinGame action in System Player
+            if (ReInput.players.GetSystemPlayer().GetButtonDown("Join"))
+            {
+                AssignNextPlayer();
+            }
 
 
+            if (ReInput.players.GetSystemPlayer().GetButtonDown("Start"))
+            {
+                Debug.Log("start in update");
+                StartButtonPressed();
+            }
 
-
-        //if (!GameManager.Instance.isGameStarted)
-        //{
-        //    string cont;
-
-        //    for (int i = 1; i <= joinPanels.Length; i++)
-        //    {
-        //        cont = "cont" + i;
-
-        //       if (assignedControllers.Contains(cont))
-        //           continue;
-
-        //        if (Input.GetButtonDown("J" + i + "A"))
-        //        {
-        //            AddPlayerController(i, cont);
-        //            break;
-        //        }
-        //    }
-
-        //    for (int i = 1; i <= joinPanels.Length; i++)
-        //    {
-        //        cont = "cont" + i;
-
-        //        if (Input.GetButtonDown("J" + i + "B"))
-        //        {
-        //            RemovePlayerController(i, cont);
-        //            break;
-        //        }
-        //    }
-
-        //    if (assignedControllers.Count >= 1)
-        //        tipToStart.alpha = 1;
-        //    else
-        //        tipToStart.alpha = 0;
-
-        //    if (Input.GetButton("Submit") && assignedControllers.Count >= 1)
-        //    {
-        //        GameManager.Instance.StartGame();
-        //        tipToStart.alpha = 0;
-        //    }
-        //}
-
+        }
     }
-
-
-    //public PlayerScript AddPlayerController(int controller, string contString)
-    //{
-
-
-    //    for (int i = 0; i < joinPanels.Length; i++)
-    //    {
-    //        if (joinPanels[i].GetComponent<JoinPanel>().hasAssignedController == false)
-    //        {
-    //            assignedControllers.Add(contString);
-    //            return joinPanels[i].GetComponent<JoinPanel>().AssignController(controller, i);
-    //        }
-    //    }
-
-    //    return null;
-    //}
-
-    //PlayerScript RemovePlayerController(int controller, string contString)
-    //{
-    //    Debug.Log(contString);
-    //    assignedControllers.Remove(contString);
-    //    Debug.Log(assignedControllers.Count);
-    //    for (int i = joinPanels.Length - 1; i >= 0; i--)
-    //    {
-    //        if (joinPanels[i].GetComponent<JoinPanel>().hasAssignedController == true)
-    //        {
-    //            return joinPanels[i].GetComponent<JoinPanel>().UnAssignController(controller);
-    //        }
-    //    }
-
-    //    return null;
-    //}
 
     public void OnGameStart()
     {
-        globalControls.Gameplay.Join.performed -=JoinButtonPressed;
-        //globalControls.Gameplay.Drop.performed -=  DropButtonPressed;
-        globalControls.Gameplay.Start.performed -=  StartButtonPressed;
-        //globalControls.Gameplay.Disable();
-        //Debug.Log("global controls enabled: " + globalControls.Gameplay.enabled);
-        globalControls.Disable();
         gameObject.SetActive(false);
-        
     }
 
 }

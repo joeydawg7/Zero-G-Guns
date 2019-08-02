@@ -36,6 +36,7 @@ public class PlayerScript : MonoBehaviour
     //rewired player
     [HideInInspector]
     public Player player;
+    Controller controller;
 
     [HideInInspector]
     public enum DamageType { none, head, torso, legs, feet };
@@ -237,6 +238,8 @@ public class PlayerScript : MonoBehaviour
         legRBs = legsParent.GetComponentsInChildren<Rigidbody2D>();
 
         playerUIPanel.SetLives(numLives, playerHead);
+
+        player.controllers.AddController(controller, true);
 
 
         StartCoroutine(RespawnInvulernability());
@@ -583,8 +586,9 @@ public class PlayerScript : MonoBehaviour
     }
     #endregion
 
-    public void SetController(PlayerControls playerControls, int number)
+    public void SetController(int number, Controller controller)
     {
+        this.controller = controller;
         playerID = number;
         switch (playerID)
         {
@@ -608,6 +612,9 @@ public class PlayerScript : MonoBehaviour
 
         player = ReInput.players.GetPlayer(playerID - 1);
 
+        player.controllers.maps.SetMapsEnabled(true,"Gameplay");
+        player.controllers.maps.SetMapsEnabled(true, "UI");
+        Debug.Log(player.name);
         //transform.Find("Arms").GetComponent<ArmsScript>().ArmsControllerSettings();
 
     }

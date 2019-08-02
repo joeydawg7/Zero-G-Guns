@@ -299,6 +299,24 @@ MonoBehaviour:
       _behaviorId: 0
       _userAssignable: 1
       _categoryId: 0
+    - _id: 4
+      _name: Drop
+      _type: 1
+      _descriptiveName: Drop
+      _positiveDescriptiveName: 
+      _negativeDescriptiveName: 
+      _behaviorId: 0
+      _userAssignable: 1
+      _categoryId: 0
+    - _id: 5
+      _name: Reload
+      _type: 1
+      _descriptiveName: Reload
+      _positiveDescriptiveName: 
+      _negativeDescriptiveName: 
+      _behaviorId: 0
+      _userAssignable: 1
+      _categoryId: 0
     actionCategories:
     - _name: Default
       _descriptiveName: Default
@@ -308,7 +326,7 @@ MonoBehaviour:
     actionCategoryMap:
       list:
       - categoryId: 0
-        actionIds: 000000000200000001000000
+        actionIds: 0000000002000000010000000400000005000000
     inputBehaviors:
     - _id: 0
       _name: Default
@@ -422,7 +440,7 @@ MonoBehaviour:
         _modifierKey2: 0
         _modifierKey3: 0
       - _actionCategoryId: 0
-        _actionId: 0
+        _actionId: 2
         _elementType: 0
         _elementIdentifierId: 3
         _axisRange: 0
@@ -444,7 +462,7 @@ MonoBehaviour:
         _modifierKey2: 0
         _modifierKey3: 0
       - _actionCategoryId: 0
-        _actionId: -1
+        _actionId: 4
         _elementType: 1
         _elementIdentifierId: 5
         _axisRange: 0
@@ -466,7 +484,7 @@ MonoBehaviour:
         _modifierKey2: 0
         _modifierKey3: 0
       - _actionCategoryId: 0
-        _actionId: -1
+        _actionId: 5
         _elementType: 1
         _elementIdentifierId: 7
         _axisRange: 0
@@ -648,7 +666,7 @@ MonoBehaviour:
     controllerMapLayoutManagerRuleSets: []
     controllerMapEnablerRuleSets: []
     playerIdCounter: 7
-    actionIdCounter: 3
+    actionIdCounter: 6
     actionCategoryIdCounter: 1
     inputBehaviorIdCounter: 2
     mapCategoryIdCounter: 1
