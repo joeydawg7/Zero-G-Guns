@@ -129,7 +129,9 @@ public class JoiningPlayerScript : MonoBehaviour
         //player.controllers.AddController(joystick, true);
 
         // Mark this joystick as assigned so we don't give it to the System Player again
-        assignedControls.Add(joystick.id);
+        if(!assignedControls.Contains(joystick.id))
+            assignedControls.Add(joystick.id);
+
         AddPlayerControllerSetup(joystick.id, joystick);
 
         Debug.Log("Assigned " + joystick.name + " to Player " + joystick.id);
