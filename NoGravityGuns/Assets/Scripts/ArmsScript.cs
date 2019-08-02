@@ -118,6 +118,7 @@ public class ArmsScript : MonoBehaviour
                 OnReload();
                 ShootController();
             }
+
         }
     }
 

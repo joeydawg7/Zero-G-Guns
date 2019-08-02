@@ -29,11 +29,7 @@ public class PlayerScript : MonoBehaviour
 
     [Header("Controller Stuff")]
     public int playerID;
-    public string BButton;
-    //public PlayerControls controls;
-    //public PlayerInput controls;
     public InputUser user;
-    //rewired player
     [HideInInspector]
     public Player player;
     Controller controller;
@@ -71,6 +67,7 @@ public class PlayerScript : MonoBehaviour
     [Header("Particle Effects")]
     public ParticleSystem HS_Flash;
     public ParticleSystem HS_Streaks;
+    TrailRenderer trail;
     #endregion
     #region Audio
     [Header("Audio")]
@@ -163,6 +160,8 @@ public class PlayerScript : MonoBehaviour
         playerLastHitBy = null;
         immuneToCollisionsTimer = 0;
 
+        trail = GetComponent<TrailRenderer>();
+
         //data
         shotsFired = 0;
         shotsHit = 0;
@@ -205,6 +204,15 @@ public class PlayerScript : MonoBehaviour
             else if (armsScript.currentArms == LMGArms)
             {
                 miniGunTime += Time.deltaTime;
+            }
+
+            if (rb.velocity.magnitude > 35)
+            {
+                trail.emitting = true;
+            }
+            else
+            {
+                trail.emitting = false;
             }
 
         }
