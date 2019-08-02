@@ -102,24 +102,28 @@ public class Bullet : MonoBehaviour, IPooledObject
                     dmgType = PlayerScript.DamageType.torso;
                     collision.transform.root.gameObject.GetComponent<PlayerScript>().TakeDamage(damage, dmgType, player, true, bulletType);
                     canBounce = false;
+                    GetComponent<Collider2D>().enabled = false;
                 }
                 if (collision.collider.tag == "Head")
                 {
                     dmgType = PlayerScript.DamageType.head;
                     collision.transform.root.gameObject.GetComponent<PlayerScript>().TakeDamage(damage, dmgType, player, true, bulletType);
                     canBounce = false;
+                    GetComponent<Collider2D>().enabled = false;
                 }
                 if (collision.collider.tag == "Feet")
                 {
                     dmgType = PlayerScript.DamageType.feet;
                     collision.transform.root.gameObject.GetComponent<PlayerScript>().TakeDamage(damage, dmgType, player, true, bulletType);
                     canBounce = false;
+                    GetComponent<Collider2D>().enabled = false;
                 }
                 if (collision.collider.tag == "Leg")
                 {
                     dmgType = PlayerScript.DamageType.legs;
                     collision.transform.root.gameObject.GetComponent<PlayerScript>().TakeDamage(damage, dmgType, player, true, bulletType);
                     canBounce = false;
+                    GetComponent<Collider2D>().enabled = false;
                 }
 
 
