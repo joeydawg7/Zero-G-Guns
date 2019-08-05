@@ -108,7 +108,7 @@ public class GameManager : MonoBehaviour
         guiManager = FindObjectOfType<GUIManager>();
         EndGameScript = FindObjectOfType<EndGameScript>();
         playerUIParent = GameObject.FindGameObjectWithTag("UILayout").transform;
-        countdownText = GameObject.Find("CountdownText").GetComponent<TextMeshProUGUI>();
+        //countdownText = GameObject.Find("CountdownText").GetComponent<TextMeshProUGUI>();
         countdownText.gameObject.SetActive(false);
 
         isGameStarted = false;
@@ -127,7 +127,6 @@ public class GameManager : MonoBehaviour
         else
         {
             _instance = this;
-            DontDestroyOnLoad(this.gameObject);
         }
 
         isGameStarted = false;

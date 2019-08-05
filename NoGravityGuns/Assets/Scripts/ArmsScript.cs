@@ -76,9 +76,7 @@ public class ArmsScript : MonoBehaviour
 
     private void Start()
     {
-
         gameManager = GameManager.Instance;
-
     }
 
     void AimController()
@@ -97,13 +95,11 @@ public class ArmsScript : MonoBehaviour
 
     public void OnReload()
     {
-
         if (basePlayer.player.GetButtonDown("Reload"))
         {
             if (!isReloading && currentAmmo < currentWeapon.clipSize)
                 reloadCoroutine = StartCoroutine(Reload());
         }
-
     }
 
     private void Update()
@@ -118,13 +114,11 @@ public class ArmsScript : MonoBehaviour
                 OnReload();
                 ShootController();
             }
-
         }
     }
 
     void CountShotDelay()
     {
-
         //delay shooting stuff
         timeSinceLastShot += Time.deltaTime;
 
@@ -140,40 +134,6 @@ public class ArmsScript : MonoBehaviour
         {
             OnShoot();
         }
-    }
-
-
-    public void SetChildrenWithAxis(int playerID)
-    {
-        foreach (Transform child in transform)
-        {
-            //TODO: use a list here
-            if (child.tag == "Arms")
-            {
-                ArmsScript arms = child.GetComponent<ArmsScript>();
-                arms.triggerAxis = "J" + playerID + "Trigger";
-                arms.horizontalAxis = "J" + playerID + "Horizontal";
-                arms.verticalAxis = "J" + playerID + "Vertical";
-            }
-        }
-
-    }
-
-    public void UnsetChildrenWithAxis(int playerID)
-    {
-        foreach (Transform child in transform)
-        {
-            //TODO: use a list here
-            if (child.tag == "Arms")
-            {
-                ArmsScript arms = child.GetComponent<ArmsScript>();
-                arms.triggerAxis = "";
-                arms.horizontalAxis = "";
-                arms.verticalAxis = "";
-
-            }
-        }
-
     }
 
 
@@ -219,9 +179,6 @@ public class ArmsScript : MonoBehaviour
 
     public void OnShoot()
     {
-
-
-
         if (currentRecoil > currentWeapon.recoilMax)
             currentRecoil = currentWeapon.recoilMax;
 
@@ -335,6 +292,7 @@ public class ArmsScript : MonoBehaviour
 
     IEnumerator Reload()
     {
+
         if (totalBulletsGunCanLoad > 0)
         {
             int shotsToReload = 0;
@@ -406,15 +364,12 @@ public class ArmsScript : MonoBehaviour
             else
             {
                 audioS.PlayOneShot(currentWeapon.reloadSound);
-                rotateCoroutine = StartCoroutine(Rotate(currentWeapon.reloadTime));
+                rotateCoroutine = StartCoroutine(Rotate(reloadtimeIncrememnts*6));
+                SendGunText("Reloading...");
                 for (int i = 0; i < currentWeapon.reloadTime; i++)
                 {
                     yield return new WaitForSeconds(reloadtimeIncrememnts);
-                    SendGunText("Reloading.");
-                    yield return new WaitForSeconds(reloadtimeIncrememnts);
-                    SendGunText("Reloading..");
-                    yield return new WaitForSeconds(reloadtimeIncrememnts);
-                    SendGunText("Reloading...");
+                    
                 }
             }
 
@@ -434,7 +389,8 @@ public class ArmsScript : MonoBehaviour
             if (totalBulletsGunCanLoad < 0)
                 totalBulletsGunCanLoad = 0;
         }
-
+        else
+            basePlayer.EquipArms(PlayerScript.GunType.pistol, gameManager.pistol);
 
         //do last
         SendGunText();
@@ -541,12 +497,12 @@ public class ArmsScript : MonoBehaviour
         else
         {
             SpawnBullet();
+
         }
 
         if (currentAmmo <= 0)
         {
             reloadCoroutine = StartCoroutine(Reload());
-
         }
 
 
@@ -574,7 +530,7 @@ public class ArmsScript : MonoBehaviour
 
         
         SpawnRocket();
-        
+
 
         basePlayer.rb.AddForce(-shootDir * currentWeapon.knockback , ForceMode2D.Impulse);
         cameraShake.shakeDuration += currentWeapon.cameraShakeDuration;
@@ -590,12 +546,11 @@ public class ArmsScript : MonoBehaviour
         dir = bulletSpawn.transform.right * currentWeapon.bulletSpeed;
 
         bulletGo.GetComponent<Bullet>().Construct(basePlayer.playerID, currentWeapon.GunDamage, basePlayer, bulletSprite, currentWeapon.GunType, dir, basePlayer.collisionLayer);
-
     }
 
     void SpawnRocket()
     {
-        GameObject bulletGo = ObjectPooler.Instance.SpawnFromPool("Rocket", bulletSpawn.transform.position, Quaternion.identity);
+        GameObject bulletGo = ObjectPooler.Instance.SpawnFromPool("Rocket", bulletSpawn.transform.position, Quaternion.Euler(shootDir));
         dir = bulletSpawn.transform.right * currentWeapon.bulletSpeed;
 
         bulletGo.GetComponent<Bullet>().Construct(basePlayer.playerID, currentWeapon.GunDamage, basePlayer, rocketSprite, currentWeapon.GunType, dir, basePlayer.collisionLayer);

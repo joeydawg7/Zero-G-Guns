@@ -4,7 +4,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-
+using Rewired;
 
 public class EndGameScript : MonoBehaviour
 {
@@ -19,16 +19,18 @@ public class EndGameScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetButtonDown("Submit"))
+        foreach (var player in ReInput.players.AllPlayers)
         {
-            SceneManager.LoadScene(mainSceneName, LoadSceneMode.Single);
-        }
+            if (player.GetButtonDown("Join"))
+            {
+                SceneManager.LoadScene(mainSceneName, LoadSceneMode.Single);
+            }
 
-        if(Input.GetButtonDown("AnyB"))
-        {
-            SceneManager.LoadScene(mainMenuScene, LoadSceneMode.Single);
+            if (player.GetButtonDown("Drop"))
+            {
+                SceneManager.LoadScene(mainMenuScene, LoadSceneMode.Single);
+            }
         }
-
 
     }
 
@@ -45,6 +47,13 @@ public class EndGameScript : MonoBehaviour
         Winners.alpha = 0;
         Winners.text = "";
         gameObject.SetActive(true);
+
+
+        foreach (var player in ReInput.players.AllPlayers)
+        {
+            player.controllers.maps.SetMapsEnabled(true, "UI");
+        }
+
 
         StartCoroutine(EndGame(winners));
     }

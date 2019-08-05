@@ -66,7 +66,7 @@ public class Bullet : MonoBehaviour, IPooledObject
         somethingSexy = temp.GetComponent<ParticleSystem>();
         somethingSexy.transform.parent = transform;
 
-        if(bulletType != PlayerScript.GunType.RPG)
+        if (bulletType != PlayerScript.GunType.RPG)
             gameObject.layer = collisionLayer;
 
     }
@@ -76,10 +76,16 @@ public class Bullet : MonoBehaviour, IPooledObject
     {
         if (rb != null)
         {
-            if (rb.simulated == true && bulletType == PlayerScript.GunType.RPG)
+           
+            if (rb.simulated == true && bulletType == PlayerScript.GunType.RPG && rb.velocity.magnitude < 150)
             {
-                //trench foot 25 babeeee
-                rb.AddRelativeForce(startingForce * Time.deltaTime * 25f, ForceMode2D.Force);
+                Vector2 dir = rb.velocity;
+                float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+                transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+
+                //trench foot 250 babeeee
+                rb.AddForce(dir * 250 * Time.deltaTime, ForceMode2D.Force);
+
             }
         }
     }
