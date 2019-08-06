@@ -470,10 +470,13 @@ public class PlayerScript : MonoBehaviour
             isDead = true;
             numLives--;
             audioSource.PlayOneShot(deathClip);
-            playerUIPanel.SetLives(numLives, playerHead);
+            //playerUIPanel.SetLives(numLives, playerHead);
+            playerUIPanel.LoseStock();
+
             if (numLives <= 0)
             {
                 Camera.main.transform.parent.GetComponent<CameraController>().RemovePlayerFromCameraTrack(gameObject);
+                playerUIPanel.Destroy();
                 GameManager.Instance.CheckForLastManStanding();
             }
             armsSR = armsScript.currentArms.GetComponent<SpriteRenderer>();

@@ -56,4 +56,23 @@ public class PlayerUIPanel : MonoBehaviour
         }
 
     }
+    public void LoseStock()
+    {
+        foreach (Transform child in stockHolder)
+        {
+            child.GetComponent<Animator>().SetTrigger("LoseStock");
+            return;
+        }
+    }
+
+
+    public void Destroy()
+    {
+        GetComponent<Animator>().SetTrigger("Destroy");
+    }
+
+    public void KillMeAfterAnim()
+    {
+        Destroy(gameObject);
+    }
 }

@@ -23,7 +23,7 @@ public class EndGameScript : MonoBehaviour
         {
             if (player.GetButtonDown("Join"))
             {
-                SceneManager.LoadScene(mainSceneName, LoadSceneMode.Single);
+                SceneManager.LoadScene(SceneManager.GetActiveScene().name, LoadSceneMode.Single);
             }
 
             if (player.GetButtonDown("Drop"))
