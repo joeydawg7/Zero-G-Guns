@@ -4,15 +4,11 @@ using UnityEngine;
 
 public class Explosion : MonoBehaviour
 {
-    float radius = 13f;
+    float radius = 18f;
     float power = 400f;
 
     PlayerScript playerWhoShot;
 
-
-    private void Awake()
-    {
-    }
 
     public void Explode(PlayerScript playerWhoShot)
     {
@@ -24,7 +20,7 @@ public class Explosion : MonoBehaviour
     {
 
         Vector3 originalScale = transform.localScale;
-        Vector3 destinationScale = new Vector3(5.0f, 5.0f, 1.0f);
+        Vector3 destinationScale = new Vector3(8.0f, 8.0f, 1.0f);
         Vector2 explosionPos = transform.position;
 
         bool dealDamage = true;
@@ -36,7 +32,7 @@ public class Explosion : MonoBehaviour
         {
             Rigidbody2D rb = hit.GetComponent<Rigidbody2D>();
 
-            if(rb== null && hit.transform.root.GetComponent<Rigidbody2D>() !=null)
+            if (rb == null && hit.transform.root.GetComponent<Rigidbody2D>() != null)
             {
                 rb = hit.transform.root.GetComponent<Rigidbody2D>();
             }
@@ -69,7 +65,20 @@ public class Explosion : MonoBehaviour
 
 
     }
+
+    private void OnDrawGizmos()
+    {
+        //x
+        Gizmos.DrawLine(transform.position, new Vector2(transform.position.x + radius, transform.position.y));
+        Gizmos.DrawLine(transform.position, new Vector2(transform.position.x - radius, transform.position.y));
+        //y
+        Gizmos.DrawLine(transform.position, new Vector2(transform.position.x , transform.position.y + radius));
+        Gizmos.DrawLine(transform.position, new Vector2(transform.position.x , transform.position.y - radius));
+    }
+
 }
+
+
 public static class Rigidbody2DExt
 {
 
@@ -101,11 +110,11 @@ public static class Rigidbody2DExt
         Vector2 force = dir.normalized * explosionForce * wearoff;
         body.AddForce(force, mode);
 
-        float dmg = (explosionForce * wearoff)/5f;
+        float dmg = (explosionForce * wearoff) / 5f;
 
-        if (body.transform.root.GetComponent<PlayerScript>() !=null && dealDamage)
+        if (body.transform.root.GetComponent<PlayerScript>() != null && dealDamage)
         {
-            if(dmg>0)
+            if (dmg > 0)
                 body.transform.root.GetComponent<PlayerScript>().TakeDamage(dmg, PlayerScript.DamageType.torso, playerWhoShot, true, PlayerScript.GunType.RPG);
         }
     }

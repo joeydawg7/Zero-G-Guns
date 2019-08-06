@@ -52,10 +52,12 @@ public class PlayerScript : MonoBehaviour
     public GameObject railGunArms;
     public GameObject RPGArms;
     public ArmsScript armsScript;
+    public List<GameObject> AllArms;
 
     [Header("Armed Legs")]
     public GameObject legsCollider;
     public Transform legsParent;
+    List<LegFixer> legFixers;
 
     [Header("Spawning and kills")]
     public Vector3 spawnPoint;
@@ -98,6 +100,8 @@ public class PlayerScript : MonoBehaviour
     SpriteRenderer torsoSR;
     SpriteRenderer armsSR;
     Rigidbody2D[] legRBs;
+    GameObject cameraParent;
+    Quaternion spawnRotation;
     #endregion
     #region constants
     const float HEADSHOT_MULTIPLIER = 2f;
@@ -151,14 +155,24 @@ public class PlayerScript : MonoBehaviour
         float barVal = ((float)health / 100f);
         isDead = false;
         spawnPoint = transform.position;
+        spawnRotation = transform.rotation;
+
         rb = GetComponent<Rigidbody2D>();
         audioSource = GetComponent<AudioSource>();
         playerInput = GetComponent<PlayerInput>();
         numKills = 0;
 
+        legFixers = new List<LegFixer>();
+        foreach (Transform child in legsParent)
+        {
+            legFixers.Add(child.GetComponent<LegFixer>());
+        }
+
         defaultColor = gameObject.GetComponent<SpriteRenderer>().color;
         playerLastHitBy = null;
         immuneToCollisionsTimer = 0;
+
+        cameraParent = Camera.main.transform.parent.gameObject;
 
         trail = GetComponent<TrailRenderer>();
 
@@ -169,6 +183,7 @@ public class PlayerScript : MonoBehaviour
         torsoShots = 0;
         legShots = 0;
         footShots = 0;
+
 
     }
 
@@ -206,7 +221,8 @@ public class PlayerScript : MonoBehaviour
                 miniGunTime += Time.deltaTime;
             }
 
-            if (rb.velocity.magnitude > 35)
+            //add a trail if speed gets high enough to potentially hurt
+            if (rb.velocity.magnitude > 45)
             {
                 trail.emitting = true;
             }
@@ -221,6 +237,7 @@ public class PlayerScript : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.K))
             TakeDamage(50, DamageType.torso, null, true, GunType.collision);
 
+        //B button
         if (GameManager.Instance.isGameStarted && armsScript.currentWeapon.GunType != GunType.pistol)
             OnDrop();
 
@@ -249,16 +266,14 @@ public class PlayerScript : MonoBehaviour
 
         player.controllers.AddController(controller, true);
 
-
         StartCoroutine(RespawnInvulernability());
 
     }
 
-
+    #region Equipping and unequipping
     public void EquipArms(GunType gunType, GunSO gun)
     {
         HideAllArms();
-
 
         switch (gunType)
         {
@@ -303,22 +318,16 @@ public class PlayerScript : MonoBehaviour
         }
 
         armsScript.SendGunText();
-
-
     }
-
+   
     void HideAllArms()
     {
-        //TODO: just make this a list dumbass
-        foreach (Transform child in armsScript.gameObject.transform)
+        foreach (var arm in AllArms)
         {
-            if (child.tag == "Gun")
-            {
-                child.gameObject.SetActive(false);
-
-            }
+            arm.SetActive(false);
         }
     }
+    #endregion
 
     #region Take Damage
     public void TakeDamage(float damage, DamageType damageType, PlayerScript PlayerWhoShotYou, bool playBulletSFX, GunType gunType)
@@ -470,12 +479,11 @@ public class PlayerScript : MonoBehaviour
             isDead = true;
             numLives--;
             audioSource.PlayOneShot(deathClip);
-            //playerUIPanel.SetLives(numLives, playerHead);
             playerUIPanel.LoseStock();
 
             if (numLives <= 0)
             {
-                Camera.main.transform.parent.GetComponent<CameraController>().RemovePlayerFromCameraTrack(gameObject);
+                cameraParent.GetComponent<CameraController>().RemovePlayerFromCameraTrack(gameObject);
                 playerUIPanel.Destroy();
                 GameManager.Instance.CheckForLastManStanding();
             }
@@ -505,7 +513,18 @@ public class PlayerScript : MonoBehaviour
         yield return new WaitForSeconds(1f);
         playerUIPanel.SetAmmoText("Respawning in 1...");
         yield return new WaitForSeconds(1f);
+
+        //turn of rigidbody so we dont get some crazy momentum from force moving
+        rb.isKinematic = true;
         transform.position = spawnPoint;
+        transform.rotation = spawnRotation;
+        rb.isKinematic = false;
+
+        foreach (var legToFix in legFixers)
+        {
+            legToFix.ResetLeg();
+        }
+
         health = 100;
         float barVal = ((float)health / 100f);
         audioSource.PlayOneShot(respawnClip);
@@ -597,6 +616,7 @@ public class PlayerScript : MonoBehaviour
     }
     #endregion
 
+    #region Controller Setting / unsetting
     public void SetController(int number, Controller controller)
     {
         this.controller = controller;
@@ -626,7 +646,6 @@ public class PlayerScript : MonoBehaviour
         player.controllers.maps.SetMapsEnabled(true,"Gameplay");
         player.controllers.maps.SetMapsEnabled(true, "UI");
         Debug.Log(player.name);
-        //transform.Find("Arms").GetComponent<ArmsScript>().ArmsControllerSettings();
 
     }
 
@@ -635,6 +654,7 @@ public class PlayerScript : MonoBehaviour
         playerID = 0;
         playerName = "";
     }
+    #endregion
 
     //collision check and damage mutlipliers / modifiers
     #region collision Damage

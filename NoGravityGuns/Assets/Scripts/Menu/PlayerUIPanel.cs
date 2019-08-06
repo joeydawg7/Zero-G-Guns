@@ -13,9 +13,11 @@ public class PlayerUIPanel : MonoBehaviour
     public Transform stockHolder;
     public GameObject headStock;
     public Image gunImage;
+    public HorizontalLayoutGroup playerUILayout;
 
     public void setAll(float fillDamage, string statusMsg, string gunMsg, Color32 color, Sprite playerPortrait)
     {
+
         setHealth(fillDamage);
         //SetGunText(statusMsg);
         SetAmmoText(gunMsg);
@@ -26,6 +28,7 @@ public class PlayerUIPanel : MonoBehaviour
         }
 
         this.playerPortrait.sprite = playerPortrait;
+        this.playerUILayout = transform.parent.GetComponent<HorizontalLayoutGroup>();
 
     }
     public void setHealth(float fillDamage)
@@ -58,17 +61,19 @@ public class PlayerUIPanel : MonoBehaviour
     }
     public void LoseStock()
     {
-        foreach (Transform child in stockHolder)
-        {
-            child.GetComponent<Animator>().SetTrigger("LoseStock");
-            return;
-        }
+        stockHolder.GetChild(stockHolder.childCount-1).GetComponent<Animator>().SetTrigger("LoseStock");
     }
 
 
     public void Destroy()
     {
+        playerUILayout.enabled = false;
         GetComponent<Animator>().SetTrigger("Destroy");
+    }
+
+    public void EnableLayoutGroup()
+    {
+        playerUILayout.enabled = true;
     }
 
     public void KillMeAfterAnim()
