@@ -15,7 +15,7 @@ public class PlayerUIPanel : MonoBehaviour
     public Image gunImage;
     public HorizontalLayoutGroup playerUILayout;
 
-    public void setAll(float fillDamage, string statusMsg, string gunMsg, Color32 color, Sprite playerPortrait)
+    public void setAll(float fillDamage, string statusMsg, string gunMsg, Color32 color, Sprite playerPortrait, Sprite healthbar)
     {
 
         setHealth(fillDamage);
@@ -28,6 +28,7 @@ public class PlayerUIPanel : MonoBehaviour
         }
 
         this.playerPortrait.sprite = playerPortrait;
+        this.playerHealthBar.sprite = healthbar;
         this.playerUILayout = transform.parent.GetComponent<HorizontalLayoutGroup>();
 
     }

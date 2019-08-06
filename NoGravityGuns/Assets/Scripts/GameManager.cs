@@ -198,7 +198,7 @@ public class GameManager : MonoBehaviour
     private void SpawnPlayerPanel(PlayerScript player)
     {
         PlayerUIPanel gO = Instantiate(playUIPrefab, playerUIParent).GetComponent<PlayerUIPanel>();
-        gO.setAll((float)player.health / 100f, player.playerName, player.armsScript.AmmoText(), player.playerColor, player.playerPortrait);
+        gO.setAll((float)player.health / 100f, player.playerName, player.armsScript.AmmoText(), player.playerColor, player.playerPortrait, player.healthBar);
         player.playerUIPanel = gO;
 
     }

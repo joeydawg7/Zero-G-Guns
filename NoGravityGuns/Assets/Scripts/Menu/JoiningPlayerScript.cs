@@ -193,7 +193,6 @@ public class JoiningPlayerScript : MonoBehaviour
 
             if (ReInput.players.GetSystemPlayer().GetButtonDown("Start"))
             {
-                Debug.Log("start in update");
                 StartButtonPressed();
             }
 

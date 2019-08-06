@@ -12,6 +12,9 @@ public class PlayerScript : MonoBehaviour
 {
     #region publics
 
+    [Header("Debug")]
+    public bool isDummy;
+
     public PlayerInput playerInput;
 
     [Header("Health and Lives")]
@@ -25,6 +28,7 @@ public class PlayerScript : MonoBehaviour
     public Color32 deadColor;
     public Sprite playerHead;
     public Sprite playerPortrait;
+    public Sprite healthBar;
     public int collisionLayer;
 
     [Header("Controller Stuff")]
@@ -69,6 +73,8 @@ public class PlayerScript : MonoBehaviour
     [Header("Particle Effects")]
     public ParticleSystem HS_Flash;
     public ParticleSystem HS_Streaks;
+    public ParticleSystem respawnFlash;
+    public ParticleSystem respawnBits;
     TrailRenderer trail;
     #endregion
     #region Audio
@@ -189,7 +195,7 @@ public class PlayerScript : MonoBehaviour
 
     public void OnDrop()
     {
-        if (player.GetButtonDown("Drop"))
+        if (!isDummy && player.GetButtonDown("Drop"))
             EquipArms(GunType.pistol, GameManager.Instance.pistol);
     }
 
@@ -519,6 +525,15 @@ public class PlayerScript : MonoBehaviour
         transform.position = spawnPoint;
         transform.rotation = spawnRotation;
         rb.isKinematic = false;
+
+        //emit those PFX
+        var mainFlash = respawnFlash.main;
+        var mainBits = respawnBits.main;
+        Color c = playerColor;
+        mainFlash.startColor = c;
+        mainBits.startColor = c;
+        respawnFlash.Emit(1);
+        respawnBits.Emit(Random.Range(15, 30));
 
         foreach (var legToFix in legFixers)
         {

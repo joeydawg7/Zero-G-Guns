@@ -108,7 +108,7 @@ public class ArmsScript : MonoBehaviour
         {
             CountShotDelay();
 
-            if (!basePlayer.isDead)
+            if (!basePlayer.isDead && !basePlayer.isDummy)
             {
                 AimController();
                 OnReload();
@@ -136,8 +136,6 @@ public class ArmsScript : MonoBehaviour
         }
     }
 
-
-
     public void EquipGun(GunSO weaponToEquip, GameObject gunObj)
     {
         if (isReloading)
@@ -149,6 +147,7 @@ public class ArmsScript : MonoBehaviour
             }
             if (rotateCoroutine != null)
             {
+                Debug.Log("cancelling rotate!");
                 StopCoroutine(rotateCoroutine);
                 reloadTimer.SetActive(false);
                 rotateCoroutine = null;
@@ -259,7 +258,8 @@ public class ArmsScript : MonoBehaviour
 
     void KnockBack(Vector2 shootDir)
     {
-        basePlayer.rb.AddForce(-shootDir * currentWeapon.knockback, ForceMode2D.Impulse);
+        //basePlayer.rb.AddForce(-shootDir * currentWeapon.knockback, ForceMode2D.Impulse);
+        basePlayer.rb.AddForce(-bulletSpawn.transform.right * currentWeapon.knockback, ForceMode2D.Impulse);
         cameraShake.shakeDuration += currentWeapon.cameraShakeDuration;
         timeSinceLastShot = 0;
     }
@@ -521,7 +521,7 @@ public class ArmsScript : MonoBehaviour
 
         while (timer <0.5f)
         {
-            basePlayer.rb.AddForce(-shootDir * currentWeapon.knockback * Time.deltaTime, ForceMode2D.Impulse);
+            basePlayer.rb.AddForce(-bulletSpawn.transform.right * currentWeapon.knockback * Time.deltaTime, ForceMode2D.Impulse);
            
             timer += Time.deltaTime;
 

@@ -107,6 +107,7 @@ public class Bullet : MonoBehaviour, IPooledObject
                 {
                     dmgType = PlayerScript.DamageType.torso;
                     collision.transform.root.gameObject.GetComponent<PlayerScript>().TakeDamage(damage, dmgType, player, true, bulletType);
+                    collision.transform.GetComponentInChildren<ParticleSystem>().Emit(30);
                     canBounce = false;
                     GetComponent<Collider2D>().enabled = false;
                 }
@@ -138,19 +139,22 @@ public class Bullet : MonoBehaviour, IPooledObject
                 sparkyObj.GetComponent<ParticleSystem>().Emit(10);
                 sparkyObj.GetComponent<DisableOverTime>().DisableOverT(2f);
 
+                if (bulletType == PlayerScript.GunType.RPG)
+                {
+                    ExplodeBullet();
+                    return;
+                }
 
                 //only bounce if you are a railgun bullet that hasnt hit a player, and only do it once. 
                 if ((bulletType != PlayerScript.GunType.railGun && bulletType != PlayerScript.GunType.RPG || canBounce == false))
                 {
                     KillBullet();
-                }
-                else if (bulletType == PlayerScript.GunType.RPG)
-                {
-                    ExplodeBullet();
-                }
+                    return;
+                }              
                 else if (dmgType != PlayerScript.DamageType.none)
                 {
                     KillBullet();
+                    return;
                 }
                 else
                 {
