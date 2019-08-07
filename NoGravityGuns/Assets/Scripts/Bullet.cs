@@ -186,7 +186,8 @@ public class Bullet : MonoBehaviour, IPooledObject
         rb.simulated = false;
         rb.isKinematic = true;
 
-        StartCoroutine(DisableOverTime(0.3f));
+        gameObject.GetComponent<SpriteRenderer>().enabled = false;
+        StartCoroutine(DisableOverTime(0.6f));
 
         somethingSexy.Stop();
         somethingSexy.GetComponent<DisableOverTime>().DisableOverT(3.1f);

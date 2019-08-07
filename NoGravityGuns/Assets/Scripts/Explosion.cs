@@ -4,10 +4,13 @@ using UnityEngine;
 
 public class Explosion : MonoBehaviour
 {
-    float radius = 18f;
+    float radius = 15f;
     float power = 400f;
 
     PlayerScript playerWhoShot;
+
+    public ParticleSystem smoke;
+    public ParticleSystem explosionBits;
 
 
     public void Explode(PlayerScript playerWhoShot)
@@ -20,8 +23,11 @@ public class Explosion : MonoBehaviour
     {
 
         Vector3 originalScale = transform.localScale;
-        Vector3 destinationScale = new Vector3(8.0f, 8.0f, 1.0f);
+        //Vector3 destinationScale = new Vector3(8.0f, 8.0f, 1.0f);
         Vector2 explosionPos = transform.position;
+
+        smoke.Emit(2);
+        explosionBits.Emit(Random.Range(20, 40));
 
         bool dealDamage = true;
 
@@ -54,13 +60,15 @@ public class Explosion : MonoBehaviour
             }
         }
 
-        do
-        {
-            transform.localScale = Vector3.Lerp(originalScale, destinationScale, currentTime / time);
-            currentTime += Time.deltaTime;
+        //do
+        //{
+        //    transform.localScale = Vector3.Lerp(originalScale, destinationScale, currentTime / time);
+        //    currentTime += Time.deltaTime;
 
-            yield return null;
-        } while (currentTime <= time);
+        //    yield return null;
+        //} while (currentTime <= time);
+
+        yield return null;
 
 
 
