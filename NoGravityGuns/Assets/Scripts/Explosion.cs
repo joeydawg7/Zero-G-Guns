@@ -12,6 +12,9 @@ public class Explosion : MonoBehaviour
     public ParticleSystem smoke;
     public ParticleSystem explosionBits;
 
+    public AudioSource audioSouce;
+    public List<AudioClip> explosionClips;
+
 
     public void Explode(PlayerScript playerWhoShot)
     {
@@ -32,6 +35,8 @@ public class Explosion : MonoBehaviour
         bool dealDamage = true;
 
         float currentTime = 0.0f;
+
+        audioSouce.PlayOneShot(explosionClips[Random.Range(0, explosionClips.Count)]);
 
         Collider2D[] colliders = Physics2D.OverlapCircleAll(explosionPos, radius);
         foreach (Collider2D hit in colliders)

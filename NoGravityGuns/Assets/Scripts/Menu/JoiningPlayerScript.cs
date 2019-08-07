@@ -119,14 +119,10 @@ public class JoiningPlayerScript : MonoBehaviour
             }
         }
 
-        // Enable UI map so Player can start controlling the UI
-       // rewiredPlayer.controllers.maps.SetMapsEnabled(true, "UI");
     }
 
     private void AssignJoystickToPlayer(Player player, Joystick joystick)
     {
-        // Assign the joystick to the Player, removing it from System Player
-        //player.controllers.AddController(joystick, true);
 
         // Mark this joystick as assigned so we don't give it to the System Player again
         if(!assignedControls.Contains(joystick.id))
@@ -135,6 +131,7 @@ public class JoiningPlayerScript : MonoBehaviour
         AddPlayerControllerSetup(joystick.id, joystick);
 
         Debug.Log("Assigned " + joystick.name + " to Player " + joystick.id);
+        tipToStart.alpha = 1;
     }
 
 
@@ -144,20 +141,8 @@ public class JoiningPlayerScript : MonoBehaviour
         Debug.Log("start Pressed");
         if (assignedControls.Count >= 1)
         {
-            //foreach (var player in ReInput.players.AllPlayers)
-            //{
-            //    //player.controllers.AddController()
-            //}
 
             ReInput.players.SystemPlayer.controllers.ClearAllControllers();
-
-            //ReInput.players.SystemPlayer.controllers.ClearAllControllers();
-
-            //foreach(var bleh in ReInput.players.SystemPlayer.controllers.Joysticks)
-            //{
-            //    Debug.Log(bleh.name);
-            //}
-            
 
             Debug.Log("start");
             GameManager.Instance.StartGame();

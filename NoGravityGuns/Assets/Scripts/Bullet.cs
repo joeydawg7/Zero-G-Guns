@@ -62,9 +62,20 @@ public class Bullet : MonoBehaviour, IPooledObject
         canImapact = true;
         canHurty = true;
 
-        GameObject temp = objectPooler.SpawnFromPool("BulletTrail", gameObject.transform.position, Quaternion.identity);
-        somethingSexy = temp.GetComponent<ParticleSystem>();
-        somethingSexy.transform.parent = transform;
+        if (gunType != PlayerScript.GunType.RPG)
+        {
+            GameObject temp = objectPooler.SpawnFromPool("RocketTrail", gameObject.transform.position, Quaternion.identity);
+            somethingSexy = temp.GetComponent<ParticleSystem>();
+            somethingSexy.transform.parent = transform;
+        }
+        else
+        {
+            GameObject temp2 = objectPooler.SpawnFromPool("RocketTrail", gameObject.transform.position, Quaternion.identity);
+            somethingSexy = temp2.GetComponent<ParticleSystem>();
+            somethingSexy.transform.parent = transform;
+        }
+
+        
 
         if (bulletType != PlayerScript.GunType.RPG)
             gameObject.layer = collisionLayer;

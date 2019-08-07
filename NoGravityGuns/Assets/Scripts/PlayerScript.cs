@@ -181,6 +181,7 @@ public class PlayerScript : MonoBehaviour
         cameraParent = Camera.main.transform.parent.gameObject;
 
         trail = GetComponent<TrailRenderer>();
+        trail.enabled = false;
 
         //data
         shotsFired = 0;
