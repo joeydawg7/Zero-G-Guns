@@ -23,6 +23,13 @@ public class Bullet : MonoBehaviour, IPooledObject
 
     public PlayerScript player;
 
+    SpriteRenderer sr;
+
+    private void Awake()
+    {
+        sr = GetComponent<SpriteRenderer>();
+    }
+
     public void OnObjectSpawn()
     {
         canImapact = false;
@@ -46,7 +53,7 @@ public class Bullet : MonoBehaviour, IPooledObject
         this.bulletType = gunType;
         this.player = player;
 
-        GetComponent<SpriteRenderer>().sprite = bulletSprite;
+        sr.sprite = bulletSprite;
 
         foreach (var collider in player.GetComponentsInChildren<Collider2D>())
         {
@@ -75,27 +82,28 @@ public class Bullet : MonoBehaviour, IPooledObject
             somethingSexy.transform.parent = transform;
         }
 
-        
-
         if (bulletType != PlayerScript.GunType.RPG)
             gameObject.layer = collisionLayer;
 
+        sr.enabled = true;
+
     }
 
+    const int ROCKET_TOP_SPEED = 150;
+    const float ROCKET_ACCELERATION_MOD = 250f;
 
     private void FixedUpdate()
     {
         if (rb != null)
         {
            
-            if (rb.simulated == true && bulletType == PlayerScript.GunType.RPG && rb.velocity.magnitude < 150)
+            if (rb.simulated == true && bulletType == PlayerScript.GunType.RPG && rb.velocity.magnitude < ROCKET_TOP_SPEED)
             {
                 Vector2 dir = rb.velocity;
                 float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
                 transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
 
-                //trench foot 250 babeeee
-                rb.AddForce(dir * 250 * Time.deltaTime, ForceMode2D.Force);
+                rb.AddForce(dir * ROCKET_ACCELERATION_MOD * Time.deltaTime, ForceMode2D.Force);
 
             }
         }

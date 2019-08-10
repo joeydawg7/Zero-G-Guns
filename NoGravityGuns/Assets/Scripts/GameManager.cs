@@ -112,8 +112,6 @@ public class GameManager : MonoBehaviour
         countdownText.gameObject.SetActive(false);
 
         isGameStarted = false;
-        matchTime = 300;
-        timer = 300;
 
         dataManager = GetComponent<DataManager>();
     }
@@ -204,8 +202,6 @@ public class GameManager : MonoBehaviour
     }
     private void Update()
     {
-        if(isGameStarted)
-            timer -= Time.deltaTime;
 
         if (timer <= 0 && isGameStarted)
         {
@@ -213,6 +209,7 @@ public class GameManager : MonoBehaviour
             OnGameEnd();
         }
     }
+
 
 
     public void OnGameEnd()

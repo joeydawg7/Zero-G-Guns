@@ -248,6 +248,10 @@ public class PlayerScript : MonoBehaviour
         if (GameManager.Instance.isGameStarted && armsScript.currentWeapon.GunType != GunType.pistol)
             OnDrop();
 
+        //StartButton
+        if (GameManager.Instance.isGameStarted)
+            OnPause();
+
     }
 
     public void OnGameStart()
@@ -326,7 +330,7 @@ public class PlayerScript : MonoBehaviour
 
         armsScript.SendGunText();
     }
-   
+
     void HideAllArms()
     {
         foreach (var arm in AllArms)
@@ -335,6 +339,17 @@ public class PlayerScript : MonoBehaviour
         }
     }
     #endregion
+
+    void OnPause()
+    {
+        if (player.GetButtonDown("Start"))
+        {
+            if (Time.timeScale > 0)
+                Time.timeScale = 0;
+            else
+                Time.timeScale = 1;
+        }
+    }
 
     #region Take Damage
     public void TakeDamage(float damage, DamageType damageType, PlayerScript PlayerWhoShotYou, bool playBulletSFX, GunType gunType)
@@ -506,7 +521,8 @@ public class PlayerScript : MonoBehaviour
 
             armsScript.reloadTimer.SetActive(false);
 
-            StartCoroutine(WaitForRespawn());
+            if (numLives > 0)
+                StartCoroutine(WaitForRespawn());
         }
 
         return this;
@@ -659,7 +675,7 @@ public class PlayerScript : MonoBehaviour
 
         player = ReInput.players.GetPlayer(playerID - 1);
 
-        player.controllers.maps.SetMapsEnabled(true,"Gameplay");
+        player.controllers.maps.SetMapsEnabled(true, "Gameplay");
         player.controllers.maps.SetMapsEnabled(true, "UI");
         Debug.Log(player.name);
 
@@ -677,7 +693,7 @@ public class PlayerScript : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
 
-        if (collision.collider.tag == "ImpactObject" )
+        if (collision.collider.tag == "ImpactObject")
         {
             DealColliderDamage(collision, "Torso", null);
         }
