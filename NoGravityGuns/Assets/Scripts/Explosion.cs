@@ -57,6 +57,10 @@ public class Explosion : MonoBehaviour
                         Rigidbody2DExt.AddExplosionForce(rb, power, explosionPos, radius, ForceMode2D.Force, playerWhoShot, dealDamage);
                         dealDamage = false;
                     }
+                    else if (rb.tag =="ImpactObject")
+                    {
+                        Rigidbody2DExt.AddExplosionForce(rb, power*50f, explosionPos, radius, ForceMode2D.Force);
+                    }
                     else
                     {
                         Rigidbody2DExt.AddExplosionForce(rb, power, explosionPos, radius, ForceMode2D.Force);
@@ -138,7 +142,6 @@ public static class Rigidbody2DExt
         float wearoff = 1 - (dir.magnitude / explosionRadius);
         Vector2 force = dir.normalized * explosionForce * wearoff;
         body.AddForce(force, mode);
-
 
     }
 
