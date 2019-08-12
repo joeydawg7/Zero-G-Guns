@@ -123,7 +123,6 @@ public class JoiningPlayerScript : MonoBehaviour
 
     private void AssignJoystickToPlayer(Player player, Joystick joystick)
     {
-
         // Mark this joystick as assigned so we don't give it to the System Player again
         if(!assignedControls.Contains(joystick.id))
             assignedControls.Add(joystick.id);
@@ -141,9 +140,7 @@ public class JoiningPlayerScript : MonoBehaviour
         Debug.Log("start Pressed");
         if (assignedControls.Count >= 1)
         {
-
             ReInput.players.SystemPlayer.controllers.ClearAllControllers();
-
             Debug.Log("start");
             GameManager.Instance.StartGame();
             tipToStart.alpha = 0;
@@ -153,14 +150,11 @@ public class JoiningPlayerScript : MonoBehaviour
 
     void AddPlayerControllerSetup(int i, Controller controller)
     {
-
         if (joinPanels[i].GetComponent<JoinPanel>().hasAssignedController == false)
         {
             joinPanels[i].GetComponent<JoinPanel>().AssignController((i + 1), controller);
             return;
         }
-
-
     }
 
     // Update is called once per frame
@@ -168,19 +162,16 @@ public class JoiningPlayerScript : MonoBehaviour
     {
         if (!GameManager.Instance.isGameStarted)
         {
-
             // Watch for JoinGame action in System Player
             if (ReInput.players.GetSystemPlayer().GetButtonDown("Join"))
             {
                 AssignNextPlayer();
             }
 
-
             if (ReInput.players.GetSystemPlayer().GetButtonDown("Start"))
             {
                 StartButtonPressed();
             }
-
         }
     }
 

@@ -10,24 +10,21 @@ public class Bullet : MonoBehaviour, IPooledObject
     int playerID;
 
     public PlayerScript.GunType bulletType;
+    public PlayerScript player;
 
     bool canImapact;
-    bool canBounce = true;
+    bool canBounce;
 
     Rigidbody2D rb;
     Vector2 startingForce;
-
-    bool canHurty;
-
     ObjectPooler objectPooler;
-
-    public PlayerScript player;
-
     SpriteRenderer sr;
+    ParticleSystem somethingSexy;
 
     private void Awake()
     {
         sr = GetComponent<SpriteRenderer>();
+        canBounce = true;
     }
 
     public void OnObjectSpawn()
@@ -38,13 +35,13 @@ public class Bullet : MonoBehaviour, IPooledObject
 
     }
 
-    public void SetStartingForce(Vector2 vel)
+    void SetStartingForce(Vector2 vel)
     {
         startingForce = new Vector2(vel.x, vel.y);
     }
 
 
-    ParticleSystem somethingSexy;
+    
 
     public void Construct(int playerID, float damage, PlayerScript player, Sprite bulletSprite, PlayerScript.GunType gunType, Vector3 dir, int collisionLayer)
     {
@@ -62,21 +59,21 @@ public class Bullet : MonoBehaviour, IPooledObject
 
         rb.simulated = true;
 
-        rb.AddRelativeForce(dir, ForceMode2D.Force);
-
+        
         SetStartingForce(dir);
 
         canImapact = true;
-        canHurty = true;
 
         if (gunType != PlayerScript.GunType.RPG)
         {
+            rb.AddRelativeForce(dir, ForceMode2D.Force);
             GameObject temp = objectPooler.SpawnFromPool("RocketTrail", gameObject.transform.position, Quaternion.identity);
             somethingSexy = temp.GetComponent<ParticleSystem>();
             somethingSexy.transform.parent = transform;
         }
         else
         {
+            rb.AddForce(dir, ForceMode2D.Force);
             GameObject temp2 = objectPooler.SpawnFromPool("RocketTrail", gameObject.transform.position, Quaternion.identity);
             somethingSexy = temp2.GetComponent<ParticleSystem>();
             somethingSexy.transform.parent = transform;
@@ -86,7 +83,6 @@ public class Bullet : MonoBehaviour, IPooledObject
             gameObject.layer = collisionLayer;
 
         sr.enabled = true;
-
     }
 
     const int ROCKET_TOP_SPEED = 150;
@@ -96,7 +92,6 @@ public class Bullet : MonoBehaviour, IPooledObject
     {
         if (rb != null)
         {
-           
             if (rb.simulated == true && bulletType == PlayerScript.GunType.RPG && rb.velocity.magnitude < ROCKET_TOP_SPEED)
             {
                 Vector2 dir = rb.velocity;
@@ -104,7 +99,6 @@ public class Bullet : MonoBehaviour, IPooledObject
                 transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
 
                 rb.AddForce(dir * ROCKET_ACCELERATION_MOD * Time.deltaTime, ForceMode2D.Force);
-
             }
         }
     }
@@ -187,7 +181,6 @@ public class Bullet : MonoBehaviour, IPooledObject
 
     void KillBullet()
     {
-        canHurty = false;
         StartCoroutine(DisableOverTime(0.02f));
 
         somethingSexy.Stop();
@@ -197,7 +190,6 @@ public class Bullet : MonoBehaviour, IPooledObject
 
     void ExplodeBullet()
     {
-        canHurty = false;
         gameObject.GetComponent<CircleCollider2D>().enabled = false;
         Explosion explosion = transform.Find("ExplosionRadius").GetComponent<Explosion>();
         explosion.gameObject.SetActive(true);
@@ -214,6 +206,7 @@ public class Bullet : MonoBehaviour, IPooledObject
 
     }
 
+    //reflect out vector. for railgun :D
     Vector2 Reflect(Vector2 vector, Vector2 normal)
     {
         return vector - 2 * Vector2.Dot(vector, normal) * normal;
