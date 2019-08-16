@@ -148,10 +148,20 @@ public class GameManager : MonoBehaviour
     public void StartGame()
     {
 
+        PlayerScript[] ps = FindObjectsOfType<PlayerScript>();
+
+        for (int i = 0; i < ps.Length; i++)
+        {
+            if(ps[i].isDummy)
+                players.Add(ps[i]);
+        }
+
+        
+
         for (int i = players.Count - 1; i >= 0; i--)
         {
 
-            if (players[i].playerID < 1)
+            if (players[i].playerID < 1 && players[i].isDummy == false)
             {
                 players[i].gameObject.SetActive(false);
                 players.Remove(players[i]);
@@ -212,6 +222,8 @@ public class GameManager : MonoBehaviour
 
     public void OnGameEnd()
     {
+        Time.timeScale = 0.5f;
+        guiManager.RunTimer(false);
 
         List<PlayerScript> winner = new List<PlayerScript>();
 

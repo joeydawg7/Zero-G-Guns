@@ -14,6 +14,13 @@ public class PlayerUIPanel : MonoBehaviour
     public GameObject headStock;
     public Image gunImage;
     public HorizontalLayoutGroup playerUILayout;
+    public TextMeshProUGUI kills;
+    GameManager gameManager;
+
+    private void Awake()
+    {
+        gameManager = GameManager.Instance;
+    }
 
     public void setAll(float fillDamage, string statusMsg, string gunMsg, Color32 color, Sprite playerPortrait, Sprite healthbar)
     {
@@ -21,7 +28,7 @@ public class PlayerUIPanel : MonoBehaviour
         setHealth(fillDamage);
         //SetGunText(statusMsg);
         SetAmmoText(gunMsg);
-
+        kills.text = "0";
         foreach (var text in GetComponentsInChildren<TextMeshProUGUI>())
         {
             text.color = color;
@@ -34,8 +41,50 @@ public class PlayerUIPanel : MonoBehaviour
     }
     public void setHealth(float fillDamage)
     {
-        playerHealthBar.fillAmount = fillDamage;
+        fillAmount = fillDamage;
     }
+    public void SetKills(int kills)
+    {
+        this.kills.text = kills.ToString();
+    }
+
+    const float HEALTH_ANIM_RATE = 10f;
+
+    float fillAmount;
+
+    private void Update()
+    {
+        if (gameManager.isGameStarted)
+        {
+            if (fillAmount != playerHealthBar.fillAmount)
+            {
+                playerHealthBar.fillAmount = Mathf.Lerp(playerHealthBar.fillAmount, fillAmount, Time.deltaTime * HEALTH_ANIM_RATE);
+            }
+        }
+
+    }
+
+    //IEnumerator AnimateHealthBar(float fillToPoint, float fillAmount)
+    //{
+    //    //should never happen :D
+    //    if(fillAmount == fillToPoint)
+    //    {
+    //        yield break;
+    //    }
+
+    //    if (fillAmount < fillToPoint)
+    //    {
+    //        while (fillAmount < fillToPoint)
+    //        {
+    //            playerHealthBar.fillAmount -= HEALTH_CHANGE_RATE;
+    //        }
+    //    }
+    //    else if (fillAmount > fillToPoint)
+    //    {
+
+    //    }
+    //}
+
     public void SetGunText(GunSO gun)
     {
         gunImage.sprite = gun.EquipSprite;
@@ -62,7 +111,7 @@ public class PlayerUIPanel : MonoBehaviour
     }
     public void LoseStock()
     {
-        stockHolder.GetChild(stockHolder.childCount-1).GetComponent<Animator>().SetTrigger("LoseStock");
+        stockHolder.GetChild(stockHolder.childCount - 1).GetComponent<Animator>().SetTrigger("LoseStock");
     }
 
 

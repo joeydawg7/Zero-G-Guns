@@ -244,13 +244,16 @@ public class PlayerScript : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.K))
             TakeDamage(50, DamageType.torso, null, true, GunType.collision);
 
-        //B button
-        if (GameManager.Instance.isGameStarted && armsScript.currentWeapon.GunType != GunType.pistol)
-            OnDrop();
+        if (!isDummy)
+        {
+            //B button
+            if (GameManager.Instance.isGameStarted && armsScript.currentWeapon.GunType != GunType.pistol)
+                OnDrop();
 
-        //StartButton
-        if (GameManager.Instance.isGameStarted)
-            OnPause();
+            //StartButton
+            if (GameManager.Instance.isGameStarted)
+                OnPause();
+        }
 
     }
 
@@ -275,7 +278,8 @@ public class PlayerScript : MonoBehaviour
 
         playerUIPanel.SetLives(numLives, playerHead);
 
-        player.controllers.AddController(controller, true);
+        if(!isDummy)
+            player.controllers.AddController(controller, true);
 
         StartCoroutine(RespawnInvulernability());
 
@@ -342,13 +346,16 @@ public class PlayerScript : MonoBehaviour
 
     void OnPause()
     {
+
         if (player.GetButtonDown("Start"))
         {
             if (Time.timeScale > 0)
                 Time.timeScale = 0;
             else
                 Time.timeScale = 1;
+            Debug.Log("timescale = " + Time.timeScale);
         }
+
     }
 
     #region Take Damage
@@ -420,13 +427,18 @@ public class PlayerScript : MonoBehaviour
 
 
             health -= (int)damage;
+            health = Mathf.Clamp(health, 0, 100);
             float barVal = ((float)health / 100f);
             playerUIPanel.setHealth(barVal);
 
             if (health <= 0)
             {
+                //add a kill to whoever shot you, show it in GUI
                 if (playerLastHitBy != null)
+                {
                     playerLastHitBy.numKills++;
+                    playerLastHitBy.playerUIPanel.SetKills(playerLastHitBy.numKills);
+                }
 
                 SaveDamageData(gunType, Mathf.RoundToInt(damage), true, PlayerWhoShotYou);
 
@@ -435,9 +447,6 @@ public class PlayerScript : MonoBehaviour
             else
                 SaveDamageData(gunType, Mathf.RoundToInt(damage), false, PlayerWhoShotYou);
         }
-
-        if (health > 100)
-            health = 100;
     }
 
 

@@ -10,11 +10,12 @@ public class GUIManager : MonoBehaviour
     public TextMeshProUGUI timerText;
     GameManager gameManager;
 
-
     public Sprite redHeadSprite;
     public Sprite blueHeadSprite;
     public Sprite greenHeadSprite;
     public Sprite yellowHeadSprite;
+
+    bool isTimerRunning;
 
     // Start is called before the first frame update
     void Start()
@@ -22,12 +23,13 @@ public class GUIManager : MonoBehaviour
         gameManager = GameManager.Instance;
         timerText.alpha = 0;
         timerText.text = gameManager.timer.ToString("mmss");
+        isTimerRunning = true;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(GameManager.Instance.isGameStarted)
+        if(GameManager.Instance.isGameStarted && isTimerRunning)
         {
             timerText.alpha = 1;
             gameManager.timer -= Time.deltaTime;
@@ -40,6 +42,11 @@ public class GUIManager : MonoBehaviour
         {
             timerText.alpha = 0;
         }
+    }
+    
+    public void RunTimer(bool isTimerRunning)
+    {
+        this.isTimerRunning = isTimerRunning;
     }
 
     public void OnGameStart()

@@ -9,8 +9,8 @@ public class Bullet : MonoBehaviour, IPooledObject
 
     int playerID;
 
-    public PlayerScript.GunType bulletType;
-    public PlayerScript player;
+    PlayerScript.GunType bulletType;
+    PlayerScript player;
 
     bool canImapact;
     bool canBounce;
@@ -39,9 +39,6 @@ public class Bullet : MonoBehaviour, IPooledObject
     {
         startingForce = new Vector2(vel.x, vel.y);
     }
-
-
-    
 
     public void Construct(int playerID, float damage, PlayerScript player, Sprite bulletSprite, PlayerScript.GunType gunType, Vector3 dir, int collisionLayer)
     {
@@ -114,7 +111,6 @@ public class Bullet : MonoBehaviour, IPooledObject
 
                 PlayerScript.DamageType dmgType = PlayerScript.DamageType.none;
 
-
                 //checks where we hit the other guy, and that it isnt self damage so we cant shoot ourselves in the knees
                 if (collision.collider.tag == "Torso")
                 {
@@ -179,6 +175,7 @@ public class Bullet : MonoBehaviour, IPooledObject
         }
     }
 
+
     void KillBullet()
     {
         StartCoroutine(DisableOverTime(0.02f));
@@ -217,6 +214,7 @@ public class Bullet : MonoBehaviour, IPooledObject
         yield return new WaitForSeconds(t);
         gameObject.SetActive(false);
         rb.simulated = false;
+        
     }
 
 

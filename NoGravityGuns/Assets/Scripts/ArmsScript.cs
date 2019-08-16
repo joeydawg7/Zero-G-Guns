@@ -422,7 +422,6 @@ public class ArmsScript : MonoBehaviour
     {
         float knockback = currentWeapon.knockback;
 
-        //basePlayer.rb.AddForce(-shootDir * currentWeapon.knockback, ForceMode2D.Impulse);
         basePlayer.rb.AddForce(-bulletSpawn.transform.right * knockback, ForceMode2D.Impulse);
         cameraShake.shakeDuration += currentWeapon.cameraShakeDuration;
         timeSinceLastShot = 0;
@@ -455,6 +454,7 @@ public class ArmsScript : MonoBehaviour
         {
             reloadCoroutine = StartCoroutine(Reload());
         }
+
     }
 
     void BuckShot()
@@ -500,8 +500,14 @@ public class ArmsScript : MonoBehaviour
             bulletGo.GetComponent<Bullet>().Construct(basePlayer.playerID, currentWeapon.GunDamage, basePlayer, bulletSprite, currentWeapon.GunType, MovementDirection, basePlayer.collisionLayer);
 
         }
+
     }
 
+    IEnumerator waitthendont()
+    {
+        yield return new WaitForSeconds(0.3f);
+        Debug.Break();
+    }
 
     void ShootyGunTemp()
     {
@@ -521,6 +527,7 @@ public class ArmsScript : MonoBehaviour
         {
             reloadCoroutine = StartCoroutine(Reload());
         }
+            
     }
 
     void RocketKnockBack(Vector2 shootDir)
