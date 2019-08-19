@@ -11,11 +11,9 @@ using Rewired;
 public class PlayerScript : MonoBehaviour
 {
     #region publics
-
     [Header("Debug")]
+    //If true treats the player as a dummy to be shot... for testing only :D
     public bool isDummy;
-
-    public PlayerInput playerInput;
 
     [Header("Health and Lives")]
     public int health;
@@ -42,7 +40,6 @@ public class PlayerScript : MonoBehaviour
     public enum DamageType { none, head, torso, legs, feet };
     [HideInInspector]
     public enum GunType { pistol, assaultRifle, LMG, shotgun, railGun, healthPack, RPG, collision };
-
 
     [Header("Bools")]
     public bool isDead;
@@ -95,6 +92,8 @@ public class PlayerScript : MonoBehaviour
     public string hexColorCode;
     [HideInInspector]
     public Rigidbody2D rb;
+    [HideInInspector]
+    public PlayerInput playerInput;
     #endregion
     #region privates
     //Private
@@ -154,6 +153,7 @@ public class PlayerScript : MonoBehaviour
     public float footShots;
     #endregion
 
+    #region Awake, Update
     private void Awake()
     {
 
@@ -192,12 +192,6 @@ public class PlayerScript : MonoBehaviour
         footShots = 0;
 
 
-    }
-
-    public void OnDrop()
-    {
-        if (!isDummy && player.GetButtonDown("Drop"))
-            EquipArms(GunType.pistol, GameManager.Instance.pistol);
     }
 
     private void Update()
@@ -256,10 +250,31 @@ public class PlayerScript : MonoBehaviour
         }
 
     }
+    #endregion
+
+    #region Input Handler Functions
+    public void OnDrop()
+    {
+        if (!isDummy && player.GetButtonDown("Drop"))
+            EquipArms(GunType.pistol, GameManager.Instance.pistol);
+    }
+
+    void OnPause()
+    {
+
+        if (player.GetButtonDown("Start"))
+        {
+            if (Time.timeScale > 0)
+                Time.timeScale = 0;
+            else
+                Time.timeScale = 1;
+            Debug.Log("timescale = " + Time.timeScale);
+        }
+
+    }
 
     public void OnGameStart()
     {
-
         health = 100;
         float barVal = ((float)health / 100f);
         playerUIPanel.setHealth(barVal);
@@ -284,6 +299,7 @@ public class PlayerScript : MonoBehaviour
         StartCoroutine(RespawnInvulernability());
 
     }
+    #endregion
 
     #region Equipping and unequipping
     public void EquipArms(GunType gunType, GunSO gun)
@@ -344,20 +360,6 @@ public class PlayerScript : MonoBehaviour
     }
     #endregion
 
-    void OnPause()
-    {
-
-        if (player.GetButtonDown("Start"))
-        {
-            if (Time.timeScale > 0)
-                Time.timeScale = 0;
-            else
-                Time.timeScale = 1;
-            Debug.Log("timescale = " + Time.timeScale);
-        }
-
-    }
-
     #region Take Damage
     public void TakeDamage(float damage, DamageType damageType, PlayerScript PlayerWhoShotYou, bool playBulletSFX, GunType gunType)
     {
@@ -374,8 +376,6 @@ public class PlayerScript : MonoBehaviour
                 playerLastHitBy = null;
 
             float unModdedDmg = damage;
-
-
 
             if (damage < 0)
             {
@@ -433,10 +433,16 @@ public class PlayerScript : MonoBehaviour
 
             if (health <= 0)
             {
-                //add a kill to whoever shot you, show it in GUI
-                if (playerLastHitBy != null)
+                //add a kill to whoever shot you, show it in GUI... as long as its not you
+                if (playerLastHitBy != null && playerLastHitBy!= this)
                 {
                     playerLastHitBy.numKills++;
+                    playerLastHitBy.playerUIPanel.SetKills(playerLastHitBy.numKills);
+                }
+                //reduce points if you kill yourself
+                else if (playerLastHitBy !=null && playerLastHitBy == this)
+                {
+                    playerLastHitBy.numKills--;
                     playerLastHitBy.playerUIPanel.SetKills(playerLastHitBy.numKills);
                 }
 
@@ -768,7 +774,6 @@ public class PlayerScript : MonoBehaviour
 
     void SpawnFloatingDamageText(int dmgToShow, Color32 color, string animType)
     {
-
         GameObject floatingTextGo = ObjectPooler.Instance.SpawnFromPool("FloatingText", floatingTextSpawnPoint.transform.position, Quaternion.identity, floatingTextSpawnPoint);
         floatingTextGo.transform.localPosition = new Vector3(0, 0, 0);
         floatingTextGo.transform.localScale = new Vector3(1, 1, 1);

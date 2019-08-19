@@ -16,10 +16,8 @@ public class WeaponPad : MonoBehaviour
 
     public GunSO weaponToSpawn;
     public GunSO currentWeapon;
-
-    public float timeToNextSpawn;
-
-    public float timer;
+    float timeToNextSpawn;
+    float timer;
 
     public List<GunSO> potentialGunsToSpawn;
     public AudioClip pickupSFX;
@@ -65,10 +63,13 @@ public class WeaponPad : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D collision)
     {
+        //hit a player who isnt a floating corpse, and the pad has a weapon to give
         if ((collision.tag == "Torso" || collision.tag == "Head" || collision.tag == "Feet" || collision.tag == "Leg") && hasWeapon && currentWeapon != null && !collision.transform.root.GetComponent<PlayerScript>().isDead)
         {
+            //just saving this for later
             PlayerScript player = collision.transform.root.GetComponent<PlayerScript>();
 
+            //special case is a health pack which is not a gun
             if (currentWeapon.GunType == PlayerScript.GunType.healthPack)
             {
                 player.audioSource.PlayOneShot(healthKitSFX);
@@ -77,10 +78,12 @@ public class WeaponPad : MonoBehaviour
             }
             else
             {
+                //equip the new gun and play the sound
                 player.EquipArms(currentWeapon.GunType, currentWeapon);
                 GetComponent<AudioSource>().PlayOneShot(pickupSFX);
             }
 
+            //reset EVERYTHING
             GetComponent<SpriteRenderer>().sprite = emptyPad;
             timer = 0;
             timeToNextSpawn = Random.Range(5, 25f);

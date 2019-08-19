@@ -7,8 +7,6 @@ public class Bullet : MonoBehaviour, IPooledObject
 
     float damage;
 
-    int playerID;
-
     PlayerScript.GunType bulletType;
     PlayerScript player;
 
@@ -27,12 +25,12 @@ public class Bullet : MonoBehaviour, IPooledObject
         canBounce = true;
     }
 
+    //interface override what to set when the object is spawned
     public void OnObjectSpawn()
     {
         canImapact = false;
         rb = GetComponent<Rigidbody2D>();
         objectPooler = ObjectPooler.Instance;
-
     }
 
     void SetStartingForce(Vector2 vel)
@@ -40,15 +38,19 @@ public class Bullet : MonoBehaviour, IPooledObject
         startingForce = new Vector2(vel.x, vel.y);
     }
 
-    public void Construct(int playerID, float damage, PlayerScript player, Sprite bulletSprite, PlayerScript.GunType gunType, Vector3 dir, int collisionLayer)
+    //TODO: we dont need to pass anywhere near all these variables. bleh
+    public void Construct(float damage, PlayerScript player, Sprite bulletSprite, PlayerScript.GunType gunType, Vector3 dir, int collisionLayer)
     {
-        this.playerID = playerID;
-        this.damage = damage;
-        this.bulletType = gunType;
+        //who shot the bullet
         this.player = player;
-
+        //how much it will hurt
+        this.damage = damage;
+        //what gun shot it
+        this.bulletType = gunType;
+ 
         sr.sprite = bulletSprite;
 
+        //stuff to ignore (kind of legacy)
         foreach (var collider in player.GetComponentsInChildren<Collider2D>())
         {
             Physics2D.IgnoreCollision(GetComponent<Collider2D>(), collider, true);
@@ -56,11 +58,11 @@ public class Bullet : MonoBehaviour, IPooledObject
 
         rb.simulated = true;
 
-        
         SetStartingForce(dir);
 
         canImapact = true;
 
+        //in theory give a special trail to rpg shots from regular bullets. i ended up using rpg trail for both though, probably will change in future
         if (gunType != PlayerScript.GunType.RPG)
         {
             rb.AddRelativeForce(dir, ForceMode2D.Force);
@@ -76,6 +78,7 @@ public class Bullet : MonoBehaviour, IPooledObject
             somethingSexy.transform.parent = transform;
         }
 
+        //dont change rocket collision layer, we dont want it colliding with other bullets
         if (bulletType != PlayerScript.GunType.RPG)
             gameObject.layer = collisionLayer;
 
@@ -87,6 +90,7 @@ public class Bullet : MonoBehaviour, IPooledObject
 
     private void FixedUpdate()
     {
+        //accelerate the rocket over time if it exists
         if (rb != null)
         {
             if (rb.simulated == true && bulletType == PlayerScript.GunType.RPG && rb.velocity.magnitude < ROCKET_TOP_SPEED)
@@ -105,13 +109,13 @@ public class Bullet : MonoBehaviour, IPooledObject
 
         if (collision.collider.gameObject.layer != LayerMask.NameToLayer("NonBulletCollide") && canImapact == true)
         {
-
-            if (collision.collider.tag != "Bullet" || collision.collider.GetComponent<Bullet>().playerID != playerID)
+            //we've hit something that isnt a bullet, or the player that shot us
+            if (collision.collider.tag != "Bullet" || collision.collider.GetComponent<Bullet>().player.playerID != player.playerID)
             {
-
+                //default damage type is nothing, we don't know what we hit yet.
                 PlayerScript.DamageType dmgType = PlayerScript.DamageType.none;
 
-                //checks where we hit the other guy, and that it isnt self damage so we cant shoot ourselves in the knees
+                //checks where we hit the other guy, deals our given damage to that location. 
                 if (collision.collider.tag == "Torso")
                 {
                     dmgType = PlayerScript.DamageType.torso;
@@ -142,12 +146,13 @@ public class Bullet : MonoBehaviour, IPooledObject
                     GetComponent<Collider2D>().enabled = false;
                 }
 
-
-
+                //spawn some impact sparks from pool
                 GameObject sparkyObj = objectPooler.SpawnFromPool("BulletImpact", transform.position, Quaternion.identity);
                 sparkyObj.GetComponent<ParticleSystem>().Emit(10);
+                //start a timer to kill it
                 sparkyObj.GetComponent<DisableOverTime>().DisableOverT(2f);
 
+                //if you an rcoket who hit something, blow up
                 if (bulletType == PlayerScript.GunType.RPG)
                 {
                     ExplodeBullet();
@@ -176,6 +181,7 @@ public class Bullet : MonoBehaviour, IPooledObject
     }
 
 
+    //gets rid of a bullet gracefully
     void KillBullet()
     {
         StartCoroutine(DisableOverTime(0.02f));
@@ -185,6 +191,7 @@ public class Bullet : MonoBehaviour, IPooledObject
         somethingSexy.transform.parent = null;
     }
 
+    //explodes a bullet "gracefully"
     void ExplodeBullet()
     {
         gameObject.GetComponent<CircleCollider2D>().enabled = false;
@@ -203,7 +210,7 @@ public class Bullet : MonoBehaviour, IPooledObject
 
     }
 
-    //reflect out vector. for railgun :D
+    //reflect out vector to determine bounce for railgun :D
     Vector2 Reflect(Vector2 vector, Vector2 normal)
     {
         return vector - 2 * Vector2.Dot(vector, normal) * normal;

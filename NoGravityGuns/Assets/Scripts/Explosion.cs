@@ -18,23 +18,20 @@ public class Explosion : MonoBehaviour
 
     public void Explode(PlayerScript playerWhoShot)
     {
-        StartCoroutine(GrowExplosion(0.5f));
+        GrowExplosion();
         this.playerWhoShot = playerWhoShot;
     }
 
-    IEnumerator GrowExplosion(float time)
+    void GrowExplosion()
     {
-
         Vector3 originalScale = transform.localScale;
-        //Vector3 destinationScale = new Vector3(8.0f, 8.0f, 1.0f);
         Vector2 explosionPos = transform.position;
 
         smoke.Emit(2);
         explosionBits.Emit(Random.Range(20, 40));
 
+        //lets the circle with our given radius actually hurt people
         bool dealDamage = true;
-
-        float currentTime = 0.0f;
 
         audioSouce.PlayOneShot(explosionClips[Random.Range(0, explosionClips.Count)]);
 
@@ -50,16 +47,19 @@ public class Explosion : MonoBehaviour
 
             if (rb != null)
             {
+                //explosion cant hit itself, or other explosions for that matter
                 if (rb.tag != "Explosion")
                 {
+                    //treat players different from other objects
                     if (rb.tag == "Player")
                     {
-                        Rigidbody2DExt.AddExplosionForce(rb, power, explosionPos, radius, ForceMode2D.Force, playerWhoShot, dealDamage);
-                        dealDamage = false;
+                        //note that this force is only applied to players torso... trying to add more than that caused some crazy effects for little gains in overall usefulness
+                        Rigidbody2DExt.AddExplosionForce(rb, power, explosionPos, radius, ForceMode2D.Force, playerWhoShot, dealDamage);     
                     }
+                    //give impact objects a bit more push than other things
                     else if (rb.tag =="ImpactObject")
                     {
-                        Rigidbody2DExt.AddExplosionForce(rb, power*50f, explosionPos, radius, ForceMode2D.Force);
+                        Rigidbody2DExt.AddExplosionForce(rb, power*40f, explosionPos, radius, ForceMode2D.Force);
                     }
                     else
                     {
@@ -69,20 +69,11 @@ public class Explosion : MonoBehaviour
             }
         }
 
-        //do
-        //{
-        //    transform.localScale = Vector3.Lerp(originalScale, destinationScale, currentTime / time);
-        //    currentTime += Time.deltaTime;
-
-        //    yield return null;
-        //} while (currentTime <= time);
-
-        yield return null;
-
-
+        dealDamage = false;
 
     }
 
+    //draw the extents of the circle
     private void OnDrawGizmos()
     {
         //x
@@ -95,31 +86,10 @@ public class Explosion : MonoBehaviour
 
 }
 
-
+//class to add explosive force to a 2d rigidbody
 public static class Rigidbody2DExt
 {
-
-    //public static void AddExplosionForce(this Rigidbody2D rb, float explosionForce, Vector2 explosionPosition, float explosionRadius, float upwardsModifier = 0.0F, ForceMode2D mode = ForceMode2D.Force)
-    //{
-    //    var explosionDir = rb.position - explosionPosition;
-    //    var explosionDistance = explosionDir.magnitude;
-
-    //    // Normalize without computing magnitude again
-    //    if (upwardsModifier == 0)
-    //        explosionDir /= explosionDistance;
-    //    else
-    //    {
-    //        // From Rigidbody.AddExplosionForce doc:
-    //        // If you pass a non-zero value for the upwardsModifier parameter, the direction
-    //        // will be modified by subtracting that value from the Y component of the centre point.
-    //        explosionDir.y += upwardsModifier;
-    //        explosionDir.Normalize();
-    //    }
-    //    Debug.Log("adding " + Mathf.Lerp(1f, explosionForce, (1 - explosionDistance)) * explosionDir + " force to " + rb.gameObject.name);
-
-    //    rb.AddForce(Mathf.Lerp(1f, explosionForce, (1 - explosionDistance)) * explosionDir, mode);
-    //}
-
+    
     public static void AddExplosionForce(this Rigidbody2D body, float explosionForce, Vector3 explosionPosition, float explosionRadius, ForceMode2D mode, PlayerScript playerWhoShot, bool dealDamage)
     {
         var dir = (body.transform.position - explosionPosition);
@@ -136,6 +106,7 @@ public static class Rigidbody2DExt
         }
     }
 
+    //overload that doesnt care about dealing damage to affected body part
     public static void AddExplosionForce(this Rigidbody2D body, float explosionForce, Vector3 explosionPosition, float explosionRadius, ForceMode2D mode)
     {
         var dir = (body.transform.position - explosionPosition);
@@ -145,15 +116,4 @@ public static class Rigidbody2DExt
 
     }
 
-    //public static void AddExplosionForce(this Rigidbody2D body, float explosionForce, Vector3 explosionPosition, float explosionRadius, float upliftModifier)
-    //{
-    //    var dir = (body.transform.position - explosionPosition);
-    //    float wearoff = 1 - (dir.magnitude / explosionRadius);
-    //    Vector3 baseForce = dir.normalized * explosionForce * wearoff;
-    //    body.AddForce(baseForce);
-
-    //    float upliftWearoff = 1 - upliftModifier / explosionRadius;
-    //    Vector3 upliftForce = Vector2.up * explosionForce * upliftWearoff;
-    //    body.AddForce(upliftForce);
-    //}
 }

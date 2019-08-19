@@ -49,6 +49,7 @@ public class ObjectPooler : MonoBehaviour
 
     }
 
+    //works like instatiate but from a magic poooooool
     public GameObject SpawnFromPool (string tag, Vector3 position, Quaternion rotation)
     {
 
@@ -74,11 +75,10 @@ public class ObjectPooler : MonoBehaviour
 
         objectToSpawn.transform.parent = null;
 
-        //resetDisableTimer = true;
-
         return objectToSpawn;
 
     }
+    //overload of the above with parent settings
     public GameObject SpawnFromPool(string tag, Vector3 position, Quaternion rotation, Transform parent)
     {
 
@@ -102,22 +102,11 @@ public class ObjectPooler : MonoBehaviour
         }
 
         poolDictionary[tag].Enqueue(objectToSpawn);
-
-        
-
-        //resetDisableTimer = true;
-
         return objectToSpawn;
 
     }
 
 
-    /*
-    public void DisableOverTime(GameObject go, float time)
-    {
-        StartCoroutine(DisableOverTimeCoroutine(go, time));
-    }
-    */
     IEnumerator DisableOverTimeCoroutine(GameObject go, float time)
     {
         for (float timer = time; timer >= 0; timer -= Time.deltaTime)

@@ -64,27 +64,6 @@ public class PlayerUIPanel : MonoBehaviour
 
     }
 
-    //IEnumerator AnimateHealthBar(float fillToPoint, float fillAmount)
-    //{
-    //    //should never happen :D
-    //    if(fillAmount == fillToPoint)
-    //    {
-    //        yield break;
-    //    }
-
-    //    if (fillAmount < fillToPoint)
-    //    {
-    //        while (fillAmount < fillToPoint)
-    //        {
-    //            playerHealthBar.fillAmount -= HEALTH_CHANGE_RATE;
-    //        }
-    //    }
-    //    else if (fillAmount > fillToPoint)
-    //    {
-
-    //    }
-    //}
-
     public void SetGunText(GunSO gun)
     {
         gunImage.sprite = gun.EquipSprite;

@@ -92,7 +92,7 @@ public class JoiningPlayerScript : MonoBehaviour
 
         foreach (var source in inputSources)
         {
-
+            //TODO: mouse and keyboard support?
             if (source.controllerType == ControllerType.Keyboard || source.controllerType == ControllerType.Mouse)
             { // Assigning keyboard/mouse
 

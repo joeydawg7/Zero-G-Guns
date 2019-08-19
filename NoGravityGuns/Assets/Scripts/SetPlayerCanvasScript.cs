@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+//quick script to keep the worldspace canvas attached to player without inheriting rotation like it would if it were a child
 public class SetPlayerCanvasScript : MonoBehaviour
 {
     GameObject parent;
