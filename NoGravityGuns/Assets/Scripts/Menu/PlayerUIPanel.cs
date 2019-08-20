@@ -98,10 +98,12 @@ public class PlayerUIPanel : MonoBehaviour
     {
         playerUILayout.enabled = false;
         GetComponent<Animator>().SetTrigger("Destroy");
+        EnableLayoutGroup();
     }
 
     public void EnableLayoutGroup()
     {
+        Debug.Log(gameObject.name);
         playerUILayout.enabled = true;
     }
 

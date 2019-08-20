@@ -18,8 +18,9 @@ public class Explosion : MonoBehaviour
 
     public void Explode(PlayerScript playerWhoShot)
     {
-        GrowExplosion();
         this.playerWhoShot = playerWhoShot;
+        GrowExplosion();
+        
     }
 
     void GrowExplosion()
@@ -102,7 +103,9 @@ public static class Rigidbody2DExt
         if (body.transform.root.GetComponent<PlayerScript>() != null && dealDamage)
         {
             if (dmg > 0)
+            {
                 body.transform.root.GetComponent<PlayerScript>().TakeDamage(dmg, PlayerScript.DamageType.torso, playerWhoShot, true, PlayerScript.GunType.RPG);
+            }
         }
     }
 

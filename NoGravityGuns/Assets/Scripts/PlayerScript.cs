@@ -855,9 +855,9 @@ public class PlayerScript : MonoBehaviour
         floatingDamage.floatingDamageGameObject.GetComponent<TextMeshProUGUI>().text = (dmg + floatingDamage.damage).ToString();
         floatingDamage.damage = dmg + floatingDamage.damage;
 
-        floatingDamage.floatingDamageGameObject.transform.localScale += new Vector3(floatingDamage.floatingDamageGameObject.transform.localScale.x * ((float)floatingDamage.damage / 50f),
-            floatingDamage.floatingDamageGameObject.transform.localScale.y * ((float)floatingDamage.damage / 50f),
-           floatingDamage.floatingDamageGameObject.transform.localScale.z * ((float)floatingDamage.damage / 50f));
+        //floatingDamage.floatingDamageGameObject.transform.localScale += new Vector3(floatingDamage.floatingDamageGameObject.transform.localScale.x * ((float)floatingDamage.damage / 50f),
+        //    floatingDamage.floatingDamageGameObject.transform.localScale.y * ((float)floatingDamage.damage / 50f),
+        //   floatingDamage.floatingDamageGameObject.transform.localScale.z * ((float)floatingDamage.damage / 50f));
 
         //change the damage type if its value is more
         if(damageType > floatingDamage.damageType)
