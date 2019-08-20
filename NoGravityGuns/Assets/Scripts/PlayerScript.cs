@@ -37,7 +37,7 @@ public class PlayerScript : MonoBehaviour
     Controller controller;
 
     [HideInInspector]
-    public enum DamageType { none, head, torso, legs, feet };
+    public enum DamageType { none =0, head =4, torso=3, legs=2, feet =1 };
     [HideInInspector]
     public enum GunType { pistol, assaultRifle, LMG, shotgun, railGun, healthPack, RPG, collision };
 
@@ -190,8 +190,6 @@ public class PlayerScript : MonoBehaviour
         torsoShots = 0;
         legShots = 0;
         footShots = 0;
-
-
     }
 
     private void Update()
@@ -379,7 +377,8 @@ public class PlayerScript : MonoBehaviour
 
             if (damage < 0)
             {
-                SpawnFloatingDamageText(Mathf.RoundToInt(damage), Color.green, "FloatAway");
+                SpawnFloatingDamageText(Mathf.RoundToInt(damage), DamageType.none, "FloatAway");
+                //Color.Green
             }
             else
             {
@@ -387,7 +386,8 @@ public class PlayerScript : MonoBehaviour
                 {
                     case DamageType.head:
                         damage *= HEADSHOT_MULTIPLIER;
-                        SpawnFloatingDamageText(Mathf.RoundToInt(damage), Color.red, "Crit");
+                        SpawnFloatingDamageText(Mathf.RoundToInt(damage), DamageType.head, "Crit");
+                        //Color.Red
                         HS_Flash.Emit(1);
                         HS_Flash.Emit(Random.Range(35, 45));
                         if (playBulletSFX)
@@ -398,22 +398,22 @@ public class PlayerScript : MonoBehaviour
                         break;
                     case DamageType.torso:
                         damage *= TORSOSHOT_MULTIPLIER;
-                        SpawnFloatingDamageText(Mathf.RoundToInt(damage), Color.yellow, "FloatAway");
-
+                        SpawnFloatingDamageText(Mathf.RoundToInt(damage), DamageType.torso, "FloatAway");
+                        //Color.yellow
                         if (PlayerWhoShotYou != null)
                             PlayerWhoShotYou.torsoShots++;
                         break;
                     case DamageType.legs:
                         damage *= LEGSHOT_MULTIPLIER;
-                        SpawnFloatingDamageText(Mathf.RoundToInt(damage), Color.black, "FloatAway");
-
+                        SpawnFloatingDamageText(Mathf.RoundToInt(damage), DamageType.legs, "FloatAway");
+                        // Color.black
                         if (PlayerWhoShotYou != null)
                             PlayerWhoShotYou.legShots++;
                         break;
                     case DamageType.feet:
                         damage *= FOOTSHOT_MULTIPLIER;
-                        SpawnFloatingDamageText(Mathf.RoundToInt(damage), Color.gray, "FloatAway");
-
+                        SpawnFloatingDamageText(Mathf.RoundToInt(damage), DamageType.feet, "FloatAway");
+                        //Color.gray
                         if (PlayerWhoShotYou != null)
                             PlayerWhoShotYou.footShots++;
                         break;
@@ -772,13 +772,64 @@ public class PlayerScript : MonoBehaviour
     }
     #endregion
 
-    void SpawnFloatingDamageText(int dmgToShow, Color32 color, string animType)
+    public struct FloatingDamageStuff
     {
+        public readonly GameObject floatingDamageGameObject;
+        public int damage;
+        public float timer;
+        public DamageType damageType;
+
+        public FloatingDamageStuff(GameObject floatingDamage, int damage, DamageType damageType)
+        {
+            this.floatingDamageGameObject = floatingDamage;
+            this.damage = damage;
+            this.timer = 0;
+            this.damageType = damageType;
+        }
+    }
+
+    public FloatingDamageStuff floatingDamage;
+
+    void SpawnFloatingDamageText(int dmgToShow, DamageType damageType, string animType)
+    {
+        Color32 color;
+
+        switch (damageType)
+        {
+            case DamageType.none:
+                color = Color.green;
+                break;
+            case DamageType.head:
+                color = Color.red;
+                break;
+            case DamageType.torso:
+                color = Color.yellow;
+                break;
+            case DamageType.legs:
+                color = Color.black;
+                break;
+            case DamageType.feet:
+                color = Color.grey;
+                break;
+            default:
+                color = Color.yellow;
+                break;
+        }
+
+        if (floatingDamage.floatingDamageGameObject != null)
+        {
+            AddToFloatingDamage(dmgToShow, damageType, color, animType);
+            return;
+        }
+
         GameObject floatingTextGo = ObjectPooler.Instance.SpawnFromPool("FloatingText", floatingTextSpawnPoint.transform.position, Quaternion.identity, floatingTextSpawnPoint);
         floatingTextGo.transform.localPosition = new Vector3(0, 0, 0);
         floatingTextGo.transform.localScale = new Vector3(1, 1, 1);
         TextMeshProUGUI floatTxt = floatingTextGo.GetComponent<TextMeshProUGUI>();
 
+        floatingDamage = new FloatingDamageStuff(floatingTextGo, dmgToShow, damageType);
+
+        //we did negative damage so show it as a heal
         if (dmgToShow < 0)
         {
             dmgToShow = Mathf.Abs(dmgToShow);
@@ -787,6 +838,7 @@ public class PlayerScript : MonoBehaviour
         else
             floatTxt.text = dmgToShow.ToString();
 
+        //offset position to give a degree of motion to the thing
         floatingTextGo.transform.position = new Vector2(Random.Range(-1.5f, 1.5f), Random.Range(-1.5f, 1.5f));
         floatTxt.color = color;
         floatTxt.GetComponent<Animator>().SetTrigger(animType);
@@ -798,5 +850,47 @@ public class PlayerScript : MonoBehaviour
             floatingTextGo.transform.localScale.z * ((float)dmgToShow / 50f));
     }
 
+    void AddToFloatingDamage(int dmg, DamageType damageType, Color color, string animType)
+    {
+        floatingDamage.floatingDamageGameObject.GetComponent<TextMeshProUGUI>().text = (dmg + floatingDamage.damage).ToString();
+        floatingDamage.damage = dmg + floatingDamage.damage;
+
+        floatingDamage.floatingDamageGameObject.transform.localScale += new Vector3(floatingDamage.floatingDamageGameObject.transform.localScale.x * ((float)floatingDamage.damage / 50f),
+            floatingDamage.floatingDamageGameObject.transform.localScale.y * ((float)floatingDamage.damage / 50f),
+           floatingDamage.floatingDamageGameObject.transform.localScale.z * ((float)floatingDamage.damage / 50f));
+
+        //change the damage type if its value is more
+        if(damageType > floatingDamage.damageType)
+            floatingDamage.damageType = damageType;
+
+        switch (floatingDamage.damageType)
+        {
+            case DamageType.none:
+                color = Color.green;
+                break;
+            case DamageType.head:
+                color = Color.red;
+                break;
+            case DamageType.torso:
+                color = Color.yellow;
+                break;
+            case DamageType.legs:
+                color = Color.black;
+                break;
+            case DamageType.feet:
+                color = Color.grey;
+                break;
+            default:
+                color = Color.yellow;
+                break;
+        }
+
+        floatingDamage.floatingDamageGameObject.GetComponent<TextMeshProUGUI>().color = color;
+
+        //offset position to give a degree of motion to the thing
+        floatingDamage.floatingDamageGameObject.transform.position = new Vector2(Random.Range(-1.5f, 1.5f), Random.Range(-1.5f, 1.5f));
+        floatingDamage.floatingDamageGameObject.GetComponent<Animator>().SetTrigger(animType);
+
+    }
 
 }

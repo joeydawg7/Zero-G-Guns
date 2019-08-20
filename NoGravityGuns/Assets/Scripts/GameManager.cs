@@ -31,12 +31,21 @@ public class GameManager : MonoBehaviour
     public GUIManager guiManager;
     public EndGameScript EndGameScript;
 
+    [HideInInspector]
     public float timer;
 
     public TextMeshProUGUI countdownText;
 
+    [HideInInspector]
     public GameObject PlayerObject;
 
+    public AudioClip countdownBeep;
+    public AudioClip startingBeep;
+
+    [HideInInspector]
+    public AudioSource audioSource;
+
+    #region Unused Sprite Storage
     //[Header("Red Sprites")]
     //public Sprite redBody;
     //public Sprite redFrontLeg;
@@ -72,8 +81,9 @@ public class GameManager : MonoBehaviour
     //public Sprite yellowBackLeg;
     //public Sprite yellowBackForeLeg;
     //public Sprite yellowBackFoot;
+    #endregion
 
-
+    #region Data Variables
     public float pistolKills;
     public float shotGunKills;
     public float railgunKills;
@@ -90,6 +100,7 @@ public class GameManager : MonoBehaviour
     public float healthPackHeals;
 
     DataManager dataManager;
+    #endregion
 
     //some leftover from when i used a different singleton pattern for this. left around in case i go back to it
     private void OnLevelWasLoaded(int level)
@@ -130,6 +141,7 @@ public class GameManager : MonoBehaviour
         isGameStarted = false;
         countdownText.gameObject.SetActive(false);
         dataManager = GetComponent<DataManager>();
+        audioSource = GetComponent<AudioSource>();
 
     }
 
@@ -188,15 +200,20 @@ public class GameManager : MonoBehaviour
 
     //plays a short countdown
     IEnumerator Countdown()
-    {     
+    {
+        yield return new WaitForSeconds(0.25f);
         countdownText.text = "3";
         countdownText.gameObject.SetActive(true);
+        audioSource.PlayOneShot(countdownBeep);
         yield return new WaitForSeconds(0.75f);
         countdownText.text = "2";
+        audioSource.PlayOneShot(countdownBeep);
         yield return new WaitForSeconds(0.75f);
         countdownText.text = "1";
+        audioSource.PlayOneShot(countdownBeep);
         yield return new WaitForSeconds(0.75f);
         countdownText.text = "Go!";
+        audioSource.PlayOneShot(startingBeep);
         isGameStarted = true;
         timer = matchTime;
         yield return new WaitForSeconds(0.25f);
@@ -260,7 +277,6 @@ public class GameManager : MonoBehaviour
         }
 
     }
-
 
 
     //List<PlayerScript> DetermineWinner()

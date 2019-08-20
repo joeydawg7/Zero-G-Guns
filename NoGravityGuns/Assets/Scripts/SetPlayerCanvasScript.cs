@@ -8,9 +8,12 @@ public class SetPlayerCanvasScript : MonoBehaviour
 {
     GameObject parent;
 
+    public PlayerScript playerscript;
+
     private void Awake()
     {
         parent = transform.parent.gameObject;
+        playerscript = parent.GetComponent<PlayerScript>();
         transform.parent = null;
     }
     void Update()

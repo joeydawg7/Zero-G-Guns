@@ -24,6 +24,8 @@ public class JoiningPlayerScript : MonoBehaviour
     public int maxPlayers = 4;
     private int rewiredPlayerIdCounter = 0;
 
+    public AudioClip joinClick;
+
     private void Awake()
     {
         tipToStart.alpha = 0;
@@ -124,12 +126,17 @@ public class JoiningPlayerScript : MonoBehaviour
     private void AssignJoystickToPlayer(Player player, Joystick joystick)
     {
         // Mark this joystick as assigned so we don't give it to the System Player again
-        if(!assignedControls.Contains(joystick.id))
+        if (!assignedControls.Contains(joystick.id))
+        {
             assignedControls.Add(joystick.id);
+            //only play the sound if not contained, so we can tell if someone is joining when they are already in
+            GameManager.Instance.audioSource.PlayOneShot(joinClick);
+        }
 
         AddPlayerControllerSetup(joystick.id, joystick);
 
         Debug.Log("Assigned " + joystick.name + " to Player " + joystick.id);
+        
         tipToStart.alpha = 1;
     }
 
