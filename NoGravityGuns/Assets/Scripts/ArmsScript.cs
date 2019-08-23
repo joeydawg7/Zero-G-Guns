@@ -220,11 +220,13 @@ public class ArmsScript : MonoBehaviour
                     KnockBack(shootDir);
 
                 //muzzle flash
+                //TODO: change so this sets only on arm change
+                /*
                 ParticleSystem[] particles = currentArms.GetComponentsInChildren<ParticleSystem>();
                 foreach (var item in particles)
                 {
                     item.Play();
-                }
+                }*/
 
                 switch (currentWeapon.fireType)
                 {
@@ -328,7 +330,7 @@ public class ArmsScript : MonoBehaviour
             for (int i = 0; i < 6; i++)
             {
                 yield return new WaitForSeconds(reloadtimeIncrememnts);
-                GetComponent<AudioSource>().PlayOneShot(currentWeapon.reloadSound);
+                audioS.PlayOneShot(currentWeapon.reloadSound);
                 SendGunText("Reloading...");
             }
         }

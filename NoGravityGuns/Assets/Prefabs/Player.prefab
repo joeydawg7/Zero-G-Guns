@@ -25216,7 +25216,7 @@ ParticleSystem:
   ringBufferLoopRange: {x: 0, y: 1}
   looping: 0
   prewarm: 0
-  playOnAwake: 1
+  playOnAwake: 0
   useUnscaledTime: 0
   autoRandomSeed: 1
   useRigidbodyForVelocity: 1
@@ -30407,7 +30407,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &2015997956
 Transform:
   m_ObjectHideFlags: 0
@@ -30430,13 +30430,13 @@ ParticleSystem:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2015997955}
   serializedVersion: 6
-  lengthInSec: 5
+  lengthInSec: 1
   simulationSpeed: 1
   stopAction: 0
   cullingMode: 0
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
-  looping: 1
+  looping: 0
   prewarm: 0
   playOnAwake: 0
   useUnscaledTime: 0
@@ -35423,13 +35423,13 @@ ParticleSystem:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2086647167}
   serializedVersion: 6
-  lengthInSec: 5
+  lengthInSec: 1
   simulationSpeed: 1
   stopAction: 0
   cullingMode: 0
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
-  looping: 1
+  looping: 0
   prewarm: 0
   playOnAwake: 0
   useUnscaledTime: 0
@@ -41507,6 +41507,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea932c596d7df5041adea7eac808fd6c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerscript: {fileID: 0}
 --- !u!1 &4180111876721588428
 GameObject:
   m_ObjectHideFlags: 0
@@ -42194,8 +42195,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isDummy: 0
-  playerInput: {fileID: 0}
-  health: 0
+  health: 100
   numLives: 3
   playerUIPanel: {fileID: 1992865916, guid: 7c3f6ab5b694f93408628955aba9e7c9, type: 3}
   floatingTextSpawnPoint: {fileID: 17695758235233505}
@@ -42241,15 +42241,22 @@ MonoBehaviour:
   respawnBits: {fileID: 368679656}
   audioSource: {fileID: 0}
   headShot: {fileID: 8300000, guid: 25158bc9838f09741a2bab00f4668a12, type: 3}
-  standardShot: {fileID: 8300000, guid: a687cd31c5747094db4d2f0b08d21e76, type: 3}
+  standardShots:
+  - {fileID: 8300000, guid: a687cd31c5747094db4d2f0b08d21e76, type: 3}
+  - {fileID: 8300000, guid: 5ab5dcd7e3c49e44c944ab161ed4ea49, type: 3}
+  - {fileID: 8300000, guid: 8c8670c21b122c2419c574e62bb29d86, type: 3}
+  - {fileID: 8300000, guid: 0e95966f324fb0d4a80c26f9baeaab69, type: 3}
+  - {fileID: 8300000, guid: 802edd83264f59b47bc188eaef44903e, type: 3}
+  - {fileID: 8300000, guid: fd4785a987ec4ab4b9cc5e05a8bf0736, type: 3}
   torsoImpact: {fileID: 8300000, guid: 7721d28d062a65b418a84b929c31c397, type: 3}
   legsImpact: {fileID: 8300000, guid: 895090f8489469e429bb9732a04f561c, type: 3}
   headImpact: {fileID: 8300000, guid: 12d79719fc02f904cb07a596d61458a4, type: 3}
-  deathClip: {fileID: 8300000, guid: 3ab6e9857ca9b4740b7579d392158eed, type: 3}
+  deathClip: {fileID: 8300000, guid: a21db5c518a3d4c448950ac7e513d9ad, type: 3}
   respawnClip: {fileID: 8300000, guid: 8d12d04473f30ba4a8f75420de8c901b, type: 3}
   playerName: 
   hexColorCode: 
   rb: {fileID: 0}
+  playerInput: {fileID: 0}
   pistolTime: 0
   rifleTime: 0
   shotgunTime: 0
@@ -42960,20 +42967,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   basePlayer: {fileID: 4976415590657393650}
-  horizontalAxis: 
-  verticalAxis: 
-  triggerAxis: 
-  XButton: 
   currentWeapon: {fileID: 11400000, guid: 49ead892372b5274e987c2ac71fbb8e3, type: 2}
-  currentAmmo: 0
-  totalBulletsGunCanLoad: 0
   reloadTimer: {fileID: 120857029}
-  isReloading: 0
   bulletSpawn: {fileID: 4868978610939038248}
   bulletSprite: {fileID: 21300000, guid: 8101d209ae24bb041b7ba5836494d518, type: 3}
   rocketSprite: {fileID: 21300000, guid: 42ddd0f21693f6a4fbef3abb1f787d83, type: 3}
-  currentArms: {fileID: 0}
   dryFire: {fileID: 8300000, guid: 045de3ddf8a33af44badcb0cc91d836c, type: 3}
+  currentAmmo: 0
+  isReloading: 0
+  currentArms: {fileID: 0}
 --- !u!82 &1261354532
 AudioSource:
   m_ObjectHideFlags: 0

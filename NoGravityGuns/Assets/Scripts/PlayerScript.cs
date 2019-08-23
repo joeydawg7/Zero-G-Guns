@@ -30,6 +30,7 @@ public class PlayerScript : MonoBehaviour
     public int collisionLayer;
 
     [Header("Controller Stuff")]
+    [HideInInspector]
     public int playerID;
     public InputUser user;
     [HideInInspector]
@@ -76,9 +77,10 @@ public class PlayerScript : MonoBehaviour
     #endregion
     #region Audio
     [Header("Audio")]
+    [HideInInspector]
     public AudioSource audioSource;
     public AudioClip headShot;
-    public AudioClip standardShot;
+    public List<AudioClip> standardShots;
     public AudioClip torsoImpact;
     public AudioClip legsImpact;
     public AudioClip headImpact;
@@ -107,6 +109,7 @@ public class PlayerScript : MonoBehaviour
     Rigidbody2D[] legRBs;
     GameObject cameraParent;
     Quaternion spawnRotation;
+    GameManager gameManager;
     #endregion
     #region constants
     const float HEADSHOT_MULTIPLIER = 2f;
@@ -181,7 +184,8 @@ public class PlayerScript : MonoBehaviour
         cameraParent = Camera.main.transform.parent.gameObject;
 
         trail = GetComponent<TrailRenderer>();
-        trail.enabled = false;
+        trail.emitting = false;
+        gameManager = GameManager.Instance;
 
         //data
         shotsFired = 0;
@@ -199,25 +203,29 @@ public class PlayerScript : MonoBehaviour
         {
             immuneToCollisionsTimer += Time.deltaTime;
 
-            if (armsScript.currentArms == pistolArms)
+            //track data is we allow it
+            if (gameManager.dataManager.AllowWriteToFile && !isDummy)
             {
-                pistolTime += Time.deltaTime;
-            }
-            else if (armsScript.currentArms == assaultRifleArms)
-            {
-                rifleTime += Time.deltaTime;
-            }
-            else if (armsScript.currentArms == shotGunArms)
-            {
-                shotgunTime += Time.deltaTime;
-            }
-            else if (armsScript.currentArms == railGunArms)
-            {
-                railgunTime += Time.deltaTime;
-            }
-            else if (armsScript.currentArms == LMGArms)
-            {
-                miniGunTime += Time.deltaTime;
+                if (armsScript.currentArms == pistolArms)
+                {
+                    pistolTime += Time.deltaTime;
+                }
+                else if (armsScript.currentArms == assaultRifleArms)
+                {
+                    rifleTime += Time.deltaTime;
+                }
+                else if (armsScript.currentArms == shotGunArms)
+                {
+                    shotgunTime += Time.deltaTime;
+                }
+                else if (armsScript.currentArms == railGunArms)
+                {
+                    railgunTime += Time.deltaTime;
+                }
+                else if (armsScript.currentArms == LMGArms)
+                {
+                    miniGunTime += Time.deltaTime;
+                }
             }
 
             //add a trail if speed gets high enough to potentially hurt
@@ -388,8 +396,10 @@ public class PlayerScript : MonoBehaviour
                         damage *= HEADSHOT_MULTIPLIER;
                         SpawnFloatingDamageText(Mathf.RoundToInt(damage), DamageType.head, "Crit");
                         //Color.Red
-                        HS_Flash.Emit(1);
-                        HS_Flash.Emit(Random.Range(35, 45));
+                        Debug.Log("playing hs flash");
+                        HS_Flash.Play();
+                        HS_Streaks.Play();
+                        //HS_Flash.Emit(Random.Range(35, 45));
                         if (playBulletSFX)
                             audioSource.PlayOneShot(headShot);
 
@@ -422,7 +432,7 @@ public class PlayerScript : MonoBehaviour
                 }
 
                 if (damageType != DamageType.head && playBulletSFX)
-                    audioSource.PlayOneShot(standardShot);
+                    audioSource.PlayOneShot(standardShots[Random.Range(0,standardShots.Count)]);
             }
 
 
@@ -434,24 +444,28 @@ public class PlayerScript : MonoBehaviour
             if (health <= 0)
             {
                 //add a kill to whoever shot you, show it in GUI... as long as its not you
-                if (playerLastHitBy != null && playerLastHitBy!= this)
+                if (playerLastHitBy != null && playerLastHitBy != this)
                 {
                     playerLastHitBy.numKills++;
                     playerLastHitBy.playerUIPanel.SetKills(playerLastHitBy.numKills);
                 }
                 //reduce points if you kill yourself
-                else if (playerLastHitBy !=null && playerLastHitBy == this)
+                else if (playerLastHitBy != null && playerLastHitBy == this)
                 {
                     playerLastHitBy.numKills--;
                     playerLastHitBy.playerUIPanel.SetKills(playerLastHitBy.numKills);
                 }
 
-                SaveDamageData(gunType, Mathf.RoundToInt(damage), true, PlayerWhoShotYou);
+                if (gameManager.dataManager.AllowWriteToFile)
+                    SaveDamageData(gunType, Mathf.RoundToInt(damage), true, PlayerWhoShotYou);
 
                 Die();
             }
             else
-                SaveDamageData(gunType, Mathf.RoundToInt(damage), false, PlayerWhoShotYou);
+            {
+                if (gameManager.dataManager.AllowWriteToFile)
+                    SaveDamageData(gunType, Mathf.RoundToInt(damage), false, PlayerWhoShotYou);
+            }
         }
     }
 
@@ -698,6 +712,8 @@ public class PlayerScript : MonoBehaviour
 
     public void UnsetController()
     {
+        this.controller = null;
+        player = null;
         playerID = 0;
         playerName = "";
     }
@@ -772,6 +788,7 @@ public class PlayerScript : MonoBehaviour
     }
     #endregion
 
+    #region Floating Damage Text
     public struct FloatingDamageStuff
     {
         public readonly GameObject floatingDamageGameObject;
@@ -816,12 +833,14 @@ public class PlayerScript : MonoBehaviour
                 break;
         }
 
-        if (floatingDamage.floatingDamageGameObject != null)
+        //run a different function if we already have some floating text in existance, unless its a heal then treat it as new text
+        if (floatingDamage.floatingDamageGameObject != null && dmgToShow >0)
         {
             AddToFloatingDamage(dmgToShow, damageType, color, animType);
             return;
         }
 
+        //if we're not adding to an old damage text, we need to spawn a new one form a pool
         GameObject floatingTextGo = ObjectPooler.Instance.SpawnFromPool("FloatingText", floatingTextSpawnPoint.transform.position, Quaternion.identity, floatingTextSpawnPoint);
         floatingTextGo.transform.localPosition = new Vector3(0, 0, 0);
         floatingTextGo.transform.localScale = new Vector3(1, 1, 1);
@@ -846,20 +865,20 @@ public class PlayerScript : MonoBehaviour
         //temp multiply damage by 2 to affect how big we scale it. trenchfoot math :D
         dmgToShow *= 2;
 
+        //pretty sure this doesnt do anything because of how worldspace canvases work but im also kind of afraid to delete it?
         floatingTextGo.transform.localScale = new Vector3(floatingTextGo.transform.localScale.x * ((float)dmgToShow / 50f), floatingTextGo.transform.localScale.y * ((float)dmgToShow / 50f),
             floatingTextGo.transform.localScale.z * ((float)dmgToShow / 50f));
     }
 
+    //adds the new damage value to our current floating damage and resets animation instead of stacking more text
     void AddToFloatingDamage(int dmg, DamageType damageType, Color color, string animType)
     {
+        //add to damage to get new value
         floatingDamage.floatingDamageGameObject.GetComponent<TextMeshProUGUI>().text = (dmg + floatingDamage.damage).ToString();
         floatingDamage.damage = dmg + floatingDamage.damage;
 
-        //floatingDamage.floatingDamageGameObject.transform.localScale += new Vector3(floatingDamage.floatingDamageGameObject.transform.localScale.x * ((float)floatingDamage.damage / 50f),
-        //    floatingDamage.floatingDamageGameObject.transform.localScale.y * ((float)floatingDamage.damage / 50f),
-        //   floatingDamage.floatingDamageGameObject.transform.localScale.z * ((float)floatingDamage.damage / 50f));
-
-        //change the damage type if its value is more
+        //change the damage type if its value is more... stacks from bottom up so a headshot is higher priority than foot, etc.
+        //this way if multiple hits land on a target the most important hit determines the color of impact instead of it being 100% random :D
         if(damageType > floatingDamage.damageType)
             floatingDamage.damageType = damageType;
 
@@ -885,6 +904,7 @@ public class PlayerScript : MonoBehaviour
                 break;
         }
 
+        //sets the color for real
         floatingDamage.floatingDamageGameObject.GetComponent<TextMeshProUGUI>().color = color;
 
         //offset position to give a degree of motion to the thing
@@ -892,5 +912,6 @@ public class PlayerScript : MonoBehaviour
         floatingDamage.floatingDamageGameObject.GetComponent<Animator>().SetTrigger(animType);
 
     }
+    #endregion
 
 }

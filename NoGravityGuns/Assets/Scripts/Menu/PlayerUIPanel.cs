@@ -13,7 +13,7 @@ public class PlayerUIPanel : MonoBehaviour
     public Transform stockHolder;
     public GameObject headStock;
     public Image gunImage;
-    public HorizontalLayoutGroup playerUILayout;
+    public GridLayoutGroup playerUILayout;
     public TextMeshProUGUI kills;
     GameManager gameManager;
 
@@ -36,7 +36,7 @@ public class PlayerUIPanel : MonoBehaviour
 
         this.playerPortrait.sprite = playerPortrait;
         this.playerHealthBar.sprite = healthbar;
-        this.playerUILayout = transform.parent.GetComponent<HorizontalLayoutGroup>();
+        this.playerUILayout = transform.parent.GetComponent<GridLayoutGroup>();
 
     }
     public void setHealth(float fillDamage)
@@ -98,7 +98,6 @@ public class PlayerUIPanel : MonoBehaviour
     {
         playerUILayout.enabled = false;
         GetComponent<Animator>().SetTrigger("Destroy");
-        EnableLayoutGroup();
     }
 
     public void EnableLayoutGroup()
@@ -109,6 +108,7 @@ public class PlayerUIPanel : MonoBehaviour
 
     public void KillMeAfterAnim()
     {
+        EnableLayoutGroup();
         Destroy(gameObject);
     }
 }

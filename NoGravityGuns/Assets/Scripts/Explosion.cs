@@ -98,7 +98,7 @@ public static class Rigidbody2DExt
         Vector2 force = dir.normalized * explosionForce * wearoff;
         body.AddForce(force, mode);
 
-        float dmg = (explosionForce * wearoff) / 5f;
+        float dmg = (explosionForce * wearoff) / 12f;
 
         if (body.transform.root.GetComponent<PlayerScript>() != null && dealDamage)
         {

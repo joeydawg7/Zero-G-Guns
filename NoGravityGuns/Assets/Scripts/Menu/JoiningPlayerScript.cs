@@ -123,6 +123,55 @@ public class JoiningPlayerScript : MonoBehaviour
 
     }
 
+    void RemoveNextPlayer()
+    {
+        if (assignedControls.Count < 1)
+        {
+            Debug.Log("Min player limit already reached!");
+            return;
+        }
+
+        rewiredPlayerIdCounter--;
+        // Get the next Rewired Player Id
+        //int rewiredPlayerId = GetNextGamePlayerId();
+
+        //// Get the Rewired Player
+        //Player rewiredPlayer = ReInput.players.GetPlayer(rewiredPlayerId);
+
+        // Determine which Controller was used to generate the Drop Action
+        Player systemPlayer = ReInput.players.GetSystemPlayer();
+        var inputSources = systemPlayer.GetCurrentInputSources("Drop");
+
+        foreach (var source in inputSources)
+        {
+            //TODO: mouse and keyboard support?
+            if (source.controllerType == ControllerType.Keyboard || source.controllerType == ControllerType.Mouse)
+            { // Assigning keyboard/mouse
+
+                // Assign KB/Mouse to the Player
+                //AssignKeyboardAndMouseToPlayer(rewiredPlayer);
+
+                //// Disable KB/Mouse Assignment category in System Player so it doesn't assign through the keyboard/mouse anymore
+                //ReInput.players.GetSystemPlayer().controllers.maps.SetMapsEnabled(false, ControllerType.Keyboard, "Assignment");
+                //ReInput.players.GetSystemPlayer().controllers.maps.SetMapsEnabled(false, ControllerType.Mouse, "Assignment");
+                //break;
+
+            }
+            else if (source.controllerType == ControllerType.Joystick)
+            { // assigning a joystick
+
+                // Assign the joystick to the Player. This will also un-assign it from System Player
+                RemoveJoystickFromPlayer(source.controller as Joystick);
+                break;
+
+            }
+            else
+            { // Custom Controller
+                throw new System.NotImplementedException();
+            }
+        }
+    }
+
     private void AssignJoystickToPlayer(Player player, Joystick joystick)
     {
         // Mark this joystick as assigned so we don't give it to the System Player again
@@ -138,6 +187,34 @@ public class JoiningPlayerScript : MonoBehaviour
         Debug.Log("Assigned " + joystick.name + " to Player " + joystick.id);
         
         tipToStart.alpha = 1;
+    }
+
+    private void RemoveJoystickFromPlayer(Joystick joystick)
+    {
+        // Mark this joystick as assigned so we don't give it to the System Player again
+        if (assignedControls.Contains(joystick.id))
+        {
+            assignedControls.Remove(joystick.id);
+            //only play the sound if not contained, so we can tell if someone is joining when they are already in
+            GameManager.Instance.audioSource.PlayOneShot(joinClick);
+        }
+
+        RemovePlayerControllerSetup(joystick.id, joystick);
+
+        Debug.Log("Removed " + joystick.name + " from Player " + joystick.id);
+
+        if(assignedControls.Count<1)
+            tipToStart.alpha = 0;
+    }
+
+    void RemovePlayerControllerSetup(int i, Controller controller)
+    {
+        JoinPanel jp = joinPanels[i].GetComponent<JoinPanel>();
+        if (jp.hasAssignedController == true)
+        {
+            jp.UnAssignController();
+            return;
+        }
     }
 
 
@@ -157,9 +234,10 @@ public class JoiningPlayerScript : MonoBehaviour
 
     void AddPlayerControllerSetup(int i, Controller controller)
     {
-        if (joinPanels[i].GetComponent<JoinPanel>().hasAssignedController == false)
+        JoinPanel jp = joinPanels[i].GetComponent<JoinPanel>();
+        if (jp.hasAssignedController == false)
         {
-            joinPanels[i].GetComponent<JoinPanel>().AssignController((i + 1), controller);
+            jp.AssignController((i + 1), controller);
             return;
         }
     }
@@ -178,6 +256,11 @@ public class JoiningPlayerScript : MonoBehaviour
             if (ReInput.players.GetSystemPlayer().GetButtonDown("Start"))
             {
                 StartButtonPressed();
+            }
+
+            if(ReInput.players.GetSystemPlayer().GetButtonDown("Drop"))
+            {
+                RemoveNextPlayer();
             }
         }
     }

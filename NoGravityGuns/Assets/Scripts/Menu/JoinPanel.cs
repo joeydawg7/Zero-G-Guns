@@ -29,7 +29,6 @@ public class JoinPanel : MonoBehaviour
 
     }
 
-
     public PlayerScript AssignController(int i, Controller controller)
     {
         //controller =

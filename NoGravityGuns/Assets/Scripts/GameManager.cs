@@ -99,11 +99,11 @@ public class GameManager : MonoBehaviour
     public float collisionDamage;
     public float healthPackHeals;
 
-    DataManager dataManager;
+    public DataManager dataManager;
     #endregion
 
     //some leftover from when i used a different singleton pattern for this. left around in case i go back to it
-    private void OnLevelWasLoaded(int level)
+   /* private void OnLevelWasLoaded(int level)
     {
         players.Clear();
 
@@ -125,7 +125,7 @@ public class GameManager : MonoBehaviour
         isGameStarted = false;
 
         dataManager = GetComponent<DataManager>();
-    }
+    }*/
 
     private void Awake()
     {
