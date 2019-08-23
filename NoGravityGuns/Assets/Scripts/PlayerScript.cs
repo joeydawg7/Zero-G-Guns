@@ -38,7 +38,7 @@ public class PlayerScript : MonoBehaviour
     Controller controller;
 
     [HideInInspector]
-    public enum DamageType { none =0, head =4, torso=3, legs=2, feet =1 };
+    public enum DamageType { none = 0, head = 4, torso = 3, legs = 2, feet = 1 };
     [HideInInspector]
     public enum GunType { pistol, assaultRifle, LMG, shotgun, railGun, healthPack, RPG, collision };
 
@@ -203,8 +203,8 @@ public class PlayerScript : MonoBehaviour
         {
             immuneToCollisionsTimer += Time.deltaTime;
 
-            //track data is we allow it
-            if (gameManager.dataManager.AllowWriteToFile && !isDummy)
+            //track data if we allow it
+            if (!isDummy)
             {
                 if (armsScript.currentArms == pistolArms)
                 {
@@ -299,7 +299,7 @@ public class PlayerScript : MonoBehaviour
 
         playerUIPanel.SetLives(numLives, playerHead);
 
-        if(!isDummy)
+        if (!isDummy)
             player.controllers.AddController(controller, true);
 
         StartCoroutine(RespawnInvulernability());
@@ -432,7 +432,7 @@ public class PlayerScript : MonoBehaviour
                 }
 
                 if (damageType != DamageType.head && playBulletSFX)
-                    audioSource.PlayOneShot(standardShots[Random.Range(0,standardShots.Count)]);
+                    audioSource.PlayOneShot(standardShots[Random.Range(0, standardShots.Count)]);
             }
 
 
@@ -456,14 +456,14 @@ public class PlayerScript : MonoBehaviour
                     playerLastHitBy.playerUIPanel.SetKills(playerLastHitBy.numKills);
                 }
 
-                if (gameManager.dataManager.AllowWriteToFile)
+                //if (gameManager.dataManager.AllowWriteToFile)
                     SaveDamageData(gunType, Mathf.RoundToInt(damage), true, PlayerWhoShotYou);
 
                 Die();
             }
             else
             {
-                if (gameManager.dataManager.AllowWriteToFile)
+                //if (gameManager.dataManager.AllowWriteToFile)
                     SaveDamageData(gunType, Mathf.RoundToInt(damage), false, PlayerWhoShotYou);
             }
         }
@@ -581,6 +581,8 @@ public class PlayerScript : MonoBehaviour
         respawnFlash.Emit(1);
         respawnBits.Emit(Random.Range(15, 30));
 
+        ForcePushOnSpawn();
+
         foreach (var legToFix in legFixers)
         {
             legToFix.ResetLeg();
@@ -674,6 +676,44 @@ public class PlayerScript : MonoBehaviour
         }
 
         isInvulnerable = false;
+    }
+
+    private void ForcePushOnSpawn()
+    {
+        int power = 100;
+        int radius = 15;
+
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, radius);
+        foreach (Collider2D hit in colliders)
+        {
+            Rigidbody2D rb = hit.GetComponent<Rigidbody2D>();
+
+            if (rb == null && hit.transform.root.GetComponent<Rigidbody2D>() != null)
+            {
+                rb = hit.transform.root.GetComponent<Rigidbody2D>();
+            }
+
+            if (rb != null)
+            {
+
+                //treat players different from other objects
+                if (rb.tag == "Player")
+                {
+                    //note that this force is only applied to players torso... trying to add more than that caused some crazy effects for little gains in overall usefulness
+                    Rigidbody2DExt.AddExplosionForce(rb, power, transform.position, radius, ForceMode2D.Force);
+                }
+                //give impact objects a bit more push than other things
+                else if (rb.tag == "ImpactObject")
+                {
+                    Rigidbody2DExt.AddExplosionForce(rb, power, transform.position, radius, ForceMode2D.Force);
+                }
+                else
+                {
+                    Rigidbody2DExt.AddExplosionForce(rb, power, transform.position, radius, ForceMode2D.Force);
+                }
+            }
+        }
+
     }
     #endregion
 
@@ -834,10 +874,14 @@ public class PlayerScript : MonoBehaviour
         }
 
         //run a different function if we already have some floating text in existance, unless its a heal then treat it as new text
-        if (floatingDamage.floatingDamageGameObject != null && dmgToShow >0)
+        if (floatingDamage.floatingDamageGameObject != null && dmgToShow > 0)
         {
-            AddToFloatingDamage(dmgToShow, damageType, color, animType);
-            return;
+            //we should be making new text if the current floaty text is a heal
+            if (floatingDamage.damage > 0)
+            {
+                AddToFloatingDamage(dmgToShow, damageType, color, animType);
+                return;
+            }
         }
 
         //if we're not adding to an old damage text, we need to spawn a new one form a pool
@@ -879,7 +923,7 @@ public class PlayerScript : MonoBehaviour
 
         //change the damage type if its value is more... stacks from bottom up so a headshot is higher priority than foot, etc.
         //this way if multiple hits land on a target the most important hit determines the color of impact instead of it being 100% random :D
-        if(damageType > floatingDamage.damageType)
+        if (damageType > floatingDamage.damageType)
             floatingDamage.damageType = damageType;
 
         switch (floatingDamage.damageType)

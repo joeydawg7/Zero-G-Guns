@@ -147,6 +147,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        
         //loading delay to prevent fuckupery... game jam code you know
         StartCoroutine(Delay());
     }
@@ -195,6 +196,8 @@ public class GameManager : MonoBehaviour
 
         dataManager.OnGameStart();
 
+        Time.timeScale = 1;
+
         StartCoroutine(Countdown());
     }
 
@@ -227,7 +230,6 @@ public class GameManager : MonoBehaviour
         PlayerUIPanel gO = Instantiate(playUIPrefab, playerUIParent).GetComponent<PlayerUIPanel>();
         gO.setAll((float)player.health / 100f, player.playerName, player.armsScript.AmmoText(), player.playerColor, player.playerPortrait, player.healthBar);
         player.playerUIPanel = gO;
-
     }
     private void Update()
     {
@@ -241,7 +243,6 @@ public class GameManager : MonoBehaviour
 
     public void OnGameEnd()
     {
-        Time.timeScale = 0.5f;
         guiManager.RunTimer(false);
 
         //list of people who are still alive at match end
