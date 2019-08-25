@@ -394,6 +394,7 @@ public class PlayerScript : MonoBehaviour
                 {
                     case DamageType.head:
                         damage *= HEADSHOT_MULTIPLIER;
+                        Debug.Log(damage);
                         SpawnFloatingDamageText(Mathf.RoundToInt(damage), DamageType.head, "Crit");
                         //Color.Red
                         Debug.Log("playing hs flash");
@@ -408,6 +409,7 @@ public class PlayerScript : MonoBehaviour
                         break;
                     case DamageType.torso:
                         damage *= TORSOSHOT_MULTIPLIER;
+                        Debug.Log(damage);
                         SpawnFloatingDamageText(Mathf.RoundToInt(damage), DamageType.torso, "FloatAway");
                         //Color.yellow
                         if (PlayerWhoShotYou != null)
@@ -415,6 +417,7 @@ public class PlayerScript : MonoBehaviour
                         break;
                     case DamageType.legs:
                         damage *= LEGSHOT_MULTIPLIER;
+                        Debug.Log(Mathf.RoundToInt(damage));
                         SpawnFloatingDamageText(Mathf.RoundToInt(damage), DamageType.legs, "FloatAway");
                         // Color.black
                         if (PlayerWhoShotYou != null)
@@ -422,6 +425,7 @@ public class PlayerScript : MonoBehaviour
                         break;
                     case DamageType.feet:
                         damage *= FOOTSHOT_MULTIPLIER;
+                        Debug.Log(damage);
                         SpawnFloatingDamageText(Mathf.RoundToInt(damage), DamageType.feet, "FloatAway");
                         //Color.gray
                         if (PlayerWhoShotYou != null)
@@ -434,7 +438,6 @@ public class PlayerScript : MonoBehaviour
                 if (damageType != DamageType.head && playBulletSFX)
                     audioSource.PlayOneShot(standardShots[Random.Range(0, standardShots.Count)]);
             }
-
 
             health -= (int)damage;
             health = Mathf.Clamp(health, 0, 100);

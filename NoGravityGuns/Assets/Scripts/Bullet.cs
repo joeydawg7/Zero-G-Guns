@@ -146,6 +146,8 @@ public class Bullet : MonoBehaviour, IPooledObject
                     GetComponent<Collider2D>().enabled = false;
                 }
 
+                canImapact = false;
+
                 //spawn some impact sparks from pool
                 GameObject sparkyObj = objectPooler.SpawnFromPool("BulletImpact", transform.position, Quaternion.identity);
                 sparkyObj.GetComponent<ParticleSystem>().Emit(10);
