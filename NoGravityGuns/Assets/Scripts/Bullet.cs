@@ -145,9 +145,7 @@ public class Bullet : MonoBehaviour, IPooledObject
                     canBounce = false;
                     GetComponent<Collider2D>().enabled = false;
                 }
-
-                canImapact = false;
-
+         
                 //spawn some impact sparks from pool
                 GameObject sparkyObj = objectPooler.SpawnFromPool("BulletImpact", transform.position, Quaternion.identity);
                 sparkyObj.GetComponent<ParticleSystem>().Emit(10);
@@ -164,11 +162,13 @@ public class Bullet : MonoBehaviour, IPooledObject
                 //only bounce if you are a railgun bullet that hasnt hit a player, and only do it once. 
                 if ((bulletType != PlayerScript.GunType.railGun && bulletType != PlayerScript.GunType.RPG || canBounce == false))
                 {
+                    canImapact = false;
                     KillBullet();
                     return;
                 }              
                 else if (dmgType != PlayerScript.DamageType.none)
                 {
+                    canImapact = false;
                     KillBullet();
                     return;
                 }
@@ -178,6 +178,8 @@ public class Bullet : MonoBehaviour, IPooledObject
                 }
 
                 rb.AddForce(Reflect(startingForce, collision.GetContact(0).normal));
+
+                
             }
         }
     }
@@ -197,11 +199,18 @@ public class Bullet : MonoBehaviour, IPooledObject
     void ExplodeBullet()
     {
         gameObject.GetComponent<CircleCollider2D>().enabled = false;
-        Explosion explosion = transform.Find("ExplosionRadius").GetComponent<Explosion>();
-        explosion.gameObject.SetActive(true);
-        explosion.Explode(player);
-        rb.simulated = false;
-        rb.isKinematic = true;
+        Explosion explosion=null;
+        if (transform != null)
+        {
+            explosion = transform.Find("ExplosionRadius").GetComponent<Explosion>();
+        }
+        if (explosion != null)
+        {
+            explosion.gameObject.SetActive(true);
+            explosion.Explode(player);
+            rb.simulated = false;
+            rb.isKinematic = true;
+        }
 
         sr.enabled = false;
         StartCoroutine(DisableOverTime(0.6f));
