@@ -24,7 +24,7 @@ public class PlayerUIPanel : MonoBehaviour
 
     public void setAll(float fillDamage, string statusMsg, string gunMsg, Color32 color, Sprite playerPortrait, Sprite healthbar)
     {
-
+        gameManager = GameManager.Instance;
         setHealth(fillDamage);
         //SetGunText(statusMsg);
         SetAmmoText(gunMsg);

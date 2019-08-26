@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour, IPooledObject
 {
-
     float damage;
 
     PlayerScript.GunType bulletType;
@@ -184,7 +183,6 @@ public class Bullet : MonoBehaviour, IPooledObject
         }
     }
 
-
     //gets rid of a bullet gracefully
     void KillBullet()
     {
@@ -200,10 +198,12 @@ public class Bullet : MonoBehaviour, IPooledObject
     {
         gameObject.GetComponent<CircleCollider2D>().enabled = false;
         Explosion explosion=null;
+
         if (transform != null)
         {
             explosion = transform.Find("ExplosionRadius").GetComponent<Explosion>();
         }
+
         if (explosion != null)
         {
             explosion.gameObject.SetActive(true);

@@ -15,10 +15,17 @@ public class Explosion : MonoBehaviour
     public AudioSource audioSouce;
     public List<AudioClip> explosionClips;
 
+    CameraShake cameraShake;
+
+    private void Awake()
+    {
+        cameraShake = Camera.main.GetComponent<CameraShake>();
+    }
 
     public void Explode(PlayerScript playerWhoShot)
     {
         this.playerWhoShot = playerWhoShot;
+        
         GrowExplosion();
         
     }
@@ -30,6 +37,8 @@ public class Explosion : MonoBehaviour
 
         smoke.Emit(2);
         explosionBits.Emit(Random.Range(20, 40));
+
+        cameraShake.shakeDuration += 0.25f;
 
         //lets the circle with our given radius actually hurt people
         bool dealDamage = true;

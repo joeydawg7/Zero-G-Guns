@@ -10,6 +10,7 @@ using Rewired;
 
 public class PlayerScript : MonoBehaviour
 {
+    //Variables
     #region publics
     [Header("Debug")]
     //If true treats the player as a dummy to be shot... for testing only :D
@@ -155,8 +156,9 @@ public class PlayerScript : MonoBehaviour
     [HideInInspector]
     public float footShots;
     #endregion
+    //End Variables
 
-    #region Awake, Update
+    #region Awake, Update, Start
     private void Awake()
     {
 
@@ -196,6 +198,11 @@ public class PlayerScript : MonoBehaviour
         footShots = 0;
     }
 
+    private void Start()
+    {
+        rb.simulated = false;
+    }
+
     private void Update()
     {
 
@@ -229,7 +236,7 @@ public class PlayerScript : MonoBehaviour
             }
 
             //add a trail if speed gets high enough to potentially hurt
-            if (rb.velocity.magnitude > 45)
+            if (rb.velocity.magnitude > 55)
             {
                 trail.emitting = true;
             }
@@ -256,7 +263,7 @@ public class PlayerScript : MonoBehaviour
         }
 
     }
-    #endregion
+    #endregion  , Start
 
     #region Input Handler Functions
     public void OnDrop()
@@ -276,33 +283,6 @@ public class PlayerScript : MonoBehaviour
                 Time.timeScale = 1;
             Debug.Log("timescale = " + Time.timeScale);
         }
-
-    }
-
-    public void OnGameStart()
-    {
-        health = 100;
-        float barVal = ((float)health / 100f);
-        playerUIPanel.setHealth(barVal);
-        isDead = false;
-        numKills = 0;
-
-        assaultRifleArms.SetActive(false);
-        shotGunArms.SetActive(false);
-        LMGArms.SetActive(false);
-        EquipArms(GunType.pistol, GameManager.Instance.pistol);
-
-        torsoSR = GetComponent<SpriteRenderer>();
-        armsSR = armsScript.currentArms.GetComponent<SpriteRenderer>();
-        legsSR = GetComponentsInChildren<SpriteRenderer>();
-        legRBs = legsParent.GetComponentsInChildren<Rigidbody2D>();
-
-        playerUIPanel.SetLives(numLives, playerHead);
-
-        if (!isDummy)
-            player.controllers.AddController(controller, true);
-
-        StartCoroutine(RespawnInvulernability());
 
     }
     #endregion
@@ -533,7 +513,8 @@ public class PlayerScript : MonoBehaviour
             isDead = true;
             numLives--;
             audioSource.PlayOneShot(deathClip);
-            playerUIPanel.LoseStock();
+            if(!isDummy)
+                playerUIPanel.LoseStock();
 
             if (numLives <= 0)
             {
@@ -720,7 +701,7 @@ public class PlayerScript : MonoBehaviour
     }
     #endregion
 
-    #region Controller Setting / unsetting
+    #region Controller Setting / unsetting, OnStart
     public void SetController(int number, Controller controller)
     {
         this.controller = controller;
@@ -759,6 +740,38 @@ public class PlayerScript : MonoBehaviour
         player = null;
         playerID = 0;
         playerName = "";
+    }
+
+    public void OnGameStart()
+    {
+        health = 100;
+        float barVal = ((float)health / 100f);
+        playerUIPanel.setHealth(barVal);
+        isDead = false;
+        numKills = 0;
+
+        assaultRifleArms.SetActive(false);
+        shotGunArms.SetActive(false);
+        LMGArms.SetActive(false);
+        EquipArms(GunType.pistol, GameManager.Instance.pistol);
+
+        torsoSR = GetComponent<SpriteRenderer>();
+        armsSR = armsScript.currentArms.GetComponent<SpriteRenderer>();
+        legsSR = GetComponentsInChildren<SpriteRenderer>();
+        legRBs = legsParent.GetComponentsInChildren<Rigidbody2D>();
+
+
+
+        if (!isDummy)
+        {
+            playerUIPanel.SetLives(numLives, playerHead);
+            player.controllers.AddController(controller, true);
+        }
+
+        rb.simulated = true;
+
+        StartCoroutine(RespawnInvulernability());
+
     }
     #endregion
 
