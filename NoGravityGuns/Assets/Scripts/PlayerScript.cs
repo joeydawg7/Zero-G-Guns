@@ -374,7 +374,6 @@ public class PlayerScript : MonoBehaviour
                 {
                     case DamageType.head:
                         damage *= HEADSHOT_MULTIPLIER;
-                        Debug.Log(damage);
                         SpawnFloatingDamageText(Mathf.RoundToInt(damage), DamageType.head, "Crit");
                         //Color.Red
                         Debug.Log("playing hs flash");
@@ -389,7 +388,6 @@ public class PlayerScript : MonoBehaviour
                         break;
                     case DamageType.torso:
                         damage *= TORSOSHOT_MULTIPLIER;
-                        Debug.Log(damage);
                         SpawnFloatingDamageText(Mathf.RoundToInt(damage), DamageType.torso, "FloatAway");
                         //Color.yellow
                         if (PlayerWhoShotYou != null)
@@ -397,7 +395,6 @@ public class PlayerScript : MonoBehaviour
                         break;
                     case DamageType.legs:
                         damage *= LEGSHOT_MULTIPLIER;
-                        Debug.Log(Mathf.RoundToInt(damage));
                         SpawnFloatingDamageText(Mathf.RoundToInt(damage), DamageType.legs, "FloatAway");
                         // Color.black
                         if (PlayerWhoShotYou != null)
@@ -405,7 +402,6 @@ public class PlayerScript : MonoBehaviour
                         break;
                     case DamageType.feet:
                         damage *= FOOTSHOT_MULTIPLIER;
-                        Debug.Log(damage);
                         SpawnFloatingDamageText(Mathf.RoundToInt(damage), DamageType.feet, "FloatAway");
                         //Color.gray
                         if (PlayerWhoShotYou != null)
@@ -440,14 +436,14 @@ public class PlayerScript : MonoBehaviour
                 }
 
                 //if (gameManager.dataManager.AllowWriteToFile)
-                    SaveDamageData(gunType, Mathf.RoundToInt(damage), true, PlayerWhoShotYou);
+                SaveDamageData(gunType, Mathf.RoundToInt(damage), true, PlayerWhoShotYou);
 
                 Die();
             }
             else
             {
                 //if (gameManager.dataManager.AllowWriteToFile)
-                    SaveDamageData(gunType, Mathf.RoundToInt(damage), false, PlayerWhoShotYou);
+                SaveDamageData(gunType, Mathf.RoundToInt(damage), false, PlayerWhoShotYou);
             }
         }
     }
@@ -513,13 +509,14 @@ public class PlayerScript : MonoBehaviour
             isDead = true;
             numLives--;
             audioSource.PlayOneShot(deathClip);
-            if(!isDummy)
+            if (!isDummy)
                 playerUIPanel.LoseStock();
 
             if (numLives <= 0)
             {
                 cameraParent.GetComponent<CameraController>().RemovePlayerFromCameraTrack(gameObject);
-                playerUIPanel.Destroy();
+                if (!isDummy)
+                    playerUIPanel.Destroy();
                 GameManager.Instance.CheckForLastManStanding();
             }
             armsSR = armsScript.currentArms.GetComponent<SpriteRenderer>();

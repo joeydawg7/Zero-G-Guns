@@ -15,7 +15,7 @@ public class ArmsScript : MonoBehaviour
     [Header("Gun")]
     public GunSO currentWeapon;
     public GameObject reloadTimer;
-    
+
     public Transform bulletSpawn;
     public Sprite bulletSprite;
     public Sprite rocketSprite;
@@ -336,7 +336,7 @@ public class ArmsScript : MonoBehaviour
         }
         //make shotgun work like loading shells
         else if (currentWeapon.GunType == PlayerScript.GunType.shotgun)
-        {       
+        {
             reloadtimeIncrememnts = (float)currentWeapon.reloadTime / 3f;
 
             rotateCoroutine = StartCoroutine(Rotate(reloadtimeIncrememnts * shotsToReload));
@@ -525,7 +525,7 @@ public class ArmsScript : MonoBehaviour
         {
             reloadCoroutine = StartCoroutine(Reload());
         }
-            
+
     }
 
     void RocketKnockBack(Vector2 shootDir)
@@ -549,11 +549,14 @@ public class ArmsScript : MonoBehaviour
 
         currentArms.GetComponentInChildren<ParticleSystem>().Emit(UnityEngine.Random.Range(15, 40));
 
-        while (timer < 0.5f)
+        while (basePlayer.player.GetAxis("Shoot") > 0.5f && currentWeapon.GunType == PlayerScript.GunType.RPG)
         {
-            basePlayer.rb.AddForce(-bulletSpawn.transform.right * currWeapon.knockback * Time.deltaTime * ROCKET_PUSHBACK_MOD, ForceMode2D.Impulse);
+            if (timer < 0.5f)
+                basePlayer.rb.AddForce(-bulletSpawn.transform.right * currWeapon.knockback * Time.deltaTime * ROCKET_PUSHBACK_MOD, ForceMode2D.Impulse);
 
             timer += Time.deltaTime;
+
+            timeSinceLastShot = 0;
 
             yield return null;
         }
