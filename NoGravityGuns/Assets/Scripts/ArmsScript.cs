@@ -530,13 +530,13 @@ public class ArmsScript : MonoBehaviour
 
     void RocketKnockBack(Vector2 shootDir)
     {
-        StartCoroutine(PushBackBeforeKnockBack(shootDir));
+        StartCoroutine(PushBackBeforeKnockBack());
     }
 
     //force you are pushback initially when activiating rocket
     const float ROCKET_PUSHBACK_MOD = 1.2f;
 
-    IEnumerator PushBackBeforeKnockBack(Vector2 shootDir)
+    IEnumerator PushBackBeforeKnockBack()
     {
         GunSO currWeapon = currentWeapon;
 
@@ -561,13 +561,16 @@ public class ArmsScript : MonoBehaviour
             yield return null;
         }
 
-        basePlayer.rb.AddForce(-shootDir * currWeapon.knockback, ForceMode2D.Impulse);
-        cameraShake.shakeDuration += currentWeapon.cameraShakeDuration;
-        timeSinceLastShot = 0;
+        if (currentWeapon.GunType == PlayerScript.GunType.RPG)
+        {
+            basePlayer.rb.AddForce(-shootDir * currWeapon.knockback, ForceMode2D.Impulse);
+            cameraShake.shakeDuration += currentWeapon.cameraShakeDuration;
+            timeSinceLastShot = 0;
 
-        SpawnRocket(currWeapon);
+            SpawnRocket(currWeapon);
 
-        currentAmmo--;
+            currentAmmo--;
+        }
 
         if (currentAmmo <= 0)
         {

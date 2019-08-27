@@ -85,7 +85,7 @@ public class Bullet : MonoBehaviour, IPooledObject
     }
 
     const int ROCKET_TOP_SPEED = 150;
-    const float ROCKET_ACCELERATION_MOD = 250f;
+    const float ROCKET_ACCELERATION_MOD = 150f;
 
     private void FixedUpdate()
     {
