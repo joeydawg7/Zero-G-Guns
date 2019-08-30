@@ -154,7 +154,7 @@ public class Bullet : MonoBehaviour, IPooledObject
                 //if you an rcoket who hit something, blow up
                 if (bulletType == PlayerScript.GunType.RPG)
                 {
-                    ExplodeBullet();
+                    ExplodeBullet(false);
                     return;
                 }
 
@@ -194,7 +194,7 @@ public class Bullet : MonoBehaviour, IPooledObject
     }
 
     //explodes a bullet "gracefully"
-    void ExplodeBullet()
+    public void ExplodeBullet(bool explodeInstantly)
     {
         gameObject.GetComponent<CircleCollider2D>().enabled = false;
         Explosion explosion=null;
@@ -214,11 +214,13 @@ public class Bullet : MonoBehaviour, IPooledObject
 
         sr.enabled = false;
         StartCoroutine(DisableOverTime(0.6f));
-
-        somethingSexy.Stop();
-        somethingSexy.GetComponent<DisableOverTime>().DisableOverT(3.1f);
-        somethingSexy.transform.parent = null;
-
+        
+        if (!explodeInstantly)
+        {
+            somethingSexy.Stop();
+            somethingSexy.GetComponent<DisableOverTime>().DisableOverT(3.1f);
+            somethingSexy.transform.parent = null;
+        }
     }
 
     //reflect out vector to determine bounce for railgun :D
@@ -231,8 +233,7 @@ public class Bullet : MonoBehaviour, IPooledObject
     {
         yield return new WaitForSeconds(t);
         gameObject.SetActive(false);
-        rb.simulated = false;
-        
+        rb.simulated = false;        
     }
 
 

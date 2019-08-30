@@ -97,6 +97,7 @@ public class ArmsScript : MonoBehaviour
     {
         Vector2 rawAim = basePlayer.player.GetAxis2D("Move Horizontal", "Move Vertical");
 
+        //if we are aiming somewhere update everything, else we will hold on last known direction
         if (rawAim.magnitude > 0f)
         {
             // aiming stuff
@@ -283,13 +284,17 @@ public class ArmsScript : MonoBehaviour
     {
         reloadTimer.SetActive(true);
 
+        //set rotation to 0, set endpoint to 360 degrees later
         float startRotation = 0f;
         float endRotation = startRotation + 360.0f;
+
         float t = 0.0f;
         float FinalZRot = 0;
+
         while (t < duration)
         {
             t += Time.deltaTime;
+            //math magic
             float zRotation = Mathf.Lerp(startRotation, endRotation, t / duration) % 360.0f;
             reloadTimer.transform.eulerAngles = new Vector3(reloadTimer.transform.eulerAngles.x, reloadTimer.transform.eulerAngles.y, zRotation);
             FinalZRot = zRotation;
@@ -549,18 +554,38 @@ public class ArmsScript : MonoBehaviour
 
         currentArms.GetComponentInChildren<ParticleSystem>().Emit(UnityEngine.Random.Range(15, 40));
 
+        //while we are holding the trigger down and still holding an rpg
         while (basePlayer.player.GetAxis("Shoot") > 0.5f && currentWeapon.GunType == PlayerScript.GunType.RPG)
         {
+            //time to give pushback
             if (timer < 0.5f)
                 basePlayer.rb.AddForce(-bulletSpawn.transform.right * currWeapon.knockback * Time.deltaTime * ROCKET_PUSHBACK_MOD, ForceMode2D.Impulse);
 
-            timer += Time.deltaTime;
+            //rocket held too long, blow up in hand
+            if (timer > 4.0f)
+            {
+                ExplodeInHand();
+                currentAmmo--;
 
+                //reload if we outta bullets
+                if (currentAmmo <= 0)
+                {
+                    reloadCoroutine = StartCoroutine(Reload());
+                }
+
+                //break early so we dont also fire a real rocket
+                yield break;
+            }
+
+            //timer determines pushback status and if the thing should just explode in hand
+            timer += Time.deltaTime;
+            //time since last shot remains 0 as long as this is held down so new rockets wont try to be shot
             timeSinceLastShot = 0;
 
             yield return null;
         }
 
+        //if its still an rpg... just checking :)
         if (currentWeapon.GunType == PlayerScript.GunType.RPG)
         {
             basePlayer.rb.AddForce(-shootDir * currWeapon.knockback, ForceMode2D.Impulse);
@@ -596,6 +621,13 @@ public class ArmsScript : MonoBehaviour
         bulletGo.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
 
         bulletGo.GetComponent<Bullet>().Construct(currentWeapon.GunDamage, basePlayer, rocketSprite, PlayerScript.GunType.RPG, dir, basePlayer.collisionLayer);
+    }
+
+    void ExplodeInHand()
+    {
+        GameObject bulletGo = ObjectPooler.Instance.SpawnFromPool("Rocket", bulletSpawn.transform.position, Quaternion.Euler(shootDir));
+        bulletGo.GetComponent<SpriteRenderer>().enabled = false;
+        bulletGo.GetComponent<Bullet>().ExplodeBullet(true);
     }
     #endregion
 
