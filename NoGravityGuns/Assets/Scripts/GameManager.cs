@@ -249,17 +249,17 @@ public class GameManager : MonoBehaviour
                     player.playerUIPanel = p1HUD;
                     break;
                 case 2:
-                    p1HUD.gameObject.SetActive(true);
+                    p2HUD.gameObject.SetActive(true);
                     p2HUD.setAll((float)player.health / 100f, player.playerName, player.armsScript.AmmoText(), player.playerColor, player.playerPortrait, player.healthBar);
                     player.playerUIPanel = p2HUD;
                     break;
                 case 3:
-                    p1HUD.gameObject.SetActive(true);
+                    p3HUD.gameObject.SetActive(true);
                     p3HUD.setAll((float)player.health / 100f, player.playerName, player.armsScript.AmmoText(), player.playerColor, player.playerPortrait, player.healthBar);
                     player.playerUIPanel = p3HUD;
                     break;
                 case 4:
-                    p1HUD.gameObject.SetActive(true);
+                    p4HUD.gameObject.SetActive(true);
                     p4HUD.setAll((float)player.health / 100f, player.playerName, player.armsScript.AmmoText(), player.playerColor, player.playerPortrait, player.healthBar);
                     player.playerUIPanel = p4HUD;
                     break;

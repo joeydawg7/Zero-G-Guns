@@ -193,7 +193,8 @@
   
   <li><a href="#editor-recompile-after-finished-playing">Rewired stops working when changing scripts in Play mode with &quot;Recompile After Finished Playing&quot; option</a></li>
   <li><a href="#control-mapper-compiler-error-unity-2019-1-5f1">Compiler error in Unity 2019.1.5f1 when Control Mapper installed</a></li>
-  <li><a href="#assembly-errors-2019-2">Assembly errors in Unity 2019.2 beta and 2019.3 alpha</a></li>
+  <li><a href="#assembly-errors-2019-2">Assembly errors in projects upgraded to Unity 2019.2</a></li>
+  <li><a href="#assembly-errors-2019-3-alpha-beta">Assembly errors in Unity 2019.3 alpha/beta</a></li>
   <li><a href="#increased-compile-play-time-editor">Rewired increases compile time and load time after pressing Play in the editor</a></li>
       <li><a href="#serialized-data-corruption-after-import">Serialized data corruption after importing Rewired</a></li>
       <li><a href="#serialized-data-corruption-after-upgrading-unity">Serialized data corruption after upgrading Unity</a></li>
@@ -538,9 +539,31 @@ to
 <p>For more information, <a href="https://forum.unity.com/threads/rewired-advanced-input-for-unity.270693/page-107#post-4611661">see this forum post</a>.</p>
 <p>&nbsp;</p>
 <hr />
-<h3><a name="assembly-errors-2019-2" id="assembly-errors-2019-2"></a>Assembly errors in 2019.2 beta and 2019.3 alpha</h3>
+<h3><a name="assembly-errors-2019-2" id="assembly-errors-2019-2"></a>Assembly errors in projects upgraded to Unity 2019.2</h3>
+<p>Projects upgraded to Unity 2019.2 from a previous version (including a beta version) may report the following errors:</p>
+<pre class="code">- Error: Could not load signature of
+Rewired.ComponentControls.Effects.TouchInteractableTransitioner:get_transitionColorTint
+due to: Could not load file or assembly 'UnityEngine.UI,
+Version=1.0.0.0, Culture=neutral, PublicKeyToken=null' or one of its
+dependencies. assembly:UnityEngine.UI, Version=1.0.0.0,
+Culture=neutral, PublicKeyToken=null type:<unknown type> member:(null)
+signature:<none>
+
+-Error: Could not load signature of
+Rewired.Editor.ComponentControls.TouchInteractableEditor:GenerateInteractableAnimatorContoller
+due to: Could not load file or assembly 'UnityEngine.UI,
+Version=1.0.0.0, Culture=neutral, PublicKeyToken=null' or one of its
+dependencies. assembly:UnityEngine.UI, Version=1.0.0.0,
+Culture=neutral, PublicKeyToken=null type:<unknown type> member:(null)
+signature:<none>
+</pre>
+<p>This error is not an error in Rewired. It's an error in Unity's upgrade process due to changes they've made moving the UI assembly to the Package Manager. This error does not occur in a new 2019.2.0f1 project that has not been upgraded.</p>
+<p>The resolution to this issue is to simply ignore the errors. They will not be shown again when the editor is closed and restarted. Note, the errors may return if doing a &quot;Reimport All&quot; operation, but again, they're just costmetic.</p>
+<p>&nbsp;</p>
+<hr />
+<h3><a name="assembly-errors-2019-3-alpha-beta" id="assembly-errors-2019-3-alpha-beta"></a>Assembly errors in 2019.3 alpha/beta</h3>
 <p>First, <a href="Troubleshooting.html#unity-alpha-beta-preview-experimental">alpha, beta, preview, and experimental, versions and features of Unity are not suppored</a>.</p>
-<p>Rewired is not compatible with Unity 2019.2 beta or 2019.3 alpha. If you install Rewired you will see the following errors:<br />
+<p>Rewired may not be compatible with Unity 2019.3 alpha. If you install Rewired you may see the following errors:<br />
 </p>
 <pre class="code">Assembly 'Assets/Rewired/Internal/Libraries/Editor/Rewired_Editor.dll' will not be loaded due to errors:
 Unable to resolve reference 'UnityEngine.UI'. Is the assembly missing or incompatible with the current platform?
@@ -553,8 +576,7 @@ Reference validation can be disabled in the Plugin Inspector.
 Assembly 'Assets/Rewired/Internal/Libraries/Runtime/Rewired_Windows.dll' will not be loaded due to errors:
 Reference has errors 'Rewired_Core'.</pre>
 <p>Unity has made a major breaking change. The Unity UI library has been moved from UnityEngine.UI.dll as part of the core Unity installation to Unity.ugui.dll as an optional install through the Package Manager. This change to the DLL name which breaks all assembly references in Rewired's DLLs. This issue affects all DLLs that reference Unity UI, not just Rewired, including many of the most popular assets on the Unity Asset Store. There is no possible workaround to this issue.</p>
-<p>Unity has acknowledged these changes as a mistake and will be making changes to allow DLLs to work again in a later alpha/beta release. <a href="https://forum.unity.com/threads/ui.673504/">See this forum thread for more details</a>.</p>
-<p>The solution is to use a stable release of Unity and not an alpha/beta version.</p>
+<p>Unity has acknowledged these changes as a mistake and has made changes to allow DLLs to work again in a later alpha/beta release. <a href="https://forum.unity.com/threads/ui.673504/">See this forum thread for more details</a>. However, even though they have made changes to make it work again, it does have side effects with possible errors being reported when upgrading a project from an older version of Unity. <a href="#assembly-errors-2019-3-alpha-beta">See this for more information.</a></p>
 <p>&nbsp;</p>
 <hr />
 <h3><a name="increased-compile-play-time-editor" id="increased-compile-play-time-editor"></a>Rewired increases compile time and load time after pressing Play in the editor</h3>
