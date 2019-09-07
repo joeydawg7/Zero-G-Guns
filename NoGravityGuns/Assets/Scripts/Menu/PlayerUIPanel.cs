@@ -14,8 +14,20 @@ public class PlayerUIPanel : MonoBehaviour
     public GameObject headStock;
     public Image gunImage;
     public GridLayoutGroup playerUILayout;
-    public TextMeshProUGUI kills;
+    //public TextMeshProUGUI kills;
+    public Image ammoFront;
+    public Transform killTags;
+    public GameObject killTag;
+
     GameManager gameManager;
+
+
+    public Image pistolImage;
+    public Image assaultRifleImage;
+    public Image minigunImage;
+    public Image railgunImage;
+    public Image shotgunImage;
+    public Image rocketLauncherImage;
 
     private void Awake()
     {
@@ -27,8 +39,8 @@ public class PlayerUIPanel : MonoBehaviour
         gameManager = GameManager.Instance;
         setHealth(fillDamage);
         //SetGunText(statusMsg);
-        SetAmmoText(gunMsg);
-        kills.text = "0";
+        SetAmmoText(gunMsg, 1f);
+        //kills.text = "0";
         foreach (var text in GetComponentsInChildren<TextMeshProUGUI>())
         {
             text.color = color;
@@ -43,9 +55,15 @@ public class PlayerUIPanel : MonoBehaviour
     {
         fillAmount = fillDamage;
     }
-    public void SetKills(int kills)
+    //public void SetKills(int kills)
+    //{
+    //   // this.kills.text = kills.ToString();
+    //}
+
+    public void AddKill(PlayerScript kill)
     {
-        this.kills.text = kills.ToString();
+        Image sr = GameObject.Instantiate(killTag, killTags).GetComponent<Image>();
+        sr.sprite = kill.killTag;
     }
 
     const float HEALTH_ANIM_RATE = 10f;
@@ -66,12 +84,56 @@ public class PlayerUIPanel : MonoBehaviour
 
     public void SetGunText(GunSO gun)
     {
-        gunImage.sprite = gun.EquipSprite;
+        //gunImage.sprite = gun.EquipSprite;
         currentWeaponText.text = gun.name;
+
+        switch (gun.GunType)
+        {
+            case PlayerScript.GunType.pistol:
+                gunImage = pistolImage;
+                break;
+            case PlayerScript.GunType.assaultRifle:
+                gunImage = assaultRifleImage;
+                break;
+            case PlayerScript.GunType.LMG:
+                gunImage = minigunImage;
+                break;
+            case PlayerScript.GunType.shotgun:
+                gunImage = shotgunImage;
+                break;
+            case PlayerScript.GunType.railGun:
+                gunImage = railgunImage;
+                break;
+            case PlayerScript.GunType.healthPack:
+                break;
+            case PlayerScript.GunType.RPG:
+                gunImage = rocketLauncherImage;
+                break;
+            default:
+                break;
+        }
+
+        DisableAllGunImagesExceptParamter(gunImage);
     }
-    public void SetAmmoText(string msg)
+
+    void DisableAllGunImagesExceptParamter(Image gunImage)
     {
+        pistolImage.enabled = false;
+        assaultRifleImage.enabled = false;
+        minigunImage.enabled = false;
+        shotgunImage.enabled = false;
+        railgunImage.enabled = false;
+        rocketLauncherImage.enabled = false;
+
+        gunImage.enabled = true;
+    }
+
+    public void SetAmmoText(string msg, float fillAmount)
+    {
+        fillAmount = Mathf.Min(fillAmount, 0.9f);
+
         playerAmmoGun.text = msg;
+        ammoFront.fillAmount = fillAmount;
     }
     public void SetLives(int numLives, Sprite headSprite)
     {

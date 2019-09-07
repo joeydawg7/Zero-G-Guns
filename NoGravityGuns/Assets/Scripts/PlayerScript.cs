@@ -29,6 +29,7 @@ public class PlayerScript : MonoBehaviour
     public Sprite playerPortrait;
     public Sprite healthBar;
     public int collisionLayer;
+    public Sprite killTag;
 
     [Header("Controller Stuff")]
     [HideInInspector]
@@ -426,13 +427,14 @@ public class PlayerScript : MonoBehaviour
                 if (playerLastHitBy != null && playerLastHitBy != this)
                 {
                     playerLastHitBy.numKills++;
-                    playerLastHitBy.playerUIPanel.SetKills(playerLastHitBy.numKills);
+                    //playerLastHitBy.playerUIPanel.SetKills(playerLastHitBy.numKills);
+                    playerLastHitBy.playerUIPanel.AddKill(this);
                 }
                 //reduce points if you kill yourself
                 else if (playerLastHitBy != null && playerLastHitBy == this)
                 {
                     playerLastHitBy.numKills--;
-                    playerLastHitBy.playerUIPanel.SetKills(playerLastHitBy.numKills);
+                    playerLastHitBy.playerUIPanel.AddKill(this);
                 }
 
                 //if (gameManager.dataManager.AllowWriteToFile)
@@ -540,11 +542,11 @@ public class PlayerScript : MonoBehaviour
 
     IEnumerator WaitForRespawn()
     {
-        playerUIPanel.SetAmmoText("Respawning in 3...");
+        playerUIPanel.SetAmmoText("3...", 1);
         yield return new WaitForSeconds(1f);
-        playerUIPanel.SetAmmoText("Respawning in 2...");
+        playerUIPanel.SetAmmoText("2...", 1);
         yield return new WaitForSeconds(1f);
-        playerUIPanel.SetAmmoText("Respawning in 1...");
+        playerUIPanel.SetAmmoText("1...", 1);
         yield return new WaitForSeconds(1f);
 
         //turn of rigidbody so we dont get some crazy momentum from force moving

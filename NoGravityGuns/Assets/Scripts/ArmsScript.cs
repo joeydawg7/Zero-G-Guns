@@ -270,12 +270,12 @@ public class ArmsScript : MonoBehaviour
     public void SendGunText()
     {
         basePlayer.playerUIPanel.SetGunText(currentWeapon);
-        basePlayer.playerUIPanel.SetAmmoText(AmmoText());
+        basePlayer.playerUIPanel.SetAmmoText(AmmoText(), ((float)currentAmmo / (float)currentWeapon.clipSize));
     }
 
     public void SendGunText(string s)
     {
-        basePlayer.playerUIPanel.SetAmmoText(s);
+        basePlayer.playerUIPanel.SetAmmoText(s, ((float)currentAmmo / (float)currentWeapon.clipSize));
     }
     #endregion
 
