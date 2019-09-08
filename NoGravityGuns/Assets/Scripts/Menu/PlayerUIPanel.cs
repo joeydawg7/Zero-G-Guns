@@ -158,14 +158,14 @@ public class PlayerUIPanel : MonoBehaviour
 
     public void Destroy()
     {
-        playerUILayout.enabled = false;
+        // playerUILayout.enabled = false;
         GetComponent<Animator>().SetTrigger("Destroy");
     }
 
     public void EnableLayoutGroup()
     {
         Debug.Log(gameObject.name);
-        playerUILayout.enabled = true;
+        // playerUILayout.enabled = true;
     }
 
     public void KillMeAfterAnim()
