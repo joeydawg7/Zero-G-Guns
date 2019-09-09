@@ -114,8 +114,8 @@ public class ArmsScript : MonoBehaviour
     {
         if (basePlayer.player.GetButtonDown("Reload"))
         {
-            if (!isReloading && currentAmmo < currentWeapon.clipSize)
-                reloadCoroutine = StartCoroutine(Reload());
+           // if (!isReloading && currentAmmo < currentWeapon.clipSize)
+                //reloadCoroutine = StartCoroutine(Reload());
         }
     }
 
@@ -305,7 +305,7 @@ public class ArmsScript : MonoBehaviour
         reloadTimer.SetActive(false);
     }
 
-
+    /*
     IEnumerator Reload()
     {
         //no bullets to load, just drop gun and get out of here
@@ -398,7 +398,7 @@ public class ArmsScript : MonoBehaviour
         //do last
         SendGunText();
 
-    }
+    }*/
 
     //interupts and resets all reload processes
     void InterruptReload()
@@ -454,7 +454,8 @@ public class ArmsScript : MonoBehaviour
 
         if (currentAmmo <= 0)
         {
-            reloadCoroutine = StartCoroutine(Reload());
+            //reloadCoroutine = StartCoroutine(Reload());
+            basePlayer.EquipArms(PlayerScript.GunType.pistol, gameManager.pistol);
         }
 
     }
@@ -474,7 +475,8 @@ public class ArmsScript : MonoBehaviour
         if (currentAmmo <= 0)
         {
             InterruptReload();
-            reloadCoroutine = StartCoroutine(Reload());
+            //reloadCoroutine = StartCoroutine(Reload());
+            basePlayer.EquipArms(PlayerScript.GunType.pistol, gameManager.pistol);
         }
 
     }
@@ -528,7 +530,8 @@ public class ArmsScript : MonoBehaviour
 
         if (currentAmmo <= 0)
         {
-            reloadCoroutine = StartCoroutine(Reload());
+            //reloadCoroutine = StartCoroutine(Reload());
+            basePlayer.EquipArms(PlayerScript.GunType.pistol, gameManager.pistol);
         }
 
     }
@@ -562,7 +565,7 @@ public class ArmsScript : MonoBehaviour
                 basePlayer.rb.AddForce(-bulletSpawn.transform.right * currWeapon.knockback * Time.deltaTime * ROCKET_PUSHBACK_MOD, ForceMode2D.Impulse);
 
             //rocket held too long, blow up in hand
-            if (timer > 4.0f)
+            if (timer > 3.0f)
             {
                 ExplodeInHand();
                 currentAmmo--;
@@ -570,7 +573,8 @@ public class ArmsScript : MonoBehaviour
                 //reload if we outta bullets
                 if (currentAmmo <= 0)
                 {
-                    reloadCoroutine = StartCoroutine(Reload());
+                    //reloadCoroutine = StartCoroutine(Reload());
+                    basePlayer.EquipArms(PlayerScript.GunType.pistol, gameManager.pistol);
                 }
 
                 //break early so we dont also fire a real rocket
@@ -599,7 +603,8 @@ public class ArmsScript : MonoBehaviour
 
         if (currentAmmo <= 0)
         {
-            reloadCoroutine = StartCoroutine(Reload());
+            //reloadCoroutine = StartCoroutine(Reload());
+            basePlayer.EquipArms(PlayerScript.GunType.pistol, gameManager.pistol);
         }
     }
 

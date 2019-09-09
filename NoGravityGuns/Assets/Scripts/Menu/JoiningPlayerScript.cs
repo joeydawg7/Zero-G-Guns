@@ -38,7 +38,17 @@ public class JoiningPlayerScript : MonoBehaviour
 
     void Start()
     {
-        AssignAllJoysticksToSystemPlayer(true);
+        if (!RoundManager.Instance.finishedControllerSetup)
+        {
+            AssignAllJoysticksToSystemPlayer(true);
+        }
+        else
+        {
+            gameObject.SetActive(false);
+            //GameManager.Instance.StartGame();
+            if (RoundManager.Instance.currentRound == 0)
+                RoundManager.Instance.NewRound();
+        }
     }
 
     void OnControllerConnected(ControllerStatusChangedEventArgs args)
@@ -63,10 +73,6 @@ public class JoiningPlayerScript : MonoBehaviour
         {
             ReInput.players.GetSystemPlayer().controllers.AddController(j, removeFromOtherPlayers);
         }
-
-        //ReInput.players.GetSystemPlayer().controllers.maps.set
-        //// Enable UI map so Player can start controlling the UI
-        //rewiredPlayer.controllers.maps.SetMapsEnabled(true, "UI");
     }
 
     private int GetNextGamePlayerId()
@@ -76,7 +82,7 @@ public class JoiningPlayerScript : MonoBehaviour
 
     void AssignNextPlayer()
     {
-        if (assignedControls.Count >= 4 || rewiredPlayerIdCounter >=4)
+        if (assignedControls.Count >= 4 || rewiredPlayerIdCounter >= 4)
         {
             Debug.Log("Max player limit already reached!");
             return;
@@ -186,7 +192,7 @@ public class JoiningPlayerScript : MonoBehaviour
         AddPlayerControllerSetup(joystick.id, joystick);
 
         Debug.Log("Assigned " + joystick.name + " to Player " + joystick.id);
-        
+
         tipToStart.alpha = 1;
     }
 
@@ -204,7 +210,7 @@ public class JoiningPlayerScript : MonoBehaviour
 
         Debug.Log("Removed " + joystick.name + " from Player " + joystick.id);
 
-        if(assignedControls.Count<1)
+        if (assignedControls.Count < 1)
             tipToStart.alpha = 0;
     }
 
@@ -228,6 +234,8 @@ public class JoiningPlayerScript : MonoBehaviour
             ReInput.players.SystemPlayer.controllers.ClearAllControllers();
             Debug.Log("start");
             GameManager.Instance.StartGame();
+            RoundManager.Instance.finishedControllerSetup = true;
+            RoundManager.Instance.NewRound();
             tipToStart.alpha = 0;
         }
     }
@@ -246,7 +254,7 @@ public class JoiningPlayerScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!GameManager.Instance.isGameStarted)
+        if (!GameManager.Instance.isGameStarted && !RoundManager.Instance.finishedControllerSetup)
         {
             // Watch for JoinGame action in System Player
             if (ReInput.players.GetSystemPlayer().GetButtonDown("Join"))
@@ -259,12 +267,13 @@ public class JoiningPlayerScript : MonoBehaviour
                 StartButtonPressed();
             }
 
-            if(ReInput.players.GetSystemPlayer().GetButtonDown("Drop"))
+            if (ReInput.players.GetSystemPlayer().GetButtonDown("Drop"))
             {
                 RemoveNextPlayer();
             }
         }
     }
+
 
     public void OnGameStart()
     {

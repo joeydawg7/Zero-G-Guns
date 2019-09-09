@@ -32,12 +32,11 @@ public class PlayerScript : MonoBehaviour
     public Sprite killTag;
 
     [Header("Controller Stuff")]
-    [HideInInspector]
     public int playerID;
     public InputUser user;
     [HideInInspector]
     public Player player;
-    Controller controller;
+    public Controller controller;
 
     [HideInInspector]
     public enum DamageType { none = 0, head = 4, torso = 3, legs = 2, feet = 1 };
@@ -68,6 +67,7 @@ public class PlayerScript : MonoBehaviour
     public Color32 invulnerabilityColorFlash;
     public float invulnerablityTime;
     public int numKills;
+    public int roundWins;
     public PlayerScript playerLastHitBy;
 
     [Header("Particle Effects")]
@@ -197,6 +197,7 @@ public class PlayerScript : MonoBehaviour
         torsoShots = 0;
         legShots = 0;
         footShots = 0;
+
     }
 
     private void Start()
@@ -236,16 +237,6 @@ public class PlayerScript : MonoBehaviour
                 }
             }
 
-            //add a trail if speed gets high enough to potentially hurt
-            if (rb.velocity.magnitude > 55)
-            {
-                trail.emitting = true;
-            }
-            else
-            {
-                trail.emitting = false;
-            }
-
         }
 
         //DEBUG: take damage to torso
@@ -264,7 +255,7 @@ public class PlayerScript : MonoBehaviour
         }
 
     }
-    #endregion  , Start
+    #endregion
 
     #region Input Handler Functions
     public void OnDrop()
@@ -504,13 +495,18 @@ public class PlayerScript : MonoBehaviour
     #region Die and respawn
     public PlayerScript Die()
     {
+        //cant die if yer dead
         if (!isDead)
         {
+            //stop all other audio, death sfx is more important
             audioSource.Stop();
-
-            isDead = true;
-            numLives--;
             audioSource.PlayOneShot(deathClip);
+
+            //yeah you dead boy
+            isDead = true;
+
+            numLives--;
+            
             if (!isDummy)
                 playerUIPanel.LoseStock();
 
@@ -759,8 +755,6 @@ public class PlayerScript : MonoBehaviour
         legsSR = GetComponentsInChildren<SpriteRenderer>();
         legRBs = legsParent.GetComponentsInChildren<Rigidbody2D>();
 
-
-
         if (!isDummy)
         {
             playerUIPanel.SetLives(numLives, playerHead);
@@ -768,6 +762,8 @@ public class PlayerScript : MonoBehaviour
         }
 
         rb.simulated = true;
+
+        RoundManager.Instance.SetPlayer(this);
 
         StartCoroutine(RespawnInvulernability());
 

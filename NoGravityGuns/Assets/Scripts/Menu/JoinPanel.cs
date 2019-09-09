@@ -31,15 +31,7 @@ public class JoinPanel : MonoBehaviour
 
     public PlayerScript AssignController(int i, Controller controller)
     {
-        //controller =
 
-        //foreach (var device in InputUser.GetUnpairedInputDevices())
-        //{
-        //    if (!device.name.Contains("Controller"))
-        //        continue;
-        //    else
-        //        player2Input.ApplyBindingOverridesOnMatchingControls(device);
-        //}
 
         image.sprite = readySprite;
         //MainText.text = "Player " + controller + " joined!";

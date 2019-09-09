@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
 
     public JoiningPlayerScript joiningPlayerScript;
 
+    [Header("Guns")]
     public GunSO pistol;
     public GunSO shotgun;
     public GunSO LMG;
@@ -31,11 +32,16 @@ public class GameManager : MonoBehaviour
     public GUIManager guiManager;
     public EndGameScript EndGameScript;
 
-
     public PlayerUIPanel p1HUD;
     public PlayerUIPanel p2HUD;
     public PlayerUIPanel p3HUD;
     public PlayerUIPanel p4HUD;
+
+    //temp temp temp
+    public PlayerScript player1;
+    public PlayerScript player2;
+    public PlayerScript player3;
+    public PlayerScript player4;
 
     [HideInInspector]
     public float timer;
@@ -154,19 +160,19 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
 
-        p1HUD.gameObject.SetActive(false);
-        p2HUD.gameObject.SetActive(false);
-        p3HUD.gameObject.SetActive(false);
-        p4HUD.gameObject.SetActive(false);
+        //p1HUD.gameObject.SetActive(false);
+        //p2HUD.gameObject.SetActive(false);
+        //p3HUD.gameObject.SetActive(false);
+        //p4HUD.gameObject.SetActive(false);
 
         //loading delay to prevent fuckupery... game jam code you know
-        StartCoroutine(Delay());
+        //StartCoroutine(Delay());
     }
 
-    IEnumerator Delay()
-    {
-        yield return new WaitForSeconds(1.5f);
-    }
+    //IEnumerator Delay()
+    //{
+    //    yield return new WaitForSeconds(1.5f);
+    //}
 
 
     public void StartGame()
@@ -177,9 +183,14 @@ public class GameManager : MonoBehaviour
         //make sure to add all players here, even if they are dummies
         for (int i = 0; i < ps.Length; i++)
         {
+            ps[i].gameObject.SetActive(true);
+            
+
             if(ps[i].isDummy)
                 players.Add(ps[i]);
         }
+
+        RoundManager.Instance.SetAllPlayersDataIntoPlayerObjects();
 
         //get rid of players that nobody is playing as... again unless your a dummy
         for (int i = players.Count - 1; i >= 0; i--)
@@ -196,7 +207,6 @@ public class GameManager : MonoBehaviour
                 players[i].OnGameStart();
             }
         }
-
 
         //camera does its shit after
         cameraController.OnGameStart();
@@ -283,6 +293,7 @@ public class GameManager : MonoBehaviour
 
     public void OnGameEnd()
     {
+
         guiManager.RunTimer(false);
 
         //list of people who are still alive at match end
