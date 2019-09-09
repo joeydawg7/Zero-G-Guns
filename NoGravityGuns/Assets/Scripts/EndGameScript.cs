@@ -16,14 +16,23 @@ public class EndGameScript : MonoBehaviour
     public string mainSceneName;
     public string mainMenuScene;
 
+    bool tickTimer = true;
+
     // Update is called once per frame
     void Update()
     {
+
+        if(tickTimer)
+            timer += Time.deltaTime;
+
         foreach (var player in ReInput.players.AllPlayers)
         {
-            if (player.GetButtonDown("Join"))
+            if (player.GetButtonDown("Join") || timer>=5f)
             {
-                SceneManager.LoadScene(SceneManager.GetActiveScene().name, LoadSceneMode.Single);
+                tickTimer = false;
+                timer = 0;
+                //SceneManager.LoadScene(SceneManager.GetActiveScene().name, LoadSceneMode.Single);
+                RoundManager.Instance.NewRound();
             }
 
             if (player.GetButtonDown("Drop"))
@@ -57,9 +66,13 @@ public class EndGameScript : MonoBehaviour
         StartCoroutine(EndGame(winners));
     }
 
+    float timer;
+
     //marvel dont sue
     IEnumerator EndGame(List<PlayerScript> winnersList)
     {
+        yield return new WaitForSeconds(0.2f);
+        gameOverText.text = "Round Over!";
         gameOverText.alpha = 1;
         yield return new WaitForSeconds(0.5f);
 
@@ -151,19 +164,62 @@ public class EndGameScript : MonoBehaviour
         //one winner
         else
         {
+
+            PlayerDataScript roundWinner = AddRoundWinToWinner(winnersList[0]);
+
+            //RoundManager roundManager = RoundManager.Instance;
+
+            //if (roundManager.playerDataList.Count > 0)
+            //{
+            //    foreach (PlayerDataScript dataSet in roundManager.playerDataList)
+            //    {
+            //        if (dataSet.playerID == winnersList[0].playerID)
+            //        {
+            //            dataSet.IncreaseRoundWins();
+            //        }
+            //    }
+            //}
+
+            if(roundWinner == null)
+            {
+                Debug.LogError("No dataSet found for current round winner... this should never happen!");
+                yield break;
+            }
+
             winOrTie.text = "<" + winnersList[0].hexColorCode + ">" + winnersList[0].playerName + " Is the winner!" + "</color>";
             yield return new WaitForSeconds(0.5f);
 
-            foreach (var winner in GameManager.Instance.players)
+            foreach (var winner in RoundManager.Instance.playerDataList)
             {
                 yield return new WaitForSeconds(0.5f);
-                Winners.text += "<" + winner.hexColorCode + ">" + winner.playerName + ": " + winner.numKills + "</color> \n";
+                Winners.text += "<" + winner.hexColorCode + ">" + winner.playerName + ": " + winner.roundWins + " Rounds Won " + "</color> \n";
 
             }
 
 
         }
 
+    }
+
+
+    PlayerDataScript AddRoundWinToWinner(PlayerScript winner)
+    {
+        RoundManager roundManager = RoundManager.Instance;
+
+        if (roundManager.playerDataList.Count > 0)
+        {
+            foreach (PlayerDataScript dataSet in roundManager.playerDataList)
+            {
+                if (dataSet.playerID == winner.playerID)
+                {
+                    winner.roundWins++;
+                    dataSet.IncreaseRoundWins();
+                    return dataSet;
+                }
+            }
+        }
+
+        return null;
     }
 
 }

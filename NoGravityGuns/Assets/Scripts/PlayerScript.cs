@@ -66,9 +66,14 @@ public class PlayerScript : MonoBehaviour
     public Vector3 spawnPoint;
     public Color32 invulnerabilityColorFlash;
     public float invulnerablityTime;
-    public int numKills;
-    public int roundWins;
+    public int numKills;   
     public PlayerScript playerLastHitBy;
+    int _roundWins;
+    public int roundWins
+    {
+        set { _roundWins = value; }
+        get { return _roundWins; }
+    }
 
     [Header("Particle Effects")]
     public ParticleSystem HS_Flash;
@@ -111,7 +116,7 @@ public class PlayerScript : MonoBehaviour
     Rigidbody2D[] legRBs;
     GameObject cameraParent;
     Quaternion spawnRotation;
-    GameManager gameManager;
+    GameManager gameManager;   
     #endregion
     #region constants
     const float HEADSHOT_MULTIPLIER = 2f;
@@ -325,6 +330,8 @@ public class PlayerScript : MonoBehaviour
             default:
                 break;
         }
+
+        armsScript.audioS.pitch = 1;
 
         armsScript.SendGunText();
     }
@@ -727,6 +734,11 @@ public class PlayerScript : MonoBehaviour
         player.controllers.maps.SetMapsEnabled(true, "UI");
         Debug.Log(player.name);
 
+    }
+
+    public void AddRoundWin()
+    {
+        roundWins++;
     }
 
     public void UnsetController()

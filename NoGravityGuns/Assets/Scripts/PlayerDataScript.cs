@@ -6,7 +6,7 @@ using Rewired;
 public class PlayerDataScript : MonoBehaviour
 {
     int kills;
-    int roundWins;
+    public int roundWins;
     public int playerID;
     public Player player;
     public Controller controller;

@@ -323,6 +323,7 @@ public class GameManager : MonoBehaviour
                 leftAlive++;
         }
 
+        //last man standing, end the game!
         if (leftAlive == 1)
         {
             OnGameEnd();

@@ -72,7 +72,7 @@ public class PlayerUIPanel : MonoBehaviour
 
     private void Update()
     {
-        if (gameManager.isGameStarted)
+        if (GameManager.Instance.isGameStarted)
         {
             if (fillAmount != playerHealthBar.fillAmount)
             {

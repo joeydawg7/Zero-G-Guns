@@ -32,6 +32,11 @@ public class RoundManager : MonoBehaviour
     public GameObject loadingSpinner;
     public GameObject persistentCanvas;
 
+    float startRotation;
+    float endRotation;
+    float t;
+    float FinalZRot;
+
     private void Awake()
     {
         if (_instance != null && _instance != this)
@@ -44,6 +49,13 @@ public class RoundManager : MonoBehaviour
             DontDestroyOnLoad(gameObject);
             DontDestroyOnLoad(persistentCanvas);
             DontDestroyOnLoad(loadingSpinner);
+
+            //set rotation to 0, set endpoint to 360 degrees later
+            startRotation = 0f;
+            endRotation = startRotation + 360.0f;
+            t = 0.0f;
+            FinalZRot = 0;
+
         }
 
         finishedControllerSetup = false;
@@ -56,6 +68,7 @@ public class RoundManager : MonoBehaviour
 
     public void NewRound()
     {
+        loading = true;
 
         //TODO: get whatever the next room is going to be, get some info about it probably stored through scriptable object
         currentRound++;
@@ -74,31 +87,41 @@ public class RoundManager : MonoBehaviour
     {
         loadingSpinner.SetActive(true);
 
-        //set rotation to 0, set endpoint to 360 degrees later
-        float startRotation = 0f;
-        float endRotation = startRotation + 360.0f;
-
-        float t = 0.0f;
-        float FinalZRot = 0;
-
         AsyncOperation asyncLoadLevel = SceneManager.LoadSceneAsync(lvl);
 
         while (!asyncLoadLevel.isDone)
         {
-            t += Time.deltaTime;
-            //math magic
-            float zRotation = Mathf.Lerp(startRotation, endRotation, t / 1f) % 360.0f;
-            loadingSpinner.transform.eulerAngles = new Vector3(loadingSpinner.transform.eulerAngles.x, loadingSpinner.transform.eulerAngles.y, zRotation);
-            FinalZRot = zRotation;
+
             yield return null;
         }
 
-        loadingSpinner.transform.eulerAngles = new Vector3(loadingSpinner.transform.eulerAngles.x, loadingSpinner.transform.eulerAngles.y, FinalZRot);
-        loadingSpinner.SetActive(false);
+        LevelLoaded(nextRoom);
+        yield return new WaitForSeconds(0.5f);
 
         loading = false;
-        LevelLoaded(nextRoom);
+
     }
+
+    //IEnumerator LoadingSpinner(float duration)
+    //{
+    //    //set rotation to 0, set endpoint to 360 degrees later
+    //    float startRotation = 0f;
+    //    float endRotation = startRotation + 360.0f;
+
+    //    float t = 0.0f;
+    //    float FinalZRot = 0;
+
+    //    while (loading)
+    //    {
+    //        t += Time.deltaTime;
+    //        //math magic
+    //        float zRotation = Mathf.Lerp(startRotation, endRotation, t / duration) % 360.0f;
+    //        loadingSpinner.transform.eulerAngles = new Vector3(loadingSpinner.transform.eulerAngles.x, loadingSpinner.transform.eulerAngles.y, zRotation);
+    //        FinalZRot = zRotation;
+
+    //        yield return null;
+    //    }
+    //}
 
     void LevelLoaded(RoomSO nextRoom)
     {
@@ -128,7 +151,7 @@ public class RoundManager : MonoBehaviour
 
     public void SetPlayer(PlayerScript player)
     {
-        
+
         //only do setup if its the first round
         if (currentRound == 0)
         {
@@ -150,12 +173,30 @@ public class RoundManager : MonoBehaviour
 
     }
 
+
+
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.F5) && loading == false)
         {
-            loading = true;
             NewRound();
+        }
+
+        if (loading)
+        {
+
+            t += Time.deltaTime;
+            //math magic
+            float zRotation = Mathf.Lerp(startRotation, endRotation, t / 1.0f) % 360.0f;
+            loadingSpinner.transform.eulerAngles = new Vector3(loadingSpinner.transform.eulerAngles.x, loadingSpinner.transform.eulerAngles.y, zRotation);
+            FinalZRot = zRotation;
+
+        }
+        else
+        {
+            loadingSpinner.transform.eulerAngles = new Vector3(loadingSpinner.transform.eulerAngles.x, loadingSpinner.transform.eulerAngles.y, FinalZRot);
+            loadingSpinner.SetActive(false);
+
         }
     }
 

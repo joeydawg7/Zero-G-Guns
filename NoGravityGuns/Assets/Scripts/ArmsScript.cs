@@ -32,6 +32,8 @@ public class ArmsScript : MonoBehaviour
     public bool isReloading;
     [HideInInspector]
     public GameObject currentArms;
+    [HideInInspector]
+    public AudioSource audioS;
     #endregion
 
     #region Privates
@@ -39,8 +41,7 @@ public class ArmsScript : MonoBehaviour
     Quaternion facing;
     Quaternion rotation;
     Vector2 shootDir;
-    float currentRecoil;
-    AudioSource audioS;
+    float currentRecoil;  
     Color32 startingColor;
     float timeSinceLastShot;
     private CameraShake cameraShake;
@@ -219,6 +220,12 @@ public class ArmsScript : MonoBehaviour
                 //add force to player in opposite direction of shot
                 if (currentWeapon.GunType != PlayerScript.GunType.RPG)
                     KnockBack(shootDir);
+
+                if (currentWeapon.GunType != PlayerScript.GunType.pistol)
+                {
+                   // audioS.pitch = 2f - ((float)currentAmmo / (float)currentWeapon.clipSize) + UnityEngine.Random.Range(-0.02f, 0.02f);
+                   // Debug.Log(audioS.pitch);
+                }
 
                 //muzzle flash
                 //TODO: change so this sets only on arm change

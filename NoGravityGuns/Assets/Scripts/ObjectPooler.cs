@@ -5,11 +5,22 @@ using UnityEngine;
 public class ObjectPooler : MonoBehaviour
 {
 
-    public static ObjectPooler Instance;
+    private static ObjectPooler _instance;
+    public static ObjectPooler Instance { get { return _instance; } }
 
     private void Awake()
     {
-        Instance = this;
+        if (_instance != null && _instance != this)
+        {
+            Destroy(this.gameObject);
+        }
+        else
+        {
+            _instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+
+
     }
 
 
@@ -47,26 +58,27 @@ public class ObjectPooler : MonoBehaviour
 
         }
 
+
     }
 
     //works like instatiate but from a magic poooooool
-    public GameObject SpawnFromPool (string tag, Vector3 position, Quaternion rotation)
+    public GameObject SpawnFromPool(string tag, Vector3 position, Quaternion rotation)
     {
 
-        if(!poolDictionary.ContainsKey(tag))
+        if (!poolDictionary.ContainsKey(tag))
         {
             Debug.Log("Pool with tag " + tag + " doesn't exist");
             return null;
         }
-        GameObject objectToSpawn =  poolDictionary[tag].Dequeue();
+        GameObject objectToSpawn = poolDictionary[tag].Dequeue();
         objectToSpawn.SetActive(true);
         objectToSpawn.transform.position = position;
         objectToSpawn.transform.rotation = rotation;
 
 
-        IPooledObject pooledObject =  objectToSpawn.GetComponent<IPooledObject>();
+        IPooledObject pooledObject = objectToSpawn.GetComponent<IPooledObject>();
 
-        if(pooledObject!=null)
+        if (pooledObject != null)
         {
             pooledObject.OnObjectSpawn();
         }
@@ -111,7 +123,7 @@ public class ObjectPooler : MonoBehaviour
     {
         for (float timer = time; timer >= 0; timer -= Time.deltaTime)
         {
-            if(resetDisableTimer)
+            if (resetDisableTimer)
             {
                 resetDisableTimer = false;
                 yield break;
