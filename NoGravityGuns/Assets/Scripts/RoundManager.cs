@@ -180,24 +180,15 @@ public class RoundManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.F5) && loading == false)
-        {
-            NewRound(false);
-        }
-        if (Input.GetKeyDown(KeyCode.F9) && loading == false)
-        {
-            NewRound(true);
-        }
 
+        //spins a fun lil' loading spinner
         if (loading)
         {
-
             t += Time.deltaTime;
             //math magic
             float zRotation = Mathf.Lerp(startRotation, endRotation, t / 1.0f) % 360.0f;
             loadingSpinner.transform.eulerAngles = new Vector3(loadingSpinner.transform.eulerAngles.x, loadingSpinner.transform.eulerAngles.y, zRotation);
             FinalZRot = zRotation;
-
         }
         else
         {
