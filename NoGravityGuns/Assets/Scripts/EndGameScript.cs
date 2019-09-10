@@ -17,6 +17,7 @@ public class EndGameScript : MonoBehaviour
     public string mainMenuScene;
 
     bool tickTimer = true;
+    bool weHaveAWinner = false;
 
     // Update is called once per frame
     void Update()
@@ -27,12 +28,30 @@ public class EndGameScript : MonoBehaviour
 
         foreach (var player in ReInput.players.AllPlayers)
         {
-            if (player.GetButtonDown("Join") || timer>=5f)
+            //A button end of round screen
+            if (player.GetButtonDown("Join") )
+            {
+                if (weHaveAWinner)
+                {
+                    tickTimer = false;
+                    timer = 0;
+                    RoundManager.Instance.NewRound(true);
+                }
+                else
+                {
+                    tickTimer = false;
+                    timer = 0;
+                    //SceneManager.LoadScene(SceneManager.GetActiveScene().name, LoadSceneMode.Single);
+                    RoundManager.Instance.NewRound(false);
+                }
+            }
+
+            //timer ending of round endscreen
+            if(timer>=5f && weHaveAWinner == false)
             {
                 tickTimer = false;
                 timer = 0;
-                //SceneManager.LoadScene(SceneManager.GetActiveScene().name, LoadSceneMode.Single);
-                RoundManager.Instance.NewRound();
+                RoundManager.Instance.NewRound(false);
             }
 
             if (player.GetButtonDown("Drop"))
@@ -167,6 +186,39 @@ public class EndGameScript : MonoBehaviour
 
             PlayerDataScript roundWinner = AddRoundWinToWinner(winnersList[0]);
 
+            if (roundWinner == null)
+            {
+                Debug.LogError("No dataSet found for current round winner... this should never happen!");
+                yield break;
+            }
+
+            if (roundWinner.roundWins >= Mathf.Ceil(RoundManager.Instance.maxRounds / 2))
+            {
+                gameOverText.text = "Game Over!";
+                winOrTie.text = "<" + winnersList[0].hexColorCode + ">" + winnersList[0].playerName + " Is the winner!" + "</color>";
+                yield return new WaitForSeconds(0.5f);
+                weHaveAWinner = true;
+
+                foreach (var winner in RoundManager.Instance.playerDataList)
+                {
+                    yield return new WaitForSeconds(0.5f);
+                    Winners.text += "<" + winner.hexColorCode + ">" + winner.playerName + ": " + winner.roundWins + " Rounds Won " + "</color> \n";
+
+                }
+            }
+            else
+            {
+                winOrTie.text = "<" + winnersList[0].hexColorCode + ">" + winnersList[0].playerName + " won the round!" + "</color>";
+                yield return new WaitForSeconds(0.2f);
+
+                foreach (var winner in RoundManager.Instance.playerDataList)
+                {
+                    yield return new WaitForSeconds(0.2f);
+                    Winners.text += "<" + winner.hexColorCode + ">" + winner.playerName + ": " + winner.roundWins + " Rounds Won " + "</color> \n";
+
+                }
+            }
+
             //RoundManager roundManager = RoundManager.Instance;
 
             //if (roundManager.playerDataList.Count > 0)
@@ -180,21 +232,7 @@ public class EndGameScript : MonoBehaviour
             //    }
             //}
 
-            if(roundWinner == null)
-            {
-                Debug.LogError("No dataSet found for current round winner... this should never happen!");
-                yield break;
-            }
 
-            winOrTie.text = "<" + winnersList[0].hexColorCode + ">" + winnersList[0].playerName + " Is the winner!" + "</color>";
-            yield return new WaitForSeconds(0.5f);
-
-            foreach (var winner in RoundManager.Instance.playerDataList)
-            {
-                yield return new WaitForSeconds(0.5f);
-                Winners.text += "<" + winner.hexColorCode + ">" + winner.playerName + ": " + winner.roundWins + " Rounds Won " + "</color> \n";
-
-            }
 
 
         }

@@ -61,29 +61,33 @@ public class RoundManager : MonoBehaviour
         finishedControllerSetup = false;
 
         currentRound = 0;
-        maxRounds = 5;
         loadingSpinner.SetActive(false);
 
     }
 
-    public void NewRound()
+    public void NewRound(bool startOver)
     {
         loading = true;
 
-        //TODO: get whatever the next room is going to be, get some info about it probably stored through scriptable object
         currentRound++;
+
+        if (startOver)
+        {
+            currentRound = 0;
+            finishedControllerSetup = false;
+        }
 
         //TODO: only grab from a list of playable rooms so player can check off maps they dont want to play
         RoomSO nextRoom = rooms[Random.Range(0, rooms.Count)];
 
         //SceneManager.LoadScene(nextRoom.sceneName);
-        StartCoroutine(AddLevel(nextRoom.sceneName, nextRoom));
+        StartCoroutine(AddLevel(nextRoom.sceneName, nextRoom, startOver));
 
     }
 
     bool loading = false;
 
-    IEnumerator AddLevel(string lvl, RoomSO nextRoom)
+    IEnumerator AddLevel(string lvl, RoomSO nextRoom, bool startOver)
     {
         loadingSpinner.SetActive(true);
 
@@ -91,11 +95,10 @@ public class RoundManager : MonoBehaviour
 
         while (!asyncLoadLevel.isDone)
         {
-
             yield return null;
         }
 
-        LevelLoaded(nextRoom);
+        LevelLoaded(nextRoom, startOver);
         yield return new WaitForSeconds(0.5f);
 
         loading = false;
@@ -123,20 +126,21 @@ public class RoundManager : MonoBehaviour
     //    }
     //}
 
-    void LevelLoaded(RoomSO nextRoom)
+    void LevelLoaded(RoomSO nextRoom, bool startOver)
     {
+        if (!startOver)
+        {
+            newRoundText = GameObject.Find("RoomNamePopup").GetComponent<TextMeshProUGUI>();
+            newRoundTextAnimator = newRoundText.GetComponent<Animator>();
+            newRoundText.alpha = 1;
+            newRoundText.text = nextRoom.roomName;
+            newRoundTextAnimator.SetTrigger("NewRound");
+            roundNumText = newRoundText.transform.Find("RoundNum").GetComponent<TextMeshProUGUI>();
+            roundNumText.text = "Round " + currentRound + " of " + maxRounds;
+            GameManager.Instance.StartGame();
+        }
 
-        newRoundText = GameObject.Find("RoomNamePopup").GetComponent<TextMeshProUGUI>();
-        newRoundTextAnimator = newRoundText.GetComponent<Animator>();
-        newRoundText.alpha = 1;
-        newRoundText.text = nextRoom.roomName;
-        newRoundTextAnimator.SetTrigger("NewRound");
-        roundNumText = newRoundText.transform.Find("RoundNum").GetComponent<TextMeshProUGUI>();
-        roundNumText.text = "Round " + currentRound + " of " + maxRounds;
-
-        //SetAllPlayersDataIntoPlayerObjects();
-
-        GameManager.Instance.StartGame();
+        
     }
 
 
@@ -178,7 +182,11 @@ public class RoundManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.F5) && loading == false)
         {
-            NewRound();
+            NewRound(false);
+        }
+        if (Input.GetKeyDown(KeyCode.F9) && loading == false)
+        {
+            NewRound(true);
         }
 
         if (loading)

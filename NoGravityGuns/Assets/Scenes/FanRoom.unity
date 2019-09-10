@@ -4053,7 +4053,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &901516188
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4684,16 +4684,6 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 2612a6c7376f7574291b49f0569887b7, type: 2}
-    - target: {fileID: 1418459832470097722, guid: 7bd5c672901594f4b8326383fb19eb33,
-        type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1418459832470097722, guid: 7bd5c672901594f4b8326383fb19eb33,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 1418459832548438670, guid: 7bd5c672901594f4b8326383fb19eb33,
         type: 3}
       propertyPath: m_Sprite
@@ -4712,6 +4702,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 05aaa551f9f934844a7b8174fc93f8b5,
         type: 3}
+    - target: {fileID: 1418459832470097722, guid: 7bd5c672901594f4b8326383fb19eb33,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1418459832470097722, guid: 7bd5c672901594f4b8326383fb19eb33,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 405595039, guid: 7bd5c672901594f4b8326383fb19eb33, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 7bd5c672901594f4b8326383fb19eb33, type: 3}
@@ -4794,7 +4794,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.0022010803, y: 0.0036582947}
+  m_Offset: {x: 0.0022010803, y: 1.19}
   m_SpriteTilingProperty:
     border: {x: 0.06, y: 0.06025781, z: 0.06, w: 0.06025781}
     pivot: {x: 0.5, y: 0.5}
@@ -4805,7 +4805,7 @@ BoxCollider2D:
     adaptiveTiling: 1
   m_AutoTiling: 1
   serializedVersion: 2
-  m_Size: {x: 25.607246, y: 1.1822128}
+  m_Size: {x: 25.607246, y: 3.64}
   m_EdgeRadius: 0
 --- !u!212 &979121743
 SpriteRenderer:
@@ -6186,6 +6186,34 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 2612a6c7376f7574291b49f0569887b7, type: 2}
+    - target: {fileID: 1418459832548438670, guid: 7bd5c672901594f4b8326383fb19eb33,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 2cac5e1013dc21748b59e0ebd5a731cb,
+        type: 3}
+    - target: {fileID: 1418459831620401535, guid: 7bd5c672901594f4b8326383fb19eb33,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 0d56ab40b0a59174a989aad44fc69d2f,
+        type: 3}
+    - target: {fileID: 1418459832881189549, guid: 7bd5c672901594f4b8326383fb19eb33,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 36ff10dfd2668d440baca3258a92317a,
+        type: 3}
+    - target: {fileID: 1418459832881189549, guid: 7bd5c672901594f4b8326383fb19eb33,
+        type: 3}
+      propertyPath: m_FillAmount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7995102758520747525, guid: 7bd5c672901594f4b8326383fb19eb33,
+        type: 3}
+      propertyPath: playerHealthBar
+      value: 
+      objectReference: {fileID: 787686243}
     - target: {fileID: 3377513773070676111, guid: 7bd5c672901594f4b8326383fb19eb33,
         type: 3}
       propertyPath: currentAmmo
@@ -6345,34 +6373,6 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1418459832548438670, guid: 7bd5c672901594f4b8326383fb19eb33,
-        type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 2cac5e1013dc21748b59e0ebd5a731cb,
-        type: 3}
-    - target: {fileID: 1418459831620401535, guid: 7bd5c672901594f4b8326383fb19eb33,
-        type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 0d56ab40b0a59174a989aad44fc69d2f,
-        type: 3}
-    - target: {fileID: 1418459832881189549, guid: 7bd5c672901594f4b8326383fb19eb33,
-        type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 36ff10dfd2668d440baca3258a92317a,
-        type: 3}
-    - target: {fileID: 1418459832881189549, guid: 7bd5c672901594f4b8326383fb19eb33,
-        type: 3}
-      propertyPath: m_FillAmount
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7995102758520747525, guid: 7bd5c672901594f4b8326383fb19eb33,
-        type: 3}
-      propertyPath: playerHealthBar
-      value: 
-      objectReference: {fileID: 787686243}
     m_RemovedComponents:
     - {fileID: 3377513773070676111, guid: 7bd5c672901594f4b8326383fb19eb33, type: 3}
     - {fileID: 7580334092273674749, guid: 7bd5c672901594f4b8326383fb19eb33, type: 3}
@@ -6729,7 +6729,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e49312f61c502b40ab50b03563ebd53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxRounds: 0
+  maxRounds: 5
   newRoundText: {fileID: 1792503440}
   rooms:
   - {fileID: 11400000, guid: 16d1f62a3f54530488daefd8fd31fd37, type: 2}
@@ -8463,7 +8463,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.0022010803, y: 0.0036582947}
+  m_Offset: {x: 0.0022010803, y: 0.63}
   m_SpriteTilingProperty:
     border: {x: 0.06, y: 0.06025781, z: 0.06, w: 0.06025781}
     pivot: {x: 0.5, y: 0.5}
@@ -8474,7 +8474,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 25.607246, y: 1.1822128}
+  m_Size: {x: 25.607246, y: 2.6}
   m_EdgeRadius: 0
 --- !u!212 &1458363131
 SpriteRenderer:

@@ -30,7 +30,7 @@ public class JoiningPlayerScript : MonoBehaviour
     {
         tipToStart.alpha = 0;
         assignedControls = new List<int>();
-
+        
         // Subscribe to controller connected events
         ReInput.ControllerConnectedEvent += OnControllerConnected;
 
@@ -40,6 +40,7 @@ public class JoiningPlayerScript : MonoBehaviour
     {
         if (!RoundManager.Instance.finishedControllerSetup)
         {
+            gameObject.SetActive(true);
             AssignAllJoysticksToSystemPlayer(true);
         }
         else
@@ -47,7 +48,7 @@ public class JoiningPlayerScript : MonoBehaviour
             gameObject.SetActive(false);
             //GameManager.Instance.StartGame();
             if (RoundManager.Instance.currentRound == 0)
-                RoundManager.Instance.NewRound();
+                RoundManager.Instance.NewRound(false);
         }
     }
 
@@ -235,7 +236,7 @@ public class JoiningPlayerScript : MonoBehaviour
             Debug.Log("start");
             GameManager.Instance.StartGame();
             RoundManager.Instance.finishedControllerSetup = true;
-            RoundManager.Instance.NewRound();
+            RoundManager.Instance.NewRound(false);
             tipToStart.alpha = 0;
         }
     }
