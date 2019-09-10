@@ -61,6 +61,6 @@ public class PlayerDataScript : MonoBehaviour
         playerScript.hexColorCode = hexColorCode;
         playerScript.playerName = playerName;
         
-        playerScript.OnGameStart();
+        //playerScript.OnGameStart();
     }
 }

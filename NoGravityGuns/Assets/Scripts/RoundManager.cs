@@ -156,7 +156,6 @@ public class RoundManager : MonoBehaviour
         if (currentRound == 0)
         {
 
-            Debug.Log("set player called");
             PlayerDataScript PD = GameObject.Instantiate(playerDataPrefab).GetComponent<PlayerDataScript>();
 
             DontDestroyOnLoad(PD);

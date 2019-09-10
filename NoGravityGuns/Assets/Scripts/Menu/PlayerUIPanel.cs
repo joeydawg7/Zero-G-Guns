@@ -6,28 +6,28 @@ using UnityEngine.UI;
 
 public class PlayerUIPanel : MonoBehaviour
 {
-    public Image playerPortrait;
+    //public Image playerPortrait;
     public Image playerHealthBar;
-    public TextMeshProUGUI currentWeaponText;
-    public TextMeshProUGUI playerAmmoGun;
-    public Transform stockHolder;
-    public GameObject headStock;
-    public Image gunImage;
-    public GridLayoutGroup playerUILayout;
-    //public TextMeshProUGUI kills;
-    public Image ammoFront;
-    public Transform killTags;
-    public GameObject killTag;
+    //public TextMeshProUGUI currentWeaponText;
+    //public TextMeshProUGUI playerAmmoGun;
+    //public Transform stockHolder;
+    //public GameObject headStock;
+    //public Image gunImage;
+    //public GridLayoutGroup playerUILayout;
+    ////public TextMeshProUGUI kills;
+    //public Image ammoFront;
+    //public Transform killTags;
+    //public GameObject killTag;
 
     GameManager gameManager;
+    Animator animator;
 
-
-    public Image pistolImage;
-    public Image assaultRifleImage;
-    public Image minigunImage;
-    public Image railgunImage;
-    public Image shotgunImage;
-    public Image rocketLauncherImage;
+    //public Image pistolImage;
+    //public Image assaultRifleImage;
+    //public Image minigunImage;
+    //public Image railgunImage;
+    //public Image shotgunImage;
+    //public Image rocketLauncherImage;
 
     private void Awake()
     {
@@ -36,6 +36,9 @@ public class PlayerUIPanel : MonoBehaviour
 
     public void setAll(float fillDamage, string statusMsg, string gunMsg, Color32 color, Sprite playerPortrait, Sprite healthbar)
     {
+        gameObject.SetActive(true);
+
+        animator = GetComponent<Animator>();
         gameManager = GameManager.Instance;
         setHealth(fillDamage);
         //SetGunText(statusMsg);
@@ -46,14 +49,29 @@ public class PlayerUIPanel : MonoBehaviour
             text.color = color;
         }
 
-        this.playerPortrait.sprite = playerPortrait;
+        //this.playerPortrait.sprite = playerPortrait;
         this.playerHealthBar.sprite = healthbar;
-        this.playerUILayout = transform.parent.GetComponent<GridLayoutGroup>();
+        //this.playerUILayout = transform.parent.GetComponent<GridLayoutGroup>();
 
     }
     public void setHealth(float fillDamage)
     {
         fillAmount = fillDamage;
+
+
+        if (GameManager.Instance.isGameStarted)
+        {
+            if (fillDamage <= 0.3f)
+            {
+                animator.SetBool("isHPCritical", true);
+            }
+            else
+            {
+                animator.SetBool("isHPCritical", false);
+            }
+
+            animator.SetTrigger("takeDamage");
+        }
     }
     //public void SetKills(int kills)
     //{
@@ -62,8 +80,8 @@ public class PlayerUIPanel : MonoBehaviour
 
     public void AddKill(PlayerScript kill)
     {
-        Image sr = GameObject.Instantiate(killTag, killTags).GetComponent<Image>();
-        sr.sprite = kill.killTag;
+        //Image sr = GameObject.Instantiate(killTag, killTags).GetComponent<Image>();
+        //sr.sprite = kill.killTag;
     }
 
     const float HEALTH_ANIM_RATE = 10f;
@@ -72,6 +90,7 @@ public class PlayerUIPanel : MonoBehaviour
 
     private void Update()
     {
+       
         if (GameManager.Instance.isGameStarted)
         {
             if (fillAmount != playerHealthBar.fillAmount)
@@ -79,12 +98,18 @@ public class PlayerUIPanel : MonoBehaviour
                 playerHealthBar.fillAmount = Mathf.Lerp(playerHealthBar.fillAmount, fillAmount, Time.deltaTime * HEALTH_ANIM_RATE);
             }
         }
+        
+    }
 
+    public void Disable()
+    {
+        gameObject.SetActive(false);
     }
 
     public void SetGunText(GunSO gun)
     {
         //gunImage.sprite = gun.EquipSprite;
+        /*
         currentWeaponText.text = gun.name;
 
         switch (gun.GunType)
@@ -114,10 +139,12 @@ public class PlayerUIPanel : MonoBehaviour
         }
 
         DisableAllGunImagesExceptParamter(gunImage);
+        */
     }
 
     void DisableAllGunImagesExceptParamter(Image gunImage)
     {
+        /*
         pistolImage.enabled = false;
         assaultRifleImage.enabled = false;
         minigunImage.enabled = false;
@@ -126,17 +153,21 @@ public class PlayerUIPanel : MonoBehaviour
         rocketLauncherImage.enabled = false;
 
         gunImage.enabled = true;
+        */
     }
 
     public void SetAmmoText(string msg, float fillAmount)
     {
+        /*
         fillAmount = Mathf.Min(fillAmount, 0.9f);
 
         playerAmmoGun.text = msg;
         ammoFront.fillAmount = fillAmount;
+        */
     }
     public void SetLives(int numLives, Sprite headSprite)
     {
+        /*
         foreach (Transform child in stockHolder)
         {
             GameObject.Destroy(child.gameObject);
@@ -148,11 +179,12 @@ public class PlayerUIPanel : MonoBehaviour
             go.GetComponent<Image>().sprite = headSprite;
             go.GetComponent<Image>().enabled = true;
         }
+        */
 
     }
     public void LoseStock()
     {
-        stockHolder.GetChild(stockHolder.childCount - 1).GetComponent<Animator>().SetTrigger("LoseStock");
+        //   stockHolder.GetChild(stockHolder.childCount - 1).GetComponent<Animator>().SetTrigger("LoseStock");
     }
 
 

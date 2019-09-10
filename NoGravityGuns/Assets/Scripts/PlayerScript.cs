@@ -328,6 +328,7 @@ public class PlayerScript : MonoBehaviour
                 armsScript.currentArms = RPGArms;
                 break;
             default:
+                Debug.LogError("This isn't a gun!");
                 break;
         }
 
@@ -519,6 +520,7 @@ public class PlayerScript : MonoBehaviour
 
             if (numLives <= 0)
             {
+                playerUIPanel.Disable();
                 cameraParent.GetComponent<CameraController>().RemovePlayerFromCameraTrack(gameObject);
                 if (!isDummy)
                     playerUIPanel.Destroy();
@@ -533,8 +535,7 @@ public class PlayerScript : MonoBehaviour
             {
                 sr.color = deadColor;
             }
-
-            armsScript.reloadTimer.SetActive(false);
+            //armsScript.reloadTimer.SetActive(false);
 
             if (numLives > 0)
                 StartCoroutine(WaitForRespawn());

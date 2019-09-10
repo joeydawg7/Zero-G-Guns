@@ -34,7 +34,15 @@ public class TestAnimations : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.G))
         {
-            anim.SetTrigger("takeDamage");
+
+            AddToAnimTime(10f);
+           // anim.SetFloat("takeFloatDamage", (20f - Time.deltaTime));
         }
+
+    }
+
+    void AddToAnimTime(float f)
+    {
+        anim.SetFloat("takeFloatDamage", (f - Time.deltaTime));
     }
 }

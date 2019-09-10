@@ -14,7 +14,7 @@ public class ArmsScript : MonoBehaviour
 
     [Header("Gun")]
     public GunSO currentWeapon;
-    public GameObject reloadTimer;
+    //public GameObject reloadTimer;
 
     public Transform bulletSpawn;
     public Sprite bulletSprite;
@@ -65,8 +65,6 @@ public class ArmsScript : MonoBehaviour
         audioS = GetComponent<AudioSource>();
 
         shootDir = new Vector3(0, 0, 0);
-
-        reloadTimer.SetActive(false);
 
         cameraShake = Camera.main.GetComponent<CameraShake>();
 
@@ -208,7 +206,6 @@ public class ArmsScript : MonoBehaviour
                     {
                         Debug.Log("cancelling rotate!");
                         StopCoroutine(rotateCoroutine);
-                        reloadTimer.SetActive(false);
                         rotateCoroutine = null;
                     }
 
@@ -287,6 +284,7 @@ public class ArmsScript : MonoBehaviour
     #endregion
 
     #region Reload
+    /*
     IEnumerator Rotate(float duration)
     {
         reloadTimer.SetActive(true);
@@ -311,6 +309,7 @@ public class ArmsScript : MonoBehaviour
         reloadTimer.transform.eulerAngles = new Vector3(reloadTimer.transform.eulerAngles.x, reloadTimer.transform.eulerAngles.y, FinalZRot);
         reloadTimer.SetActive(false);
     }
+    */
 
     /*
     IEnumerator Reload()
@@ -419,7 +418,7 @@ public class ArmsScript : MonoBehaviour
         {
             Debug.Log("cancelling rotate!");
             StopCoroutine(rotateCoroutine);
-            reloadTimer.SetActive(false);
+            //reloadTimer.SetActive(false);
             rotateCoroutine = null;
         }
     }
