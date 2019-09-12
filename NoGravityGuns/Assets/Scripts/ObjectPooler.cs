@@ -67,6 +67,7 @@ public class ObjectPooler : MonoBehaviour
     //works like instatiate but from a magic poooooool
     public GameObject SpawnFromPool(string tag, Vector3 position, Quaternion rotation)
     {
+        Debug.Log(poolDictionary[tag].Count + " " + tag);
 
         if (!poolDictionary.ContainsKey(tag))
         {
@@ -96,6 +97,7 @@ public class ObjectPooler : MonoBehaviour
     //overload of the above with parent settings
     public GameObject SpawnFromPool(string tag, Vector3 position, Quaternion rotation, Transform parent)
     {
+        Debug.Log(poolDictionary[tag].Count + " " + tag);
 
         if (!poolDictionary.ContainsKey(tag))
         {
@@ -107,7 +109,6 @@ public class ObjectPooler : MonoBehaviour
         objectToSpawn.transform.parent = parent;
         objectToSpawn.transform.position = position;
         objectToSpawn.transform.rotation = rotation;
-
 
         IPooledObject pooledObject = objectToSpawn.GetComponent<IPooledObject>();
 

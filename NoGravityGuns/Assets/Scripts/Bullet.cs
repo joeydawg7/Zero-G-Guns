@@ -29,6 +29,9 @@ public class Bullet : MonoBehaviour, IPooledObject
     {
         canImapact = false;
         rb = GetComponent<Rigidbody2D>();
+        rb.velocity = new Vector2(0, 0);
+        rb.angularVelocity = 0;
+        rb.simulated = false;
         objectPooler = ObjectPooler.Instance;
     }
 
@@ -56,6 +59,7 @@ public class Bullet : MonoBehaviour, IPooledObject
         }
 
         rb.simulated = true;
+        GetComponent<CircleCollider2D>().enabled = true;
 
         SetStartingForce(dir);
 
@@ -233,7 +237,10 @@ public class Bullet : MonoBehaviour, IPooledObject
     {
         yield return new WaitForSeconds(t);
         gameObject.SetActive(false);
+        rb.velocity = new Vector2(0,0);
+        rb.angularVelocity = 0;
         rb.simulated = false;        
+
     }
 
 
