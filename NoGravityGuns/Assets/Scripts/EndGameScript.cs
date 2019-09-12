@@ -93,7 +93,7 @@ public class EndGameScript : MonoBehaviour
         yield return new WaitForSeconds(0.2f);
         gameOverText.text = "Round Over!";
         gameOverText.alpha = 1;
-        yield return new WaitForSeconds(0.5f);
+        //yield return new WaitForSeconds(0.5f);
 
         winOrTie.alpha = 1;
         Winners.alpha = 1;
@@ -192,7 +192,7 @@ public class EndGameScript : MonoBehaviour
                 yield break;
             }
 
-            if (roundWinner.roundWins >= Mathf.Ceil(RoundManager.Instance.maxRounds / 2))
+            if (roundWinner.roundWins >= Mathf.Ceil((float)RoundManager.Instance.maxRounds / 2f))
             {
                 gameOverText.text = "Game Over!";
                 winOrTie.text = "<" + winnersList[0].hexColorCode + ">" + winnersList[0].playerName + " Is the winner!" + "</color>";

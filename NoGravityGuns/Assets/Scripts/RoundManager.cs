@@ -75,12 +75,22 @@ public class RoundManager : MonoBehaviour
         {
             currentRound = 0;
             finishedControllerSetup = false;
+
+            if (playerDataList.Count > 0)
+            {
+                for (int i = playerDataList.Count-1; i >=0; i--)
+                {
+                    Destroy(playerDataList[i]);
+                }
+
+                playerDataList.Clear();
+            }
+
         }
 
         //TODO: only grab from a list of playable rooms so player can check off maps they dont want to play
         RoomSO nextRoom = rooms[Random.Range(0, rooms.Count)];
 
-        //SceneManager.LoadScene(nextRoom.sceneName);
         StartCoroutine(AddLevel(nextRoom.sceneName, nextRoom, startOver));
 
     }
@@ -105,27 +115,6 @@ public class RoundManager : MonoBehaviour
 
     }
 
-    //IEnumerator LoadingSpinner(float duration)
-    //{
-    //    //set rotation to 0, set endpoint to 360 degrees later
-    //    float startRotation = 0f;
-    //    float endRotation = startRotation + 360.0f;
-
-    //    float t = 0.0f;
-    //    float FinalZRot = 0;
-
-    //    while (loading)
-    //    {
-    //        t += Time.deltaTime;
-    //        //math magic
-    //        float zRotation = Mathf.Lerp(startRotation, endRotation, t / duration) % 360.0f;
-    //        loadingSpinner.transform.eulerAngles = new Vector3(loadingSpinner.transform.eulerAngles.x, loadingSpinner.transform.eulerAngles.y, zRotation);
-    //        FinalZRot = zRotation;
-
-    //        yield return null;
-    //    }
-    //}
-
     void LevelLoaded(RoomSO nextRoom, bool startOver)
     {
         if (!startOver)
@@ -136,11 +125,11 @@ public class RoundManager : MonoBehaviour
             newRoundText.text = nextRoom.roomName;
             newRoundTextAnimator.SetTrigger("NewRound");
             roundNumText = newRoundText.transform.Find("RoundNum").GetComponent<TextMeshProUGUI>();
-            roundNumText.text = "Round " + currentRound + " of " + maxRounds;
+            roundNumText.text = "Round " + currentRound + ". First to 3 wins!";
             GameManager.Instance.StartGame();
         }
 
-        
+
     }
 
 

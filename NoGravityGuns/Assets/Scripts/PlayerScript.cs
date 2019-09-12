@@ -363,6 +363,7 @@ public class PlayerScript : MonoBehaviour
 
             float unModdedDmg = damage;
 
+
             if (damage < 0)
             {
                 SpawnFloatingDamageText(Mathf.RoundToInt(damage), DamageType.none, "FloatAway");
@@ -370,6 +371,9 @@ public class PlayerScript : MonoBehaviour
             }
             else
             {
+                //temp damage mod
+                damage *= 1.2f;
+
                 switch (damageType)
                 {
                     case DamageType.head:
