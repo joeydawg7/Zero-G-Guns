@@ -37,8 +37,8 @@ public class ObjectPooler : MonoBehaviour
 
     bool resetDisableTimer;
 
-    // Start is called before the first frame update
-    void Start()
+
+    private void Start()
     {
         poolDictionary = new Dictionary<string, Queue<GameObject>>();
         resetDisableTimer = false;
@@ -57,8 +57,11 @@ public class ObjectPooler : MonoBehaviour
             poolDictionary.Add(pool.tag, objectPool);
 
         }
+    }
 
-
+    public void StartUp()
+    {
+        
     }
 
     //works like instatiate but from a magic poooooool

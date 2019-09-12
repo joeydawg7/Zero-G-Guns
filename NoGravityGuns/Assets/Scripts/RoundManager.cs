@@ -56,6 +56,7 @@ public class RoundManager : MonoBehaviour
             t = 0.0f;
             FinalZRot = 0;
 
+           // ObjectPooler.Instance.StartUp();
         }
 
         finishedControllerSetup = false;
@@ -73,6 +74,7 @@ public class RoundManager : MonoBehaviour
 
         if (startOver)
         {
+
             currentRound = 0;
             finishedControllerSetup = false;
 
@@ -125,7 +127,7 @@ public class RoundManager : MonoBehaviour
             newRoundText.text = nextRoom.roomName;
             newRoundTextAnimator.SetTrigger("NewRound");
             roundNumText = newRoundText.transform.Find("RoundNum").GetComponent<TextMeshProUGUI>();
-            roundNumText.text = "Round " + currentRound + ". First to 3 wins!";
+            roundNumText.text = "Round " + currentRound + "";
             GameManager.Instance.StartGame();
         }
 
