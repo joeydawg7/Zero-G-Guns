@@ -114,11 +114,11 @@ public class RoundManager : MonoBehaviour
                 if (room.isPlayable)
                 {
                     tempRooms.Add(room);
-                    Debug.Log(room.name);
+                   // Debug.Log(room.name);
                 }
             }
 
-            Debug.Log("---------------");
+            //Debug.Log("---------------");
 
             //if our list has no playable rooms make everything playable
             if (tempRooms.Count < 1)
