@@ -29,7 +29,7 @@ public class RoundManager : MonoBehaviour
 
     public List<PlayerDataScript> playerDataList;
     public GameObject playerDataPrefab;
-    public GameObject loadingSpinner;
+    public Image loadingImage;
     public GameObject persistentCanvas;
 
     float startRotation;
@@ -48,7 +48,7 @@ public class RoundManager : MonoBehaviour
             _instance = this;
             DontDestroyOnLoad(gameObject);
             DontDestroyOnLoad(persistentCanvas);
-            DontDestroyOnLoad(loadingSpinner);
+            DontDestroyOnLoad(loadingImage.gameObject);
 
             //set rotation to 0, set endpoint to 360 degrees later
             startRotation = 0f;
@@ -62,13 +62,15 @@ public class RoundManager : MonoBehaviour
         finishedControllerSetup = false;
 
         currentRound = 0;
-        loadingSpinner.SetActive(false);
+        loadingImage.gameObject.SetActive(false);
 
     }
 
     public void NewRound(bool startOver)
     {
         loading = true;
+
+        loadingImage.fillAmount = 0;
 
         currentRound++;
 
@@ -101,7 +103,7 @@ public class RoundManager : MonoBehaviour
 
     IEnumerator AddLevel(string lvl, RoomSO nextRoom, bool startOver)
     {
-        loadingSpinner.SetActive(true);
+        loadingImage.gameObject.SetActive(true);
 
         AsyncOperation asyncLoadLevel = SceneManager.LoadSceneAsync(lvl);
 
@@ -113,7 +115,7 @@ public class RoundManager : MonoBehaviour
         LevelLoaded(nextRoom, startOver);
         yield return new WaitForSeconds(0.5f);
 
-        loading = false;
+        //loading = false;
 
     }
 
@@ -175,16 +177,24 @@ public class RoundManager : MonoBehaviour
         //spins a fun lil' loading spinner
         if (loading)
         {
-            t += Time.deltaTime;
-            //math magic
-            float zRotation = Mathf.Lerp(startRotation, endRotation, t / 1.0f) % 360.0f;
-            loadingSpinner.transform.eulerAngles = new Vector3(loadingSpinner.transform.eulerAngles.x, loadingSpinner.transform.eulerAngles.y, zRotation);
-            FinalZRot = zRotation;
+            //t += Time.deltaTime;
+            ////math magic
+            //float zRotation = Mathf.Lerp(startRotation, endRotation, t / 1.0f) % 360.0f;
+            //loadingSpinner.transform.eulerAngles = new Vector3(loadingSpinner.transform.eulerAngles.x, loadingSpinner.transform.eulerAngles.y, zRotation);
+            //FinalZRot = zRotation;
+            loadingImage.fillAmount += Time.deltaTime;
+
+            if(loadingImage.fillAmount>=1)
+            {
+                loadingImage.fillAmount = 0;
+                loading = false;
+            }
+
         }
         else
         {
-            loadingSpinner.transform.eulerAngles = new Vector3(loadingSpinner.transform.eulerAngles.x, loadingSpinner.transform.eulerAngles.y, FinalZRot);
-            loadingSpinner.SetActive(false);
+            //loadingSpinner.transform.eulerAngles = new Vector3(loadingSpinner.transform.eulerAngles.x, loadingSpinner.transform.eulerAngles.y, FinalZRot);
+            loadingImage.gameObject.SetActive(false);
 
         }
     }

@@ -67,7 +67,6 @@ public class ObjectPooler : MonoBehaviour
     //works like instatiate but from a magic poooooool
     public GameObject SpawnFromPool(string tag, Vector3 position, Quaternion rotation)
     {
-        Debug.Log(poolDictionary[tag].Count + " " + tag);
 
         if (!poolDictionary.ContainsKey(tag))
         {
