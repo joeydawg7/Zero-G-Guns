@@ -876,7 +876,7 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 0}
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -2684,7 +2684,6 @@ RectTransform:
   - {fileID: 1696215203}
   - {fileID: 1482277329}
   - {fileID: 663962467}
-  - {fileID: 1792503439}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3061,6 +3060,7 @@ GameObject:
   - component: {fileID: 663962467}
   - component: {fileID: 663962469}
   - component: {fileID: 663962468}
+  - component: {fileID: 663962470}
   m_Layer: 5
   m_Name: roomSetupBacker
   m_TagString: Untagged
@@ -3080,6 +3080,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 845260358}
+  - {fileID: 1792503439}
   m_Father: {fileID: 487427785}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3126,6 +3127,25 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 663962466}
   m_CullTransparentMesh: 0
+--- !u!95 &663962470
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 663962466}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 2fa095e98d583cb4988861f32f87e0f8, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &665499218
 GameObject:
   m_ObjectHideFlags: 0
@@ -9234,7 +9254,7 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 0}
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -10324,7 +10344,6 @@ GameObject:
   - component: {fileID: 1792503439}
   - component: {fileID: 1792503441}
   - component: {fileID: 1792503440}
-  - component: {fileID: 1792503442}
   m_Layer: 5
   m_Name: RoomNamePopup
   m_TagString: Untagged
@@ -10345,12 +10364,12 @@ RectTransform:
   m_Children:
   - {fileID: 1537710131}
   - {fileID: 166052743}
-  m_Father: {fileID: 487427785}
-  m_RootOrder: 5
+  m_Father: {fileID: 663962467}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -330.69995, y: -130.4431}
+  m_AnchoredPosition: {x: -330.69995, y: -129.3}
   m_SizeDelta: {x: 780.6, y: 106.6}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1792503440
@@ -10384,7 +10403,7 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 0}
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -10474,25 +10493,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1792503438}
   m_CullTransparentMesh: 0
---- !u!95 &1792503442
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1792503438}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 2fa095e98d583cb4988861f32f87e0f8, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1001 &1793484716
 PrefabInstance:
   m_ObjectHideFlags: 0
