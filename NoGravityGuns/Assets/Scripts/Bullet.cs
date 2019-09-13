@@ -59,6 +59,7 @@ public class Bullet : MonoBehaviour, IPooledObject
         }
 
         rb.simulated = true;
+        rb.isKinematic = false;
         GetComponent<CircleCollider2D>().enabled = true;
 
         SetStartingForce(dir);
