@@ -16,6 +16,7 @@ public class RoomSO : ScriptableObject
     public string sceneName;
 
     //checks off when player checks the map off in a list
+    [System.NonSerialized]
     public bool isPlayable = true;
 
 }

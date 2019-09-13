@@ -57,8 +57,13 @@ public class RoundManager : MonoBehaviour
             t = 0.0f;
             FinalZRot = 0;
 
-           // ObjectPooler.Instance.StartUp();
-        }
+            foreach (var room in rooms)
+            {
+                room.isPlayable = true;
+            }
+
+                // ObjectPooler.Instance.StartUp();
+            }
 
         finishedControllerSetup = false;
 
@@ -107,8 +112,13 @@ public class RoundManager : MonoBehaviour
             foreach (var room in rooms)
             {
                 if (room.isPlayable)
+                {
                     tempRooms.Add(room);
+                    Debug.Log(room.name);
+                }
             }
+
+            Debug.Log("---------------");
 
             //if our list has no playable rooms make everything playable
             if (tempRooms.Count < 1)
@@ -121,7 +131,7 @@ public class RoundManager : MonoBehaviour
             else
             {
                 //then pick a random room from everything playable
-                nextRoom = tempRooms[Random.Range(0, rooms.Count)];
+                nextRoom = tempRooms[Random.Range(0, tempRooms.Count)];
             }
 
         }
