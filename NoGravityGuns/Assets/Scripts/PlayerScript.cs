@@ -716,19 +716,19 @@ public class PlayerScript : MonoBehaviour
         switch (playerID)
         {
             case 1:
-                playerName = "Red Player";
+                playerName = "Red";
                 hexColorCode = "#B1342F";
                 break;
             case 2:
-                playerName = "Blue Player";
+                playerName = "Blue";
                 hexColorCode = "#2C7EC2";
                 break;
             case 3:
-                playerName = "Green Player";
+                playerName = "Green";
                 hexColorCode = "#13BC1E";
                 break;
             case 4:
-                playerName = "Yellow Player";
+                playerName = "Yellow";
                 hexColorCode = "#EA9602";
                 break;
         }
