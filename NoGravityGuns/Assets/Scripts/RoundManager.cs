@@ -15,7 +15,8 @@ public class RoundManager : MonoBehaviour
     public int maxRounds;
 
     [Header("Round-Fluid elements")]
-    public TextMeshProUGUI newRoundText;
+    GameObject newRoundElementBacker;
+    TextMeshProUGUI newRoundText;
     TextMeshProUGUI roundNumText;
 
     Animator newRoundTextAnimator;
@@ -93,7 +94,39 @@ public class RoundManager : MonoBehaviour
         }
 
         //TODO: only grab from a list of playable rooms so player can check off maps they dont want to play
-        RoomSO nextRoom = rooms[Random.Range(0, rooms.Count)];
+        //RoomSO nextRoom = rooms[Random.Range(0, rooms.Count)];
+
+        List<RoomSO> tempRooms = new List<RoomSO>();
+
+        RoomSO nextRoom = null;
+
+        //we have no room to go to!
+        while(nextRoom == null)
+        {
+            //make a list of all possible rooms we could go to that are playable
+            foreach (var room in rooms)
+            {
+                if (room.isPlayable)
+                    tempRooms.Add(room);
+            }
+
+            //if our list has no playable rooms make everything playable
+            if (tempRooms.Count < 1)
+            {
+                foreach (var room in rooms)
+                {
+                    room.isPlayable = true;
+                }
+            }
+            else
+            {
+                //then pick a random room from everything playable
+                nextRoom = tempRooms[Random.Range(0, rooms.Count)];
+            }
+
+        }
+
+        nextRoom.isPlayable = false;
 
         StartCoroutine(AddLevel(nextRoom.sceneName, nextRoom, startOver));
 
@@ -123,13 +156,18 @@ public class RoundManager : MonoBehaviour
     {
         if (!startOver)
         {
-            newRoundText = GameObject.Find("RoomNamePopup").GetComponent<TextMeshProUGUI>();
-            newRoundTextAnimator = newRoundText.GetComponent<Animator>();
+            newRoundElementBacker = GameObject.Find("roomSetupBacker");
+            newRoundTextAnimator = newRoundElementBacker.GetComponent<Animator>();
+            newRoundText = newRoundElementBacker.transform.Find("RoomNamePopup").GetComponent<TextMeshProUGUI>();
+
             newRoundText.alpha = 1;
             newRoundText.text = nextRoom.roomName;
-            newRoundTextAnimator.SetTrigger("NewRound");
             roundNumText = newRoundText.transform.Find("RoundNum").GetComponent<TextMeshProUGUI>();
+            roundNumText.alpha = 1;
             roundNumText.text = "Round " + currentRound + "";
+
+            newRoundTextAnimator.SetTrigger("NewRound");
+            
             GameManager.Instance.StartGame();
         }
 
