@@ -297,6 +297,9 @@ public class PlayerScript : MonoBehaviour
 
         GameObject armGo =  GameObject.Instantiate(gun.armsObject, armsScript.transform);
 
+
+        armsSR = armGo.GetComponent<SpriteRenderer>();
+
         armGo.SetActive(true);
 
         armGo.GetComponent<SpriteRenderer>().color = defaultColor;
@@ -467,7 +470,7 @@ public class PlayerScript : MonoBehaviour
                 }
 
                 //if (gameManager.dataManager.AllowWriteToFile)
-                SaveDamageData(PlayerWhoShotYou.armsScript.currentWeapon, Mathf.RoundToInt(damage), true, PlayerWhoShotYou);
+                //SaveDamageData(PlayerWhoShotYou.armsScript.currentWeapon, Mathf.RoundToInt(damage), true, PlayerWhoShotYou);
 
                 Die();
             }
