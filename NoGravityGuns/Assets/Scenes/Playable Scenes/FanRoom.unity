@@ -348,13 +348,19 @@ PrefabInstance:
     - target: {fileID: 3706053639854411057, guid: 80020e53c2ea90f418fa086dffcb1a7c,
         type: 3}
       propertyPath: SpawnSelectedWeaponInstant
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3706053639854411057, guid: 80020e53c2ea90f418fa086dffcb1a7c,
         type: 3}
       propertyPath: weaponToSpawn
       value: 
-      objectReference: {fileID: 11400000, guid: a0dd7d35dfa9dab4aad1f2d94052eae1,
+      objectReference: {fileID: 11400000, guid: e4762a43f52cd6949ac0e75094aa650a,
+        type: 2}
+    - target: {fileID: 3706053639854411057, guid: 80020e53c2ea90f418fa086dffcb1a7c,
+        type: 3}
+      propertyPath: potentialGunsToSpawn.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 8fe3a682d243b3749b0240414241b09e,
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 80020e53c2ea90f418fa086dffcb1a7c, type: 3}
@@ -435,6 +441,12 @@ PrefabInstance:
       propertyPath: weaponToSpawn
       value: 
       objectReference: {fileID: 11400000, guid: bb4390fe5e1d2ff48b09b52ba31beaeb,
+        type: 2}
+    - target: {fileID: 3706053639854411057, guid: 80020e53c2ea90f418fa086dffcb1a7c,
+        type: 3}
+      propertyPath: potentialGunsToSpawn.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 8fe3a682d243b3749b0240414241b09e,
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 80020e53c2ea90f418fa086dffcb1a7c, type: 3}
@@ -3376,6 +3388,28 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3706053639854411057, guid: 80020e53c2ea90f418fa086dffcb1a7c,
+        type: 3}
+      propertyPath: SpawnSelectedWeaponInstant
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3706053639854411057, guid: 80020e53c2ea90f418fa086dffcb1a7c,
+        type: 3}
+      propertyPath: weaponToSpawn
+      value: 
+      objectReference: {fileID: 11400000, guid: 780bcf7084871e3459d2463468905508,
+        type: 2}
+    - target: {fileID: 3706053639854411057, guid: 80020e53c2ea90f418fa086dffcb1a7c,
+        type: 3}
+      propertyPath: potentialGunsToSpawn.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 8fe3a682d243b3749b0240414241b09e,
+        type: 2}
+    - target: {fileID: 3706053639854411057, guid: 80020e53c2ea90f418fa086dffcb1a7c,
+        type: 3}
+      propertyPath: potentialGunsToSpawn.Array.data[5]
+      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 80020e53c2ea90f418fa086dffcb1a7c, type: 3}
@@ -6532,6 +6566,12 @@ PrefabInstance:
       propertyPath: m_LocalScale.y
       value: 2.0699995
       objectReference: {fileID: 0}
+    - target: {fileID: 3706053639854411057, guid: 80020e53c2ea90f418fa086dffcb1a7c,
+        type: 3}
+      propertyPath: potentialGunsToSpawn.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 8fe3a682d243b3749b0240414241b09e,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 80020e53c2ea90f418fa086dffcb1a7c, type: 3}
 --- !u!1 &1204441696
@@ -8675,6 +8715,12 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 2.07
       objectReference: {fileID: 0}
+    - target: {fileID: 3706053639854411057, guid: 80020e53c2ea90f418fa086dffcb1a7c,
+        type: 3}
+      propertyPath: potentialGunsToSpawn.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 8fe3a682d243b3749b0240414241b09e,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 80020e53c2ea90f418fa086dffcb1a7c, type: 3}
 --- !u!1 &1696215202
@@ -11333,7 +11379,7 @@ PrefabInstance:
         type: 3}
       propertyPath: assaultRifle
       value: 
-      objectReference: {fileID: 11400000, guid: a0dd7d35dfa9dab4aad1f2d94052eae1,
+      objectReference: {fileID: 11400000, guid: 8fe3a682d243b3749b0240414241b09e,
         type: 2}
     - target: {fileID: 1266405587583640708, guid: 53b2a148a6b50ea45addede7db15165f,
         type: 3}
@@ -11488,6 +11534,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2181779809021178793, guid: 03b570c18870f384c992d818d6c5581e,
         type: 3}
+      propertyPath: rooms.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2181779809021178793, guid: 03b570c18870f384c992d818d6c5581e,
+        type: 3}
       propertyPath: loadingImage
       value: 
       objectReference: {fileID: 606565429}
@@ -11594,11 +11645,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0.333
       objectReference: {fileID: 0}
-    - target: {fileID: 5714486518786032923, guid: 7bd5c672901594f4b8326383fb19eb33,
-        type: 3}
-      propertyPath: objectPooler
-      value: 
-      objectReference: {fileID: 1252973330}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7bd5c672901594f4b8326383fb19eb33, type: 3}
 --- !u!1001 &5099885807956581758

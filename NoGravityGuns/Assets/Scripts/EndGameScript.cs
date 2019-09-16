@@ -90,7 +90,7 @@ public class EndGameScript : MonoBehaviour
     //marvel dont sue
     IEnumerator EndGame(List<PlayerScript> winnersList)
     {
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.5f);
         gameOverText.text = "Round Over!";
         gameOverText.alpha = 1;
         //yield return new WaitForSeconds(0.5f);

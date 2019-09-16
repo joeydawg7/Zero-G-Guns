@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9819fd665faaac644a61ef4053cfca33, type: 3}
-  m_Name: LMG
+  m_Name: Minigun
   m_EditorClassIdentifier: 
   name: Minigun
   minDamageRange: 7
@@ -23,9 +23,11 @@ MonoBehaviour:
   clipSize: 100
   numBullets: 0
   reloadTime: 4
+  armsObject: {fileID: 7811598983621682333, guid: 5d52d58e3dd5b404ba672df8303c9117,
+    type: 3}
   weaponPad: {fileID: 21300000, guid: 23cd42ee863a54746b6b9529d4493c70, type: 3}
   fireType: 2
-  GunType: 2
+  gunDamageTotal: 0
   cameraShakeDuration: 0.08
   bulletSounds:
   - {fileID: 8300000, guid: 25a916c09cd93864197df4bb8de91811, type: 3}

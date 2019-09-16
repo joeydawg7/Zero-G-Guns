@@ -9,8 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9819fd665faaac644a61ef4053cfca33, type: 3}
-  m_Name: Assault Rifle
+  m_Script: {fileID: 11500000, guid: 948d8f79f63526843a453ffe60a417a1, type: 3}
+  m_Name: AssaultRifle
   m_EditorClassIdentifier: 
   name: Assault Rifle
   minDamageRange: 15
@@ -23,6 +23,8 @@ MonoBehaviour:
   clipSize: 30
   numBullets: 0
   reloadTime: 2
+  armsObject: {fileID: 9150846822755889815, guid: 4922dda57b46d6a4585ba91abd04579b,
+    type: 3}
   weaponPad: {fileID: 21300000, guid: 952cdcced38de12498667294e4ee4866, type: 3}
   fireType: 3
   GunType: 1
@@ -38,3 +40,5 @@ MonoBehaviour:
   projectile: {fileID: 5680163158229233766, guid: 56ef0b4526c6e0d4795adb5837e2749e,
     type: 3}
   EquipSprite: {fileID: 21300000, guid: dba377f75aff4044d92f8ae8269bde20, type: 3}
+  timeBetweenBurstShots: 0.08
+  numBurstShots: 3
