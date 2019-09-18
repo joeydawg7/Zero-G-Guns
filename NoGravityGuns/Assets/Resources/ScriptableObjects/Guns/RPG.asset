@@ -27,7 +27,7 @@ MonoBehaviour:
     type: 3}
   weaponPad: {fileID: 21300000, guid: 1beaae9fc7b3403448bb27cac7003d51, type: 3}
   fireType: 4
-  GunType: 6
+  gunDamageTotal: 0
   cameraShakeDuration: 0.25
   bulletSounds:
   - {fileID: 8300000, guid: 00442b56409ef0c4398fe4f73bf8c603, type: 3}
@@ -38,3 +38,6 @@ MonoBehaviour:
     type: 3}
   EquipSprite: {fileID: 21300000, guid: 1a845698e74ee874ea0a57f7c072695e, type: 3}
   rocketPushbackMod: 1.2
+  physicsObjectPushForceMod: 40
+  explosionRadius: 20
+  explosionPower: 385

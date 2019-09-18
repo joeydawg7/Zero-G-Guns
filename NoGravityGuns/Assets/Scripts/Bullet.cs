@@ -4,20 +4,21 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour, IPooledObject
 {
-    float damage;
+    protected float damage;
 
-    PlayerScript player;
+    [HideInInspector]
+    public PlayerScript player;
 
-    bool canImapact;
-    bool canBounce;
+    protected bool canImapact;
+    protected bool canBounce;
 
-    Rigidbody2D rb;
-    Vector2 startingForce;
-    ObjectPooler objectPooler;
-    SpriteRenderer sr;
-    ParticleSystem somethingSexy;
+    protected Rigidbody2D rb;
+    protected Vector2 startingForce;
+    protected ObjectPooler objectPooler;
+    protected SpriteRenderer sr;
+    protected ParticleSystem somethingSexy;
 
-    GunSO gun;
+    protected GunSO gun;
 
     private void Awake()
     {
@@ -41,8 +42,7 @@ public class Bullet : MonoBehaviour, IPooledObject
         startingForce = new Vector2(vel.x, vel.y);
     }
 
-    //TODO: we dont need to pass anywhere near all these variables. bleh
-    public void Construct(float damage, PlayerScript player, Vector3 dir, Sprite sprite)
+    public virtual void Construct(float damage, PlayerScript player, Vector3 dir, Sprite sprite)
     {
         //who shot the bullet
         this.player = player;
@@ -92,26 +92,7 @@ public class Bullet : MonoBehaviour, IPooledObject
             sr.enabled = true;
     }
 
-    const int ROCKET_TOP_SPEED = 150;
-    const float ROCKET_ACCELERATION_MOD = 150f;
-
-    private void FixedUpdate()
-    {
-        //accelerate the rocket over time if it exists
-        if (rb != null)
-        {
-            if (rb.simulated == true && gun.name == "RPG" && rb.velocity.magnitude < ROCKET_TOP_SPEED)
-            {
-                Vector2 dir = rb.velocity;
-                float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
-                transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
-
-                rb.AddForce(dir * ROCKET_ACCELERATION_MOD * Time.deltaTime, ForceMode2D.Force);
-            }
-        }
-    }
-
-    private void OnCollisionEnter2D(Collision2D collision)
+    protected virtual void OnCollisionEnter2D(Collision2D collision)
     {
 
         if (collision.collider.gameObject.layer != LayerMask.NameToLayer("NonBulletCollide") && canImapact == true)
@@ -120,54 +101,11 @@ public class Bullet : MonoBehaviour, IPooledObject
             if (collision.collider.tag != "Bullet" || collision.collider.GetComponent<Bullet>().player.playerID != player.playerID)
             {
                 //default damage type is nothing, we don't know what we hit yet.
-                PlayerScript.DamageType dmgType = PlayerScript.DamageType.none;
-
-                //checks where we hit the other guy, deals our given damage to that location. 
-                if (collision.collider.tag == "Torso")
-                {
-                    dmgType = PlayerScript.DamageType.torso;
-                    collision.transform.root.gameObject.GetComponent<PlayerScript>().TakeDamage(damage, dmgType, player, true);
-                    collision.transform.GetComponentInChildren<ParticleSystem>().Emit(30);
-                    canBounce = false;
-                    GetComponent<Collider2D>().enabled = false;
-                }
-                if (collision.collider.tag == "Head")
-                {
-                    dmgType = PlayerScript.DamageType.head;
-                    collision.transform.root.gameObject.GetComponent<PlayerScript>().TakeDamage(damage, dmgType, player, true);
-                    canBounce = false;
-                    GetComponent<Collider2D>().enabled = false;
-                }
-                if (collision.collider.tag == "Feet")
-                {
-                    dmgType = PlayerScript.DamageType.feet;
-                    collision.transform.root.gameObject.GetComponent<PlayerScript>().TakeDamage(damage, dmgType, player, true);
-                    canBounce = false;
-                    GetComponent<Collider2D>().enabled = false;
-                }
-                if (collision.collider.tag == "Leg")
-                {
-                    dmgType = PlayerScript.DamageType.legs;
-                    collision.transform.root.gameObject.GetComponent<PlayerScript>().TakeDamage(damage, dmgType, player, true);
-                    canBounce = false;
-                    GetComponent<Collider2D>().enabled = false;
-                }
-
-                //spawn some impact sparks from pool
-                GameObject sparkyObj = objectPooler.SpawnFromPool("BulletImpact", transform.position, Quaternion.identity);
-                sparkyObj.GetComponent<ParticleSystem>().Emit(10);
-                //start a timer to kill it
-                sparkyObj.GetComponent<DisableOverTime>().DisableOverT(2f);
-
-                //if you are a rcoket who hit something, blow up
-                if (gun.name == "RPG")
-                {
-                    ExplodeBullet(false);
-                    return;
-                }
+                PlayerScript.DamageType dmgType = DamageBodyParts(collision);
+                SpawnSparkEffect();
 
                 //only bounce if you are a railgun bullet that hasnt hit a player, and only do it once. 
-                if ((gun.name != "RailGun" && gun.name != "RPG" || canBounce == false))
+                if ((gun.name != "RailGun" || canBounce == false))
                 {
                     canImapact = false;
                     KillBullet();
@@ -191,6 +129,54 @@ public class Bullet : MonoBehaviour, IPooledObject
         }
     }
 
+    protected virtual void SpawnSparkEffect()
+    {
+        //spawn some impact sparks from pool
+        GameObject sparkyObj = objectPooler.SpawnFromPool("BulletImpact", transform.position, Quaternion.identity);
+        sparkyObj.GetComponent<ParticleSystem>().Emit(10);
+        //start a timer to kill it
+        sparkyObj.GetComponent<DisableOverTime>().DisableOverT(2f);
+    }
+
+    protected  virtual PlayerScript.DamageType DamageBodyParts(Collision2D collision)
+    {
+        //default damage type is nothing, we don't know what we hit yet.
+        PlayerScript.DamageType dmgType = PlayerScript.DamageType.none;
+
+        //checks where we hit the other guy, deals our given damage to that location. 
+        if (collision.collider.tag == "Torso")
+        {
+            dmgType = PlayerScript.DamageType.torso;
+            collision.transform.root.gameObject.GetComponent<PlayerScript>().TakeDamage(damage, dmgType, player, true);
+            collision.transform.GetComponentInChildren<ParticleSystem>().Emit(30);
+            canBounce = false;
+            GetComponent<Collider2D>().enabled = false;
+        }
+        if (collision.collider.tag == "Head")
+        {
+            dmgType = PlayerScript.DamageType.head;
+            collision.transform.root.gameObject.GetComponent<PlayerScript>().TakeDamage(damage, dmgType, player, true);
+            canBounce = false;
+            GetComponent<Collider2D>().enabled = false;
+        }
+        if (collision.collider.tag == "Feet")
+        {
+            dmgType = PlayerScript.DamageType.feet;
+            collision.transform.root.gameObject.GetComponent<PlayerScript>().TakeDamage(damage, dmgType, player, true);
+            canBounce = false;
+            GetComponent<Collider2D>().enabled = false;
+        }
+        if (collision.collider.tag == "Leg")
+        {
+            dmgType = PlayerScript.DamageType.legs;
+            collision.transform.root.gameObject.GetComponent<PlayerScript>().TakeDamage(damage, dmgType, player, true);
+            canBounce = false;
+            GetComponent<Collider2D>().enabled = false;
+        }
+
+        return dmgType;
+    }
+
     //gets rid of a bullet gracefully
     void KillBullet()
     {
@@ -199,36 +185,6 @@ public class Bullet : MonoBehaviour, IPooledObject
         somethingSexy.Stop();
         somethingSexy.GetComponent<DisableOverTime>().DisableOverT(3.1f);
         somethingSexy.transform.parent = null;
-    }
-
-    //explodes a bullet "gracefully"
-    public void ExplodeBullet(bool explodeInstantly)
-    {
-        gameObject.GetComponent<CircleCollider2D>().enabled = false;
-        Explosion explosion = null;
-
-        if (transform != null)
-        {
-            explosion = transform.Find("ExplosionRadius").GetComponent<Explosion>();
-        }
-
-        if (explosion != null)
-        {
-            explosion.gameObject.SetActive(true);
-            explosion.Explode(player);
-            rb.simulated = false;
-            rb.isKinematic = true;
-        }
-
-        sr.enabled = false;
-        StartCoroutine(DisableOverTime(0.6f));
-
-        if (!explodeInstantly)
-        {
-            somethingSexy.Stop();
-            somethingSexy.GetComponent<DisableOverTime>().DisableOverT(3.1f);
-            somethingSexy.transform.parent = null;
-        }
     }
 
     //reflect out vector to determine bounce for railgun :D

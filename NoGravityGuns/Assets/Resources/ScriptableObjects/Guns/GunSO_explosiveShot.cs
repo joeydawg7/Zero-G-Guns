@@ -8,6 +8,11 @@ public class GunSO_explosiveShot : GunSO
     [Header("explosive specific variables")]
     public float rocketPushbackMod;
 
+    public float physicsObjectPushForceMod;
+
+    public float explosionRadius;
+    public float explosionPower;
+
     MonoBehaviour mono;
 
     public override void Fire(PlayerScript player, Vector3 dir)
@@ -104,6 +109,6 @@ public class GunSO_explosiveShot : GunSO
     {
         GameObject bulletGo = ObjectPooler.Instance.SpawnFromPool("Rocket", arms.bulletSpawn.transform.position, Quaternion.Euler(shootDir));
         bulletGo.GetComponent<SpriteRenderer>().enabled = false;
-        bulletGo.GetComponent<Bullet>().ExplodeBullet(true);
+        bulletGo.GetComponent<Rocket>().ExplodeBullet(true);
     }
 }

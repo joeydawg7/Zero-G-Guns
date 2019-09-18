@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Explosion : MonoBehaviour
 {
-    float radius = 15f;
-    float power = 400f;
+    float radius;
+    float power;
 
     PlayerScript playerWhoShot;
 
@@ -16,6 +16,8 @@ public class Explosion : MonoBehaviour
     public AudioSource audioSouce;
     public List<AudioClip> explosionClips;
 
+    GunSO_explosiveShot gun;
+
     CameraShake cameraShake;
 
     private void Awake()
@@ -23,9 +25,14 @@ public class Explosion : MonoBehaviour
         cameraShake = Camera.main.GetComponent<CameraShake>();
     }
 
-    public void Explode(PlayerScript playerWhoShot)
+    public void Explode(PlayerScript playerWhoShot, GunSO_explosiveShot gun)
     {
         this.playerWhoShot = playerWhoShot;
+        this.radius = radius;
+        this.gun = gun;
+
+        power = gun.explosionPower;
+        radius = gun.explosionRadius;
 
         GrowExplosion();
 
@@ -40,7 +47,7 @@ public class Explosion : MonoBehaviour
         explosionBits.Emit(Random.Range(20, 40));
         chunks.Emit(Random.Range(20, 40));
 
-        cameraShake.shakeDuration += 0.25f;
+        cameraShake.shakeDuration += gun.cameraShakeDuration;
 
         //lets the circle with our given radius actually hurt people
         bool dealDamage = true;
@@ -71,7 +78,7 @@ public class Explosion : MonoBehaviour
                     //give impact objects a bit more push than other things
                     else if (rb.tag == "ImpactObject")
                     {
-                        Rigidbody2DExt.AddExplosionForce(rb, power * 40f, explosionPos, radius, ForceMode2D.Force);
+                        Rigidbody2DExt.AddExplosionForce(rb, power * gun.physicsObjectPushForceMod, explosionPos, radius, ForceMode2D.Force);
                     }
                     else
                     {
