@@ -18,9 +18,9 @@ public class GunSO_burstShot : GunSO
         mono.StartCoroutine(FireInBurst(player, dir, numBurstShots));
     }
 
-     protected override void SpawnBullet(GunSO currWeapon, Transform bulletSpawn, Vector3 dir, PlayerScript player)
+     protected override void SpawnBullet(Vector3 dir, PlayerScript player)
      {
-         base.SpawnBullet(currWeapon, bulletSpawn, dir, player);
+         base.SpawnBullet(dir, player);
      }
      
     //shoots X number of bullet with Y time in between
@@ -31,7 +31,7 @@ public class GunSO_burstShot : GunSO
         for (int i = 0; i < bulletsToShoot; i++)
         {
 
-            SpawnBullet(this, arms.bulletSpawn, dir, player);
+            SpawnBullet(dir, player);
 
             ReduceBullets(player);
 

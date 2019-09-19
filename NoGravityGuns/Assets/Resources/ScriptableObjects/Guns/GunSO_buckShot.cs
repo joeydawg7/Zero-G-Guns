@@ -16,16 +16,14 @@ public class GunSO_buckShot : GunSO
         BuckShot(player, dir);
     }
 
-    protected override void SpawnBullet(GunSO currWeapon, Transform bulletSpawn, Vector3 dir, PlayerScript player)
+    protected override void SpawnBullet(Vector3 dir, PlayerScript player)
     {
-        base.SpawnBullet(currWeapon, bulletSpawn, dir, player);
+        base.SpawnBullet(dir, player);
     }
 
     void BuckShot(PlayerScript player, Vector3 dir)
     {
         ArmsScript arms = player.armsScript;
-
-        arms.currentRecoil += recoilPerShot;
 
         SpawnBuckShot(player, dir);
 

@@ -11,8 +11,6 @@ public class GunSO : ScriptableObject
     public float knockback;
     public float bulletSpeed;
     public float recoilDelay;
-    public float recoilPerShot;
-    public float recoilMax;
     public int clipSize;
     public int numBullets;
     public float reloadTime;
@@ -53,9 +51,7 @@ public class GunSO : ScriptableObject
     {
         player.armsScript.audioSource.PlayOneShot(GetRandomGunshotSFX);
 
-        player.armsScript.currentRecoil += recoilPerShot;
-
-        SpawnBullet(this, player.armsScript.bulletSpawn, dir, player);
+        SpawnBullet(dir, player);
 
         ReduceBullets(player);
     }
@@ -74,10 +70,12 @@ public class GunSO : ScriptableObject
     }
 
     //spawn the bullet and passes along required info
-    protected virtual void SpawnBullet(GunSO currWeapon, Transform bulletSpawn, Vector3 dir, PlayerScript player)
+    protected virtual void SpawnBullet(Vector3 dir, PlayerScript player)
     {
+        Transform bulletSpawn = player.armsScript.bulletSpawn;
+
         GameObject bulletGo = ObjectPooler.Instance.SpawnFromPool("Bullet", bulletSpawn.position, Quaternion.identity);
-        dir = bulletSpawn.transform.right * currWeapon.bulletSpeed;
+        dir = bulletSpawn.transform.right * bulletSpeed;
 
         bulletGo.GetComponent<Bullet>().Construct(GunDamage, player, dir, player.armsScript.bulletSprite);
     }

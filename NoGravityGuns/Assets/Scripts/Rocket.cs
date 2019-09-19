@@ -6,20 +6,6 @@ using System.Reflection;
 public class Rocket : Bullet
 {
 
-
-
-    private void Awake()
-    {
-        sr = GetComponent<SpriteRenderer>();
-        canBounce = true;
-    }
-
-
-    void SetStartingForce(Vector2 vel)
-    {
-        startingForce = new Vector2(vel.x, vel.y);
-    }
-
     public override void Construct(float damage, PlayerScript player, Vector3 dir, Sprite sprite)
     {
         //call the base version first, the rest of the stuff we do after
@@ -108,13 +94,4 @@ public class Rocket : Bullet
         }
     }
 
-    IEnumerator DisableOverTime(float t)
-    {
-        yield return new WaitForSeconds(t);
-        gameObject.SetActive(false);
-        rb.velocity = new Vector2(0, 0);
-        rb.angularVelocity = 0;
-        rb.simulated = false;
-
-    }
 }

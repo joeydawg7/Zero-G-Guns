@@ -20,11 +20,13 @@ public class GunSO_explosiveShot : GunSO
        //does nothing :D
     }
 
-    protected override void SpawnBullet(GunSO currWeapon, Transform bulletSpawn, Vector3 shootDir, PlayerScript player)
+    protected override void SpawnBullet( Vector3 shootDir, PlayerScript player)
     {
+        Transform bulletSpawn = player.armsScript.bulletSpawn;
+
         GameObject bulletGo = ObjectPooler.Instance.SpawnFromPool("Rocket", bulletSpawn.transform.position, Quaternion.Euler(shootDir));
         bulletGo.GetComponent<SpriteRenderer>().enabled = false;
-        Vector2 dir = bulletSpawn.transform.right * currWeapon.bulletSpeed;
+        Vector2 dir = bulletSpawn.transform.right * bulletSpeed;
         float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
         bulletGo.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
 
@@ -91,7 +93,7 @@ public class GunSO_explosiveShot : GunSO
             arms.cameraShake.shakeDuration += cameraShakeDuration;
             arms.timeSinceLastShot = 0;
 
-            SpawnBullet(this, arms.bulletSpawn, dir, player);
+            SpawnBullet(dir, player);
 
             KnockBackAfterShot(player, dir);
 

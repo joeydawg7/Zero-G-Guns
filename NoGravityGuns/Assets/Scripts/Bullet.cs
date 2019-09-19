@@ -37,7 +37,7 @@ public class Bullet : MonoBehaviour, IPooledObject
         objectPooler = ObjectPooler.Instance;
     }
 
-    void SetStartingForce(Vector2 vel)
+    protected void SetStartingForce(Vector2 vel)
     {
         startingForce = new Vector2(vel.x, vel.y);
     }
@@ -71,25 +71,11 @@ public class Bullet : MonoBehaviour, IPooledObject
 
         canImapact = true;
 
-        //in theory give a special trail to rpg shots from regular bullets. i ended up using rpg trail for both though, probably will change in future
-        /* if (bulletType != PlayerScript.GunType.RPG)
-         {
-             rb.AddRelativeForce(dir, ForceMode2D.Force);
-             GameObject temp = objectPooler.SpawnFromPool("RocketTrail", gameObject.transform.position, Quaternion.identity);
-             somethingSexy = temp.GetComponent<ParticleSystem>();
-             somethingSexy.transform.parent = transform;
-         }
-         else
-         {*/
         rb.AddForce(dir, ForceMode2D.Force);
         GameObject temp2 = objectPooler.SpawnFromPool("RocketTrail", gameObject.transform.position, Quaternion.identity);
         somethingSexy = temp2.GetComponent<ParticleSystem>();
         somethingSexy.transform.parent = transform;
-        //}
 
-        //dont change rocket collision layer, we dont want it colliding with other bullets
-        if (gun.name == "RPG")
-            sr.enabled = true;
     }
 
     protected virtual void OnCollisionEnter2D(Collision2D collision)
@@ -138,7 +124,7 @@ public class Bullet : MonoBehaviour, IPooledObject
         sparkyObj.GetComponent<DisableOverTime>().DisableOverT(2f);
     }
 
-    protected  virtual PlayerScript.DamageType DamageBodyParts(Collision2D collision)
+    protected virtual PlayerScript.DamageType DamageBodyParts(Collision2D collision)
     {
         //default damage type is nothing, we don't know what we hit yet.
         PlayerScript.DamageType dmgType = PlayerScript.DamageType.none;
@@ -178,7 +164,7 @@ public class Bullet : MonoBehaviour, IPooledObject
     }
 
     //gets rid of a bullet gracefully
-    void KillBullet()
+   protected void KillBullet()
     {
         StartCoroutine(DisableOverTime(0.02f));
 
@@ -193,7 +179,7 @@ public class Bullet : MonoBehaviour, IPooledObject
         return vector - 2 * Vector2.Dot(vector, normal) * normal;
     }
 
-    IEnumerator DisableOverTime(float t)
+    protected IEnumerator DisableOverTime(float t)
     {
         yield return new WaitForSeconds(t);
         gameObject.SetActive(false);
