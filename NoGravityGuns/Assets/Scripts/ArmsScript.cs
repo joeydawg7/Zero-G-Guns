@@ -14,6 +14,7 @@ public class ArmsScript : MonoBehaviour
 
     [Header("Gun")]
     public GunSO currentWeapon;
+    public float currentRecoil;
     //public GameObject reloadTimer;
 
     public Transform bulletSpawn;
@@ -33,7 +34,12 @@ public class ArmsScript : MonoBehaviour
     [HideInInspector]
     public GameObject currentArms;
     [HideInInspector]
-    public AudioSource audioS;
+    public AudioSource audioSource;
+    [HideInInspector]
+    public CameraShake cameraShake;
+    [HideInInspector]
+    public float timeSinceLastShot;
+
     #endregion
 
     #region Privates
@@ -41,10 +47,7 @@ public class ArmsScript : MonoBehaviour
     Quaternion facing;
     Quaternion rotation;
     Vector2 shootDir;
-    float currentRecoil;  
     Color32 startingColor;
-    float timeSinceLastShot;
-    private CameraShake cameraShake;
     Coroutine reloadCoroutine;
     Coroutine rotateCoroutine;
     Vector3 dir;
@@ -62,7 +65,7 @@ public class ArmsScript : MonoBehaviour
         currentAmmo = currentWeapon.clipSize;
         totalBulletsGunCanLoad = currentWeapon.numBullets;
 
-        audioS = GetComponent<AudioSource>();
+        audioSource = GetComponent<AudioSource>();
 
         shootDir = new Vector3(0, 0, 0);
 
@@ -113,8 +116,8 @@ public class ArmsScript : MonoBehaviour
     {
         if (basePlayer.player.GetButtonDown("Reload"))
         {
-           // if (!isReloading && currentAmmo < currentWeapon.clipSize)
-                //reloadCoroutine = StartCoroutine(Reload());
+            // if (!isReloading && currentAmmo < currentWeapon.clipSize)
+            //reloadCoroutine = StartCoroutine(Reload());
         }
     }
 
@@ -144,19 +147,6 @@ public class ArmsScript : MonoBehaviour
     //equips a new gun
     public void EquipGun(GunSO weaponToEquip, GameObject gunObj)
     {
-        //if we go to pick up a gun we already have just add more shots instead
-        //if (weaponToEquip == currentWeapon)
-        //{
-        //    totalBulletsGunCanLoad += weaponToEquip.numBullets;
-        //    return;
-        //}
-
-        //intterupt reload if were doing that
-        if (isReloading)
-        {
-            InterruptReload();
-        }
-
         //set weapon and bullet stats for new gun
         currentWeapon = weaponToEquip;
         totalBulletsGunCanLoad = weaponToEquip.numBullets;
@@ -172,93 +162,39 @@ public class ArmsScript : MonoBehaviour
 
     public void OnShoot()
     {
-        if (currentRecoil > currentWeapon.recoilMax)
-            currentRecoil = currentWeapon.recoilMax;
-
         if (basePlayer.isDead)
             return;
 
         //dry fire effect
-        if (isReloading && currentWeapon.GunType != PlayerScript.GunType.shotgun)
+        if (isReloading)
         {
             if (timeSinceLastShot >= currentWeapon.recoilDelay)
             {
-                audioS.PlayOneShot(dryFire);
+                audioSource.PlayOneShot(dryFire);
                 timeSinceLastShot = 0;
             }
         }
 
-        //can't shoot during reload except for shotgun interupt
-        if ((!isReloading) || (currentWeapon.GunType == PlayerScript.GunType.shotgun && currentAmmo > 0))
+        //gotta have bullets to shoot
+        if (currentAmmo > 0)
         {
-            if (currentWeapon.GunType == PlayerScript.GunType.shotgun && isReloading)
-            {
-                //interruptReload = true;
-                if (reloadCoroutine != null)
-                {
-                    StopCoroutine(reloadCoroutine);
-                    reloadCoroutine = null;
-                    isReloading = false;
-                    SendGunText();
-                    Debug.Log("interupting shotgun reload");
-
-                    if (rotateCoroutine != null)
-                    {
-                        Debug.Log("cancelling rotate!");
-                        StopCoroutine(rotateCoroutine);
-                        rotateCoroutine = null;
-                    }
-
-                }
-            }
-
+            //enough time has passed between shots and not paused
             if (timeSinceLastShot >= currentWeapon.recoilDelay && Time.timeScale != 0)
             {
                 //add force to player in opposite direction of shot
-                if (currentWeapon.GunType != PlayerScript.GunType.RPG)
-                    KnockBack(shootDir);
+                currentWeapon.KnockBack(basePlayer, dir);
 
-                if (currentWeapon.GunType != PlayerScript.GunType.pistol)
-                {
-                   // audioS.pitch = 2f - ((float)currentAmmo / (float)currentWeapon.clipSize) + UnityEngine.Random.Range(-0.02f, 0.02f);
-                   // Debug.Log(audioS.pitch);
-                }
+                //shot gun based on weapons fire function
+                currentWeapon.Fire(basePlayer, dir);
 
-                //muzzle flash
-                //TODO: change so this sets only on arm change
+                //equip pistol if outta shots
                 /*
-                ParticleSystem[] particles = currentArms.GetComponentsInChildren<ParticleSystem>();
-                foreach (var item in particles)
-                {
-                    item.Play();
-                }*/
-
-                switch (currentWeapon.fireType)
-                {
-                    case GunSO.FireType.semiAuto:
-                        ShootyGunTemp();
-                        break;
-                    case GunSO.FireType.buckshot:
-                        BuckShot();
-                        break;
-                    case GunSO.FireType.fullAuto:
-                        ShootyGunTemp();
-                        break;
-                    case GunSO.FireType.Burst:
-                        StartCoroutine(FireInBurst());
-                        break;
-                    case GunSO.FireType.rocket:
-                        RocketKnockBack(shootDir);
-                        break;
-                    default:
-                        ShootyGunTemp();
-                        break;
-                }
-
                 if (currentAmmo <= 0 && totalBulletsGunCanLoad <= 0)
-                    basePlayer.EquipArms(PlayerScript.GunType.pistol, gameManager.pistol);
+                    basePlayer.EquipArms(gameManager.pistol);
+                    */
 
-                SendGunText();
+
+                //TODO: track this in gunSO
                 basePlayer.shotsFired++;
             }
         }
@@ -280,365 +216,6 @@ public class ArmsScript : MonoBehaviour
     public void SendGunText(string s)
     {
         basePlayer.playerUIPanel.SetAmmoText(s, ((float)currentAmmo / (float)currentWeapon.clipSize));
-    }
-    #endregion
-
-    #region Reload
-    /*
-    IEnumerator Rotate(float duration)
-    {
-        reloadTimer.SetActive(true);
-
-        //set rotation to 0, set endpoint to 360 degrees later
-        float startRotation = 0f;
-        float endRotation = startRotation + 360.0f;
-
-        float t = 0.0f;
-        float FinalZRot = 0;
-
-        while (t < duration)
-        {
-            t += Time.deltaTime;
-            //math magic
-            float zRotation = Mathf.Lerp(startRotation, endRotation, t / duration) % 360.0f;
-            reloadTimer.transform.eulerAngles = new Vector3(reloadTimer.transform.eulerAngles.x, reloadTimer.transform.eulerAngles.y, zRotation);
-            FinalZRot = zRotation;
-            yield return null;
-        }
-
-        reloadTimer.transform.eulerAngles = new Vector3(reloadTimer.transform.eulerAngles.x, reloadTimer.transform.eulerAngles.y, FinalZRot);
-        reloadTimer.SetActive(false);
-    }
-    */
-
-    /*
-    IEnumerator Reload()
-    {
-        //no bullets to load, just drop gun and get out of here
-        if (totalBulletsGunCanLoad <= 0)
-        {
-            Debug.Log("Tried to reload but theres not enough bullets so equipped pistol");
-            basePlayer.EquipArms(PlayerScript.GunType.pistol, gameManager.pistol);
-            yield break;
-        }
-
-        int shotsToReload = 0;
-
-        //determine the number of shots needed to fill a clip
-        shotsToReload = (totalBulletsGunCanLoad - currentWeapon.clipSize) + currentAmmo;
-        shotsToReload = totalBulletsGunCanLoad - shotsToReload;
-
-        isReloading = true;
-        SendGunText("Reloading...");
-
-        float reloadtimeIncrememnts = (float)currentWeapon.reloadTime / 6;
-
-        //change reload type base on gun
-        if (currentWeapon.GunType == PlayerScript.GunType.LMG)
-        {
-            //make lmg sound like you shoving bullets in it
-            rotateCoroutine = StartCoroutine(Rotate(reloadtimeIncrememnts * 6));
-            for (int i = 0; i < 6; i++)
-            {
-                yield return new WaitForSeconds(reloadtimeIncrememnts);
-                audioS.PlayOneShot(currentWeapon.reloadSound);
-                SendGunText("Reloading...");
-            }
-        }
-        //make shotgun work like loading shells
-        else if (currentWeapon.GunType == PlayerScript.GunType.shotgun)
-        {
-            reloadtimeIncrememnts = (float)currentWeapon.reloadTime / 3f;
-
-            rotateCoroutine = StartCoroutine(Rotate(reloadtimeIncrememnts * shotsToReload));
-
-            for (int i = 0; i < shotsToReload; i++)
-            {
-                //more than 1 bullet to load and clipsize not yet reached
-                if (totalBulletsGunCanLoad > 0 && currentAmmo < currentWeapon.clipSize)
-                {
-
-                    yield return new WaitForSeconds(reloadtimeIncrememnts);
-
-                    audioS.PlayOneShot(currentWeapon.reloadSound);
-                    currentAmmo++;
-                    totalBulletsGunCanLoad--;
-                    SendGunText();
-                }
-                else
-                {
-                    isReloading = false;
-                    SendGunText();
-                    yield break;
-                }
-
-            }
-        }
-        else
-        {
-            //every other reload just play one sound
-            audioS.PlayOneShot(currentWeapon.reloadSound);
-            rotateCoroutine = StartCoroutine(Rotate(reloadtimeIncrememnts * 6));
-            SendGunText("Reloading...");
-            //haha this sucks who wrote this garbage-ass code
-            yield return new WaitForSeconds(reloadtimeIncrememnts * 6);
-
-        }
-
-        isReloading = false;
-
-        if (currentWeapon.GunType == PlayerScript.GunType.pistol)
-        {
-            currentAmmo = currentWeapon.clipSize;
-            currentAmmo = currentWeapon.clipSize;
-        }
-        else if (currentWeapon.GunType != PlayerScript.GunType.shotgun)
-        {
-            totalBulletsGunCanLoad -= shotsToReload;
-            currentAmmo += shotsToReload;
-        }
-
-        if (totalBulletsGunCanLoad < 0)
-            totalBulletsGunCanLoad = 0;
-
-        //do last
-        SendGunText();
-
-    }*/
-
-    //interupts and resets all reload processes
-    void InterruptReload()
-    {
-        if (reloadCoroutine != null)
-        {
-            StopCoroutine(reloadCoroutine);
-            reloadCoroutine = null;
-        }
-        if (rotateCoroutine != null)
-        {
-            Debug.Log("cancelling rotate!");
-            StopCoroutine(rotateCoroutine);
-            //reloadTimer.SetActive(false);
-            rotateCoroutine = null;
-        }
-    }
-
-    #endregion
-
-    #region Shoot Various Guns
-    void KnockBack(Vector2 shootDir)
-    {
-        float knockback = currentWeapon.knockback;
-
-        basePlayer.rb.AddForce(-bulletSpawn.transform.right * knockback, ForceMode2D.Impulse);
-        cameraShake.shakeDuration += currentWeapon.cameraShakeDuration;
-        timeSinceLastShot = 0;
-    }
-
-    IEnumerator FireInBurst()
-    {
-        GunSO currWeapon = currentWeapon;
-        for (int i = 0; i < 3; i++)
-        {
-            //cone of -1 to 1 multiplied by current recoil amount to determine just how random it can be
-            float recoilMod = UnityEngine.Random.Range(-1f, 1f) * currentRecoil;
-
-            currentRecoil += currentWeapon.recoilPerShot;
-
-            SpawnBullet(currWeapon);
-
-            currentAmmo--;
-
-            if (audioS.isPlaying)
-                audioS.Stop();
-
-            audioS.PlayOneShot(currentWeapon.GetRandomGunshotSFX);
-
-            SendGunText();
-            yield return new WaitForSeconds(0.08f);
-        }
-
-        if (currentAmmo <= 0)
-        {
-            //reloadCoroutine = StartCoroutine(Reload());
-            basePlayer.EquipArms(PlayerScript.GunType.pistol, gameManager.pistol);
-        }
-
-    }
-
-    void BuckShot()
-    {
-        currentAmmo--;
-
-        currentRecoil += currentWeapon.recoilPerShot;
-
-        SpawnBuckShot();
-
-        if (audioS.isPlaying)
-            audioS.Stop();
-        audioS.PlayOneShot(currentWeapon.GetRandomGunshotSFX);
-
-        if (currentAmmo <= 0)
-        {
-            InterruptReload();
-            //reloadCoroutine = StartCoroutine(Reload());
-            basePlayer.EquipArms(PlayerScript.GunType.pistol, gameManager.pistol);
-        }
-
-    }
-
-    void SpawnBuckShot()
-    {
-        for (int i = 0; i < UnityEngine.Random.Range(5, 8); i++)
-        {
-            // randomize angle variation between bullets
-            float spreadAngle = UnityEngine.Random.Range(
-           -10f,
-            10f);
-
-            GameObject bulletGo = ObjectPooler.Instance.SpawnFromPool("Bullet", bulletSpawn.transform.position, Quaternion.identity);
-            dir = bulletSpawn.transform.right;
-
-            float rotateAngle = spreadAngle +
-           (Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg);
-
-            Vector2 MovementDirection = new Vector2(
-          Mathf.Cos(rotateAngle * Mathf.Deg2Rad),
-          Mathf.Sin(rotateAngle * Mathf.Deg2Rad)).normalized;
-
-            MovementDirection *= currentWeapon.bulletSpeed;
-
-            bulletGo.GetComponent<Bullet>().Construct(currentWeapon.GunDamage, basePlayer, bulletSprite, currentWeapon.GunType, MovementDirection, basePlayer.collisionLayer);
-
-        }
-
-    }
-
-    IEnumerator WaitThenDont()
-    {
-        yield return new WaitForSeconds(0.3f);
-        Debug.Break();
-    }
-
-    void ShootyGunTemp()
-    {
-        GunSO currWeapon = currentWeapon;
-
-        audioS.PlayOneShot(currentWeapon.GetRandomGunshotSFX);
-
-        float recoilMod = UnityEngine.Random.Range(-1f, 1f) * currentRecoil;
-
-        currentRecoil += currentWeapon.recoilPerShot;
-
-        currentAmmo--;
-
-        SpawnBullet(currWeapon);
-
-        if (currentAmmo <= 0)
-        {
-            //reloadCoroutine = StartCoroutine(Reload());
-            basePlayer.EquipArms(PlayerScript.GunType.pistol, gameManager.pistol);
-        }
-
-    }
-
-    void RocketKnockBack(Vector2 shootDir)
-    {
-        StartCoroutine(PushBackBeforeKnockBack());
-    }
-
-    //force you are pushback initially when activiating rocket
-    const float ROCKET_PUSHBACK_MOD = 1.2f;
-
-    IEnumerator PushBackBeforeKnockBack()
-    {
-        GunSO currWeapon = currentWeapon;
-
-        timeSinceLastShot = 0;
-        float timer = 0;
-
-        cameraShake.shakeDuration += currWeapon.cameraShakeDuration;
-
-        audioS.PlayOneShot(currentWeapon.GetRandomGunshotSFX);
-
-        currentArms.GetComponentInChildren<ParticleSystem>().Emit(UnityEngine.Random.Range(15, 40));
-
-        //while we are holding the trigger down and still holding an rpg
-        while (basePlayer.player.GetAxis("Shoot") > 0.5f && currentWeapon.GunType == PlayerScript.GunType.RPG)
-        {
-            //time to give pushback
-            if (timer < 0.5f)
-                basePlayer.rb.AddForce(-bulletSpawn.transform.right * currWeapon.knockback * Time.deltaTime * ROCKET_PUSHBACK_MOD, ForceMode2D.Impulse);
-
-            //rocket held too long, blow up in hand
-            if (timer > 3.0f)
-            {
-                ExplodeInHand();
-                currentAmmo--;
-
-                //reload if we outta bullets
-                if (currentAmmo <= 0)
-                {
-                    //reloadCoroutine = StartCoroutine(Reload());
-                    basePlayer.EquipArms(PlayerScript.GunType.pistol, gameManager.pistol);
-                }
-
-                //break early so we dont also fire a real rocket
-                yield break;
-            }
-
-            //timer determines pushback status and if the thing should just explode in hand
-            timer += Time.deltaTime;
-            //time since last shot remains 0 as long as this is held down so new rockets wont try to be shot
-            timeSinceLastShot = 0;
-
-            yield return null;
-        }
-
-        //if its still an rpg... just checking :)
-        if (currentWeapon.GunType == PlayerScript.GunType.RPG)
-        {
-            basePlayer.rb.AddForce(-shootDir * currWeapon.knockback, ForceMode2D.Impulse);
-            cameraShake.shakeDuration += currentWeapon.cameraShakeDuration;
-            timeSinceLastShot = 0;
-
-            SpawnRocket(currWeapon);
-
-            currentAmmo--;
-        }
-
-        if (currentAmmo <= 0)
-        {
-            //reloadCoroutine = StartCoroutine(Reload());
-            basePlayer.EquipArms(PlayerScript.GunType.pistol, gameManager.pistol);
-        }
-    }
-
-    void SpawnBullet(GunSO currWeapon)
-    {
-        GameObject bulletGo = ObjectPooler.Instance.SpawnFromPool("Bullet", bulletSpawn.transform.position, Quaternion.identity);
-        dir = bulletSpawn.transform.right * currWeapon.bulletSpeed;
-
-        bulletGo.GetComponent<Bullet>().Construct(currentWeapon.GunDamage, basePlayer, bulletSprite, currentWeapon.GunType, dir, basePlayer.collisionLayer);
-    }
-
-    void SpawnRocket(GunSO currWeapon)
-    {
-        //dir = bulletSpawn.transform.right * currWeapon.bulletSpeed;
-        GameObject bulletGo = ObjectPooler.Instance.SpawnFromPool("Rocket", bulletSpawn.transform.position, Quaternion.Euler(shootDir));
-        bulletGo.GetComponent<SpriteRenderer>().enabled = false;
-        Vector2 dir = bulletSpawn.transform.right * currWeapon.bulletSpeed;
-        float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
-        bulletGo.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
-
-        bulletGo.GetComponent<Bullet>().Construct(currentWeapon.GunDamage, basePlayer, rocketSprite, PlayerScript.GunType.RPG, dir, basePlayer.collisionLayer);
-    }
-
-    void ExplodeInHand()
-    {
-        GameObject bulletGo = ObjectPooler.Instance.SpawnFromPool("Rocket", bulletSpawn.transform.position, Quaternion.Euler(shootDir));
-        bulletGo.GetComponent<SpriteRenderer>().enabled = false;
-        bulletGo.GetComponent<Bullet>().ExplodeBullet(true);
     }
     #endregion
 

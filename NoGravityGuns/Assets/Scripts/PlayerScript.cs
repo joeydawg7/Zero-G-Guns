@@ -41,12 +41,13 @@ public class PlayerScript : MonoBehaviour
     [HideInInspector]
     public enum DamageType { none = 0, head = 4, torso = 3, legs = 2, feet = 1 };
     [HideInInspector]
-    public enum GunType { pistol, assaultRifle, LMG, shotgun, railGun, healthPack, RPG, collision };
+    //public enum GunType { pistol, assaultRifle, LMG, shotgun, railGun, healthPack, RPG, mineLauncher, collision };
 
     [Header("Bools")]
     public bool isDead;
     public bool isInvulnerable;
 
+    /*
     [Header("armedArms")]
     public GameObject pistolArms;
     public GameObject assaultRifleArms;
@@ -54,8 +55,12 @@ public class PlayerScript : MonoBehaviour
     public GameObject shotGunArms;
     public GameObject railGunArms;
     public GameObject RPGArms;
-    public ArmsScript armsScript;
+    public GameObject mineLauncherArms;
+    
     public List<GameObject> AllArms;
+    */
+
+    public ArmsScript armsScript;
 
     [Header("Armed Legs")]
     public GameObject legsCollider;
@@ -218,6 +223,7 @@ public class PlayerScript : MonoBehaviour
             immuneToCollisionsTimer += Time.deltaTime;
 
             //track data if we allow it
+            /*
             if (!isDummy)
             {
                 if (armsScript.currentArms == pistolArms)
@@ -241,17 +247,17 @@ public class PlayerScript : MonoBehaviour
                     miniGunTime += Time.deltaTime;
                 }
             }
-
+            */
         }
 
         //DEBUG: take damage to torso
         if (Input.GetKeyDown(KeyCode.K))
-            TakeDamage(50, DamageType.torso, null, true, GunType.collision);
+            TakeDamage(50, DamageType.torso, null, true);
 
         if (!isDummy)
         {
             //B button
-            if (GameManager.Instance.isGameStarted && armsScript.currentWeapon.GunType != GunType.pistol)
+            if (GameManager.Instance.isGameStarted && armsScript.currentWeapon.name != "Pistol")
                 OnDrop();
 
             //StartButton
@@ -266,7 +272,7 @@ public class PlayerScript : MonoBehaviour
     public void OnDrop()
     {
         if (!isDummy && player.GetButtonDown("Drop"))
-            EquipArms(GunType.pistol, GameManager.Instance.pistol);
+            EquipArms(GameManager.Instance.pistol);
     }
 
     void OnPause()
@@ -285,12 +291,25 @@ public class PlayerScript : MonoBehaviour
     #endregion
 
     #region Equipping and unequipping
-    public void EquipArms(GunType gunType, GunSO gun)
+    public void EquipArms(GunSO gun)
     {
         HideAllArms();
 
+        GameObject armGo =  GameObject.Instantiate(gun.armsObject, armsScript.transform);
+
+
+        armsSR = armGo.GetComponent<SpriteRenderer>();
+
+        armGo.SetActive(true);
+
+        armGo.GetComponent<SpriteRenderer>().color = defaultColor;
+        armsScript.EquipGun(gun, armGo);
+        armsScript.currentArms = armGo;
+
+        /*
         switch (gunType)
         {
+            
             case GunType.pistol:
                 pistolArms.SetActive(true);
                 pistolArms.GetComponent<SpriteRenderer>().color = defaultColor;
@@ -327,27 +346,37 @@ public class PlayerScript : MonoBehaviour
                 armsScript.EquipGun(gun, RPGArms);
                 armsScript.currentArms = RPGArms;
                 break;
+            case GunType.mineLauncher:
+                mineLauncherArms.SetActive(true);
+                mineLauncherArms.GetComponent<SpriteRenderer>().color = defaultColor;
+                armsScript.EquipGun(gun, mineLauncherArms);
+                armsScript.currentArms = mineLauncherArms;
+                break;
             default:
                 Debug.LogError("This isn't a gun!");
                 break;
-        }
+        }*/
 
-        armsScript.audioS.pitch = 1;
+        armsScript.audioSource.pitch = 1;
 
         armsScript.SendGunText();
     }
 
     void HideAllArms()
     {
-        foreach (var arm in AllArms)
+        /*foreach (var arm in AllArms)
         {
             arm.SetActive(false);
+        }*/
+        for (int i = 0; i < armsScript.transform.childCount; i++)
+        {
+            Destroy(armsScript.transform.GetChild(i).gameObject);
         }
     }
     #endregion
 
     #region Take Damage
-    public void TakeDamage(float damage, DamageType damageType, PlayerScript PlayerWhoShotYou, bool playBulletSFX, GunType gunType)
+    public void TakeDamage(float damage, DamageType damageType, PlayerScript PlayerWhoShotYou, bool playBulletSFX)
     {
         if (!isDead && !isInvulnerable)
         {
@@ -441,23 +470,27 @@ public class PlayerScript : MonoBehaviour
                 }
 
                 //if (gameManager.dataManager.AllowWriteToFile)
-                SaveDamageData(gunType, Mathf.RoundToInt(damage), true, PlayerWhoShotYou);
+                //SaveDamageData(PlayerWhoShotYou.armsScript.currentWeapon, Mathf.RoundToInt(damage), true, PlayerWhoShotYou);
 
                 Die();
             }
             else
             {
                 //if (gameManager.dataManager.AllowWriteToFile)
-                SaveDamageData(gunType, Mathf.RoundToInt(damage), false, PlayerWhoShotYou);
+                //SaveDamageData(PlayerWhoShotYou.armsScript.currentWeapon, Mathf.RoundToInt(damage), false, PlayerWhoShotYou);
             }
         }
     }
 
 
-    void SaveDamageData(GunType gunType, float dmg, bool dead, PlayerScript playerWhoShotYou)
+    void SaveDamageData(GunSO currentWeapon, float dmg, bool dead, PlayerScript playerWhoShotYou)
     {
         GameManager gameManager = GameManager.Instance;
 
+        currentWeapon.gunDamageTotal += dmg;
+
+
+        /*
         switch (gunType)
         {
             case GunType.pistol:
@@ -500,7 +533,7 @@ public class PlayerScript : MonoBehaviour
                 break;
             default:
                 break;
-        }
+        }*/
     }
     #endregion
 
@@ -590,7 +623,7 @@ public class PlayerScript : MonoBehaviour
         //last thing you were hit by set back to world, just in case you suicide without help
         playerLastHitBy = null;
 
-        EquipArms(GunType.pistol, GameManager.Instance.pistol);
+        EquipArms( GameManager.Instance.pistol);
         armsScript.currentAmmo = armsScript.currentWeapon.clipSize;
 
         if (numLives <= 0)
@@ -762,14 +795,19 @@ public class PlayerScript : MonoBehaviour
         isDead = false;
         numKills = 0;
 
+        /*
         assaultRifleArms.SetActive(false);
         shotGunArms.SetActive(false);
         LMGArms.SetActive(false);
-        EquipArms(GunType.pistol, GameManager.Instance.pistol);
+        */
+
+        EquipArms(GameManager.Instance.pistol);
 
         torsoSR = GetComponent<SpriteRenderer>();
         armsSR = armsScript.currentArms.GetComponent<SpriteRenderer>();
-        legsSR = GetComponentsInChildren<SpriteRenderer>();
+        legsSR = legsParent.GetComponentsInChildren<SpriteRenderer>();
+
+
         legRBs = legsParent.GetComponentsInChildren<Rigidbody2D>();
 
         if (!isDummy)
@@ -791,7 +829,6 @@ public class PlayerScript : MonoBehaviour
     #region collision Damage
     private void OnCollisionEnter2D(Collision2D collision)
     {
-
         if (collision.collider.tag == "ImpactObject")
         {
             DealColliderDamage(collision, "Torso", null);
@@ -812,7 +849,7 @@ public class PlayerScript : MonoBehaviour
         dmg = dmg / COLLIDER_DAMAGE_MITIGATOR;
 
         //dont bother dealing damage unless unmitigated damage indicates fast enough collision
-        if (dmg > 15)
+        if (dmg > 20)
         {
 
             DamageType dmgType;
@@ -850,7 +887,7 @@ public class PlayerScript : MonoBehaviour
             {
                 immuneToCollisionsTimer = 0;
                 audioSource.PlayOneShot(soundClipToPlay);
-                TakeDamage(dmg, dmgType, hitBy, false, GunType.collision);
+                TakeDamage(dmg, dmgType, hitBy, false);
             }
         }
     }

@@ -10,22 +10,24 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9819fd665faaac644a61ef4053cfca33, type: 3}
-  m_Name: RPG
+  m_Name: MineLauncher
   m_EditorClassIdentifier: 
-  name: RPG
+  name: Mine Launcher
   minDamageRange: 35
   maxDamageRange: 40
-  knockback: 50
+  knockback: 20
   bulletSpeed: 150
-  recoilDelay: 1.5
+  recoilDelay: 1
   recoilPerShot: 291.54
   recoilMax: 0
-  clipSize: 3
+  clipSize: 4
   numBullets: 0
   reloadTime: 1.5
-  weaponPad: {fileID: 21300000, guid: 1beaae9fc7b3403448bb27cac7003d51, type: 3}
+  armsObject: {fileID: 4820962299650659055, guid: 5c634bf4a2ab72f4391d0c1fc5f46e6b,
+    type: 3}
+  weaponPad: {fileID: 21300000, guid: bb9633a9358777842ad8bfedc39d0e2b, type: 3}
   fireType: 4
-  GunType: 6
+  GunType: 7
   cameraShakeDuration: 0.25
   bulletSounds:
   - {fileID: 8300000, guid: 00442b56409ef0c4398fe4f73bf8c603, type: 3}

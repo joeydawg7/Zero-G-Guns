@@ -96,7 +96,6 @@ public class ObjectPooler : MonoBehaviour
     //overload of the above with parent settings
     public GameObject SpawnFromPool(string tag, Vector3 position, Quaternion rotation, Transform parent)
     {
-        Debug.Log(poolDictionary[tag].Count + " " + tag);
 
         if (!poolDictionary.ContainsKey(tag))
         {

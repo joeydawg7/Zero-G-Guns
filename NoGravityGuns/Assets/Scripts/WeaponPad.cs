@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class WeaponPad : MonoBehaviour
 {
@@ -32,7 +33,12 @@ public class WeaponPad : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if (!SpawnSelectedWeaponInstant)
+        potentialGunsToSpawn.Clear();
+        var guns = Resources.LoadAll("ScriptableObjects/Guns", typeof(ScriptableObject)).Cast<GunSO>().ToArray();
+        foreach (var g in guns)
+            potentialGunsToSpawn.Add(g);
+
+            if (!SpawnSelectedWeaponInstant)
         {
             timer = 0;
             timeToNextSpawn = Random.Range(5, 25f);
@@ -70,16 +76,16 @@ public class WeaponPad : MonoBehaviour
             PlayerScript player = collision.transform.root.GetComponent<PlayerScript>();
 
             //special case is a health pack which is not a gun
-            if (currentWeapon.GunType == PlayerScript.GunType.healthPack)
+            if (currentWeapon.name == "HealthPack")
             {
                 player.audioSource.PlayOneShot(healthKitSFX);
-                player.TakeDamage(currentWeapon.GunDamage, PlayerScript.DamageType.torso, null, false, PlayerScript.GunType.healthPack);
+                player.TakeDamage(currentWeapon.GunDamage, PlayerScript.DamageType.torso, null, false);
 
             }
             else
             {
                 //equip the new gun and play the sound
-                player.EquipArms(currentWeapon.GunType, currentWeapon);
+                player.EquipArms(currentWeapon);
                 GetComponent<AudioSource>().PlayOneShot(pickupSFX);
             }
 
