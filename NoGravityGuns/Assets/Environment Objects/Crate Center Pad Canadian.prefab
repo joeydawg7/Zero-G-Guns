@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7601961729693047924}
   - component: {fileID: 7601961729693047927}
   - component: {fileID: 7601961729693047926}
-  - component: {fileID: -2376621057068722676}
+  - component: {fileID: 5171989265971477481}
   m_Layer: 0
   m_Name: Crate Center Pad Canadian
   m_TagString: Untagged
@@ -107,8 +107,8 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!68 &-2376621057068722676
-EdgeCollider2D:
+--- !u!61 &5171989265971477481
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -120,26 +120,19 @@ EdgeCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: -0.0000019073486, y: -0.056164265}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 4.03, y: 6.19}
+    newSize: {x: 0.2, y: 0.2}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 3.056488, y: 5.478589}
   m_EdgeRadius: 0
-  m_Points:
-  - {x: 0.044347763, y: 2.9205208}
-  - {x: 1.611227, y: 2.7200089}
-  - {x: 1.3615665, y: 1.7488986}
-  - {x: 1.6028137, y: 0.9561783}
-  - {x: 1.3813133, y: 0.13580775}
-  - {x: 1.6120701, y: -0.711537}
-  - {x: 1.3525715, y: -1.4732003}
-  - {x: 1.588583, y: -2.7561011}
-  - {x: -0.07409477, y: -3.0433807}
-  - {x: -1.6053877, y: -2.8193517}
-  - {x: -1.4022846, y: -1.6969924}
-  - {x: -1.5459023, y: -0.7620943}
-  - {x: -1.3982601, y: -0.057818234}
-  - {x: -1.588253, y: 0.91754806}
-  - {x: -1.3845367, y: 1.7874478}
-  - {x: -1.6445417, y: 2.7437587}
-  - {x: -0.06804466, y: 2.9205222}
 --- !u!1001 &4401665196584292572
 PrefabInstance:
   m_ObjectHideFlags: 0
