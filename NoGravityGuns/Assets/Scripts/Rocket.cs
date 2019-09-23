@@ -6,37 +6,43 @@ using System.Reflection;
 public class Rocket : Bullet
 {
 
-    public override void Construct(float damage, PlayerScript player, Vector3 dir, Sprite sprite)
+    public override void Construct(float damage, PlayerScript player, Vector3 dir, Sprite sprite, GunSO gun)
     {
         //call the base version first, the rest of the stuff we do after
-        base.Construct(damage, player, dir, sprite);
+        base.Construct(damage, player, dir, sprite, gun);
 
         if (gun.GetType() != typeof(GunSO_explosiveShot))
         {
-            Debug.LogError("Tried to spawn a rocket but wasn't passed rocket stats!");
+            Debug.LogError("Tried to spawn a rocket but wasn't given rocket stats!");
 
             return;
         }
 
         //dont change rocket collision layer, we dont want it colliding with other bullets
         sr.enabled = true;
+
+        GunSO_explosiveShot gunExplosive = (GunSO_explosiveShot)gun;
+
+        rocketTopSpeed = gunExplosive.rocketMaxSpeed;
+        rocketAccelerationMod = gunExplosive.rocketAccelerationMod;
+
     }
 
-    const int ROCKET_TOP_SPEED = 150;
-    const float ROCKET_ACCELERATION_MOD = 150f;
+    float rocketTopSpeed;
+    float rocketAccelerationMod;
 
     private void FixedUpdate()
     {
         //accelerate the rocket over time if it exists
         if (rb != null)
         {
-            if (rb.velocity.magnitude < ROCKET_TOP_SPEED)
+            if (rb.velocity.magnitude < rocketTopSpeed)
             {
                 Vector2 dir = rb.velocity;
                 float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
                 transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
 
-                rb.AddForce(dir * ROCKET_ACCELERATION_MOD * Time.deltaTime, ForceMode2D.Force);
+                rb.AddForce(dir * rocketAccelerationMod * Time.deltaTime, ForceMode2D.Force);
             }
         }
     }
@@ -47,17 +53,29 @@ public class Rocket : Bullet
 
         if (collision.collider.gameObject.layer != LayerMask.NameToLayer("NonBulletCollide") && canImapact == true)
         {
+
             //we've hit something that isnt a bullet, or the player that shot us
             if (collision.collider.tag != "Bullet" || collision.collider.GetComponent<Bullet>().player.playerID != player.playerID)
             {
                 //default damage type is nothing, we don't know what we hit yet.
                 PlayerScript.DamageType dmgType = DamageBodyParts(collision);
 
+
+                if (collision.collider.tag == "ExplosiveObject")
+                {
+                    ExplosiveObjectScript explosiveObjectScript = collision.collider.gameObject.GetComponent<ExplosiveObjectScript>();
+
+                    if (explosiveObjectScript != null && damage > 0)
+                    {
+                        explosiveObjectScript.DamageExplosiveObject(damage, player);
+                    }
+                }
+
                 //spawn some impact sparks from pool
                 SpawnSparkEffect();
 
                 //if you are a rcoket who hit something, blow up
-                ExplodeBullet(false);
+                ExplodeBullet(false, (GunSO_explosiveShot)gun);
 
             }
         }
@@ -65,7 +83,7 @@ public class Rocket : Bullet
 
 
     //explodes a bullet "gracefully"
-    public void ExplodeBullet(bool explodeInstantly)
+    public void ExplodeBullet(bool explodeInstantly, GunSO_explosiveShot gun)
     {
         gameObject.GetComponent<CircleCollider2D>().enabled = false;
         Explosion explosion = null;
@@ -78,7 +96,7 @@ public class Rocket : Bullet
         if (explosion != null)
         {
             explosion.gameObject.SetActive(true);
-            explosion.Explode(player, (GunSO_explosiveShot)gun);
+            explosion.Explode(player, gun);
             rb.simulated = false;
             rb.isKinematic = true;
         }

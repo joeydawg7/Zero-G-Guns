@@ -42,7 +42,7 @@ public class Bullet : MonoBehaviour, IPooledObject
         startingForce = new Vector2(vel.x, vel.y);
     }
 
-    public virtual void Construct(float damage, PlayerScript player, Vector3 dir, Sprite sprite)
+    public virtual void Construct(float damage, PlayerScript player, Vector3 dir, Sprite sprite, GunSO gun)
     {
         //who shot the bullet
         this.player = player;
@@ -80,12 +80,23 @@ public class Bullet : MonoBehaviour, IPooledObject
 
     protected virtual void OnCollisionEnter2D(Collision2D collision)
     {
-
+        //TODO: make this more efficient, no need to check player impact location if we already know its not a player we've hit
         if (collision.collider.gameObject.layer != LayerMask.NameToLayer("NonBulletCollide") && canImapact == true)
         {
-            //we've hit something that isnt a bullet, or the player that shot us
+            //we've hit something that isnt a bullet, or the player that shot the original bullet
             if (collision.collider.tag != "Bullet" || collision.collider.GetComponent<Bullet>().player.playerID != player.playerID)
             {
+
+                if(collision.collider.tag == "ExplosiveObject")
+                {
+                    ExplosiveObjectScript explosiveObjectScript =  collision.collider.gameObject.GetComponent<ExplosiveObjectScript>();
+
+                    if(explosiveObjectScript!=null && damage>0)
+                    {
+                        explosiveObjectScript.DamageExplosiveObject(damage, player);
+                    }
+                }
+
                 //default damage type is nothing, we don't know what we hit yet.
                 PlayerScript.DamageType dmgType = DamageBodyParts(collision);
                 SpawnSparkEffect();

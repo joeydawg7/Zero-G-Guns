@@ -558,7 +558,7 @@ public class PlayerScript : MonoBehaviour
             if (numLives <= 0)
             {
                 playerUIPanel.Disable();
-                cameraParent.GetComponent<CameraController>().RemovePlayerFromCameraTrack(gameObject);
+                cameraParent.GetComponent<CameraController>().RemovePlayerFromCameraTrack(gameObject, 0.5f);
                 if (!isDummy)
                     playerUIPanel.Destroy();
                 GameManager.Instance.CheckForLastManStanding();
