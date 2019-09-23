@@ -18,16 +18,38 @@ MonoBehaviour:
   knockback: 25
   bulletSpeed: 2500
   recoilDelay: 0.75
-  recoilPerShot: 0.1
-  recoilMax: 1
   clipSize: 30
   numBullets: 0
   reloadTime: 2
+  spawnRateOverTime:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   armsObject: {fileID: 9150846822755889815, guid: 4922dda57b46d6a4585ba91abd04579b,
     type: 3}
   weaponPad: {fileID: 21300000, guid: 952cdcced38de12498667294e4ee4866, type: 3}
   fireType: 3
-  GunType: 1
+  gunDamageTotal: 0
   cameraShakeDuration: 0.08
   bulletSounds:
   - {fileID: 8300000, guid: c8a88de7fd5f5fe49bae94317a0a8873, type: 3}

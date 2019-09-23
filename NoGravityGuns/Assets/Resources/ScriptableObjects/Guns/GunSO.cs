@@ -15,6 +15,8 @@ public class GunSO : ScriptableObject
     public int numBullets;
     public float reloadTime;
 
+    public AnimationCurve spawnRateOverTime;
+
     public GameObject armsObject;
 
     public Sprite weaponPad;

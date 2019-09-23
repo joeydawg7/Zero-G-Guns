@@ -229,11 +229,9 @@ public class JoiningPlayerScript : MonoBehaviour
     void StartButtonPressed()
     {
 
-        Debug.Log("start Pressed");
         if (assignedControls.Count >= 1)
         {
             ReInput.players.SystemPlayer.controllers.ClearAllControllers();
-            Debug.Log("start");
             GameManager.Instance.StartGame();
             RoundManager.Instance.finishedControllerSetup = true;
             RoundManager.Instance.NewRound(false);

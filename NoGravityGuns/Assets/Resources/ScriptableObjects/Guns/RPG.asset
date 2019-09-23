@@ -21,6 +21,39 @@ MonoBehaviour:
   clipSize: 3
   numBullets: 0
   reloadTime: 1.5
+  spawnRateOverTime:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.79710186
+      value: 0.00995186
+      inSlope: 1.4980525
+      outSlope: 1.4980525
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   armsObject: {fileID: 5144701913246592781, guid: f3cd83e54172d2f4b8e56ae93268060c,
     type: 3}
   weaponPad: {fileID: 21300000, guid: 1beaae9fc7b3403448bb27cac7003d51, type: 3}
