@@ -60,10 +60,11 @@ public class Rocket : Bullet
                 //default damage type is nothing, we don't know what we hit yet.
                 PlayerScript.DamageType dmgType = DamageBodyParts(collision);
 
+                ExplosiveObjectScript explosiveObjectScript = collision.collider.gameObject.GetComponent<ExplosiveObjectScript>();
 
-                if (collision.collider.tag == "ExplosiveObject")
+                if (explosiveObjectScript!=null)
                 {
-                    ExplosiveObjectScript explosiveObjectScript = collision.collider.gameObject.GetComponent<ExplosiveObjectScript>();
+                    //ExplosiveObjectScript explosiveObjectScript = collision.collider.gameObject.GetComponent<ExplosiveObjectScript>();
 
                     if (explosiveObjectScript != null && damage > 0)
                     {

@@ -20,22 +20,17 @@ public class GunSO : ScriptableObject
     public GameObject armsObject;
 
     public Sprite weaponPad;
-
-    public enum FireType { semiAuto, buckshot, fullAuto, Burst, rocket};
-    public FireType fireType;
-
     //public PlayerScript.GunType GunType;
 
     [HideInInspector]
-    public float gunDamageTotal;
+    //public float gunDamageTotal;
 
     public float cameraShakeDuration;
 
     public List<AudioClip> bulletSounds;
     public AudioClip reloadSound;
 
-    public GameObject projectile;
-    public Sprite EquipSprite;
+    public string projectile;
 
 
     public AudioClip GetRandomGunshotSFX
@@ -76,7 +71,7 @@ public class GunSO : ScriptableObject
     {
         Transform bulletSpawn = player.armsScript.bulletSpawn;
 
-        GameObject bulletGo = ObjectPooler.Instance.SpawnFromPool("Bullet", bulletSpawn.position, Quaternion.identity);
+        GameObject bulletGo = ObjectPooler.Instance.SpawnFromPool(projectile, bulletSpawn.position, Quaternion.identity);
         dir = bulletSpawn.transform.right * bulletSpeed;
 
         bulletGo.GetComponent<Bullet>().Construct(GunDamage, player, dir, player.armsScript.bulletSprite, this);

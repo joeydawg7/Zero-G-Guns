@@ -35,22 +35,22 @@ public class Explosion : MonoBehaviour, IPooledObject
         power = gun.explosionPower;
         radius = gun.explosionRadius;
 
-        GrowExplosion(gun.cameraShakeDuration);
+        GrowExplosion(gun.cameraShakeDuration, gun.physicsObjectPushForceMod);
     }
 
     //explode with custom radius and strength
-    public void Explode(PlayerScript playerWhoShot, float radius, float power, float cameraShakeDuration)
+    public void Explode(PlayerScript playerWhoShot, float radius, float power, float cameraShakeDuration, float physicsObjectForceMod)
     {
         this.playerWhoShot = playerWhoShot;
         this.radius = radius;
         this.power = power;
 
 
-        GrowExplosion(cameraShakeDuration);
+        GrowExplosion(cameraShakeDuration, physicsObjectForceMod);
     }
 
 
-    void GrowExplosion(float cameraShakeDuration)
+    void GrowExplosion(float cameraShakeDuration, float physicsObjectPushForceMod)
     {
         Vector3 originalScale = transform.localScale;
         Vector2 explosionPos = transform.position;
@@ -89,9 +89,9 @@ public class Explosion : MonoBehaviour, IPooledObject
                         Rigidbody2DExt.AddExplosionForce(rb, power, explosionPos, radius, ForceMode2D.Force, playerWhoShot, dealDamage);
                     }
                     //give impact objects a bit more push than other things
-                    else if (rb.tag == "ImpactObject")
+                    else if (rb.tag == "ImpactObject" || rb.tag == "ExplosiveObject")
                     {
-                        Rigidbody2DExt.AddExplosionForce(rb, power * gun.physicsObjectPushForceMod, explosionPos, radius, ForceMode2D.Force);
+                        Rigidbody2DExt.AddExplosionForce(rb, power * physicsObjectPushForceMod, explosionPos, radius, ForceMode2D.Force);
                     }
                     else
                     {

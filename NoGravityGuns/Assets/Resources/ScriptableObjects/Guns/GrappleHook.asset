@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9819fd665faaac644a61ef4053cfca33, type: 3}
-  m_Name: MineLauncher
+  m_Name: GrappleHook
   m_EditorClassIdentifier: 
-  name: Mine Launcher
-  minDamageRange: 35
-  maxDamageRange: 40
-  knockback: 20
-  bulletSpeed: 150
+  name: GrappleHook
+  minDamageRange: 8
+  maxDamageRange: 13
+  knockback: 25
+  bulletSpeed: 3000
   recoilDelay: 1
-  clipSize: 4
+  clipSize: 5
   numBullets: 0
   reloadTime: 1.5
   spawnRateOverTime:
@@ -26,26 +26,30 @@ MonoBehaviour:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
-      inSlope: 1
-      outSlope: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
       tangentMode: 34
       weightedMode: 0
-      inWeight: 0.33333334
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  armsObject: {fileID: 4820962299650659055, guid: 5c634bf4a2ab72f4391d0c1fc5f46e6b,
+  armsObject: {fileID: 7272128567137865761, guid: 8c61a33a0a61ee04984dcdd863b17333,
     type: 3}
   weaponPad: {fileID: 21300000, guid: bb9633a9358777842ad8bfedc39d0e2b, type: 3}
-  fireType: 4
-  gunDamageTotal: 0
-  cameraShakeDuration: 0.25
+  cameraShakeDuration: 0
   bulletSounds:
-  - {fileID: 8300000, guid: 00442b56409ef0c4398fe4f73bf8c603, type: 3}
-  - {fileID: 8300000, guid: 482a37427a9050a4ba87cddd09c68ce9, type: 3}
-  - {fileID: 8300000, guid: 9559a4f822b9c884ea7296d4674bed8c, type: 3}
+  - {fileID: 8300000, guid: 720c6fe85cc426a40860139aac4ca590, type: 3}
   reloadSound: {fileID: 8300000, guid: 4dae545ced1cd824fb12b922c3dc86a2, type: 3}
-  projectile: {fileID: 0}
-  EquipSprite: {fileID: 21300000, guid: 1a845698e74ee874ea0a57f7c072695e, type: 3}
+  projectile: Grapple

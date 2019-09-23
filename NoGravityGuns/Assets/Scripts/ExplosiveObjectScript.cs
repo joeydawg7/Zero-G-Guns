@@ -26,7 +26,20 @@ public class ExplosiveObjectScript : MonoBehaviour
         }
     }
 
- 
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.collider.tag == "ImpactObject")
+        {
+            //playerScript.DealColliderDamage(collision, gameObject.tag, null);
+            DealColliderDamage(collision);
+        }
+        else if (collision.collider.tag == "Torso" || collision.collider.tag == "Head" || collision.collider.tag == "Feet" || collision.collider.tag == "Legs")
+        {
+            DealColliderDamage(collision);
+            //playerScript.DealColliderDamage(collision, gameObject.tag, hitBy);
+        }
+    }
+
 
     void Explode()
     {
@@ -36,9 +49,28 @@ public class ExplosiveObjectScript : MonoBehaviour
 
         explosion = go.GetComponent<Explosion>();
 
-        explosion.Explode(playerLastHitBy, explosionRadius, explosionPower, cameraShakeDuration);
+        explosion.Explode(playerLastHitBy, explosionRadius, explosionPower, cameraShakeDuration, 40f);
 
 
         gameObject.SetActive(false);
     }
+
+    void DealColliderDamage(Collision2D collision)
+    {
+        float dmg = collision.relativeVelocity.magnitude;
+        //reduces damage so its not bullshit
+        dmg = dmg / 5;
+
+        //dont bother dealing damage unless unmitigated damage indicates fast enough collision
+        if (dmg > 20)
+        {
+
+            //caps damage
+            if (dmg > 100)
+                dmg = 100;
+
+            DamageExplosiveObject(dmg, null);
+        }
+    }
+    
 }

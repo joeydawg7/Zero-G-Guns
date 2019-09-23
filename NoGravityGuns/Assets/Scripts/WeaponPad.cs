@@ -55,7 +55,7 @@ public class WeaponPad : MonoBehaviour
             weightedPotentialGunsToSpawn.Add(g, guns.Count() / 100f);
 
 
-        if (!SpawnSelectedWeaponInstant)
+        if (!SpawnSelectedWeaponInstant || weaponToSpawn == null)
         {
             timer = 0;
             timeToNextSpawn = Random.Range(5, 25f);
@@ -134,14 +134,14 @@ public class WeaponPad : MonoBehaviour
                 weightedPotentialGunsToSpawn[g] = 0;
 
             accumulatedWeight += weightedPotentialGunsToSpawn[g];
-            Debug.Log("evaluated at time " + RoundManager.Instance.timeSinceRoundStarted + " , evaluation: " + g.spawnRateOverTime.Evaluate(RoundManager.Instance.timeSinceRoundStarted / 60f) * 100f);
-            Debug.Log(g.name + " current potential spawn rate: " + weightedPotentialGunsToSpawn[g]);
+            //Debug.Log("evaluated at time " + RoundManager.Instance.timeSinceRoundStarted + " , evaluation: " + g.spawnRateOverTime.Evaluate(RoundManager.Instance.timeSinceRoundStarted / 60f) * 100f);
+           // Debug.Log(g.name + " current potential spawn rate: " + weightedPotentialGunsToSpawn[g]);
         }
 
 
-        Debug.Log("accumulated weight: " + accumulatedWeight);
+        //Debug.Log("accumulated weight: " + accumulatedWeight);
         weaponToSpawn = GetRandom(accumulatedWeight);
-        Debug.Log("next weapon will be a: " + weaponToSpawn.name);
+        //Debug.Log("next weapon will be a: " + weaponToSpawn.name);
     }
 
 
@@ -151,7 +151,6 @@ public class WeaponPad : MonoBehaviour
         System.Random rand = new System.Random();
 
         double rnd = rand.NextDouble()* accumulatedWeight;
-        Debug.Log("rolled: " + rnd);
         return  weightedPotentialGunsToSpawn.First(i => (rnd -= i.Value) < 0).Key;
 
         //System.Random rand = new System.Random();

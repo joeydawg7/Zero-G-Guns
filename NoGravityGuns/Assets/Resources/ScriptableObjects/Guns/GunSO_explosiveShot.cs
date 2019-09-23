@@ -27,7 +27,7 @@ public class GunSO_explosiveShot : GunSO
     {
         Transform bulletSpawn = player.armsScript.bulletSpawn;
 
-        GameObject bulletGo = ObjectPooler.Instance.SpawnFromPool("Rocket", bulletSpawn.transform.position, Quaternion.Euler(shootDir));
+        GameObject bulletGo = ObjectPooler.Instance.SpawnFromPool(projectile, bulletSpawn.transform.position, Quaternion.Euler(shootDir));
         bulletGo.GetComponent<SpriteRenderer>().enabled = false;
         Vector2 dir = bulletSpawn.transform.right * bulletSpeed;
         float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
