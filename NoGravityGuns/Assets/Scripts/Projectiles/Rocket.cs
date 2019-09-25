@@ -78,8 +78,10 @@ public class Rocket : Bullet
                 //spawn some impact sparks from pool
                 SpawnSparkEffect();
 
+                GunSO_explosiveShot rocketShot = (GunSO_explosiveShot)gun;
+
                 //if you are a rcoket who hit something, blow up
-                ExplodeBullet(false, (GunSO_explosiveShot)gun);
+                ExplodeBullet(false, rocketShot);
 
             }
         }
@@ -90,12 +92,8 @@ public class Rocket : Bullet
     public void ExplodeBullet(bool explodeInstantly, GunSO_explosiveShot gun)
     {
         gameObject.GetComponent<Collider2D>().enabled = false;
-        Explosion explosion = null;
-
-        if (transform != null)
-        {
-            explosion = transform.Find("ExplosionRadius").GetComponent<Explosion>();
-        }
+        GameObject explosionGO = ObjectPooler.Instance.SpawnFromPool("Explosion", transform.position, Quaternion.identity);
+        Explosion explosion = explosionGO.GetComponent<Explosion>();
 
         if (explosion != null)
         {
@@ -104,6 +102,8 @@ public class Rocket : Bullet
             rb.simulated = false;
             rb.isKinematic = true;
         }
+        else
+            Debug.LogError("Failed to spawn explosion from object pool!");
 
         sr.enabled = false;
         StartCoroutine(DisableOverTime(0.6f));

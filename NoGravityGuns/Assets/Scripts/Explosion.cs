@@ -152,7 +152,7 @@ public static class Rigidbody2DExt
 
         if (dir == new Vector3(0, 0, 0))
         {
-            dir = new Vector3(Random.Range(-20, 20), Random.Range(-20, 20), 0f);
+            dir = new Vector3(Random.Range(-30+5, 30+5), Random.Range(-20, 20), 0f);
         }
 
 

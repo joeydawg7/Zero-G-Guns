@@ -845,13 +845,24 @@ public class PlayerScript : MonoBehaviour
 
     public void DealColliderDamage(Collision2D collision, string hitLocation, PlayerScript hitBy)
     {
-        float dmg = collision.relativeVelocity.magnitude;
+        //float dmg = collision.relativeVelocity.magnitude;
+
+        //TODO: dmg = relative velocity.mag normalized? * mod
+
+        //float dmg = collision.relativeVelocity.normalized.magnitude;
+        //tor3.Dot(col.contacts[0].normal,col.relativeVelocity) * rigidbody.mass
+
+        float dmg = Vector3.Dot(collision.contacts[0].normal, collision.relativeVelocity);
+
+        if (collision.rigidbody != null && collision.rigidbody.mass <=1)
+            dmg *= collision.rigidbody.mass;
+
         //reduces damage so its not bullshit
         dmg = dmg / COLLIDER_DAMAGE_MITIGATOR;
 
 
         //dont bother dealing damage unless unmitigated damage indicates fast enough collision
-        if (dmg > 20)
+        if (dmg > 10)
         {
 
             if (collision.rigidbody != null)
@@ -906,11 +917,11 @@ public class PlayerScript : MonoBehaviour
     public struct FloatingDamageStuff
     {
         public readonly GameObject floatingDamageGameObject;
-        public int damage;
+        public float damage;
         public float timer;
         public DamageType damageType;
 
-        public FloatingDamageStuff(GameObject floatingDamage, int damage, DamageType damageType)
+        public FloatingDamageStuff(GameObject floatingDamage, float damage, DamageType damageType)
         {
             this.floatingDamageGameObject = floatingDamage;
             this.damage = damage;
@@ -921,9 +932,14 @@ public class PlayerScript : MonoBehaviour
 
     public FloatingDamageStuff floatingDamage;
 
-    void SpawnFloatingDamageText(int dmgToShow, DamageType damageType, string animType)
+    void SpawnFloatingDamageText(float dmgToShow, DamageType damageType, string animType)
     {
         Color32 color;
+
+        dmgToShow = Mathf.RoundToInt(dmgToShow);
+
+        if (dmgToShow == 0)
+            return;
 
         switch (damageType)
         {
@@ -989,7 +1005,7 @@ public class PlayerScript : MonoBehaviour
     }
 
     //adds the new damage value to our current floating damage and resets animation instead of stacking more text
-    void AddToFloatingDamage(int dmg, DamageType damageType, Color color, string animType)
+    void AddToFloatingDamage(float dmg, DamageType damageType, Color color, string animType)
     {
         //add to damage to get new value
         floatingDamage.floatingDamageGameObject.GetComponent<TextMeshProUGUI>().text = (dmg + floatingDamage.damage).ToString();
