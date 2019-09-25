@@ -153,7 +153,7 @@ public class Bullet : MonoBehaviour, IPooledObject
     }
 
     //gets rid of a bullet gracefully
-   protected void KillBullet()
+   protected virtual void KillBullet()
     {
         StartCoroutine(DisableOverTime(0.02f));
 
@@ -162,7 +162,7 @@ public class Bullet : MonoBehaviour, IPooledObject
         somethingSexy.transform.parent = null;
     }
    
-    protected IEnumerator DisableOverTime(float t)
+    protected virtual IEnumerator DisableOverTime(float t)
     {
         yield return new WaitForSeconds(t);
         gameObject.SetActive(false);

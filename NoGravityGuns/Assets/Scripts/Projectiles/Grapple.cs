@@ -1,10 +1,10 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Grapple : Bullet
 {
     DistanceJoint2D distanceJoint;
+    public bool isAttached;
 
     public override void Construct(float damage, PlayerScript player, Vector3 dir, Sprite sprite, GunSO gun)
     {
@@ -12,6 +12,7 @@ public class Grapple : Bullet
 
         distanceJoint = GetComponent<DistanceJoint2D>();
         distanceJoint.enabled = false;
+        isAttached = false;
 
         //TODO: make this a rope trail :D
         /*
@@ -51,9 +52,7 @@ public class Grapple : Bullet
                 if (hitRB == null)
                 {
                     distanceJoint.enabled = true;
-                    rb.isKinematic = true;                    
-                    rb.velocity = new Vector2(0, 0);
-                    rb.angularVelocity = 0;
+                   // rb.isKinematic = true;                    
                     distanceJoint.connectedBody = player.rb;
                     distanceJoint.distance = Vector2.Distance(player.transform.position, transform.position);
                 }
@@ -62,17 +61,63 @@ public class Grapple : Bullet
                     transform.parent = hitRB.transform;
 
                     distanceJoint.enabled = true;
-                    rb.isKinematic = true;
-                    rb.velocity = new Vector2(0, 0);
-                    rb.angularVelocity = 0;
+                   // rb.isKinematic = true;                  
                     GetComponent<CircleCollider2D>().enabled = false;
                     distanceJoint.connectedBody = player.rb;
                     distanceJoint.distance = Vector2.Distance(player.transform.position, transform.position);
                 }
 
+                rb.velocity = new Vector2(0, 0);
+                rb.angularVelocity = 0;
+
+                isAttached = true;
+
+                GunSO_grappleShot grappleGun = (GunSO_grappleShot)gun;
+
+                grappleGun.StartGrapplePull(player);
 
             }
         }
+    }
+
+
+    public void UpdateDistance(float distanceChange)
+    {
+        distanceJoint.distance += distanceChange;
+        Debug.Log(distanceJoint.distance);
+        rb.velocity = new Vector2(0, 0);
+        rb.angularVelocity = 0;
+    }
+
+
+    public void RemoveGrapple()
+    {
+        KillBullet();
+    }
+
+    //gets rid of a bullet gracefully
+    protected override void KillBullet()
+    {
+        StartCoroutine(DisableOverTime(0.02f));
+
+        somethingSexy.Stop();
+        somethingSexy.GetComponent<DisableOverTime>().DisableOverT(3.1f);
+        somethingSexy.transform.parent = null;
+    }
+
+    protected override IEnumerator DisableOverTime(float t)
+    {
+        yield return new WaitForSeconds(t);
+
+        transform.parent = null;
+
+        DontDestroyOnLoad(gameObject);
+
+        gameObject.SetActive(false);
+        rb.velocity = new Vector2(0, 0);
+        rb.angularVelocity = 0;
+        rb.simulated = false;
+
     }
 
 }
