@@ -54,6 +54,9 @@ public class Rocket : Bullet
         if (collision.collider.gameObject.layer != LayerMask.NameToLayer("NonBulletCollide") && canImapact == true)
         {
 
+            if (collision.collider.tag == "Chunk")
+                return;
+
             //we've hit something that isnt a bullet, or the player that shot us
             if (collision.collider.tag != "Bullet" || collision.collider.GetComponent<Bullet>().player.playerID != player.playerID)
             {

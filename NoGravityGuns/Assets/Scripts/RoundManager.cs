@@ -73,6 +73,8 @@ public class RoundManager : MonoBehaviour
         currentRound = 0;
         loadingImage.gameObject.SetActive(false);
 
+        Cursor.visible = false;
+
     }
 
     public void NewRound(bool startOver)

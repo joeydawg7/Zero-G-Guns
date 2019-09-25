@@ -69,10 +69,12 @@ public class Explosion : MonoBehaviour, IPooledObject
         audioSouce.PlayOneShot(explosionClips[Random.Range(0, explosionClips.Count)]);
 
         Collider2D[] colliders = Physics2D.OverlapCircleAll(explosionPos, radius);
+
         foreach (Collider2D hit in colliders)
         {
             Rigidbody2D rb = hit.GetComponent<Rigidbody2D>();
 
+            //the the target has no rigid body but its highest parent has one, use that instead
             if (rb == null && hit.transform.root.GetComponent<Rigidbody2D>() != null)
             {
                 rb = hit.transform.root.GetComponent<Rigidbody2D>();
@@ -87,16 +89,16 @@ public class Explosion : MonoBehaviour, IPooledObject
                     if (rb.tag == "Player")
                     {
                         //note that this force is only applied to players torso... trying to add more than that caused some crazy effects for little gains in overall usefulness
-                        Rigidbody2DExt.AddExplosionForce(rb, power, damageAtCenter, explosionPos, radius, ForceMode2D.Force, playerWhoShot, dealDamage);
+                        rb.AddExplosionForce(power, damageAtCenter, explosionPos, radius, ForceMode2D.Force, playerWhoShot, dealDamage);
                     }
                     //give impact objects a bit more push than other things
-                    else if (rb.tag == "ImpactObject" || rb.tag == "ExplosiveObject")
-                    {
-                        Rigidbody2DExt.AddExplosionForce(rb, power * physicsObjectPushForceMod, explosionPos, radius, ForceMode2D.Force);
+                    else if (rb.tag == "ImpactObject" || rb.tag == "ExplosiveObject" || rb.tag == "Chunk")
+                    {                      
+                        rb.AddExplosionForce(power * physicsObjectPushForceMod, explosionPos, radius, ForceMode2D.Force);
                     }
                     else
                     {
-                        Rigidbody2DExt.AddExplosionForce(rb, power, explosionPos, radius, ForceMode2D.Force);
+                        rb.AddExplosionForce(power, explosionPos, radius, ForceMode2D.Force);
                     }
                 }
             }
@@ -147,12 +149,43 @@ public static class Rigidbody2DExt
     public static void AddExplosionForce(this Rigidbody2D body, float explosionForce, float damageAtCenter,  Vector3 explosionPosition, float explosionRadius, ForceMode2D mode, PlayerScript playerWhoShot, bool dealDamage)
     {
         var dir = (body.transform.position - explosionPosition);
-        float wearoff = 1 - (dir.magnitude / explosionRadius);
-        if (wearoff < 0)
-            wearoff = 0;
-        Vector2 force = dir.normalized * explosionForce * wearoff;
-        body.AddForce(force, mode);
 
+        if (dir == new Vector3(0, 0, 0))
+        {
+            dir = new Vector3(Random.Range(-20, 20), Random.Range(-20, 20), 0f);
+        }
+
+
+        float wearoff = 1 - (dir.magnitude / explosionRadius);
+        body.AddForce(dir.normalized * (wearoff <= 0f ? 0f : explosionForce) * wearoff);
+
+        //Debug.Log(body.gameObject.name + ": " + wearoff + " " + force);
+
+        DealDamage(body, damageAtCenter, wearoff, dealDamage, playerWhoShot);
+    }
+
+    //overload that doesnt care about dealing damage to affected body
+    public static void AddExplosionForce(this Rigidbody2D body, float explosionForce, Vector3 explosionPosition, float explosionRadius, ForceMode2D mode)
+    {
+        var dir = (body.transform.position - explosionPosition);
+
+        if(dir== new Vector3(0,0,0))
+        {
+            dir = new Vector3(Random.Range(-20,20), Random.Range(-20,20), 0f);
+        }
+
+        float wearoff = 1f - (dir.magnitude / explosionRadius);
+
+        body.AddForce(dir.normalized * (wearoff <= 0f ? 0f : explosionForce) * wearoff);
+
+        Vector3 force = dir.normalized * (wearoff <= 0f ? 0f : explosionForce) * wearoff;
+
+        //Debug.Log(body.gameObject.name + ": " + dir + ", normalized: " + dir.normalized + " "  + wearoff + " sum forcE: " + force);
+
+    }
+
+    static void DealDamage(Rigidbody2D body, float damageAtCenter, float wearoff, bool dealDamage, PlayerScript playerWhoShot)
+    {
         float dmg = damageAtCenter * wearoff;
 
         if (body.transform.root.GetComponent<PlayerScript>() != null && dealDamage)
@@ -162,16 +195,6 @@ public static class Rigidbody2DExt
                 body.transform.root.GetComponent<PlayerScript>().TakeDamage(dmg, PlayerScript.DamageType.torso, playerWhoShot, true);
             }
         }
-    }
-
-    //overload that doesnt care about dealing damage to affected body
-    public static void AddExplosionForce(this Rigidbody2D body, float explosionForce, Vector3 explosionPosition, float explosionRadius, ForceMode2D mode)
-    {
-        var dir = (body.transform.position - explosionPosition);
-        float wearoff = 1 - (dir.magnitude / explosionRadius);
-        Vector2 force = dir.normalized * explosionForce * wearoff;
-        body.AddForce(force, mode);
-
     }
 
 }

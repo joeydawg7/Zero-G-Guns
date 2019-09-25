@@ -14,7 +14,6 @@ public class ArmsScript : MonoBehaviour
 
     [Header("Gun")]
     public GunSO currentWeapon;
-    public float currentRecoil;
     //public GameObject reloadTimer;
 
     public Transform bulletSpawn;
@@ -57,7 +56,6 @@ public class ArmsScript : MonoBehaviour
     private void Awake()
     {
         timeSinceLastShot = 0;
-        currentRecoil = 0;
 
         facing = transform.rotation;
         currentAmmo = currentWeapon.clipSize;
@@ -136,10 +134,6 @@ public class ArmsScript : MonoBehaviour
         //delay shooting stuff
         timeSinceLastShot += Time.deltaTime;
 
-        if (currentRecoil > 0)
-            currentRecoil -= Time.deltaTime;
-        else
-            currentRecoil = 0;
     }
 
     //equips a new gun
