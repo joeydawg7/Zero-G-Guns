@@ -10,7 +10,7 @@ public class Bullet : MonoBehaviour, IPooledObject
     public PlayerScript player;
 
     protected bool canImapact;
-    protected bool canBounce;
+   
 
     protected Rigidbody2D rb;
     protected Vector2 startingForce;
@@ -23,7 +23,6 @@ public class Bullet : MonoBehaviour, IPooledObject
     private void Awake()
     {
         sr = GetComponent<SpriteRenderer>();
-        canBounce = true;
     }
 
     //interface override what to set when the object is spawned
@@ -42,7 +41,7 @@ public class Bullet : MonoBehaviour, IPooledObject
         startingForce = new Vector2(vel.x, vel.y);
     }
 
-    public virtual void Construct(float damage, PlayerScript player, Vector3 dir, Sprite sprite)
+    public virtual void Construct(float damage, PlayerScript player, Vector3 dir, Sprite sprite, GunSO gun)
     {
         //who shot the bullet
         this.player = player;
@@ -80,37 +79,31 @@ public class Bullet : MonoBehaviour, IPooledObject
 
     protected virtual void OnCollisionEnter2D(Collision2D collision)
     {
-
+        //TODO: make this more efficient, no need to check player impact location if we already know its not a player we've hit
         if (collision.collider.gameObject.layer != LayerMask.NameToLayer("NonBulletCollide") && canImapact == true)
         {
-            //we've hit something that isnt a bullet, or the player that shot us
+            //we've hit something that isnt a bullet, or the player that shot the original bullet
             if (collision.collider.tag != "Bullet" || collision.collider.GetComponent<Bullet>().player.playerID != player.playerID)
             {
+
+                ExplosiveObjectScript explosiveObjectScript = collision.collider.gameObject.GetComponent<ExplosiveObjectScript>();
+
+                if (explosiveObjectScript != null)
+                {
+                    //ExplosiveObjectScript explosiveObjectScript = collision.collider.gameObject.GetComponent<ExplosiveObjectScript>();
+
+                    if (explosiveObjectScript != null && damage > 0)
+                    {
+                        explosiveObjectScript.DamageExplosiveObject(damage, player);
+                    }
+                }
+
                 //default damage type is nothing, we don't know what we hit yet.
                 PlayerScript.DamageType dmgType = DamageBodyParts(collision);
                 SpawnSparkEffect();
 
-                //only bounce if you are a railgun bullet that hasnt hit a player, and only do it once. 
-                if ((gun.name != "RailGun" || canBounce == false))
-                {
-                    canImapact = false;
-                    KillBullet();
-                    return;
-                }
-                else if (dmgType != PlayerScript.DamageType.none)
-                {
-                    canImapact = false;
-                    KillBullet();
-                    return;
-                }
-                else
-                {
-                    canBounce = false;
-                }
-
-                rb.AddForce(Reflect(startingForce, collision.GetContact(0).normal));
-
-
+                canImapact = false;
+                KillBullet();
             }
         }
     }
@@ -135,28 +128,24 @@ public class Bullet : MonoBehaviour, IPooledObject
             dmgType = PlayerScript.DamageType.torso;
             collision.transform.root.gameObject.GetComponent<PlayerScript>().TakeDamage(damage, dmgType, player, true);
             collision.transform.GetComponentInChildren<ParticleSystem>().Emit(30);
-            canBounce = false;
             GetComponent<Collider2D>().enabled = false;
         }
         if (collision.collider.tag == "Head")
         {
             dmgType = PlayerScript.DamageType.head;
             collision.transform.root.gameObject.GetComponent<PlayerScript>().TakeDamage(damage, dmgType, player, true);
-            canBounce = false;
             GetComponent<Collider2D>().enabled = false;
         }
         if (collision.collider.tag == "Feet")
         {
             dmgType = PlayerScript.DamageType.feet;
             collision.transform.root.gameObject.GetComponent<PlayerScript>().TakeDamage(damage, dmgType, player, true);
-            canBounce = false;
             GetComponent<Collider2D>().enabled = false;
         }
         if (collision.collider.tag == "Leg")
         {
             dmgType = PlayerScript.DamageType.legs;
             collision.transform.root.gameObject.GetComponent<PlayerScript>().TakeDamage(damage, dmgType, player, true);
-            canBounce = false;
             GetComponent<Collider2D>().enabled = false;
         }
 
@@ -164,7 +153,7 @@ public class Bullet : MonoBehaviour, IPooledObject
     }
 
     //gets rid of a bullet gracefully
-   protected void KillBullet()
+   protected virtual void KillBullet()
     {
         StartCoroutine(DisableOverTime(0.02f));
 
@@ -172,14 +161,8 @@ public class Bullet : MonoBehaviour, IPooledObject
         somethingSexy.GetComponent<DisableOverTime>().DisableOverT(3.1f);
         somethingSexy.transform.parent = null;
     }
-
-    //reflect out vector to determine bounce for railgun :D
-    Vector2 Reflect(Vector2 vector, Vector2 normal)
-    {
-        return vector - 2 * Vector2.Dot(vector, normal) * normal;
-    }
-
-    protected IEnumerator DisableOverTime(float t)
+   
+    protected virtual IEnumerator DisableOverTime(float t)
     {
         yield return new WaitForSeconds(t);
         gameObject.SetActive(false);

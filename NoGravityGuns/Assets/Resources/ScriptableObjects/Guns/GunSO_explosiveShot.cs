@@ -13,6 +13,9 @@ public class GunSO_explosiveShot : GunSO
     public float explosionRadius;
     public float explosionPower;
 
+    public float rocketMaxSpeed;
+    public float rocketAccelerationMod;
+
     MonoBehaviour mono;
 
     public override void Fire(PlayerScript player, Vector3 dir)
@@ -24,13 +27,13 @@ public class GunSO_explosiveShot : GunSO
     {
         Transform bulletSpawn = player.armsScript.bulletSpawn;
 
-        GameObject bulletGo = ObjectPooler.Instance.SpawnFromPool("Rocket", bulletSpawn.transform.position, Quaternion.Euler(shootDir));
+        GameObject bulletGo = ObjectPooler.Instance.SpawnFromPool(projectile, bulletSpawn.transform.position, Quaternion.Euler(shootDir));
         bulletGo.GetComponent<SpriteRenderer>().enabled = false;
         Vector2 dir = bulletSpawn.transform.right * bulletSpeed;
         float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
         bulletGo.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
 
-        bulletGo.GetComponent<Bullet>().Construct(GunDamage, player, dir, player.armsScript.rocketSprite);
+        bulletGo.GetComponent<Rocket>().Construct(GunDamage, player, dir, player.armsScript.rocketSprite, this);
     }
 
     public override void KnockBack(PlayerScript player, Vector2 shootDir)
@@ -111,6 +114,6 @@ public class GunSO_explosiveShot : GunSO
     {
         GameObject bulletGo = ObjectPooler.Instance.SpawnFromPool("Rocket", arms.bulletSpawn.transform.position, Quaternion.Euler(shootDir));
         bulletGo.GetComponent<SpriteRenderer>().enabled = false;
-        bulletGo.GetComponent<Rocket>().ExplodeBullet(true);
+        bulletGo.GetComponent<Rocket>().ExplodeBullet(true, this);
     }
 }

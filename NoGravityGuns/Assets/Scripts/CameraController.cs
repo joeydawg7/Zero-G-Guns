@@ -16,9 +16,12 @@ public class CameraController : MonoBehaviour
 
     Vector3 velocity;
 
+    CameraShake cameraShake;
+
     private void Awake()
     {
         players = new List<Transform>();
+        cameraShake = Camera.main.GetComponent<CameraShake>();
     }
 
     // Update is called once per frame
@@ -92,16 +95,28 @@ public class CameraController : MonoBehaviour
         }
     }
 
-    public void RemovePlayerFromCameraTrack(GameObject player)
+    public void RemovePlayerFromCameraTrack(GameObject player, float time)
     {
+        StartCoroutine(RemovePlayerFromCameraTrackAfterTime(player, time));
+    }
+
+    IEnumerator RemovePlayerFromCameraTrackAfterTime(GameObject player, float time)
+    {
+        
+
+        Time.timeScale = 0.75f;
+        cameraShake.shakeDuration += 0.5f;
+        yield return new WaitForSeconds(time);
+        cameraShake.shakeDuration = 0.0f;
+        Time.timeScale = 1f;
+
         if (players.Contains(player.transform))
             players.Remove(player.transform);
         else
         {
             Debug.LogError("Could not find gameobject " + player.name + " from camera list!");
-            return;
+            yield break;
         }
-        
     }
 
 }

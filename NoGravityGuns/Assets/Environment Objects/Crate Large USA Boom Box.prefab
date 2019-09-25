@@ -12,9 +12,10 @@ GameObject:
   - component: {fileID: 2029473659711159748}
   - component: {fileID: 2029473659711159749}
   - component: {fileID: 2029473659711159754}
+  - component: {fileID: 3665554343244804800}
   m_Layer: 0
-  m_Name: Large Crate USA Boom Box
-  m_TagString: Untagged
+  m_Name: Crate Large USA Boom Box
+  m_TagString: ExplosiveObject
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -26,9 +27,9 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2029473659711159755}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 18.599499, y: -23.90455, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 2.5}
+  m_LocalScale: {x: 1.38, y: 1.38, z: 1.38}
   m_Children:
   - {fileID: 5206283543555521405}
   m_Father: {fileID: 0}
@@ -51,7 +52,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 272ba847f100d4251bb8260575189042, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -99,7 +100,7 @@ Rigidbody2D:
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 8be6341e1ce3f4cec9902bc34f72d20a, type: 2}
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
@@ -130,6 +131,23 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 4.017527, y: 4.019397}
   m_EdgeRadius: 0
+--- !u!114 &3665554343244804800
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2029473659711159755}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73bddee1fa7f7164b993709dc8381ce1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 10
+  explosionRadius: 15
+  explosionPower: 250
+  cameraShakeDuration: 0.25
+  explodedChunks: []
 --- !u!1 &5206283543555521402
 GameObject:
   m_ObjectHideFlags: 0

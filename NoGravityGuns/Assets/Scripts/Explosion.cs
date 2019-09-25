@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Explosion : MonoBehaviour
+public class Explosion : MonoBehaviour, IPooledObject
 {
     float radius;
     float power;
@@ -23,31 +23,44 @@ public class Explosion : MonoBehaviour
     private void Awake()
     {
         cameraShake = Camera.main.GetComponent<CameraShake>();
+        audioSouce = GetComponent<AudioSource>();
     }
 
+    //explode from a gun or bullet
     public void Explode(PlayerScript playerWhoShot, GunSO_explosiveShot gun)
     {
         this.playerWhoShot = playerWhoShot;
-        this.radius = radius;
         this.gun = gun;
 
         power = gun.explosionPower;
         radius = gun.explosionRadius;
 
-        GrowExplosion();
-
+        GrowExplosion(gun.cameraShakeDuration, gun.physicsObjectPushForceMod);
     }
 
-    void GrowExplosion()
+    //explode with custom radius and strength
+    public void Explode(PlayerScript playerWhoShot, float radius, float power, float cameraShakeDuration, float physicsObjectForceMod)
+    {
+        this.playerWhoShot = playerWhoShot;
+        this.radius = radius;
+        this.power = power;
+
+
+        GrowExplosion(cameraShakeDuration, physicsObjectForceMod);
+    }
+
+
+    void GrowExplosion(float cameraShakeDuration, float physicsObjectPushForceMod)
     {
         Vector3 originalScale = transform.localScale;
         Vector2 explosionPos = transform.position;
 
+        
         smoke.Emit(2);
         explosionBits.Emit(Random.Range(20, 40));
         chunks.Emit(Random.Range(20, 40));
 
-        cameraShake.shakeDuration += gun.cameraShakeDuration;
+        cameraShake.shakeDuration += cameraShakeDuration;
 
         //lets the circle with our given radius actually hurt people
         bool dealDamage = true;
@@ -76,9 +89,9 @@ public class Explosion : MonoBehaviour
                         Rigidbody2DExt.AddExplosionForce(rb, power, explosionPos, radius, ForceMode2D.Force, playerWhoShot, dealDamage);
                     }
                     //give impact objects a bit more push than other things
-                    else if (rb.tag == "ImpactObject")
+                    else if (rb.tag == "ImpactObject" || rb.tag == "ExplosiveObject")
                     {
-                        Rigidbody2DExt.AddExplosionForce(rb, power * gun.physicsObjectPushForceMod, explosionPos, radius, ForceMode2D.Force);
+                        Rigidbody2DExt.AddExplosionForce(rb, power * physicsObjectPushForceMod, explosionPos, radius, ForceMode2D.Force);
                     }
                     else
                     {
@@ -103,6 +116,10 @@ public class Explosion : MonoBehaviour
         Gizmos.DrawLine(transform.position, new Vector2(transform.position.x, transform.position.y - radius));
     }
 
+    public void OnObjectSpawn()
+    {
+        cameraShake = Camera.main.GetComponent<CameraShake>();
+    }
 }
 
 //class to add explosive force to a 2d rigidbody

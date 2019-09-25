@@ -18,23 +18,41 @@ MonoBehaviour:
   knockback: 35
   bulletSpeed: 1500
   recoilDelay: 0.8
-  recoilPerShot: 0.3
-  recoilMax: 1.4
   clipSize: 6
   numBullets: 0
   reloadTime: 3
+  spawnRateOverTime:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   armsObject: {fileID: 7770202997710017528, guid: 1cdf444c0e4b21348841b2f3a7a34c46,
     type: 3}
   weaponPad: {fileID: 21300000, guid: 447d20c53386c4e448858258cc3f71aa, type: 3}
-  fireType: 0
-  GunType: 3
   cameraShakeDuration: 0
   bulletSounds:
   - {fileID: 8300000, guid: f8ad5fe2db815d44ca3097be4640d53e, type: 3}
   - {fileID: 8300000, guid: 4bfe20abb2cabb240922690c0f43a084, type: 3}
   - {fileID: 8300000, guid: a386ddc919a49994db774968ac6c53f2, type: 3}
   reloadSound: {fileID: 8300000, guid: 35bd2f6b5f56cc64590f17ab6597c993, type: 3}
-  projectile: {fileID: 5680163158229233766, guid: 56ef0b4526c6e0d4795adb5837e2749e,
-    type: 3}
-  EquipSprite: {fileID: 21300000, guid: 8c6f62180083a6345bf6b62e90e97e6b, type: 3}
+  projectile: Bullet
   spreadAngleLimit: 10

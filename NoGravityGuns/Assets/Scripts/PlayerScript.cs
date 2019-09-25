@@ -487,7 +487,7 @@ public class PlayerScript : MonoBehaviour
     {
         GameManager gameManager = GameManager.Instance;
 
-        currentWeapon.gunDamageTotal += dmg;
+       // currentWeapon.gunDamageTotal += dmg;
 
 
         /*
@@ -558,7 +558,7 @@ public class PlayerScript : MonoBehaviour
             if (numLives <= 0)
             {
                 playerUIPanel.Disable();
-                cameraParent.GetComponent<CameraController>().RemovePlayerFromCameraTrack(gameObject);
+                cameraParent.GetComponent<CameraController>().RemovePlayerFromCameraTrack(gameObject, 0.5f);
                 if (!isDummy)
                     playerUIPanel.Destroy();
                 GameManager.Instance.CheckForLastManStanding();
@@ -829,7 +829,7 @@ public class PlayerScript : MonoBehaviour
     #region collision Damage
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.collider.tag == "ImpactObject")
+        if (collision.collider.tag == "ImpactObject" || collision.collider.tag == "ExplosiveObject")
         {
             DealColliderDamage(collision, "Torso", null);
         }
