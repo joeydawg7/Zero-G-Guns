@@ -12,6 +12,7 @@ public class WeaponPad : MonoBehaviour
     [Header("Non-Debug")]
 
     public Sprite emptyPad;
+    public SpriteRenderer gunToSpawnSR;
 
     public bool hasWeapon;
 

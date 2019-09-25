@@ -30,7 +30,6 @@ public class Explosion : MonoBehaviour, IPooledObject
     //explode from a gun or bullet
     public void Explode(PlayerScript playerWhoShot, GunSO_explosiveShot gun)
     {
-
         this.playerWhoShot = playerWhoShot;
         this.gun = gun;
 
@@ -57,8 +56,7 @@ public class Explosion : MonoBehaviour, IPooledObject
     {
         Vector3 originalScale = transform.localScale;
         Vector2 explosionPos = transform.position;
-
-        
+      
         smoke.Emit(2);
         explosionBits.Emit(Random.Range(20, 40));
         chunks.Emit(Random.Range(20, 40));
