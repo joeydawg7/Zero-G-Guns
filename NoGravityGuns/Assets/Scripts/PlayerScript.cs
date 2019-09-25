@@ -847,8 +847,6 @@ public class PlayerScript : MonoBehaviour
     {
         //float dmg = collision.relativeVelocity.magnitude;
 
-        //TODO: dmg = relative velocity.mag normalized? * mod
-
         //float dmg = collision.relativeVelocity.normalized.magnitude;
         //tor3.Dot(col.contacts[0].normal,col.relativeVelocity) * rigidbody.mass
 

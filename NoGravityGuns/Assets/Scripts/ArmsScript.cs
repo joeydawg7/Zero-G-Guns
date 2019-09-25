@@ -186,7 +186,6 @@ public class ArmsScript : MonoBehaviour
                     */
 
 
-                //TODO: track this in gunSO
                 basePlayer.shotsFired++;
             }
         }

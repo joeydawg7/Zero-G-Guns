@@ -24,7 +24,6 @@ public class Grapple : Bullet
 
     protected override void OnCollisionEnter2D(Collision2D collision)
     {
-        //TODO: make this more efficient, no need to check player impact location if we already know its not a player we've hit
         if (collision.collider.gameObject.layer != LayerMask.NameToLayer("NonBulletCollide") && canImapact == true)
         {
             //we've hit something that isnt a bullet, or the player that shot the original bullet
