@@ -62,7 +62,7 @@ public class Grapple : Bullet
 
                     distanceJoint.enabled = true;
                    // rb.isKinematic = true;                  
-                    GetComponent<CircleCollider2D>().enabled = false;
+                    GetComponent<Collider2D>().enabled = false;
                     distanceJoint.connectedBody = player.rb;
                     distanceJoint.distance = Vector2.Distance(player.transform.position, transform.position);
                 }

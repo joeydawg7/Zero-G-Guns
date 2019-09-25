@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 8981587559920178131}
   - component: {fileID: 7263861564378248324}
   m_Layer: 0
-  m_Name: Crate Medium Canadian
+  m_Name: Crate Medium Canadian- Explosive
   m_TagString: ExplosiveObject
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -51,7 +51,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: 6353e6b67aa4b3944be1d8f9bd466516, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -142,7 +142,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73bddee1fa7f7164b993709dc8381ce1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 25
+  health: 10
   explosionRadius: 15
   explosionPower: 400
+  damageAtcenter: 40
+  cameraShakeDuration: 0.25
   explodedChunks: []

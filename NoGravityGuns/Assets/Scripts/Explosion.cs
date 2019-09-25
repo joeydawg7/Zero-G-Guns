@@ -30,6 +30,7 @@ public class Explosion : MonoBehaviour, IPooledObject
     //explode from a gun or bullet
     public void Explode(PlayerScript playerWhoShot, GunSO_explosiveShot gun)
     {
+
         this.playerWhoShot = playerWhoShot;
         this.gun = gun;
 
@@ -105,17 +106,32 @@ public class Explosion : MonoBehaviour, IPooledObject
 
         dealDamage = false;
 
+        transform.parent = null;
+        DontDestroyOnLoad(gameObject);
+
     }
 
     //draw the extents of the circle
     private void OnDrawGizmos()
     {
-        //x
-        Gizmos.DrawLine(transform.position, new Vector2(transform.position.x + radius, transform.position.y));
-        Gizmos.DrawLine(transform.position, new Vector2(transform.position.x - radius, transform.position.y));
-        //y
-        Gizmos.DrawLine(transform.position, new Vector2(transform.position.x, transform.position.y + radius));
-        Gizmos.DrawLine(transform.position, new Vector2(transform.position.x, transform.position.y - radius));
+        Transform T= GetComponent<Transform>();
+        Gizmos.color = Color.white;
+        float theta = 0;
+        float x = radius * Mathf.Cos(theta);
+        float y = radius * Mathf.Sin(theta);
+        Vector3 pos= T.position + new Vector3(x, 0, y);
+        Vector3 newPos = pos;
+        Vector3 lastPos = pos;
+        for (theta = 0.1f; theta < Mathf.PI * 2; theta += 0.1f)
+        {
+            x = radius * Mathf.Cos(theta);
+            y = radius * Mathf.Sin(theta);
+            newPos = T.position + new Vector3(x, 0, y);
+            Gizmos.DrawLine(pos, newPos);
+            pos = newPos;
+        }
+        Gizmos.DrawLine(pos, lastPos);
+
     }
 
     public void OnObjectSpawn()
@@ -139,8 +155,6 @@ public static class Rigidbody2DExt
         Vector2 force = dir.normalized * explosionForce * wearoff;
         body.AddForce(force, mode);
 
-        // = (explosionForce * wearoff) / EXPLOSION_DAMAGE_MITIGATOR;
-        Debug.Log(wearoff);
         float dmg = damageAtCenter * wearoff;
 
         if (body.transform.root.GetComponent<PlayerScript>() != null && dealDamage)

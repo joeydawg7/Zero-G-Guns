@@ -86,7 +86,7 @@ public class Rocket : Bullet
     //explodes a bullet "gracefully"
     public void ExplodeBullet(bool explodeInstantly, GunSO_explosiveShot gun)
     {
-        gameObject.GetComponent<CircleCollider2D>().enabled = false;
+        gameObject.GetComponent<Collider2D>().enabled = false;
         Explosion explosion = null;
 
         if (transform != null)
