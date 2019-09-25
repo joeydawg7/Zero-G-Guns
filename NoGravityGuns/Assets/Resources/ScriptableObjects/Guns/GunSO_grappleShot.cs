@@ -24,7 +24,7 @@ public class GunSO_grappleShot : GunSO
         dir = bulletSpawn.transform.right * bulletSpeed;
 
         grapple = bulletGo.GetComponent<Grapple>();
-        grapple.Construct(GunDamage, player, dir, player.armsScript.bulletSprite, this);
+        grapple.Construct(GunDamage, player, dir, player.playerColor, this);
 
     }
 

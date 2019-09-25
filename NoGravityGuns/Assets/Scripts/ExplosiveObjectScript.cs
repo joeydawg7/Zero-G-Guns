@@ -9,6 +9,7 @@ public class ExplosiveObjectScript : MonoBehaviour
 
     public float explosionRadius = 15;
     public float explosionPower = 250;
+    public float damageAtcenter = 40f;
     public float cameraShakeDuration = 0.25f;
 
     public List<GameObject> explodedChunks;
@@ -49,7 +50,7 @@ public class ExplosiveObjectScript : MonoBehaviour
 
         explosion = go.GetComponent<Explosion>();
 
-        explosion.Explode(playerLastHitBy, explosionRadius, explosionPower, cameraShakeDuration, 40f);
+        explosion.Explode(playerLastHitBy, explosionRadius, explosionPower, damageAtcenter,cameraShakeDuration, 40f);
 
 
         gameObject.SetActive(false);
@@ -72,5 +73,15 @@ public class ExplosiveObjectScript : MonoBehaviour
             DamageExplosiveObject(dmg, null);
         }
     }
-    
+
+    //draw the extents of the circle
+    private void OnDrawGizmos()
+    {
+        //x
+        Gizmos.DrawLine(transform.position, new Vector2(transform.position.x + explosionRadius, transform.position.y));
+        Gizmos.DrawLine(transform.position, new Vector2(transform.position.x - explosionRadius, transform.position.y));
+        //y
+        Gizmos.DrawLine(transform.position, new Vector2(transform.position.x, transform.position.y + explosionRadius));
+        Gizmos.DrawLine(transform.position, new Vector2(transform.position.x, transform.position.y - explosionRadius));
+    }
 }

@@ -18,8 +18,6 @@ public class ArmsScript : MonoBehaviour
     //public GameObject reloadTimer;
 
     public Transform bulletSpawn;
-    public Sprite bulletSprite;
-    public Sprite rocketSprite;
 
     [Header("Audio")]
     public AudioClip dryFire;

@@ -6,10 +6,10 @@ using System.Reflection;
 public class Rocket : Bullet
 {
 
-    public override void Construct(float damage, PlayerScript player, Vector3 dir, Sprite sprite, GunSO gun)
+    public override void Construct(float damage, PlayerScript player, Vector3 dir, Color32 color, GunSO gun)
     {
         //call the base version first, the rest of the stuff we do after
-        base.Construct(damage, player, dir, sprite, gun);
+        base.Construct(damage, player, dir, color, gun);
 
         if (gun.GetType() != typeof(GunSO_explosiveShot))
         {

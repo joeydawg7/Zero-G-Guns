@@ -15,6 +15,7 @@ public class GunSO_explosiveShot : GunSO
 
     public float rocketMaxSpeed;
     public float rocketAccelerationMod;
+    public float damageAtCenter;
 
     MonoBehaviour mono;
 
@@ -33,7 +34,7 @@ public class GunSO_explosiveShot : GunSO
         float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
         bulletGo.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
 
-        bulletGo.GetComponent<Rocket>().Construct(GunDamage, player, dir, player.armsScript.rocketSprite, this);
+        bulletGo.GetComponent<Rocket>().Construct(GunDamage, player, dir, player.playerColor, this);
     }
 
     public override void KnockBack(PlayerScript player, Vector2 shootDir)

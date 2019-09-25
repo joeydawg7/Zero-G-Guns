@@ -60,7 +60,7 @@ public class GunSO_buckShot : GunSO
 
             MovementDirection *= bulletSpeed;
 
-            bulletGo.GetComponent<Bullet>().Construct(GunDamage, player, MovementDirection, player.armsScript.bulletSprite, this);
+            bulletGo.GetComponent<Bullet>().Construct(GunDamage, player, MovementDirection, player.playerColor, this);
 
         }
 

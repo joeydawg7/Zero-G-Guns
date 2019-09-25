@@ -6,9 +6,9 @@ public class BounceShot : Bullet
 {
     bool canBounce;
 
-    public override void Construct(float damage, PlayerScript player, Vector3 dir, Sprite sprite, GunSO gun)
+    public override void Construct(float damage, PlayerScript player, Vector3 dir, Color32 color, GunSO gun)
     {
-        base.Construct(damage, player, dir, sprite, gun);
+        base.Construct(damage, player, dir, color, gun);
 
         canBounce = true;
     }

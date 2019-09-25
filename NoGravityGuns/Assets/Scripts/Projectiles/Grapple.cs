@@ -6,9 +6,9 @@ public class Grapple : Bullet
     DistanceJoint2D distanceJoint;
     public bool isAttached;
 
-    public override void Construct(float damage, PlayerScript player, Vector3 dir, Sprite sprite, GunSO gun)
+    public override void Construct(float damage, PlayerScript player, Vector3 dir, Color32 color, GunSO gun)
     {
-        base.Construct(damage, player, dir, sprite, gun);
+        base.Construct(damage, player, dir, color, gun);
 
         distanceJoint = GetComponent<DistanceJoint2D>();
         distanceJoint.enabled = false;

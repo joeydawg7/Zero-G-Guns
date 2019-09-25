@@ -6,6 +6,7 @@ public class Explosion : MonoBehaviour, IPooledObject
 {
     float radius;
     float power;
+    float damageAtCenter;
 
     PlayerScript playerWhoShot;
 
@@ -34,17 +35,18 @@ public class Explosion : MonoBehaviour, IPooledObject
 
         power = gun.explosionPower;
         radius = gun.explosionRadius;
+        damageAtCenter = gun.damageAtCenter;
 
         GrowExplosion(gun.cameraShakeDuration, gun.physicsObjectPushForceMod);
     }
 
     //explode with custom radius and strength
-    public void Explode(PlayerScript playerWhoShot, float radius, float power, float cameraShakeDuration, float physicsObjectForceMod)
+    public void Explode(PlayerScript playerWhoShot, float radius, float power, float damageAtCenter, float cameraShakeDuration, float physicsObjectForceMod)
     {
         this.playerWhoShot = playerWhoShot;
         this.radius = radius;
         this.power = power;
-
+        this.damageAtCenter = damageAtCenter;
 
         GrowExplosion(cameraShakeDuration, physicsObjectForceMod);
     }
@@ -86,7 +88,7 @@ public class Explosion : MonoBehaviour, IPooledObject
                     if (rb.tag == "Player")
                     {
                         //note that this force is only applied to players torso... trying to add more than that caused some crazy effects for little gains in overall usefulness
-                        Rigidbody2DExt.AddExplosionForce(rb, power, explosionPos, radius, ForceMode2D.Force, playerWhoShot, dealDamage);
+                        Rigidbody2DExt.AddExplosionForce(rb, power, damageAtCenter, explosionPos, radius, ForceMode2D.Force, playerWhoShot, dealDamage);
                     }
                     //give impact objects a bit more push than other things
                     else if (rb.tag == "ImpactObject" || rb.tag == "ExplosiveObject")
@@ -126,7 +128,9 @@ public class Explosion : MonoBehaviour, IPooledObject
 public static class Rigidbody2DExt
 {
 
-    public static void AddExplosionForce(this Rigidbody2D body, float explosionForce, Vector3 explosionPosition, float explosionRadius, ForceMode2D mode, PlayerScript playerWhoShot, bool dealDamage)
+    const float EXPLOSION_DAMAGE_MITIGATOR = 11f;
+
+    public static void AddExplosionForce(this Rigidbody2D body, float explosionForce, float damageAtCenter,  Vector3 explosionPosition, float explosionRadius, ForceMode2D mode, PlayerScript playerWhoShot, bool dealDamage)
     {
         var dir = (body.transform.position - explosionPosition);
         float wearoff = 1 - (dir.magnitude / explosionRadius);
@@ -135,7 +139,9 @@ public static class Rigidbody2DExt
         Vector2 force = dir.normalized * explosionForce * wearoff;
         body.AddForce(force, mode);
 
-        float dmg = (explosionForce * wearoff) / 12f;
+        // = (explosionForce * wearoff) / EXPLOSION_DAMAGE_MITIGATOR;
+        Debug.Log(wearoff);
+        float dmg = damageAtCenter * wearoff;
 
         if (body.transform.root.GetComponent<PlayerScript>() != null && dealDamage)
         {
@@ -146,7 +152,7 @@ public static class Rigidbody2DExt
         }
     }
 
-    //overload that doesnt care about dealing damage to affected body part
+    //overload that doesnt care about dealing damage to affected body
     public static void AddExplosionForce(this Rigidbody2D body, float explosionForce, Vector3 explosionPosition, float explosionRadius, ForceMode2D mode)
     {
         var dir = (body.transform.position - explosionPosition);

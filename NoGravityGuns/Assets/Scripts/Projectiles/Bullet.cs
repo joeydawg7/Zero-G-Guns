@@ -20,6 +20,8 @@ public class Bullet : MonoBehaviour, IPooledObject
 
     protected GunSO gun;
 
+    protected string layer;
+
     private void Awake()
     {
         sr = GetComponent<SpriteRenderer>();
@@ -41,7 +43,7 @@ public class Bullet : MonoBehaviour, IPooledObject
         startingForce = new Vector2(vel.x, vel.y);
     }
 
-    public virtual void Construct(float damage, PlayerScript player, Vector3 dir, Sprite sprite, GunSO gun)
+    public virtual void Construct(float damage, PlayerScript player, Vector3 dir, Color32 color, GunSO gun)
     {
         //who shot the bullet
         this.player = player;
@@ -50,11 +52,11 @@ public class Bullet : MonoBehaviour, IPooledObject
         this.damage = damage;
         //what gun shot it
         this.gun = player.armsScript.currentWeapon;
-        //this.bulletType = player.armsScript.currentWeapon.GunType;
 
-        int collisionLayer = player.collisionLayer;
+        gameObject.layer = player.collisionLayer;
 
-        sr.sprite = sprite;
+        //sr.sprite = sprite;
+        sr.color = color;
 
         //stuff to ignore (kind of legacy)
         foreach (var collider in player.GetComponentsInChildren<Collider2D>())
@@ -75,10 +77,16 @@ public class Bullet : MonoBehaviour, IPooledObject
         somethingSexy = temp2.GetComponent<ParticleSystem>();
         somethingSexy.transform.parent = transform;
 
+
+        //Vector2 directionOfMovement = rb.velocity;
+        float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+        transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+
     }
 
     protected virtual void OnCollisionEnter2D(Collision2D collision)
     {
+
         //TODO: make this more efficient, no need to check player impact location if we already know its not a player we've hit
         if (collision.collider.gameObject.layer != LayerMask.NameToLayer("NonBulletCollide") && canImapact == true)
         {
