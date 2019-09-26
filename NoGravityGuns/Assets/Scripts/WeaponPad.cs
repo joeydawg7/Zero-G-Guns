@@ -9,9 +9,10 @@ public class WeaponPad : MonoBehaviour
     [Header("DEBUG")]
     public bool SpawnSelectedWeaponInstant;
 
-    [Header("Non-Debug")]
+    [Header("Non-Debug")]    
 
-    public Sprite emptyPad;
+    public SpriteRenderer barSprite;
+    public SpriteRenderer gunSprite;    
 
     public bool hasWeapon;
 
@@ -23,15 +24,21 @@ public class WeaponPad : MonoBehaviour
     public List<GunSO> potentialGunsToSpawn;
     public AudioClip pickupSFX;
     public AudioClip healthKitSFX;
+    public AudioClip pickupDisabled;
+
+    private static Color emptyPadBarsColour = new Color(0, 1.0f, 1.0f);
+    private static Color fullPadBarsColour = new Color(0.25f, 1.0f, 0.0f);
+    private static Color disabledPadBarsColour = Color.red;
 
     private void Awake()
     {
         hasWeapon = false;
         currentWeapon = null;
+        barSprite.color = new Color(0, 1.0f, 1.0f);
     }
 
-    // Start is called before the first frame update
-    void Start()
+// Start is called before the first frame update
+void Start()
     {
         potentialGunsToSpawn.Clear();
         var guns = Resources.LoadAll("ScriptableObjects/Guns", typeof(ScriptableObject)).Cast<GunSO>().ToArray();
@@ -48,8 +55,10 @@ public class WeaponPad : MonoBehaviour
         {
             hasWeapon = true;
             currentWeapon = weaponToSpawn;
-            GetComponent<SpriteRenderer>().sprite = currentWeapon.weaponPad;
+            barSprite.color = emptyPadBarsColour;
+            gunSprite.sprite = weaponToSpawn.theGun;
         }
+        
     }
 
     // Update is called once per frame
@@ -62,18 +71,19 @@ public class WeaponPad : MonoBehaviour
         {
             hasWeapon = true;
             currentWeapon = weaponToSpawn;
-            GetComponent<SpriteRenderer>().sprite = currentWeapon.weaponPad;
-
+            barSprite.color = fullPadBarsColour;
+            gunSprite.sprite = weaponToSpawn.theGun;
         }
     }
 
     private void OnTriggerStay2D(Collider2D collision)
     {
+        PlayerScript player = collision.transform.root.GetComponent<PlayerScript>();
         //hit a player who isnt a floating corpse, and the pad has a weapon to give
         if ((collision.tag == "Torso" || collision.tag == "Head" || collision.tag == "Feet" || collision.tag == "Leg") && hasWeapon && currentWeapon != null && !collision.transform.root.GetComponent<PlayerScript>().isDead)
         {
             //just saving this for later
-            PlayerScript player = collision.transform.root.GetComponent<PlayerScript>();
+            //PlayerScript player = collision.transform.root.GetComponent<PlayerScript>();
 
             //special case is a health pack which is not a gun
             if (currentWeapon.name == "HealthPack")
@@ -90,13 +100,33 @@ public class WeaponPad : MonoBehaviour
             }
 
             //reset EVERYTHING
-            GetComponent<SpriteRenderer>().sprite = emptyPad;
+            gunSprite.sprite = null;
+            barSprite.color = emptyPadBarsColour;
             timer = 0;
             timeToNextSpawn = Random.Range(5, 25f);
             weaponToSpawn = potentialGunsToSpawn[Random.Range(0, potentialGunsToSpawn.Count)];            
             currentWeapon = null;
             hasWeapon = false;
+        }
+        else if((collision.tag == "Torso" || collision.tag == "Head" || collision.tag == "Feet" || collision.tag == "Leg") && !hasWeapon && !collision.transform.root.GetComponent<PlayerScript>().isDead)
+        {
+            if(!player.audioSource.isPlaying)
+            {
+                player.audioSource.PlayOneShot(pickupDisabled);
+            }            
+            barSprite.color = disabledPadBarsColour;
+            timeToNextSpawn += Time.deltaTime;
+        }
+    }
 
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if ((collision.tag == "Torso" || collision.tag == "Head" || collision.tag == "Feet" || collision.tag == "Leg") && !collision.transform.root.GetComponent<PlayerScript>().isDead)
+        {
+            PlayerScript player = collision.transform.root.GetComponent<PlayerScript>();
+            barSprite.color = emptyPadBarsColour;
+          
+            
         }
     }
 

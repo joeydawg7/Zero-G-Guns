@@ -17,7 +17,7 @@ public class GunSO : ScriptableObject
 
     public GameObject armsObject;
 
-    public Sprite weaponPad;
+    public Sprite theGun;
 
     public enum FireType { semiAuto, buckshot, fullAuto, Burst, rocket};
     public FireType fireType;
