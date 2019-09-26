@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6082758660142720788}
   - component: {fileID: 6082758660142720791}
   - component: {fileID: 6082758660142720790}
-  - component: {fileID: 6082758660142720793}
+  - component: {fileID: 5258764905179965134}
   m_Layer: 0
   m_Name: Large Crate
   m_TagString: Untagged
@@ -103,8 +103,8 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!61 &6082758660142720793
-BoxCollider2D:
+--- !u!68 &5258764905179965134
+EdgeCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -116,16 +116,8 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.00000023841858, y: 0.0063529015}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 4.65, y: 4.62}
-    newSize: {x: 0.2, y: 0.2}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 4.017527, y: 4.019397}
+  m_Offset: {x: 0, y: 0}
   m_EdgeRadius: 0
+  m_Points:
+  - {x: -2.015, y: 0}
+  - {x: 2.015, y: 0}

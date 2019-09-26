@@ -71,7 +71,7 @@ public class PlayerScript : MonoBehaviour
     public Vector3 spawnPoint;
     public Color32 invulnerabilityColorFlash;
     public float invulnerablityTime;
-    public int numKills;   
+    public int numKills;
     public PlayerScript playerLastHitBy;
     int _roundWins;
     public int roundWins
@@ -121,7 +121,7 @@ public class PlayerScript : MonoBehaviour
     Rigidbody2D[] legRBs;
     GameObject cameraParent;
     Quaternion spawnRotation;
-    GameManager gameManager;   
+    GameManager gameManager;
     #endregion
     #region constants
     const float HEADSHOT_MULTIPLIER = 2f;
@@ -295,7 +295,7 @@ public class PlayerScript : MonoBehaviour
     {
         HideAllArms();
 
-        GameObject armGo =  GameObject.Instantiate(gun.armsObject, armsScript.transform);
+        GameObject armGo = GameObject.Instantiate(gun.armsObject, armsScript.transform);
 
 
         armsSR = armGo.GetComponent<SpriteRenderer>();
@@ -487,7 +487,7 @@ public class PlayerScript : MonoBehaviour
     {
         GameManager gameManager = GameManager.Instance;
 
-        currentWeapon.gunDamageTotal += dmg;
+        // currentWeapon.gunDamageTotal += dmg;
 
 
         /*
@@ -551,14 +551,14 @@ public class PlayerScript : MonoBehaviour
             isDead = true;
 
             numLives--;
-            
+
             if (!isDummy)
                 playerUIPanel.LoseStock();
 
             if (numLives <= 0)
             {
                 playerUIPanel.Disable();
-                cameraParent.GetComponent<CameraController>().RemovePlayerFromCameraTrack(gameObject);
+                cameraParent.GetComponent<CameraController>().RemovePlayerFromCameraTrack(gameObject, 0.5f);
                 if (!isDummy)
                     playerUIPanel.Destroy();
                 GameManager.Instance.CheckForLastManStanding();
@@ -623,7 +623,7 @@ public class PlayerScript : MonoBehaviour
         //last thing you were hit by set back to world, just in case you suicide without help
         playerLastHitBy = null;
 
-        EquipArms( GameManager.Instance.pistol);
+        EquipArms(GameManager.Instance.pistol);
         armsScript.currentAmmo = armsScript.currentWeapon.clipSize;
 
         if (numLives <= 0)
@@ -727,7 +727,8 @@ public class PlayerScript : MonoBehaviour
                     Rigidbody2DExt.AddExplosionForce(rb, power, transform.position, radius, ForceMode2D.Force);
                 }
                 //give impact objects a bit more push than other things
-                else if (rb.tag == "ImpactObject")
+                else if (rb.tag != "Bullet" || rb.tag != "RedBullet" || rb.tag != "BlueBullet" ||
+           rb.tag != "YellowBullet" || rb.tag != "GreenBullet")
                 {
                     Rigidbody2DExt.AddExplosionForce(rb, power, transform.position, radius, ForceMode2D.Force);
                 }
@@ -829,7 +830,7 @@ public class PlayerScript : MonoBehaviour
     #region collision Damage
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.collider.tag == "ImpactObject")
+        if (collision.collider.tag == "ImpactObject" || collision.collider.tag == "ExplosiveObject" || collision.collider.tag == "Chunk")
         {
             DealColliderDamage(collision, "Torso", null);
         }
@@ -844,13 +845,30 @@ public class PlayerScript : MonoBehaviour
 
     public void DealColliderDamage(Collision2D collision, string hitLocation, PlayerScript hitBy)
     {
-        float dmg = collision.relativeVelocity.magnitude;
+        //float dmg = collision.relativeVelocity.magnitude;
+
+        //float dmg = collision.relativeVelocity.normalized.magnitude;
+        //tor3.Dot(col.contacts[0].normal,col.relativeVelocity) * rigidbody.mass
+
+        float dmg = Vector3.Dot(collision.contacts[0].normal, collision.relativeVelocity);
+
+        if (collision.rigidbody != null && collision.rigidbody.mass <=1)
+            dmg *= collision.rigidbody.mass;
+
         //reduces damage so its not bullshit
         dmg = dmg / COLLIDER_DAMAGE_MITIGATOR;
 
+
         //dont bother dealing damage unless unmitigated damage indicates fast enough collision
-        if (dmg > 20)
+        if (dmg > 10)
         {
+
+            if (collision.rigidbody != null)
+            {
+
+                if (collision.rigidbody.isKinematic == false)
+                    dmg *= collision.rigidbody.mass;
+            }
 
             DamageType dmgType;
             AudioClip soundClipToPlay;
@@ -897,11 +915,11 @@ public class PlayerScript : MonoBehaviour
     public struct FloatingDamageStuff
     {
         public readonly GameObject floatingDamageGameObject;
-        public int damage;
+        public float damage;
         public float timer;
         public DamageType damageType;
 
-        public FloatingDamageStuff(GameObject floatingDamage, int damage, DamageType damageType)
+        public FloatingDamageStuff(GameObject floatingDamage, float damage, DamageType damageType)
         {
             this.floatingDamageGameObject = floatingDamage;
             this.damage = damage;
@@ -912,9 +930,14 @@ public class PlayerScript : MonoBehaviour
 
     public FloatingDamageStuff floatingDamage;
 
-    void SpawnFloatingDamageText(int dmgToShow, DamageType damageType, string animType)
+    void SpawnFloatingDamageText(float dmgToShow, DamageType damageType, string animType)
     {
         Color32 color;
+
+        dmgToShow = Mathf.RoundToInt(dmgToShow);
+
+        if (dmgToShow == 0)
+            return;
 
         switch (damageType)
         {
@@ -980,7 +1003,7 @@ public class PlayerScript : MonoBehaviour
     }
 
     //adds the new damage value to our current floating damage and resets animation instead of stacking more text
-    void AddToFloatingDamage(int dmg, DamageType damageType, Color color, string animType)
+    void AddToFloatingDamage(float dmg, DamageType damageType, Color color, string animType)
     {
         //add to damage to get new value
         floatingDamage.floatingDamageGameObject.GetComponent<TextMeshProUGUI>().text = (dmg + floatingDamage.damage).ToString();

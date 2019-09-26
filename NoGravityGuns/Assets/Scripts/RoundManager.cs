@@ -27,11 +27,14 @@ public class RoundManager : MonoBehaviour
 
     [HideInInspector]
     public int currentRound;
+    [HideInInspector]
+    public float timeSinceRoundStarted;
 
     public List<PlayerDataScript> playerDataList;
     public GameObject playerDataPrefab;
     public Image loadingImage;
     public GameObject persistentCanvas;
+
 
     float startRotation;
     float endRotation;
@@ -70,15 +73,16 @@ public class RoundManager : MonoBehaviour
         currentRound = 0;
         loadingImage.gameObject.SetActive(false);
 
+        Cursor.visible = false;
+
     }
 
     public void NewRound(bool startOver)
     {
         loading = true;
-
         loadingImage.fillAmount = 0;
-
         currentRound++;
+        timeSinceRoundStarted = 0;
 
         if (startOver)
         {
@@ -225,11 +229,6 @@ public class RoundManager : MonoBehaviour
         //spins a fun lil' loading spinner
         if (loading)
         {
-            //t += Time.deltaTime;
-            ////math magic
-            //float zRotation = Mathf.Lerp(startRotation, endRotation, t / 1.0f) % 360.0f;
-            //loadingSpinner.transform.eulerAngles = new Vector3(loadingSpinner.transform.eulerAngles.x, loadingSpinner.transform.eulerAngles.y, zRotation);
-            //FinalZRot = zRotation;
             loadingImage.fillAmount += Time.deltaTime;
 
             if(loadingImage.fillAmount>=1)
@@ -241,8 +240,9 @@ public class RoundManager : MonoBehaviour
         }
         else
         {
-            //loadingSpinner.transform.eulerAngles = new Vector3(loadingSpinner.transform.eulerAngles.x, loadingSpinner.transform.eulerAngles.y, FinalZRot);
             loadingImage.gameObject.SetActive(false);
+
+            timeSinceRoundStarted += Time.deltaTime;
 
         }
     }

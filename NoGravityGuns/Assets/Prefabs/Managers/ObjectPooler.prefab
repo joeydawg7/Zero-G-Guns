@@ -1,0 +1,81 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &5718792107768967928
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5718792107768967930}
+  - component: {fileID: 5718792107768967929}
+  m_Layer: 0
+  m_Name: ObjectPooler
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5718792107768967930
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5718792107768967928}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -47.295128, y: 64.78887, z: -8.671875}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5718792107768967929
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5718792107768967928}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3cf22bfc21adb734cbbba2653c702fa8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pools:
+  - tag: Bullet
+    prefab: {fileID: 5680163158229233766, guid: 56ef0b4526c6e0d4795adb5837e2749e,
+      type: 3}
+    size: 500
+  - tag: BulletImpact
+    prefab: {fileID: 4510426348421949847, guid: 11763db3ec40fea4eb14b2e3422d0a3e,
+      type: 3}
+    size: 500
+  - tag: BulletTrail
+    prefab: {fileID: 4588612623504299601, guid: 2b6becb3990e4a740bd762c507c895e0,
+      type: 3}
+    size: 500
+  - tag: FloatingText
+    prefab: {fileID: 8110459844112800215, guid: be7d39b310e12b84990311f11b0c50db,
+      type: 3}
+    size: 40
+  - tag: Rocket
+    prefab: {fileID: 6912654677075453535, guid: 13f7b300b77a6174ab6c4ba88eefbe89,
+      type: 3}
+    size: 20
+  - tag: RocketTrail
+    prefab: {fileID: 5345596756134297458, guid: 69a0689ac7479874889740a068371c3e,
+      type: 3}
+    size: 500
+  - tag: Explosion
+    prefab: {fileID: 378190076644789207, guid: 5994a742b07c2a14f9a211e14fef81ed, type: 3}
+    size: 15
+  - tag: Grapple
+    prefab: {fileID: 2195968235287420273, guid: 4a209e2a58ef7cc409a3b037dfbf9188,
+      type: 3}
+    size: 10
+  - tag: BounceShot
+    prefab: {fileID: 5680163158229233766, guid: 591a6977a6b2d6643b1f9a6b35213f2e,
+      type: 3}
+    size: 40

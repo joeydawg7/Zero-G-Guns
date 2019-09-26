@@ -9,7 +9,8 @@ public class BodyPartImpact : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.collider.tag == "ImpactObject")
+        if (collision.collider.tag != "Bullet" || collision.collider.tag != "RedBullet" || collision.collider.tag != "BlueBullet" || 
+            collision.collider.tag != "YellowBullet" || collision.collider.tag != "GreenBullet")
         {
             playerScript.DealColliderDamage(collision, gameObject.tag, null);
         }
