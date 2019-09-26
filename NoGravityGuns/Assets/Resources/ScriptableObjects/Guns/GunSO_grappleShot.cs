@@ -20,7 +20,7 @@ public class GunSO_grappleShot : GunSO
     {
         Transform bulletSpawn = player.armsScript.bulletSpawn;
 
-        GameObject bulletGo = ObjectPooler.Instance.SpawnFromPool(projectile, bulletSpawn.position, Quaternion.identity);
+        GameObject bulletGo = ObjectPooler.Instance.SpawnFromPool("", bulletSpawn.position, Quaternion.identity);
         dir = bulletSpawn.transform.right * bulletSpeed;
 
         grapple = bulletGo.GetComponent<Grapple>();

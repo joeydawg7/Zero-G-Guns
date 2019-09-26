@@ -48,7 +48,7 @@ public class GunSO_buckShot : GunSO
            -spreadAngleLimit,
            spreadAngleLimit);
 
-            GameObject bulletGo = ObjectPooler.Instance.SpawnFromPool(projectile, bulletSpawn.transform.position, Quaternion.identity);
+            GameObject bulletGo = ObjectPooler.Instance.SpawnFromPool("BuckShot", bulletSpawn.transform.position, Quaternion.identity);
             dir = bulletSpawn.transform.right;
 
             float rotateAngle = spreadAngle +

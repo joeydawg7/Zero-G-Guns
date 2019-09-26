@@ -77,7 +77,7 @@ public class GunSO : ScriptableObject
         GameObject bulletGo = ObjectPooler.Instance.SpawnFromPool("Bullet", bulletSpawn.position, Quaternion.identity);
         dir = bulletSpawn.transform.right * bulletSpeed;
 
-        bulletGo.GetComponent<Bullet>().Construct(GunDamage, player, dir, player.armsScript.bulletSprite);
+        bulletGo.GetComponent<Bullet>().Construct(GunDamage, player, dir, player.playerColor,this);
     }
 
     //pushes player back
