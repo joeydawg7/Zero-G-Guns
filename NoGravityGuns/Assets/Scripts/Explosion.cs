@@ -21,10 +21,13 @@ public class Explosion : MonoBehaviour, IPooledObject
 
     CameraShake cameraShake;
 
+    new Collider2D collider;
+
     private void Awake()
     {
         cameraShake = Camera.main.GetComponent<CameraShake>();
         audioSouce = GetComponent<AudioSource>();
+        collider = GetComponent<Collider2D>();
     }
 
     //explode from a gun or bullet
@@ -55,7 +58,7 @@ public class Explosion : MonoBehaviour, IPooledObject
     void GrowExplosion(float cameraShakeDuration, float physicsObjectPushForceMod)
     {
         Vector3 originalScale = transform.localScale;
-        Vector2 explosionPos = transform.position;
+        Vector2 explosionPos = collider.bounds.center;
       
         smoke.Emit(2);
         explosionBits.Emit(Random.Range(20, 40));
@@ -150,10 +153,6 @@ public static class Rigidbody2DExt
     {
         var dir = (body.transform.position - explosionPosition);
 
-        if (dir == new Vector3(0, 0, 0))
-        {
-            dir = new Vector3(Random.Range(-30+5, 30+5), Random.Range(-20, 20), 0f);
-        }
 
 
         float wearoff = 1 - (dir.magnitude / explosionRadius);
@@ -169,18 +168,22 @@ public static class Rigidbody2DExt
     {
         var dir = (body.transform.position - explosionPosition);
 
-        if(dir== new Vector3(0,0,0))
-        {
-            dir = new Vector3(Random.Range(-20,20), Random.Range(-20,20), 0f);
-        }
+        //Debug.Log(dir);
+
+        //if(dir== new Vector3(0,0,0))
+        //{
+        //    dir = new Vector3(Random.Range(-20,20), Random.Range(-20,20), 0f);
+        //}
 
         float wearoff = 1f - (dir.magnitude / explosionRadius);
 
         body.AddForce(dir.normalized * (wearoff <= 0f ? 0f : explosionForce) * wearoff);
 
+        Debug.Log(dir.normalized.x * wearoff * wearoff);
+
         Vector3 force = dir.normalized * (wearoff <= 0f ? 0f : explosionForce) * wearoff;
 
-        //Debug.Log(body.gameObject.name + ": " + dir + ", normalized: " + dir.normalized + " "  + wearoff + " sum forcE: " + force);
+        Debug.Log(body.gameObject.name + ": " + dir + ", normalized: " + dir.normalized + " "  + wearoff + " sum force: " + force);
 
     }
 
