@@ -114,9 +114,9 @@ public class Rocket : Bullet
 
         if (!explodeInstantly)
         {
-            somethingSexy.Stop();
-            somethingSexy.GetComponent<DisableOverTime>().DisableOverT(3.1f);
-            somethingSexy.transform.parent = null;
+            bulletTrail.Stop();
+            bulletTrail.GetComponent<DisableOverTime>().DisableOverT(3.1f);
+            bulletTrail.transform.parent = null;
         }
     }
 

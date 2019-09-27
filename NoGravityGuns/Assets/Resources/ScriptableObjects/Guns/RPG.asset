@@ -18,6 +18,7 @@ MonoBehaviour:
   knockback: 50
   bulletSpeed: 1500
   recoilDelay: 1.5
+  delayBeforeShot: 0
   clipSize: 3
   numBullets: 0
   reloadTime: 1.5
@@ -32,13 +33,14 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 482a37427a9050a4ba87cddd09c68ce9, type: 3}
   - {fileID: 8300000, guid: 9559a4f822b9c884ea7296d4674bed8c, type: 3}
   reloadSound: {fileID: 8300000, guid: 4dae545ced1cd824fb12b922c3dc86a2, type: 3}
-  projectile: {fileID: 6912654677075453535, guid: 13f7b300b77a6174ab6c4ba88eefbe89,
-    type: 3}
+  prefireSound: {fileID: 0}
+  projectile: Rocket
   EquipSprite: {fileID: 21300000, guid: 1a845698e74ee874ea0a57f7c072695e, type: 3}
+  muzzleFlash: 
   rocketPushbackMod: 1.2
   physicsObjectPushForceMod: 40
   explosionRadius: 20
   explosionPower: 385
-  rocketMaxSpeed: 0
-  rocketAccelerationMod: 0
-  damageAtCenter: 0
+  rocketMaxSpeed: 20
+  rocketAccelerationMod: 40
+  damageAtCenter: 25

@@ -99,9 +99,9 @@ public class Grapple : Bullet
     {
         StartCoroutine(DisableOverTime(0.02f));
 
-        somethingSexy.Stop();
-        somethingSexy.GetComponent<DisableOverTime>().DisableOverT(3.1f);
-        somethingSexy.transform.parent = null;
+        bulletTrail.Stop();
+        bulletTrail.GetComponent<DisableOverTime>().DisableOverT(3.1f);
+        bulletTrail.transform.parent = null;
     }
 
     protected override IEnumerator DisableOverTime(float t)

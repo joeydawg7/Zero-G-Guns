@@ -35,7 +35,7 @@ public class GunSO : ScriptableObject
     [Tooltip("Leave blank for nothing")]
     public AudioClip prefireSound;
 
-    public GameObject projectile;
+    public string projectile;
     public Sprite EquipSprite;
 
     public string muzzleFlash;
@@ -63,8 +63,6 @@ public class GunSO : ScriptableObject
     protected virtual IEnumerator DelayShotCoroutine(PlayerScript player, Vector3 dir)
     {
         ArmsScript arms = player.armsScript;
-
-        Debug.Log(muzzleFlash);
 
         GameObject tempGo = arms.transform.GetChild(0).transform.Find(muzzleFlash).gameObject;
 
@@ -105,8 +103,13 @@ public class GunSO : ScriptableObject
     {
         Transform bulletSpawn = player.armsScript.bulletSpawn;
 
-        GameObject bulletGo = ObjectPooler.Instance.SpawnFromPool("Bullet", bulletSpawn.position, Quaternion.identity);
+        //replace blank entries with default bullet :D
+        if (projectile == "")
+            projectile = "Bullet";
+
+        GameObject bulletGo = ObjectPooler.Instance.SpawnFromPool(projectile, bulletSpawn.position, Quaternion.identity);
         dir = bulletSpawn.transform.right * bulletSpeed;
+
 
         bulletGo.GetComponent<Bullet>().Construct(GunDamage, player, dir, player.playerColor, this);
     }
