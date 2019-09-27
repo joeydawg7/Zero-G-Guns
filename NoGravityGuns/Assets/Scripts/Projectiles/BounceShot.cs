@@ -12,7 +12,8 @@ public class BounceShot : Bullet
 
         canBounce = true;
 
-        SetPFXTrail("LightningTrail");
+        SetPFXTrail("LightningTrail", true);
+
     }
 
 
@@ -114,6 +115,21 @@ public class BounceShot : Bullet
     Vector2 Reflect(Vector2 vector, Vector2 normal)
     {
         return vector - 2 * Vector2.Dot(vector, normal) * normal;
+    }
+
+    protected override void SpawnSparkEffect()
+    {
+        //spawn some impact sparks from pool
+        GameObject sparkyObj = objectPooler.SpawnFromPool("LightningImpact", transform.position, Quaternion.identity);
+
+        ParticleSystem ps = sparkyObj.GetComponent<ParticleSystem>();
+
+        var main = ps.main;
+        main.startColor = new ParticleSystem.MinMaxGradient(player.playerColor);
+        ps.Emit(10);
+
+        //start kill timer
+        sparkyObj.GetComponent<DisableOverTime>().DisableOverT(2f);
     }
 
 }

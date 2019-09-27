@@ -16,7 +16,7 @@ public class Bullet : MonoBehaviour, IPooledObject
     protected Vector2 startingForce;
     protected ObjectPooler objectPooler;
     protected SpriteRenderer sr;
-    protected ParticleSystem somethingSexy;
+    protected ParticleSystem bulletTrail;
 
     protected GunSO gun;
 
@@ -74,7 +74,7 @@ public class Bullet : MonoBehaviour, IPooledObject
 
         rb.AddForce(dir, ForceMode2D.Force);
 
-        SetPFXTrail("RocketTrail");
+        SetPFXTrail("RocketTrail", false);
 
         //Vector2 directionOfMovement = rb.velocity;
         float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
@@ -82,11 +82,25 @@ public class Bullet : MonoBehaviour, IPooledObject
 
     }
 
-    protected virtual void SetPFXTrail(string effectTag)
+    protected virtual void SetPFXTrail(string effectTag, bool setToPlayerColor)
     {
+        //replace bullet trail if one exists
+        if (bulletTrail != null)
+        {
+            bulletTrail.Stop();
+            bulletTrail.GetComponent<DisableOverTime>().DisableOverT(0.0f);
+            bulletTrail.transform.parent = null;
+        }
+
         GameObject temp2 = objectPooler.SpawnFromPool(effectTag, gameObject.transform.position, Quaternion.identity);
-        somethingSexy = temp2.GetComponent<ParticleSystem>();
-        somethingSexy.transform.parent = transform;
+        bulletTrail = temp2.GetComponent<ParticleSystem>();
+
+        var main = bulletTrail.main;
+        main.startColor = new ParticleSystem.MinMaxGradient(player.playerColor);
+
+        bulletTrail.transform.parent = transform;
+        bulletTrail.Play(true);
+
     }
 
     protected virtual void OnCollisionEnter2D(Collision2D collision)
@@ -172,9 +186,9 @@ public class Bullet : MonoBehaviour, IPooledObject
     {
         StartCoroutine(DisableOverTime(0.02f));
 
-        somethingSexy.Stop();
-        somethingSexy.GetComponent<DisableOverTime>().DisableOverT(3.1f);
-        somethingSexy.transform.parent = null;
+        bulletTrail.Stop();
+        bulletTrail.GetComponent<DisableOverTime>().DisableOverT(3.1f);
+        bulletTrail.transform.parent = null;
     }
    
     protected virtual IEnumerator DisableOverTime(float t)

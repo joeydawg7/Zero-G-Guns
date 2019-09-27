@@ -18,6 +18,7 @@ MonoBehaviour:
   knockback: 8
   bulletSpeed: 1500
   recoilDelay: 0.08
+  delayBeforeShot: 0
   clipSize: 100
   numBullets: 0
   reloadTime: 4
@@ -32,6 +33,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 9f0d00e87175ff24d810257e3a7ee4c2, type: 3}
   - {fileID: 8300000, guid: 94fb25696384fa247b11d8bc93a7e753, type: 3}
   reloadSound: {fileID: 8300000, guid: 60f65470218565d47a2a9da4fcadd239, type: 3}
-  projectile: {fileID: 5680163158229233766, guid: 56ef0b4526c6e0d4795adb5837e2749e,
-    type: 3}
+  prefireSound: {fileID: 0}
+  projectile: Bullet
   EquipSprite: {fileID: 21300000, guid: 4b034947db5316e4a9e15bd02a1332c3, type: 3}
+  muzzleFlash: 
