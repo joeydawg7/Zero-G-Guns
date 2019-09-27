@@ -11,6 +11,7 @@ public class GunSO : ScriptableObject
     public float knockback;
     public float bulletSpeed;
     public float recoilDelay;
+    public float delayBeforeShot;
     public int clipSize;
     public int numBullets;
     public float reloadTime;
@@ -19,7 +20,7 @@ public class GunSO : ScriptableObject
 
     public Sprite theGun;
 
-    public enum FireType { semiAuto, buckshot, fullAuto, Burst, rocket};
+    public enum FireType { semiAuto, buckshot, fullAuto, Burst, rocket };
     public FireType fireType;
 
     //public PlayerScript.GunType GunType;
@@ -31,29 +32,59 @@ public class GunSO : ScriptableObject
 
     public List<AudioClip> bulletSounds;
     public AudioClip reloadSound;
+    [Tooltip("Leave blank for nothing")]
+    public AudioClip prefireSound;
 
     public GameObject projectile;
     public Sprite EquipSprite;
 
+    public string muzzleFlash;
 
     public AudioClip GetRandomGunshotSFX
     {
-        get { return bulletSounds[Random.Range(0, bulletSounds.Count)];  }
+        get { return bulletSounds[Random.Range(0, bulletSounds.Count)]; }
     }
 
     public int GunDamage
     {
         get { return Random.Range(minDamageRange, maxDamageRange); }
     }
-    
+
     //shoots the gun
     public virtual void Fire(PlayerScript player, Vector3 dir)
     {
         player.armsScript.audioSource.PlayOneShot(GetRandomGunshotSFX);
 
-        SpawnBullet(dir, player);
+        player.StartCoroutine(DelayShotCoroutine(player, dir));
 
         ReduceBullets(player);
+    }
+
+    protected virtual IEnumerator DelayShotCoroutine(PlayerScript player, Vector3 dir)
+    {
+        ArmsScript arms = player.armsScript;
+
+        Debug.Log(muzzleFlash);
+
+        GameObject tempGo = arms.transform.GetChild(0).transform.Find(muzzleFlash).gameObject;
+
+        ParticleSystem ps = tempGo.GetComponent<ParticleSystem>();
+
+        if (ps != null)
+        {
+            var main = ps.main;
+            main.startColor = new Color(player.playerColor.r, player.playerColor.g, player.playerColor.b, player.playerColor.a);
+            var trails = ps.trails;
+
+            ps.Play(true);
+
+            if(prefireSound !=null)
+                arms.audioSource.PlayOneShot(prefireSound);
+        }
+
+        yield return new WaitForSeconds(delayBeforeShot);
+       
+        SpawnBullet(dir, player);
     }
 
 
@@ -77,7 +108,7 @@ public class GunSO : ScriptableObject
         GameObject bulletGo = ObjectPooler.Instance.SpawnFromPool("Bullet", bulletSpawn.position, Quaternion.identity);
         dir = bulletSpawn.transform.right * bulletSpeed;
 
-        bulletGo.GetComponent<Bullet>().Construct(GunDamage, player, dir, player.playerColor,this);
+        bulletGo.GetComponent<Bullet>().Construct(GunDamage, player, dir, player.playerColor, this);
     }
 
     //pushes player back

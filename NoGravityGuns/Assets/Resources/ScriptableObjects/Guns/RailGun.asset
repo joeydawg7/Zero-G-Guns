@@ -16,14 +16,15 @@ MonoBehaviour:
   minDamageRange: 40
   maxDamageRange: 55
   knockback: 40
-  bulletSpeed: 3100
-  recoilDelay: 1
+  bulletSpeed: 4500
+  recoilDelay: 0.75
+  delayBeforeShot: 0.5
   clipSize: 4
   numBullets: 0
   reloadTime: 3
   armsObject: {fileID: 3142919856414429911, guid: 32565cf8b3218234a8ae24fe8b022b4a,
     type: 3}
-  theGun: {fileID: 21300000, guid: 489ff2c4d042194428e52cb81d2475c1, type: 3}
+  theGun: {fileID: 0}
   fireType: 0
   gunDamageTotal: 0
   cameraShakeDuration: 0.1
@@ -32,5 +33,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 7f698fa3b64298741a7113c45220de5d, type: 3}
   - {fileID: 8300000, guid: aa2683cd35fab5144857d6b7a4314ab5, type: 3}
   reloadSound: {fileID: 8300000, guid: 4dae545ced1cd824fb12b922c3dc86a2, type: 3}
+  prefireSound: {fileID: 0}
   projectile: {fileID: 0}
-  EquipSprite: {fileID: 21300000, guid: 000ae80b2131b4d49abd8712cfe764ad, type: 3}
+  EquipSprite: {fileID: 0}
+  muzzleFlash: LightningCharge

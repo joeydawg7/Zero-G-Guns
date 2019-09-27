@@ -73,15 +73,20 @@ public class Bullet : MonoBehaviour, IPooledObject
         canImapact = true;
 
         rb.AddForce(dir, ForceMode2D.Force);
-        GameObject temp2 = objectPooler.SpawnFromPool("RocketTrail", gameObject.transform.position, Quaternion.identity);
-        somethingSexy = temp2.GetComponent<ParticleSystem>();
-        somethingSexy.transform.parent = transform;
 
+        SetPFXTrail("RocketTrail");
 
         //Vector2 directionOfMovement = rb.velocity;
         float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
 
+    }
+
+    protected virtual void SetPFXTrail(string effectTag)
+    {
+        GameObject temp2 = objectPooler.SpawnFromPool(effectTag, gameObject.transform.position, Quaternion.identity);
+        somethingSexy = temp2.GetComponent<ParticleSystem>();
+        somethingSexy.transform.parent = transform;
     }
 
     protected virtual void OnCollisionEnter2D(Collision2D collision)

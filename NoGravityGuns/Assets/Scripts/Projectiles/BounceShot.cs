@@ -11,7 +11,11 @@ public class BounceShot : Bullet
         base.Construct(damage, player, dir, color, gun);
 
         canBounce = true;
+
+        SetPFXTrail("LightningTrail");
     }
+
+
 
     protected override void OnCollisionEnter2D(Collision2D collision)
     {

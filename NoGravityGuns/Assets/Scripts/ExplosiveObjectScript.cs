@@ -56,8 +56,6 @@ public class ExplosiveObjectScript : MonoBehaviour
 
         explosion = go.GetComponent<Explosion>();
 
-        //Debug.Break();
-
 
         explosion.Explode(playerLastHitBy, explosionRadius, explosionPower, damageAtcenter,cameraShakeDuration, 40f);
 
