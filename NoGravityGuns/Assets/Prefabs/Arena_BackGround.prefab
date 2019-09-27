@@ -1,5 +1,85 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &570980587521086561
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6558028353257196409}
+  - component: {fileID: 8494919734017516348}
+  m_Layer: 0
+  m_Name: Sprite_Earth_NorthAmerica (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6558028353257196409
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 570980587521086561}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 17.2}
+  m_LocalScale: {x: -6, y: 6, z: 5}
+  m_Children: []
+  m_Father: {fileID: 713694936350351279}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!212 &8494919734017516348
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 570980587521086561}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: -15
+  m_Sprite: {fileID: 21300000, guid: ded2d0d1df2d4124fb43cce3c78f0f70, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 38.399998, y: 38.399998}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
 --- !u!1 &634123531404661291
 GameObject:
   m_ObjectHideFlags: 0
@@ -24,13 +104,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 634123531404661291}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: 0.25601268, w: 0.9666735}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4920617087354657533}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 29.667002}
 --- !u!114 &546118329921814377
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -55,7 +135,7 @@ MonoBehaviour:
   m_UseNormalMap: 1
   m_LightOrder: 3
   m_AlphaBlendOnOverlap: 1
-  m_PointLightInnerAngle: 360
+  m_PointLightInnerAngle: 235.05
   m_PointLightOuterAngle: 360
   m_PointLightInnerRadius: 5.7
   m_PointLightOuterRadius: 76.72
@@ -101,6 +181,7 @@ Transform:
   m_Children:
   - {fileID: 4920617087354657533}
   - {fileID: 2589720103088892935}
+  - {fileID: 6558028353257196409}
   - {fileID: 6764479600093498608}
   - {fileID: 1688825560553315136}
   - {fileID: 4713527608523813401}
@@ -121,7 +202,7 @@ GameObject:
   - component: {fileID: 2589720103088892935}
   - component: {fileID: 1684750399506171999}
   m_Layer: 0
-  m_Name: Sprite_Earth_NorthAmerica
+  m_Name: Sprite_Earth_Clouds
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -158,7 +239,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: 7f07f04aafd9c9543adacd2453ab3360, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -178,7 +259,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: -15
+  m_SortingOrder: -10
   m_Sprite: {fileID: 21300000, guid: ded2d0d1df2d4124fb43cce3c78f0f70, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -219,7 +300,7 @@ Transform:
   m_LocalScale: {x: 10, y: 10, z: 1}
   m_Children: []
   m_Father: {fileID: 713694936350351279}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &4756614189021091803
 SpriteRenderer:
@@ -299,7 +380,7 @@ Transform:
   m_LocalScale: {x: 6, y: 6, z: 5}
   m_Children: []
   m_Father: {fileID: 713694936350351279}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &7991880614393255625
 SpriteRenderer:
@@ -375,7 +456,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7710261052775843884}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -46.1, y: 45.6, z: 23.3}
+  m_LocalPosition: {x: -26.9, y: 56.9, z: 23.3}
   m_LocalScale: {x: 3, y: 3, z: 1}
   m_Children:
   - {fileID: 5322537387965353561}
@@ -460,7 +541,7 @@ Transform:
   m_LocalScale: {x: 6, y: 6, z: 5}
   m_Children: []
   m_Father: {fileID: 713694936350351279}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &7409652063458749859
 SpriteRenderer:
@@ -540,7 +621,7 @@ Transform:
   m_LocalScale: {x: -6, y: 6, z: 5}
   m_Children: []
   m_Father: {fileID: 713694936350351279}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &8863815724254247453
 SpriteRenderer:
@@ -620,7 +701,7 @@ Transform:
   m_LocalScale: {x: 21.56, y: 50.58, z: 1}
   m_Children: []
   m_Father: {fileID: 713694936350351279}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &5177378073643478483
 SpriteRenderer:
@@ -700,7 +781,7 @@ Transform:
   m_LocalScale: {x: 21.56, y: 50.58, z: 1}
   m_Children: []
   m_Father: {fileID: 713694936350351279}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &9186191727406897125
 SpriteRenderer:
