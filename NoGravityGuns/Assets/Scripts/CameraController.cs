@@ -17,11 +17,13 @@ public class CameraController : MonoBehaviour
     Vector3 velocity;
 
     CameraShake cameraShake;
+    Camera mainCam;
 
     private void Awake()
     {
         players = new List<Transform>();
-        cameraShake = Camera.main.GetComponent<CameraShake>();
+        mainCam = Camera.main;
+        cameraShake = mainCam.GetComponent<CameraShake>();
     }
 
     // Update is called once per frame
@@ -45,7 +47,7 @@ public class CameraController : MonoBehaviour
     void Zoom()
     {
         float newZoom = Mathf.Lerp(maxZoom, minZoom, GetGreatestDistance() / zoomLimit);
-        Camera.main.fieldOfView = Mathf.Lerp(Camera.main.fieldOfView, newZoom, Time.deltaTime * zoomSpeed);
+        mainCam.fieldOfView = Mathf.Lerp(mainCam.fieldOfView, newZoom, Time.deltaTime * zoomSpeed);
     }
 
     Vector3 GetCenterPoint()

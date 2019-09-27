@@ -6,6 +6,8 @@ using System.Reflection;
 public class Rocket : Bullet
 {
 
+    Vector3 dir;
+
     public override void Construct(float damage, PlayerScript player, Vector3 dir, Color32 color, GunSO gun)
     {
         //call the base version first, the rest of the stuff we do after
@@ -26,6 +28,8 @@ public class Rocket : Bullet
         rocketTopSpeed = gunExplosive.rocketMaxSpeed;
         rocketAccelerationMod = gunExplosive.rocketAccelerationMod;
 
+        this.dir = dir;
+
     }
 
     float rocketTopSpeed;
@@ -38,7 +42,7 @@ public class Rocket : Bullet
         {
             if (rb.velocity.magnitude < rocketTopSpeed)
             {
-                Vector2 dir = rb.velocity;
+                //Vector2 dir = rb.velocity;
                 float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
                 transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
 
