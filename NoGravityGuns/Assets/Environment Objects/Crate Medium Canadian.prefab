@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 5911094642099659773}
   - component: {fileID: 1289922443476211985}
   - component: {fileID: 6942125432640388797}
+  - component: {fileID: 1105097538}
   m_Layer: 0
   m_Name: Crate Medium Canadian
   m_TagString: ImpactObject
@@ -26,9 +27,9 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1013960698538180059}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 20.897816, y: 1.4845967, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 3}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -129,3 +130,21 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.5266781, y: 2.369832}
   m_EdgeRadius: 0
+--- !u!114 &1105097538
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1013960698538180059}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73bddee1fa7f7164b993709dc8381ce1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 1
+  explosionRadius: 15
+  explosionPower: 250
+  damageAtcenter: 30
+  cameraShakeDuration: 0.25
+  explodedChunks: []

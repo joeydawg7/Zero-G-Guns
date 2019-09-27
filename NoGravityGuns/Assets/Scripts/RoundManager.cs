@@ -12,6 +12,11 @@ public class RoundManager : MonoBehaviour
     public static RoundManager Instance { get { return _instance; } }
     #endregion
 
+    [Header("DEBUG")]
+    public bool debugStayOnThisScene;
+    [Header("----------")]
+
+
     public int maxRounds;
 
     [Header("Round-Fluid elements")]
@@ -72,6 +77,8 @@ public class RoundManager : MonoBehaviour
 
         currentRound = 0;
         loadingImage.gameObject.SetActive(false);
+
+        Cursor.visible = false;
 
     }
 
@@ -138,7 +145,6 @@ public class RoundManager : MonoBehaviour
 
         }
 
-        nextRoom.isPlayable = false;
 
         StartCoroutine(AddLevel(nextRoom.sceneName, nextRoom, startOver));
 
@@ -150,7 +156,25 @@ public class RoundManager : MonoBehaviour
     {
         loadingImage.gameObject.SetActive(true);
 
-        AsyncOperation asyncLoadLevel = SceneManager.LoadSceneAsync(lvl);
+
+        //DEBUG: use original scene
+        if (debugStayOnThisScene)
+        {
+            lvl = SceneManager.GetActiveScene().name;
+
+            //figure out which room we are in an set that as the real next room 
+            for (int i = 0; i < rooms.Count; i++)
+            {
+                if (rooms[i].sceneName == lvl)
+                {
+                    nextRoom = rooms[i];
+                    break;
+                }
+            }
+
+        }
+
+        AsyncOperation asyncLoadLevel = SceneManager.LoadSceneAsync(lvl); ;
 
         while (!asyncLoadLevel.isDone)
         {
@@ -159,8 +183,6 @@ public class RoundManager : MonoBehaviour
 
         LevelLoaded(nextRoom, startOver);
         yield return new WaitForSeconds(0.5f);
-
-        //loading = false;
 
     }
 

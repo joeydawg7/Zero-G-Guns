@@ -10,10 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 6912654677075453537}
   - component: {fileID: 6912654677075453536}
-  - component: {fileID: 7050185809675934126}
   - component: {fileID: 6325921739959863902}
   - component: {fileID: 777946082}
   - component: {fileID: -8345492383094766532}
+  - component: {fileID: 1704133251}
   m_Layer: 23
   m_Name: RocketMan
   m_TagString: Explosion
@@ -30,7 +30,7 @@ Transform:
   m_GameObject: {fileID: 6912654677075453535}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 34.362644, y: 18.922766, z: 0}
-  m_LocalScale: {x: 5, y: 5, z: 1.9261}
+  m_LocalScale: {x: 3, y: 3, z: 1.9261}
   m_Children:
   - {fileID: 264305165}
   m_Father: {fileID: 0}
@@ -85,22 +85,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!58 &7050185809675934126
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6912654677075453535}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 6200000, guid: 8be6341e1ce3f4cec9902bc34f72d20a, type: 2}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Radius: 0.6600001
 --- !u!50 &6325921739959863902
 Rigidbody2D:
   serializedVersion: 4
@@ -232,6 +216,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
+--- !u!70 &1704133251
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6912654677075453535}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.35, y: 0}
+  m_Size: {x: 1.32, y: 0.55}
+  m_Direction: 1
 --- !u!1001 &378190076648976859
 PrefabInstance:
   m_ObjectHideFlags: 0

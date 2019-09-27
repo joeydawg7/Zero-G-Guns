@@ -12,8 +12,9 @@ GameObject:
   - component: {fileID: 4032515278437802418}
   - component: {fileID: 4032515278437802419}
   - component: {fileID: 4032515278437802428}
+  - component: {fileID: 5557349053686619333}
   m_Layer: 0
-  m_Name: Large Crate Soviet Boom Box
+  m_Name: Crate Large Soviet Boom Box
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -130,6 +131,24 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 4.017527, y: 4.019397}
   m_EdgeRadius: 0
+--- !u!114 &5557349053686619333
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4032515278437802429}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73bddee1fa7f7164b993709dc8381ce1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 1
+  explosionRadius: 15
+  explosionPower: 250
+  damageAtcenter: 25
+  cameraShakeDuration: 0.25
+  explodedChunks: []
 --- !u!1 &7177633354636031438
 GameObject:
   m_ObjectHideFlags: 0

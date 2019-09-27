@@ -70,7 +70,6 @@
 					// sample the texture
 					fixed4 c = tex2D(_MainTex, i.uv) * _Color;
 
-					//Todo:
 				//fixed4 t = tex2D(_OutlineTex, float2(IN.texcoord.x + (_Time.x * _SpeedX), IN.texcoord.y + (_Time.x * _SpeedY))) * _Color;
 
 					c.rgb *= c.a;

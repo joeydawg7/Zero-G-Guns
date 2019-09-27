@@ -15,7 +15,29 @@ public class BounceShot : Bullet
 
     protected override void OnCollisionEnter2D(Collision2D collision)
     {
-        base.OnCollisionEnter2D(collision);
+        if (collision.collider.gameObject.layer != LayerMask.NameToLayer("NonBulletCollide") && canImapact == true)
+        {
+            //we've hit something that isnt a bullet, or the player that shot the original bullet
+            if (collision.collider.tag != "Bullet" || collision.collider.GetComponent<Bullet>().player.playerID != player.playerID)
+            {
+
+                ExplosiveObjectScript explosiveObjectScript = collision.collider.gameObject.GetComponent<ExplosiveObjectScript>();
+
+                if (explosiveObjectScript != null)
+                {
+                    if (explosiveObjectScript != null && damage > 0)
+                    {
+                        explosiveObjectScript.DamageExplosiveObject(damage, player);
+                    }
+                }
+
+                //default damage type is nothing, we don't know what we hit yet.
+                PlayerScript.DamageType dmgType = DamageBodyParts(collision);
+                SpawnSparkEffect();
+
+                canImapact = false;
+            }
+        }
 
         //only bounce if you are a railgun bullet that hasnt hit a player, and only do it once. 
         if (canBounce == false)
@@ -44,6 +66,11 @@ public class BounceShot : Bullet
     {
         //default damage type is nothing, we don't know what we hit yet.
         PlayerScript.DamageType dmgType = PlayerScript.DamageType.none;
+
+        //we can get out of here early if there is no player script component on the root parent of whatever we hit, because that 100% is not a player :D
+        PlayerScript ps = collision.transform.root.GetComponent<PlayerScript>();
+        if (ps == null)
+            return dmgType;
 
         //checks where we hit the other guy, deals our given damage to that location. 
         if (collision.collider.tag == "Torso")

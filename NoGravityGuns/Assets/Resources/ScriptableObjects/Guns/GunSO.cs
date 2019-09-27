@@ -15,22 +15,25 @@ public class GunSO : ScriptableObject
     public int numBullets;
     public float reloadTime;
 
-    public AnimationCurve spawnRateOverTime;
-
     public GameObject armsObject;
 
-    public Sprite weaponPad;
+    public Sprite theGun;
+
+    public enum FireType { semiAuto, buckshot, fullAuto, Burst, rocket};
+    public FireType fireType;
+
     //public PlayerScript.GunType GunType;
 
     [HideInInspector]
-    //public float gunDamageTotal;
+    public float gunDamageTotal;
 
     public float cameraShakeDuration;
 
     public List<AudioClip> bulletSounds;
     public AudioClip reloadSound;
 
-    public string projectile;
+    public GameObject projectile;
+    public Sprite EquipSprite;
 
 
     public AudioClip GetRandomGunshotSFX
@@ -71,10 +74,10 @@ public class GunSO : ScriptableObject
     {
         Transform bulletSpawn = player.armsScript.bulletSpawn;
 
-        GameObject bulletGo = ObjectPooler.Instance.SpawnFromPool(projectile, bulletSpawn.position, Quaternion.identity);
+        GameObject bulletGo = ObjectPooler.Instance.SpawnFromPool("Bullet", bulletSpawn.position, Quaternion.identity);
         dir = bulletSpawn.transform.right * bulletSpeed;
 
-        bulletGo.GetComponent<Bullet>().Construct(GunDamage, player, dir, player.playerColor, this);
+        bulletGo.GetComponent<Bullet>().Construct(GunDamage, player, dir, player.playerColor,this);
     }
 
     //pushes player back

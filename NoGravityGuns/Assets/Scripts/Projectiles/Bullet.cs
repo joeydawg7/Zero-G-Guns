@@ -66,7 +66,7 @@ public class Bullet : MonoBehaviour, IPooledObject
 
         rb.simulated = true;
         rb.isKinematic = false;
-        GetComponent<CircleCollider2D>().enabled = true;
+        GetComponent<Collider2D>().enabled = true;
 
         SetStartingForce(dir);
 
@@ -87,7 +87,6 @@ public class Bullet : MonoBehaviour, IPooledObject
     protected virtual void OnCollisionEnter2D(Collision2D collision)
     {
 
-        //TODO: make this more efficient, no need to check player impact location if we already know its not a player we've hit
         if (collision.collider.gameObject.layer != LayerMask.NameToLayer("NonBulletCollide") && canImapact == true)
         {
             //we've hit something that isnt a bullet, or the player that shot the original bullet
@@ -98,8 +97,6 @@ public class Bullet : MonoBehaviour, IPooledObject
 
                 if (explosiveObjectScript != null)
                 {
-                    //ExplosiveObjectScript explosiveObjectScript = collision.collider.gameObject.GetComponent<ExplosiveObjectScript>();
-
                     if (explosiveObjectScript != null && damage > 0)
                     {
                         explosiveObjectScript.DamageExplosiveObject(damage, player);
@@ -129,6 +126,11 @@ public class Bullet : MonoBehaviour, IPooledObject
     {
         //default damage type is nothing, we don't know what we hit yet.
         PlayerScript.DamageType dmgType = PlayerScript.DamageType.none;
+
+        //we can get out of here early if there is no player script component on the root parent of whatever we hit, because that 100% is not a player :D
+        PlayerScript ps = collision.transform.root.GetComponent<PlayerScript>();
+        if (ps == null)
+            return dmgType;
 
         //checks where we hit the other guy, deals our given damage to that location. 
         if (collision.collider.tag == "Torso")

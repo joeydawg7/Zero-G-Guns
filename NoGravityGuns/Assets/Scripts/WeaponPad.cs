@@ -11,7 +11,8 @@ public class WeaponPad : MonoBehaviour
 
     [Header("Non-Debug")]
 
-    public Sprite emptyPad;
+    public SpriteRenderer barSprite;
+    public SpriteRenderer gunSprite;
 
     public bool hasWeapon;
 
@@ -21,53 +22,43 @@ public class WeaponPad : MonoBehaviour
     float timer;
 
     public List<GunSO> potentialGunsToSpawn;
-
-    int potentialSpawnsCount;
-
-    public Dictionary<GunSO, float> weightedPotentialGunsToSpawn;
-    //WeightedRandomBag<GunSO> weightedRandomBag;
-
     public AudioClip pickupSFX;
     public AudioClip healthKitSFX;
+    public AudioClip pickupDisabled;
+
+    private static Color emptyPadBarsColour = new Color(0, 1.0f, 1.0f);
+    private static Color fullPadBarsColour = new Color(0.25f, 1.0f, 0.0f);
+    private static Color disabledPadBarsColour = Color.red;
 
     private void Awake()
     {
         hasWeapon = false;
         currentWeapon = null;
+        barSprite.color = new Color(0, 1.0f, 1.0f);
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        weightedPotentialGunsToSpawn = new Dictionary<GunSO, float>();
-        //weightedRandomBag = new WeightedRandomBag<GunSO>();
-
         potentialGunsToSpawn.Clear();
         var guns = Resources.LoadAll("ScriptableObjects/Guns", typeof(ScriptableObject)).Cast<GunSO>().ToArray();
-        potentialSpawnsCount = guns.Count();
-
         foreach (var g in guns)
             potentialGunsToSpawn.Add(g);
 
-        //set initial weighted value to equal across all weapons
-        foreach (var g in guns)
-            // weightedRandomBag.AddEntry(g, guns.Count() / 100f);
-            weightedPotentialGunsToSpawn.Add(g, guns.Count() / 100f);
-
-
-        if (!SpawnSelectedWeaponInstant || weaponToSpawn == null)
+        if (!SpawnSelectedWeaponInstant)
         {
             timer = 0;
             timeToNextSpawn = Random.Range(5, 25f);
-            //weaponToSpawn = potentialGunsToSpawn[Random.Range(0, potentialGunsToSpawn.Count)];
-            SetNewWeaponToSpawn();
+            weaponToSpawn = potentialGunsToSpawn[Random.Range(0, potentialGunsToSpawn.Count)];
         }
         else
         {
             hasWeapon = true;
             currentWeapon = weaponToSpawn;
-            GetComponent<SpriteRenderer>().sprite = currentWeapon.weaponPad;
+            barSprite.color = emptyPadBarsColour;
+            gunSprite.sprite = weaponToSpawn.theGun;
         }
+
     }
 
     // Update is called once per frame
@@ -80,18 +71,19 @@ public class WeaponPad : MonoBehaviour
         {
             hasWeapon = true;
             currentWeapon = weaponToSpawn;
-            GetComponent<SpriteRenderer>().sprite = currentWeapon.weaponPad;
-
+            barSprite.color = fullPadBarsColour;
+            gunSprite.sprite = weaponToSpawn.theGun;
         }
     }
 
     private void OnTriggerStay2D(Collider2D collision)
     {
+        PlayerScript player = collision.transform.root.GetComponent<PlayerScript>();
         //hit a player who isnt a floating corpse, and the pad has a weapon to give
         if ((collision.tag == "Torso" || collision.tag == "Head" || collision.tag == "Feet" || collision.tag == "Leg") && hasWeapon && currentWeapon != null && !collision.transform.root.GetComponent<PlayerScript>().isDead)
         {
             //just saving this for later
-            PlayerScript player = collision.transform.root.GetComponent<PlayerScript>();
+            //PlayerScript player = collision.transform.root.GetComponent<PlayerScript>();
 
             //special case is a health pack which is not a gun
             if (currentWeapon.name == "HealthPack")
@@ -107,72 +99,33 @@ public class WeaponPad : MonoBehaviour
                 GetComponent<AudioSource>().PlayOneShot(pickupSFX);
             }
 
-            SetNewWeaponToSpawn();
-
             //reset EVERYTHING
-            GetComponent<SpriteRenderer>().sprite = emptyPad;
+            gunSprite.sprite = null;
+            barSprite.color = emptyPadBarsColour;
             timer = 0;
             timeToNextSpawn = Random.Range(5, 25f);
-
+            weaponToSpawn = potentialGunsToSpawn[Random.Range(0, potentialGunsToSpawn.Count)];
             currentWeapon = null;
             hasWeapon = false;
-
         }
-    }
-
-    void SetNewWeaponToSpawn()
-    {
-        float accumulatedWeight = 0;
-
-        for (int i = 0; i < potentialGunsToSpawn.Count; i++)
+        else if ((collision.tag == "Torso" || collision.tag == "Head" || collision.tag == "Feet" || collision.tag == "Leg") && !hasWeapon && !collision.transform.root.GetComponent<PlayerScript>().isDead)
         {
-            GunSO g = potentialGunsToSpawn[i];
-
-            weightedPotentialGunsToSpawn[g] = ((weightedPotentialGunsToSpawn.Count / 100f) * g.spawnRateOverTime.Evaluate(RoundManager.Instance.timeSinceRoundStarted / 60f) * 100f);
-
-            if (weightedPotentialGunsToSpawn[g] < 0)
-                weightedPotentialGunsToSpawn[g] = 0;
-
-            accumulatedWeight += weightedPotentialGunsToSpawn[g];
-            //Debug.Log("evaluated at time " + RoundManager.Instance.timeSinceRoundStarted + " , evaluation: " + g.spawnRateOverTime.Evaluate(RoundManager.Instance.timeSinceRoundStarted / 60f) * 100f);
-           // Debug.Log(g.name + " current potential spawn rate: " + weightedPotentialGunsToSpawn[g]);
+            if (!player.audioSource.isPlaying)
+            {
+                player.audioSource.PlayOneShot(pickupDisabled);
+            }
+            barSprite.color = disabledPadBarsColour;
+            timeToNextSpawn += Time.deltaTime;
         }
-
-
-        //Debug.Log("accumulated weight: " + accumulatedWeight);
-        weaponToSpawn = GetRandom(accumulatedWeight);
-        //Debug.Log("next weapon will be a: " + weaponToSpawn.name);
     }
 
-
-    GunSO GetRandom(float accumulatedWeight)
+    private void OnTriggerExit2D(Collider2D collision)
     {
-
-        System.Random rand = new System.Random();
-
-        double rnd = rand.NextDouble()* accumulatedWeight;
-        return  weightedPotentialGunsToSpawn.First(i => (rnd -= i.Value) < 0).Key;
-
-        //System.Random rand = new System.Random();
-
-        //double r = rand.NextDouble() * accumulatedWeight;
-
-        //Debug.Log("R = " + r);
-
-        //foreach (var kvp in weightedPotentialGunsToSpawn)
-        //{
-        //    if (kvp.Value <= r)
-        //    {
-        //        return kvp.Key;
-        //    }
-        //}
-
-        //Debug.LogError("No Guns found in weighted dictionary!");
-        //return null;
-
-        //return default(T); //should only happen when there are no entries
+        if ((collision.tag == "Torso" || collision.tag == "Head" || collision.tag == "Feet" || collision.tag == "Leg") && !collision.transform.root.GetComponent<PlayerScript>().isDead)
+        {
+            PlayerScript player = collision.transform.root.GetComponent<PlayerScript>();
+            barSprite.color = emptyPadBarsColour;
+        }
     }
-
-
 
 }

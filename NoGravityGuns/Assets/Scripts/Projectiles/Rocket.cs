@@ -6,6 +6,8 @@ using System.Reflection;
 public class Rocket : Bullet
 {
 
+    Vector3 dir;
+
     public override void Construct(float damage, PlayerScript player, Vector3 dir, Color32 color, GunSO gun)
     {
         //call the base version first, the rest of the stuff we do after
@@ -26,6 +28,8 @@ public class Rocket : Bullet
         rocketTopSpeed = gunExplosive.rocketMaxSpeed;
         rocketAccelerationMod = gunExplosive.rocketAccelerationMod;
 
+        this.dir = dir;
+
     }
 
     float rocketTopSpeed;
@@ -38,7 +42,7 @@ public class Rocket : Bullet
         {
             if (rb.velocity.magnitude < rocketTopSpeed)
             {
-                Vector2 dir = rb.velocity;
+                //Vector2 dir = rb.velocity;
                 float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
                 transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
 
@@ -53,6 +57,9 @@ public class Rocket : Bullet
 
         if (collision.collider.gameObject.layer != LayerMask.NameToLayer("NonBulletCollide") && canImapact == true)
         {
+
+            if (collision.collider.tag == "Chunk")
+                return;
 
             //we've hit something that isnt a bullet, or the player that shot us
             if (collision.collider.tag != "Bullet" || collision.collider.GetComponent<Bullet>().player.playerID != player.playerID)
@@ -75,8 +82,10 @@ public class Rocket : Bullet
                 //spawn some impact sparks from pool
                 SpawnSparkEffect();
 
+                GunSO_explosiveShot rocketShot = (GunSO_explosiveShot)gun;
+
                 //if you are a rcoket who hit something, blow up
-                ExplodeBullet(false, (GunSO_explosiveShot)gun);
+                ExplodeBullet(false, rocketShot);
 
             }
         }
@@ -86,13 +95,9 @@ public class Rocket : Bullet
     //explodes a bullet "gracefully"
     public void ExplodeBullet(bool explodeInstantly, GunSO_explosiveShot gun)
     {
-        gameObject.GetComponent<CircleCollider2D>().enabled = false;
-        Explosion explosion = null;
-
-        if (transform != null)
-        {
-            explosion = transform.Find("ExplosionRadius").GetComponent<Explosion>();
-        }
+        gameObject.GetComponent<Collider2D>().enabled = false;
+        GameObject explosionGO = ObjectPooler.Instance.SpawnFromPool("Explosion", transform.position, Quaternion.identity);
+        Explosion explosion = explosionGO.GetComponent<Explosion>();
 
         if (explosion != null)
         {
@@ -101,6 +106,8 @@ public class Rocket : Bullet
             rb.simulated = false;
             rb.isKinematic = true;
         }
+        else
+            Debug.LogError("Failed to spawn explosion from object pool!");
 
         sr.enabled = false;
         StartCoroutine(DisableOverTime(0.6f));
