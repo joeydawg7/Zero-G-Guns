@@ -9,10 +9,10 @@ public class WeaponPad : MonoBehaviour
     [Header("DEBUG")]
     public bool SpawnSelectedWeaponInstant;
 
-    [Header("Non-Debug")]    
+    [Header("Non-Debug")]
 
     public SpriteRenderer barSprite;
-    public SpriteRenderer gunSprite;    
+    public SpriteRenderer gunSprite;
 
     public bool hasWeapon;
 
@@ -37,15 +37,15 @@ public class WeaponPad : MonoBehaviour
         barSprite.color = new Color(0, 1.0f, 1.0f);
     }
 
-// Start is called before the first frame update
-void Start()
+    // Start is called before the first frame update
+    void Start()
     {
         potentialGunsToSpawn.Clear();
         var guns = Resources.LoadAll("ScriptableObjects/Guns", typeof(ScriptableObject)).Cast<GunSO>().ToArray();
         foreach (var g in guns)
             potentialGunsToSpawn.Add(g);
 
-            if (!SpawnSelectedWeaponInstant)
+        if (!SpawnSelectedWeaponInstant)
         {
             timer = 0;
             timeToNextSpawn = Random.Range(5, 25f);
@@ -58,7 +58,7 @@ void Start()
             barSprite.color = emptyPadBarsColour;
             gunSprite.sprite = weaponToSpawn.theGun;
         }
-        
+
     }
 
     // Update is called once per frame
@@ -104,16 +104,16 @@ void Start()
             barSprite.color = emptyPadBarsColour;
             timer = 0;
             timeToNextSpawn = Random.Range(5, 25f);
-            weaponToSpawn = potentialGunsToSpawn[Random.Range(0, potentialGunsToSpawn.Count)];            
+            weaponToSpawn = potentialGunsToSpawn[Random.Range(0, potentialGunsToSpawn.Count)];
             currentWeapon = null;
             hasWeapon = false;
         }
-        else if((collision.tag == "Torso" || collision.tag == "Head" || collision.tag == "Feet" || collision.tag == "Leg") && !hasWeapon && !collision.transform.root.GetComponent<PlayerScript>().isDead)
+        else if ((collision.tag == "Torso" || collision.tag == "Head" || collision.tag == "Feet" || collision.tag == "Leg") && !hasWeapon && !collision.transform.root.GetComponent<PlayerScript>().isDead)
         {
-            if(!player.audioSource.isPlaying)
+            if (!player.audioSource.isPlaying)
             {
                 player.audioSource.PlayOneShot(pickupDisabled);
-            }            
+            }
             barSprite.color = disabledPadBarsColour;
             timeToNextSpawn += Time.deltaTime;
         }
@@ -125,8 +125,6 @@ void Start()
         {
             PlayerScript player = collision.transform.root.GetComponent<PlayerScript>();
             barSprite.color = emptyPadBarsColour;
-          
-            
         }
     }
 
