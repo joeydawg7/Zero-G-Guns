@@ -128,7 +128,7 @@ public class PlayerScript : MonoBehaviour
     const float TORSOSHOT_MULTIPLIER = 1f;
     const float FOOTSHOT_MULTIPLIER = 0.5f;
     const float LEGSHOT_MULTIPLIER = 0.75f;
-    const int COLLIDER_DAMAGE_MITIGATOR = 5;
+    const int COLLIDER_DAMAGE_MITIGATOR = 10;
     #endregion
     #region data collection
 
@@ -860,7 +860,7 @@ public class PlayerScript : MonoBehaviour
 
 
         //dont bother dealing damage unless unmitigated damage indicates fast enough collision
-        if (dmg > 10)
+        if (dmg > 25)
         {
 
             if (collision.rigidbody != null)
