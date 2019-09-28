@@ -372,7 +372,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2429623443079947197}
-  m_LocalRotation: {x: -0, y: -0, z: -0.31395447, w: -0.949438}
+  m_LocalRotation: {x: -0, y: -0, z: -0.31395465, w: -0.949438}
   m_LocalPosition: {x: 2.9645438, y: -0.00941509, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -471,7 +471,7 @@ HingeJoint2D:
   m_BreakTorque: Infinity
   m_AutoConfigureConnectedAnchor: 1
   m_Anchor: {x: 0, y: 0}
-  m_ConnectedAnchor: {x: 0.48071715, y: -0.7778117}
+  m_ConnectedAnchor: {x: 0.48071635, y: -0.7778117}
   m_UseMotor: 0
   m_Motor:
     m_MotorSpeed: -25
@@ -710,7 +710,7 @@ HingeJoint2D:
   m_BreakTorque: Infinity
   m_AutoConfigureConnectedAnchor: 1
   m_Anchor: {x: 0, y: 0}
-  m_ConnectedAnchor: {x: 4.4067492, y: -0.0186187}
+  m_ConnectedAnchor: {x: 4.4067564, y: -0.018630221}
   m_UseMotor: 0
   m_Motor:
     m_MotorSpeed: 0
@@ -782,7 +782,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2429623443278317819}
-  m_LocalRotation: {x: -0, y: 0, z: 0.7169391, w: -0.69713587}
+  m_LocalRotation: {x: -0, y: 0, z: 0.7169393, w: -0.69713575}
   m_LocalPosition: {x: 2.069725, y: 0.0042107105, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -929,6 +929,7 @@ GameObject:
   - component: {fileID: 2429623443529476679}
   - component: {fileID: 2429623443529476672}
   - component: {fileID: 2429623443529476675}
+  - component: {fileID: 1275462886}
   m_Layer: 0
   m_Name: canada_Char
   m_TagString: Untagged
@@ -1081,6 +1082,79 @@ MonoBehaviour:
   - {fileID: 141396468527622237}
   - {fileID: 141396468964859160}
   m_Weight: 1
+--- !u!114 &1275462886
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2429623443529476678}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 259c23886f3fed942a029985bb6cdafd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isDummy: 0
+  health: 100
+  numLives: 3
+  playerUIPanel: {fileID: 0}
+  floatingTextSpawnPoint: {fileID: 0}
+  playerColor:
+    serializedVersion: 2
+    rgba: 0
+  deadColor:
+    serializedVersion: 2
+    rgba: 0
+  playerHead: {fileID: 0}
+  playerPortrait: {fileID: 0}
+  healthBar: {fileID: 0}
+  collisionLayer: 0
+  killTag: {fileID: 0}
+  playerID: 0
+  isDead: 0
+  isInvulnerable: 0
+  armsScript: {fileID: 1275462885}
+  legsCollider: {fileID: 0}
+  legsParent: {fileID: 2429623443192813979}
+  spawnPoint: {x: 0, y: 0, z: 0}
+  invulnerabilityColorFlash:
+    serializedVersion: 2
+    rgba: 0
+  invulnerablityTime: 0
+  numKills: 0
+  playerLastHitBy: {fileID: 0}
+  HS_Flash: {fileID: 0}
+  HS_Streaks: {fileID: 0}
+  respawnFlash: {fileID: 0}
+  respawnBits: {fileID: 0}
+  audioSource: {fileID: 0}
+  headShot: {fileID: 0}
+  standardShots: []
+  torsoImpact: {fileID: 0}
+  legsImpact: {fileID: 0}
+  headImpact: {fileID: 0}
+  deathClip: {fileID: 0}
+  respawnClip: {fileID: 0}
+  playerName: 
+  hexColorCode: 
+  rb: {fileID: 0}
+  playerInput: {fileID: 0}
+  pistolTime: 0
+  rifleTime: 0
+  shotgunTime: 0
+  railgunTime: 0
+  miniGunTime: 0
+  pistolDmg: 0
+  rifleDmg: 0
+  shotgunDmg: 0
+  railgunDmg: 0
+  miniGunDmg: 0
+  shotsFired: 0
+  shotsHit: 0
+  headShots: 0
+  torsoShots: 0
+  legShots: 0
+  footShots: 0
 --- !u!1 &2429623443614852009
 GameObject:
   m_ObjectHideFlags: 0
@@ -1151,7 +1225,7 @@ HingeJoint2D:
   m_BreakTorque: Infinity
   m_AutoConfigureConnectedAnchor: 1
   m_Anchor: {x: 0, y: 0}
-  m_ConnectedAnchor: {x: 4.3980713, y: 0.0064394856}
+  m_ConnectedAnchor: {x: 4.3980613, y: 0.006431737}
   m_UseMotor: 0
   m_Motor:
     m_MotorSpeed: 0
@@ -1299,7 +1373,7 @@ HingeJoint2D:
   m_BreakTorque: Infinity
   m_AutoConfigureConnectedAnchor: 1
   m_Anchor: {x: 0, y: 0}
-  m_ConnectedAnchor: {x: 3.8531578, y: -0.074275106}
+  m_ConnectedAnchor: {x: 3.8531616, y: -0.07428007}
   m_UseMotor: 0
   m_Motor:
     m_MotorSpeed: 0
@@ -1493,7 +1567,7 @@ HingeJoint2D:
   m_BreakTorque: Infinity
   m_AutoConfigureConnectedAnchor: 1
   m_Anchor: {x: 0, y: 0}
-  m_ConnectedAnchor: {x: 3.5299065, y: -0.011754808}
+  m_ConnectedAnchor: {x: 3.529905, y: -0.011754795}
   m_UseMotor: 0
   m_Motor:
     m_MotorSpeed: -25
@@ -1614,7 +1688,7 @@ HingeJoint2D:
   m_BreakTorque: Infinity
   m_AutoConfigureConnectedAnchor: 1
   m_Anchor: {x: 0, y: 0}
-  m_ConnectedAnchor: {x: -73.17155, y: 6.9910393}
+  m_ConnectedAnchor: {x: -67.165634, y: 39.93437}
   m_UseMotor: 0
   m_Motor:
     m_MotorSpeed: -25
@@ -1752,7 +1826,7 @@ HingeJoint2D:
   m_BreakTorque: Infinity
   m_AutoConfigureConnectedAnchor: 1
   m_Anchor: {x: 0, y: 0}
-  m_ConnectedAnchor: {x: 3.8722334, y: -0.024047289}
+  m_ConnectedAnchor: {x: 3.872245, y: -0.024040733}
   m_UseMotor: 0
   m_Motor:
     m_MotorSpeed: 0
@@ -1820,7 +1894,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2429623444368114162}
-  m_LocalRotation: {x: 0, y: 0, z: -0.5362436, w: 0.8440632}
+  m_LocalRotation: {x: 0, y: 0, z: -0.5362428, w: 0.8440639}
   m_LocalPosition: {x: 2.2196846, y: -0.030776381, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -1838,6 +1912,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2429623444378109161}
+  - component: {fileID: 1275462885}
   m_Layer: 0
   m_Name: frontUpperArmBone
   m_TagString: Untagged
@@ -1852,7 +1927,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2429623444378109160}
-  m_LocalRotation: {x: 0, y: 0, z: 0.86343145, w: 0.50446635}
+  m_LocalRotation: {x: 0, y: 0, z: 0.8634312, w: 0.50446665}
   m_LocalPosition: {x: 2.113985, y: -1.6718644, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -1861,6 +1936,29 @@ Transform:
   m_Father: {fileID: 2429623444227259124}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 122.94601}
+--- !u!114 &1275462885
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2429623444378109160}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 375154d03f5477b4eb14ad83736791f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  basePlayer: {fileID: 1275462886}
+  currentWeapon: {fileID: 11400000, guid: 49ead892372b5274e987c2ac71fbb8e3, type: 2}
+  bulletSpawn: {fileID: 0}
+  dryFire: {fileID: 0}
+  currentAmmo: 0
+  isReloading: 0
+  currentArms: {fileID: 0}
+  audioSource: {fileID: 0}
+  cameraShake: {fileID: 0}
+  timeSinceLastShot: 0
+  IKPos: {fileID: 141396468527622236}
 --- !u!1 &2429623444393963405
 GameObject:
   m_ObjectHideFlags: 0
@@ -1884,7 +1982,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2429623444393963405}
-  m_LocalRotation: {x: 0, y: 0, z: 0.9382258, w: 0.34602374}
+  m_LocalRotation: {x: 0, y: 0, z: 0.9382261, w: 0.346023}
   m_LocalPosition: {x: 2.1740658, y: 1.3648293, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:

@@ -196,8 +196,8 @@ public class PlayerScript : MonoBehaviour
 
         cameraParent = Camera.main.transform.parent.gameObject;
 
-        trail = GetComponent<TrailRenderer>();
-        trail.emitting = false;
+        //rail = GetComponent<TrailRenderer>();
+        //trail.emitting = false;
         gameManager = GameManager.Instance;
 
         //data

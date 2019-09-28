@@ -101,7 +101,7 @@ public class ArmsScript : MonoBehaviour
         {
             // aiming stuff
             shootDir = Vector2.right * rawAim + Vector2.up * rawAim;
-            shootDir = shootDir.normalized*5f;
+            shootDir = shootDir.normalized;
 
 
             //rotation = Quaternion.LookRotation(Vector3.forward, -shootDir);
@@ -114,6 +114,7 @@ public class ArmsScript : MonoBehaviour
 
     private void OnDrawGizmos()
     {
+        Gizmos.color = Color.magenta;
         // DrawHelperAtCenter(shootDir, Color.red, 1f);
         if(IKPos!=null)
             Gizmos.DrawLine(transform.position, IKPos.transform.position);
