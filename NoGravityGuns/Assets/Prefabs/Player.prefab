@@ -15158,7 +15158,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: -10
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: b6f40ca2d7c2267489b3a41020537c54, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -15567,7 +15567,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: -10
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 95ae01fb9a929a047a79eb821e5372d0, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -26012,7 +26012,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   basePlayer: {fileID: 4976415590657393650}
   currentWeapon: {fileID: 11400000, guid: 49ead892372b5274e987c2ac71fbb8e3, type: 2}
-  currentRecoil: 0
   bulletSpawn: {fileID: 4868978610939038248}
   dryFire: {fileID: 8300000, guid: 045de3ddf8a33af44badcb0cc91d836c, type: 3}
   currentAmmo: 0
@@ -26125,6 +26124,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4976415590657393651}
     m_Modifications:
+    - target: {fileID: 3003298596636929399, guid: 9c528d9c4e22c05489348677384f0876,
+        type: 3}
+      propertyPath: m_Name
+      value: PlayerCanvas
+      objectReference: {fileID: 0}
     - target: {fileID: 3003298596636929392, guid: 9c528d9c4e22c05489348677384f0876,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -26229,11 +26233,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 3003298596636929399, guid: 9c528d9c4e22c05489348677384f0876,
-        type: 3}
-      propertyPath: m_Name
-      value: PlayerCanvas
       objectReference: {fileID: 0}
     - target: {fileID: 3003298595311015440, guid: 9c528d9c4e22c05489348677384f0876,
         type: 3}

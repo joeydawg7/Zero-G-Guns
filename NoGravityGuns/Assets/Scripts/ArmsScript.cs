@@ -42,7 +42,7 @@ public class ArmsScript : MonoBehaviour
     #region Privates
     //private
     Quaternion facing;
-    Quaternion rotation;
+    //Quaternion rotation;
     Vector2 shootDir;
     Color32 startingColor;
     Coroutine reloadCoroutine;
@@ -50,6 +50,7 @@ public class ArmsScript : MonoBehaviour
     Vector3 dir;
     GameManager gameManager;
     int totalBulletsGunCanLoad;
+    public GameObject IKPos;
     #endregion
 
     #region Start, Awake, Update
@@ -100,11 +101,22 @@ public class ArmsScript : MonoBehaviour
         {
             // aiming stuff
             shootDir = Vector2.right * rawAim + Vector2.up * rawAim;
-            shootDir = shootDir.normalized;
-            rotation = Quaternion.LookRotation(Vector3.forward, -shootDir);
-            rotation *= facing;
-            transform.rotation = rotation;
+            shootDir = shootDir.normalized*5f;
+
+
+            //rotation = Quaternion.LookRotation(Vector3.forward, -shootDir);
+            //rotation *= facing;
+            //transform.rotation = rotation;
+            IKPos.transform.localPosition = shootDir;
         }
+
+    }
+
+    private void OnDrawGizmos()
+    {
+        // DrawHelperAtCenter(shootDir, Color.red, 1f);
+        if(IKPos!=null)
+            Gizmos.DrawLine(transform.position, IKPos.transform.position);
 
     }
 
@@ -176,14 +188,8 @@ public class ArmsScript : MonoBehaviour
                 //add force to player in opposite direction of shot
                 currentWeapon.KnockBack(basePlayer, dir);
 
-                //shot gun based on weapons fire function
-                currentWeapon.Fire(basePlayer, dir);
-
-                //equip pistol if outta shots
-                /*
-                if (currentAmmo <= 0 && totalBulletsGunCanLoad <= 0)
-                    basePlayer.EquipArms(gameManager.pistol);
-                    */
+                //shoot gun based on weapons fire function
+                currentWeapon.Fire(basePlayer, dir);               
 
 
                 basePlayer.shotsFired++;

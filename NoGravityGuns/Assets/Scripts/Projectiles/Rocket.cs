@@ -8,6 +8,8 @@ public class Rocket : Bullet
 
     Vector3 dir;
 
+    float timeInFlight;
+
     public override void Construct(float damage, PlayerScript player, Vector3 dir, Color32 color, GunSO gun)
     {
         //call the base version first, the rest of the stuff we do after
@@ -19,6 +21,8 @@ public class Rocket : Bullet
 
             return;
         }
+
+        timeInFlight = 0f;
 
         //dont change rocket collision layer, we dont want it colliding with other bullets
         sr.enabled = true;
@@ -42,11 +46,14 @@ public class Rocket : Bullet
         {
             if (rb.velocity.magnitude < rocketTopSpeed)
             {
+                timeInFlight += Time.deltaTime;
+
                 //Vector2 dir = rb.velocity;
                 float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
                 transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
 
-                rb.AddForce(dir * rocketAccelerationMod * Time.deltaTime, ForceMode2D.Force);
+                Debug.Log(dir * rocketAccelerationMod * timeInFlight);
+                rb.AddForce(dir * rocketAccelerationMod * timeInFlight, ForceMode2D.Force);
             }
         }
     }

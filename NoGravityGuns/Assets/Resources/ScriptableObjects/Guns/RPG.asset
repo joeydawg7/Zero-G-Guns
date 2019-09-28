@@ -16,16 +16,14 @@ MonoBehaviour:
   minDamageRange: 35
   maxDamageRange: 40
   knockback: 50
-  bulletSpeed: 1500
+  bulletSpeed: 150
   recoilDelay: 1.5
   delayBeforeShot: 0
   clipSize: 3
   numBullets: 0
-  reloadTime: 1.5
   armsObject: {fileID: 5144701913246592781, guid: f3cd83e54172d2f4b8e56ae93268060c,
     type: 3}
   theGun: {fileID: 21300000, guid: cacbeceed41afb540b64c252561aa3d3, type: 3}
-  fireType: 4
   gunDamageTotal: 0
   cameraShakeDuration: 0.25
   bulletSounds:
@@ -41,6 +39,6 @@ MonoBehaviour:
   physicsObjectPushForceMod: 40
   explosionRadius: 20
   explosionPower: 385
-  rocketMaxSpeed: 20
-  rocketAccelerationMod: 40
-  damageAtCenter: 25
+  rocketMaxSpeed: 40
+  rocketAccelerationMod: 5
+  damageAtCenter: 20

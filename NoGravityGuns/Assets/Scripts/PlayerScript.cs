@@ -370,7 +370,8 @@ public class PlayerScript : MonoBehaviour
         }*/
         for (int i = 0; i < armsScript.transform.childCount; i++)
         {
-            Destroy(armsScript.transform.GetChild(i).gameObject);
+            if (gameObject.tag == "Gun")
+                Destroy(armsScript.transform.GetChild(i).gameObject);
         }
     }
     #endregion
@@ -852,7 +853,7 @@ public class PlayerScript : MonoBehaviour
 
         float dmg = Vector3.Dot(collision.contacts[0].normal, collision.relativeVelocity);
 
-        if (collision.rigidbody != null && collision.rigidbody.mass <=1)
+        if (collision.rigidbody != null && collision.rigidbody.mass <= 1)
             dmg *= collision.rigidbody.mass;
 
         //reduces damage so its not bullshit
