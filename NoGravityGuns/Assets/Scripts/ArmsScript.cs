@@ -20,6 +20,8 @@ public class ArmsScript : MonoBehaviour
 
     public float targetVectorLength;
 
+    public Transform handBone;
+
     [Header("Audio")]
     public AudioClip dryFire;
     #endregion
@@ -44,7 +46,7 @@ public class ArmsScript : MonoBehaviour
     #region Privates
     //private
     Quaternion facing;
-    //Quaternion rotation;
+    Quaternion rotation;
     Vector2 shootDir;
     Color32 startingColor;
     Coroutine reloadCoroutine;
@@ -93,7 +95,7 @@ public class ArmsScript : MonoBehaviour
     }
     #endregion
 
-  //  const float TARGET_VECTOR_LENGTH = 15f;
+    //  const float TARGET_VECTOR_LENGTH = 15f;
 
     #region Input Handler Functions
     void AimController()
@@ -105,12 +107,25 @@ public class ArmsScript : MonoBehaviour
         {
             // aiming stuff
             shootDir = -Vector2.right * rawAim + Vector2.up * rawAim;
-            shootDir = shootDir.normalized* targetVectorLength;
+            shootDir = shootDir.normalized * targetVectorLength;
+            Transform ikParent = IKPos.transform.parent;
 
 
-            //rotation = Quaternion.LookRotation(Vector3.forward, -shootDir);
-            //rotation *= facing;
-            //transform.rotation = rotation;
+            //Vector2 heading = ikParent.position - handBone.position;
+
+            //var distance = heading.magnitude;
+            //Vector2 direction = (heading / distance); // This is now the normalized direction.
+
+
+            //rotation = Quaternion.LookRotation(Vector3.forward, shootDir * -1f);
+            //rotation *= handBone.rotation;
+            //handBone.transform.rotation = rotation;
+
+            //handBone.transform.LookAt(IKPos.transform.parent, handBone.up);
+
+            //handBone.rotation = Quaternion.Euler(direction*-1f);
+
+
             IKPos.transform.localPosition = shootDir;
         }
 
@@ -120,7 +135,7 @@ public class ArmsScript : MonoBehaviour
     {
         Gizmos.color = Color.magenta;
         // DrawHelperAtCenter(shootDir, Color.red, 1f);
-        if(IKPos!=null)
+        if (IKPos != null)
             Gizmos.DrawLine(transform.position, IKPos.transform.position);
 
     }
@@ -194,7 +209,7 @@ public class ArmsScript : MonoBehaviour
                 currentWeapon.KnockBack(basePlayer, dir);
 
                 //shoot gun based on weapons fire function
-                currentWeapon.Fire(basePlayer, dir);               
+                currentWeapon.Fire(basePlayer, dir);
 
 
                 basePlayer.shotsFired++;
