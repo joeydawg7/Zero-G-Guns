@@ -121,40 +121,45 @@ public class ArmsScript : MonoBehaviour
             // aiming stuff
             shootDir = -Vector2.right * rawAim + Vector2.up * rawAim;
             shootDir = shootDir.normalized * targetVectorLength;
-            Transform ikParent = IKTarget.transform.parent;
 
-
-
-            if (shootDir.x >= 0)
+            if (IKTarget != null)
             {
-                parentObject.rotation = Quaternion.Euler(parentObject.rotation.x, 180f, parentObject.rotation.z);
-                IKLimbSolver.flip = true;
-                // flipStatus = -1;
+                Transform ikParent = IKTarget.transform.parent;
+
+                if (parentObject != null)
+                {
+                    if (shootDir.x >= 0)
+                    {
+                        parentObject.rotation = Quaternion.Euler(parentObject.rotation.x, 180f, parentObject.rotation.z);
+                        IKLimbSolver.flip = true;
+                        // flipStatus = -1;
+                    }
+                    else
+                    {
+                        parentObject.rotation = Quaternion.Euler(parentObject.rotation.x, 0f, parentObject.rotation.z);
+                        IKLimbSolver.flip = false;
+                        //flipStatus = 1;
+                    }
+                }
+
+                //Vector2 heading = ikParent.position - handBone.position;
+
+                //var distance = heading.magnitude;
+                //Vector2 direction = (heading / distance); // This is now the normalized direction.
+
+
+                //rotation = Quaternion.LookRotation(Vector3.forward, shootDir * -1f);
+                //rotation = handBone.rotation;
+                //handBone.transform.rotation = rotation;
+
+                //handBone.transform.LookAt(IKPos.transform.parent, handBone.up);
+
+                //handBone.rotation = Quaternion.Euler(direction*-1f);
+
+                IKTarget.transform.localPosition = shootDir;
+
+                handBone.right = new Vector2(IKTarget.transform.localPosition.x, IKTarget.transform.localPosition.y * -1) - new Vector2(shootDir.x * -1, shootDir.y);
             }
-            else
-            {
-                parentObject.rotation = Quaternion.Euler(parentObject.rotation.x, 0f, parentObject.rotation.z);
-                IKLimbSolver.flip = false;
-                //flipStatus = 1;
-            }
-
-            //Vector2 heading = ikParent.position - handBone.position;
-
-            //var distance = heading.magnitude;
-            //Vector2 direction = (heading / distance); // This is now the normalized direction.
-
-
-            //rotation = Quaternion.LookRotation(Vector3.forward, shootDir * -1f);
-            //rotation = handBone.rotation;
-            //handBone.transform.rotation = rotation;
-
-            //handBone.transform.LookAt(IKPos.transform.parent, handBone.up);
-
-            //handBone.rotation = Quaternion.Euler(direction*-1f);
-
-            IKTarget.transform.localPosition = shootDir;
-
-            handBone.right = new Vector2(IKTarget.transform.localPosition.x, IKTarget.transform.localPosition.y *-1) - new Vector2(shootDir.x* -1, shootDir.y);
 
         }
 
