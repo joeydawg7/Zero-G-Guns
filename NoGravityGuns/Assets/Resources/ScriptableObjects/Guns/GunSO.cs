@@ -14,14 +14,10 @@ public class GunSO : ScriptableObject
     public float delayBeforeShot;
     public int clipSize;
     public int numBullets;
-    public float reloadTime;
 
     public GameObject armsObject;
 
     public Sprite theGun;
-
-    public enum FireType { semiAuto, buckshot, fullAuto, Burst, rocket };
-    public FireType fireType;
 
     //public PlayerScript.GunType GunType;
 

@@ -6,6 +6,7 @@ using TMPro;
 using System;
 using UnityEngine.InputSystem.PlayerInput;
 using UnityEngine.InputSystem.Controls;
+using UnityEngine.Experimental.U2D.IK;
 
 public class ArmsScript : MonoBehaviour
 {
@@ -18,8 +19,16 @@ public class ArmsScript : MonoBehaviour
 
     public Transform bulletSpawn;
 
+    public float targetVectorLength;
+
+    public Transform handBone;
+
     [Header("Audio")]
     public AudioClip dryFire;
+
+    public Transform IKTarget;
+   // public Transform parentObject;
+
     #endregion
 
     #region Hidden Publics
@@ -49,7 +58,11 @@ public class ArmsScript : MonoBehaviour
     Coroutine rotateCoroutine;
     Vector3 dir;
     GameManager gameManager;
-    int totalBulletsGunCanLoad;
+    int totalBulletsGunCanLoad; 
+    LimbSolver2D IKLimbSolver;
+
+    
+
     #endregion
 
     #region Start, Awake, Update
@@ -66,6 +79,9 @@ public class ArmsScript : MonoBehaviour
         shootDir = new Vector3(0, 0, 0);
 
         cameraShake = Camera.main.GetComponent<CameraShake>();
+
+        if(IKTarget!=null)  
+        IKLimbSolver = IKTarget.parent.GetComponent<LimbSolver2D>();
 
     }
 
@@ -90,21 +106,88 @@ public class ArmsScript : MonoBehaviour
     }
     #endregion
 
+    //  const float TARGET_VECTOR_LENGTH = 15f;
+
+    // float flipStatus=1;
+
+    bool flipped = false;
+
     #region Input Handler Functions
     void AimController()
     {
         Vector2 rawAim = basePlayer.player.GetAxis2D("Move Horizontal", "Move Vertical");
 
+        Transform parentObject = transform.root;
+
         //if we are aiming somewhere update everything, else we will hold on last known direction
         if (rawAim.magnitude > 0f)
         {
             // aiming stuff
-            shootDir = Vector2.right * rawAim + Vector2.up * rawAim;
-            shootDir = shootDir.normalized;
-            rotation = Quaternion.LookRotation(Vector3.forward, -shootDir);
-            rotation *= facing;
-            transform.rotation = rotation;
+            shootDir = -Vector2.right * rawAim + Vector2.up * rawAim;
+            shootDir = shootDir.normalized * targetVectorLength;
+
+            if (IKTarget != null)
+            {
+                Transform ikParent = IKTarget.transform.parent;
+
+                if (parentObject != null)
+                {
+
+                     
+
+                    //if (shootDir.x >= 0  && flipped == false)
+                    //{
+                    //    //parentObject.rotation = Quaternion.Euler(parentObject.rotation.x, 180f, parentObject.rotation.z);
+                    //    // parentObject.localScale = new Vector3(0.6f, parentObject.localScale.y, parentObject.localScale.z);
+
+                    //    //IKLimbSolver.flip = true;
+                    //    // flipStatus = -1;
+
+                    //    parentObject.localEulerAngles = parentObject.eulerAngles + new Vector3(0, 180, -2 * parentObject.eulerAngles.z);
+                    //    flipped = true;
+                    //}
+                    //else if(shootDir.x <=0 && flipped == true)
+                    //{
+                    //    //parentObject.rotation = Quaternion.Euler(parentObject.rotation.x, 0f, parentObject.rotation.z);
+                    //    // IKLimbSolver.flip = false;
+                    //    // parentObject.localScale = new Vector3(-0.6f, parentObject.localScale.y, parentObject.localScale.z);
+                    //    // parentObject.localEulerAngles = parentObject.eulerAngles + new Vector3(0, 180, -2 * parentObject.eulerAngles.z);
+                    //    //flipStatus = 1;
+                    //    parentObject.localEulerAngles = parentObject.eulerAngles + new Vector3(0, 180, -2 * parentObject.eulerAngles.z);
+                    //    flipped = false;
+
+                    //}
+                }
+
+                //Vector2 heading = ikParent.position - handBone.position;
+
+                //var distance = heading.magnitude;
+                //Vector2 direction = (heading / distance); // This is now the normalized direction.
+
+
+                //rotation = Quaternion.LookRotation(Vector3.forward, shootDir * -1f);
+                //rotation = handBone.rotation;
+                //handBone.transform.rotation = rotation;
+
+                //handBone.transform.LookAt(IKPos.transform.parent, handBone.up);
+
+                //handBone.rotation = Quaternion.Euler(direction*-1f);
+
+                IKTarget.transform.localPosition = shootDir;
+
+                handBone.right = new Vector2(IKTarget.transform.localPosition.x, IKTarget.transform.localPosition.y * -1) - new Vector2(shootDir.x * -1, shootDir.y);
+            }
+
         }
+
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.magenta;
+        // DrawHelperAtCenter(shootDir, Color.red, 1f);
+        if (IKTarget != null)
+            Gizmos.DrawLine(transform.position, IKTarget.transform.position);
 
     }
 
@@ -176,14 +259,8 @@ public class ArmsScript : MonoBehaviour
                 //add force to player in opposite direction of shot
                 currentWeapon.KnockBack(basePlayer, dir);
 
-                //shot gun based on weapons fire function
+                //shoot gun based on weapons fire function
                 currentWeapon.Fire(basePlayer, dir);
-
-                //equip pistol if outta shots
-                /*
-                if (currentAmmo <= 0 && totalBulletsGunCanLoad <= 0)
-                    basePlayer.EquipArms(gameManager.pistol);
-                    */
 
 
                 basePlayer.shotsFired++;

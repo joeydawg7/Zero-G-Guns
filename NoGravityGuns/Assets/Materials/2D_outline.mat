@@ -8,8 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: 2D_outline
-  m_Shader: {fileID: -6465566751694194690, guid: 997c315dab29e6245836e5e9bae2a0ff,
-    type: 3}
+  m_Shader: {fileID: 4800000, guid: fa41dd119e9c0d6419fb06a274f1ad3f, type: 3}
   m_ShaderKeywords: ETC1_EXTERNAL_ALPHA
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -38,5 +37,10 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - Vector1_2EB64AE8: 0.583
+    - _Brightness: 2.2
+    - _Distance: 1
+    - _OutlineWidth: 0.0017
     m_Colors:
     - Color_29F4D52E: {r: 0, g: 0.55511737, b: 1, a: 1}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _OutlineColor: {r: 1, g: 0, b: 0, a: 1}
