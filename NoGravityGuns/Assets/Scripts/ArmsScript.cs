@@ -18,6 +18,8 @@ public class ArmsScript : MonoBehaviour
 
     public Transform bulletSpawn;
 
+    public float targetVectorLength;
+
     [Header("Audio")]
     public AudioClip dryFire;
     #endregion
@@ -91,7 +93,7 @@ public class ArmsScript : MonoBehaviour
     }
     #endregion
 
-    const float TARGET_VECTOR_LENGTH = 8f;
+  //  const float TARGET_VECTOR_LENGTH = 15f;
 
     #region Input Handler Functions
     void AimController()
@@ -103,7 +105,7 @@ public class ArmsScript : MonoBehaviour
         {
             // aiming stuff
             shootDir = -Vector2.right * rawAim + Vector2.up * rawAim;
-            shootDir = shootDir.normalized* TARGET_VECTOR_LENGTH;
+            shootDir = shootDir.normalized* targetVectorLength;
 
 
             //rotation = Quaternion.LookRotation(Vector3.forward, -shootDir);
