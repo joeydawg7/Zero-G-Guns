@@ -179,7 +179,7 @@ public static class Rigidbody2DExt
 
         body.AddForce(dir.normalized * (wearoff <= 0f ? 0f : explosionForce) * wearoff);
 
-        Debug.Log(dir.normalized.x * wearoff * wearoff);
+        //Debug.Log(dir.normalized.x * wearoff * wearoff);
 
         Vector3 force = dir.normalized * (wearoff <= 0f ? 0f : explosionForce) * wearoff;
 
