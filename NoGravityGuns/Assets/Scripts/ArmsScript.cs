@@ -6,6 +6,7 @@ using TMPro;
 using System;
 using UnityEngine.InputSystem.PlayerInput;
 using UnityEngine.InputSystem.Controls;
+using UnityEngine.Experimental.U2D.IK;
 
 public class ArmsScript : MonoBehaviour
 {
@@ -25,7 +26,8 @@ public class ArmsScript : MonoBehaviour
     [Header("Audio")]
     public AudioClip dryFire;
 
-    public GameObject IKTarget;
+    public Transform IKTarget;
+    public Transform parentObject;
 
     #endregion
 
@@ -56,8 +58,9 @@ public class ArmsScript : MonoBehaviour
     Coroutine rotateCoroutine;
     Vector3 dir;
     GameManager gameManager;
-    int totalBulletsGunCanLoad;
-    Transform parentObject;
+    int totalBulletsGunCanLoad; 
+    LimbSolver2D IKLimbSolver;
+
     
 
     #endregion
@@ -77,7 +80,8 @@ public class ArmsScript : MonoBehaviour
 
         cameraShake = Camera.main.GetComponent<CameraShake>();
 
-        parentObject = transform.root;
+        if(IKTarget!=null)  
+        IKLimbSolver = IKTarget.parent.GetComponent<LimbSolver2D>();
 
     }
 
@@ -104,6 +108,8 @@ public class ArmsScript : MonoBehaviour
 
     //  const float TARGET_VECTOR_LENGTH = 15f;
 
+  // float flipStatus=1;
+
     #region Input Handler Functions
     void AimController()
     {
@@ -119,13 +125,17 @@ public class ArmsScript : MonoBehaviour
 
 
 
-            if(shootDir.x >=0)
+            if (shootDir.x >= 0)
             {
                 parentObject.rotation = Quaternion.Euler(parentObject.rotation.x, 180f, parentObject.rotation.z);
+                IKLimbSolver.flip = true;
+                // flipStatus = -1;
             }
             else
             {
                 parentObject.rotation = Quaternion.Euler(parentObject.rotation.x, 0f, parentObject.rotation.z);
+                IKLimbSolver.flip = false;
+                //flipStatus = 1;
             }
 
             //Vector2 heading = ikParent.position - handBone.position;
@@ -144,7 +154,7 @@ public class ArmsScript : MonoBehaviour
 
             IKTarget.transform.localPosition = shootDir;
 
-            handBone.right = new Vector2(IKTarget.transform.localPosition.x, IKTarget.transform.localPosition.y*-1f) - new Vector2(shootDir.x*-1f, shootDir.y);
+            handBone.right = new Vector2(IKTarget.transform.localPosition.x, IKTarget.transform.localPosition.y *-1) - new Vector2(shootDir.x* -1, shootDir.y);
 
         }
 
