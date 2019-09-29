@@ -126,21 +126,21 @@ public class ArmsScript : MonoBehaviour
             {
                 Transform ikParent = IKTarget.transform.parent;
 
-                if (parentObject != null)
-                {
-                    if (shootDir.x >= 0)
-                    {
-                        parentObject.rotation = Quaternion.Euler(parentObject.rotation.x, 180f, parentObject.rotation.z);
-                        IKLimbSolver.flip = true;
-                        // flipStatus = -1;
-                    }
-                    else
-                    {
-                        parentObject.rotation = Quaternion.Euler(parentObject.rotation.x, 0f, parentObject.rotation.z);
-                        IKLimbSolver.flip = false;
-                        //flipStatus = 1;
-                    }
-                }
+                //if (parentObject != null)
+                //{
+                //    if (shootDir.x >= 0)
+                //    {
+                //        parentObject.rotation = Quaternion.Euler(parentObject.rotation.x, 180f, parentObject.rotation.z);
+                //        IKLimbSolver.flip = true;
+                //        // flipStatus = -1;
+                //    }
+                //    else
+                //    {
+                //        parentObject.rotation = Quaternion.Euler(parentObject.rotation.x, 0f, parentObject.rotation.z);
+                //        IKLimbSolver.flip = false;
+                //        //flipStatus = 1;
+                //    }
+                //}
 
                 //Vector2 heading = ikParent.position - handBone.position;
 
