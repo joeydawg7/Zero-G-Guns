@@ -91,6 +91,8 @@ public class ArmsScript : MonoBehaviour
     }
     #endregion
 
+    const float TARGET_VECTOR_LENGTH = 8f;
+
     #region Input Handler Functions
     void AimController()
     {
@@ -100,8 +102,8 @@ public class ArmsScript : MonoBehaviour
         if (rawAim.magnitude > 0f)
         {
             // aiming stuff
-            shootDir = Vector2.right * rawAim + Vector2.up * rawAim;
-            shootDir = shootDir.normalized;
+            shootDir = -Vector2.right * rawAim + Vector2.up * rawAim;
+            shootDir = shootDir.normalized* TARGET_VECTOR_LENGTH;
 
 
             //rotation = Quaternion.LookRotation(Vector3.forward, -shootDir);
