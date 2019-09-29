@@ -27,7 +27,7 @@ public class ArmsScript : MonoBehaviour
     public AudioClip dryFire;
 
     public Transform IKTarget;
-    public Transform parentObject;
+   // public Transform parentObject;
 
     #endregion
 
@@ -108,12 +108,16 @@ public class ArmsScript : MonoBehaviour
 
     //  const float TARGET_VECTOR_LENGTH = 15f;
 
-  // float flipStatus=1;
+    // float flipStatus=1;
+
+    bool flipped = false;
 
     #region Input Handler Functions
     void AimController()
     {
         Vector2 rawAim = basePlayer.player.GetAxis2D("Move Horizontal", "Move Vertical");
+
+        Transform parentObject = transform.root;
 
         //if we are aiming somewhere update everything, else we will hold on last known direction
         if (rawAim.magnitude > 0f)
@@ -126,21 +130,34 @@ public class ArmsScript : MonoBehaviour
             {
                 Transform ikParent = IKTarget.transform.parent;
 
-                //if (parentObject != null)
-                //{
-                //    if (shootDir.x >= 0)
-                //    {
-                //        parentObject.rotation = Quaternion.Euler(parentObject.rotation.x, 180f, parentObject.rotation.z);
-                //        IKLimbSolver.flip = true;
-                //        // flipStatus = -1;
-                //    }
-                //    else
-                //    {
-                //        parentObject.rotation = Quaternion.Euler(parentObject.rotation.x, 0f, parentObject.rotation.z);
-                //        IKLimbSolver.flip = false;
-                //        //flipStatus = 1;
-                //    }
-                //}
+                if (parentObject != null)
+                {
+
+                     
+
+                    //if (shootDir.x >= 0  && flipped == false)
+                    //{
+                    //    //parentObject.rotation = Quaternion.Euler(parentObject.rotation.x, 180f, parentObject.rotation.z);
+                    //    // parentObject.localScale = new Vector3(0.6f, parentObject.localScale.y, parentObject.localScale.z);
+
+                    //    //IKLimbSolver.flip = true;
+                    //    // flipStatus = -1;
+
+                    //    parentObject.localEulerAngles = parentObject.eulerAngles + new Vector3(0, 180, -2 * parentObject.eulerAngles.z);
+                    //    flipped = true;
+                    //}
+                    //else if(shootDir.x <=0 && flipped == true)
+                    //{
+                    //    //parentObject.rotation = Quaternion.Euler(parentObject.rotation.x, 0f, parentObject.rotation.z);
+                    //    // IKLimbSolver.flip = false;
+                    //    // parentObject.localScale = new Vector3(-0.6f, parentObject.localScale.y, parentObject.localScale.z);
+                    //    // parentObject.localEulerAngles = parentObject.eulerAngles + new Vector3(0, 180, -2 * parentObject.eulerAngles.z);
+                    //    //flipStatus = 1;
+                    //    parentObject.localEulerAngles = parentObject.eulerAngles + new Vector3(0, 180, -2 * parentObject.eulerAngles.z);
+                    //    flipped = false;
+
+                    //}
+                }
 
                 //Vector2 heading = ikParent.position - handBone.position;
 
