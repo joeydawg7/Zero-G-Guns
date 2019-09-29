@@ -24,6 +24,9 @@ public class ArmsScript : MonoBehaviour
 
     [Header("Audio")]
     public AudioClip dryFire;
+
+    public GameObject IKTarget;
+
     #endregion
 
     #region Hidden Publics
@@ -54,7 +57,9 @@ public class ArmsScript : MonoBehaviour
     Vector3 dir;
     GameManager gameManager;
     int totalBulletsGunCanLoad;
-    public GameObject IKPos;
+    Transform parentObject;
+    
+
     #endregion
 
     #region Start, Awake, Update
@@ -71,6 +76,8 @@ public class ArmsScript : MonoBehaviour
         shootDir = new Vector3(0, 0, 0);
 
         cameraShake = Camera.main.GetComponent<CameraShake>();
+
+        parentObject = transform.root;
 
     }
 
@@ -108,8 +115,18 @@ public class ArmsScript : MonoBehaviour
             // aiming stuff
             shootDir = -Vector2.right * rawAim + Vector2.up * rawAim;
             shootDir = shootDir.normalized * targetVectorLength;
-            Transform ikParent = IKPos.transform.parent;
+            Transform ikParent = IKTarget.transform.parent;
 
+
+
+            if(shootDir.x >=0)
+            {
+                parentObject.rotation = Quaternion.Euler(parentObject.rotation.x, 180f, parentObject.rotation.z);
+            }
+            else
+            {
+                parentObject.rotation = Quaternion.Euler(parentObject.rotation.x, 0f, parentObject.rotation.z);
+            }
 
             //Vector2 heading = ikParent.position - handBone.position;
 
@@ -118,15 +135,17 @@ public class ArmsScript : MonoBehaviour
 
 
             //rotation = Quaternion.LookRotation(Vector3.forward, shootDir * -1f);
-            //rotation *= handBone.rotation;
+            //rotation = handBone.rotation;
             //handBone.transform.rotation = rotation;
 
             //handBone.transform.LookAt(IKPos.transform.parent, handBone.up);
 
             //handBone.rotation = Quaternion.Euler(direction*-1f);
 
+            IKTarget.transform.localPosition = shootDir;
 
-            IKPos.transform.localPosition = shootDir;
+            handBone.right = new Vector2(IKTarget.transform.localPosition.x, IKTarget.transform.localPosition.y*-1f) - new Vector2(shootDir.x*-1f, shootDir.y);
+
         }
 
     }
@@ -135,8 +154,8 @@ public class ArmsScript : MonoBehaviour
     {
         Gizmos.color = Color.magenta;
         // DrawHelperAtCenter(shootDir, Color.red, 1f);
-        if (IKPos != null)
-            Gizmos.DrawLine(transform.position, IKPos.transform.position);
+        if (IKTarget != null)
+            Gizmos.DrawLine(transform.position, IKTarget.transform.position);
 
     }
 
