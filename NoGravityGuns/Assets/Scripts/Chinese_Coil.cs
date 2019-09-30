@@ -21,9 +21,11 @@ public class Chinese_Coil : MonoBehaviour
     {
         if(collision.tag == "Player")
         {
-            if(!collision.gameObject.GetComponent<PlayerScript>().isDead)
+            PlayerScript player = collision.gameObject.GetComponent<PlayerScript>();
+
+            if (!player.isDead)
             {
-                collision.gameObject.GetComponent<PlayerScript>().TakeDamage(Random.Range(25, 50), PlayerScript.DamageType.torso, null, false);
+                player.TakeDamage(Random.Range(25, 50), PlayerScript.DamageType.torso, null, false);
                 playerLighting.transform.parent = collision.gameObject.transform;
                 playerLighting.transform.localPosition = Vector3.zero;
                 playerLighting.Play();

@@ -62,10 +62,10 @@ public class PlayerScript : MonoBehaviour
 
     public ArmsScript armsScript;
 
-    [Header("Armed Legs")]
-    public GameObject legsCollider;
-    public Transform legsParent;
-    List<LegFixer> legFixers;
+    //[Header("Armed Legs")]
+    //public GameObject legsCollider;
+    //public Transform legsParent;
+    //List<LegFixer> legFixers;
 
     [Header("Spawning and kills")]
     public Vector3 spawnPoint;
@@ -104,7 +104,7 @@ public class PlayerScript : MonoBehaviour
     public string playerName;
     [HideInInspector]
     public string hexColorCode;
-   // [HideInInspector]
+    [HideInInspector]
     public Rigidbody2D rb;
     [HideInInspector]
     public PlayerInput playerInput;
@@ -184,17 +184,19 @@ public class PlayerScript : MonoBehaviour
         playerInput = GetComponent<PlayerInput>();
         numKills = 0;
 
-        legFixers = new List<LegFixer>();
-        foreach (Transform child in legsParent)
-        {
-            legFixers.Add(child.GetComponent<LegFixer>());
-        }
+        //legFixers = new List<LegFixer>();
+        //foreach (Transform child in legsParent)
+        //{
+        //    legFixers.Add(child.GetComponent<LegFixer>());
+        //}
         torsoSR = gameObject.transform.root.GetComponent<SpriteRenderer>();
         defaultColor = torsoSR.color;
         playerLastHitBy = null;
         immuneToCollisionsTimer = 0;
 
         cameraParent = Camera.main.transform.parent.gameObject;
+
+        armsScript.basePlayer = this;
 
         //rail = GetComponent<TrailRenderer>();
         //trail.emitting = false;
@@ -207,6 +209,12 @@ public class PlayerScript : MonoBehaviour
         torsoShots = 0;
         legShots = 0;
         footShots = 0;
+
+        if (playerUIPanel == null)
+            Debug.LogError("No UI Panel Set");
+
+        if (floatingTextSpawnPoint == null)
+            Debug.LogError("No floating text spawn point set!");
 
     }
 
@@ -462,10 +470,10 @@ public class PlayerScript : MonoBehaviour
             torsoSR.color = deadColor;
             //armsSR.color = deadColor;
 
-            foreach (var sr in legsSR)
-            {
-                sr.color = deadColor;
-            }
+            //foreach (var sr in legsSR)
+            //{
+            //    sr.color = deadColor;
+            //}
             //armsScript.reloadTimer.SetActive(false);
 
             if (numLives > 0)
@@ -501,10 +509,10 @@ public class PlayerScript : MonoBehaviour
 
         ForcePushOnSpawn();
 
-        foreach (var legToFix in legFixers)
-        {
-            legToFix.ResetLeg();
-        }
+        //foreach (var legToFix in legFixers)
+        //{
+        //    legToFix.ResetLeg();
+        //}
 
         health = 100;
         float barVal = ((float)health / 100f);
@@ -556,42 +564,42 @@ public class PlayerScript : MonoBehaviour
         {
             torsoSR.color = invulnerabilityColorFlash;
             //armsSR.color = invulnerabilityColorFlash;
-            foreach (var sr in legsSR)
-            {
-                sr.color = invulnerabilityColorFlash;
-            }
+            //foreach (var sr in legsSR)
+            //{
+            //    sr.color = invulnerabilityColorFlash;
+            //}
 
             yield return new WaitForSeconds(invulnerabilityFlashIncriments);
             torsoSR.color = defaultColor;
             //armsSR.color = defaultColor;
-            foreach (var sr in legsSR)
-            {
-                sr.color = defaultColor;
-            }
+            //foreach (var sr in legsSR)
+            //{
+            //    sr.color = defaultColor;
+            //}
 
             yield return new WaitForSeconds(invulnerabilityFlashIncriments);
             torsoSR.color = invulnerabilityColorFlash;
            // armsSR.color = invulnerabilityColorFlash;
-            foreach (var sr in legsSR)
-            {
-                sr.color = invulnerabilityColorFlash;
-            }
+            //foreach (var sr in legsSR)
+            //{
+            //    sr.color = invulnerabilityColorFlash;
+            //}
 
             yield return new WaitForSeconds(invulnerabilityFlashIncriments);
             torsoSR.color = defaultColor;
            // armsSR.color = defaultColor;
-            foreach (var sr in legsSR)
-            {
-                sr.color = defaultColor;
-            }
+            //foreach (var sr in legsSR)
+            //{
+            //    sr.color = defaultColor;
+            //}
         }
         
         torsoSR.color = defaultColor;
         //armsSR.color = defaultColor;
-        foreach (var sr in legsSR)
-        {
-            sr.color = defaultColor;
-        }
+        //foreach (var sr in legsSR)
+        //{
+        //    sr.color = defaultColor;
+        //}
 
         isInvulnerable = false;
     }
@@ -700,10 +708,10 @@ public class PlayerScript : MonoBehaviour
 
         //torsoSR = GetComponent<SpriteRenderer>();
         //armsSR = armsScript.currentArms.GetComponent<SpriteRenderer>();
-        legsSR = legsParent.GetComponentsInChildren<SpriteRenderer>();
+        //legsSR = legsParent.GetComponentsInChildren<SpriteRenderer>();
 
 
-        legRBs = legsParent.GetComponentsInChildren<Rigidbody2D>();
+        //legRBs = legsParent.GetComponentsInChildren<Rigidbody2D>();
 
         if (!isDummy)
         {

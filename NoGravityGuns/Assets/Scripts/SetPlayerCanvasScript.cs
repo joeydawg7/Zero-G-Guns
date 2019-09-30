@@ -8,17 +8,18 @@ public class SetPlayerCanvasScript : MonoBehaviour
 {
     GameObject parent;
 
+    [HideInInspector]
     public PlayerScript playerscript;
 
     private void Awake()
     {
-        parent = transform.parent.gameObject;
-        playerscript = parent.GetComponent<PlayerScript>();
+        parent = transform.parent.root.gameObject;
+        playerscript = parent.GetComponentInChildren<PlayerScript>();
         transform.parent = null;
     }
     void Update()
     {
         if(parent!=null)
-            transform.position = parent.transform.position;
+            transform.position = playerscript.transform.position;
     }
 }

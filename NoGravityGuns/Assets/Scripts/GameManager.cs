@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
 
     public bool isGameStarted;
 
+    [HideInInspector]
     public List<PlayerScript> players;
 
     public CameraController cameraController;
@@ -32,9 +33,13 @@ public class GameManager : MonoBehaviour
     public GUIManager guiManager;
     public EndGameScript EndGameScript;
 
+    [HideInInspector]
     public PlayerUIPanel p1HUD;
+    [HideInInspector]
     public PlayerUIPanel p2HUD;
+    [HideInInspector]
     public PlayerUIPanel p3HUD;
+    [HideInInspector]
     public PlayerUIPanel p4HUD;
 
     //temp temp temp
@@ -155,6 +160,8 @@ public class GameManager : MonoBehaviour
         dataManager = GetComponent<DataManager>();
         audioSource = GetComponent<AudioSource>();
 
+        players = new List<PlayerScript>();
+
     }
 
     private void Start()
@@ -191,6 +198,13 @@ public class GameManager : MonoBehaviour
         }
 
         RoundManager.Instance.SetAllPlayersDataIntoPlayerObjects();
+
+
+        p1HUD = player1.playerUIPanel;
+        p2HUD = player2.playerUIPanel;
+        p3HUD = player3.playerUIPanel;
+        p4HUD = player4.playerUIPanel;
+
 
         p1HUD.gameObject.SetActive(false);
         p2HUD.gameObject.SetActive(false);
