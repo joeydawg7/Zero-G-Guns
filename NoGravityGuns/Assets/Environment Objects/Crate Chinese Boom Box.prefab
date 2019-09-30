@@ -14,9 +14,10 @@ GameObject:
   - component: {fileID: 2036626073384580929}
   - component: {fileID: 6708793981038970524}
   - component: {fileID: 5568853851034101434}
+  - component: {fileID: 3671966419192451912}
   m_Layer: 0
   m_Name: Crate Chinese Boom Box
-  m_TagString: ImpactObject
+  m_TagString: ExplosiveObject
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -168,6 +169,24 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &3671966419192451912
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 161181631799773791}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73bddee1fa7f7164b993709dc8381ce1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 1
+  explosionRadius: 20
+  explosionPower: 250
+  damageAtcenter: 40
+  cameraShakeDuration: 0.25
+  explodedChunks: []
 --- !u!1 &1756816441199234264
 GameObject:
   m_ObjectHideFlags: 0
