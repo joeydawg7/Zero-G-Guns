@@ -52,7 +52,7 @@ public class Rocket : Bullet
                 float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
                 transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
 
-                Debug.Log(dir * rocketAccelerationMod * timeInFlight);
+             //   Debug.Log(dir * rocketAccelerationMod * timeInFlight);
                 rb.AddForce(dir * rocketAccelerationMod * timeInFlight, ForceMode2D.Force);
             }
         }

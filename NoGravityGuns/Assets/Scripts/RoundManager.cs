@@ -91,7 +91,6 @@ public class RoundManager : MonoBehaviour
 
         if (startOver)
         {
-
             currentRound = 0;
             finishedControllerSetup = false;
 
@@ -158,7 +157,7 @@ public class RoundManager : MonoBehaviour
 
 
         //DEBUG: use original scene
-        if (debugStayOnThisScene)
+        if (debugStayOnThisScene && DebugManager.Instance.useDebugSettings)
         {
             lvl = SceneManager.GetActiveScene().name;
 
@@ -213,6 +212,7 @@ public class RoundManager : MonoBehaviour
     {
         for (int i = 0; i < playerDataList.Count; i++)
         {
+            Debug.Log("iiii: " + i);
             playerDataList[i].SetPlayerInfoAfterRoundStart();
         }
 

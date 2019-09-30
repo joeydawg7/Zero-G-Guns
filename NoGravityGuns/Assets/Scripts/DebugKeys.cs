@@ -8,6 +8,7 @@ public class DebugKeys : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
         if(Input.GetKeyDown(KeyCode.F1))
         {
             PlayerScript ps = GameObject.Find("Player1").GetComponent<PlayerScript>();

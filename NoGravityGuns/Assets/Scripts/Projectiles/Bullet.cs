@@ -147,34 +147,34 @@ public class Bullet : MonoBehaviour, IPooledObject
         PlayerScript.DamageType dmgType = PlayerScript.DamageType.none;
 
         //we can get out of here early if there is no player script component on the root parent of whatever we hit, because that 100% is not a player :D
-        PlayerScript ps = collision.transform.root.GetComponent<PlayerScript>();
-        if (ps == null)
+        PlayerScript hitPlayerScript = collision.transform.root.GetComponentInChildren<PlayerScript>();
+        if (hitPlayerScript == null)
             return dmgType;
 
         //checks where we hit the other guy, deals our given damage to that location. 
         if (collision.collider.tag == "Torso")
         {
             dmgType = PlayerScript.DamageType.torso;
-            collision.transform.root.gameObject.GetComponent<PlayerScript>().TakeDamage(damage, dmgType, player, true);
-            collision.transform.GetComponentInChildren<ParticleSystem>().Emit(30);
+            hitPlayerScript.TakeDamage(damage, dmgType, this.player, true);
+           // collision.transform.GetComponentInChildren<ParticleSystem>().Emit(30);
             GetComponent<Collider2D>().enabled = false;
         }
         if (collision.collider.tag == "Head")
         {
             dmgType = PlayerScript.DamageType.head;
-            collision.transform.root.gameObject.GetComponent<PlayerScript>().TakeDamage(damage, dmgType, player, true);
+            hitPlayerScript.TakeDamage(damage, dmgType, this.player, true);
             GetComponent<Collider2D>().enabled = false;
         }
         if (collision.collider.tag == "Feet")
         {
             dmgType = PlayerScript.DamageType.feet;
-            collision.transform.root.gameObject.GetComponent<PlayerScript>().TakeDamage(damage, dmgType, player, true);
+            hitPlayerScript.TakeDamage(damage, dmgType, this.player, true);
             GetComponent<Collider2D>().enabled = false;
         }
         if (collision.collider.tag == "Leg")
         {
             dmgType = PlayerScript.DamageType.legs;
-            collision.transform.root.gameObject.GetComponent<PlayerScript>().TakeDamage(damage, dmgType, player, true);
+            hitPlayerScript.TakeDamage(damage, dmgType, this.player, true);
             GetComponent<Collider2D>().enabled = false;
         }
 

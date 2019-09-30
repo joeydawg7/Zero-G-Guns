@@ -186,16 +186,16 @@ public class GameManager : MonoBehaviour
             ps[i].gameObject.SetActive(true);
             
 
-            if(ps[i].isDummy)
+           // if(ps[i].isDummy)
                 players.Add(ps[i]);
         }
 
         RoundManager.Instance.SetAllPlayersDataIntoPlayerObjects();
 
         p1HUD.gameObject.SetActive(false);
-       // p2HUD.gameObject.SetActive(false);
-       // p3HUD.gameObject.SetActive(false);
-       // p4HUD.gameObject.SetActive(false);
+        p2HUD.gameObject.SetActive(false);
+        p3HUD.gameObject.SetActive(false);
+        p4HUD.gameObject.SetActive(false);
 
         //get rid of players that nobody is playing as... again unless your a dummy
         for (int i = players.Count - 1; i >= 0; i--)
@@ -203,7 +203,8 @@ public class GameManager : MonoBehaviour
 
             if (players[i].playerID < 1 && players[i].isDummy == false)
             {
-                players[i].gameObject.SetActive(false);
+                players[i].transform.root.gameObject.SetActive(false);
+                Debug.Log("removing " + i + "who has id of " + players[i].playerID);
                 players.Remove(players[i]);
             }
             else

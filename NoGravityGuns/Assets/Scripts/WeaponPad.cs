@@ -78,12 +78,15 @@ public class WeaponPad : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        PlayerScript player = collision.transform.root.GetComponent<PlayerScript>();
+        
         //hit a player who isnt a floating corpse, and the pad has a weapon to give
-        if ((collision.tag == "Torso" || collision.tag == "Head" || collision.tag == "Feet" || collision.tag == "Leg") && hasWeapon && currentWeapon != null && !collision.transform.root.GetComponent<PlayerScript>().isDead)
+        if ((collision.tag == "Torso" || collision.tag == "Head" || collision.tag == "Feet" || collision.tag == "Leg") && hasWeapon && currentWeapon != null)
         {
-            //just saving this for later
-            //PlayerScript player = collision.transform.root.GetComponent<PlayerScript>();
+            PlayerScript player = collision.transform.root.Find("Body").gameObject.GetComponent<PlayerScript>();
+
+            //they dead we dont need to deal with this crap
+            if (player.isDead)
+                return;
 
             //special case is a health pack which is not a gun
             if (currentWeapon.name == "HealthPack")
@@ -108,8 +111,15 @@ public class WeaponPad : MonoBehaviour
             currentWeapon = null;
             hasWeapon = false;
         }
-        else if ((collision.tag == "Torso" || collision.tag == "Head" || collision.tag == "Feet" || collision.tag == "Leg") && !hasWeapon && !collision.transform.root.GetComponent<PlayerScript>().isDead)
+        else if ((collision.tag == "Torso" || collision.tag == "Head" || collision.tag == "Feet" || collision.tag == "Leg") && !hasWeapon)
         {
+
+            PlayerScript player = collision.transform.root.Find("Body").gameObject.GetComponent<PlayerScript>();
+
+            //they dead we dont need to deal with this crap
+            if (player.isDead)
+                return;
+
             if (!player.audioSource.isPlaying)
             {
                 player.audioSource.PlayOneShot(pickupDisabled);
@@ -121,9 +131,15 @@ public class WeaponPad : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if ((collision.tag == "Torso" || collision.tag == "Head" || collision.tag == "Feet" || collision.tag == "Leg") && !collision.transform.root.GetComponent<PlayerScript>().isDead)
+        if ((collision.tag == "Torso" || collision.tag == "Head" || collision.tag == "Feet" || collision.tag == "Leg"))
         {
-            PlayerScript player = collision.transform.root.GetComponent<PlayerScript>();
+
+            PlayerScript player = collision.transform.root.Find("Body").gameObject.GetComponent<PlayerScript>();
+
+            //they dead we dont need to deal with this crap
+            if (player.isDead)
+                return;
+
             barSprite.color = emptyPadBarsColour;
         }
     }

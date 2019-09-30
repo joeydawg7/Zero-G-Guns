@@ -128,7 +128,7 @@ public class PlayerScript : MonoBehaviour
     const float TORSOSHOT_MULTIPLIER = 1f;
     const float FOOTSHOT_MULTIPLIER = 0.5f;
     const float LEGSHOT_MULTIPLIER = 0.75f;
-    const int COLLIDER_DAMAGE_MITIGATOR = 10;
+    const int COLLIDER_DAMAGE_MITIGATOR = 5;
     #endregion
     #region data collection
 
@@ -179,7 +179,7 @@ public class PlayerScript : MonoBehaviour
         spawnPoint = transform.position;
         spawnRotation = transform.rotation;
 
-       // rb = GetComponent<Rigidbody2D>();
+        rb = GetComponent<Rigidbody2D>();
         audioSource = GetComponent<AudioSource>();
         playerInput = GetComponent<PlayerInput>();
         numKills = 0;
@@ -189,8 +189,8 @@ public class PlayerScript : MonoBehaviour
         {
             legFixers.Add(child.GetComponent<LegFixer>());
         }
-
-        defaultColor = gameObject.GetComponent<SpriteRenderer>().color;
+        torsoSR = gameObject.transform.root.GetComponent<SpriteRenderer>();
+        defaultColor = torsoSR.color;
         playerLastHitBy = null;
         immuneToCollisionsTimer = 0;
 
@@ -304,8 +304,8 @@ public class PlayerScript : MonoBehaviour
                         SpawnFloatingDamageText(Mathf.RoundToInt(damage), DamageType.head, "Crit");
                         //Color.Red
                         Debug.Log("playing hs flash");
-                        HS_Flash.Play();
-                        HS_Streaks.Play();
+                       // HS_Flash.Play();
+                       // HS_Streaks.Play();
                         //HS_Flash.Emit(Random.Range(35, 45));
                         if (playBulletSFX)
                             audioSource.PlayOneShot(headShot);
@@ -460,7 +460,7 @@ public class PlayerScript : MonoBehaviour
            // armsSR = armsScript.currentArms.GetComponent<SpriteRenderer>();
 
             torsoSR.color = deadColor;
-            armsSR.color = deadColor;
+            //armsSR.color = deadColor;
 
             foreach (var sr in legsSR)
             {
@@ -698,7 +698,7 @@ public class PlayerScript : MonoBehaviour
 
         armsScript.EquipGun(GameManager.Instance.pistol);
 
-        torsoSR = GetComponent<SpriteRenderer>();
+        //torsoSR = GetComponent<SpriteRenderer>();
         //armsSR = armsScript.currentArms.GetComponent<SpriteRenderer>();
         legsSR = legsParent.GetComponentsInChildren<SpriteRenderer>();
 
@@ -724,6 +724,7 @@ public class PlayerScript : MonoBehaviour
     #region collision Damage
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        Debug.Log("hit something!");
         if (collision.collider.tag == "ImpactObject" || collision.collider.tag == "ExplosiveObject" || collision.collider.tag == "Chunk")
         {
             DealColliderDamage(collision, "Torso", null);
@@ -731,7 +732,7 @@ public class PlayerScript : MonoBehaviour
         else if ((collision.collider.tag == "Torso" && collision.gameObject != this.gameObject) || (collision.collider.tag == "Head" && collision.gameObject != this.gameObject)
             || (collision.collider.tag == "Feet" && collision.gameObject != this.gameObject) || (collision.collider.tag == "Legs" && collision.gameObject != this.gameObject))
         {
-            PlayerScript hitBy = collision.transform.root.GetComponent<PlayerScript>();
+            PlayerScript hitBy = collision.transform.root.GetComponentInChildren<PlayerScript>();
             DealColliderDamage(collision, "Torso", hitBy);
         }
 

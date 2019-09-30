@@ -31,6 +31,7 @@ public class PlayerDataScript : MonoBehaviour
     public void SetPlayerInfoAfterRoundStart()
     {
         //GameManager gameManager = GameManager.Instance;
+        Debug.Log("player id = " + playerID);
 
         switch (playerID)
         {
@@ -60,6 +61,8 @@ public class PlayerDataScript : MonoBehaviour
         playerScript.playerID  = playerID;
         playerScript.hexColorCode = hexColorCode;
         playerScript.playerName = playerName;
+
+        Debug.Log("player id in set :" + playerID);
         
         //playerScript.OnGameStart();
     }

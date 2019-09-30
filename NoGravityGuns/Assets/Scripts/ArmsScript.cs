@@ -11,6 +11,12 @@ using UnityEngine.Experimental.U2D.IK;
 public class ArmsScript : MonoBehaviour
 {
     #region Publics
+
+    [Header("Debug")]
+    public bool showAimingVector;
+    [Header("----------")]
+
+
     public PlayerScript basePlayer;
 
     [Header("Gun")]
@@ -79,7 +85,7 @@ public class ArmsScript : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
 
         shootDir = new Vector3(-4f, 1f, 0);
-       // handBone.right = new Vector2(IKTarget.transform.localPosition.x, IKTarget.transform.localPosition.y * -1) - new Vector2(shootDir.x * -1, shootDir.y);
+        // handBone.right = new Vector2(IKTarget.transform.localPosition.x, IKTarget.transform.localPosition.y * -1) - new Vector2(shootDir.x * -1, shootDir.y);
 
         cameraShake = Camera.main.GetComponent<CameraShake>();
 
@@ -131,21 +137,25 @@ public class ArmsScript : MonoBehaviour
             shootDir = -Vector2.right * rawAim + Vector2.up * rawAim;
             shootDir = shootDir.normalized * targetVectorLength;
             IKTarget.transform.localPosition = shootDir;
-            handBone.right  = new Vector2(IKTarget.transform.localPosition.x, IKTarget.transform.localPosition.y * -1) - new Vector2(shootDir.x * -1, shootDir.y) * Vector2.right;
-            
+            handBone.right = new Vector2(IKTarget.transform.localPosition.x, IKTarget.transform.localPosition.y * -1) - new Vector2(shootDir.x * -1, shootDir.y) * Vector2.right;
+
 
         }
 
-      
+
 
     }
 
     private void OnDrawGizmos()
     {
-        Gizmos.color = Color.magenta;
-        // DrawHelperAtCenter(shootDir, Color.red, 1f);
-        if (IKTarget != null)
-            Gizmos.DrawLine(transform.position, IKTarget.transform.position);
+
+        if (showAimingVector && DebugManager.Instance.useDebugSettings)
+        {
+            Gizmos.color = Color.magenta;
+            // DrawHelperAtCenter(shootDir, Color.red, 1f);
+            if (IKTarget != null)
+                Gizmos.DrawLine(transform.position, IKTarget.transform.position);
+        }
 
     }
 
@@ -201,7 +211,6 @@ public class ArmsScript : MonoBehaviour
 
         //find the new bulelt spawn location (bleh)
         bulletSpawn = gunGo.transform.Find("BulletSpawner");
-        Debug.Log(bulletSpawn.transform.position);
         //update UI
         SendGunText();
     }
@@ -218,20 +227,20 @@ public class ArmsScript : MonoBehaviour
 
     //public void EquipArms(GunSO gun)
     //{
-      //  HideAllGuns();
-
-       
+    //  HideAllGuns();
 
 
-        //armsSR = armGo.GetComponent<SpriteRenderer>();
 
-        //armGo.SetActive(true);
 
-        //armGo.GetComponent<SpriteRenderer>().color = defaultColor;
-        //armsScript.EquipGun(gun, armGo);
+    //armsSR = armGo.GetComponent<SpriteRenderer>();
 
-       
-   // }
+    //armGo.SetActive(true);
+
+    //armGo.GetComponent<SpriteRenderer>().color = defaultColor;
+    //armsScript.EquipGun(gun, armGo);
+
+
+    // }
 
 
     public void OnShoot()

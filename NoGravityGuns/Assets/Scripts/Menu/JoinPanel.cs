@@ -31,8 +31,6 @@ public class JoinPanel : MonoBehaviour
 
     public PlayerScript AssignController(int i, Controller controller)
     {
-
-
         image.sprite = readySprite;
         //MainText.text = "Player " + controller + " joined!";
         hasAssignedController = true;

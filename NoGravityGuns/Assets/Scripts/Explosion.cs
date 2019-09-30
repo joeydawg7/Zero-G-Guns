@@ -77,11 +77,13 @@ public class Explosion : MonoBehaviour, IPooledObject
         {
             Rigidbody2D rb = hit.GetComponent<Rigidbody2D>();
 
-            //the the target has no rigid body but its highest parent has one, use that instead
+            //the target has no rigid body but its highest parent has one, use that instead
             if (rb == null && hit.transform.root.GetComponent<Rigidbody2D>() != null)
             {
                 rb = hit.transform.root.GetComponent<Rigidbody2D>();
             }
+
+           
 
             if (rb != null)
             {
@@ -96,7 +98,7 @@ public class Explosion : MonoBehaviour, IPooledObject
                     }
                     //give impact objects a bit more push than other things
                     else if (rb.tag == "ImpactObject" || rb.tag == "ExplosiveObject" || rb.tag == "Chunk")
-                    {                      
+                    {
                         rb.AddExplosionForce(power * physicsObjectPushForceMod, explosionPos, radius, ForceMode2D.Force);
                     }
                     else
@@ -153,8 +155,6 @@ public static class Rigidbody2DExt
     {
         var dir = (body.transform.position - explosionPosition);
 
-
-
         float wearoff = 1 - (dir.magnitude / explosionRadius);
         body.AddForce(dir.normalized * (wearoff <= 0f ? 0f : explosionForce) * wearoff);
 
@@ -183,7 +183,7 @@ public static class Rigidbody2DExt
 
         Vector3 force = dir.normalized * (wearoff <= 0f ? 0f : explosionForce) * wearoff;
 
-        Debug.Log(body.gameObject.name + ": " + dir + ", normalized: " + dir.normalized + " "  + wearoff + " sum force: " + force);
+       // Debug.Log(body.gameObject.name + ": " + dir + ", normalized: " + dir.normalized + " "  + wearoff + " sum force: " + force);
 
     }
 
@@ -191,11 +191,15 @@ public static class Rigidbody2DExt
     {
         float dmg = damageAtCenter * wearoff;
 
-        if (body.transform.root.GetComponent<PlayerScript>() != null && dealDamage)
+        PlayerScript HitplayerScript = body.transform.root.GetComponentInChildren<PlayerScript>();
+
+        Debug.Log(HitplayerScript.gameObject.name);
+
+        if (HitplayerScript != null && dealDamage)
         {
             if (dmg > 0)
             {
-                body.transform.root.GetComponent<PlayerScript>().TakeDamage(dmg, PlayerScript.DamageType.torso, playerWhoShot, true);
+                HitplayerScript.TakeDamage(dmg, PlayerScript.DamageType.torso, playerWhoShot, true);
             }
         }
     }

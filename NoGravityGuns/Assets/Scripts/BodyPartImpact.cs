@@ -4,8 +4,13 @@ using UnityEngine;
 
 public class BodyPartImpact : MonoBehaviour
 {
-
+    [HideInInspector]
     public PlayerScript playerScript;
+
+    private void Awake()
+    {
+        playerScript = transform.root.GetComponentInChildren<PlayerScript>();
+    }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -14,6 +19,7 @@ public class BodyPartImpact : MonoBehaviour
         {
             playerScript.DealColliderDamage(collision, gameObject.tag, null);
         }
+        //someone else bumped into you
         else if (collision.collider.tag == "Torso" || collision.collider.tag == "Head" || collision.collider.tag == "Feet" || collision.collider.tag == "Legs")
         {
             PlayerScript hitBy = collision.transform.root.GetComponent<PlayerScript>();
