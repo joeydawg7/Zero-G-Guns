@@ -36,7 +36,6 @@ public class JoinPanel : MonoBehaviour
         image.sprite = readySprite;
         //MainText.text = "Player " + controller + " joined!";
         hasAssignedController = true;
-
         player.SetController(i, controller);
 
         return player;

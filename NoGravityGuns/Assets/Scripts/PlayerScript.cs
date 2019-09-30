@@ -104,7 +104,7 @@ public class PlayerScript : MonoBehaviour
     public string playerName;
     [HideInInspector]
     public string hexColorCode;
-    [HideInInspector]
+   // [HideInInspector]
     public Rigidbody2D rb;
     [HideInInspector]
     public PlayerInput playerInput;
@@ -179,7 +179,7 @@ public class PlayerScript : MonoBehaviour
         spawnPoint = transform.position;
         spawnRotation = transform.rotation;
 
-        rb = GetComponent<Rigidbody2D>();
+       // rb = GetComponent<Rigidbody2D>();
         audioSource = GetComponent<AudioSource>();
         playerInput = GetComponent<PlayerInput>();
         numKills = 0;
@@ -222,32 +222,6 @@ public class PlayerScript : MonoBehaviour
         {
             immuneToCollisionsTimer += Time.deltaTime;
 
-            //track data if we allow it
-            /*
-            if (!isDummy)
-            {
-                if (armsScript.currentArms == pistolArms)
-                {
-                    pistolTime += Time.deltaTime;
-                }
-                else if (armsScript.currentArms == assaultRifleArms)
-                {
-                    rifleTime += Time.deltaTime;
-                }
-                else if (armsScript.currentArms == shotGunArms)
-                {
-                    shotgunTime += Time.deltaTime;
-                }
-                else if (armsScript.currentArms == railGunArms)
-                {
-                    railgunTime += Time.deltaTime;
-                }
-                else if (armsScript.currentArms == LMGArms)
-                {
-                    miniGunTime += Time.deltaTime;
-                }
-            }
-            */
         }
 
         //DEBUG: take damage to torso
@@ -272,7 +246,7 @@ public class PlayerScript : MonoBehaviour
     public void OnDrop()
     {
         if (!isDummy && player.GetButtonDown("Drop"))
-            EquipArms(GameManager.Instance.pistol);
+            armsScript.EquipGun(GameManager.Instance.pistol);
     }
 
     void OnPause()
@@ -291,89 +265,8 @@ public class PlayerScript : MonoBehaviour
     #endregion
 
     #region Equipping and unequipping
-    public void EquipArms(GunSO gun)
-    {
-        HideAllArms();
-
-        GameObject armGo = GameObject.Instantiate(gun.armsObject, armsScript.transform);
-
-
-        armsSR = armGo.GetComponent<SpriteRenderer>();
-
-        armGo.SetActive(true);
-
-        armGo.GetComponent<SpriteRenderer>().color = defaultColor;
-        armsScript.EquipGun(gun, armGo);
-        armsScript.currentArms = armGo;
-
-        /*
-        switch (gunType)
-        {
-            
-            case GunType.pistol:
-                pistolArms.SetActive(true);
-                pistolArms.GetComponent<SpriteRenderer>().color = defaultColor;
-                armsScript.EquipGun(gun, pistolArms);
-                armsScript.currentArms = pistolArms;
-                break;
-            case GunType.railGun:
-                railGunArms.SetActive(true);
-                railGunArms.GetComponent<SpriteRenderer>().color = defaultColor;
-                armsScript.EquipGun(gun, railGunArms);
-                armsScript.currentArms = railGunArms;
-                break;
-            case GunType.assaultRifle:
-                assaultRifleArms.SetActive(true);
-                assaultRifleArms.GetComponent<SpriteRenderer>().color = defaultColor;
-                armsScript.EquipGun(gun, assaultRifleArms);
-                armsScript.currentArms = assaultRifleArms;
-                break;
-            case GunType.LMG:
-                LMGArms.SetActive(true);
-                LMGArms.GetComponent<SpriteRenderer>().color = defaultColor;
-                armsScript.EquipGun(gun, LMGArms);
-                armsScript.currentArms = LMGArms;
-                break;
-            case GunType.shotgun:
-                shotGunArms.SetActive(true);
-                shotGunArms.GetComponent<SpriteRenderer>().color = defaultColor;
-                armsScript.EquipGun(gun, shotGunArms);
-                armsScript.currentArms = shotGunArms;
-                break;
-            case GunType.RPG:
-                RPGArms.SetActive(true);
-                RPGArms.GetComponent<SpriteRenderer>().color = defaultColor;
-                armsScript.EquipGun(gun, RPGArms);
-                armsScript.currentArms = RPGArms;
-                break;
-            case GunType.mineLauncher:
-                mineLauncherArms.SetActive(true);
-                mineLauncherArms.GetComponent<SpriteRenderer>().color = defaultColor;
-                armsScript.EquipGun(gun, mineLauncherArms);
-                armsScript.currentArms = mineLauncherArms;
-                break;
-            default:
-                Debug.LogError("This isn't a gun!");
-                break;
-        }*/
-
-        armsScript.audioSource.pitch = 1;
-
-        armsScript.SendGunText();
-    }
-
-    void HideAllArms()
-    {
-        /*foreach (var arm in AllArms)
-        {
-            arm.SetActive(false);
-        }*/
-        for (int i = 0; i < armsScript.transform.childCount; i++)
-        {
-            if (gameObject.tag == "Gun")
-                Destroy(armsScript.transform.GetChild(i).gameObject);
-        }
-    }
+  
+    
     #endregion
 
     #region Take Damage
@@ -564,7 +457,7 @@ public class PlayerScript : MonoBehaviour
                     playerUIPanel.Destroy();
                 GameManager.Instance.CheckForLastManStanding();
             }
-            armsSR = armsScript.currentArms.GetComponent<SpriteRenderer>();
+           // armsSR = armsScript.currentArms.GetComponent<SpriteRenderer>();
 
             torsoSR.color = deadColor;
             armsSR.color = deadColor;
@@ -624,7 +517,7 @@ public class PlayerScript : MonoBehaviour
         //last thing you were hit by set back to world, just in case you suicide without help
         playerLastHitBy = null;
 
-        EquipArms(GameManager.Instance.pistol);
+        armsScript.EquipGun(GameManager.Instance.pistol);
         armsScript.currentAmmo = armsScript.currentWeapon.clipSize;
 
         if (numLives <= 0)
@@ -655,14 +548,14 @@ public class PlayerScript : MonoBehaviour
     IEnumerator RespawnInvulernability()
     {
         isInvulnerable = true;
-        armsSR = armsScript.currentArms.GetComponent<SpriteRenderer>();
+        //armsSR = armsScript.currentArms.GetComponent<SpriteRenderer>();
 
         float invulnerabilityFlashIncriments = (float)invulnerablityTime / 12f;
 
         for (int i = 0; i < invulnerablityTime; i++)
         {
             torsoSR.color = invulnerabilityColorFlash;
-            armsSR.color = invulnerabilityColorFlash;
+            //armsSR.color = invulnerabilityColorFlash;
             foreach (var sr in legsSR)
             {
                 sr.color = invulnerabilityColorFlash;
@@ -670,7 +563,7 @@ public class PlayerScript : MonoBehaviour
 
             yield return new WaitForSeconds(invulnerabilityFlashIncriments);
             torsoSR.color = defaultColor;
-            armsSR.color = defaultColor;
+            //armsSR.color = defaultColor;
             foreach (var sr in legsSR)
             {
                 sr.color = defaultColor;
@@ -678,7 +571,7 @@ public class PlayerScript : MonoBehaviour
 
             yield return new WaitForSeconds(invulnerabilityFlashIncriments);
             torsoSR.color = invulnerabilityColorFlash;
-            armsSR.color = invulnerabilityColorFlash;
+           // armsSR.color = invulnerabilityColorFlash;
             foreach (var sr in legsSR)
             {
                 sr.color = invulnerabilityColorFlash;
@@ -686,15 +579,15 @@ public class PlayerScript : MonoBehaviour
 
             yield return new WaitForSeconds(invulnerabilityFlashIncriments);
             torsoSR.color = defaultColor;
-            armsSR.color = defaultColor;
+           // armsSR.color = defaultColor;
             foreach (var sr in legsSR)
             {
                 sr.color = defaultColor;
             }
         }
-
+        
         torsoSR.color = defaultColor;
-        armsSR.color = defaultColor;
+        //armsSR.color = defaultColor;
         foreach (var sr in legsSR)
         {
             sr.color = defaultColor;
@@ -803,10 +696,10 @@ public class PlayerScript : MonoBehaviour
         LMGArms.SetActive(false);
         */
 
-        EquipArms(GameManager.Instance.pistol);
+        armsScript.EquipGun(GameManager.Instance.pistol);
 
         torsoSR = GetComponent<SpriteRenderer>();
-        armsSR = armsScript.currentArms.GetComponent<SpriteRenderer>();
+        //armsSR = armsScript.currentArms.GetComponent<SpriteRenderer>();
         legsSR = legsParent.GetComponentsInChildren<SpriteRenderer>();
 
 

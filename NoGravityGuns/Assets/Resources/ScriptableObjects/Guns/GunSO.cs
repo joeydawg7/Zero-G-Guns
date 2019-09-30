@@ -15,7 +15,7 @@ public class GunSO : ScriptableObject
     public int clipSize;
     public int numBullets;
 
-    public GameObject armsObject;
+    public GameObject gunPrefab;
 
     public Sprite theGun;
 
@@ -90,7 +90,7 @@ public class GunSO : ScriptableObject
         if (player.armsScript.currentAmmo <= 0)
         {
             //reloadCoroutine = StartCoroutine(Reload());
-            player.EquipArms(GameManager.Instance.pistol);
+            player.armsScript.EquipGun(GameManager.Instance.pistol);
         }
     }
 

@@ -85,7 +85,7 @@ public class GunSO_grappleShot : GunSO
         if (arms.currentAmmo <= 0)
         {
             //reloadCoroutine = StartCoroutine(Reload());
-            player.EquipArms(GameManager.Instance.pistol);
+            player.armsScript.EquipGun(GameManager.Instance.pistol);
         }
     }
 

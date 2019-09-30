@@ -63,7 +63,7 @@ public class GunSO_explosiveShot : GunSO
         arms.audioSource.PlayOneShot(GetRandomGunshotSFX);
 
         //sparks before shot
-        arms.currentArms.GetComponentInChildren<ParticleSystem>().Emit(UnityEngine.Random.Range(15, 40));
+        //arms.currentArms.GetComponentInChildren<ParticleSystem>().Emit(UnityEngine.Random.Range(15, 40));
 
         //while we are holding the trigger down and still holding an rpg
         while (player.player.GetAxis("Shoot") > 0.5f && name == "RPG")
@@ -107,7 +107,7 @@ public class GunSO_explosiveShot : GunSO
         if (arms.currentAmmo <= 0)
         {
             //reloadCoroutine = StartCoroutine(Reload());
-            player.EquipArms(GameManager.Instance.pistol);
+            player.armsScript.EquipGun(GameManager.Instance.pistol);
         }
     }
 
