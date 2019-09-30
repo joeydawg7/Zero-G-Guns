@@ -192,6 +192,7 @@ public class PlayerScript : MonoBehaviour
         //    legFixers.Add(child.GetComponent<LegFixer>());
         //}
         torsoSR = gameObject.transform.root.GetComponent<SpriteRenderer>();
+        torsoSR.color = playerColor;
         defaultColor = torsoSR.color;
         playerLastHitBy = null;
         immuneToCollisionsTimer = 0;
@@ -722,6 +723,7 @@ public class PlayerScript : MonoBehaviour
         }
 
         rb.simulated = true;
+
 
         RoundManager.Instance.SetPlayer(this);
 
