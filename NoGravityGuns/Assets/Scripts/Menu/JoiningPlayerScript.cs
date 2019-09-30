@@ -192,7 +192,7 @@ public class JoiningPlayerScript : MonoBehaviour
 
         AddPlayerControllerSetup(joystick.id, joystick);
 
-        Debug.Log("Assigned " + joystick.name + " to Player " + joystick.id);
+        Debug.Log("Assigned " + joystick.name + " " + joystick.id + " to Player " + player.id);
 
         tipToStart.alpha = 1;
     }
