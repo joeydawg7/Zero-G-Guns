@@ -37,7 +37,7 @@ public class Chinese_Coil : MonoBehaviour
                 Explosion explosion;
 
                 //explode outwards when hit
-                GameObject go = ObjectPooler.Instance.SpawnFromPool("Explosion", transform.position, Quaternion.identity, transform.parent);
+                GameObject go = ObjectPooler.Instance.SpawnFromPool("Explosion", GetComponent<CircleCollider2D>().bounds.center, Quaternion.identity, transform.parent);
                 explosion = go.GetComponent<Explosion>();
                 explosion.Explode(null, explosionRadius, explosionPower, damageAtcenter, cameraShakeDuration, 40f);
 
