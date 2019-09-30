@@ -13,6 +13,7 @@ public class Chinese_Coil : MonoBehaviour
     public float cameraShakeDuration = 0.25f;
 
 
+
     // Start is called before the first frame update
     void Start()
     {   
@@ -24,6 +25,7 @@ public class Chinese_Coil : MonoBehaviour
         
     }
 
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if(collision.tag == "Player")
@@ -32,7 +34,7 @@ public class Chinese_Coil : MonoBehaviour
 
             if (!player.isDead)
             {
-                player.TakeDamage(Random.Range(10, 25), PlayerScript.DamageType.torso, null, false);
+               // player.TakeDamage(Random.Range(10, 25), PlayerScript.DamageType.torso, null, false);
 
                 Explosion explosion;
 
