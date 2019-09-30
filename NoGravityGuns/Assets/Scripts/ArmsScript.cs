@@ -16,7 +16,7 @@ public class ArmsScript : MonoBehaviour
     public bool showAimingVector;
     [Header("----------")]
 
-
+    [HideInInspector]
     public PlayerScript basePlayer;
 
     [Header("Gun")]

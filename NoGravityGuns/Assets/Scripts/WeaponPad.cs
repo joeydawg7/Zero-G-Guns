@@ -82,7 +82,7 @@ public class WeaponPad : MonoBehaviour
         //hit a player who isnt a floating corpse, and the pad has a weapon to give
         if ((collision.tag == "Torso" || collision.tag == "Head" || collision.tag == "Feet" || collision.tag == "Leg") && hasWeapon && currentWeapon != null)
         {
-            PlayerScript player = collision.transform.root.Find("Body").gameObject.GetComponent<PlayerScript>();
+            PlayerScript player = collision.transform.root.GetComponentInChildren<PlayerScript>();
 
             //they dead we dont need to deal with this crap
             if (player.isDead)
@@ -114,7 +114,7 @@ public class WeaponPad : MonoBehaviour
         else if ((collision.tag == "Torso" || collision.tag == "Head" || collision.tag == "Feet" || collision.tag == "Leg") && !hasWeapon)
         {
 
-            PlayerScript player = collision.transform.root.Find("Body").gameObject.GetComponent<PlayerScript>();
+            PlayerScript player = collision.transform.root.GetComponentInChildren<PlayerScript>();
 
             //they dead we dont need to deal with this crap
             if (player.isDead)
@@ -134,7 +134,7 @@ public class WeaponPad : MonoBehaviour
         if ((collision.tag == "Torso" || collision.tag == "Head" || collision.tag == "Feet" || collision.tag == "Leg"))
         {
 
-            PlayerScript player = collision.transform.root.Find("Body").gameObject.GetComponent<PlayerScript>();
+            PlayerScript player = collision.transform.root.GetComponentInChildren<PlayerScript>();
 
             //they dead we dont need to deal with this crap
             if (player.isDead)
