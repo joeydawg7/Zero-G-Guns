@@ -32,6 +32,7 @@ public class PlayerScript : MonoBehaviour
     public Sprite killTag;
 
     [Header("Controller Stuff")]
+    [HideInInspector]
     public int playerID;
     public InputUser user;
     [HideInInspector]
@@ -172,6 +173,7 @@ public class PlayerScript : MonoBehaviour
     #region Awake, Update, Start
     private void Awake()
     {
+        playerID = 0;
 
         health = 100;
         float barVal = ((float)health / 100f);

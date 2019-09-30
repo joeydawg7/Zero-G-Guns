@@ -6,6 +6,14 @@ public class Chinese_Coil : MonoBehaviour
 {   
     public ParticleSystem playerLighting;
     public AudioClip shockClip;
+
+    public float explosionRadius = 15;
+    public float explosionPower = 250;
+    public float damageAtcenter = 20f;
+    public float cameraShakeDuration = 0.25f;
+
+
+
     // Start is called before the first frame update
     void Start()
     {   
@@ -17,6 +25,7 @@ public class Chinese_Coil : MonoBehaviour
         
     }
 
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if(collision.tag == "Player")
@@ -25,7 +34,16 @@ public class Chinese_Coil : MonoBehaviour
 
             if (!player.isDead)
             {
-                player.TakeDamage(Random.Range(25, 50), PlayerScript.DamageType.torso, null, false);
+               // player.TakeDamage(Random.Range(10, 25), PlayerScript.DamageType.torso, null, false);
+
+                Explosion explosion;
+
+                //explode outwards when hit
+                GameObject go = ObjectPooler.Instance.SpawnFromPool("Explosion", GetComponent<CircleCollider2D>().bounds.center, Quaternion.identity, transform.parent);
+                explosion = go.GetComponent<Explosion>();
+                explosion.Explode(null, explosionRadius, explosionPower, damageAtcenter, cameraShakeDuration, 40f);
+
+
                 playerLighting.transform.parent = collision.gameObject.transform;
                 playerLighting.transform.localPosition = Vector3.zero;
                 playerLighting.Play();
