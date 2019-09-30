@@ -21,13 +21,15 @@ public class ArmsScript : MonoBehaviour
 
     public float targetVectorLength;
 
+
     public Transform handBone;
+    public Transform frontupperArmBone;
 
     [Header("Audio")]
     public AudioClip dryFire;
 
     public Transform IKTarget;
-   // public Transform parentObject;
+    // public Transform parentObject;
 
     #endregion
 
@@ -38,7 +40,7 @@ public class ArmsScript : MonoBehaviour
     [HideInInspector]
     public bool isReloading;
     [HideInInspector]
-    public GameObject currentArms;
+    public GameObject currentGun;
     [HideInInspector]
     public AudioSource audioSource;
     [HideInInspector]
@@ -58,10 +60,10 @@ public class ArmsScript : MonoBehaviour
     Coroutine rotateCoroutine;
     Vector3 dir;
     GameManager gameManager;
-    int totalBulletsGunCanLoad; 
+    int totalBulletsGunCanLoad;
     LimbSolver2D IKLimbSolver;
 
-    
+
 
     #endregion
 
@@ -76,12 +78,13 @@ public class ArmsScript : MonoBehaviour
 
         audioSource = GetComponent<AudioSource>();
 
-        shootDir = new Vector3(0, 0, 0);
+        shootDir = new Vector3(-4f, 1f, 0);
+       // handBone.right = new Vector2(IKTarget.transform.localPosition.x, IKTarget.transform.localPosition.y * -1) - new Vector2(shootDir.x * -1, shootDir.y);
 
         cameraShake = Camera.main.GetComponent<CameraShake>();
 
-        if(IKTarget!=null)  
-        IKLimbSolver = IKTarget.parent.GetComponent<LimbSolver2D>();
+        if (IKTarget != null)
+            IKLimbSolver = IKTarget.parent.GetComponent<LimbSolver2D>();
 
     }
 
@@ -117,7 +120,9 @@ public class ArmsScript : MonoBehaviour
     {
         Vector2 rawAim = basePlayer.player.GetAxis2D("Move Horizontal", "Move Vertical");
 
-        Transform parentObject = transform.root;
+        transform.position = frontupperArmBone.position;
+
+        //targetVectorLength = rawAim.x*10f;
 
         //if we are aiming somewhere update everything, else we will hold on last known direction
         if (rawAim.magnitude > 0f)
@@ -125,60 +130,13 @@ public class ArmsScript : MonoBehaviour
             // aiming stuff
             shootDir = -Vector2.right * rawAim + Vector2.up * rawAim;
             shootDir = shootDir.normalized * targetVectorLength;
-
-            if (IKTarget != null)
-            {
-                Transform ikParent = IKTarget.transform.parent;
-
-                if (parentObject != null)
-                {
-
-                     
-
-                    //if (shootDir.x >= 0  && flipped == false)
-                    //{
-                    //    //parentObject.rotation = Quaternion.Euler(parentObject.rotation.x, 180f, parentObject.rotation.z);
-                    //    // parentObject.localScale = new Vector3(0.6f, parentObject.localScale.y, parentObject.localScale.z);
-
-                    //    //IKLimbSolver.flip = true;
-                    //    // flipStatus = -1;
-
-                    //    parentObject.localEulerAngles = parentObject.eulerAngles + new Vector3(0, 180, -2 * parentObject.eulerAngles.z);
-                    //    flipped = true;
-                    //}
-                    //else if(shootDir.x <=0 && flipped == true)
-                    //{
-                    //    //parentObject.rotation = Quaternion.Euler(parentObject.rotation.x, 0f, parentObject.rotation.z);
-                    //    // IKLimbSolver.flip = false;
-                    //    // parentObject.localScale = new Vector3(-0.6f, parentObject.localScale.y, parentObject.localScale.z);
-                    //    // parentObject.localEulerAngles = parentObject.eulerAngles + new Vector3(0, 180, -2 * parentObject.eulerAngles.z);
-                    //    //flipStatus = 1;
-                    //    parentObject.localEulerAngles = parentObject.eulerAngles + new Vector3(0, 180, -2 * parentObject.eulerAngles.z);
-                    //    flipped = false;
-
-                    //}
-                }
-
-                //Vector2 heading = ikParent.position - handBone.position;
-
-                //var distance = heading.magnitude;
-                //Vector2 direction = (heading / distance); // This is now the normalized direction.
-
-
-                //rotation = Quaternion.LookRotation(Vector3.forward, shootDir * -1f);
-                //rotation = handBone.rotation;
-                //handBone.transform.rotation = rotation;
-
-                //handBone.transform.LookAt(IKPos.transform.parent, handBone.up);
-
-                //handBone.rotation = Quaternion.Euler(direction*-1f);
-
-                IKTarget.transform.localPosition = shootDir;
-
-                handBone.right = new Vector2(IKTarget.transform.localPosition.x, IKTarget.transform.localPosition.y * -1) - new Vector2(shootDir.x * -1, shootDir.y);
-            }
+            IKTarget.transform.localPosition = shootDir;
+            handBone.right  = new Vector2(IKTarget.transform.localPosition.x, IKTarget.transform.localPosition.y * -1) - new Vector2(shootDir.x * -1, shootDir.y) * Vector2.right;
+            
 
         }
+
+      
 
     }
 
@@ -220,8 +178,20 @@ public class ArmsScript : MonoBehaviour
     }
 
     //equips a new gun
-    public void EquipGun(GunSO weaponToEquip, GameObject gunObj)
+    public void EquipGun(GunSO weaponToEquip)
     {
+        //get rid of all the other guns
+        HideAllGuns();
+
+        //spawn new gun
+        GameObject gunGo = GameObject.Instantiate(weaponToEquip.gunPrefab, handBone);
+
+        //set gun position and hand position
+        GunPositionValue gunPosValue = gunGo.GetComponent<GunPositionValue>();
+        gunGo.transform.localPosition = gunPosValue.position;
+        gunPosValue.SetHandPositions(this);
+
+
         //set weapon and bullet stats for new gun
         currentWeapon = weaponToEquip;
         totalBulletsGunCanLoad = weaponToEquip.numBullets;
@@ -230,10 +200,39 @@ public class ArmsScript : MonoBehaviour
         isReloading = false;
 
         //find the new bulelt spawn location (bleh)
-        bulletSpawn = gunObj.transform.Find("BulletSpawner");
+        bulletSpawn = gunGo.transform.Find("BulletSpawner");
+        Debug.Log(bulletSpawn.transform.position);
         //update UI
         SendGunText();
     }
+
+    void HideAllGuns()
+    {
+
+        for (int i = 0; i < handBone.childCount; i++)
+        {
+            if (handBone.GetChild(i).tag == "Gun")
+                Destroy(handBone.GetChild(i).gameObject);
+        }
+    }
+
+    //public void EquipArms(GunSO gun)
+    //{
+      //  HideAllGuns();
+
+       
+
+
+        //armsSR = armGo.GetComponent<SpriteRenderer>();
+
+        //armGo.SetActive(true);
+
+        //armGo.GetComponent<SpriteRenderer>().color = defaultColor;
+        //armsScript.EquipGun(gun, armGo);
+
+       
+   // }
+
 
     public void OnShoot()
     {
