@@ -3212,7 +3212,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1529705301, guid: 936d6e0ecb1e16f408bec4ccf4a21534, type: 3}
       propertyPath: playerColor.rgba
-      value: 4278255615
+      value: 4278359786
       objectReference: {fileID: 0}
     - target: {fileID: 1529705301, guid: 936d6e0ecb1e16f408bec4ccf4a21534, type: 3}
       propertyPath: collisionLayer
@@ -10473,6 +10473,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerLighting: {fileID: 0}
   shockClip: {fileID: 0}
+  explosionRadius: 15
+  explosionPower: 250
+  damageAtcenter: 20
+  cameraShakeDuration: 0.25
 --- !u!1 &1872342595
 GameObject:
   m_ObjectHideFlags: 0
