@@ -276,8 +276,8 @@ public class PlayerScript : MonoBehaviour
     #endregion
 
     #region Equipping and unequipping
-  
-    
+
+
     #endregion
 
     #region Take Damage
@@ -315,8 +315,8 @@ public class PlayerScript : MonoBehaviour
                         SpawnFloatingDamageText(Mathf.RoundToInt(damage), DamageType.head, "Crit");
                         //Color.Red
                         Debug.Log("playing hs flash");
-                       // HS_Flash.Play();
-                       // HS_Streaks.Play();
+                        // HS_Flash.Play();
+                        // HS_Streaks.Play();
                         //HS_Flash.Emit(Random.Range(35, 45));
                         if (playBulletSFX)
                             audioSource.PlayOneShot(headShot);
@@ -463,12 +463,12 @@ public class PlayerScript : MonoBehaviour
             if (numLives <= 0)
             {
                 playerUIPanel.Disable();
-                cameraParent.GetComponent<CameraController>().RemovePlayerFromCameraTrack(gameObject, 0.5f);
+
                 if (!isDummy)
                     playerUIPanel.Destroy();
-                GameManager.Instance.CheckForLastManStanding();
+                GameManager.Instance.CheckForLastManStanding(transform);
             }
-           // armsSR = armsScript.currentArms.GetComponent<SpriteRenderer>();
+            // armsSR = armsScript.currentArms.GetComponent<SpriteRenderer>();
 
             torsoSR.color = deadColor;
             //armsSR.color = deadColor;
@@ -582,7 +582,7 @@ public class PlayerScript : MonoBehaviour
 
             yield return new WaitForSeconds(invulnerabilityFlashIncriments);
             torsoSR.color = invulnerabilityColorFlash;
-           // armsSR.color = invulnerabilityColorFlash;
+            // armsSR.color = invulnerabilityColorFlash;
             //foreach (var sr in legsSR)
             //{
             //    sr.color = invulnerabilityColorFlash;
@@ -590,13 +590,13 @@ public class PlayerScript : MonoBehaviour
 
             yield return new WaitForSeconds(invulnerabilityFlashIncriments);
             torsoSR.color = defaultColor;
-           // armsSR.color = defaultColor;
+            // armsSR.color = defaultColor;
             //foreach (var sr in legsSR)
             //{
             //    sr.color = defaultColor;
             //}
         }
-        
+
         torsoSR.color = defaultColor;
         //armsSR.color = defaultColor;
         //foreach (var sr in legsSR)
