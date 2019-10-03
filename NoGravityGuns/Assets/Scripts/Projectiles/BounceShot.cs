@@ -12,7 +12,7 @@ public class BounceShot : Bullet
 
         canBounce = true;
 
-        SetPFXTrail("LightningTrail", true);
+        SetPFXTrail("RocketTrail", true);
 
     }
 
