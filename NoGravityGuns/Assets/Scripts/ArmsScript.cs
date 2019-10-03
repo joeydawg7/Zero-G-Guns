@@ -136,6 +136,7 @@ public class ArmsScript : MonoBehaviour
             // aiming stuff
             shootDir = -Vector2.right * rawAim + Vector2.up * rawAim;
             shootDir = shootDir.normalized * targetVectorLength;
+
             IKTarget.transform.localPosition = shootDir;
             handBone.right = new Vector2(IKTarget.transform.localPosition.x, IKTarget.transform.localPosition.y * -1) - new Vector2(shootDir.x * -1, shootDir.y) * Vector2.right;
 

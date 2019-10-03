@@ -121,7 +121,7 @@ public class BounceShot : Bullet
     protected override void SpawnSparkEffect()
     {
         //spawn some impact sparks from pool
-        GameObject sparkyObj = objectPooler.SpawnFromPool("LightningImpact", transform.position, Quaternion.identity);
+        GameObject sparkyObj = objectPooler.SpawnFromPool("BulletImpact", transform.position, Quaternion.identity);
 
         ParticleSystem ps = sparkyObj.GetComponent<ParticleSystem>();
 

@@ -25,10 +25,8 @@ public class CameraController : MonoBehaviour
     public AudioClip timeSlow;
     public AudioClip timeSpeed;
 
+    [HideInInspector]
     public PostProcessVolume CurrentGameVolume;
-
-    public PostProcessProfile baseProfile;
-    public PostProcessProfile onSlowDownProfile;
 
     private void Awake()
     {

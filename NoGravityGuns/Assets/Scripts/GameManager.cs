@@ -163,19 +163,12 @@ public class GameManager : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
 
         players = new List<PlayerScript>();
-
+        cameraController = FindObjectOfType<CameraController>();
     }
 
     private void Start()
     {
 
-        //p1HUD.gameObject.SetActive(false);
-        //p2HUD.gameObject.SetActive(false);
-        //p3HUD.gameObject.SetActive(false);
-        //p4HUD.gameObject.SetActive(false);
-
-        //loading delay to prevent fuckupery... game jam code you know
-        //StartCoroutine(Delay());
     }
 
     //IEnumerator Delay()
