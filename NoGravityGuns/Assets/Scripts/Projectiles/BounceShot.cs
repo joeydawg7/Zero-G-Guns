@@ -50,14 +50,13 @@ public class BounceShot : Bullet
             canImapact = false;
             KillBullet();
             return;
-        }
-        /*
-        else if (dmgType != PlayerScript.DamageType.none)
-        {
-            canImapact = false;
-            KillBullet();
-            return;
-        }*/
+        }       
+        //else if (dmgType != PlayerScript.DamageType.none)
+        //{
+        //    canImapact = false;
+        //    KillBullet();
+        //    return;
+        //}
         else
         {
             canBounce = false;
@@ -77,37 +76,34 @@ public class BounceShot : Bullet
         if (hitPlayerScript == null)
             return dmgType;
 
-
         //checks where we hit the other guy, deals our given damage to that location. 
         if (collision.collider.tag == "Torso")
         {
             dmgType = PlayerScript.DamageType.torso;
             hitPlayerScript.TakeDamage(damage, dmgType, player, true);
             //collision.transform.GetComponentInChildren<ParticleSystem>().Emit(30);
-            canBounce = false;
             GetComponent<Collider2D>().enabled = false;
         }
         if (collision.collider.tag == "Head")
         {
             dmgType = PlayerScript.DamageType.head;
             hitPlayerScript.TakeDamage(damage, dmgType, player, true);
-            canBounce = false;
             GetComponent<Collider2D>().enabled = false;
         }
         if (collision.collider.tag == "Feet")
         {
             dmgType = PlayerScript.DamageType.feet;
-            hitPlayerScript.TakeDamage(damage, dmgType, player, true);
-            canBounce = false;
+            hitPlayerScript.TakeDamage(damage, dmgType, player, true);     
             GetComponent<Collider2D>().enabled = false;
         }
         if (collision.collider.tag == "Leg")
         {
             dmgType = PlayerScript.DamageType.legs;
             hitPlayerScript.TakeDamage(damage, dmgType, player, true);
-            canBounce = false;
             GetComponent<Collider2D>().enabled = false;
         }
+
+        canBounce = false;
 
         return dmgType;
     }

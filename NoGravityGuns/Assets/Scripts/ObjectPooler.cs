@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class ObjectPooler : MonoBehaviour
 {
@@ -116,6 +117,7 @@ public class ObjectPooler : MonoBehaviour
         }
 
         poolDictionary[tag].Enqueue(objectToSpawn);
+
         return objectToSpawn;
 
     }
@@ -135,5 +137,21 @@ public class ObjectPooler : MonoBehaviour
         go.SetActive(false);
     }
 
+
+    public void ResetRound()
+    {
+        //goes through every pooled object and turns it off at the end of the round to prevent leftover bullets
+        for (int i = 0; i < poolDictionary.Count; i++)
+        {
+
+            for (int ii = 0; ii < poolDictionary.Keys.ToList()[ii].Count(); ii++)
+            {
+                GameObject go = poolDictionary.Values.ToList()[ii].Dequeue();
+                go.SetActive(false);
+                poolDictionary.Values.ToList()[ii].Enqueue(go);
+            }
+  
+        }
+    }
 
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering.PostProcessing;
+using UnityEngine.Audio;
 
 public class CameraController : MonoBehaviour
 {
@@ -21,12 +22,14 @@ public class CameraController : MonoBehaviour
     Camera mainCam;
 
     AudioSource audioSource;
+    public AudioMixer SFXMixer;
 
     public AudioClip timeSlow;
     public AudioClip timeSpeed;
 
     [HideInInspector]
     public PostProcessVolume CurrentGameVolume;
+
 
     private void Awake()
     {
@@ -157,6 +160,9 @@ public class CameraController : MonoBehaviour
         CurrentGameVolume.profile.TryGetSettings(out lensDistortion);
         CurrentGameVolume.profile.TryGetSettings(out chromaticAbberation);
 
+        //make all SFX pitched down
+        SFXMixer.SetFloat("SFXPitch", 0.75f);
+
         //mess with time
         while (Time.timeScale >0.1f)
         {
@@ -166,6 +172,8 @@ public class CameraController : MonoBehaviour
         }
         Time.timeScale = 0.1f;
         Time.fixedDeltaTime = 0.02f * Time.deltaTime;
+
+        
 
         //initial slowdown last 0.3 /0.1 due to slow down seconds (3s) and scales up post effects during that time
         float timer = 0;
@@ -186,13 +194,18 @@ public class CameraController : MonoBehaviour
             players.Add(trackedPlayers[i]);
         }
 
+        //additional wait
+        yield return new WaitForSeconds(1 * Time.timeScale);
+
         //starts showing the end game GUI
         GameManager.Instance.OnGameEnd();
 
-        yield return new WaitForSeconds(1*Time.timeScale);
+        //make all SFX pitched normal
+        SFXMixer.SetFloat("SFXPitch", 1f);
 
         //plays another woosh effect
         audioSource.PlayOneShot(timeSpeed);
+
 
         //ramps up return to normal time
         while (Time.timeScale < 1)
@@ -221,6 +234,10 @@ public class CameraController : MonoBehaviour
         lensDistortion.intensity.value = 0;
         Time.timeScale = 1;
         Time.fixedDeltaTime = 0.02f;
+
+        //make all SFX pitched normal
+        SFXMixer.SetFloat("SFXPitch", 1f);
+
     }
 
 

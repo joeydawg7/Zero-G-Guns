@@ -186,9 +186,10 @@ public class Bullet : MonoBehaviour, IPooledObject
     {
         StartCoroutine(DisableOverTime(0.02f));
 
+        bulletTrail.transform.parent = null;
         bulletTrail.Stop();
         bulletTrail.GetComponent<DisableOverTime>().DisableOverT(3.1f);
-        bulletTrail.transform.parent = null;
+        
     }
    
     protected virtual IEnumerator DisableOverTime(float t)

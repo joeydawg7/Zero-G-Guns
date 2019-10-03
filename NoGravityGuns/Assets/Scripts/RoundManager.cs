@@ -180,6 +180,8 @@ public class RoundManager : MonoBehaviour
             yield return null;
         }
 
+        ObjectPooler.Instance.ResetRound();
+
         LevelLoaded(nextRoom, startOver);
         yield return new WaitForSeconds(0.5f);
 
