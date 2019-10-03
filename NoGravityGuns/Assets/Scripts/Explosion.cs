@@ -73,6 +73,8 @@ public class Explosion : MonoBehaviour, IPooledObject
 
         Collider2D[] colliders = Physics2D.OverlapCircleAll(explosionPos, radius);
 
+        colliders = RemoveDuplicates(colliders);
+
         foreach (Collider2D hit in colliders)
         {
             Rigidbody2D rb = hit.GetComponent<Rigidbody2D>();
@@ -91,19 +93,19 @@ public class Explosion : MonoBehaviour, IPooledObject
                 if (rb.tag != "Explosion")
                 {
                     //treat players different from other objects
-                    if (rb.tag == "Player")
-                    {
+                  //  if (rb.tag == "Player")
+                 //   {
                         //note that this force is only applied to players torso... trying to add more than that caused some crazy effects for little gains in overall usefulness
-                        rb.AddExplosionForce(power, damageAtCenter, explosionPos, radius, ForceMode2D.Force, playerWhoShot, dealDamage);
-                    }
+                       
+                   // }
                     //give impact objects a bit more push than other things
-                    else if (rb.tag == "ImpactObject" || rb.tag == "ExplosiveObject" || rb.tag == "Chunk")
+                    if (rb.tag == "ImpactObject" || rb.tag == "ExplosiveObject" || rb.tag == "Chunk")
                     {
-                        rb.AddExplosionForce(power * physicsObjectPushForceMod, explosionPos, radius, ForceMode2D.Force);
+                        rb.AddExplosionForce(power * physicsObjectPushForceMod, explosionPos, radius, ForceMode2D.Impulse);
                     }
                     else
                     {
-                        rb.AddExplosionForce(power, explosionPos, radius, ForceMode2D.Force);
+                        rb.AddExplosionForce(power, damageAtCenter, explosionPos, radius, ForceMode2D.Force, playerWhoShot, dealDamage);
                     }
                 }
             }
@@ -143,6 +145,14 @@ public class Explosion : MonoBehaviour, IPooledObject
     {
         cameraShake = Camera.main.GetComponent<CameraShake>();
     }
+
+    Collider2D[] RemoveDuplicates(Collider2D[] s)
+    {
+        HashSet<Collider2D> set = new HashSet<Collider2D>(s);
+        Collider2D[] result = new Collider2D[set.Count];
+        set.CopyTo(result);
+        return result;
+    }
 }
 
 //class to add explosive force to a 2d rigidbody
@@ -160,7 +170,10 @@ public static class Rigidbody2DExt
 
         //Debug.Log(body.gameObject.name + ": " + wearoff + " " + force);
 
-        DealDamage(body, damageAtCenter, wearoff, dealDamage, playerWhoShot);
+        PlayerScript playerScript = body.transform.root.GetComponentInChildren<PlayerScript>();
+
+        if(playerScript!=null)
+            DealDamage(body, damageAtCenter, wearoff, dealDamage, playerWhoShot);
     }
 
     //overload that doesnt care about dealing damage to affected body
@@ -193,13 +206,18 @@ public static class Rigidbody2DExt
 
         PlayerScript HitplayerScript = body.transform.root.GetComponentInChildren<PlayerScript>();
 
-        Debug.Log(HitplayerScript.gameObject.name);
+        PlayerScript.DamageType damageType = PlayerScript.ParsePlayerDamage(body.gameObject);
 
-        if (HitplayerScript != null && dealDamage)
+        //headshot explosions are way too strong
+        if (damageType == PlayerScript.DamageType.head)
+            damageType = PlayerScript.DamageType.torso;
+
+        if (HitplayerScript != null && dealDamage && damageType != PlayerScript.DamageType.none)
         {
             if (dmg > 0)
             {
-                HitplayerScript.TakeDamage(dmg, PlayerScript.DamageType.torso, playerWhoShot, true);
+               // Debug.Log(body.gameObject.name + " taking " + dmg + " damage, modded by " + damageType.ToString());
+                HitplayerScript.TakeDamage(dmg, damageType, playerWhoShot, true);
             }
         }
     }

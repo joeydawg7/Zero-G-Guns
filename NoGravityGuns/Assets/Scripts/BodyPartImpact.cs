@@ -17,13 +17,13 @@ public class BodyPartImpact : MonoBehaviour
         if (collision.collider.tag != "Bullet" || collision.collider.tag != "RedBullet" || collision.collider.tag != "BlueBullet" || 
             collision.collider.tag != "YellowBullet" || collision.collider.tag != "GreenBullet")
         {
-            playerScript.DealColliderDamage(collision, gameObject.tag, null);
+            playerScript.DealColliderDamage(collision, gameObject, null);
         }
         //someone else bumped into you
-        else if (collision.collider.tag == "Torso" || collision.collider.tag == "Head" || collision.collider.tag == "Feet" || collision.collider.tag == "Legs")
+        else if (collision.collider.tag == "Torso" || collision.collider.tag == "Head" || collision.collider.tag == "Feet" || collision.collider.tag == "Legs" )
         {
             PlayerScript hitBy = collision.transform.root.GetComponent<PlayerScript>();
-            playerScript.DealColliderDamage(collision, gameObject.tag, hitBy);
+            playerScript.DealColliderDamage(collision, gameObject, hitBy);
         }
     }
 

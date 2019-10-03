@@ -739,18 +739,46 @@ public class PlayerScript : MonoBehaviour
         Debug.Log("hit something!");
         if (collision.collider.tag == "ImpactObject" || collision.collider.tag == "ExplosiveObject" || collision.collider.tag == "Chunk")
         {
-            DealColliderDamage(collision, "Torso", null);
+            DealColliderDamage(collision, gameObject, null);
         }
         else if ((collision.collider.tag == "Torso" && collision.gameObject != this.gameObject) || (collision.collider.tag == "Head" && collision.gameObject != this.gameObject)
             || (collision.collider.tag == "Feet" && collision.gameObject != this.gameObject) || (collision.collider.tag == "Legs" && collision.gameObject != this.gameObject))
         {
             PlayerScript hitBy = collision.transform.root.GetComponentInChildren<PlayerScript>();
-            DealColliderDamage(collision, "Torso", hitBy);
+            DealColliderDamage(collision, gameObject, hitBy);
         }
 
     }
 
-    public void DealColliderDamage(Collision2D collision, string hitLocation, PlayerScript hitBy)
+    public static DamageType ParsePlayerDamage(GameObject hitObject)
+    {
+        DamageType damageType = DamageType.none;
+
+        string tag = hitObject.tag;
+
+        switch (tag)
+        {
+            case "Head":
+                damageType = DamageType.head;
+                break;
+            case "Torso":
+                damageType = DamageType.torso;
+                break;
+            case "Leg":
+                damageType = DamageType.legs;
+                break;
+            case "Feet":
+                damageType = DamageType.feet;
+                break;
+            default:
+                damageType = DamageType.none;
+                break;
+        }
+
+        return damageType;
+    }
+
+    public void DealColliderDamage(Collision2D collision, GameObject hitLocation, PlayerScript hitBy)
     {
         //float dmg = collision.relativeVelocity.magnitude;
 
@@ -765,7 +793,6 @@ public class PlayerScript : MonoBehaviour
         //reduces damage so its not bullshit
         dmg = dmg / COLLIDER_DAMAGE_MITIGATOR;
 
-
         //dont bother dealing damage unless unmitigated damage indicates fast enough collision
         if (dmg > 25)
         {
@@ -777,32 +804,16 @@ public class PlayerScript : MonoBehaviour
                     dmg *= collision.rigidbody.mass;
             }
 
-            DamageType dmgType;
+            DamageType dmgType = PlayerScript.ParsePlayerDamage(hitLocation);
+
             AudioClip soundClipToPlay;
 
-            switch (hitLocation)
-            {
-                case ("Torso"):
-                    dmgType = DamageType.torso;
-                    soundClipToPlay = torsoImpact;
-                    break;
-                case ("Leg"):
-                    dmgType = DamageType.legs;
-                    soundClipToPlay = legsImpact;
-                    break;
-                case ("Head"):
-                    dmgType = DamageType.torso;
-                    soundClipToPlay = torsoImpact;
-                    break;
-                case ("Foot"):
-                    dmgType = DamageType.feet;
-                    soundClipToPlay = legsImpact;
-                    break;
-                default:
-                    dmgType = DamageType.torso;
-                    soundClipToPlay = torsoImpact;
-                    break;
-            }
+            if (dmgType == DamageType.legs || dmgType == DamageType.feet)
+                soundClipToPlay = legsImpact;
+            else
+                soundClipToPlay = torsoImpact;
+
+            Debug.Log(hitLocation.name + ": " + dmg);
 
             //caps damage
             if (dmg > 100)

@@ -38,6 +38,8 @@ public class Rocket : Bullet
 
         this.dir = dir;
 
+        rb.AddForce(dir , ForceMode2D.Force);
+
     }
 
 
@@ -47,7 +49,7 @@ public class Rocket : Bullet
         //accelerate the rocket over time if it exists
         if (rb != null)
         {
-            if (rb.velocity.magnitude < rocketTopSpeed)
+            if (rb.velocity.sqrMagnitude < rocketTopSpeed)
             {
                 timeInFlight += Time.deltaTime;
 
@@ -55,14 +57,18 @@ public class Rocket : Bullet
                 float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
                 transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
 
-                
-                rb.AddForce(dir * rocketAccelerationMod *Time.deltaTime , ForceMode2D.Force);
+
+                rb.AddForce(dir * rocketAccelerationMod, ForceMode2D.Force);
             }
-            else
-            {
-                Debug.Log(rb.velocity);
-            }
+
         }
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+
+        Gizmos.DrawLine(transform.position , dir * rocketAccelerationMod);
     }
 
 
@@ -84,7 +90,7 @@ public class Rocket : Bullet
 
                 ExplosiveObjectScript explosiveObjectScript = collision.collider.gameObject.GetComponent<ExplosiveObjectScript>();
 
-                if (explosiveObjectScript!=null)
+                if (explosiveObjectScript != null)
                 {
                     //ExplosiveObjectScript explosiveObjectScript = collision.collider.gameObject.GetComponent<ExplosiveObjectScript>();
 
