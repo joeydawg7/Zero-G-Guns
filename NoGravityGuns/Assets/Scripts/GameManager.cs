@@ -9,6 +9,9 @@ public class GameManager : MonoBehaviour
 
     public static GameManager Instance { get { return _instance; } }
 
+    [Header("Debug")]
+    public bool debugSkipCountdown;
+    [Header("----------")]
     public bool isGameStarted;
 
     [HideInInspector]
@@ -243,22 +246,32 @@ public class GameManager : MonoBehaviour
     //plays a short countdown
     IEnumerator Countdown()
     {
-        yield return new WaitForSeconds(0.25f);
-        countdownText.text = "3";
-        countdownText.gameObject.SetActive(true);
-        audioSource.PlayOneShot(countdownBeep);
-        yield return new WaitForSeconds(0.75f);
-        countdownText.text = "2";
-        audioSource.PlayOneShot(countdownBeep);
-        yield return new WaitForSeconds(0.75f);
-        countdownText.text = "1";
-        audioSource.PlayOneShot(countdownBeep);
-        yield return new WaitForSeconds(0.75f);
-        countdownText.text = "Go!";
-        audioSource.PlayOneShot(startingBeep);
-        isGameStarted = true;
-        timer = matchTime;
-        yield return new WaitForSeconds(0.25f);
+        if (debugSkipCountdown && debugManager.useDebugSettings)
+        {
+            audioSource.PlayOneShot(startingBeep);
+            isGameStarted = true;
+            timer = matchTime;
+            countdownText.gameObject.SetActive(false);
+        }
+        else
+        {
+            yield return new WaitForSeconds(0.25f);
+            countdownText.text = "3";
+            countdownText.gameObject.SetActive(true);
+            audioSource.PlayOneShot(countdownBeep);
+            yield return new WaitForSeconds(0.75f);
+            countdownText.text = "2";
+            audioSource.PlayOneShot(countdownBeep);
+            yield return new WaitForSeconds(0.75f);
+            countdownText.text = "1";
+            audioSource.PlayOneShot(countdownBeep);
+            yield return new WaitForSeconds(0.75f);
+            countdownText.text = "Go!";
+            audioSource.PlayOneShot(startingBeep);
+            isGameStarted = true;
+            timer = matchTime;
+            yield return new WaitForSeconds(0.25f);
+        }
 
         countdownText.gameObject.SetActive(false);
     }

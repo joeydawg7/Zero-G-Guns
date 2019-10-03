@@ -48,25 +48,7 @@ public class PlayerScript : MonoBehaviour
     public bool isDead;
     public bool isInvulnerable;
 
-    /*
-    [Header("armedArms")]
-    public GameObject pistolArms;
-    public GameObject assaultRifleArms;
-    public GameObject LMGArms;
-    public GameObject shotGunArms;
-    public GameObject railGunArms;
-    public GameObject RPGArms;
-    public GameObject mineLauncherArms;
-    
-    public List<GameObject> AllArms;
-    */
-
     public ArmsScript armsScript;
-
-    //[Header("Armed Legs")]
-    //public GameObject legsCollider;
-    //public Transform legsParent;
-    //List<LegFixer> legFixers;
 
     [Header("Spawning and kills")]
     public Vector3 spawnPoint;
@@ -118,7 +100,7 @@ public class PlayerScript : MonoBehaviour
     float immuneToCollisionsTimer;
     SpriteRenderer[] legsSR;
     SpriteRenderer torsoSR;
-    SpriteRenderer armsSR;
+    SpriteRenderer[] armsSR;
     Rigidbody2D[] legRBs;
     GameObject cameraParent;
     Quaternion spawnRotation;
@@ -192,8 +174,15 @@ public class PlayerScript : MonoBehaviour
         //    legFixers.Add(child.GetComponent<LegFixer>());
         //}
         torsoSR = gameObject.transform.root.GetComponent<SpriteRenderer>();
+        armsSR = gameObject.GetComponentsInChildren<SpriteRenderer>();
         torsoSR.color = playerColor;
         defaultColor = torsoSR.color;
+
+        foreach (var SR in armsSR)
+        {
+            SR.color = playerColor;
+        }
+
         playerLastHitBy = null;
         immuneToCollisionsTimer = 0;
 
@@ -471,6 +460,10 @@ public class PlayerScript : MonoBehaviour
             // armsSR = armsScript.currentArms.GetComponent<SpriteRenderer>();
 
             torsoSR.color = deadColor;
+            foreach (var SR in armsSR)
+            {
+                SR.color = deadColor;
+            }
             //armsSR.color = deadColor;
 
             //foreach (var sr in legsSR)
@@ -566,7 +559,10 @@ public class PlayerScript : MonoBehaviour
         for (int i = 0; i < invulnerablityTime; i++)
         {
             torsoSR.color = invulnerabilityColorFlash;
-            //armsSR.color = invulnerabilityColorFlash;
+            foreach (var SR in armsSR)
+            {
+                SR.color = invulnerabilityColorFlash;
+            }
             //foreach (var sr in legsSR)
             //{
             //    sr.color = invulnerabilityColorFlash;
@@ -574,7 +570,10 @@ public class PlayerScript : MonoBehaviour
 
             yield return new WaitForSeconds(invulnerabilityFlashIncriments);
             torsoSR.color = defaultColor;
-            //armsSR.color = defaultColor;
+            foreach (var SR in armsSR)
+            {
+                SR.color = defaultColor;
+            }
             //foreach (var sr in legsSR)
             //{
             //    sr.color = defaultColor;
@@ -582,7 +581,10 @@ public class PlayerScript : MonoBehaviour
 
             yield return new WaitForSeconds(invulnerabilityFlashIncriments);
             torsoSR.color = invulnerabilityColorFlash;
-            // armsSR.color = invulnerabilityColorFlash;
+            foreach (var SR in armsSR)
+            {
+                SR.color = invulnerabilityColorFlash;
+            }
             //foreach (var sr in legsSR)
             //{
             //    sr.color = invulnerabilityColorFlash;
@@ -590,7 +592,10 @@ public class PlayerScript : MonoBehaviour
 
             yield return new WaitForSeconds(invulnerabilityFlashIncriments);
             torsoSR.color = defaultColor;
-            // armsSR.color = defaultColor;
+            foreach (var SR in armsSR)
+            {
+                SR.color = defaultColor;
+            }
             //foreach (var sr in legsSR)
             //{
             //    sr.color = defaultColor;
@@ -598,7 +603,10 @@ public class PlayerScript : MonoBehaviour
         }
 
         torsoSR.color = defaultColor;
-        //armsSR.color = defaultColor;
+        foreach (var SR in armsSR)
+        {
+            SR.color = defaultColor;
+        }
         //foreach (var sr in legsSR)
         //{
         //    sr.color = defaultColor;
