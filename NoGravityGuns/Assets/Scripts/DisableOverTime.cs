@@ -6,7 +6,8 @@ public class DisableOverTime : MonoBehaviour
 {
     public void DisableOverT(float t)
     {
-        StartCoroutine(DisableOverTimeCoroutine(t));
+        if (gameObject.activeInHierarchy)
+            StartCoroutine(DisableOverTimeCoroutine(t));
     }
 
     IEnumerator DisableOverTimeCoroutine(float t)

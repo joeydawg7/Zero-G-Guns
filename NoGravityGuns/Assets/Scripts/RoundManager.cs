@@ -157,7 +157,7 @@ public class RoundManager : MonoBehaviour
 
 
         //DEBUG: use original scene
-        if (debugStayOnThisScene && DebugManager.Instance.useDebugSettings)
+        if (debugStayOnThisScene && GameManager.Instance.debugManager.useDebugSettings)
         {
             lvl = SceneManager.GetActiveScene().name;
 

@@ -18,6 +18,9 @@ public class GameManager : MonoBehaviour
 
     public JoiningPlayerScript joiningPlayerScript;
 
+    [Header("Stores DebugManager scriptable object to easily turn debug options on / off")]
+    public DebugManager debugManager;
+
     [Header("Guns")]
     public GunSO pistol;
     public GunSO shotgun;

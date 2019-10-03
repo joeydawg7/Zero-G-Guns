@@ -147,6 +147,7 @@ public class ObjectPooler : MonoBehaviour
             for (int ii = 0; ii < poolDictionary.Keys.ToList()[ii].Count(); ii++)
             {
                 GameObject go = poolDictionary.Values.ToList()[ii].Dequeue();
+                Debug.Log(go.name);
                 go.SetActive(false);
                 poolDictionary.Values.ToList()[ii].Enqueue(go);
             }

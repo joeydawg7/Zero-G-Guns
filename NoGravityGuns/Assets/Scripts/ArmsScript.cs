@@ -139,18 +139,14 @@ public class ArmsScript : MonoBehaviour
 
             IKTarget.transform.localPosition = shootDir;
             handBone.right = new Vector2(IKTarget.transform.localPosition.x, IKTarget.transform.localPosition.y * -1) - new Vector2(shootDir.x * -1, shootDir.y) * Vector2.right;
-
-
         }
-
-
 
     }
 
     private void OnDrawGizmos()
     {
 
-        if (showAimingVector && DebugManager.Instance.useDebugSettings)
+        if (showAimingVector && GameManager.Instance.debugManager.useDebugSettings)
         {
             Gizmos.color = Color.magenta;
             // DrawHelperAtCenter(shootDir, Color.red, 1f);
@@ -179,7 +175,6 @@ public class ArmsScript : MonoBehaviour
     #endregion
 
     #region Equip Guns, Shoot
-
     //counts time between shots 
     void CountShotDelay()
     {
@@ -226,27 +221,9 @@ public class ArmsScript : MonoBehaviour
         }
     }
 
-    //public void EquipArms(GunSO gun)
-    //{
-    //  HideAllGuns();
-
-
-
-
-    //armsSR = armGo.GetComponent<SpriteRenderer>();
-
-    //armGo.SetActive(true);
-
-    //armGo.GetComponent<SpriteRenderer>().color = defaultColor;
-    //armsScript.EquipGun(gun, armGo);
-
-
-    // }
-
-
     public void OnShoot()
     {
-        if (basePlayer.isDead)
+        if (basePlayer.isDead || Time.timeScale !=1)
             return;
 
         //dry fire effect
