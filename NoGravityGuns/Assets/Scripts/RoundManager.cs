@@ -173,14 +173,16 @@ public class RoundManager : MonoBehaviour
 
         }
 
-        AsyncOperation asyncLoadLevel = SceneManager.LoadSceneAsync(lvl); ;
+        ObjectPooler.Instance.ResetRound();
 
-        while (!asyncLoadLevel.isDone)
+        AsyncOperation asyncLoadLevel = SceneManager.LoadSceneAsync(lvl); 
+
+        while (!asyncLoadLevel.isDone )
         {
             yield return null;
         }
 
-        ObjectPooler.Instance.ResetRound();
+        
 
         LevelLoaded(nextRoom, startOver);
         yield return new WaitForSeconds(0.5f);
@@ -202,7 +204,7 @@ public class RoundManager : MonoBehaviour
             roundNumText.text = "Round " + currentRound + "";
 
             newRoundTextAnimator.SetTrigger("NewRound");
-            
+         
             GameManager.Instance.StartGame();
         }
 
