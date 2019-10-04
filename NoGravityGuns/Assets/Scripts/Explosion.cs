@@ -212,7 +212,7 @@ public static class Rigidbody2DExt
         if (damageType == PlayerScript.DamageType.head)
             damageType = PlayerScript.DamageType.torso;
 
-        if (HitplayerScript != null && dealDamage && damageType != PlayerScript.DamageType.none)
+        if (HitplayerScript != null && dealDamage )
         {
             if (dmg > 0)
             {

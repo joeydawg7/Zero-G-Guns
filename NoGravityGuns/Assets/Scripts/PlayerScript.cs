@@ -40,7 +40,7 @@ public class PlayerScript : MonoBehaviour
     public Controller controller;
 
     [HideInInspector]
-    public enum DamageType { none = 0, head = 4, torso = 3, legs = 2, feet = 1 };
+    public enum DamageType { head = 4, torso = 3, legs = 2, feet = 1 , self = 5};
     [HideInInspector]
     //public enum GunType { pistol, assaultRifle, LMG, shotgun, railGun, healthPack, RPG, mineLauncher, collision };
 
@@ -91,6 +91,8 @@ public class PlayerScript : MonoBehaviour
     public Rigidbody2D rb;
     [HideInInspector]
     public PlayerInput playerInput;
+    [HideInInspector]
+    public DamageType lastHitDamageType;
     #endregion
     #region privates
     //Private
@@ -207,6 +209,7 @@ public class PlayerScript : MonoBehaviour
 
         if (floatingTextSpawnPoint == null)
             Debug.LogError("No floating text spawn point set!");
+        lastHitDamageType = DamageType.self;
 
     }
 
@@ -289,7 +292,7 @@ public class PlayerScript : MonoBehaviour
 
             if (damage < 0)
             {
-                SpawnFloatingDamageText(Mathf.RoundToInt(damage), DamageType.none, "FloatAway");
+                SpawnFloatingDamageText(Mathf.RoundToInt(damage), DamageType.torso, "FloatAway");
                 //Color.Green
             }
             else
@@ -366,7 +369,7 @@ public class PlayerScript : MonoBehaviour
                 //if (gameManager.dataManager.AllowWriteToFile)
                 //SaveDamageData(PlayerWhoShotYou.armsScript.currentWeapon, Mathf.RoundToInt(damage), true, PlayerWhoShotYou);
 
-                Die();
+                Die(damageType);
             }
             else
             {
@@ -432,7 +435,7 @@ public class PlayerScript : MonoBehaviour
     #endregion
 
     #region Die and respawn
-    public PlayerScript Die()
+    public PlayerScript Die(DamageType damgaeType)
     {
         //cant die if yer dead
         if (!isDead)
@@ -455,7 +458,9 @@ public class PlayerScript : MonoBehaviour
 
                 if (!isDummy)
                     playerUIPanel.Destroy();
+                
                 GameManager.Instance.CheckForLastManStanding(transform);
+                
             }
             // armsSR = armsScript.currentArms.GetComponent<SpriteRenderer>();
 
@@ -474,13 +479,15 @@ public class PlayerScript : MonoBehaviour
 
             if (numLives > 0)
                 StartCoroutine(WaitForRespawn());
+            lastHitDamageType = damgaeType;           
         }
-
+            
         return this;
     }
 
     IEnumerator WaitForRespawn()
     {
+        lastHitDamageType = DamageType.self;
         playerUIPanel.SetAmmoText("3...", 1);
         yield return new WaitForSeconds(1f);
         playerUIPanel.SetAmmoText("2...", 1);
@@ -760,7 +767,7 @@ public class PlayerScript : MonoBehaviour
 
     public static DamageType ParsePlayerDamage(GameObject hitObject)
     {
-        DamageType damageType = DamageType.none;
+        DamageType damageType = DamageType.self;
 
         string tag = hitObject.tag;
 
@@ -779,7 +786,7 @@ public class PlayerScript : MonoBehaviour
                 damageType = DamageType.feet;
                 break;
             default:
-                damageType = DamageType.none;
+                damageType = DamageType.self;
                 break;
         }
 
@@ -867,7 +874,7 @@ public class PlayerScript : MonoBehaviour
 
         switch (damageType)
         {
-            case DamageType.none:
+            case DamageType.self:
                 color = Color.green;
                 break;
             case DamageType.head:
@@ -942,7 +949,7 @@ public class PlayerScript : MonoBehaviour
 
         switch (floatingDamage.damageType)
         {
-            case DamageType.none:
+            case DamageType.self:
                 color = Color.green;
                 break;
             case DamageType.head:

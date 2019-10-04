@@ -144,7 +144,7 @@ public class Bullet : MonoBehaviour, IPooledObject
     protected virtual PlayerScript.DamageType DamageBodyParts(Collision2D collision)
     {
         //default damage type is nothing, we don't know what we hit yet.
-        PlayerScript.DamageType dmgType = PlayerScript.DamageType.none;
+        PlayerScript.DamageType dmgType = PlayerScript.DamageType.self;
 
         //we can get out of here early if there is no player script component on the root parent of whatever we hit, because that 100% is not a player :D
         PlayerScript hitPlayerScript = collision.transform.root.GetComponentInChildren<PlayerScript>();

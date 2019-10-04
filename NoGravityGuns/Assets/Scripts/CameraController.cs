@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Rendering.PostProcessing;
 using UnityEngine.Audio;
 
+
 public class CameraController : MonoBehaviour
 {
     public List<Transform> players;
@@ -144,6 +145,7 @@ public class CameraController : MonoBehaviour
     IEnumerator HoldOnFinalBlow(Transform playerWhoWasHit, float t)
     {
         //store old data about who we were tracking, then clear who we are tracking and set only the hit player so we zoom in on them
+        var lastPlayerStanding = players[0];
         Transform[] trackedPlayers = players.ToArray();
         players.Clear();
         players.Add(playerWhoWasHit);
@@ -193,10 +195,11 @@ public class CameraController : MonoBehaviour
         {
             players.Add(trackedPlayers[i]);
         }
-
+        //
+        RoundManager.Instance.EndRoundCanvasDisplay(playerWhoWasHit);
         //additional wait
-        yield return new WaitForSeconds(1 * Time.timeScale);
-
+        yield return new WaitForSeconds(2 * Time.timeScale);
+        RoundManager.Instance.ClearEndRoundCanvasDisplay();
         //starts showing the end game GUI
         GameManager.Instance.OnGameEnd();
 
@@ -239,6 +242,9 @@ public class CameraController : MonoBehaviour
         SFXMixer.SetFloat("SFXPitch", 1f);
 
     }
+
+
+   
 
 
 }

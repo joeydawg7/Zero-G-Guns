@@ -228,14 +228,26 @@ public class JoiningPlayerScript : MonoBehaviour
 
     void StartButtonPressed()
     {
-
-        if (assignedControls.Count >= 1)
+        //prevent game fom starting with less then 2 players
+        if (assignedControls.Count >= 2)
         {
             ReInput.players.SystemPlayer.controllers.ClearAllControllers();
             GameManager.Instance.StartGame();
             RoundManager.Instance.finishedControllerSetup = true;
             RoundManager.Instance.NewRound(false);
             tipToStart.alpha = 0;
+        }
+        else if(GameManager.Instance.debugManager.useDebugSettings)
+        {
+            //allow single player for testing
+            if (assignedControls.Count >= 1)
+            {
+                ReInput.players.SystemPlayer.controllers.ClearAllControllers();
+                GameManager.Instance.StartGame();
+                RoundManager.Instance.finishedControllerSetup = true;
+                RoundManager.Instance.NewRound(false);
+                tipToStart.alpha = 0;
+            }
         }
     }
 

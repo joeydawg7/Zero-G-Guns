@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour
 
     [HideInInspector]
     public List<PlayerScript> players;
+    
 
     public CameraController cameraController;
 
@@ -37,7 +38,7 @@ public class GameManager : MonoBehaviour
     public float matchTime;
 
     public GUIManager guiManager;
-    public EndGameScript EndGameScript;
+    public EndGameScript EndGameScript;   
 
     [HideInInspector]
     public PlayerUIPanel p1HUD;
@@ -185,7 +186,6 @@ public class GameManager : MonoBehaviour
 
     public void StartGame()
     {
-
         PlayerScript[] ps = FindObjectsOfType<PlayerScript>();
 
         //make sure to add all players here, even if they are dummies
@@ -195,7 +195,7 @@ public class GameManager : MonoBehaviour
             
 
            // if(ps[i].isDummy)
-                players.Add(ps[i]);
+                players.Add(ps[i]);                
         }
 
         RoundManager.Instance.SetAllPlayersDataIntoPlayerObjects();
@@ -357,6 +357,8 @@ public class GameManager : MonoBehaviour
         }
 
     }
+
+   
 
 
     //List<PlayerScript> DetermineWinner()
