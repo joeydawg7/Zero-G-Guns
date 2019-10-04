@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
-
+using Unity.Profiling;
 public class ObjectPooler : MonoBehaviour
 {
 
@@ -142,11 +142,11 @@ public class ObjectPooler : MonoBehaviour
     public void ResetRound()
     {
         //goes through every pooled object and turns it off at the end of the round to prevent leftover bullets
-        //Debug.Log(poolDictionary.Keys.Count); //10
-
-        Debug.Log("snaaa");
-
         finishedResetting = false;
+
+        ProfilerMarker marker = new ProfilerMarker();
+
+        marker.Begin();
 
         for (int i = 0; i < poolDictionary.Keys.Count; i++)
         {
@@ -185,6 +185,8 @@ public class ObjectPooler : MonoBehaviour
             */
 
         }
+
+        marker.End();
 
         finishedResetting = true;
     }

@@ -116,6 +116,10 @@ public class ArmsScript : MonoBehaviour
     #region Input Handler Functions
     void AimController()
     {
+        //cant aim if we cant get an aim value from base player
+        if (basePlayer == null || basePlayer.player == null)
+            return;
+
         Vector2 rawAim = basePlayer.player.GetAxis2D("Move Horizontal", "Move Vertical");
 
         transform.position = frontupperArmBone.position;
@@ -150,16 +154,16 @@ public class ArmsScript : MonoBehaviour
 
     public void OnReload()
     {
-        if (basePlayer.player.GetButtonDown("Reload"))
-        {
-            // if (!isReloading && currentAmmo < currentWeapon.clipSize)
-            //reloadCoroutine = StartCoroutine(Reload());
-        }
+        //if (basePlayer.player.GetButtonDown("Reload"))
+        //{
+        //    // if (!isReloading && currentAmmo < currentWeapon.clipSize)
+        //    //reloadCoroutine = StartCoroutine(Reload());
+        //}
     }
 
     void ShootController()
     {
-        if (basePlayer.player.GetAxis("Shoot") > 0.5f)
+        if (gameManager.isGameStarted && basePlayer.player.GetAxis("Shoot") > 0.5f)
         {
             OnShoot();
         }

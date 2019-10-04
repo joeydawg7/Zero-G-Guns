@@ -7,11 +7,11 @@ public class PlayerDataScript : MonoBehaviour
 {
     int kills;
     public int roundWins;
-    public int playerID;
-    public Player player;
-    public Controller controller;
+    public PlayerControllerData playerControllerData;
     public string playerName;
     public string hexColorCode;
+    public GameObject playerObj;
+    GlobalPlayerSettingsSO globalPlayerSettings;
 
     public void IncreaseRoundWins()
     {
@@ -28,9 +28,9 @@ public class PlayerDataScript : MonoBehaviour
         kills--;
     }
 
-    public void SetPlayerInfoAfterRoundStart(PlayerScript player)
+    public void SetPlayerInfoAfterRoundStart(PlayerControllerData playerControllerData, GlobalPlayerSettingsSO globalPlayerSettings)
     {
-        SetPlayer(player);
+        SetPlayer(playerControllerData, globalPlayerSettings);
 
 
         //switch (playerID)
@@ -54,16 +54,32 @@ public class PlayerDataScript : MonoBehaviour
         //}
     }
 
-    void SetPlayer(PlayerScript playerScript)
+    void SetPlayer(PlayerControllerData playerControllerData, GlobalPlayerSettingsSO globalPlayerSettings)
     {
-        playerScript.controller = controller;
-        playerScript.player = player;
-        playerScript.playerID  = playerID;
-        playerScript.hexColorCode = hexColorCode;
-        playerScript.playerName = playerName;
+        print(playerControllerData.ID);
 
-        //Debug.Log("player id in set :" + playerID);
+        this.playerControllerData = playerControllerData;
+        this.globalPlayerSettings = globalPlayerSettings;
+        //playerScript.hexColorCode = hexColorCode;
+        //playerScript.playerName = playerName;
+
+        Debug.Log("player id in set :" + playerControllerData.ID);
         
         //playerScript.OnGameStart();
+    }
+
+
+    public void SpawnAtMatchingPoint()
+    {
+        Dictionary<int, PlayerSpawnPoint> playerSpawnPoints = globalPlayerSettings.GetAllPlayerSpawnPoints();
+
+        Debug.Log(playerControllerData.ID);
+
+        Debug.Log("KAW KAW");
+
+        if (playerSpawnPoints[playerControllerData.ID + 1] != null)
+            playerSpawnPoints[playerControllerData.ID + 1].SetCharacter(playerControllerData.ID, playerControllerData.controller);
+        else
+            Debug.LogError("ID " + " not found!");
     }
 }

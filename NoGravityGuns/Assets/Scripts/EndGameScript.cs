@@ -255,7 +255,7 @@ public class EndGameScript : MonoBehaviour
         {
             foreach (PlayerDataScript dataSet in roundManager.playerDataList)
             {
-                if (dataSet.playerID == winner.playerID)
+                if (dataSet.playerControllerData.ID == winner.playerID)
                 {
                     winner.roundWins++;
                     dataSet.IncreaseRoundWins();

@@ -72,7 +72,7 @@ public class PlayerScript : MonoBehaviour
     TrailRenderer trail;
     #endregion
     #region Audio
-    
+
     [HideInInspector]
     public AudioSource audioSource;
     [Header("Audio")]
@@ -247,14 +247,14 @@ public class PlayerScript : MonoBehaviour
     #region Input Handler Functions
     public void OnDrop()
     {
-        if (!isDummy && player.GetButtonDown("Drop"))
+        if (gameManager.isGameStarted && !isDummy && player.GetButtonDown("Drop"))
             armsScript.EquipGun(GameManager.Instance.pistol);
     }
 
     void OnPause()
     {
 
-        if (player.GetButtonDown("Start"))
+        if (gameManager.isGameStarted && player.GetButtonDown("Start"))
         {
             if (Time.timeScale > 0)
                 Time.timeScale = 0;
@@ -264,11 +264,6 @@ public class PlayerScript : MonoBehaviour
         }
 
     }
-    #endregion
-
-    #region Equipping and unequipping
-
-
     #endregion
 
     #region Take Damage
@@ -660,6 +655,7 @@ public class PlayerScript : MonoBehaviour
     #region Controller Setting / unsetting, OnStart
     public void SetController(int number, Controller controller)
     {
+        number++;
         this.controller = controller;
         playerID = number;
         switch (playerID)
@@ -686,7 +682,6 @@ public class PlayerScript : MonoBehaviour
 
         player.controllers.maps.SetMapsEnabled(true, "Gameplay");
         player.controllers.maps.SetMapsEnabled(true, "UI");
-        Debug.Log(player.name);
 
     }
 
@@ -728,14 +723,14 @@ public class PlayerScript : MonoBehaviour
 
         if (!isDummy)
         {
-           // playerUIPanel.SetLives(numLives, playerHead);
+            // playerUIPanel.SetLives(numLives, playerHead);
             player.controllers.AddController(controller, true);
         }
 
         rb.simulated = true;
 
 
-        RoundManager.Instance.SetPlayer(this);
+        //RoundManager.Instance.SetPlayer(this);
 
         StartCoroutine(RespawnInvulernability());
 

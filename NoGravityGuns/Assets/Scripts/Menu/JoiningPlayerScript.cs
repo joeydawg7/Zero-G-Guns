@@ -7,12 +7,27 @@ using UnityEngine.InputSystem.Users;
 using UnityEngine.InputSystem.PlayerInput;
 using Rewired;
 
+
+public struct PlayerControllerData
+{
+    public readonly int ID;
+    public readonly Controller controller;
+
+    public PlayerControllerData(int ID, Controller controller)
+    {
+        this.ID = ID;
+        this.controller = controller;
+    }
+}
+
 public class JoiningPlayerScript : MonoBehaviour
 {
-    public Color32 p1Color;
-    public Color32 p2Color;
-    public Color32 p3Color;
-    public Color32 p4Color;
+    //public Color32 p1Color;
+    //public Color32 p2Color;
+    //public Color32 p3Color;
+    //public Color32 p4Color;
+
+    public GlobalPlayerSettingsSO GlobalPlayerSettings;
 
     public Color32 emptySlotColor;
 
@@ -28,6 +43,8 @@ public class JoiningPlayerScript : MonoBehaviour
 
     PlayerSpawnPoint[] playerSpawnPoints;
 
+    Dictionary<int, PlayerControllerData> playerControllerDataDictionary;
+
     private void Awake()
     {
         tipToStart.alpha = 0;
@@ -37,6 +54,10 @@ public class JoiningPlayerScript : MonoBehaviour
 
         // Subscribe to controller connected events
         ReInput.ControllerConnectedEvent += OnControllerConnected;
+
+        playerControllerDataDictionary = new Dictionary<int, PlayerControllerData>();
+
+        //playerSpawnPoints = GlobalPlayerSettings.GetAllPlayerSpawnPoints();
 
     }
 
@@ -192,22 +213,16 @@ public class JoiningPlayerScript : MonoBehaviour
             assignedControls.Add(joystick.id);
             //only play the sound if not contained, so we can tell if someone is joining when they are already in
             GameManager.Instance.audioSource.PlayOneShot(joinClick);
+
+            AddPlayerControllerSetup(joystick.id, joystick);
+
+            Debug.Log("Assigned " + joystick.name + " " + joystick.id + " to Player " + player.id);
+
+            tipToStart.alpha = 1;
+
         }
 
         
-
-        foreach (var spawnPoint in playerSpawnPoints)
-        {
-            if((spawnPoint.IDToSpawn-1) == joystick.id)
-            {
-                AddPlayerControllerSetup(joystick.id, joystick, spawnPoint);
-                break;
-            }
-        }
-
-        Debug.Log("Assigned " + joystick.name + " " + joystick.id + " to Player " + player.id);
-
-        tipToStart.alpha = 1;
     }
 
     private void RemoveJoystickFromPlayer(Joystick joystick)
@@ -221,6 +236,8 @@ public class JoiningPlayerScript : MonoBehaviour
         }
 
         RemovePlayerControllerSetup(joystick.id, joystick);
+
+        playerControllerDataDictionary.Remove(joystick.id);
 
         Debug.Log("Removed " + joystick.name + " from Player " + joystick.id);
 
@@ -241,7 +258,7 @@ public class JoiningPlayerScript : MonoBehaviour
 
     void StartButtonPressed()
     {
-
+        //start game for real on a new round with start over = false
         if (assignedControls.Count >= 1)
         {
             ReInput.players.SystemPlayer.controllers.ClearAllControllers();
@@ -253,12 +270,14 @@ public class JoiningPlayerScript : MonoBehaviour
     }
 
 
-    void AddPlayerControllerSetup(int i, Controller controller, PlayerSpawnPoint playerSpawnPoint)
+    void AddPlayerControllerSetup(int i, Controller controller)
     {
         JoinPanel jp = joinPanels[i].GetComponent<JoinPanel>();
         if (jp.hasAssignedController == false)
         {
-            jp.AssignController((i + 1), controller, playerSpawnPoint);
+            jp.AssignController((i + 1), controller);
+            Debug.Log("ayae: " + i);
+            playerControllerDataDictionary.Add(i,new PlayerControllerData());
             return;
         }
     }
@@ -291,11 +310,9 @@ public class JoiningPlayerScript : MonoBehaviour
     {
         gameObject.SetActive(false);
 
-        Debug.Log("player spawn points: " + playerSpawnPoints.Length);
-
-        foreach (var playerSpawnPoint in playerSpawnPoints)
+        for (int i = 0; i < playerControllerDataDictionary.Count; i++)
         {
-            playerSpawnPoint.SpawnCharacter();
+            RoundManager.Instance.SpawnPlayerManager(playerControllerDataDictionary[i], GlobalPlayerSettings);
         }
     }
 

@@ -65,7 +65,7 @@ public class GameManager : MonoBehaviour
     public AudioClip countdownBeep;
     public AudioClip startingBeep;
 
-    public float FinalBlowHoldTime= 2f;
+    public float FinalBlowHoldTime = 2f;
 
     [HideInInspector]
     public AudioSource audioSource;
@@ -127,7 +127,7 @@ public class GameManager : MonoBehaviour
     public DataManager dataManager;
     #endregion
 
- 
+
     private void Awake()
     {
         if (_instance != null && _instance != this)
@@ -159,53 +159,42 @@ public class GameManager : MonoBehaviour
         for (int i = 0; i < ps.Length; i++)
         {
             ps[i].gameObject.SetActive(true);
-            
 
-           // if(ps[i].isDummy)
-                players.Add(ps[i]);
+
+            // if(ps[i].isDummy)
+            players.Add(ps[i]);
+            Debug.Log( ps[i].name);
         }
 
-        RoundManager.Instance.SetAllPlayersDataIntoPlayerObjects();
-
-
-        //p1HUD = player1.playerUIPanel;
-        //p2HUD = player2.playerUIPanel;
-        //p3HUD = player3.playerUIPanel;
-        //p4HUD = player4.playerUIPanel;
-
-
-        //p1HUD.gameObject.SetActive(false);
-        //p2HUD.gameObject.SetActive(false);
-        //p3HUD.gameObject.SetActive(false);
-        //p4HUD.gameObject.SetActive(false);
+        //RoundManager.Instance.SetAllPlayersDataIntoPlayerObjects();
 
         //get rid of players that nobody is playing as... again unless your a dummy
-        for (int i = players.Count - 1; i >= 0; i--)
-        {
+        //for (int i = players.Count - 1; i >= 0; i--)
+        //{
 
-            if (players[i].playerID < 1 && players[i].isDummy == false)
-            {
-                players[i].transform.root.gameObject.SetActive(false);
-                Debug.Log("removing " + i + "who has id of " + players[i].playerID);
-                players.Remove(players[i]);
-            }
-            else
-            {
-                SpawnPlayerPanel(players[i]);
-                players[i].OnGameStart();
-            }
-        }
+        //    if (players[i].playerID < 1 && players[i].isDummy == false)
+        //    {
+        //        //players[i].transform.root.gameObject.SetActive(false);
+        //        Debug.Log("removing " + i + "who has id of " + players[i].playerID);
+        //        //players.Remove(players[i]);
+        //    }
+        //    else
+        //    {
+        //        SpawnPlayerPanel(players[i]);
+        //        players[i].OnGameStart();
+        //    }
+        //}
 
         //camera does its shit after
         cameraController.OnGameStart();
-
-        joiningPlayerScript.OnGameStart();
 
         guiManager.OnGameStart();
 
         dataManager.OnGameStart();
 
         Time.timeScale = 1;
+
+        joiningPlayerScript.OnGameStart();
 
         StartCoroutine(Countdown());
     }
@@ -215,8 +204,7 @@ public class GameManager : MonoBehaviour
     {
         if (debugSkipCountdown && debugManager.useDebugSettings)
         {
-            audioSource.PlayOneShot(startingBeep);
-            isGameStarted = true;
+            audioSource.PlayOneShot(startingBeep);           
             timer = matchTime;
             countdownText.gameObject.SetActive(false);
         }
@@ -235,14 +223,14 @@ public class GameManager : MonoBehaviour
             yield return new WaitForSeconds(0.75f);
             countdownText.text = "Go!";
             audioSource.PlayOneShot(startingBeep);
-            isGameStarted = true;
             timer = matchTime;
             yield return new WaitForSeconds(0.25f);
         }
 
         countdownText.gameObject.SetActive(false);
+        isGameStarted = true;
     }
-    
+
     //spawns GUI for every player in game
     private void SpawnPlayerPanel(PlayerScript player)
     {
@@ -323,32 +311,5 @@ public class GameManager : MonoBehaviour
         }
 
     }
-
-
-    //List<PlayerScript> DetermineWinner()
-    //{
-    //    int highestkills = 0;
-    //    List<PlayerScript> highestKillPlayer = new List<PlayerScript>();
-
-    //    for (int i = 0; i < players.Count; i++)
-    //    {
-    //        if (players[i].numKills == highestkills)
-    //        {
-    //            highestKillPlayer.Add(players[i]);
-    //            highestkills = players[i].numKills;
-    //        }
-    //        else if (players[i].numKills > highestkills)
-    //        {
-    //            highestKillPlayer.Clear();
-    //            highestKillPlayer.Add(players[i]);
-    //            highestkills = players[i].numKills;
-    //        }
-
-
-    //    }
-
-    //    return highestKillPlayer;
-    //}
-
 
 }
