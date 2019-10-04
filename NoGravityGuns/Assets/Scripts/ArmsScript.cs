@@ -21,12 +21,7 @@ public class ArmsScript : MonoBehaviour
 
     [Header("Gun")]
     public GunSO currentWeapon;
-    //public GameObject reloadTimer;
-
-    public Transform bulletSpawn;
-
     public float targetVectorLength;
-
 
     public Transform handBone;
     public Transform frontupperArmBone;
@@ -53,6 +48,8 @@ public class ArmsScript : MonoBehaviour
     public CameraShake cameraShake;
     [HideInInspector]
     public float timeSinceLastShot;
+    [HideInInspector]
+    public Transform bulletSpawn;
 
     #endregion
 
@@ -68,8 +65,8 @@ public class ArmsScript : MonoBehaviour
     GameManager gameManager;
     int totalBulletsGunCanLoad;
     LimbSolver2D IKLimbSolver;
-
-
+    bool flipped = false;
+    
 
     #endregion
 
@@ -115,11 +112,6 @@ public class ArmsScript : MonoBehaviour
     }
     #endregion
 
-    //  const float TARGET_VECTOR_LENGTH = 15f;
-
-    // float flipStatus=1;
-
-    bool flipped = false;
 
     #region Input Handler Functions
     void AimController()

@@ -36,6 +36,7 @@ public class RoundManager : MonoBehaviour
     public float timeSinceRoundStarted;
 
     public List<PlayerDataScript> playerDataList;
+    public PlayerSpawnPoint[] playerSpawnPoints;
     public GameObject playerDataPrefab;
     public Image loadingImage;
     public GameObject persistentCanvas;
@@ -70,8 +71,9 @@ public class RoundManager : MonoBehaviour
                 room.isPlayable = true;
             }
 
-                // ObjectPooler.Instance.StartUp();
-            }
+            // ObjectPooler.Instance.StartUp();
+        }
+
 
         finishedControllerSetup = false;
 
@@ -89,14 +91,17 @@ public class RoundManager : MonoBehaviour
         currentRound++;
         timeSinceRoundStarted = 0;
 
+        playerSpawnPoints = FindObjectsOfType<PlayerSpawnPoint>();
+
         if (startOver)
         {
             currentRound = 0;
             finishedControllerSetup = false;
 
+            //nuke all our existing player data from orbit
             if (playerDataList.Count > 0)
             {
-                for (int i = playerDataList.Count-1; i >=0; i--)
+                for (int i = playerDataList.Count - 1; i >= 0; i--)
                 {
                     Destroy(playerDataList[i]);
                 }
@@ -106,15 +111,14 @@ public class RoundManager : MonoBehaviour
 
         }
 
-        //TODO: only grab from a list of playable rooms so player can check off maps they dont want to play
-        //RoomSO nextRoom = rooms[Random.Range(0, rooms.Count)];
 
+        //TODO: only grab from a list of playable rooms so player can check off maps they dont want to play
         List<RoomSO> tempRooms = new List<RoomSO>();
 
         RoomSO nextRoom = null;
 
         //we have no room to go to!
-        while(nextRoom == null)
+        while (nextRoom == null)
         {
             //make a list of all possible rooms we could go to that are playable
             foreach (var room in rooms)
@@ -122,7 +126,7 @@ public class RoundManager : MonoBehaviour
                 if (room.isPlayable)
                 {
                     tempRooms.Add(room);
-                   // Debug.Log(room.name);
+                    // Debug.Log(room.name);
                 }
             }
 
@@ -173,16 +177,17 @@ public class RoundManager : MonoBehaviour
 
         }
 
+        //turn off every pooled object so they dont cause drama at the start of next round
         ObjectPooler.Instance.ResetRound();
 
-        AsyncOperation asyncLoadLevel = SceneManager.LoadSceneAsync(lvl); 
+        AsyncOperation asyncLoadLevel = SceneManager.LoadSceneAsync(lvl);
 
-        while (!asyncLoadLevel.isDone )
+        while (!asyncLoadLevel.isDone)
         {
             yield return null;
         }
 
-        
+
 
         LevelLoaded(nextRoom, startOver);
         yield return new WaitForSeconds(0.5f);
@@ -204,7 +209,7 @@ public class RoundManager : MonoBehaviour
             roundNumText.text = "Round " + currentRound + "";
 
             newRoundTextAnimator.SetTrigger("NewRound");
-         
+
             GameManager.Instance.StartGame();
         }
 
@@ -217,7 +222,8 @@ public class RoundManager : MonoBehaviour
         for (int i = 0; i < playerDataList.Count; i++)
         {
             Debug.Log("iiii: " + i);
-            playerDataList[i].SetPlayerInfoAfterRoundStart();
+            //TODO: this
+           // playerDataList[i].SetPlayerInfoAfterRoundStart();
         }
 
     }
@@ -255,7 +261,7 @@ public class RoundManager : MonoBehaviour
         {
             loadingImage.fillAmount += Time.deltaTime;
 
-            if(loadingImage.fillAmount>=1)
+            if (loadingImage.fillAmount >= 1)
             {
                 loadingImage.fillAmount = 0;
                 loading = false;

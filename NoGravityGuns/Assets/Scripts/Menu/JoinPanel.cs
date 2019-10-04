@@ -13,7 +13,7 @@ public class JoinPanel : MonoBehaviour
 
     public bool hasAssignedController;
 
-    public PlayerScript player;
+    //public PlayerScript player;
     public TextMeshProUGUI MainText;
 
     Image image;
@@ -29,14 +29,15 @@ public class JoinPanel : MonoBehaviour
 
     }
 
-    public PlayerScript AssignController(int i, Controller controller)
+    public PlayerScript AssignController(int i, Controller controller, PlayerSpawnPoint playerSpawnPoint)
     {
         image.sprite = readySprite;
         //MainText.text = "Player " + controller + " joined!";
         hasAssignedController = true;
-        player.SetController(i, controller);
+        //player.SetController(i, controller);
+        playerSpawnPoint.SetCharacter(i, controller);
 
-        return player;
+        return null;
     }
 
     public PlayerScript UnAssignController()
@@ -45,8 +46,8 @@ public class JoinPanel : MonoBehaviour
         MainText.text = "Press A to join";
         hasAssignedController = false;
 
-        player.UnsetController();
+        //player.UnsetController();
 
-        return player;
+        return null;
     }
 }
