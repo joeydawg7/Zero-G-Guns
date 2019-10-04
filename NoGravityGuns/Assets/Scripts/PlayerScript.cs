@@ -25,11 +25,11 @@ public class PlayerScript : MonoBehaviour
     public Transform floatingTextSpawnPoint;
     public Color32 playerColor;
     public Color32 deadColor;
-    public Sprite playerHead;
-    public Sprite playerPortrait;
+    //public Sprite playerHead;
+    //public Sprite playerPortrait;
     public Sprite healthBar;
     public int collisionLayer;
-    public Sprite killTag;
+    //public Sprite killTag;
 
     [Header("Controller Stuff")]
     [HideInInspector]
@@ -54,6 +54,7 @@ public class PlayerScript : MonoBehaviour
     public Vector3 spawnPoint;
     public Color32 invulnerabilityColorFlash;
     public float invulnerablityTime;
+    [HideInInspector]
     public int numKills;
     public PlayerScript playerLastHitBy;
     int _roundWins;
@@ -71,9 +72,10 @@ public class PlayerScript : MonoBehaviour
     TrailRenderer trail;
     #endregion
     #region Audio
-    [Header("Audio")]
+    
     [HideInInspector]
     public AudioSource audioSource;
+    [Header("Audio")]
     public AudioClip headShot;
     public List<AudioClip> standardShots;
     public AudioClip torsoImpact;
@@ -733,7 +735,7 @@ public class PlayerScript : MonoBehaviour
 
         if (!isDummy)
         {
-            playerUIPanel.SetLives(numLives, playerHead);
+           // playerUIPanel.SetLives(numLives, playerHead);
             player.controllers.AddController(controller, true);
         }
 
