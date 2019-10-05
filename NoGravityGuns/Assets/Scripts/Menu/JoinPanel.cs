@@ -31,9 +31,9 @@ public class JoinPanel : MonoBehaviour
 
     public PlayerScript AssignController(int i, Controller controller, PlayerSpawnPoint playerSpawnPoint)
     {
-        image.sprite = readySprite;
-        //MainText.text = "Player " + controller + " joined!";
+        MainText.text = "Player joined!";
         hasAssignedController = true;
+        image.sprite = readySprite;
         //player.SetController(i, controller);
         playerSpawnPoint.SetCharacter(i, controller);
 
@@ -45,7 +45,7 @@ public class JoinPanel : MonoBehaviour
         image.sprite = notReadySprite;
         MainText.text = "Press A to join";
         hasAssignedController = false;
-
+        image.sprite = notReadySprite;
         //player.UnsetController();
 
         return null;

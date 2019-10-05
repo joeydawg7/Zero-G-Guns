@@ -194,11 +194,11 @@ public class JoiningPlayerScript : MonoBehaviour
             GameManager.Instance.audioSource.PlayOneShot(joinClick);
         }
 
-        
+
 
         foreach (var spawnPoint in playerSpawnPoints)
         {
-            if((spawnPoint.IDToSpawn-1) == joystick.id)
+            if ((spawnPoint.IDToSpawn - 1) == joystick.id)
             {
                 AddPlayerControllerSetup(joystick.id, joystick, spawnPoint);
                 break;

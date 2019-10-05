@@ -219,7 +219,7 @@ public class RoundManager : MonoBehaviour
         for (int i = 0; i < playerDataList.Count; i++)
         {
             Debug.Log("iiii: " + i);
-            playerDataList[i].SetPlayerInfoAfterRoundStart();
+           //playerDataList[i].SetPlayerInfoAfterRoundStart();
         }
 
     }
