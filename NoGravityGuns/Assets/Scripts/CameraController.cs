@@ -1,6 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering.PostProcessing;
+using UnityEngine.Audio;
+
 
 public class CameraController : MonoBehaviour
 {
@@ -19,11 +22,24 @@ public class CameraController : MonoBehaviour
     CameraShake cameraShake;
     Camera mainCam;
 
+    AudioSource audioSource;
+    public AudioMixer SFXMixer;
+
+    public AudioClip timeSlow;
+    public AudioClip timeSpeed;
+
+    [HideInInspector]
+    public PostProcessVolume CurrentGameVolume;
+
+
     private void Awake()
     {
         players = new List<Transform>();
         mainCam = Camera.main;
         cameraShake = mainCam.GetComponent<CameraShake>();
+        audioSource = GetComponent<AudioSource>();
+        CurrentGameVolume = FindObjectOfType<PostProcessVolume>();
+
     }
 
     // Update is called once per frame
@@ -106,7 +122,6 @@ public class CameraController : MonoBehaviour
     {
         
 
-        Time.timeScale = 0.75f;
         cameraShake.shakeDuration += 0.5f;
         yield return new WaitForSeconds(time);
         cameraShake.shakeDuration = 0.0f;
@@ -120,5 +135,116 @@ public class CameraController : MonoBehaviour
             yield break;
         }
     }
+
+    public void TrackFinalBlow(Transform playerWhoWasHit, float timeToHold)
+    {
+        StartCoroutine(HoldOnFinalBlow(playerWhoWasHit, timeToHold));
+    }
+
+
+    IEnumerator HoldOnFinalBlow(Transform playerWhoWasHit, float t)
+    {
+        //store old data about who we were tracking, then clear who we are tracking and set only the hit player so we zoom in on them
+        var lastPlayerStanding = players[0];
+        Transform[] trackedPlayers = players.ToArray();
+        players.Clear();
+        players.Add(playerWhoWasHit);
+
+        //play a whoosh effect
+        audioSource.PlayOneShot(timeSlow);
+
+        //swap profiles so we dont muck up old profile (probably not required)
+        //CurrentGameVolume.profile = onSlowDownProfile;
+
+        //gens distortion and chromatic abbberation effects
+        LensDistortion lensDistortion;
+        ChromaticAberration chromaticAbberation;
+        CurrentGameVolume.profile.TryGetSettings(out lensDistortion);
+        CurrentGameVolume.profile.TryGetSettings(out chromaticAbberation);
+
+        //make all SFX pitched down
+        SFXMixer.SetFloat("SFXPitch", 0.75f);
+
+        //mess with time
+        while (Time.timeScale >0.1f)
+        {
+            Time.timeScale -= 0.1f;
+            Time.fixedDeltaTime = 0.02f * Time.deltaTime;
+            yield return null;
+        }
+        Time.timeScale = 0.1f;
+        Time.fixedDeltaTime = 0.02f * Time.deltaTime;
+
+        
+
+        //initial slowdown last 0.3 /0.1 due to slow down seconds (3s) and scales up post effects during that time
+        float timer = 0;
+        while (timer < 0.3f)
+        {
+            chromaticAbberation.intensity.value += Time.deltaTime*5f;
+            lensDistortion.scale.value -= Time.deltaTime*5f;
+
+            timer += Time.deltaTime;
+
+            yield return null;
+        }
+
+        //empties out player tracking and then adds everyone back so we return to previous view
+        players.Clear();
+        for (int i = 0; i < trackedPlayers.Length; i++)
+        {
+            players.Add(trackedPlayers[i]);
+        }
+        //
+        RoundManager.Instance.EndRoundCanvasDisplay(playerWhoWasHit);
+        //additional wait
+        yield return new WaitForSeconds(2 * Time.timeScale);
+        RoundManager.Instance.ClearEndRoundCanvasDisplay();
+        //starts showing the end game GUI
+        GameManager.Instance.OnGameEnd();
+
+        //make all SFX pitched normal
+        SFXMixer.SetFloat("SFXPitch", 1f);
+
+        //plays another woosh effect
+        audioSource.PlayOneShot(timeSpeed);
+
+
+        //ramps up return to normal time
+        while (Time.timeScale < 1)
+        {
+            Time.timeScale += 0.01f;
+            Time.fixedDeltaTime = 0.02f*Time.deltaTime;
+            chromaticAbberation.intensity.value -= Time.deltaTime * 5f;
+            lensDistortion.scale.value += Time.deltaTime * 5f;
+            yield return null;
+        }
+
+        //sets everything back to normal
+        ResetAllSlowdownEffects();
+
+
+    }
+
+    public void ResetAllSlowdownEffects()
+    {
+        LensDistortion lensDistortion;
+        ChromaticAberration chromaticAbberation;
+        CurrentGameVolume.profile.TryGetSettings(out lensDistortion);
+        CurrentGameVolume.profile.TryGetSettings(out chromaticAbberation);
+
+        chromaticAbberation.intensity.value = 0f;
+        lensDistortion.intensity.value = 0;
+        Time.timeScale = 1;
+        Time.fixedDeltaTime = 0.02f;
+
+        //make all SFX pitched normal
+        SFXMixer.SetFloat("SFXPitch", 1f);
+
+    }
+
+
+   
+
 
 }

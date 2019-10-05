@@ -18,6 +18,7 @@ public class EndGameScript : MonoBehaviour
 
     bool tickTimer = true;
     bool weHaveAWinner = false;
+    CameraController cameraController;
 
     // Update is called once per frame
     void Update()
@@ -44,6 +45,9 @@ public class EndGameScript : MonoBehaviour
                     //SceneManager.LoadScene(SceneManager.GetActiveScene().name, LoadSceneMode.Single);
                     RoundManager.Instance.NewRound(false);
                 }
+
+                cameraController.ResetAllSlowdownEffects();
+
             }
 
             //timer ending of round endscreen
@@ -56,6 +60,7 @@ public class EndGameScript : MonoBehaviour
 
             if (player.GetButtonDown("Drop"))
             {
+                cameraController.ResetAllSlowdownEffects();
                 SceneManager.LoadScene(mainMenuScene, LoadSceneMode.Single);
             }
         }
@@ -65,6 +70,8 @@ public class EndGameScript : MonoBehaviour
     private void Start()
     {
         gameObject.SetActive(false);
+
+        cameraController = Camera.main.transform.parent.GetComponent<CameraController>();
     }
 
     public void StartEndGame(List<PlayerScript> winners)

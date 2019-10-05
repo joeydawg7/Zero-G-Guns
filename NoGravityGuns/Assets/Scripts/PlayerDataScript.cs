@@ -28,30 +28,30 @@ public class PlayerDataScript : MonoBehaviour
         kills--;
     }
 
-    public void SetPlayerInfoAfterRoundStart()
+    public void SetPlayerInfoAfterRoundStart(PlayerScript player)
     {
-        //GameManager gameManager = GameManager.Instance;
-        Debug.Log("player id = " + playerID);
+        SetPlayer(player);
 
-        switch (playerID)
-        {
-            case 1:
-                SetPlayer(GameManager.Instance.player1);
-                break;
-            case 2:
-                SetPlayer(GameManager.Instance.player2);
-                break;
-            case 3:
-                SetPlayer(GameManager.Instance.player3);
-                break;
-            case 4:
-                SetPlayer(GameManager.Instance.player4);
-                break;
 
-            default:
-                Debug.LogError("No ID set on initialilzation! This should never happen!");
-                break;
-        }
+        //switch (playerID)
+        //{
+        //    case 1:
+        //        SetPlayer(GameManager.Instance.player1);
+        //        break;
+        //    case 2:
+        //        SetPlayer(GameManager.Instance.player2);
+        //        break;
+        //    case 3:
+        //        SetPlayer(GameManager.Instance.player3);
+        //        break;
+        //    case 4:
+        //        SetPlayer(GameManager.Instance.player4);
+        //        break;
+
+        //    default:
+        //        Debug.LogError("No ID set on initialilzation! This should never happen!");
+        //        break;
+        //}
     }
 
     void SetPlayer(PlayerScript playerScript)
@@ -62,7 +62,7 @@ public class PlayerDataScript : MonoBehaviour
         playerScript.hexColorCode = hexColorCode;
         playerScript.playerName = playerName;
 
-        Debug.Log("player id in set :" + playerID);
+        //Debug.Log("player id in set :" + playerID);
         
         //playerScript.OnGameStart();
     }

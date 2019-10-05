@@ -12,7 +12,7 @@ public class BounceShot : Bullet
 
         canBounce = true;
 
-        SetPFXTrail("LightningTrail", true);
+        SetPFXTrail("RocketTrail", true);
 
     }
 
@@ -50,14 +50,13 @@ public class BounceShot : Bullet
             canImapact = false;
             KillBullet();
             return;
-        }
-        /*
-        else if (dmgType != PlayerScript.DamageType.none)
-        {
-            canImapact = false;
-            KillBullet();
-            return;
-        }*/
+        }       
+        //else if (dmgType != PlayerScript.DamageType.none)
+        //{
+        //    canImapact = false;
+        //    KillBullet();
+        //    return;
+        //}
         else
         {
             canBounce = false;
@@ -70,13 +69,12 @@ public class BounceShot : Bullet
     protected override PlayerScript.DamageType DamageBodyParts(Collision2D collision)
     {
         //default damage type is nothing, we don't know what we hit yet.
-        PlayerScript.DamageType dmgType = PlayerScript.DamageType.none;
+        PlayerScript.DamageType dmgType = PlayerScript.DamageType.self;
 
         //we can get out of here early if there is no player script component on the root parent of whatever we hit, because that 100% is not a player :D
         PlayerScript hitPlayerScript = collision.transform.root.GetComponentInChildren<PlayerScript>();
         if (hitPlayerScript == null)
             return dmgType;
-
 
         //checks where we hit the other guy, deals our given damage to that location. 
         if (collision.collider.tag == "Torso")
@@ -84,30 +82,28 @@ public class BounceShot : Bullet
             dmgType = PlayerScript.DamageType.torso;
             hitPlayerScript.TakeDamage(damage, dmgType, player, true);
             //collision.transform.GetComponentInChildren<ParticleSystem>().Emit(30);
-            canBounce = false;
             GetComponent<Collider2D>().enabled = false;
         }
         if (collision.collider.tag == "Head")
         {
             dmgType = PlayerScript.DamageType.head;
             hitPlayerScript.TakeDamage(damage, dmgType, player, true);
-            canBounce = false;
             GetComponent<Collider2D>().enabled = false;
         }
         if (collision.collider.tag == "Feet")
         {
             dmgType = PlayerScript.DamageType.feet;
-            hitPlayerScript.TakeDamage(damage, dmgType, player, true);
-            canBounce = false;
+            hitPlayerScript.TakeDamage(damage, dmgType, player, true);     
             GetComponent<Collider2D>().enabled = false;
         }
         if (collision.collider.tag == "Leg")
         {
             dmgType = PlayerScript.DamageType.legs;
             hitPlayerScript.TakeDamage(damage, dmgType, player, true);
-            canBounce = false;
             GetComponent<Collider2D>().enabled = false;
         }
+
+        canBounce = false;
 
         return dmgType;
     }
@@ -121,7 +117,7 @@ public class BounceShot : Bullet
     protected override void SpawnSparkEffect()
     {
         //spawn some impact sparks from pool
-        GameObject sparkyObj = objectPooler.SpawnFromPool("LightningImpact", transform.position, Quaternion.identity);
+        GameObject sparkyObj = objectPooler.SpawnFromPool("BulletImpact", transform.position, Quaternion.identity);
 
         ParticleSystem ps = sparkyObj.GetComponent<ParticleSystem>();
 

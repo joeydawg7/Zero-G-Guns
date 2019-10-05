@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class ObjectPooler : MonoBehaviour
 {
@@ -61,7 +62,7 @@ public class ObjectPooler : MonoBehaviour
 
     public void StartUp()
     {
-        
+
     }
 
     //works like instatiate but from a magic poooooool
@@ -116,6 +117,7 @@ public class ObjectPooler : MonoBehaviour
         }
 
         poolDictionary[tag].Enqueue(objectToSpawn);
+
         return objectToSpawn;
 
     }
@@ -135,5 +137,56 @@ public class ObjectPooler : MonoBehaviour
         go.SetActive(false);
     }
 
+    public bool finishedResetting = false;
+
+    public void ResetRound()
+    {
+        //goes through every pooled object and turns it off at the end of the round to prevent leftover bullets
+        //Debug.Log(poolDictionary.Keys.Count); //10
+
+        Debug.Log("snaaa");
+
+        finishedResetting = false;
+
+        for (int i = 0; i < poolDictionary.Keys.Count; i++)
+        {
+            //yeah this all makes sense... right? lol
+            //basically just grabbing from the dictionary key (tag) to get our queue of values and turning that queue into a list so we can loop through each one individually and set all these objects to false
+            //ez pz
+            for (int j = 0; j < poolDictionary[poolDictionary.Keys.ToList()[i]].ToList().Count; j++)
+            {
+                GameObject go = poolDictionary[poolDictionary.Keys.ToList()[i]].ToList()[j];
+
+
+                if (go == null)
+                {
+                    //if you see this error it means a pooled object got deleted from its parent pool somehow, which should never happen as it can lead to some incredibly fatal errors during extended play
+                    Debug.LogError("Missing pooled object found in " + poolDictionary.Keys.ToList()[i] + " tag's list");
+                }
+                //turn off the object, make sure it wont destroy for future rounds and that it has no parent to ovveride its "don't destroy" status
+                go.SetActive(false);
+                go.transform.parent = null;
+                DontDestroyOnLoad(go);
+            }
+
+            
+
+            /*
+            for (int ii = 0; ii < poolDictionary[poolDictionary.Keys.ToList()[i]].Count; ii++)
+            {
+                GameObject go = poolDictionary.Values.ToList()[ii].Dequeue();
+                if (go == null)
+                {
+                    Debug.LogError("Missing pooled object found in " + poolDictionary.Keys.ToList()[i] + " tag's list");
+                }
+                go.SetActive(false);
+                poolDictionary.Values.ToList()[ii].Enqueue(go);
+            }
+            */
+
+        }
+
+        finishedResetting = true;
+    }
 
 }

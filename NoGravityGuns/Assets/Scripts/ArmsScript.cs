@@ -21,12 +21,7 @@ public class ArmsScript : MonoBehaviour
 
     [Header("Gun")]
     public GunSO currentWeapon;
-    //public GameObject reloadTimer;
-
-    public Transform bulletSpawn;
-
     public float targetVectorLength;
-
 
     public Transform handBone;
     public Transform frontupperArmBone;
@@ -53,6 +48,8 @@ public class ArmsScript : MonoBehaviour
     public CameraShake cameraShake;
     [HideInInspector]
     public float timeSinceLastShot;
+    [HideInInspector]
+    public Transform bulletSpawn;
 
     #endregion
 
@@ -68,8 +65,8 @@ public class ArmsScript : MonoBehaviour
     GameManager gameManager;
     int totalBulletsGunCanLoad;
     LimbSolver2D IKLimbSolver;
-
-
+    bool flipped = false;
+    
 
     #endregion
 
@@ -115,11 +112,6 @@ public class ArmsScript : MonoBehaviour
     }
     #endregion
 
-    //  const float TARGET_VECTOR_LENGTH = 15f;
-
-    // float flipStatus=1;
-
-    bool flipped = false;
 
     #region Input Handler Functions
     void AimController()
@@ -136,20 +128,17 @@ public class ArmsScript : MonoBehaviour
             // aiming stuff
             shootDir = -Vector2.right * rawAim + Vector2.up * rawAim;
             shootDir = shootDir.normalized * targetVectorLength;
+
             IKTarget.transform.localPosition = shootDir;
             handBone.right = new Vector2(IKTarget.transform.localPosition.x, IKTarget.transform.localPosition.y * -1) - new Vector2(shootDir.x * -1, shootDir.y) * Vector2.right;
-
-
         }
-
-
 
     }
 
     private void OnDrawGizmos()
     {
 
-        if (showAimingVector && DebugManager.Instance.useDebugSettings)
+        if (showAimingVector && GameManager.Instance.debugManager.useDebugSettings)
         {
             Gizmos.color = Color.magenta;
             // DrawHelperAtCenter(shootDir, Color.red, 1f);
@@ -178,7 +167,6 @@ public class ArmsScript : MonoBehaviour
     #endregion
 
     #region Equip Guns, Shoot
-
     //counts time between shots 
     void CountShotDelay()
     {
@@ -225,27 +213,9 @@ public class ArmsScript : MonoBehaviour
         }
     }
 
-    //public void EquipArms(GunSO gun)
-    //{
-    //  HideAllGuns();
-
-
-
-
-    //armsSR = armGo.GetComponent<SpriteRenderer>();
-
-    //armGo.SetActive(true);
-
-    //armGo.GetComponent<SpriteRenderer>().color = defaultColor;
-    //armsScript.EquipGun(gun, armGo);
-
-
-    // }
-
-
     public void OnShoot()
     {
-        if (basePlayer.isDead)
+        if (basePlayer.isDead || Time.timeScale !=1)
             return;
 
         //dry fire effect

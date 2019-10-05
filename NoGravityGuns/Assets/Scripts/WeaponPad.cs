@@ -45,18 +45,22 @@ public class WeaponPad : MonoBehaviour
         foreach (var g in guns)
             potentialGunsToSpawn.Add(g);
 
-        if (!SpawnSelectedWeaponInstant)
-        {
-            timer = 0;
-            timeToNextSpawn = Random.Range(5, 25f);
-            weaponToSpawn = potentialGunsToSpawn[Random.Range(0, potentialGunsToSpawn.Count)];
-        }
-        else
+        //debug spawn weapons
+        if (SpawnSelectedWeaponInstant && GameManager.Instance.debugManager.useDebugSettings)
         {
             hasWeapon = true;
             currentWeapon = weaponToSpawn;
             barSprite.color = emptyPadBarsColour;
             gunSprite.sprite = weaponToSpawn.theGun;
+        }
+        //spawn normally
+        else
+        {
+            timer = 0;
+            timeToNextSpawn = Random.Range(5, 25f);
+            weaponToSpawn = potentialGunsToSpawn[Random.Range(0, potentialGunsToSpawn.Count)];
+
+          
         }
 
     }

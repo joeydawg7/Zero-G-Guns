@@ -8,7 +8,7 @@ public class Chinese_Coil : MonoBehaviour
     public AudioClip shockClip;
 
     public float explosionRadius = 15;
-    public float explosionPower = 250;
+    public float explosionPower = 400f;
     public float damageAtcenter = 20f;
     public float cameraShakeDuration = 0.25f;
 

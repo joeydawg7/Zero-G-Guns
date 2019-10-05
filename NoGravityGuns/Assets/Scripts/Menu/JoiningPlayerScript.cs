@@ -18,19 +18,23 @@ public class JoiningPlayerScript : MonoBehaviour
 
     public TextMeshProUGUI tipToStart;
 
-    public Image[] joinPanels;
-    public List<int> assignedControls;
+    JoinPanel[] joinPanels;
+    List<int> assignedControls;
 
     public int maxPlayers = 4;
     private int rewiredPlayerIdCounter = 0;
 
     public AudioClip joinClick;
 
+    PlayerSpawnPoint[] playerSpawnPoints;
+
     private void Awake()
     {
         tipToStart.alpha = 0;
         assignedControls = new List<int>();
-        
+        playerSpawnPoints = FindObjectsOfType<PlayerSpawnPoint>();
+        joinPanels = FindObjectsOfType<JoinPanel>();
+
         // Subscribe to controller connected events
         ReInput.ControllerConnectedEvent += OnControllerConnected;
 
@@ -190,7 +194,16 @@ public class JoiningPlayerScript : MonoBehaviour
             GameManager.Instance.audioSource.PlayOneShot(joinClick);
         }
 
-        AddPlayerControllerSetup(joystick.id, joystick);
+        
+
+        foreach (var spawnPoint in playerSpawnPoints)
+        {
+            if((spawnPoint.IDToSpawn-1) == joystick.id)
+            {
+                AddPlayerControllerSetup(joystick.id, joystick, spawnPoint);
+                break;
+            }
+        }
 
         Debug.Log("Assigned " + joystick.name + " " + joystick.id + " to Player " + player.id);
 
@@ -228,8 +241,8 @@ public class JoiningPlayerScript : MonoBehaviour
 
     void StartButtonPressed()
     {
-
-        if (assignedControls.Count >= 1)
+        //prevent game fom starting with less then 2 players
+        if (assignedControls.Count >= 2)
         {
             ReInput.players.SystemPlayer.controllers.ClearAllControllers();
             GameManager.Instance.StartGame();
@@ -237,15 +250,27 @@ public class JoiningPlayerScript : MonoBehaviour
             RoundManager.Instance.NewRound(false);
             tipToStart.alpha = 0;
         }
+        else if(GameManager.Instance.debugManager.useDebugSettings)
+        {
+            //allow single player for testing
+            if (assignedControls.Count >= 1)
+            {
+                ReInput.players.SystemPlayer.controllers.ClearAllControllers();
+                GameManager.Instance.StartGame();
+                RoundManager.Instance.finishedControllerSetup = true;
+                RoundManager.Instance.NewRound(false);
+                tipToStart.alpha = 0;
+            }
+        }
     }
 
 
-    void AddPlayerControllerSetup(int i, Controller controller)
+    void AddPlayerControllerSetup(int i, Controller controller, PlayerSpawnPoint playerSpawnPoint)
     {
         JoinPanel jp = joinPanels[i].GetComponent<JoinPanel>();
         if (jp.hasAssignedController == false)
         {
-            jp.AssignController((i + 1), controller);
+            jp.AssignController((i + 1), controller, playerSpawnPoint);
             return;
         }
     }
@@ -277,6 +302,13 @@ public class JoiningPlayerScript : MonoBehaviour
     public void OnGameStart()
     {
         gameObject.SetActive(false);
+
+        Debug.Log("player spawn points: " + playerSpawnPoints.Length);
+
+        foreach (var playerSpawnPoint in playerSpawnPoints)
+        {
+            playerSpawnPoint.SpawnCharacter();
+        }
     }
 
 }

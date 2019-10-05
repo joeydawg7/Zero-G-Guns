@@ -9,14 +9,21 @@ public class GameManager : MonoBehaviour
 
     public static GameManager Instance { get { return _instance; } }
 
+    [Header("Debug")]
+    public bool debugSkipCountdown;
+    [Header("----------")]
     public bool isGameStarted;
 
     [HideInInspector]
     public List<PlayerScript> players;
+    
 
     public CameraController cameraController;
 
     public JoiningPlayerScript joiningPlayerScript;
+
+    [Header("Stores DebugManager scriptable object to easily turn debug options on / off")]
+    public DebugManager debugManager;
 
     [Header("Guns")]
     public GunSO pistol;
@@ -31,22 +38,22 @@ public class GameManager : MonoBehaviour
     public float matchTime;
 
     public GUIManager guiManager;
-    public EndGameScript EndGameScript;
+    public EndGameScript EndGameScript;   
 
-    [HideInInspector]
-    public PlayerUIPanel p1HUD;
-    [HideInInspector]
-    public PlayerUIPanel p2HUD;
-    [HideInInspector]
-    public PlayerUIPanel p3HUD;
-    [HideInInspector]
-    public PlayerUIPanel p4HUD;
+    //[HideInInspector]
+    //public PlayerUIPanel p1HUD;
+    //[HideInInspector]
+    //public PlayerUIPanel p2HUD;
+    //[HideInInspector]
+    //public PlayerUIPanel p3HUD;
+    //[HideInInspector]
+    //public PlayerUIPanel p4HUD;
 
     //temp temp temp
-    public PlayerScript player1;
-    public PlayerScript player2;
-    public PlayerScript player3;
-    public PlayerScript player4;
+    //public PlayerScript player1;
+    //public PlayerScript player2;
+    //public PlayerScript player3;
+    //public PlayerScript player4;
 
     [HideInInspector]
     public float timer;
@@ -58,6 +65,8 @@ public class GameManager : MonoBehaviour
 
     public AudioClip countdownBeep;
     public AudioClip startingBeep;
+
+    public float FinalBlowHoldTime= 2f;
 
     [HideInInspector]
     public AudioSource audioSource;
@@ -119,31 +128,7 @@ public class GameManager : MonoBehaviour
     public DataManager dataManager;
     #endregion
 
-    //some leftover from when i used a different singleton pattern for this. left around in case i go back to it
-   /* private void OnLevelWasLoaded(int level)
-    {
-        players.Clear();
-
-        PlayerScript[] playersArray = FindObjectsOfType<PlayerScript>();
-
-        for (int i = 0; i < playersArray.Length; i++)
-        {
-            players.Add(playersArray[i]);
-        }
-
-        joiningPlayerScript = FindObjectOfType<JoiningPlayerScript>();
-        cameraController = FindObjectOfType<CameraController>();
-        guiManager = FindObjectOfType<GUIManager>();
-        EndGameScript = FindObjectOfType<EndGameScript>();
-        playerUIParent = GameObject.FindGameObjectWithTag("UILayout").transform;
-        //countdownText = GameObject.Find("CountdownText").GetComponent<TextMeshProUGUI>();
-        countdownText.gameObject.SetActive(false);
-
-        isGameStarted = false;
-
-        dataManager = GetComponent<DataManager>();
-    }*/
-
+ 
     private void Awake()
     {
         if (_instance != null && _instance != this)
@@ -161,30 +146,13 @@ public class GameManager : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
 
         players = new List<PlayerScript>();
-
+        cameraController = FindObjectOfType<CameraController>();
     }
 
-    private void Start()
-    {
-
-        //p1HUD.gameObject.SetActive(false);
-        //p2HUD.gameObject.SetActive(false);
-        //p3HUD.gameObject.SetActive(false);
-        //p4HUD.gameObject.SetActive(false);
-
-        //loading delay to prevent fuckupery... game jam code you know
-        //StartCoroutine(Delay());
-    }
-
-    //IEnumerator Delay()
-    //{
-    //    yield return new WaitForSeconds(1.5f);
-    //}
-
+    PlayerSpawnPoint[] playerSpawnPoints;
 
     public void StartGame()
     {
-
         PlayerScript[] ps = FindObjectsOfType<PlayerScript>();
 
         //make sure to add all players here, even if they are dummies
@@ -194,22 +162,22 @@ public class GameManager : MonoBehaviour
             
 
            // if(ps[i].isDummy)
-                players.Add(ps[i]);
+                players.Add(ps[i]);                
         }
 
         RoundManager.Instance.SetAllPlayersDataIntoPlayerObjects();
 
 
-        p1HUD = player1.playerUIPanel;
-        p2HUD = player2.playerUIPanel;
-        p3HUD = player3.playerUIPanel;
-        p4HUD = player4.playerUIPanel;
+        //p1HUD = player1.playerUIPanel;
+        //p2HUD = player2.playerUIPanel;
+        //p3HUD = player3.playerUIPanel;
+        //p4HUD = player4.playerUIPanel;
 
 
-        p1HUD.gameObject.SetActive(false);
-        p2HUD.gameObject.SetActive(false);
-        p3HUD.gameObject.SetActive(false);
-        p4HUD.gameObject.SetActive(false);
+        //p1HUD.gameObject.SetActive(false);
+        //p2HUD.gameObject.SetActive(false);
+        //p3HUD.gameObject.SetActive(false);
+        //p4HUD.gameObject.SetActive(false);
 
         //get rid of players that nobody is playing as... again unless your a dummy
         for (int i = players.Count - 1; i >= 0; i--)
@@ -245,22 +213,32 @@ public class GameManager : MonoBehaviour
     //plays a short countdown
     IEnumerator Countdown()
     {
-        yield return new WaitForSeconds(0.25f);
-        countdownText.text = "3";
-        countdownText.gameObject.SetActive(true);
-        audioSource.PlayOneShot(countdownBeep);
-        yield return new WaitForSeconds(0.75f);
-        countdownText.text = "2";
-        audioSource.PlayOneShot(countdownBeep);
-        yield return new WaitForSeconds(0.75f);
-        countdownText.text = "1";
-        audioSource.PlayOneShot(countdownBeep);
-        yield return new WaitForSeconds(0.75f);
-        countdownText.text = "Go!";
-        audioSource.PlayOneShot(startingBeep);
-        isGameStarted = true;
-        timer = matchTime;
-        yield return new WaitForSeconds(0.25f);
+        if (debugSkipCountdown && debugManager.useDebugSettings)
+        {
+            audioSource.PlayOneShot(startingBeep);
+            isGameStarted = true;
+            timer = matchTime;
+            countdownText.gameObject.SetActive(false);
+        }
+        else
+        {
+            yield return new WaitForSeconds(0.25f);
+            countdownText.text = "3";
+            countdownText.gameObject.SetActive(true);
+            audioSource.PlayOneShot(countdownBeep);
+            yield return new WaitForSeconds(0.75f);
+            countdownText.text = "2";
+            audioSource.PlayOneShot(countdownBeep);
+            yield return new WaitForSeconds(0.75f);
+            countdownText.text = "1";
+            audioSource.PlayOneShot(countdownBeep);
+            yield return new WaitForSeconds(0.75f);
+            countdownText.text = "Go!";
+            audioSource.PlayOneShot(startingBeep);
+            isGameStarted = true;
+            timer = matchTime;
+            yield return new WaitForSeconds(0.25f);
+        }
 
         countdownText.gameObject.SetActive(false);
     }
@@ -269,34 +247,33 @@ public class GameManager : MonoBehaviour
     private void SpawnPlayerPanel(PlayerScript player)
     {
         //PlayerUIPanel gO = Instantiate(playUIPrefab, playerUIParent).GetComponent<PlayerUIPanel>();
-        if (!player.isDummy)
-        {
-            switch (player.playerID)
-            {
-                case 1:
-                    p1HUD.setAll((float)player.health / 100f, player.playerName, player.armsScript.AmmoText(), player.playerColor, player.playerPortrait, player.healthBar);
-                    player.playerUIPanel = p1HUD;
-                    break;
-                case 2:
-                    p2HUD.setAll((float)player.health / 100f, player.playerName, player.armsScript.AmmoText(), player.playerColor, player.playerPortrait, player.healthBar);
-                    player.playerUIPanel = p2HUD;
-                    break;
-                case 3:
-                    p3HUD.setAll((float)player.health / 100f, player.playerName, player.armsScript.AmmoText(), player.playerColor, player.playerPortrait, player.healthBar);
-                    player.playerUIPanel = p3HUD;
-                    break;
-                case 4:
-                    p4HUD.setAll((float)player.health / 100f, player.playerName, player.armsScript.AmmoText(), player.playerColor, player.playerPortrait, player.healthBar);
-                    player.playerUIPanel = p4HUD;
-                    break;
-                default:
-                    Debug.LogError("Should never get here!");
-                    break;
-            }
-        }
-
-       
+        //if (!player.isDummy)
+        //{
+        //    switch (player.playerID)
+        //    {
+        //        case 1:
+        //            p1HUD.setAll((float)player.health / 100f, player.playerName, player.armsScript.AmmoText(), player.playerColor, player.healthBar);
+        //            player.playerUIPanel = p1HUD;
+        //            break;
+        //        case 2:
+        //            p2HUD.setAll((float)player.health / 100f, player.playerName, player.armsScript.AmmoText(), player.playerColor, player.healthBar);
+        //            player.playerUIPanel = p2HUD;
+        //            break;
+        //        case 3:
+        //            p3HUD.setAll((float)player.health / 100f, player.playerName, player.armsScript.AmmoText(), player.playerColor, player.healthBar);
+        //            player.playerUIPanel = p3HUD;
+        //            break;
+        //        case 4:
+        //            p4HUD.setAll((float)player.health / 100f, player.playerName, player.armsScript.AmmoText(), player.playerColor, player.healthBar);
+        //            player.playerUIPanel = p4HUD;
+        //            break;
+        //        default:
+        //            Debug.LogError("Should never get here!");
+        //            break;
+        //    }
+        //}
     }
+
     private void Update()
     {
         //checks if we run out of time
@@ -329,7 +306,7 @@ public class GameManager : MonoBehaviour
     }
 
     //every time somebody runs out of lives check if theres only 1 player left
-    public void CheckForLastManStanding()
+    public void CheckForLastManStanding(Transform playerWhoJustDied)
     {
         int leftAlive = 0;
 
@@ -342,10 +319,12 @@ public class GameManager : MonoBehaviour
         //last man standing, end the game!
         if (leftAlive == 1)
         {
-            OnGameEnd();
+            cameraController.TrackFinalBlow(playerWhoJustDied, FinalBlowHoldTime);
         }
 
     }
+
+   
 
 
     //List<PlayerScript> DetermineWinner()

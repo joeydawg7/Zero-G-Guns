@@ -34,7 +34,7 @@ public class PlayerUIPanel : MonoBehaviour
         gameManager = GameManager.Instance;
     }
 
-    public void setAll(float fillDamage, string statusMsg, string gunMsg, Color32 color, Sprite playerPortrait, Sprite healthbar)
+    public void setAll(float fillDamage, string statusMsg, string gunMsg, Color32 color, Sprite healthbar)
     {
         gameObject.SetActive(true);
 

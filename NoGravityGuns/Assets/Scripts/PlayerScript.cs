@@ -25,11 +25,11 @@ public class PlayerScript : MonoBehaviour
     public Transform floatingTextSpawnPoint;
     public Color32 playerColor;
     public Color32 deadColor;
-    public Sprite playerHead;
-    public Sprite playerPortrait;
+    //public Sprite playerHead;
+    //public Sprite playerPortrait;
     public Sprite healthBar;
     public int collisionLayer;
-    public Sprite killTag;
+    //public Sprite killTag;
 
     [Header("Controller Stuff")]
     [HideInInspector]
@@ -40,7 +40,7 @@ public class PlayerScript : MonoBehaviour
     public Controller controller;
 
     [HideInInspector]
-    public enum DamageType { none = 0, head = 4, torso = 3, legs = 2, feet = 1 };
+    public enum DamageType { head = 4, torso = 3, legs = 2, feet = 1 , self = 5};
     [HideInInspector]
     //public enum GunType { pistol, assaultRifle, LMG, shotgun, railGun, healthPack, RPG, mineLauncher, collision };
 
@@ -48,30 +48,13 @@ public class PlayerScript : MonoBehaviour
     public bool isDead;
     public bool isInvulnerable;
 
-    /*
-    [Header("armedArms")]
-    public GameObject pistolArms;
-    public GameObject assaultRifleArms;
-    public GameObject LMGArms;
-    public GameObject shotGunArms;
-    public GameObject railGunArms;
-    public GameObject RPGArms;
-    public GameObject mineLauncherArms;
-    
-    public List<GameObject> AllArms;
-    */
-
     public ArmsScript armsScript;
-
-    //[Header("Armed Legs")]
-    //public GameObject legsCollider;
-    //public Transform legsParent;
-    //List<LegFixer> legFixers;
 
     [Header("Spawning and kills")]
     public Vector3 spawnPoint;
     public Color32 invulnerabilityColorFlash;
     public float invulnerablityTime;
+    [HideInInspector]
     public int numKills;
     public PlayerScript playerLastHitBy;
     int _roundWins;
@@ -89,9 +72,10 @@ public class PlayerScript : MonoBehaviour
     TrailRenderer trail;
     #endregion
     #region Audio
-    [Header("Audio")]
+    
     [HideInInspector]
     public AudioSource audioSource;
+    [Header("Audio")]
     public AudioClip headShot;
     public List<AudioClip> standardShots;
     public AudioClip torsoImpact;
@@ -109,6 +93,8 @@ public class PlayerScript : MonoBehaviour
     public Rigidbody2D rb;
     [HideInInspector]
     public PlayerInput playerInput;
+    [HideInInspector]
+    public DamageType lastHitDamageType;
     #endregion
     #region privates
     //Private
@@ -118,7 +104,7 @@ public class PlayerScript : MonoBehaviour
     float immuneToCollisionsTimer;
     SpriteRenderer[] legsSR;
     SpriteRenderer torsoSR;
-    SpriteRenderer armsSR;
+    SpriteRenderer[] armsSR;
     Rigidbody2D[] legRBs;
     GameObject cameraParent;
     Quaternion spawnRotation;
@@ -192,8 +178,15 @@ public class PlayerScript : MonoBehaviour
         //    legFixers.Add(child.GetComponent<LegFixer>());
         //}
         torsoSR = gameObject.transform.root.GetComponent<SpriteRenderer>();
+        armsSR = gameObject.GetComponentsInChildren<SpriteRenderer>();
         torsoSR.color = playerColor;
         defaultColor = torsoSR.color;
+
+        foreach (var SR in armsSR)
+        {
+            SR.color = playerColor;
+        }
+
         playerLastHitBy = null;
         immuneToCollisionsTimer = 0;
 
@@ -218,6 +211,7 @@ public class PlayerScript : MonoBehaviour
 
         if (floatingTextSpawnPoint == null)
             Debug.LogError("No floating text spawn point set!");
+        lastHitDamageType = DamageType.self;
 
     }
 
@@ -276,8 +270,8 @@ public class PlayerScript : MonoBehaviour
     #endregion
 
     #region Equipping and unequipping
-  
-    
+
+
     #endregion
 
     #region Take Damage
@@ -300,7 +294,7 @@ public class PlayerScript : MonoBehaviour
 
             if (damage < 0)
             {
-                SpawnFloatingDamageText(Mathf.RoundToInt(damage), DamageType.none, "FloatAway");
+                SpawnFloatingDamageText(Mathf.RoundToInt(damage), DamageType.torso, "FloatAway");
                 //Color.Green
             }
             else
@@ -315,8 +309,8 @@ public class PlayerScript : MonoBehaviour
                         SpawnFloatingDamageText(Mathf.RoundToInt(damage), DamageType.head, "Crit");
                         //Color.Red
                         Debug.Log("playing hs flash");
-                       // HS_Flash.Play();
-                       // HS_Streaks.Play();
+                        // HS_Flash.Play();
+                        // HS_Streaks.Play();
                         //HS_Flash.Emit(Random.Range(35, 45));
                         if (playBulletSFX)
                             audioSource.PlayOneShot(headShot);
@@ -377,7 +371,7 @@ public class PlayerScript : MonoBehaviour
                 //if (gameManager.dataManager.AllowWriteToFile)
                 //SaveDamageData(PlayerWhoShotYou.armsScript.currentWeapon, Mathf.RoundToInt(damage), true, PlayerWhoShotYou);
 
-                Die();
+                Die(damageType);
             }
             else
             {
@@ -443,7 +437,7 @@ public class PlayerScript : MonoBehaviour
     #endregion
 
     #region Die and respawn
-    public PlayerScript Die()
+    public PlayerScript Die(DamageType damgaeType)
     {
         //cant die if yer dead
         if (!isDead)
@@ -463,14 +457,20 @@ public class PlayerScript : MonoBehaviour
             if (numLives <= 0)
             {
                 playerUIPanel.Disable();
-                cameraParent.GetComponent<CameraController>().RemovePlayerFromCameraTrack(gameObject, 0.5f);
+
                 if (!isDummy)
                     playerUIPanel.Destroy();
-                GameManager.Instance.CheckForLastManStanding();
+                
+                GameManager.Instance.CheckForLastManStanding(transform);
+                
             }
-           // armsSR = armsScript.currentArms.GetComponent<SpriteRenderer>();
+            // armsSR = armsScript.currentArms.GetComponent<SpriteRenderer>();
 
             torsoSR.color = deadColor;
+            foreach (var SR in armsSR)
+            {
+                SR.color = deadColor;
+            }
             //armsSR.color = deadColor;
 
             //foreach (var sr in legsSR)
@@ -481,13 +481,15 @@ public class PlayerScript : MonoBehaviour
 
             if (numLives > 0)
                 StartCoroutine(WaitForRespawn());
+            lastHitDamageType = damgaeType;           
         }
-
+            
         return this;
     }
 
     IEnumerator WaitForRespawn()
     {
+        lastHitDamageType = DamageType.self;
         playerUIPanel.SetAmmoText("3...", 1);
         yield return new WaitForSeconds(1f);
         playerUIPanel.SetAmmoText("2...", 1);
@@ -566,7 +568,10 @@ public class PlayerScript : MonoBehaviour
         for (int i = 0; i < invulnerablityTime; i++)
         {
             torsoSR.color = invulnerabilityColorFlash;
-            //armsSR.color = invulnerabilityColorFlash;
+            foreach (var SR in armsSR)
+            {
+                SR.color = invulnerabilityColorFlash;
+            }
             //foreach (var sr in legsSR)
             //{
             //    sr.color = invulnerabilityColorFlash;
@@ -574,7 +579,10 @@ public class PlayerScript : MonoBehaviour
 
             yield return new WaitForSeconds(invulnerabilityFlashIncriments);
             torsoSR.color = defaultColor;
-            //armsSR.color = defaultColor;
+            foreach (var SR in armsSR)
+            {
+                SR.color = defaultColor;
+            }
             //foreach (var sr in legsSR)
             //{
             //    sr.color = defaultColor;
@@ -582,7 +590,10 @@ public class PlayerScript : MonoBehaviour
 
             yield return new WaitForSeconds(invulnerabilityFlashIncriments);
             torsoSR.color = invulnerabilityColorFlash;
-           // armsSR.color = invulnerabilityColorFlash;
+            foreach (var SR in armsSR)
+            {
+                SR.color = invulnerabilityColorFlash;
+            }
             //foreach (var sr in legsSR)
             //{
             //    sr.color = invulnerabilityColorFlash;
@@ -590,15 +601,21 @@ public class PlayerScript : MonoBehaviour
 
             yield return new WaitForSeconds(invulnerabilityFlashIncriments);
             torsoSR.color = defaultColor;
-           // armsSR.color = defaultColor;
+            foreach (var SR in armsSR)
+            {
+                SR.color = defaultColor;
+            }
             //foreach (var sr in legsSR)
             //{
             //    sr.color = defaultColor;
             //}
         }
-        
+
         torsoSR.color = defaultColor;
-        //armsSR.color = defaultColor;
+        foreach (var SR in armsSR)
+        {
+            SR.color = defaultColor;
+        }
         //foreach (var sr in legsSR)
         //{
         //    sr.color = defaultColor;
@@ -718,7 +735,7 @@ public class PlayerScript : MonoBehaviour
 
         if (!isDummy)
         {
-            playerUIPanel.SetLives(numLives, playerHead);
+           // playerUIPanel.SetLives(numLives, playerHead);
             player.controllers.AddController(controller, true);
         }
 
@@ -739,18 +756,46 @@ public class PlayerScript : MonoBehaviour
         Debug.Log("hit something!");
         if (collision.collider.tag == "ImpactObject" || collision.collider.tag == "ExplosiveObject" || collision.collider.tag == "Chunk")
         {
-            DealColliderDamage(collision, "Torso", null);
+            DealColliderDamage(collision, gameObject, null);
         }
         else if ((collision.collider.tag == "Torso" && collision.gameObject != this.gameObject) || (collision.collider.tag == "Head" && collision.gameObject != this.gameObject)
             || (collision.collider.tag == "Feet" && collision.gameObject != this.gameObject) || (collision.collider.tag == "Legs" && collision.gameObject != this.gameObject))
         {
             PlayerScript hitBy = collision.transform.root.GetComponentInChildren<PlayerScript>();
-            DealColliderDamage(collision, "Torso", hitBy);
+            DealColliderDamage(collision, gameObject, hitBy);
         }
 
     }
 
-    public void DealColliderDamage(Collision2D collision, string hitLocation, PlayerScript hitBy)
+    public static DamageType ParsePlayerDamage(GameObject hitObject)
+    {
+        DamageType damageType = DamageType.self;
+
+        string tag = hitObject.tag;
+
+        switch (tag)
+        {
+            case "Head":
+                damageType = DamageType.head;
+                break;
+            case "Torso":
+                damageType = DamageType.torso;
+                break;
+            case "Leg":
+                damageType = DamageType.legs;
+                break;
+            case "Feet":
+                damageType = DamageType.feet;
+                break;
+            default:
+                damageType = DamageType.self;
+                break;
+        }
+
+        return damageType;
+    }
+
+    public void DealColliderDamage(Collision2D collision, GameObject hitLocation, PlayerScript hitBy)
     {
         //float dmg = collision.relativeVelocity.magnitude;
 
@@ -765,7 +810,6 @@ public class PlayerScript : MonoBehaviour
         //reduces damage so its not bullshit
         dmg = dmg / COLLIDER_DAMAGE_MITIGATOR;
 
-
         //dont bother dealing damage unless unmitigated damage indicates fast enough collision
         if (dmg > 25)
         {
@@ -777,32 +821,16 @@ public class PlayerScript : MonoBehaviour
                     dmg *= collision.rigidbody.mass;
             }
 
-            DamageType dmgType;
+            DamageType dmgType = PlayerScript.ParsePlayerDamage(hitLocation);
+
             AudioClip soundClipToPlay;
 
-            switch (hitLocation)
-            {
-                case ("Torso"):
-                    dmgType = DamageType.torso;
-                    soundClipToPlay = torsoImpact;
-                    break;
-                case ("Leg"):
-                    dmgType = DamageType.legs;
-                    soundClipToPlay = legsImpact;
-                    break;
-                case ("Head"):
-                    dmgType = DamageType.torso;
-                    soundClipToPlay = torsoImpact;
-                    break;
-                case ("Foot"):
-                    dmgType = DamageType.feet;
-                    soundClipToPlay = legsImpact;
-                    break;
-                default:
-                    dmgType = DamageType.torso;
-                    soundClipToPlay = torsoImpact;
-                    break;
-            }
+            if (dmgType == DamageType.legs || dmgType == DamageType.feet)
+                soundClipToPlay = legsImpact;
+            else
+                soundClipToPlay = torsoImpact;
+
+            Debug.Log(hitLocation.name + ": " + dmg);
 
             //caps damage
             if (dmg > 100)
@@ -848,7 +876,7 @@ public class PlayerScript : MonoBehaviour
 
         switch (damageType)
         {
-            case DamageType.none:
+            case DamageType.self:
                 color = Color.green;
                 break;
             case DamageType.head:
@@ -923,7 +951,7 @@ public class PlayerScript : MonoBehaviour
 
         switch (floatingDamage.damageType)
         {
-            case DamageType.none:
+            case DamageType.self:
                 color = Color.green;
                 break;
             case DamageType.head:

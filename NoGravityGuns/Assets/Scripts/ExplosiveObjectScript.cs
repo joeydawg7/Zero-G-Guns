@@ -89,22 +89,25 @@ public class ExplosiveObjectScript : MonoBehaviour
     //draw the extents of the circle
     private void OnDrawGizmos()
     {
-        Gizmos.color = Color.white;
-        float theta = 0;
-        float x = explosionRadius * Mathf.Cos(theta);
-        float y = explosionRadius * Mathf.Sin(theta);
-        Vector3 pos = transform.position + new Vector3(x, y, 0);
-        Vector3 newPos = pos;
-        Vector3 lastPos = pos;
-        for (theta = 0.1f; theta < Mathf.PI * 2; theta += 0.1f)
+        if (gameObject.activeInHierarchy)
         {
-            x = explosionRadius * Mathf.Cos(theta);
-            y = explosionRadius * Mathf.Sin(theta);
-            newPos = transform.position + new Vector3(x, y, 0);
-            Gizmos.DrawLine(pos, newPos);
-            pos = newPos;
+            Gizmos.color = Color.white;
+            float theta = 0;
+            float x = explosionRadius * Mathf.Cos(theta);
+            float y = explosionRadius * Mathf.Sin(theta);
+            Vector3 pos = transform.position + new Vector3(x, y, 0);
+            Vector3 newPos = pos;
+            Vector3 lastPos = pos;
+            for (theta = 0.1f; theta < Mathf.PI * 2; theta += 0.1f)
+            {
+                x = explosionRadius * Mathf.Cos(theta);
+                y = explosionRadius * Mathf.Sin(theta);
+                newPos = transform.position + new Vector3(x, y, 0);
+                Gizmos.DrawLine(pos, newPos);
+                pos = newPos;
+            }
+            Gizmos.DrawLine(pos, lastPos);
         }
-        Gizmos.DrawLine(pos, lastPos);
 
     }
 }

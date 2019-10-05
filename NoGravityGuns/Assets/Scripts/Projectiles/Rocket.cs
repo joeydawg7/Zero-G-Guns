@@ -9,6 +9,8 @@ public class Rocket : Bullet
     Vector3 dir;
 
     float timeInFlight;
+    float rocketTopSpeed;
+    float rocketAccelerationMod;
 
     public override void Construct(float damage, PlayerScript player, Vector3 dir, Color32 color, GunSO gun)
     {
@@ -23,6 +25,8 @@ public class Rocket : Bullet
         }
 
         timeInFlight = 0f;
+        rocketAccelerationMod = 0;
+        rocketTopSpeed = 0;
 
         //dont change rocket collision layer, we dont want it colliding with other bullets
         sr.enabled = true;
@@ -34,17 +38,18 @@ public class Rocket : Bullet
 
         this.dir = dir;
 
+        rb.AddForce(dir , ForceMode2D.Force);
+
     }
 
-    float rocketTopSpeed;
-    float rocketAccelerationMod;
+
 
     private void FixedUpdate()
     {
         //accelerate the rocket over time if it exists
         if (rb != null)
         {
-            if (rb.velocity.magnitude < rocketTopSpeed)
+            if (rb.velocity.sqrMagnitude < rocketTopSpeed)
             {
                 timeInFlight += Time.deltaTime;
 
@@ -52,10 +57,18 @@ public class Rocket : Bullet
                 float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
                 transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
 
-             //   Debug.Log(dir * rocketAccelerationMod * timeInFlight);
-                rb.AddForce(dir * rocketAccelerationMod * timeInFlight, ForceMode2D.Force);
+
+                rb.AddForce(dir * rocketAccelerationMod, ForceMode2D.Force);
             }
+
         }
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+
+        Gizmos.DrawLine(transform.position , dir * rocketAccelerationMod);
     }
 
 
@@ -77,7 +90,7 @@ public class Rocket : Bullet
 
                 ExplosiveObjectScript explosiveObjectScript = collision.collider.gameObject.GetComponent<ExplosiveObjectScript>();
 
-                if (explosiveObjectScript!=null)
+                if (explosiveObjectScript != null)
                 {
                     //ExplosiveObjectScript explosiveObjectScript = collision.collider.gameObject.GetComponent<ExplosiveObjectScript>();
 
