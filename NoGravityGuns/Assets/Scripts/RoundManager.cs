@@ -275,6 +275,7 @@ public class RoundManager : MonoBehaviour
 
     public void EndRoundCanvasDisplay(Transform playerWhoWasHit)
     {
+        var endRoundPanel = GameObject.FindGameObjectWithTag("EndRoundPanel");
         var winnerText = GameObject.FindGameObjectWithTag("EndRoundWinnerText").GetComponent<TextMeshProUGUI>();
         var loserText = GameObject.FindGameObjectWithTag("EndRoundLoserText").GetComponent<TextMeshProUGUI>();
         string winnerTextString = string.Empty;
@@ -313,13 +314,26 @@ public class RoundManager : MonoBehaviour
         var winnerColour = winningPlayer.playerColor;
 
         winnerText.text = winnerTextString;
-        winnerText.color = winnerColour;
+        //winnerText.color = winnerColour;
         loserText.text = looserTextString;
-        loserText.color = winnerColour;
+        //loserText.color = winnerColour;
+
+        var bulletTrails = endRoundPanel.GetComponentsInChildren<Image>();
+        foreach(var bt in bulletTrails)
+        {
+            if(bt.sprite.name == "BulletPaneTraill")
+            {
+                bt.color = winnerColour;
+            }
+        }
+
+
+        endRoundPanel.SetActive(true);
     }
 
     public void ClearEndRoundCanvasDisplay()
     {
+        var endRoundPanel = GameObject.FindGameObjectWithTag("EndRoundPanel");
         var winnerText = GameObject.FindGameObjectWithTag("EndRoundWinnerText").GetComponent<TextMeshProUGUI>();
         var loserText = GameObject.FindGameObjectWithTag("EndRoundLoserText").GetComponent<TextMeshProUGUI>();
        
