@@ -153,17 +153,7 @@ public class GameManager : MonoBehaviour
 
     public void StartGame()
     {
-        PlayerScript[] ps = FindObjectsOfType<PlayerScript>();
 
-        //make sure to add all players here, even if they are dummies
-        for (int i = 0; i < ps.Length; i++)
-        {
-            ps[i].gameObject.SetActive(true);
-            
-
-           // if(ps[i].isDummy)
-                players.Add(ps[i]);                
-        }
 
 
         //RoundManager.Instance.SetAllPlayersDataIntoPlayerObjects();
@@ -185,16 +175,23 @@ public class GameManager : MonoBehaviour
         //    }
         //}
 
-        //camera does its shit after
         cameraController.OnGameStart();
-
-        guiManager.OnGameStart();
-
-        //dataManager.OnGameStart();
 
         Time.timeScale = 1;
 
         joiningPlayerScript.OnGameStart();
+
+        PlayerScript[] ps = FindObjectsOfType<PlayerScript>();
+
+        //make sure to add all players here, even if they are dummies
+        for (int i = 0; i < ps.Length; i++)
+        {
+            ps[i].gameObject.SetActive(true);
+
+
+            // if(ps[i].isDummy)
+            players.Add(ps[i]);
+        }
 
         StartCoroutine(Countdown());
     }

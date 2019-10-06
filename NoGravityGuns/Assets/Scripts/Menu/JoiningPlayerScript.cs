@@ -124,20 +124,7 @@ public class JoiningPlayerScript : MonoBehaviour
 
         foreach (var source in inputSources)
         {
-            //TODO: mouse and keyboard support?
-            if (source.controllerType == ControllerType.Keyboard || source.controllerType == ControllerType.Mouse)
-            { // Assigning keyboard/mouse
-
-                // Assign KB/Mouse to the Player
-                //AssignKeyboardAndMouseToPlayer(rewiredPlayer);
-
-                //// Disable KB/Mouse Assignment category in System Player so it doesn't assign through the keyboard/mouse anymore
-                //ReInput.players.GetSystemPlayer().controllers.maps.SetMapsEnabled(false, ControllerType.Keyboard, "Assignment");
-                //ReInput.players.GetSystemPlayer().controllers.maps.SetMapsEnabled(false, ControllerType.Mouse, "Assignment");
-                //break;
-
-            }
-            else if (source.controllerType == ControllerType.Joystick)
+            if (source.controllerType == ControllerType.Joystick)
             { // assigning a joystick
 
                 // Assign the joystick to the Player. This will also un-assign it from System Player
@@ -152,6 +139,35 @@ public class JoiningPlayerScript : MonoBehaviour
         }
 
     }
+
+    private void AssignJoystickToPlayer(Player player, Joystick joystick)
+    {
+        // Mark this joystick as assigned so we don't give it to the System Player again
+        if (!assignedControls.Contains(joystick.id))
+        {
+            assignedControls.Add(joystick.id);
+            //only play the sound if not contained, so we can tell if someone is joining when they are already in
+            GameManager.Instance.audioSource.PlayOneShot(joinClick);
+
+            JoinPanel jp = joinPanels[joystick.id].GetComponent<JoinPanel>();
+
+            if (jp.hasAssignedController == false)
+            {
+                PlayerControllerData playerControllerData = new PlayerControllerData(joystick.id, joystick);
+
+                playerControllerDataDictionary.Add(playerControllerData.ID, playerControllerData);
+
+                jp.AssignController(playerControllerData.ID, playerControllerData.controller);
+
+                Debug.Log("Assigned " + joystick.name + " " + joystick.id + " to Player " + player.descriptiveName);
+            }
+
+
+            tipToStart.alpha = 1;
+
+        }
+    }
+
 
     void RemoveNextPlayer()
     {
@@ -203,25 +219,7 @@ public class JoiningPlayerScript : MonoBehaviour
         }
     }
 
-    private void AssignJoystickToPlayer(Player player, Joystick joystick)
-    {
-        // Mark this joystick as assigned so we don't give it to the System Player again
-        if (!assignedControls.Contains(joystick.id))
-        {
-            assignedControls.Add(joystick.id);
-            //only play the sound if not contained, so we can tell if someone is joining when they are already in
-            GameManager.Instance.audioSource.PlayOneShot(joinClick);
-            AddPlayerControllerSetup(joystick.id, joystick);
-
-            Debug.Log("Assigned " + joystick.name + " " + joystick.id + " to Player " + player.descriptiveName);
-
-            tipToStart.alpha = 1;
-
-        }
-
-        
-    }
-
+  
     private void RemoveJoystickFromPlayer(Joystick joystick)
     {
         // Mark this joystick as assigned so we don't give it to the System Player again
@@ -255,7 +253,6 @@ public class JoiningPlayerScript : MonoBehaviour
 
     void StartButtonPressed()
     {
-
         //start game for real on a new round with start over = false
         if (assignedControls.Count >= 2)
         {
@@ -263,9 +260,9 @@ public class JoiningPlayerScript : MonoBehaviour
             GameManager.Instance.StartGame();
             RoundManager.Instance.finishedControllerSetup = true;
             RoundManager.Instance.NewRound(false);
-           
+
         }
-        else if(GameManager.Instance.debugManager.useDebugSettings)
+        else if (GameManager.Instance.debugManager.useDebugSettings)
         {
             //allow single player for testing
             if (assignedControls.Count >= 1)
@@ -280,19 +277,6 @@ public class JoiningPlayerScript : MonoBehaviour
         tipToStart.alpha = 0;
     }
 
-
-    void AddPlayerControllerSetup(int i, Controller controller)
-    {
-        JoinPanel jp = joinPanels[i].GetComponent<JoinPanel>();
-        if (jp.hasAssignedController == false)
-        {
-            jp.AssignController((i), controller);
-           
-            playerControllerDataDictionary.Add(i,new PlayerControllerData(i, controller));
-            Debug.Log(playerControllerDataDictionary[i].ID);
-            return;
-        }
-    }
 
     // Update is called once per frame
     void Update()
@@ -320,15 +304,16 @@ public class JoiningPlayerScript : MonoBehaviour
 
     public void OnGameStart()
     {
-        gameObject.SetActive(false);
 
         Debug.Log(playerControllerDataDictionary.Count);
 
         for (int i = 0; i < playerControllerDataDictionary.Count; i++)
         {
-           // Debug.Log("controller: " + playerControllerDataDictionary[i].controller.name);
-            //RoundManager.Instance.SpawnPlayerManager(playerControllerDataDictionary[i], GlobalPlayerSettings);
+            Debug.Log("controller: " + playerControllerDataDictionary[i].controller.name);
+            RoundManager.Instance.SpawnPlayerManager(playerControllerDataDictionary[i], GlobalPlayerSettings);
         }
+
+        gameObject.SetActive(false);
     }
 
 }
