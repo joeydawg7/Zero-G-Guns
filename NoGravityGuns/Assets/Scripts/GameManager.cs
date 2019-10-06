@@ -165,14 +165,6 @@ public class GameManager : MonoBehaviour
                 players.Add(ps[i]);                
         }
 
-        RoundManager.Instance.SetAllPlayersDataIntoPlayerObjects();
-
-
-
-            // if(ps[i].isDummy)
-            players.Add(ps[i]);
-            Debug.Log( ps[i].name);
-        }
 
         //RoundManager.Instance.SetAllPlayersDataIntoPlayerObjects();
 

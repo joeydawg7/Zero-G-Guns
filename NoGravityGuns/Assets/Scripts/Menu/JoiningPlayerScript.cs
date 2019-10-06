@@ -257,13 +257,13 @@ public class JoiningPlayerScript : MonoBehaviour
     {
 
         //start game for real on a new round with start over = false
-        if (assignedControls.Count >= 1)
+        if (assignedControls.Count >= 2)
         {
             ReInput.players.SystemPlayer.controllers.ClearAllControllers();
             GameManager.Instance.StartGame();
             RoundManager.Instance.finishedControllerSetup = true;
             RoundManager.Instance.NewRound(false);
-            tipToStart.alpha = 0;
+           
         }
         else if(GameManager.Instance.debugManager.useDebugSettings)
         {
@@ -274,9 +274,10 @@ public class JoiningPlayerScript : MonoBehaviour
                 GameManager.Instance.StartGame();
                 RoundManager.Instance.finishedControllerSetup = true;
                 RoundManager.Instance.NewRound(false);
-                tipToStart.alpha = 0;
             }
         }
+
+        tipToStart.alpha = 0;
     }
 
 
@@ -286,7 +287,9 @@ public class JoiningPlayerScript : MonoBehaviour
         if (jp.hasAssignedController == false)
         {
             jp.AssignController((i), controller);
+           
             playerControllerDataDictionary.Add(i,new PlayerControllerData(i, controller));
+            Debug.Log(playerControllerDataDictionary[i].ID);
             return;
         }
     }
@@ -319,10 +322,12 @@ public class JoiningPlayerScript : MonoBehaviour
     {
         gameObject.SetActive(false);
 
+        Debug.Log(playerControllerDataDictionary.Count);
+
         for (int i = 0; i < playerControllerDataDictionary.Count; i++)
         {
-            Debug.Log("controller: " + playerControllerDataDictionary[i].controller.name);
-            RoundManager.Instance.SpawnPlayerManager(playerControllerDataDictionary[i], GlobalPlayerSettings);
+           // Debug.Log("controller: " + playerControllerDataDictionary[i].controller.name);
+            //RoundManager.Instance.SpawnPlayerManager(playerControllerDataDictionary[i], GlobalPlayerSettings);
         }
     }
 

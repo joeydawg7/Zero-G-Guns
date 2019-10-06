@@ -55,12 +55,6 @@ public class RoundManager : MonoBehaviour
             DontDestroyOnLoad(persistentCanvas);
             DontDestroyOnLoad(loadingImage.gameObject);
 
-            //set rotation to 0, set endpoint to 360 degrees later
-            startRotation = 0f;
-            endRotation = startRotation + 360.0f;
-            t = 0.0f;
-            FinalZRot = 0;
-
             foreach (var room in rooms)
             {
                 room.isPlayable = true;

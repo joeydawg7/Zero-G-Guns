@@ -503,7 +503,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 259c23886f3fed942a029985bb6cdafd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isDummy: 0
   health: 100
   numLives: 1
   playerUIPanel: {fileID: 1253044102672395530}
@@ -514,11 +513,8 @@ MonoBehaviour:
   deadColor:
     serializedVersion: 2
     rgba: 2868903936
-  playerHead: {fileID: 21300000, guid: f8ce19dca9e461a46a89730504fa782f, type: 3}
-  playerPortrait: {fileID: 21300000, guid: f3c8128eb3290fa4488b56d7770495d6, type: 3}
   healthBar: {fileID: 21300000, guid: 6084eafb9b073dd439ade79db015f81b, type: 3}
   collisionLayer: 19
-  killTag: {fileID: 21300000, guid: 108fbe28609e75e4d944fbbe17dfa49e, type: 3}
   playerID: 0
   isDead: 0
   isInvulnerable: 0
@@ -552,22 +548,7 @@ MonoBehaviour:
   hexColorCode: 
   rb: {fileID: 0}
   playerInput: {fileID: 0}
-  pistolTime: 0
-  rifleTime: 0
-  shotgunTime: 0
-  railgunTime: 0
-  miniGunTime: 0
-  pistolDmg: 0
-  rifleDmg: 0
-  shotgunDmg: 0
-  railgunDmg: 0
-  miniGunDmg: 0
-  shotsFired: 0
-  shotsHit: 0
-  headShots: 0
-  torsoShots: 0
-  legShots: 0
-  footShots: 0
+  lastHitDamageType: 0
 --- !u!70 &1529705303
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -805,7 +786,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6618733367150440668}
-  m_LocalRotation: {x: 0, y: 0, z: -0.7646929, w: 0.644395}
+  m_LocalRotation: {x: 0, y: 0, z: -0.7646929, w: 0.64439493}
   m_LocalPosition: {x: 1.4202498, y: 5.5776463, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -1283,7 +1264,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6618733367923125350}
-  m_LocalRotation: {x: 4.61702e-14, y: -2.9586166e-14, z: -0.3763235, w: -0.9264883}
+  m_LocalRotation: {x: 4.61702e-14, y: -2.9586173e-14, z: -0.37632346, w: -0.9264884}
   m_LocalPosition: {x: 2.9746165, y: 0.067423224, z: 0}
   m_LocalScale: {x: 0.9, y: 0.9, z: 1}
   m_Children: []
@@ -1452,7 +1433,6 @@ MonoBehaviour:
   showAimingVector: 0
   basePlayer: {fileID: 1529705301}
   currentWeapon: {fileID: 11400000, guid: 49ead892372b5274e987c2ac71fbb8e3, type: 2}
-  bulletSpawn: {fileID: 0}
   targetVectorLength: 5
   handBone: {fileID: 6618733368957391394}
   frontupperArmBone: {fileID: 6618733367150440669}
@@ -1464,6 +1444,7 @@ MonoBehaviour:
   audioSource: {fileID: 0}
   cameraShake: {fileID: 0}
   timeSinceLastShot: 0
+  bulletSpawn: {fileID: 0}
 --- !u!212 &6618733368466825842
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2296,7 +2277,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6618733368938515296}
-  m_LocalRotation: {x: 0, y: 0, z: -0.6421838, w: 0.7665507}
+  m_LocalRotation: {x: 0, y: 0, z: -0.64218384, w: 0.7665507}
   m_LocalPosition: {x: 2.2220557, y: -0.021204561, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -2675,41 +2656,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4193206746999914783}
     m_Modifications:
-    - target: {fileID: 6624704998225192752, guid: ac27b34b9c6090d49b1b29a0c6453f62,
-        type: 3}
-      propertyPath: m_Name
-      value: PlayerCanvas
-      objectReference: {fileID: 0}
-    - target: {fileID: 3125931732982407123, guid: ac27b34b9c6090d49b1b29a0c6453f62,
-        type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 3125931732982407123, guid: ac27b34b9c6090d49b1b29a0c6453f62,
-        type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 3125931732982407123, guid: ac27b34b9c6090d49b1b29a0c6453f62,
-        type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0.034
-      objectReference: {fileID: 0}
-    - target: {fileID: 3125931732982407123, guid: ac27b34b9c6090d49b1b29a0c6453f62,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 5.19
-      objectReference: {fileID: 0}
-    - target: {fileID: 3125931732982407123, guid: ac27b34b9c6090d49b1b29a0c6453f62,
-        type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 17.125
-      objectReference: {fileID: 0}
-    - target: {fileID: 3125931732982407123, guid: ac27b34b9c6090d49b1b29a0c6453f62,
-        type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 7.351
-      objectReference: {fileID: 0}
     - target: {fileID: 6624704998225192759, guid: ac27b34b9c6090d49b1b29a0c6453f62,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2814,6 +2760,41 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3125931732982407123, guid: ac27b34b9c6090d49b1b29a0c6453f62,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3125931732982407123, guid: ac27b34b9c6090d49b1b29a0c6453f62,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3125931732982407123, guid: ac27b34b9c6090d49b1b29a0c6453f62,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0.034
+      objectReference: {fileID: 0}
+    - target: {fileID: 3125931732982407123, guid: ac27b34b9c6090d49b1b29a0c6453f62,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 5.19
+      objectReference: {fileID: 0}
+    - target: {fileID: 3125931732982407123, guid: ac27b34b9c6090d49b1b29a0c6453f62,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 17.125
+      objectReference: {fileID: 0}
+    - target: {fileID: 3125931732982407123, guid: ac27b34b9c6090d49b1b29a0c6453f62,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 7.351
+      objectReference: {fileID: 0}
+    - target: {fileID: 6624704998225192752, guid: ac27b34b9c6090d49b1b29a0c6453f62,
+        type: 3}
+      propertyPath: m_Name
+      value: PlayerCanvas
       objectReference: {fileID: 0}
     - target: {fileID: 6624704997437201495, guid: ac27b34b9c6090d49b1b29a0c6453f62,
         type: 3}
