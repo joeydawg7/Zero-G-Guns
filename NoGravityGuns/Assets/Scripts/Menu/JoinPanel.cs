@@ -18,8 +18,9 @@ public class JoinPanel : MonoBehaviour
 
     Image image;
 
-    public Sprite readySprite;
-    public Sprite notReadySprite;
+    public Color selectedColour;
+    //public Sprite readySprite;
+    //public Sprite notReadySprite;
 
     private void Awake()
     {
@@ -33,7 +34,8 @@ public class JoinPanel : MonoBehaviour
     {
         MainText.text = "Player joined!";
         hasAssignedController = true;
-        image.sprite = readySprite;
+        image.color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
+        image.color = selectedColour;
         //player.SetController(i, controller);
         //playerSpawnPoint.SetCharacter(i, controller);
 
@@ -42,10 +44,10 @@ public class JoinPanel : MonoBehaviour
 
     public PlayerScript UnAssignController()
     {
-        image.sprite = notReadySprite;
+        //image.sprite = notReadySprite;
         MainText.text = "Press A to join";
         hasAssignedController = false;
-        image.sprite = notReadySprite;
+        image.color = new Color(1.0f, 1.0f, 1.0f, 0.5f);
         //player.UnsetController();
 
         return null;

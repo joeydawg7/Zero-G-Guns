@@ -40,6 +40,7 @@ public class JoiningPlayerScript : MonoBehaviour
     private int rewiredPlayerIdCounter = 0;
 
     public AudioClip joinClick;
+    public AudioClip unjoinClick;
 
     PlayerSpawnPoint[] playerSpawnPoints;
 
@@ -227,7 +228,7 @@ public class JoiningPlayerScript : MonoBehaviour
         {
             assignedControls.Remove(joystick.id);
             //only play the sound if not contained, so we can tell if someone is joining when they are already in
-            GameManager.Instance.audioSource.PlayOneShot(joinClick);
+            GameManager.Instance.audioSource.PlayOneShot(unjoinClick);
         }
 
         RemovePlayerControllerSetup(joystick.id, joystick);
