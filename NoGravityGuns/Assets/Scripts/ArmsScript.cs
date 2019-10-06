@@ -94,6 +94,7 @@ public class ArmsScript : MonoBehaviour
     private void Start()
     {
         gameManager = GameManager.Instance;
+        EquipGun(gameManager.pistol);
     }
 
     private void Update()
@@ -102,7 +103,7 @@ public class ArmsScript : MonoBehaviour
         {
             CountShotDelay();
 
-            if (!basePlayer.isDead && !basePlayer.isDummy)
+            if (!basePlayer.isDead)
             {
                 AimController();
                 OnReload();
@@ -116,14 +117,25 @@ public class ArmsScript : MonoBehaviour
     #region Input Handler Functions
     void AimController()
     {
+        //cant aim if we cant get an aim value from base player
+        if (basePlayer == null )
+        {
+            Debug.LogError("BasePlayer is null!");
+            return;
+        }
+
+        if(basePlayer.player == null)
+        {
+            Debug.LogError("BasePlayer controller settings are null!");
+            return;
+        }
+
         Vector2 rawAim = basePlayer.player.GetAxis2D("Move Horizontal", "Move Vertical");
 
         transform.position = frontupperArmBone.position;
 
-        //targetVectorLength = rawAim.x*10f;
-
         //if we are aiming somewhere update everything, else we will hold on last known direction
-        if (rawAim.magnitude > 0f)
+        if (rawAim.magnitude > 0f && Time.timeScale ==1)
         {
             // aiming stuff
             shootDir = -Vector2.right * rawAim + Vector2.up * rawAim;
@@ -150,16 +162,16 @@ public class ArmsScript : MonoBehaviour
 
     public void OnReload()
     {
-        if (basePlayer.player.GetButtonDown("Reload"))
-        {
-            // if (!isReloading && currentAmmo < currentWeapon.clipSize)
-            //reloadCoroutine = StartCoroutine(Reload());
-        }
+        //if (basePlayer.player.GetButtonDown("Reload"))
+        //{
+        //    // if (!isReloading && currentAmmo < currentWeapon.clipSize)
+        //    //reloadCoroutine = StartCoroutine(Reload());
+        //}
     }
 
     void ShootController()
     {
-        if (basePlayer.player.GetAxis("Shoot") > 0.5f)
+        if (gameManager.isGameStarted && basePlayer.player.GetAxis("Shoot") > 0.5f)
         {
             OnShoot();
         }
@@ -240,8 +252,6 @@ public class ArmsScript : MonoBehaviour
                 //shoot gun based on weapons fire function
                 currentWeapon.Fire(basePlayer, dir);
 
-
-                basePlayer.shotsFired++;
             }
         }
     }

@@ -29,13 +29,13 @@ public class JoinPanel : MonoBehaviour
 
     }
 
-    public PlayerScript AssignController(int i, Controller controller, PlayerSpawnPoint playerSpawnPoint)
+    public PlayerScript AssignController(int i, Controller controller)
     {
         MainText.text = "Player joined!";
         hasAssignedController = true;
         image.sprite = readySprite;
         //player.SetController(i, controller);
-        playerSpawnPoint.SetCharacter(i, controller);
+        //playerSpawnPoint.SetCharacter(i, controller);
 
         return null;
     }

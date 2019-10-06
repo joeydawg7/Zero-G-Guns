@@ -40,10 +40,7 @@ public class RoundManager : MonoBehaviour
     public Image loadingImage;
     public GameObject persistentCanvas;
 
-    float startRotation;
-    float endRotation;
-    float t;
-    float FinalZRot;
+    JoiningPlayerScript joiningPlayerScript;
 
     private void Awake()
     {
@@ -79,16 +76,18 @@ public class RoundManager : MonoBehaviour
 
         Cursor.visible = false;
 
+        joiningPlayerScript = FindObjectOfType<JoiningPlayerScript>();
+
     }
 
     public void NewRound(bool startOver)
-    {        
+    {
+        Debug.Log("starting new round");
         loading = true;
         loadingImage.fillAmount = 0;
         currentRound++;
         timeSinceRoundStarted = 0;
 
-        
 
         if (startOver)
         {
@@ -206,44 +205,59 @@ public class RoundManager : MonoBehaviour
             roundNumText.text = "Round " + currentRound + "";
 
             newRoundTextAnimator.SetTrigger("NewRound");
-         
+
+            Debug.Log("spawning players");
+            foreach (var PD in playerDataList)
+            {
+                PD.SpawnAtMatchingPoint();
+            }
+
+
             GameManager.Instance.StartGame();
+
+           
         }
 
+
+       
 
     }
 
 
-    public void SetAllPlayersDataIntoPlayerObjects()
+
+    //public void SetPlayer(PlayerScript player)
+    //{
+
+    //    //only do setup if its the first round
+    //    if (currentRound == 0)
+    //    {
+
+    //        PlayerDataScript PD = GameObject.Instantiate(playerDataPrefab).GetComponent<PlayerDataScript>();
+
+    //        DontDestroyOnLoad(PD);
+
+    //        PD.playerID = player.playerID;
+    //        PD.controller = player.controller;
+    //        PD.player = player.player;
+    //        PD.hexColorCode = player.hexColorCode;
+    //        PD.playerName = player.playerName;
+
+    //        playerDataList.Add(PD);
+
+    //    }
+
+    //}
+
+    public void SpawnPlayerManager(PlayerControllerData playerControllerData, GlobalPlayerSettingsSO globalPlayerSettings)
     {
-        for (int i = 0; i < playerDataList.Count; i++)
-        {
-            Debug.Log("iiii: " + i);
-           //playerDataList[i].SetPlayerInfoAfterRoundStart();
-        }
+        PlayerDataScript PD = GameObject.Instantiate(playerDataPrefab).GetComponent<PlayerDataScript>();
+        DontDestroyOnLoad(PD);
 
-    }
+        PD.SetPlayerInfoAfterRoundStart(playerControllerData, globalPlayerSettings);
 
-    public void SetPlayer(PlayerScript player)
-    {
+        PD.SpawnAtMatchingPoint();
 
-        //only do setup if its the first round
-        if (currentRound == 0)
-        {
-
-            PlayerDataScript PD = GameObject.Instantiate(playerDataPrefab).GetComponent<PlayerDataScript>();
-
-            DontDestroyOnLoad(PD);
-
-            PD.playerID = player.playerID;
-            PD.controller = player.controller;
-            PD.player = player.player;
-            PD.hexColorCode = player.hexColorCode;
-            PD.playerName = player.playerName;
-
-            playerDataList.Add(PD);
-
-        }
+        playerDataList.Add(PD);
 
     }
 

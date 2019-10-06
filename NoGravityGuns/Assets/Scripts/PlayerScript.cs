@@ -14,7 +14,6 @@ public class PlayerScript : MonoBehaviour
     #region publics
     [Header("Debug")]
     //If true treats the player as a dummy to be shot... for testing only :D
-    public bool isDummy;
 
     [Header("Health and Lives")]
     public int health;
@@ -32,17 +31,12 @@ public class PlayerScript : MonoBehaviour
     //public Sprite killTag;
 
     [Header("Controller Stuff")]
-    [HideInInspector]
     public int playerID;
-    public InputUser user;
-    [HideInInspector]
     public Player player;
     public Controller controller;
 
-    [HideInInspector]
+
     public enum DamageType { head = 4, torso = 3, legs = 2, feet = 1 , self = 5};
-    [HideInInspector]
-    //public enum GunType { pistol, assaultRifle, LMG, shotgun, railGun, healthPack, RPG, mineLauncher, collision };
 
     [Header("Bools")]
     public bool isDead;
@@ -72,7 +66,7 @@ public class PlayerScript : MonoBehaviour
     TrailRenderer trail;
     #endregion
     #region Audio
-    
+
     [HideInInspector]
     public AudioSource audioSource;
     [Header("Audio")]
@@ -116,43 +110,6 @@ public class PlayerScript : MonoBehaviour
     const float FOOTSHOT_MULTIPLIER = 0.5f;
     const float LEGSHOT_MULTIPLIER = 0.75f;
     const int COLLIDER_DAMAGE_MITIGATOR = 5;
-    #endregion
-    #region data collection
-
-    [HideInInspector]
-    public float pistolTime;
-    [HideInInspector]
-    public float rifleTime;
-    [HideInInspector]
-    public float shotgunTime;
-    [HideInInspector]
-    public float railgunTime;
-    [HideInInspector]
-    public float miniGunTime;
-
-    [HideInInspector]
-    public float pistolDmg;
-    [HideInInspector]
-    public float rifleDmg;
-    [HideInInspector]
-    public float shotgunDmg;
-    [HideInInspector]
-    public float railgunDmg;
-    [HideInInspector]
-    public float miniGunDmg;
-
-    [HideInInspector]
-    public float shotsFired;
-    [HideInInspector]
-    public float shotsHit;
-    [HideInInspector]
-    public float headShots;
-    [HideInInspector]
-    public float torsoShots;
-    [HideInInspector]
-    public float legShots;
-    [HideInInspector]
-    public float footShots;
     #endregion
     //End Variables
 
@@ -198,14 +155,6 @@ public class PlayerScript : MonoBehaviour
         //trail.emitting = false;
         gameManager = GameManager.Instance;
 
-        //data
-        shotsFired = 0;
-        shotsHit = 0;
-        headShots = 0;
-        torsoShots = 0;
-        legShots = 0;
-        footShots = 0;
-
         if (playerUIPanel == null)
             Debug.LogError("No UI Panel Set");
 
@@ -213,11 +162,12 @@ public class PlayerScript : MonoBehaviour
             Debug.LogError("No floating text spawn point set!");
         lastHitDamageType = DamageType.self;
 
+
     }
 
     private void Start()
     {
-        rb.simulated = false;
+        rb.simulated = true;
     }
 
     private void Update()
@@ -233,16 +183,14 @@ public class PlayerScript : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.K))
             TakeDamage(50, DamageType.torso, null, true);
 
-        if (!isDummy)
-        {
-            //B button
-            if (GameManager.Instance.isGameStarted && armsScript.currentWeapon.name != "Pistol")
-                OnDrop();
+        //B button
+        if (GameManager.Instance.isGameStarted && armsScript.currentWeapon.name != "Pistol")
+            OnDrop();
 
-            //StartButton
-            if (GameManager.Instance.isGameStarted)
-                OnPause();
-        }
+        //StartButton
+        if (GameManager.Instance.isGameStarted)
+            OnPause();
+
 
     }
     #endregion
@@ -250,15 +198,21 @@ public class PlayerScript : MonoBehaviour
     #region Input Handler Functions
     public void OnDrop()
     {
-        if (!isDummy && player.GetButtonDown("Drop"))
+        if (gameManager.isGameStarted && player.GetButtonDown("Drop"))
+        {
+            Debug.Log(gameObject.name + " tried to drop");
             armsScript.EquipGun(GameManager.Instance.pistol);
+        }
     }
 
     void OnPause()
     {
 
-        if (player.GetButtonDown("Start"))
+        if (gameManager.isGameStarted && player.GetButtonDown("Start"))
         {
+
+            Debug.Log(gameObject.name + " tried to pause");
+
             if (Time.timeScale > 0)
                 Time.timeScale = 0;
             else
@@ -267,11 +221,6 @@ public class PlayerScript : MonoBehaviour
         }
 
     }
-    #endregion
-
-    #region Equipping and unequipping
-
-
     #endregion
 
     #region Take Damage
@@ -284,7 +233,7 @@ public class PlayerScript : MonoBehaviour
             if (PlayerWhoShotYou != null)
             {
                 playerLastHitBy = PlayerWhoShotYou;
-                PlayerWhoShotYou.shotsHit++;
+                //PlayerWhoShotYou.shotsHit++;
             }
             else
                 playerLastHitBy = null;
@@ -314,30 +263,22 @@ public class PlayerScript : MonoBehaviour
                         //HS_Flash.Emit(Random.Range(35, 45));
                         if (playBulletSFX)
                             audioSource.PlayOneShot(headShot);
-
-                        if (PlayerWhoShotYou != null)
-                            PlayerWhoShotYou.headShots++;
                         break;
                     case DamageType.torso:
                         damage *= TORSOSHOT_MULTIPLIER;
                         SpawnFloatingDamageText(Mathf.RoundToInt(damage), DamageType.torso, "FloatAway");
                         //Color.yellow
-                        if (PlayerWhoShotYou != null)
-                            PlayerWhoShotYou.torsoShots++;
+
                         break;
                     case DamageType.legs:
                         damage *= LEGSHOT_MULTIPLIER;
                         SpawnFloatingDamageText(Mathf.RoundToInt(damage), DamageType.legs, "FloatAway");
                         // Color.black
-                        if (PlayerWhoShotYou != null)
-                            PlayerWhoShotYou.legShots++;
                         break;
                     case DamageType.feet:
                         damage *= FOOTSHOT_MULTIPLIER;
                         SpawnFloatingDamageText(Mathf.RoundToInt(damage), DamageType.feet, "FloatAway");
                         //Color.gray
-                        if (PlayerWhoShotYou != null)
-                            PlayerWhoShotYou.footShots++;
                         break;
                     default:
                         break;
@@ -451,17 +392,14 @@ public class PlayerScript : MonoBehaviour
 
             numLives--;
 
-            if (!isDummy)
-                playerUIPanel.LoseStock();
+            playerUIPanel.LoseStock();
 
             if (numLives <= 0)
             {
                 playerUIPanel.Disable();
 
-                if (!isDummy)
-                    playerUIPanel.Destroy();
-                
-                GameManager.Instance.CheckForLastManStanding(transform);
+                playerUIPanel.Destroy();
+                //GameManager.Instance.CheckForLastManStanding(transform);
                 
             }
             // armsSR = armsScript.currentArms.GetComponent<SpriteRenderer>();
@@ -689,11 +627,16 @@ public class PlayerScript : MonoBehaviour
                 break;
         }
 
-        player = ReInput.players.GetPlayer(playerID - 1);
+        player = ReInput.players.GetPlayer(playerID);
+        player.controllers.AddController(controller, true);
 
-        player.controllers.maps.SetMapsEnabled(true, "Gameplay");
-        player.controllers.maps.SetMapsEnabled(true, "UI");
-        Debug.Log(player.name);
+        Debug.Log(player.descriptiveName);
+        Debug.Log(controller.name);
+
+        //player.controllers.maps.SetMapsEnabled(true, "Gameplay");
+        //player.controllers.maps.SetMapsEnabled(false, "UI");
+
+        armsScript.basePlayer = this;
 
     }
 
@@ -718,12 +661,6 @@ public class PlayerScript : MonoBehaviour
         isDead = false;
         numKills = 0;
 
-        /*
-        assaultRifleArms.SetActive(false);
-        shotGunArms.SetActive(false);
-        LMGArms.SetActive(false);
-        */
-
         armsScript.EquipGun(GameManager.Instance.pistol);
 
         //torsoSR = GetComponent<SpriteRenderer>();
@@ -733,16 +670,15 @@ public class PlayerScript : MonoBehaviour
 
         //legRBs = legsParent.GetComponentsInChildren<Rigidbody2D>();
 
-        if (!isDummy)
-        {
-           // playerUIPanel.SetLives(numLives, playerHead);
-            player.controllers.AddController(controller, true);
-        }
+
+        // playerUIPanel.SetLives(numLives, playerHead);
+        player.controllers.AddController(controller, true);
+
 
         rb.simulated = true;
 
 
-        RoundManager.Instance.SetPlayer(this);
+        //RoundManager.Instance.SetPlayer(this);
 
         StartCoroutine(RespawnInvulernability());
 

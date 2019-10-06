@@ -7,6 +7,7 @@ using UnityEngine.Audio;
 
 public class CameraController : MonoBehaviour
 {
+    [HideInInspector]
     public List<Transform> players;
 
     public Vector3 offset;
@@ -101,11 +102,12 @@ public class CameraController : MonoBehaviour
     }
 
 
+    //grab all the players from the scene
     IEnumerator DelayOnGameStart()
     {
         yield return new WaitForSeconds(0.25f);
 
-        GameObject[] playersArray = GameObject.FindGameObjectsWithTag("Player");
+        PlayerScript[] playersArray = FindObjectsOfType<PlayerScript>();
 
         for (int i = 0; i < playersArray.Length; i++)
         {
