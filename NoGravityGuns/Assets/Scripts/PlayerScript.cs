@@ -134,15 +134,15 @@ public class PlayerScript : MonoBehaviour
         //{
         //    legFixers.Add(child.GetComponent<LegFixer>());
         //}
-        torsoSR = gameObject.transform.root.GetComponent<SpriteRenderer>();
-        armsSR = gameObject.GetComponentsInChildren<SpriteRenderer>();
-        torsoSR.color = playerColor;
-        defaultColor = torsoSR.color;
+        //torsoSR = gameObject.transform.root.GetComponent<SpriteRenderer>();
+        //armsSR = gameObject.GetComponentsInChildren<SpriteRenderer>();
+        //torsoSR.color = playerColor;
+        //defaultColor = torsoSR.color;
 
-        foreach (var SR in armsSR)
-        {
-            SR.color = playerColor;
-        }
+        //foreach (var SR in armsSR)
+        //{
+        //    SR.color = playerColor;
+        //}
 
         playerLastHitBy = null;
         immuneToCollisionsTimer = 0;

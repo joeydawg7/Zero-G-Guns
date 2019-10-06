@@ -61,7 +61,8 @@ public class RoundManager : MonoBehaviour
             }
 
                 // ObjectPooler.Instance.StartUp();
-            }
+        }
+        ClearEndRoundCanvasDisplay();
 
         finishedControllerSetup = false;
 
@@ -326,27 +327,25 @@ public class RoundManager : MonoBehaviour
         loserText.text = looserTextString;
         //loserText.color = winnerColour;
 
-        var bulletTrails = endRoundPanel.GetComponentsInChildren<Image>();
-        foreach(var bt in bulletTrails)
-        {
-            if(bt.sprite.name == "BulletPaneTraill")
-            {
-                bt.color = winnerColour;
-            }
-        }
+        var bulletTrails = endRoundPanel.GetComponent<Image>();
 
-
+            bulletTrails.color = winnerColour;       
         endRoundPanel.SetActive(true);
+        
     }
 
     public void ClearEndRoundCanvasDisplay()
     {
-        var endRoundPanel = GameObject.FindGameObjectWithTag("EndRoundPanel");
-        var winnerText = GameObject.FindGameObjectWithTag("EndRoundWinnerText").GetComponent<TextMeshProUGUI>();
-        var loserText = GameObject.FindGameObjectWithTag("EndRoundLoserText").GetComponent<TextMeshProUGUI>();
-       
-        winnerText.text = string.Empty;
-        loserText.text = string.Empty;
+        if(GameObject.FindGameObjectWithTag("EndRoundPanel"))
+        {
+            var endRoundPanel = GameObject.FindGameObjectWithTag("EndRoundPanel");
+            var winnerText = GameObject.FindGameObjectWithTag("EndRoundWinnerText").GetComponent<TextMeshProUGUI>();
+            var loserText = GameObject.FindGameObjectWithTag("EndRoundLoserText").GetComponent<TextMeshProUGUI>();
+
+            winnerText.text = string.Empty;
+            loserText.text = string.Empty;
+            endRoundPanel.SetActive(false);
+        }        
     }
 
     public string GetWittyCommentOnLastHitPoint(PlayerScript.DamageType damageType)

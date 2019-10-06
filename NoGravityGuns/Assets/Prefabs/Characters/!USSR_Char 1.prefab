@@ -786,7 +786,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6618733367150440668}
-  m_LocalRotation: {x: 0, y: 0, z: -0.7646929, w: 0.64439493}
+  m_LocalRotation: {x: 0, y: 0, z: -0.7646929, w: 0.644395}
   m_LocalPosition: {x: 1.4202498, y: 5.5776463, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -1264,7 +1264,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6618733367923125350}
-  m_LocalRotation: {x: 4.61702e-14, y: -2.9586173e-14, z: -0.37632346, w: -0.9264884}
+  m_LocalRotation: {x: 4.61702e-14, y: -2.9586166e-14, z: -0.3763235, w: -0.9264883}
   m_LocalPosition: {x: 2.9746165, y: 0.067423224, z: 0}
   m_LocalScale: {x: 0.9, y: 0.9, z: 1}
   m_Children: []
@@ -2277,7 +2277,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6618733368938515296}
-  m_LocalRotation: {x: 0, y: 0, z: -0.64218384, w: 0.7665507}
+  m_LocalRotation: {x: 0, y: 0, z: -0.6421838, w: 0.7665507}
   m_LocalPosition: {x: 2.2220557, y: -0.021204561, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -2484,7 +2484,7 @@ GameObject:
   - component: {fileID: 8821908765624388814}
   - component: {fileID: 1285382714}
   m_Layer: 0
-  m_Name: '!canada_Char'
+  m_Name: '!USSR_Char 1'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2544,7 +2544,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 60eec2a961625b841838ce8697e3f5ee, type: 3}
+  m_Sprite: {fileID: 21300000, guid: a3c4a6301342efa46aa8e61af1a5df6d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -2656,6 +2656,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4193206746999914783}
     m_Modifications:
+    - target: {fileID: 6624704998225192752, guid: ac27b34b9c6090d49b1b29a0c6453f62,
+        type: 3}
+      propertyPath: m_Name
+      value: PlayerCanvas
+      objectReference: {fileID: 0}
     - target: {fileID: 6624704998225192759, guid: ac27b34b9c6090d49b1b29a0c6453f62,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2791,11 +2796,6 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 7.351
       objectReference: {fileID: 0}
-    - target: {fileID: 6624704998225192752, guid: ac27b34b9c6090d49b1b29a0c6453f62,
-        type: 3}
-      propertyPath: m_Name
-      value: PlayerCanvas
-      objectReference: {fileID: 0}
     - target: {fileID: 6624704997437201495, guid: ac27b34b9c6090d49b1b29a0c6453f62,
         type: 3}
       propertyPath: m_AnchorMin.y
@@ -2836,11 +2836,11 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.49999997
       objectReference: {fileID: 0}
-    - target: {fileID: 3125931732982407124, guid: ac27b34b9c6090d49b1b29a0c6453f62,
+    - target: {fileID: 6624704998225192755, guid: ac27b34b9c6090d49b1b29a0c6453f62,
         type: 3}
-      propertyPath: m_firstOverflowCharacterIndex
-      value: -1
-      objectReference: {fileID: 0}
+      propertyPath: playerscript
+      value: 
+      objectReference: {fileID: 1529705301}
     - target: {fileID: 6624704998297590400, guid: ac27b34b9c6090d49b1b29a0c6453f62,
         type: 3}
       propertyPath: m_LocalScale.x
@@ -2881,11 +2881,6 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 3.066
       objectReference: {fileID: 0}
-    - target: {fileID: 6624704998225192755, guid: ac27b34b9c6090d49b1b29a0c6453f62,
-        type: 3}
-      propertyPath: playerscript
-      value: 
-      objectReference: {fileID: 1529705301}
     - target: {fileID: 6624704997631791475, guid: ac27b34b9c6090d49b1b29a0c6453f62,
         type: 3}
       propertyPath: m_LocalScale.x
@@ -2925,6 +2920,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_SizeDelta.y
       value: 2.41
+      objectReference: {fileID: 0}
+    - target: {fileID: 3125931732982407124, guid: ac27b34b9c6090d49b1b29a0c6453f62,
+        type: 3}
+      propertyPath: m_firstOverflowCharacterIndex
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 6624704998904625825, guid: ac27b34b9c6090d49b1b29a0c6453f62,
         type: 3}
