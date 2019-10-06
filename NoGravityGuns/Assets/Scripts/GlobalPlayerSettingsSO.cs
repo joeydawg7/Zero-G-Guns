@@ -21,7 +21,7 @@ public class GlobalPlayerSettingsSO : ScriptableObject
     public int player4CollisionLayer;
 
 
-    
+
 
     public Dictionary<int, PlayerSpawnPoint> GetAllPlayerSpawnPoints()
     {
@@ -31,8 +31,8 @@ public class GlobalPlayerSettingsSO : ScriptableObject
 
         for (int i = 0; i < PSP.Length; i++)
         {
-            if(PSP[i].IDToSpawn !=0)
-                temp.Add(PSP[i].IDToSpawn, PSP[i]);
+
+            temp.Add(PSP[i].IDToSpawn, PSP[i]);
         }
 
 

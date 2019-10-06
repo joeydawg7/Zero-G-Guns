@@ -212,17 +212,19 @@ public class RoundManager : MonoBehaviour
 
             newRoundTextAnimator.SetTrigger("NewRound");
 
+            Debug.Log("spawning players");
+            foreach (var PD in playerDataList)
+            {
+                PD.SpawnAtMatchingPoint();
+            }
+
             GameManager.Instance.StartGame();
 
            
         }
 
 
-        Debug.Log("spawning players");
-        foreach (var PD in playerDataList)
-        {
-            PD.SpawnAtMatchingPoint();
-        }
+       
 
     }
 
@@ -265,8 +267,6 @@ public class RoundManager : MonoBehaviour
     {
         PlayerDataScript PD = GameObject.Instantiate(playerDataPrefab).GetComponent<PlayerDataScript>();
         DontDestroyOnLoad(PD);
-
-        Debug.Log("spawning player managers");
 
         PD.SetPlayerInfoAfterRoundStart(playerControllerData, globalPlayerSettings);
 

@@ -10,8 +10,7 @@ public class PlayerSpawnPoint : MonoBehaviour
     public enum FacingDirection { right, left };
     public FacingDirection facingDirection;
 
-    [Header("0 will spawn nothing, 1-4 spawn respective ID")]
-    [Range(0, 4)]
+    [Range(0, 3)]
     public int IDToSpawn = 0;
 
     public GameObject[] characterToSpawn;
@@ -26,24 +25,27 @@ public class PlayerSpawnPoint : MonoBehaviour
 
     private void OnDrawGizmos()
     {
+
+#if UNITY_EDITOR
         Gizmos.color = Color.white;
 
         Gizmos.DrawCube(transform.position, cubeSize);
+#endif
     }
 
-    public void SetCharacter(int IDToSpawn, Controller controller)
-    {
-        this.controller = controller;
-        this.IDToSpawn = IDToSpawn;
+    //public void SetCharacter(int IDToSpawn, Controller controller)
+    //{
+    //    this.controller = controller;
+    //    this.IDToSpawn = IDToSpawn;
 
-        destroyOnRoundStart = false;
-
-
-        SpawnCharacter();
-    }
+    //    destroyOnRoundStart = false;
 
 
-    void SpawnCharacter()
+    //    SpawnCharacter();
+    //}
+
+
+    public void SpawnCharacter(int IDToSpawn, Controller controller)
     {
 
         //TODO: change this from random to a choice  in GUI :D
@@ -52,16 +54,14 @@ public class PlayerSpawnPoint : MonoBehaviour
         Debug.Log("spawning " + characterToSpawn[0].name);
 
         GameObject go = GameObject.Instantiate(characterToSpawn[0], transform.position, Quaternion.identity);
-        Debug.Log(go.name);
 
         PlayerScript playerScript = go.GetComponentInChildren<PlayerScript>();
 
         playerScript.SetController(IDToSpawn, controller);
 
-        go.name = "AKSFOAKSFASF";
+        go.name = "Player" + IDToSpawn;
         //go.transform.parent = transform;
 
-        
 
         switch (facingDirection)
         {
@@ -76,9 +76,8 @@ public class PlayerSpawnPoint : MonoBehaviour
                 break;
         }
 
-
-
-        //Debug.Log(playerScript.playerID + " " + controller.id);
+        playerScript.playerName = "Red Player";
+        playerScript.hexColorCode = "#666666";
 
     }
 

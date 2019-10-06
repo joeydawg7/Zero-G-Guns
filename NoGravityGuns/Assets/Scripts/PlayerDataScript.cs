@@ -56,14 +56,14 @@ public class PlayerDataScript : MonoBehaviour
 
     void SetPlayer(PlayerControllerData playerControllerData, GlobalPlayerSettingsSO globalPlayerSettings)
     {
-        print(playerControllerData.ID);
+        //print(playerControllerData.ID);
 
         this.playerControllerData = playerControllerData;
         this.globalPlayerSettings = globalPlayerSettings;
         //playerScript.hexColorCode = hexColorCode;
         //playerScript.playerName = playerName;
 
-        Debug.Log("player id in set :" + playerControllerData.ID);
+        Debug.Log("player id in set :" + playerControllerData.ID + " controller: " + playerControllerData.controller.name);
         
         //playerScript.OnGameStart();
     }
@@ -74,11 +74,10 @@ public class PlayerDataScript : MonoBehaviour
         Dictionary<int, PlayerSpawnPoint> playerSpawnPoints = globalPlayerSettings.GetAllPlayerSpawnPoints();
 
         Debug.Log(playerControllerData.ID);
+        print(playerControllerData.controller.name);
 
-        Debug.Log("KAW KAW");
-
-        if (playerSpawnPoints[playerControllerData.ID + 1] != null)
-            playerSpawnPoints[playerControllerData.ID + 1].SetCharacter(playerControllerData.ID, playerControllerData.controller);
+        if (playerSpawnPoints[playerControllerData.ID] != null)
+            playerSpawnPoints[playerControllerData.ID].SpawnCharacter(playerControllerData.ID, playerControllerData.controller);
         else
             Debug.LogError("ID " + " not found!");
     }

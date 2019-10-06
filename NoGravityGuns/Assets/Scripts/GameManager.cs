@@ -190,7 +190,7 @@ public class GameManager : MonoBehaviour
 
         guiManager.OnGameStart();
 
-        dataManager.OnGameStart();
+        //dataManager.OnGameStart();
 
         Time.timeScale = 1;
 
@@ -287,7 +287,7 @@ public class GameManager : MonoBehaviour
                 stillAlive.Add(player);
         }
 
-        dataManager.OnGameEnd(stillAlive);
+        //dataManager.OnGameEnd(stillAlive);
 
         EndGameScript.StartEndGame(stillAlive);
 

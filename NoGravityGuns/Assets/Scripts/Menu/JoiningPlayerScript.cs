@@ -57,8 +57,6 @@ public class JoiningPlayerScript : MonoBehaviour
 
         playerControllerDataDictionary = new Dictionary<int, PlayerControllerData>();
 
-        //playerSpawnPoints = GlobalPlayerSettings.GetAllPlayerSpawnPoints();
-
     }
 
     void Start()
@@ -213,10 +211,9 @@ public class JoiningPlayerScript : MonoBehaviour
             assignedControls.Add(joystick.id);
             //only play the sound if not contained, so we can tell if someone is joining when they are already in
             GameManager.Instance.audioSource.PlayOneShot(joinClick);
-
             AddPlayerControllerSetup(joystick.id, joystick);
 
-            Debug.Log("Assigned " + joystick.name + " " + joystick.id + " to Player " + player.id);
+            Debug.Log("Assigned " + joystick.name + " " + joystick.id + " to Player " + player.descriptiveName);
 
             tipToStart.alpha = 1;
 
@@ -275,9 +272,8 @@ public class JoiningPlayerScript : MonoBehaviour
         JoinPanel jp = joinPanels[i].GetComponent<JoinPanel>();
         if (jp.hasAssignedController == false)
         {
-            jp.AssignController((i + 1), controller);
-            Debug.Log("ayae: " + i);
-            playerControllerDataDictionary.Add(i,new PlayerControllerData());
+            jp.AssignController((i), controller);
+            playerControllerDataDictionary.Add(i,new PlayerControllerData(i, controller));
             return;
         }
     }
@@ -312,6 +308,7 @@ public class JoiningPlayerScript : MonoBehaviour
 
         for (int i = 0; i < playerControllerDataDictionary.Count; i++)
         {
+            Debug.Log("controller: " + playerControllerDataDictionary[i].controller.name);
             RoundManager.Instance.SpawnPlayerManager(playerControllerDataDictionary[i], GlobalPlayerSettings);
         }
     }
