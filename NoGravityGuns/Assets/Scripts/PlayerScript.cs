@@ -31,7 +31,7 @@ public class PlayerScript : MonoBehaviour
     public Controller controller;
 
 
-    public enum DamageType { head = 4, torso = 3, legs = 2, feet = 1 , self = 5};
+    public enum DamageType { head = 4, torso = 3, legs = 2, feet = 1 , self = 5, explosive = 6};
 
     [Header("Bools")]
     public bool isDead;
@@ -104,6 +104,7 @@ public class PlayerScript : MonoBehaviour
     const float TORSOSHOT_MULTIPLIER = 1f;
     const float FOOTSHOT_MULTIPLIER = 0.5f;
     const float LEGSHOT_MULTIPLIER = 0.75f;
+    const float EXPLOSION_MULTIPLIER = 0.5f;
     const int COLLIDER_DAMAGE_MITIGATOR = 5;
     #endregion
     //End Variables
@@ -150,11 +151,6 @@ public class PlayerScript : MonoBehaviour
         //trail.emitting = false;
         gameManager = GameManager.Instance;
 
-        //if (playerUIPanel == null)
-        //    Debug.LogError("No UI Panel Set");
-
-        //if (floatingTextSpawnPoint == null)
-        //    Debug.LogError("No floating text spawn point set!");
         lastHitDamageType = DamageType.self;
 
 
@@ -175,7 +171,7 @@ public class PlayerScript : MonoBehaviour
         }
 
         //DEBUG: take damage to torso
-        if (Input.GetKeyDown(KeyCode.K))
+        if (Input.GetKeyDown(KeyCode.K) && GameManager.Instance.debugManager.useDebugSettings)
             TakeDamage(50, DamageType.torso, null, true);
 
         //B button
@@ -262,7 +258,6 @@ public class PlayerScript : MonoBehaviour
                         damage *= TORSOSHOT_MULTIPLIER;
                         SpawnFloatingDamageText(Mathf.RoundToInt(damage), DamageType.torso, "FloatAway");
                         //Color.yellow
-
                         break;
                     case DamageType.legs:
                         damage *= LEGSHOT_MULTIPLIER;
@@ -273,6 +268,10 @@ public class PlayerScript : MonoBehaviour
                         damage *= FOOTSHOT_MULTIPLIER;
                         SpawnFloatingDamageText(Mathf.RoundToInt(damage), DamageType.feet, "FloatAway");
                         //Color.gray
+                       break;
+                    case DamageType.explosive:
+                        damage *= EXPLOSION_MULTIPLIER;
+                        SpawnFloatingDamageText(Mathf.RoundToInt(damage), DamageType.explosive, "FloatAway");
                         break;
                     default:
                         break;
@@ -310,58 +309,6 @@ public class PlayerScript : MonoBehaviour
     }
 
 
-    void SaveDamageData(GunSO currentWeapon, float dmg, bool dead, PlayerScript playerWhoShotYou)
-    {
-        GameManager gameManager = GameManager.Instance;
-
-        // currentWeapon.gunDamageTotal += dmg;
-
-
-        /*
-        switch (gunType)
-        {
-            case GunType.pistol:
-                gameManager.pistolDamage += dmg;
-                playerWhoShotYou.pistolDmg += dmg;
-                if (dead)
-                    gameManager.pistolKills++;
-                break;
-            case GunType.assaultRifle:
-                gameManager.assaultDamage += dmg;
-                playerWhoShotYou.rifleDmg += dmg;
-                if (dead)
-                    gameManager.assaultRifleKills++;
-                break;
-            case GunType.LMG:
-                gameManager.minigunDamage += dmg;
-                playerWhoShotYou.miniGunDmg += dmg;
-                if (dead)
-                    gameManager.minigunKills++;
-                break;
-            case GunType.shotgun:
-                gameManager.shotGunDamage += dmg;
-                playerWhoShotYou.shotgunDmg += dmg;
-                if (dead)
-                    gameManager.shotGunKills++;
-                break;
-            case GunType.railGun:
-                gameManager.railgunDamage += dmg;
-                playerWhoShotYou.railgunDmg += dmg;
-                if (dead)
-                    gameManager.railgunKills++;
-                break;
-            case GunType.healthPack:
-                gameManager.healthPackHeals += dmg;
-                break;
-            case GunType.collision:
-                gameManager.collisionDamage += dmg;
-                if (dead)
-                    gameManager.collisionKills++;
-                break;
-            default:
-                break;
-        }*/
-    }
     #endregion
 
     #region Die and respawn
@@ -594,25 +541,25 @@ public class PlayerScript : MonoBehaviour
     {
         this.controller = controller;
         playerID = number;
-        switch (playerID)
-        {
-            case 1:
-                playerName = "Red";
-                hexColorCode = "#B1342F";
-                break;
-            case 2:
-                playerName = "Blue";
-                hexColorCode = "#2C7EC2";
-                break;
-            case 3:
-                playerName = "Green";
-                hexColorCode = "#13BC1E";
-                break;
-            case 4:
-                playerName = "Yellow";
-                hexColorCode = "#EA9602";
-                break;
-        }
+        //switch (playerID)
+        //{
+        //    case 1:
+        //        playerName = "Red";
+        //        hexColorCode = "#B1342F";
+        //        break;
+        //    case 2:
+        //        playerName = "Blue";
+        //        hexColorCode = "#2C7EC2";
+        //        break;
+        //    case 3:
+        //        playerName = "Green";
+        //        hexColorCode = "#13BC1E";
+        //        break;
+        //    case 4:
+        //        playerName = "Yellow";
+        //        hexColorCode = "#EA9602";
+        //        break;
+        //}
 
         player = ReInput.players.GetPlayer(playerID);
         player.controllers.AddController(controller, true);

@@ -206,7 +206,7 @@ public static class Rigidbody2DExt
 
         PlayerScript HitplayerScript = body.transform.root.GetComponentInChildren<PlayerScript>();
 
-        PlayerScript.DamageType damageType = PlayerScript.ParsePlayerDamage(body.gameObject);
+        PlayerScript.DamageType damageType = PlayerScript.DamageType.explosive; //PlayerScript.ParsePlayerDamage(body.gameObject);
 
         //headshot explosions are way too strong
         if (damageType == PlayerScript.DamageType.head)
