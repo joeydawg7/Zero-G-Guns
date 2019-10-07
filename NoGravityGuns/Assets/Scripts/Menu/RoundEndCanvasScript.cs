@@ -85,7 +85,7 @@ public class RoundEndCanvasScript : MonoBehaviour
         if (damageType == PlayerScript.DamageType.head)
         {
 
-            string[] options = new[] { "Right in the face", "Oh his brain", "Helmets only do so much", "Bullets and your head a deadly combination" };
+            string[] options = new[] { "In the face!", "Oh his brain", "Helmets only do so much", "Bullets and your head a deadly combination" };
             int r = Random.Range(0, options.Length - 1);
             wit = options[r];
         }
