@@ -26,13 +26,13 @@ public class JoinPanel : MonoBehaviour
     {
         image = GetComponent<Image>();
         hasAssignedController = false;
-        MainText.text = "Press A to Join";
+        MainText.text = "Press A";
 
     }
 
     public PlayerScript AssignController(int i, Controller controller)
     {
-        MainText.text = "Player joined!";
+        MainText.text = "Ready";
         hasAssignedController = true;
         image.color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
         image.color = selectedColour;
@@ -45,7 +45,7 @@ public class JoinPanel : MonoBehaviour
     public PlayerScript UnAssignController()
     {
         //image.sprite = notReadySprite;
-        MainText.text = "Press A to join";
+        MainText.text = "Press A";
         hasAssignedController = false;
         image.color = new Color(1.0f, 1.0f, 1.0f, 0.5f);
         //player.UnsetController();
