@@ -167,14 +167,15 @@ public class EndGameScript : MonoBehaviour
 
             foreach (var realWinner in mostKillsPlayers)
             {
+                
                 if (mostKillsPlayers.Count <= 1)
                 {
-                    winOrTie.text = "<" + realWinner.hexColorCode + ">" + realWinner.playerName + " Is the winner!" + "</color>";
+                    winOrTie.text = "<color=" + realWinner.hexColorCode + ">" + realWinner.playerName + " Is the winner!" + "</color>";
                     yield return new WaitForSeconds(0.5f);
                 }
                 else
                 {
-                    winOrTie.text = "<" + realWinner.hexColorCode + ">" + realWinner.playerName + " Are the winners! It's a tie!" + "</color>";
+                    winOrTie.text = "<color=" + realWinner.hexColorCode + ">" + realWinner.playerName + " Are the winners! It's a tie!" + "</color>";
                     yield return new WaitForSeconds(0.35f);
                 }
                 
@@ -206,22 +207,22 @@ public class EndGameScript : MonoBehaviour
                 yield return new WaitForSeconds(0.5f);
                 weHaveAWinner = true;
 
-                foreach (var winner in RoundManager.Instance.playerDataList)
+                foreach (var player in RoundManager.Instance.playerDataList)
                 {
                     yield return new WaitForSeconds(0.5f);
-                    Winners.text += "<" + winner.hexColorCode + ">" + winner.playerName + ": " + winner.roundWins + " Rounds Won " + "</color> \n";
+                    Winners.text += "<color=" + player.hexColorCode + ">" + player.playerName + ": " + player.roundWins + " Rounds Won " + "</color> \n";
 
                 }
             }
             else
             {
-                winOrTie.text = "<" + winnersList[0].hexColorCode + ">" + winnersList[0].playerName + " won the round!" + "</color>";
+                winOrTie.text = "<color=" + winnersList[0].hexColorCode + ">" + winnersList[0].playerName + " won the round!" + "</color>";
                 yield return new WaitForSeconds(0.2f);
 
                 foreach (var winner in RoundManager.Instance.playerDataList)
                 {
                     yield return new WaitForSeconds(0.2f);
-                    Winners.text += "<" + winner.hexColorCode + ">" + winner.playerName + ": " + winner.roundWins + " Rounds Won " + "</color> \n";
+                    Winners.text += "<color=" + winner.hexColorCode + ">" + winner.playerName + ": " + winner.roundWins + " Rounds Won " + "</color> \n";
 
                 }
             }

@@ -65,7 +65,6 @@ public class RoundManager : MonoBehaviour
 
                 // ObjectPooler.Instance.StartUp();
         }
-        roundEndCanvasScript.ClearEndRoundCanvasDisplay();
 
         finishedControllerSetup = false;
 
@@ -75,7 +74,10 @@ public class RoundManager : MonoBehaviour
         Cursor.visible = false;
 
         joiningPlayerScript = FindObjectOfType<JoiningPlayerScript>();
+        roundEndCanvasScript = FindObjectOfType<RoundEndCanvasScript>();
 
+
+        roundEndCanvasScript.ClearEndRoundCanvasDisplay();
         globalPlayerSettings.SortPlayerSettings();
 
     }

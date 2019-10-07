@@ -75,8 +75,9 @@ public class PlayerSpawnPoint : MonoBehaviour
                 playerCanvasScript.transform.localScale *= 1;
                 break;
             case FacingDirection.left:
-                go.transform.localScale = new Vector2(go.transform.localScale.x * -1, go.transform.localScale.y);
-                playerCanvasScript.transform.localScale =  new Vector2(playerCanvasScript.transform.localScale.x * -1, playerCanvasScript.transform.localScale.y);
+                go.transform.localScale *= 1;
+                //go.transform.localScale = new Vector2(go.transform.localScale.x * -1, go.transform.localScale.y);
+                //playerCanvasScript.transform.localScale =  new Vector2(playerCanvasScript.transform.localScale.x * -1, playerCanvasScript.transform.localScale.y);
                 break;
             default:
                 go.transform.localScale *= 1;

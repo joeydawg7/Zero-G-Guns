@@ -96,14 +96,19 @@ public class RoundEndCanvasScript : MonoBehaviour
             options = new[] { "A foot shot how embarrassing", "A shoelace kill", "It's just a flesh wound" };
 
         }
+        //this seems to only come up on collision damage
         else if (damageType == PlayerScript.DamageType.self)
         {
-            options = new[] { "That was all you", "They just gave up on life", "Good by crule world" };
+            options = new[] { "They hit something too hard", "Smack!", "They left a small crater" };
 
         }
         else if (damageType == PlayerScript.DamageType.explosive)
         {
             options = new[] { "BOOM baby!", "They blew up!", "Explosive!" };
+        }
+        else
+        {
+            options = new[] { "Whoa this should never come up!", "You shouldn't see this!", "This code sucks!" };
         }
 
         int r = Random.Range(0, options.Length - 1);

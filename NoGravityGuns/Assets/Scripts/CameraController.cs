@@ -32,6 +32,8 @@ public class CameraController : MonoBehaviour
     [HideInInspector]
     public PostProcessVolume CurrentGameVolume;
 
+    LensDistortion lensDistortion;
+    ChromaticAberration chromaticAbberation;
 
     private void Awake()
     {
@@ -40,6 +42,14 @@ public class CameraController : MonoBehaviour
         cameraShake = mainCam.GetComponent<CameraShake>();
         audioSource = GetComponent<AudioSource>();
         CurrentGameVolume = FindObjectOfType<PostProcessVolume>();
+
+        CurrentGameVolume.profile.TryGetSettings(out lensDistortion);
+        CurrentGameVolume.profile.TryGetSettings(out chromaticAbberation);
+
+        if(lensDistortion == null || chromaticAbberation == null)
+        {
+            Debug.LogError("Lens distortion or chromatic abberation not found on current post processing profile!");
+        }
 
     }
 
@@ -155,15 +165,6 @@ public class CameraController : MonoBehaviour
         //play a whoosh effect
         audioSource.PlayOneShot(timeSlow);
 
-        //swap profiles so we dont muck up old profile (probably not required)
-        //CurrentGameVolume.profile = onSlowDownProfile;
-
-        //gens distortion and chromatic abbberation effects
-        LensDistortion lensDistortion;
-        ChromaticAberration chromaticAbberation;
-        CurrentGameVolume.profile.TryGetSettings(out lensDistortion);
-        CurrentGameVolume.profile.TryGetSettings(out chromaticAbberation);
-
         //make all SFX pitched down
         SFXMixer.SetFloat("SFXPitch", 0.75f);
 
@@ -229,11 +230,7 @@ public class CameraController : MonoBehaviour
     }
 
     public void ResetAllSlowdownEffects()
-    {
-        LensDistortion lensDistortion;
-        ChromaticAberration chromaticAbberation;
-        CurrentGameVolume.profile.TryGetSettings(out lensDistortion);
-        CurrentGameVolume.profile.TryGetSettings(out chromaticAbberation);
+    {     
 
         chromaticAbberation.intensity.value = 0f;
         lensDistortion.intensity.value = 0;

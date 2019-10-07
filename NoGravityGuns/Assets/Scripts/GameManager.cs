@@ -147,6 +147,8 @@ public class GameManager : MonoBehaviour
 
         players = new List<PlayerScript>();
         cameraController = FindObjectOfType<CameraController>();
+        joiningPlayerScript = FindObjectOfType<JoiningPlayerScript>();
+        EndGameScript = FindObjectOfType<EndGameScript>();
     }
 
     PlayerSpawnPoint[] playerSpawnPoints;
@@ -272,7 +274,6 @@ public class GameManager : MonoBehaviour
     public void OnGameEnd()
     {
 
-        guiManager.RunTimer(false);
 
         //list of people who are still alive at match end
         List<PlayerScript> stillAlive = new List<PlayerScript>();

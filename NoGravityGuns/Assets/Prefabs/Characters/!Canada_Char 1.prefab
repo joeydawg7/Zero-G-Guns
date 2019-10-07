@@ -503,6 +503,8 @@ MonoBehaviour:
   isDead: 0
   isInvulnerable: 0
   armsScript: {fileID: 6618733368466825844}
+  leftLegHinge: {fileID: 6618733368466825856}
+  rightLegHinge: {fileID: 6618733368466825864}
   spawnPoint: {x: 0, y: 0, z: 0}
   invulnerabilityColorFlash:
     serializedVersion: 2
@@ -766,7 +768,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6618733367150440668}
-  m_LocalRotation: {x: 0, y: 0, z: -0.7646928, w: 0.644395}
+  m_LocalRotation: {x: 0, y: 0, z: -0.76469284, w: 0.644395}
   m_LocalPosition: {x: 1.4202498, y: 5.5776463, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -1202,7 +1204,7 @@ HingeJoint2D:
   m_ConnectedAnchor: {x: 0.529925, y: 0.7123311}
   m_UseMotor: 0
   m_Motor:
-    m_MotorSpeed: -25
+    m_MotorSpeed: -100
     m_MaximumMotorForce: 100
   m_UseLimits: 1
   m_AngleLimits:
@@ -1244,7 +1246,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6618733367923125350}
-  m_LocalRotation: {x: 4.6170197e-14, y: -2.9586166e-14, z: -0.3763232, w: -0.9264885}
+  m_LocalRotation: {x: 4.61702e-14, y: -2.9586173e-14, z: -0.37632337, w: -0.9264884}
   m_LocalPosition: {x: 2.9746165, y: 0.067423224, z: 0}
   m_LocalScale: {x: 0.9, y: 0.9, z: 1}
   m_Children: []
@@ -1982,7 +1984,7 @@ HingeJoint2D:
   m_ConnectedAnchor: {x: -0.8142217, y: 0.747509}
   m_UseMotor: 0
   m_Motor:
-    m_MotorSpeed: 0
+    m_MotorSpeed: -100
     m_MaximumMotorForce: 100
   m_UseLimits: 1
   m_AngleLimits:
@@ -2257,7 +2259,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6618733368938515296}
-  m_LocalRotation: {x: 0, y: 0, z: -0.6421841, w: 0.7665505}
+  m_LocalRotation: {x: 0, y: 0, z: -0.64218396, w: 0.76655054}
   m_LocalPosition: {x: 2.2220557, y: -0.021204561, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:

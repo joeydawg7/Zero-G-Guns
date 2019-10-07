@@ -31,13 +31,16 @@ public class PlayerScript : MonoBehaviour
     public Controller controller;
 
 
-    public enum DamageType { head = 4, torso = 3, legs = 2, feet = 1 , self = 5, explosive = 6};
+    public enum DamageType { head = 4, torso = 3, legs = 2, feet = 1, self = 5, explosive = 6 };
 
     [Header("Bools")]
     public bool isDead;
     public bool isInvulnerable;
 
     public ArmsScript armsScript;
+
+    public HingeJoint2D leftLegHinge;
+    public HingeJoint2D rightLegHinge;
 
     [Header("Spawning and kills")]
     public Vector3 spawnPoint;
@@ -172,15 +175,25 @@ public class PlayerScript : MonoBehaviour
 
         //DEBUG: take damage to torso
         if (Input.GetKeyDown(KeyCode.K) && GameManager.Instance.debugManager.useDebugSettings)
-            TakeDamage(50, DamageType.torso, null, true);
+            TakeDamage(50, new Vector2(0, 0), DamageType.torso, null, true);
 
-        //B button
-        if (GameManager.Instance.isGameStarted && armsScript.currentWeapon.name != "Pistol")
-            OnDrop();
+        if (gameManager.isGameStarted)
+        {
+            if (!isDead)
+            {
 
-        //StartButton
-        if (GameManager.Instance.isGameStarted)
+                //B button
+                OnDrop();
+
+                //A button
+                OnFlail();
+
+            }
+
             OnPause();
+
+
+        }
 
 
     }
@@ -189,10 +202,28 @@ public class PlayerScript : MonoBehaviour
     #region Input Handler Functions
     public void OnDrop()
     {
-        if (gameManager.isGameStarted && player.GetButtonDown("Drop") && !isDead)
+        if (player.GetButtonDown("Drop") && armsScript.currentWeapon.name != "Pistol")
         {
             armsScript.EquipGun(GameManager.Instance.pistol);
         }
+    }
+
+    void OnFlail()
+    {
+
+        StartCoroutine(FlailLegs());
+
+    }
+
+    IEnumerator FlailLegs()
+    {
+        while (player.GetButton("Join"))
+        {
+            
+            yield return null;
+            
+        }
+
     }
 
     void OnPause()
@@ -214,10 +245,11 @@ public class PlayerScript : MonoBehaviour
     #endregion
 
     #region Take Damage
-    public void TakeDamage(float damage, DamageType damageType, PlayerScript PlayerWhoShotYou, bool playBulletSFX)
+    public void TakeDamage(float damage, Vector2 dir, DamageType damageType, PlayerScript PlayerWhoShotYou, bool playBulletSFX)
     {
         if (!isDead && !isInvulnerable)
         {
+
 
             //only reset if it wasnt a world kill
             if (PlayerWhoShotYou != null)
@@ -240,6 +272,9 @@ public class PlayerScript : MonoBehaviour
             {
                 //temp damage mod
                 damage *= 1.2f;
+
+                //TODO: amplify pushback from bullets direction
+                //rb.AddForce(transform.right * dir * 0.01f, ForceMode2D.Impulse);
 
                 switch (damageType)
                 {
@@ -268,7 +303,7 @@ public class PlayerScript : MonoBehaviour
                         damage *= FOOTSHOT_MULTIPLIER;
                         SpawnFloatingDamageText(Mathf.RoundToInt(damage), DamageType.feet, "FloatAway");
                         //Color.gray
-                       break;
+                        break;
                     case DamageType.explosive:
                         damage *= EXPLOSION_MULTIPLIER;
                         SpawnFloatingDamageText(Mathf.RoundToInt(damage), DamageType.explosive, "FloatAway");
@@ -301,7 +336,7 @@ public class PlayerScript : MonoBehaviour
                     playerLastHitBy.numKills--;
                     //playerLastHitBy.playerUIPanel.AddKill(this);
                 }
-                
+
                 Die(damageType);
             }
 
@@ -334,7 +369,7 @@ public class PlayerScript : MonoBehaviour
 
                 //playerCanvasScript.Destroy();
                 GameManager.Instance.CheckForLastManStanding(transform, damageType);
-                
+
             }
             // armsSR = armsScript.currentArms.GetComponent<SpriteRenderer>();
 
@@ -353,9 +388,9 @@ public class PlayerScript : MonoBehaviour
 
             if (numLives > 0)
                 StartCoroutine(WaitForRespawn());
-            lastHitDamageType = damageType;           
+            lastHitDamageType = damageType;
         }
-            
+
         return this;
     }
 
@@ -366,7 +401,7 @@ public class PlayerScript : MonoBehaviour
         yield return new WaitForSeconds(1f);
         //playerUIPanel.SetAmmoText("2...", 1);
         yield return new WaitForSeconds(1f);
-       // playerUIPanel.SetAmmoText("1...", 1);
+        // playerUIPanel.SetAmmoText("1...", 1);
         yield return new WaitForSeconds(1f);
 
         //turn of rigidbody so we dont get some crazy momentum from force moving
@@ -541,25 +576,6 @@ public class PlayerScript : MonoBehaviour
     {
         this.controller = controller;
         playerID = number;
-        //switch (playerID)
-        //{
-        //    case 1:
-        //        playerName = "Red";
-        //        hexColorCode = "#B1342F";
-        //        break;
-        //    case 2:
-        //        playerName = "Blue";
-        //        hexColorCode = "#2C7EC2";
-        //        break;
-        //    case 3:
-        //        playerName = "Green";
-        //        hexColorCode = "#13BC1E";
-        //        break;
-        //    case 4:
-        //        playerName = "Yellow";
-        //        hexColorCode = "#EA9602";
-        //        break;
-        //}
 
         player = ReInput.players.GetPlayer(playerID);
         player.controllers.AddController(controller, true);
@@ -710,7 +726,7 @@ public class PlayerScript : MonoBehaviour
             {
                 immuneToCollisionsTimer = 0;
                 audioSource.PlayOneShot(soundClipToPlay);
-                TakeDamage(dmg, dmgType, hitBy, false);
+                TakeDamage(dmg, new Vector2(0, 0), dmgType, hitBy, false);
             }
         }
     }
@@ -765,6 +781,9 @@ public class PlayerScript : MonoBehaviour
                 color = Color.yellow;
                 break;
         }
+
+        if (dmgToShow < 0)
+            color = Color.green;
 
         //run a different function if we already have some floating text in existance, unless its a heal then treat it as new text
         if (floatingDamage.floatingDamageGameObject != null && dmgToShow > 0)

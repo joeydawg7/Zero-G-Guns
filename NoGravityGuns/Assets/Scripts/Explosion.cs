@@ -217,7 +217,7 @@ public static class Rigidbody2DExt
             if (dmg > 0)
             {
                // Debug.Log(body.gameObject.name + " taking " + dmg + " damage, modded by " + damageType.ToString());
-                HitplayerScript.TakeDamage(dmg, damageType, playerWhoShot, true);
+                HitplayerScript.TakeDamage(dmg, new Vector2(0,0), damageType, playerWhoShot, true);
             }
         }
     }

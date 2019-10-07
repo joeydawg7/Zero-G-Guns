@@ -155,26 +155,26 @@ public class Bullet : MonoBehaviour, IPooledObject
         if (collision.collider.tag == "Torso")
         {
             dmgType = PlayerScript.DamageType.torso;
-            hitPlayerScript.TakeDamage(damage, dmgType, this.player, true);
+            hitPlayerScript.TakeDamage(damage, startingForce, dmgType, this.player, true);
            // collision.transform.GetComponentInChildren<ParticleSystem>().Emit(30);
             GetComponent<Collider2D>().enabled = false;
         }
         if (collision.collider.tag == "Head")
         {
             dmgType = PlayerScript.DamageType.head;
-            hitPlayerScript.TakeDamage(damage, dmgType, this.player, true);
+            hitPlayerScript.TakeDamage(damage, startingForce, dmgType, this.player, true);
             GetComponent<Collider2D>().enabled = false;
         }
         if (collision.collider.tag == "Feet")
         {
             dmgType = PlayerScript.DamageType.feet;
-            hitPlayerScript.TakeDamage(damage, dmgType, this.player, true);
+            hitPlayerScript.TakeDamage(damage, startingForce, dmgType, this.player, true);
             GetComponent<Collider2D>().enabled = false;
         }
         if (collision.collider.tag == "Leg")
         {
             dmgType = PlayerScript.DamageType.legs;
-            hitPlayerScript.TakeDamage(damage, dmgType, this.player, true);
+            hitPlayerScript.TakeDamage(damage, startingForce, dmgType, this.player, true);
             GetComponent<Collider2D>().enabled = false;
         }
 
