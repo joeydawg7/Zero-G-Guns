@@ -83,14 +83,10 @@ public class PlayerSpawnPoint : MonoBehaviour
                 playerCanvasScript.transform.localScale *= 1;
                 break;
         }
-
-      
-
-        
-
         //gives the canvas to the player
         playerScript.playerCanvasScript = playerCanvasScript;
-
+        playerCanvasScript.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 8);
+        playerCanvasScript.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 21);
 
         //sets everything from global player settings
         playerScript.playerName = globalPlayerSettings.playerSettings[IDToSpawn].playerName;
