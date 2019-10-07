@@ -45,7 +45,7 @@ public class PlayerSpawnPoint : MonoBehaviour
     //}
 
 
-    public void SpawnCharacter(int IDToSpawn, Controller controller)
+    public void SpawnCharacter(int IDToSpawn, Controller controller, GlobalPlayerSettingsSO globalPlayerSettings, GameObject playerCanvas)
     {
 
         //TODO: change this from random to a choice  in GUI :D
@@ -62,23 +62,42 @@ public class PlayerSpawnPoint : MonoBehaviour
         go.name = "Player" + IDToSpawn;
         //go.transform.parent = transform;
 
+        //set stuff for player canvas
+        PlayerCanvasScript playerCanvasScript = Instantiate(playerCanvas).GetComponent<PlayerCanvasScript>();
+        playerCanvasScript.SetPlayerCanvas(globalPlayerSettings.playerSettings[IDToSpawn].PlayerCanvasSettings.hpFront,
+            globalPlayerSettings.playerSettings[IDToSpawn].PlayerCanvasSettings.hpBack, globalPlayerSettings.playerSettings[IDToSpawn].PlayerCanvasSettings.hpCriticalFlash,
+            playerScript);
 
         switch (facingDirection)
         {
             case FacingDirection.right:
                 go.transform.localScale *= 1;
+                playerCanvasScript.transform.localScale *= 1;
                 break;
             case FacingDirection.left:
                 go.transform.localScale = new Vector2(go.transform.localScale.x * -1, go.transform.localScale.y);
+                playerCanvasScript.transform.localScale =  new Vector2(playerCanvasScript.transform.localScale.x * -1, playerCanvasScript.transform.localScale.y);
                 break;
             default:
                 go.transform.localScale *= 1;
+                playerCanvasScript.transform.localScale *= 1;
                 break;
         }
 
-        playerScript.playerName = "Red Player";
-        playerScript.hexColorCode = "#666666";
+      
 
+        
+
+        //gives the canvas to the player
+        playerScript.playerCanvasScript = playerCanvasScript;
+
+
+        //sets everything from global player settings
+        playerScript.playerName = globalPlayerSettings.playerSettings[IDToSpawn].playerName;
+        playerScript.hexColorCode = globalPlayerSettings.playerSettings[IDToSpawn].playerColorHexCode;
+        playerScript.collisionLayer = globalPlayerSettings.playerSettings[IDToSpawn].CollisionLayer;
+        playerScript.playerColor = globalPlayerSettings.playerSettings[IDToSpawn].Color;
+        playerScript.deadColor = globalPlayerSettings.playerSettings[IDToSpawn].DeadColor;
     }
 
 }

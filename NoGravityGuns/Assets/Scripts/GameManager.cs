@@ -291,7 +291,7 @@ public class GameManager : MonoBehaviour
     }
 
     //every time somebody runs out of lives check if theres only 1 player left
-    public void CheckForLastManStanding(Transform playerWhoJustDied)
+    public void CheckForLastManStanding(Transform playerWhoJustDied, PlayerScript.DamageType damageType)
     {
         int leftAlive = 0;
 
@@ -304,7 +304,7 @@ public class GameManager : MonoBehaviour
         //last man standing, end the game!
         if (leftAlive == 1)
         {
-            cameraController.TrackFinalBlow(playerWhoJustDied, FinalBlowHoldTime);
+            cameraController.TrackFinalBlow(playerWhoJustDied, FinalBlowHoldTime, damageType);
         }
 
     }

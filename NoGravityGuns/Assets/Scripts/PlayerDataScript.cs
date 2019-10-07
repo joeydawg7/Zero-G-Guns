@@ -30,46 +30,15 @@ public class PlayerDataScript : MonoBehaviour
 
     public void SetPlayerInfoAfterRoundStart(PlayerControllerData playerControllerData, GlobalPlayerSettingsSO globalPlayerSettings)
     {
-        SetPlayer(playerControllerData, globalPlayerSettings);
-
-
-        //switch (playerID)
-        //{
-        //    case 1:
-        //        SetPlayer(GameManager.Instance.player1);
-        //        break;
-        //    case 2:
-        //        SetPlayer(GameManager.Instance.player2);
-        //        break;
-        //    case 3:
-        //        SetPlayer(GameManager.Instance.player3);
-        //        break;
-        //    case 4:
-        //        SetPlayer(GameManager.Instance.player4);
-        //        break;
-
-        //    default:
-        //        Debug.LogError("No ID set on initialilzation! This should never happen!");
-        //        break;
-        //}
-    }
-
-    void SetPlayer(PlayerControllerData playerControllerData, GlobalPlayerSettingsSO globalPlayerSettings)
-    {
-        //print(playerControllerData.ID);
-
         this.playerControllerData = playerControllerData;
         this.globalPlayerSettings = globalPlayerSettings;
-        //playerScript.hexColorCode = hexColorCode;
-        //playerScript.playerName = playerName;
 
         Debug.Log("player id in set :" + playerControllerData.ID + " controller: " + playerControllerData.controller.name);
-        
-        //playerScript.OnGameStart();
     }
 
+  
 
-    public void SpawnAtMatchingPoint()
+    public void SpawnAtMatchingPoint(GlobalPlayerSettingsSO globalPlayerSettings, GameObject playerCanvas)
     {
         Dictionary<int, PlayerSpawnPoint> playerSpawnPoints = globalPlayerSettings.GetAllPlayerSpawnPoints();
 
@@ -77,8 +46,9 @@ public class PlayerDataScript : MonoBehaviour
         print(playerControllerData.controller.name);
 
         if (playerSpawnPoints[playerControllerData.ID] != null)
-            playerSpawnPoints[playerControllerData.ID].SpawnCharacter(playerControllerData.ID, playerControllerData.controller);
+            playerSpawnPoints[playerControllerData.ID].SpawnCharacter(playerControllerData.ID, playerControllerData.controller, globalPlayerSettings, playerCanvas);
         else
             Debug.LogError("ID " + " not found!");
+
     }
 }

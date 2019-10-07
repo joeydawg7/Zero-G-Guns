@@ -34,45 +34,27 @@ public class PlayerUIPanel : MonoBehaviour
         gameManager = GameManager.Instance;
     }
 
-    public void setAll(float fillDamage, string statusMsg, string gunMsg, Color32 color, Sprite healthbar)
-    {
-        gameObject.SetActive(true);
+    //public void setAll(float fillDamage, string statusMsg, string gunMsg, Color32 color, Sprite healthbar)
+    //{
+    //    gameObject.SetActive(true);
 
-        animator = GetComponent<Animator>();
-        gameManager = GameManager.Instance;
-        setHealth(fillDamage);
-        //SetGunText(statusMsg);
-        SetAmmoText(gunMsg, 1f);
-        //kills.text = "0";
-        foreach (var text in GetComponentsInChildren<TextMeshProUGUI>())
-        {
-            text.color = color;
-        }
+    //    animator = GetComponent<Animator>();
+    //    gameManager = GameManager.Instance;
+    //    setHealth(fillDamage);
+    //    //SetGunText(statusMsg);
+    //    SetAmmoText(gunMsg, 1f);
+    //    //kills.text = "0";
+    //    foreach (var text in GetComponentsInChildren<TextMeshProUGUI>())
+    //    {
+    //        text.color = color;
+    //    }
 
-        //this.playerPortrait.sprite = playerPortrait;
-        this.playerHealthBar.sprite = healthbar;
-        //this.playerUILayout = transform.parent.GetComponent<GridLayoutGroup>();
+    //    //this.playerPortrait.sprite = playerPortrait;
+    //    this.playerHealthBar.sprite = healthbar;
+    //    //this.playerUILayout = transform.parent.GetComponent<GridLayoutGroup>();
 
-    }
-    public void setHealth(float fillDamage)
-    {
-        fillAmount = fillDamage;
-
-
-        if (GameManager.Instance.isGameStarted)
-        {
-            if (fillDamage <= 0.3f)
-            {
-                animator.SetBool("isHPCritical", true);
-            }
-            else
-            {
-                animator.SetBool("isHPCritical", false);
-            }
-
-            animator.SetTrigger("takeDamage");
-        }
-    }
+    //}
+   
     //public void SetKills(int kills)
     //{
     //   // this.kills.text = kills.ToString();

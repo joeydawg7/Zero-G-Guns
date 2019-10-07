@@ -5,23 +5,50 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "GlobalPlayerSettings", menuName = "ScriptableObjects/Managers/GlobalPlayerSettings", order = 2)]
 public class GlobalPlayerSettingsSO : ScriptableObject
 {
-    public Color32 player1Color;
-    public Color32 player2Color;
-    public Color32 player3Color;
-    public Color32 player4Color;
+    [System.Serializable]
+    public class PlayerSettings
+    {
+        public int ID;
+        public string playerName;
+        public Color32 Color;
+        public string playerColorHexCode;
+        public Color32 DeadColor;
+        public int CollisionLayer;
+        public PlayerCanvasSettings PlayerCanvasSettings;
+    }
 
-    public Color32 player1DeadColor;
-    public Color32 player2DeadColor;
-    public Color32 player3DeadColor;
-    public Color32 player4DeadColor;
-
-    public int player1CollisionLayer;
-    public int player2CollisionLayer;
-    public int player3CollisionLayer;
-    public int player4CollisionLayer;
+    [System.Serializable]
+    public class PlayerCanvasSettings
+    {
+        public Sprite hpFront;
+        public Sprite hpBack;
+        public Sprite hpCriticalFlash;
+    }
 
 
+    public PlayerSettings[] playerSettings = new PlayerSettings[4];
 
+    public void SortPlayerSettings()
+    {
+        //sort all playersettings to align with ID
+        for (int j = 0; j <= playerSettings.Length - 2; j++)
+        {
+            for (int i = 0; i <= playerSettings.Length - 2; i++)
+            {
+                if (playerSettings[i].ID > playerSettings[i + 1].ID)
+                {
+                    PlayerSettings temp = playerSettings[i + 1];
+                    playerSettings[i + 1] = playerSettings[i];
+                    playerSettings[i] = temp;
+                }
+            }
+        }
+
+        //foreach (var item in playerSettings)
+        //{
+            //Debug.Log(item.ID);
+        //}
+    }
 
     public Dictionary<int, PlayerSpawnPoint> GetAllPlayerSpawnPoints()
     {
@@ -39,3 +66,4 @@ public class GlobalPlayerSettingsSO : ScriptableObject
         return temp;
     }
 }
+

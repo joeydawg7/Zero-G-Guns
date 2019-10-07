@@ -27,7 +27,6 @@ public class JoiningPlayerScript : MonoBehaviour
     //public Color32 p3Color;
     //public Color32 p4Color;
 
-    public GlobalPlayerSettingsSO GlobalPlayerSettings;
 
     public Color32 emptySlotColor;
 
@@ -46,6 +45,8 @@ public class JoiningPlayerScript : MonoBehaviour
 
     Dictionary<int, PlayerControllerData> playerControllerDataDictionary;
 
+    public GameObject playerCanvas;
+
     private void Awake()
     {
         tipToStart.alpha = 0;
@@ -62,6 +63,8 @@ public class JoiningPlayerScript : MonoBehaviour
 
     void Start()
     {
+
+
         if (!RoundManager.Instance.finishedControllerSetup)
         {
             gameObject.SetActive(true);
@@ -74,6 +77,7 @@ public class JoiningPlayerScript : MonoBehaviour
             if (RoundManager.Instance.currentRound == 0)
                 RoundManager.Instance.NewRound(false);
         }
+
     }
 
     void OnControllerConnected(ControllerStatusChangedEventArgs args)
@@ -306,12 +310,12 @@ public class JoiningPlayerScript : MonoBehaviour
     public void OnGameStart()
     {
 
-        Debug.Log(playerControllerDataDictionary.Count);
+        //Debug.Log(playerControllerDataDictionary.Count);
 
         for (int i = 0; i < playerControllerDataDictionary.Count; i++)
         {
             Debug.Log("controller: " + playerControllerDataDictionary[i].controller.name);
-            RoundManager.Instance.SpawnPlayerManager(playerControllerDataDictionary[i], GlobalPlayerSettings);
+            RoundManager.Instance.SpawnPlayerManager(playerControllerDataDictionary[i]);
         }
 
         gameObject.SetActive(false);

@@ -12,31 +12,64 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b7569f1e419f554a8294be68f1be750, type: 3}
   m_Name: GlobalPlayerSettings
   m_EditorClassIdentifier: 
-  player1Color:
-    serializedVersion: 2
-    rgba: 0
-  player2Color:
-    serializedVersion: 2
-    rgba: 0
-  player3Color:
-    serializedVersion: 2
-    rgba: 0
-  player4Color:
-    serializedVersion: 2
-    rgba: 0
-  player1DeadColor:
-    serializedVersion: 2
-    rgba: 0
-  player2DeadColor:
-    serializedVersion: 2
-    rgba: 0
-  player3DeadColor:
-    serializedVersion: 2
-    rgba: 0
-  player4DeadColor:
-    serializedVersion: 2
-    rgba: 0
-  player1CollisionLayer: 19
-  player2CollisionLayer: 20
-  player3CollisionLayer: 21
-  player4CollisionLayer: 22
+  playerSettings:
+  - ID: 0
+    playerName: Player1
+    Color:
+      serializedVersion: 2
+      rgba: 4281283761
+    playerColorHexCode: B1342F
+    DeadColor:
+      serializedVersion: 2
+      rgba: 1680815281
+    CollisionLayer: 19
+    PlayerCanvasSettings:
+      hpFront: {fileID: 21300000, guid: 6084eafb9b073dd439ade79db015f81b, type: 3}
+      hpBack: {fileID: 21300000, guid: 6babac5bdf48bae4dba3e124788cc479, type: 3}
+      hpCriticalFlash: {fileID: 21300000, guid: ab25d7b64591bec439d16481a7e2c8ad,
+        type: 3}
+  - ID: 1
+    playerName: Player2
+    Color:
+      serializedVersion: 2
+      rgba: 4290936364
+    playerColorHexCode: 2C7EC2
+    DeadColor:
+      serializedVersion: 2
+      rgba: 1690467884
+    CollisionLayer: 20
+    PlayerCanvasSettings:
+      hpFront: {fileID: 21300000, guid: 36ff10dfd2668d440baca3258a92317a, type: 3}
+      hpBack: {fileID: 21300000, guid: 0d56ab40b0a59174a989aad44fc69d2f, type: 3}
+      hpCriticalFlash: {fileID: 21300000, guid: 2cac5e1013dc21748b59e0ebd5a731cb,
+        type: 3}
+  - ID: 2
+    playerName: Player3
+    Color:
+      serializedVersion: 2
+      rgba: 4280204307
+    playerColorHexCode: 13BC1E
+    DeadColor:
+      serializedVersion: 2
+      rgba: 1679735827
+    CollisionLayer: 21
+    PlayerCanvasSettings:
+      hpFront: {fileID: 21300000, guid: 05aaa551f9f934844a7b8174fc93f8b5, type: 3}
+      hpBack: {fileID: 21300000, guid: 5c71bea0f88f5f844b6bd363706305dc, type: 3}
+      hpCriticalFlash: {fileID: 21300000, guid: 3a7fd3c53ae99f64f9123f0b5e92ca90,
+        type: 3}
+  - ID: 3
+    playerName: Player4
+    Color:
+      serializedVersion: 2
+      rgba: 4278377962
+    playerColorHexCode: EADD02
+    DeadColor:
+      serializedVersion: 2
+      rgba: 1677909482
+    CollisionLayer: 22
+    PlayerCanvasSettings:
+      hpFront: {fileID: 21300000, guid: a7f4ec1b01687dc43b4f804bd9a2ca02, type: 3}
+      hpBack: {fileID: 21300000, guid: 1badaa109b2c6ec4d8e29dc9c97416ae, type: 3}
+      hpCriticalFlash: {fileID: 21300000, guid: 4c79b9e91dedc284f9ea921654b30fe7,
+        type: 3}

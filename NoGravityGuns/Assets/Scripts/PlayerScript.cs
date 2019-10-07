@@ -12,25 +12,20 @@ public class PlayerScript : MonoBehaviour
 {
     //Variables
     #region publics
-    [Header("Debug")]
-    //If true treats the player as a dummy to be shot... for testing only :D
 
     [Header("Health and Lives")]
     public int health;
     public int numLives;
 
-    [Header("Gui")]
-    public PlayerUIPanel playerUIPanel;
-    public Transform floatingTextSpawnPoint;
+    public PlayerCanvasScript playerCanvasScript;
+    [HideInInspector]
     public Color32 playerColor;
+    [HideInInspector]
     public Color32 deadColor;
-    //public Sprite playerHead;
-    //public Sprite playerPortrait;
-    public Sprite healthBar;
+    [HideInInspector]
     public int collisionLayer;
-    //public Sprite killTag;
 
-    [Header("Controller Stuff")]
+    [HideInInspector]
     public int playerID;
     public Player player;
     public Controller controller;
@@ -58,12 +53,12 @@ public class PlayerScript : MonoBehaviour
         get { return _roundWins; }
     }
 
-    [Header("Particle Effects")]
-    public ParticleSystem HS_Flash;
-    public ParticleSystem HS_Streaks;
-    public ParticleSystem respawnFlash;
-    public ParticleSystem respawnBits;
-    TrailRenderer trail;
+    //[Header("Particle Effects")]
+    //public ParticleSystem HS_Flash;
+    //public ParticleSystem HS_Streaks;
+    //public ParticleSystem respawnFlash;
+    //public ParticleSystem respawnBits;
+    //TrailRenderer trail;
     #endregion
     #region Audio
 
@@ -134,8 +129,8 @@ public class PlayerScript : MonoBehaviour
         //{
         //    legFixers.Add(child.GetComponent<LegFixer>());
         //}
-        //torsoSR = gameObject.transform.root.GetComponent<SpriteRenderer>();
-        //armsSR = gameObject.GetComponentsInChildren<SpriteRenderer>();
+        torsoSR = gameObject.transform.root.GetComponent<SpriteRenderer>();
+        armsSR = gameObject.GetComponentsInChildren<SpriteRenderer>();
         //torsoSR.color = playerColor;
         //defaultColor = torsoSR.color;
 
@@ -155,11 +150,11 @@ public class PlayerScript : MonoBehaviour
         //trail.emitting = false;
         gameManager = GameManager.Instance;
 
-        if (playerUIPanel == null)
-            Debug.LogError("No UI Panel Set");
+        //if (playerUIPanel == null)
+        //    Debug.LogError("No UI Panel Set");
 
-        if (floatingTextSpawnPoint == null)
-            Debug.LogError("No floating text spawn point set!");
+        //if (floatingTextSpawnPoint == null)
+        //    Debug.LogError("No floating text spawn point set!");
         lastHitDamageType = DamageType.self;
 
 
@@ -198,9 +193,8 @@ public class PlayerScript : MonoBehaviour
     #region Input Handler Functions
     public void OnDrop()
     {
-        if (gameManager.isGameStarted && player.GetButtonDown("Drop"))
+        if (gameManager.isGameStarted && player.GetButtonDown("Drop") && !isDead)
         {
-            Debug.Log(gameObject.name + " tried to drop");
             armsScript.EquipGun(GameManager.Instance.pistol);
         }
     }
@@ -291,34 +285,27 @@ public class PlayerScript : MonoBehaviour
             health -= (int)damage;
             health = Mathf.Clamp(health, 0, 100);
             float barVal = ((float)health / 100f);
-            playerUIPanel.setHealth(barVal);
+            playerCanvasScript.setHealth(barVal);
 
             if (health <= 0)
             {
-                //add a kill to whoever shot you, show it in GUI... as long as its not you
+                //add a kill to whoever shot you, as long as its not you
                 if (playerLastHitBy != null && playerLastHitBy != this)
                 {
                     playerLastHitBy.numKills++;
                     //playerLastHitBy.playerUIPanel.SetKills(playerLastHitBy.numKills);
-                    playerLastHitBy.playerUIPanel.AddKill(this);
+                    //playerLastHitBy.playerUIPanel.AddKill(this);
                 }
                 //reduce points if you kill yourself
                 else if (playerLastHitBy != null && playerLastHitBy == this)
                 {
                     playerLastHitBy.numKills--;
-                    playerLastHitBy.playerUIPanel.AddKill(this);
+                    //playerLastHitBy.playerUIPanel.AddKill(this);
                 }
-
-                //if (gameManager.dataManager.AllowWriteToFile)
-                //SaveDamageData(PlayerWhoShotYou.armsScript.currentWeapon, Mathf.RoundToInt(damage), true, PlayerWhoShotYou);
-
+                
                 Die(damageType);
             }
-            else
-            {
-                //if (gameManager.dataManager.AllowWriteToFile)
-                //SaveDamageData(PlayerWhoShotYou.armsScript.currentWeapon, Mathf.RoundToInt(damage), false, PlayerWhoShotYou);
-            }
+
         }
     }
 
@@ -378,7 +365,7 @@ public class PlayerScript : MonoBehaviour
     #endregion
 
     #region Die and respawn
-    public PlayerScript Die(DamageType damgaeType)
+    public PlayerScript Die(DamageType damageType)
     {
         //cant die if yer dead
         if (!isDead)
@@ -392,14 +379,14 @@ public class PlayerScript : MonoBehaviour
 
             numLives--;
 
-            playerUIPanel.LoseStock();
+            //playerUIPanel.LoseStock();
 
             if (numLives <= 0)
             {
-                playerUIPanel.Disable();
+                //playerUIPanel.Disable();
 
-                playerUIPanel.Destroy();
-                //GameManager.Instance.CheckForLastManStanding(transform);
+                //playerCanvasScript.Destroy();
+                GameManager.Instance.CheckForLastManStanding(transform, damageType);
                 
             }
             // armsSR = armsScript.currentArms.GetComponent<SpriteRenderer>();
@@ -419,7 +406,7 @@ public class PlayerScript : MonoBehaviour
 
             if (numLives > 0)
                 StartCoroutine(WaitForRespawn());
-            lastHitDamageType = damgaeType;           
+            lastHitDamageType = damageType;           
         }
             
         return this;
@@ -428,11 +415,11 @@ public class PlayerScript : MonoBehaviour
     IEnumerator WaitForRespawn()
     {
         lastHitDamageType = DamageType.self;
-        playerUIPanel.SetAmmoText("3...", 1);
+        //playerUIPanel.SetAmmoText("3...", 1);
         yield return new WaitForSeconds(1f);
-        playerUIPanel.SetAmmoText("2...", 1);
+        //playerUIPanel.SetAmmoText("2...", 1);
         yield return new WaitForSeconds(1f);
-        playerUIPanel.SetAmmoText("1...", 1);
+       // playerUIPanel.SetAmmoText("1...", 1);
         yield return new WaitForSeconds(1f);
 
         //turn of rigidbody so we dont get some crazy momentum from force moving
@@ -442,13 +429,13 @@ public class PlayerScript : MonoBehaviour
         rb.isKinematic = false;
 
         //emit those PFX
-        var mainFlash = respawnFlash.main;
-        var mainBits = respawnBits.main;
-        Color c = playerColor;
-        mainFlash.startColor = c;
-        mainBits.startColor = c;
-        respawnFlash.Emit(1);
-        respawnBits.Emit(Random.Range(15, 30));
+        //var mainFlash = respawnFlash.main;
+        //var mainBits = respawnBits.main;
+        //Color c = playerColor;
+        //mainFlash.startColor = c;
+        //mainBits.startColor = c;
+        //respawnFlash.Emit(1);
+        //respawnBits.Emit(Random.Range(15, 30));
 
         ForcePushOnSpawn();
 
@@ -462,7 +449,7 @@ public class PlayerScript : MonoBehaviour
         audioSource.PlayOneShot(respawnClip);
 
 
-        playerUIPanel.setHealth(barVal);
+        playerCanvasScript.setHealth(barVal);
 
         isDead = false;
         //last thing you were hit by set back to world, just in case you suicide without help
@@ -490,7 +477,7 @@ public class PlayerScript : MonoBehaviour
 
         }
 
-        armsScript.SendGunText();
+        //armsScript.SendGunText();
 
         StartCoroutine(RespawnInvulernability());
 
@@ -657,7 +644,7 @@ public class PlayerScript : MonoBehaviour
     {
         health = 100;
         float barVal = ((float)health / 100f);
-        playerUIPanel.setHealth(barVal);
+        playerCanvasScript.setHealth(barVal);
         isDead = false;
         numKills = 0;
 
@@ -844,7 +831,9 @@ public class PlayerScript : MonoBehaviour
         }
 
         //if we're not adding to an old damage text, we need to spawn a new one form a pool
-        GameObject floatingTextGo = ObjectPooler.Instance.SpawnFromPool("FloatingText", floatingTextSpawnPoint.transform.position, Quaternion.identity, floatingTextSpawnPoint);
+        GameObject floatingTextGo = ObjectPooler.Instance.SpawnFromPool("FloatingText", playerCanvasScript.floatingDamageTextSpawnPoint.transform.position, Quaternion.identity,
+            playerCanvasScript.floatingDamageTextSpawnPoint);
+        floatingTextGo.SetActive(true);
         floatingTextGo.transform.localPosition = new Vector3(0, 0, 0);
         floatingTextGo.transform.localScale = new Vector3(1, 1, 1);
         TextMeshProUGUI floatTxt = floatingTextGo.GetComponent<TextMeshProUGUI>();

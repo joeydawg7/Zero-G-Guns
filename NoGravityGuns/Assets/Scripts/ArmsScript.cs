@@ -150,7 +150,7 @@ public class ArmsScript : MonoBehaviour
     private void OnDrawGizmos()
     {
 
-        if (showAimingVector && GameManager.Instance.debugManager.useDebugSettings)
+        if (showAimingVector)
         {
             Gizmos.color = Color.magenta;
             // DrawHelperAtCenter(shootDir, Color.red, 1f);
@@ -212,7 +212,7 @@ public class ArmsScript : MonoBehaviour
         //find the new bulelt spawn location (bleh)
         bulletSpawn = gunGo.transform.Find("BulletSpawner");
         //update UI
-        SendGunText();
+        //SendGunText();
     }
 
     void HideAllGuns()
@@ -263,16 +263,16 @@ public class ArmsScript : MonoBehaviour
         return currentAmmo + "/" + currentWeapon.clipSize + " (" + ((totalBulletsGunCanLoad < 2000) ? totalBulletsGunCanLoad.ToString() : "\u221E") + ")";
     }
 
-    public void SendGunText()
-    {
-        basePlayer.playerUIPanel.SetGunText(currentWeapon);
-        basePlayer.playerUIPanel.SetAmmoText(AmmoText(), ((float)currentAmmo / (float)currentWeapon.clipSize));
-    }
+    //public void SendGunText()
+    //{
+    //    basePlayer.playerUIPanel.SetGunText(currentWeapon);
+    //    basePlayer.playerUIPanel.SetAmmoText(AmmoText(), ((float)currentAmmo / (float)currentWeapon.clipSize));
+    //}
 
-    public void SendGunText(string s)
-    {
-        basePlayer.playerUIPanel.SetAmmoText(s, ((float)currentAmmo / (float)currentWeapon.clipSize));
-    }
+    //public void SendGunText(string s)
+    //{
+    //    basePlayer.playerUIPanel.SetAmmoText(s, ((float)currentAmmo / (float)currentWeapon.clipSize));
+    //}
     #endregion
 
     #region Helpers
