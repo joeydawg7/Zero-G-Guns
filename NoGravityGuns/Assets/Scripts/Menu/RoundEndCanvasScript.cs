@@ -99,12 +99,12 @@ public class RoundEndCanvasScript : MonoBehaviour
         //this seems to only come up on collision damage
         else if (damageType == PlayerScript.DamageType.self)
         {
-            options = new[] { "They hit something too hard", "Smack!", "They left a small crater" };
+            options = new[] { "Whoo buddy slow down", "Smack!", "They left a small crater" , "No need to rush" };
 
         }
         else if (damageType == PlayerScript.DamageType.explosive)
         {
-            options = new[] { "BOOM baby!", "They blew up!", "Explosive!" };
+            options = new[] { "BOOM baby!", "Kablowie!", "Explosive!" , "Boom da boom" };
         }
         else
         {
