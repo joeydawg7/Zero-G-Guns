@@ -121,7 +121,7 @@ public class WeaponPad : MonoBehaviour
             PlayerScript player = collision.transform.root.GetComponentInChildren<PlayerScript>();
 
             //they dead we dont need to deal with this crap
-            if (player.isDead)
+            if (player.isDead  || Time.timeScale < 1)
                 return;
 
             if (!player.audioSource.isPlaying)

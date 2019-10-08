@@ -361,6 +361,8 @@ public class PlayerScript : MonoBehaviour
 
             numLives--;
 
+            
+
             //playerUIPanel.LoseStock();
 
             if (numLives <= 0)
@@ -372,8 +374,10 @@ public class PlayerScript : MonoBehaviour
 
             }
             // armsSR = armsScript.currentArms.GetComponent<SpriteRenderer>();
-
+            
             torsoSR.color = deadColor;
+           
+            
             foreach (var SR in armsSR)
             {
                 SR.color = deadColor;
@@ -389,6 +393,7 @@ public class PlayerScript : MonoBehaviour
             if (numLives > 0)
                 StartCoroutine(WaitForRespawn());
             lastHitDamageType = damageType;
+            playerCanvasScript.gameObject.SetActive(false);
         }
 
         return this;
@@ -409,7 +414,7 @@ public class PlayerScript : MonoBehaviour
         transform.position = spawnPoint;
         transform.rotation = spawnRotation;
         rb.isKinematic = false;
-
+        
         //emit those PFX
         //var mainFlash = respawnFlash.main;
         //var mainBits = respawnBits.main;
@@ -430,8 +435,9 @@ public class PlayerScript : MonoBehaviour
         float barVal = ((float)health / 100f);
         audioSource.PlayOneShot(respawnClip);
 
-
+        playerCanvasScript.gameObject.SetActive(true);
         playerCanvasScript.setHealth(barVal);
+
 
         isDead = false;
         //last thing you were hit by set back to world, just in case you suicide without help
