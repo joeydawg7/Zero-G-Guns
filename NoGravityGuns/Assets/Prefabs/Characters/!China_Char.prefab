@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 627699804}
   - component: {fileID: 627699805}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: teamVisorBlue
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -90,7 +90,7 @@ GameObject:
   m_Component:
   - component: {fileID: 919420575}
   - component: {fileID: 919420576}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: teamVisorRed
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -170,7 +170,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1657281335}
   - component: {fileID: 1657281336}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: teamVisorGreen
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -250,7 +250,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1839575308}
   - component: {fileID: 1839575309}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: teamVisorYellow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -503,6 +503,8 @@ MonoBehaviour:
   isDead: 0
   isInvulnerable: 0
   armsScript: {fileID: 6618733368466825844}
+  leftLegHinge: {fileID: 0}
+  rightLegHinge: {fileID: 0}
   spawnPoint: {x: 0, y: 0, z: 0}
   invulnerabilityColorFlash:
     serializedVersion: 2
@@ -558,7 +560,7 @@ GameObject:
   - component: {fileID: 6618733368466825880}
   - component: {fileID: 6618733368466825862}
   - component: {fileID: 2126276076}
-  m_Layer: 13
+  m_Layer: 16
   m_Name: lowerRightLegBone
   m_TagString: Leg
   m_Icon: {fileID: 0}
@@ -689,7 +691,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6618733367111417906}
   - component: {fileID: 6618733367111417907}
-  m_Layer: 13
+  m_Layer: 16
   m_Name: backHandSolver
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -752,7 +754,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6618733367150440669}
-  m_Layer: 13
+  m_Layer: 16
   m_Name: frontUpperArmBone
   m_TagString: Arms
   m_Icon: {fileID: 0}
@@ -766,7 +768,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6618733367150440668}
-  m_LocalRotation: {x: 0, y: 0, z: -0.7646928, w: 0.644395}
+  m_LocalRotation: {x: 0, y: 0, z: -0.76469284, w: 0.644395}
   m_LocalPosition: {x: 1.4202498, y: 5.5776463, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -788,7 +790,7 @@ GameObject:
   - component: {fileID: 6618733368466825879}
   - component: {fileID: 6618733368466825860}
   - component: {fileID: 2122056150}
-  m_Layer: 13
+  m_Layer: 16
   m_Name: rightFootBone
   m_TagString: Feet
   m_Icon: {fileID: 0}
@@ -907,7 +909,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6618733367531802912}
-  m_Layer: 13
+  m_Layer: 16
   m_Name: backHandSolver_Target
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -938,7 +940,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6618733367576289504}
   - component: {fileID: 6618733367576289505}
-  m_Layer: 13
+  m_Layer: 16
   m_Name: CA_forearm
   m_TagString: Arms
   m_Icon: {fileID: 0}
@@ -1101,7 +1103,7 @@ GameObject:
   - component: {fileID: 6618733368466825872}
   - component: {fileID: 6618733368466825864}
   - component: {fileID: 386054157}
-  m_Layer: 13
+  m_Layer: 16
   m_Name: upperLegRightBone
   m_TagString: Leg
   m_Icon: {fileID: 0}
@@ -1230,7 +1232,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6618733367923125351}
-  m_Layer: 13
+  m_Layer: 16
   m_Name: backHandBone
   m_TagString: Arms
   m_Icon: {fileID: 0}
@@ -1244,7 +1246,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6618733367923125350}
-  m_LocalRotation: {x: 4.6170197e-14, y: -2.9586166e-14, z: -0.3763232, w: -0.9264885}
+  m_LocalRotation: {x: 4.6170207e-14, y: -2.9586173e-14, z: -0.37632334, w: -0.92648846}
   m_LocalPosition: {x: 2.9746165, y: 0.067423224, z: 0}
   m_LocalScale: {x: 0.9, y: 0.9, z: 1}
   m_Children: []
@@ -1261,7 +1263,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6618733367951493278}
   - component: {fileID: 6618733367951493279}
-  m_Layer: 13
+  m_Layer: 16
   m_Name: CA_Hand
   m_TagString: Arms
   m_Icon: {fileID: 0}
@@ -1584,7 +1586,7 @@ GameObject:
   - component: {fileID: 6618733368466825878}
   - component: {fileID: 6618733368466825858}
   - component: {fileID: 1000975633}
-  m_Layer: 13
+  m_Layer: 16
   m_Name: headBone
   m_TagString: Head
   m_Icon: {fileID: 0}
@@ -1716,7 +1718,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6618733368401359372}
-  m_Layer: 13
+  m_Layer: 16
   m_Name: backUpperArmBone
   m_TagString: Arms
   m_Icon: {fileID: 0}
@@ -1730,7 +1732,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6618733368401359375}
-  m_LocalRotation: {x: 0, y: 0, z: -0.58969086, w: 0.80762905}
+  m_LocalRotation: {x: 0, y: 0, z: -0.5896929, w: 0.8076275}
   m_LocalPosition: {x: -1.59626, y: 5.453014, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -1751,7 +1753,7 @@ GameObject:
   - component: {fileID: 6618733368466825876}
   - component: {fileID: 6618733368466825854}
   - component: {fileID: 817673159}
-  m_Layer: 13
+  m_Layer: 16
   m_Name: lowerLegLeftBone
   m_TagString: Leg
   m_Icon: {fileID: 0}
@@ -1883,7 +1885,7 @@ GameObject:
   - component: {fileID: 6618733368466825869}
   - component: {fileID: 6618733368466825856}
   - component: {fileID: 2120015805}
-  m_Layer: 13
+  m_Layer: 16
   m_Name: upperLegLeftBone
   m_TagString: Leg
   m_Icon: {fileID: 0}
@@ -2011,7 +2013,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6618733368571811577}
   - component: {fileID: 6618733368571811574}
-  m_Layer: 13
+  m_Layer: 16
   m_Name: CA_upperArm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2090,7 +2092,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6618733368635729437}
-  m_Layer: 13
+  m_Layer: 16
   m_Name: backForearmBone
   m_TagString: Arms
   m_Icon: {fileID: 0}
@@ -2104,7 +2106,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6618733368635729436}
-  m_LocalRotation: {x: -1.6460911e-14, y: 1.559367e-14, z: 0.70399845, w: -0.71020156}
+  m_LocalRotation: {x: -1.646095e-14, y: 1.5593628e-14, z: 0.7039966, w: -0.71020335}
   m_LocalPosition: {x: 2.07603, y: 0.002759099, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -2125,7 +2127,7 @@ GameObject:
   - component: {fileID: 6618733368466825875}
   - component: {fileID: 6618733368466825852}
   - component: {fileID: 166292085}
-  m_Layer: 13
+  m_Layer: 16
   m_Name: leftFootBone
   m_TagString: Feet
   m_Icon: {fileID: 0}
@@ -2243,7 +2245,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6618733368938515297}
-  m_Layer: 13
+  m_Layer: 16
   m_Name: frontForeArmBone
   m_TagString: Arms
   m_Icon: {fileID: 0}
@@ -2257,7 +2259,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6618733368938515296}
-  m_LocalRotation: {x: 0, y: 0, z: -0.6421841, w: 0.7665505}
+  m_LocalRotation: {x: 0, y: 0, z: -0.6421839, w: 0.76655066}
   m_LocalPosition: {x: 2.2220557, y: -0.021204561, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -2275,7 +2277,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6618733368957391394}
-  m_Layer: 13
+  m_Layer: 16
   m_Name: frontHandBone
   m_TagString: Arms
   m_Icon: {fileID: 0}
@@ -2311,7 +2313,7 @@ GameObject:
   - component: {fileID: 769758489}
   - component: {fileID: 769758490}
   - component: {fileID: 1709830365}
-  m_Layer: 13
+  m_Layer: 16
   m_Name: hipBone
   m_TagString: Torso
   m_Icon: {fileID: 0}
