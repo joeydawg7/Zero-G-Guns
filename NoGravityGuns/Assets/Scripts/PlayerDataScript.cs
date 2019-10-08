@@ -42,8 +42,10 @@ public class PlayerDataScript : MonoBehaviour
     {
         Dictionary<int, PlayerSpawnPoint> playerSpawnPoints = globalPlayerSettings.GetAllPlayerSpawnPoints();
 
-        Debug.Log(playerControllerData.ID);
         print(playerControllerData.controller.name);
+
+        playerName = globalPlayerSettings.playerSettings[playerControllerData.ID].playerName;
+        hexColorCode = globalPlayerSettings.playerSettings[playerControllerData.ID].playerColorHexCode;
 
         if (playerSpawnPoints[playerControllerData.ID] != null)
             playerSpawnPoints[playerControllerData.ID].SpawnCharacter(playerControllerData.ID, playerControllerData.controller, globalPlayerSettings, playerCanvas);

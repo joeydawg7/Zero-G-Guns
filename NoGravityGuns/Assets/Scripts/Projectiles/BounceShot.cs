@@ -4,14 +4,18 @@ using UnityEngine;
 
 public class BounceShot : Bullet
 {
-    bool canBounce;
+    public int maxBounces = 2;
+    int bounces;
+
+    Vector2 dir;
 
     public override void Construct(float damage, PlayerScript player, Vector3 dir, Color32 color, GunSO gun)
     {
         base.Construct(damage, player, dir, color, gun);
 
-        canBounce = true;
+        bounces = 0;
 
+        this.dir = dir;
         SetPFXTrail("RocketTrail", true);
 
     }
@@ -38,14 +42,22 @@ public class BounceShot : Bullet
 
                 //default damage type is nothing, we don't know what we hit yet.
                 PlayerScript.DamageType dmgType = DamageBodyParts(collision);
-                SpawnSparkEffect();
 
-                canImapact = false;
+                //hit a player so stop bouncing
+                if (dmgType != PlayerScript.DamageType.self)
+                {
+                    bounces = int.MaxValue;
+                    canImapact = false;
+                }
+
+                Debug.Log(bounces);
+
+                SpawnSparkEffect();
             }
         }
 
         //only bounce if you are a railgun bullet that hasnt hit a player, and only do it once. 
-        if (canBounce == false)
+        if (bounces >=maxBounces)
         {
             canImapact = false;
             KillBullet();
@@ -59,10 +71,14 @@ public class BounceShot : Bullet
         //}
         else
         {
-            canBounce = false;
+            bounces++;
         }
 
-        rb.AddForce(Reflect(startingForce, collision.GetContact(0).normal));
+
+        //Vector2 v =  Vector2.Reflect(rb.velocity, collision.GetContact(0).normal);
+       // float rot = 90 - Mathf.Atan2(v.z, v.x) * Mathf.Rad2Deg;
+      //  transform.eulerAngles = new Vector3(0, 0, rot);
+      //  rb.AddForce(v, ForceMode2D.Impulse);
 
     }
 
@@ -80,30 +96,30 @@ public class BounceShot : Bullet
         if (collision.collider.tag == "Torso")
         {
             dmgType = PlayerScript.DamageType.torso;
-            hitPlayerScript.TakeDamage(damage, dmgType, player, true);
+            hitPlayerScript.TakeDamage(damage,dir, dmgType, player, true);
             //collision.transform.GetComponentInChildren<ParticleSystem>().Emit(30);
             GetComponent<Collider2D>().enabled = false;
         }
         if (collision.collider.tag == "Head")
         {
             dmgType = PlayerScript.DamageType.head;
-            hitPlayerScript.TakeDamage(damage, dmgType, player, true);
+            hitPlayerScript.TakeDamage(damage, dir, dmgType, player, true);
             GetComponent<Collider2D>().enabled = false;
         }
         if (collision.collider.tag == "Feet")
         {
             dmgType = PlayerScript.DamageType.feet;
-            hitPlayerScript.TakeDamage(damage, dmgType, player, true);     
+            hitPlayerScript.TakeDamage(damage, dir, dmgType, player, true);     
             GetComponent<Collider2D>().enabled = false;
         }
         if (collision.collider.tag == "Leg")
         {
             dmgType = PlayerScript.DamageType.legs;
-            hitPlayerScript.TakeDamage(damage, dmgType, player, true);
+            hitPlayerScript.TakeDamage(damage, dir, dmgType, player, true);
             GetComponent<Collider2D>().enabled = false;
         }
 
-        canBounce = false;
+        
 
         return dmgType;
     }

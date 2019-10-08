@@ -44,7 +44,7 @@ public class RoundEndCanvasScript : MonoBehaviour
 
         PlayerScript playerWhoWasHitScript = playerWhoWasHit.gameObject.GetComponent<PlayerScript>();
 
-        
+
         if (playerWhoWasHitScript.playerLastHitBy)
         {
             looserTextString = GetWittyCommentOnLastHitPoint(damageType);
@@ -73,46 +73,46 @@ public class RoundEndCanvasScript : MonoBehaviour
     public string GetWittyCommentOnLastHitPoint(PlayerScript.DamageType damageType)
     {
         string wit = string.Empty;
+        string[] options = new[] { "Error! emptyString!" };
 
-        //if (damageType == PlayerScript.DamageType.none)
-        //{
-
-        //    string[] options = new[] { "Act of God", "Wha...happened", "Huh...what the what?", "Don't ask me", "Your guess is as good as ours" };
-        //    int r = Random.Range(0, options.Length - 1);
-        //    wit = options[r];
-        //}
-        /*else*/
         if (damageType == PlayerScript.DamageType.head)
         {
 
-            string[] options = new[] { "In the face!", "Oh his brain", "Helmets only do so much", "Bullets and your head a deadly combination" };
-            int r = Random.Range(0, options.Length - 1);
-            wit = options[r];
+            options = new[] { "In the face!", "Oh his brain", "Helmets only do so much", "Bullets and your head a deadly combination" };
+
         }
         else if (damageType == PlayerScript.DamageType.torso)
         {
-            string[] options = new[] { "Gut shot for the win", "That's gonna cause a tummy ache", "Oh that's gonna sting", "Who needs a heart to live" };
-            int r = Random.Range(0, options.Length - 1);
-            wit = options[r];
+            options = new[] { "Gut shot for the win", "That's gonna cause a tummy ache", "Oh that's gonna sting", "Who needs a heart to live" };
+
         }
-        if (damageType == PlayerScript.DamageType.legs)
+        else if (damageType == PlayerScript.DamageType.legs)
         {
-            string[] options = new[] { "You took a bullet in the knee", "That's gonna cause a limp", "Good thing you have a second leg", "who needs knee anyhow", "Tis but a scratch" };
-            int r = Random.Range(0, options.Length - 1);
-            wit = options[r];
+            options = new[] { "You took a bullet in the knee", "That's gonna cause a limp", "Good thing you have a second leg", "who needs knee anyhow", "Tis but a scratch" };
+
         }
-        if (damageType == PlayerScript.DamageType.feet)
+        else if (damageType == PlayerScript.DamageType.feet)
         {
-            string[] options = new[] { "A foot shot how embarrassing", "A shoelace kill", "It's just a flesh wound" };
-            int r = Random.Range(0, options.Length - 1);
-            wit = options[r];
+            options = new[] { "A foot shot how embarrassing", "A shoelace kill", "It's just a flesh wound" };
+
         }
-        if (damageType == PlayerScript.DamageType.self)
+        //this seems to only come up on collision damage
+        else if (damageType == PlayerScript.DamageType.self)
         {
-            string[] options = new[] { "That was all you", "They just gave up on life", "Good by crule world" };
-            int r = Random.Range(0, options.Length - 1);
-            wit = options[r];
+            options = new[] { "Whoo buddy slow down", "Smack!", "They left a small crater" , "No need to rush" };
+
         }
+        else if (damageType == PlayerScript.DamageType.explosive)
+        {
+            options = new[] { "BOOM baby!", "Kablowie!", "Explosive!" , "Boom da boom" };
+        }
+        else
+        {
+            options = new[] { "Whoa this should never come up!", "You shouldn't see this!", "This code sucks!" };
+        }
+
+        int r = Random.Range(0, options.Length - 1);
+        wit = options[r];
 
         return wit;
     }

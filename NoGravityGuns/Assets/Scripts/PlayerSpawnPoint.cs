@@ -17,8 +17,6 @@ public class PlayerSpawnPoint : MonoBehaviour
 
     Controller controller;
 
-
-
     //gets set to false when has a corresponding player
     [HideInInspector]
     public bool destroyOnRoundStart = true;
@@ -75,22 +73,19 @@ public class PlayerSpawnPoint : MonoBehaviour
                 playerCanvasScript.transform.localScale *= 1;
                 break;
             case FacingDirection.left:
-                go.transform.localScale = new Vector2(go.transform.localScale.x * -1, go.transform.localScale.y);
-                playerCanvasScript.transform.localScale =  new Vector2(playerCanvasScript.transform.localScale.x * -1, playerCanvasScript.transform.localScale.y);
+                go.transform.localScale *= 1;
+                //go.transform.localScale = new Vector2(go.transform.localScale.x * -1, go.transform.localScale.y);
+                //playerCanvasScript.transform.localScale =  new Vector2(playerCanvasScript.transform.localScale.x * -1, playerCanvasScript.transform.localScale.y);
                 break;
             default:
                 go.transform.localScale *= 1;
                 playerCanvasScript.transform.localScale *= 1;
                 break;
         }
-
-      
-
-        
-
         //gives the canvas to the player
         playerScript.playerCanvasScript = playerCanvasScript;
-
+        playerCanvasScript.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 8);
+        playerCanvasScript.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 21);
 
         //sets everything from global player settings
         playerScript.playerName = globalPlayerSettings.playerSettings[IDToSpawn].playerName;

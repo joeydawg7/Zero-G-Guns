@@ -196,6 +196,8 @@ public class ArmsScript : MonoBehaviour
         //spawn new gun
         GameObject gunGo = GameObject.Instantiate(weaponToEquip.gunPrefab, handBone);
 
+        currentGun = gunGo;
+
         //set gun position and hand position
         GunPositionValue gunPosValue = gunGo.GetComponent<GunPositionValue>();
         gunGo.transform.localPosition = gunPosValue.position;

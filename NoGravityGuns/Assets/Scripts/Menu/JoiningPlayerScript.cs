@@ -32,7 +32,7 @@ public class JoiningPlayerScript : MonoBehaviour
 
     public TextMeshProUGUI tipToStart;
 
-    JoinPanel[] joinPanels;
+    public JoinPanel[] joinPanels;
     List<int> assignedControls;
 
     public int maxPlayers = 4;
@@ -52,7 +52,7 @@ public class JoiningPlayerScript : MonoBehaviour
         tipToStart.alpha = 0;
         assignedControls = new List<int>();
         playerSpawnPoints = FindObjectsOfType<PlayerSpawnPoint>();
-        joinPanels = FindObjectsOfType<JoinPanel>();
+        //joinPanels = FindObjectsOfType<JoinPanel>();
 
         // Subscribe to controller connected events
         ReInput.ControllerConnectedEvent += OnControllerConnected;

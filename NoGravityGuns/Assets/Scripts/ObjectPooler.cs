@@ -167,22 +167,9 @@ public class ObjectPooler : MonoBehaviour
                 go.SetActive(false);
                 go.transform.parent = null;
                 DontDestroyOnLoad(go);
-            }
 
-            
-
-            /*
-            for (int ii = 0; ii < poolDictionary[poolDictionary.Keys.ToList()[i]].Count; ii++)
-            {
-                GameObject go = poolDictionary.Values.ToList()[ii].Dequeue();
-                if (go == null)
-                {
-                    Debug.LogError("Missing pooled object found in " + poolDictionary.Keys.ToList()[i] + " tag's list");
-                }
-                go.SetActive(false);
-                poolDictionary.Values.ToList()[ii].Enqueue(go);
-            }
-            */
+                go.transform.parent = transform;
+            }          
 
         }
 

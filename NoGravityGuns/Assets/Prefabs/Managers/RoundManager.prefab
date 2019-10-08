@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e49312f61c502b40ab50b03563ebd53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  debugStayOnThisScene: 1
+  debugStayOnThisScene: 0
   maxRounds: 5
   rooms:
   - {fileID: 11400000, guid: 16d1f62a3f54530488daefd8fd31fd37, type: 2}
@@ -61,6 +61,9 @@ MonoBehaviour:
   persistentCanvas: {fileID: 0}
   globalPlayerSettings: {fileID: 11400000, guid: cb0757b590e031b498b8242038b5639a,
     type: 2}
+  playerCanvas: {fileID: 6624704998225192752, guid: ac27b34b9c6090d49b1b29a0c6453f62,
+    type: 3}
+  roundEndCanvasScript: {fileID: 0}
 --- !u!114 &2181779809021178799
 MonoBehaviour:
   m_ObjectHideFlags: 0

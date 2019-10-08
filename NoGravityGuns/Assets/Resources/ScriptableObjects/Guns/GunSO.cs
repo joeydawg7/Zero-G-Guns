@@ -62,22 +62,23 @@ public class GunSO : ScriptableObject
 
         //GameObject tempGo = gunPrefab.transform.GetChild(0).transform.Find(muzzleFlash).gameObject;
 
-        //ParticleSystem ps = tempGo.GetComponent<ParticleSystem>();
+        ParticleSystem ps = arms.currentGun.GetComponentInChildren<ParticleSystem>();
 
-        //if (ps != null)
-        //{
-        //    var main = ps.main;
-        //    main.startColor = new Color(player.playerColor.r, player.playerColor.g, player.playerColor.b, player.playerColor.a);
-        //    var trails = ps.trails;
+        if (ps != null)
+        {
+            ps.Play(true);
 
-        //    ps.Play(true);
+            //var main = ps.main;
+            //main.startColor = new Color(player.playerColor.r, player.playerColor.g, player.playerColor.b, player.playerColor.a);
+            //var trails = ps.trails;
 
-        //    if(prefireSound !=null)
-        //        arms.audioSource.PlayOneShot(prefireSound);
-        //}
+
+            if (prefireSound != null)
+                arms.audioSource.PlayOneShot(prefireSound);
+        }
 
         yield return new WaitForSeconds(delayBeforeShot);
-       
+
         SpawnBullet(dir, player);
     }
 
