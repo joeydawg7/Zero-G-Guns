@@ -312,10 +312,11 @@ public class JoiningPlayerScript : MonoBehaviour
 
         //Debug.Log(playerControllerDataDictionary.Count);
 
-        for (int i = 0; i < playerControllerDataDictionary.Count; i++)
+        foreach (var pCdataDic in playerControllerDataDictionary)
         {
-            Debug.Log("controller: " + playerControllerDataDictionary[i].controller.name);
-            RoundManager.Instance.SpawnPlayerManager(playerControllerDataDictionary[i]);
+            
+            Debug.Log("controller: " + pCdataDic.Value.controller.name);
+            RoundManager.Instance.SpawnPlayerManager(pCdataDic.Value);
         }
 
         gameObject.SetActive(false);
