@@ -18,7 +18,7 @@ MonoBehaviour:
   knockback: 50
   bulletSpeed: 4500
   recoilDelay: 0.75
-  delayBeforeShot: 0
+  delayBeforeShot: 0.1
   clipSize: 6
   numBullets: 0
   gunPrefab: {fileID: 3198932703841508898, guid: 57e28f18a92ef324189c7e650701bad6,
@@ -27,11 +27,11 @@ MonoBehaviour:
   gunDamageTotal: 0
   cameraShakeDuration: 0.1
   bulletSounds:
-  - {fileID: 8300000, guid: 08e8ceaf07b69694c989f5fec9709e03, type: 3}
-  - {fileID: 8300000, guid: 7f698fa3b64298741a7113c45220de5d, type: 3}
-  - {fileID: 8300000, guid: aa2683cd35fab5144857d6b7a4314ab5, type: 3}
+  - {fileID: 8300000, guid: d33c6fc9f2225af46af5abd3b2b3be05, type: 3}
+  - {fileID: 8300000, guid: 95ab9c888689cc344a2e7b70b7e68f5f, type: 3}
+  - {fileID: 8300000, guid: 425e3e49a0be2c344a72307185cc8f3e, type: 3}
   reloadSound: {fileID: 8300000, guid: 4dae545ced1cd824fb12b922c3dc86a2, type: 3}
-  prefireSound: {fileID: 0}
+  prefireSound: {fileID: 8300000, guid: 39d57f0dfa262f440b6fdfd92843728f, type: 3}
   projectile: BounceShot
   EquipSprite: {fileID: 0}
   muzzleFlash: LightningCharge

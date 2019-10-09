@@ -17,8 +17,6 @@ public class PlayerSpawnPoint : MonoBehaviour
 
     Controller controller;
 
-
-
     //gets set to false when has a corresponding player
     [HideInInspector]
     public bool destroyOnRoundStart = true;

@@ -78,17 +78,17 @@ public class RoundEndCanvasScript : MonoBehaviour
         if (damageType == PlayerScript.DamageType.head)
         {
 
-            options = new[] { "In the face!", "Oh his brain", "Helmets only do so much", "Bullets and your head a deadly combination" };
+            options = new[] { "In the face!", "Oh no not in the brain", "Helmets only do so much", "Bullets and your head a deadly combination" };
 
         }
         else if (damageType == PlayerScript.DamageType.torso)
         {
-            options = new[] { "Gut shot for the win", "That's gonna cause a tummy ache", "Oh that's gonna sting", "Who needs a heart to live" };
+            options = new[] { "Gut shot for the win", "That's gonna cause a tummy ache", "Oh that's gonna sting", "Who needs a heart anyhow" };
 
         }
         else if (damageType == PlayerScript.DamageType.legs)
         {
-            options = new[] { "You took a bullet in the knee", "That's gonna cause a limp", "Good thing you have a second leg", "who needs knee anyhow", "Tis but a scratch" };
+            options = new[] { "Took a bullet in the knee", "That's gonna cause a limp", "Good thing you have a second leg", "who needs knees anyhow", "T'is but a scratch" };
 
         }
         else if (damageType == PlayerScript.DamageType.feet)
@@ -99,19 +99,19 @@ public class RoundEndCanvasScript : MonoBehaviour
         //this seems to only come up on collision damage
         else if (damageType == PlayerScript.DamageType.self)
         {
-            options = new[] { "They hit something too hard", "Smack!", "They left a small crater" };
+            options = new[] { "Whoo slow  it down", "Smack!", "that left a small crater" , "No need to rush" };
 
         }
         else if (damageType == PlayerScript.DamageType.explosive)
         {
-            options = new[] { "BOOM baby!", "They blew up!", "Explosive!" };
+            options = new[] { "BOOM baby!", "Kablowie!", "Explosive!" , "Boom da boom" };
         }
         else
         {
             options = new[] { "Whoa this should never come up!", "You shouldn't see this!", "This code sucks!" };
         }
 
-        int r = Random.Range(0, options.Length - 1);
+        int r = Random.Range(0, options.Length);
         wit = options[r];
 
         return wit;
