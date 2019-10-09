@@ -35,10 +35,22 @@ public class RoundEndCanvasScript : MonoBehaviour
         if (!winningPlayer)
         {
             winnerTextString = "No one wins round!";
+            loserText.text = "you all suck!";
+            var bulletTrails = endRoundPanel.GetComponent<Image>();
+            bulletTrails.color = Color.white;
         }
         else
         {
             winnerTextString = winningPlayer.playerName + " wins round!";
+            var winnerColour = winningPlayer.playerColor;
+
+            winnerText.text = winnerTextString;
+            //winnerText.color = winnerColour;
+            loserText.text = looserTextString;
+            //loserText.color = winnerColour;
+
+            var bulletTrails = endRoundPanel.GetComponent<Image>();
+            bulletTrails.color = winnerColour;
         }
 
 
@@ -56,16 +68,11 @@ public class RoundEndCanvasScript : MonoBehaviour
         }
 
 
-        var winnerColour = winningPlayer.playerColor;
+       
+        
 
-        winnerText.text = winnerTextString;
-        //winnerText.color = winnerColour;
-        loserText.text = looserTextString;
-        //loserText.color = winnerColour;
+       
 
-        var bulletTrails = endRoundPanel.GetComponent<Image>();
-
-        bulletTrails.color = winnerColour;
         endRoundPanel.SetActive(true);
 
     }
