@@ -41,7 +41,7 @@ public class ArmsScript : MonoBehaviour
     [HideInInspector]
     public bool isReloading;
     [HideInInspector]
-    public GameObject currentGun;
+    public GameObject currentGunGameObject;
     [HideInInspector]
     public AudioSource audioSource;
     [HideInInspector]
@@ -196,7 +196,7 @@ public class ArmsScript : MonoBehaviour
         //spawn new gun
         GameObject gunGo = GameObject.Instantiate(weaponToEquip.gunPrefab, handBone);
 
-        currentGun = gunGo;
+        currentGunGameObject = gunGo;
 
         //set gun position and hand position
         GunPositionValue gunPosValue = gunGo.GetComponent<GunPositionValue>();

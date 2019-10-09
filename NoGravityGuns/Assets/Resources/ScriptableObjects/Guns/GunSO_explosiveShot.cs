@@ -66,7 +66,7 @@ public class GunSO_explosiveShot : GunSO
         //arms.currentArms.GetComponentInChildren<ParticleSystem>().Emit(UnityEngine.Random.Range(15, 40));
 
         //while we are holding the trigger down and still holding an rpg
-        while (player.player.GetAxis("Shoot") > 0.5f && name == "RPG")
+        while (player.player.GetAxis("Shoot") > 0.5f && player.armsScript.currentWeapon.name == "RPG")
         {
             //time to give pushback
             if (timer < 0.5f)
@@ -91,7 +91,7 @@ public class GunSO_explosiveShot : GunSO
         }
 
         //if its still an rpg... just checking :)
-        if (name == "RPG")
+        if (player.armsScript.currentWeapon.name == "RPG")
         {
             player.rb.AddForce(-dir * knockback, ForceMode2D.Impulse);
             arms.cameraShake.shakeDuration += cameraShakeDuration;

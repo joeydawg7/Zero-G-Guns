@@ -62,7 +62,7 @@ public class GunSO : ScriptableObject
 
         //GameObject tempGo = gunPrefab.transform.GetChild(0).transform.Find(muzzleFlash).gameObject;
 
-        ParticleSystem ps = arms.currentGun.GetComponentInChildren<ParticleSystem>();
+        ParticleSystem ps = arms.currentGunGameObject.GetComponentInChildren<ParticleSystem>();
 
         if (ps != null)
         {
