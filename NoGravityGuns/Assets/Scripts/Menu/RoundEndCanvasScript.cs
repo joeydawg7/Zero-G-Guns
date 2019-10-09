@@ -34,7 +34,7 @@ public class RoundEndCanvasScript : MonoBehaviour
 
         if (!winningPlayer)
         {
-            winnerTextString = "No one wins round!";
+            winnerText.text = "No one wins round!";
             loserText.text = "you all suck!";
             var bulletTrails = endRoundPanel.GetComponent<Image>();
             bulletTrails.color = Color.white;
@@ -44,6 +44,20 @@ public class RoundEndCanvasScript : MonoBehaviour
             winnerTextString = winningPlayer.playerName + " wins round!";
             var winnerColour = winningPlayer.playerColor;
 
+            PlayerScript playerWhoWasHitScript = playerWhoWasHit.gameObject.GetComponent<PlayerScript>();
+
+
+            if (playerWhoWasHitScript.playerLastHitBy)
+            {
+                looserTextString = GetWittyCommentOnLastHitPoint(damageType);
+            }
+            //nobody hit you last, you killed yourself
+            else
+            {
+                looserTextString = GetWittyCommentOnLastHitPoint(PlayerScript.DamageType.self);
+            }
+
+
             winnerText.text = winnerTextString;
             //winnerText.color = winnerColour;
             loserText.text = looserTextString;
@@ -51,27 +65,7 @@ public class RoundEndCanvasScript : MonoBehaviour
 
             var bulletTrails = endRoundPanel.GetComponent<Image>();
             bulletTrails.color = winnerColour;
-        }
-
-
-        PlayerScript playerWhoWasHitScript = playerWhoWasHit.gameObject.GetComponent<PlayerScript>();
-
-
-        if (playerWhoWasHitScript.playerLastHitBy)
-        {
-            looserTextString = GetWittyCommentOnLastHitPoint(damageType);
-        }
-        //nobody hit you last, you killed yourself
-        else
-        {
-            looserTextString = GetWittyCommentOnLastHitPoint(PlayerScript.DamageType.self);
-        }
-
-
-       
-        
-
-       
+        }      
 
         endRoundPanel.SetActive(true);
 

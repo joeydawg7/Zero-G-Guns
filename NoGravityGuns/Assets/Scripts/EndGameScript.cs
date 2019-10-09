@@ -190,42 +190,61 @@ public class EndGameScript : MonoBehaviour
         }
         //one winner
         else
-        {
-
-            PlayerDataScript roundWinner = AddRoundWinToWinner(winnersList[0]);
-
-            if (roundWinner == null)
+        {            
+            if (winnersList.Count > 0)
             {
-                Debug.LogError("No dataSet found for current round winner... this should never happen!");
-                yield break;
-            }
+                PlayerDataScript roundWinner = AddRoundWinToWinner(winnersList[0]);
+                if (roundWinner == null)
+                {
+                    Debug.LogError("No dataSet found for current round winner... this should never happen!");
+                    yield break;
+                }
 
-            if (roundWinner.roundWins >= Mathf.Ceil((float)RoundManager.Instance.maxRounds / 2f))
+                if (roundWinner.roundWins >= Mathf.Ceil((float)RoundManager.Instance.maxRounds / 2f))
+                {
+                    gameOverText.text = "Game Over!";
+                    winOrTie.text = "<" + winnersList[0].hexColorCode + ">" + winnersList[0].playerName + " Is the winner!" + "</color>";
+                    yield return new WaitForSeconds(0.5f);
+                    weHaveAWinner = true;
+
+                    foreach (var player in RoundManager.Instance.playerDataList)
+                    {
+                        yield return new WaitForSeconds(0.5f);
+                        Winners.text += "<color=" + player.hexColorCode + ">" + player.playerName + ": " + player.roundWins + " Rounds Won " + "</color> \n";
+
+                    }
+                }
+                else
+                {
+                    winOrTie.text = "<color=" + winnersList[0].hexColorCode + ">" + winnersList[0].playerName + " won the round!" + "</color>";
+                    yield return new WaitForSeconds(0.2f);
+
+                    foreach (var winner in RoundManager.Instance.playerDataList)
+                    {
+                        yield return new WaitForSeconds(0.2f);
+                        Winners.text += "<color=" + winner.hexColorCode + ">" + winner.playerName + ": " + winner.roundWins + " Rounds Won " + "</color> \n";
+
+                    }
+                }
+            }
+            else
             {
                 gameOverText.text = "Game Over!";
-                winOrTie.text = "<" + winnersList[0].hexColorCode + ">" + winnersList[0].playerName + " Is the winner!" + "</color>";
-                yield return new WaitForSeconds(0.5f);
-                weHaveAWinner = true;
+                    winOrTie.text = "<color=#000000> You all lose! </color>";
+                    yield return new WaitForSeconds(0.5f);
 
                 foreach (var player in RoundManager.Instance.playerDataList)
                 {
                     yield return new WaitForSeconds(0.5f);
                     Winners.text += "<color=" + player.hexColorCode + ">" + player.playerName + ": " + player.roundWins + " Rounds Won " + "</color> \n";
 
-                }
-            }
-            else
-            {
-                winOrTie.text = "<color=" + winnersList[0].hexColorCode + ">" + winnersList[0].playerName + " won the round!" + "</color>";
-                yield return new WaitForSeconds(0.2f);
-
-                foreach (var winner in RoundManager.Instance.playerDataList)
-                {
-                    yield return new WaitForSeconds(0.2f);
-                    Winners.text += "<color=" + winner.hexColorCode + ">" + winner.playerName + ": " + winner.roundWins + " Rounds Won " + "</color> \n";
+                    
 
                 }
             }
+            
+
+            
 
             //RoundManager roundManager = RoundManager.Instance;
 

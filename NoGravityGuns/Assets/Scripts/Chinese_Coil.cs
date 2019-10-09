@@ -9,7 +9,7 @@ public class Chinese_Coil : MonoBehaviour
 
     public float explosionRadius = 15;
     public float explosionPower = 400f;
-    public float damageAtcenter = 20f;
+    public float damageAtcenter = 10f;
     public float cameraShakeDuration = 0.25f;
 
 
