@@ -97,7 +97,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -3310,26 +3310,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4920617087354657533, guid: 455668168d389204aabb63ceaba92e22,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 17.28
-      objectReference: {fileID: 0}
-    - target: {fileID: 4920617087354657533, guid: 455668168d389204aabb63ceaba92e22,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -37.7
-      objectReference: {fileID: 0}
-    - target: {fileID: 4920617087354657533, guid: 455668168d389204aabb63ceaba92e22,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 51.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 546118329921814377, guid: 455668168d389204aabb63ceaba92e22,
-        type: 3}
-      propertyPath: m_PointLightInnerAngle
-      value: 188.48
-      objectReference: {fileID: 0}
     - target: {fileID: 3494511054971899837, guid: 455668168d389204aabb63ceaba92e22,
         type: 3}
       propertyPath: m_LocalPosition.z
@@ -3355,17 +3335,32 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5186477067918899598, guid: 455668168d389204aabb63ceaba92e22,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4920617087354657533, guid: 455668168d389204aabb63ceaba92e22,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 17.28
+      objectReference: {fileID: 0}
+    - target: {fileID: 4920617087354657533, guid: 455668168d389204aabb63ceaba92e22,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -37.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 4920617087354657533, guid: 455668168d389204aabb63ceaba92e22,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 51.2
+      objectReference: {fileID: 0}
     - target: {fileID: 1269833719738683717, guid: 455668168d389204aabb63ceaba92e22,
         type: 3}
       propertyPath: m_Name
       value: Sprite_Earth_Clouds
       objectReference: {fileID: 0}
     - target: {fileID: 2246822264810861953, guid: 455668168d389204aabb63ceaba92e22,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5186477067918899598, guid: 455668168d389204aabb63ceaba92e22,
         type: 3}
       propertyPath: m_IsActive
       value: 1
@@ -3411,6 +3406,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_SortingOrder
       value: -19
+      objectReference: {fileID: 0}
+    - target: {fileID: 546118329921814377, guid: 455668168d389204aabb63ceaba92e22,
+        type: 3}
+      propertyPath: m_PointLightInnerAngle
+      value: 188.48
       objectReference: {fileID: 0}
     - target: {fileID: 9159930956792197676, guid: 455668168d389204aabb63ceaba92e22,
         type: 3}
@@ -3819,7 +3819,7 @@ PrefabInstance:
         type: 3}
       propertyPath: characterToSpawn.Array.data[0]
       value: 
-      objectReference: {fileID: 8821908765624388855, guid: 936d6e0ecb1e16f408bec4ccf4a21534,
+      objectReference: {fileID: 8821908765624388855, guid: fc4346a6ef2daad4c846b9159384c4a8,
         type: 3}
     - target: {fileID: 3645061028757661589, guid: 0a3fa051697e86045a2b80047d62ee78,
         type: 3}
