@@ -87,39 +87,48 @@ public class BounceShot : Bullet
         //default damage type is nothing, we don't know what we hit yet.
         PlayerScript.DamageType dmgType = PlayerScript.DamageType.self;
 
+
         //we can get out of here early if there is no player script component on the root parent of whatever we hit, because that 100% is not a player :D
         PlayerScript hitPlayerScript = collision.transform.root.GetComponentInChildren<PlayerScript>();
         if (hitPlayerScript == null)
             return dmgType;
 
-        //checks where we hit the other guy, deals our given damage to that location. 
-        if (collision.collider.tag == "Torso")
+        dmgType = PlayerScript.ParsePlayerDamage(collision.gameObject);
+
+        if(dmgType != PlayerScript.DamageType.self)
         {
-            dmgType = PlayerScript.DamageType.torso;
-            hitPlayerScript.TakeDamage(damage,dir, dmgType, player, true);
+            hitPlayerScript.TakeDamage(damage, dir, dmgType, player, true);
             //collision.transform.GetComponentInChildren<ParticleSystem>().Emit(30);
             GetComponent<Collider2D>().enabled = false;
         }
-        if (collision.collider.tag == "Head")
-        {
-            dmgType = PlayerScript.DamageType.head;
-            hitPlayerScript.TakeDamage(damage, dir, dmgType, player, true);
-            GetComponent<Collider2D>().enabled = false;
-        }
-        if (collision.collider.tag == "Feet")
-        {
-            dmgType = PlayerScript.DamageType.feet;
-            hitPlayerScript.TakeDamage(damage, dir, dmgType, player, true);     
-            GetComponent<Collider2D>().enabled = false;
-        }
-        if (collision.collider.tag == "Leg")
-        {
-            dmgType = PlayerScript.DamageType.legs;
-            hitPlayerScript.TakeDamage(damage, dir, dmgType, player, true);
-            GetComponent<Collider2D>().enabled = false;
-        }
 
-        
+        //checks where we hit the other guy, deals our given damage to that location. 
+        //if (collision.collider.tag == "Torso")
+        //{
+        //    dmgType = PlayerScript.DamageType.torso;
+        //    hitPlayerScript.TakeDamage(damage,dir, dmgType, player, true);
+        //    //collision.transform.GetComponentInChildren<ParticleSystem>().Emit(30);
+        //    GetComponent<Collider2D>().enabled = false;
+        //}
+        //if (collision.collider.tag == "Head")
+        //{
+        //    dmgType = PlayerScript.DamageType.head;
+        //    hitPlayerScript.TakeDamage(damage, dir, dmgType, player, true);
+        //    GetComponent<Collider2D>().enabled = false;
+        //}
+        //if (collision.collider.tag == "Feet")
+        //{
+        //    dmgType = PlayerScript.DamageType.feet;
+        //    hitPlayerScript.TakeDamage(damage, dir, dmgType, player, true);     
+        //    GetComponent<Collider2D>().enabled = false;
+        //}
+        //if (collision.collider.tag == "Leg")
+        //{
+        //    dmgType = PlayerScript.DamageType.legs;
+        //    hitPlayerScript.TakeDamage(damage, dir, dmgType, player, true);
+        //    GetComponent<Collider2D>().enabled = false;
+        //}
+
 
         return dmgType;
     }

@@ -90,6 +90,8 @@ public class RoundManager : MonoBehaviour
         currentRound++;
         timeSinceRoundStarted = 0;
 
+        Time.timeScale = 1;
+
 
         if (startOver)
         {
