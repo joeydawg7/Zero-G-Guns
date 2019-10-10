@@ -118,7 +118,6 @@ public class PlayerScript : MonoBehaviour
     {
         playerID = 0;
 
-        health = 100;
         float barVal = ((float)health / 100f);
         isDead = false;
         spawnPoint = transform.position;
