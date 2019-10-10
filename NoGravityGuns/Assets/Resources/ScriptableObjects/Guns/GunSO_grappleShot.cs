@@ -29,7 +29,7 @@ public class GunSO_grappleShot : GunSO
     }
 
 
-    public override void KnockBack(PlayerScript player, Vector2 shootDir)
+    public override void KnockBack(PlayerScript player, Vector2 shootDir, float knockbackMultiplier)
     {
         mono = player;
         //mono.StartCoroutine(HoldGrapple(player, shootDir));
