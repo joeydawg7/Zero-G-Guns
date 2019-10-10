@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
+  m_IndirectSpecularColor: {r: 0.37311992, g: 0.38074034, b: 0.35872713, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -97,7 +97,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 0
+  m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -14052,7 +14052,7 @@ MonoBehaviour:
   facingDirection: 0
   IDToSpawn: 1
   characterToSpawn:
-  - {fileID: 8821908765624388855, guid: fc4346a6ef2daad4c846b9159384c4a8, type: 3}
+  - {fileID: 8821908765624388855, guid: e3ed919fda9c03f4bafef69684986337, type: 3}
   destroyOnRoundStart: 1
 --- !u!4 &1144555739
 Transform:
@@ -15951,10 +15951,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cubeSize: {x: 10, y: 15}
-  facingDirection: 1
+  facingDirection: 0
   IDToSpawn: 2
   characterToSpawn:
-  - {fileID: 8821908765624388855, guid: 901194f466ba06447bba14ca82330155, type: 3}
+  - {fileID: 8821908765624388855, guid: 9c48b468f9e874f4f976aba79b0d781d, type: 3}
   destroyOnRoundStart: 1
 --- !u!4 &1628694258
 Transform:
@@ -18914,7 +18914,7 @@ PrefabInstance:
     - target: {fileID: 2181779809021178793, guid: 03b570c18870f384c992d818d6c5581e,
         type: 3}
       propertyPath: debugStayOnThisScene
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 03b570c18870f384c992d818d6c5581e, type: 3}
@@ -18985,6 +18985,12 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3645061028757661589, guid: 0a3fa051697e86045a2b80047d62ee78,
+        type: 3}
+      propertyPath: characterToSpawn.Array.data[0]
+      value: 
+      objectReference: {fileID: 8821908765624388855, guid: f8f3acb63f372f94c953c2bdc388b6b0,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0a3fa051697e86045a2b80047d62ee78, type: 3}
 --- !u!1001 &3999692917579855623
@@ -18999,6 +19005,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: CameraParent
       objectReference: {fileID: 0}
+    - target: {fileID: 3999692916492170048, guid: 2b18ac5c61031ff43a13854b9bfb3bbb,
+        type: 3}
+      propertyPath: CurrentGameVolume
+      value: 
+      objectReference: {fileID: 947289794}
     - target: {fileID: 3999692916492170063, guid: 2b18ac5c61031ff43a13854b9bfb3bbb,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -19054,11 +19065,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3999692916492170048, guid: 2b18ac5c61031ff43a13854b9bfb3bbb,
-        type: 3}
-      propertyPath: CurrentGameVolume
-      value: 
-      objectReference: {fileID: 947289794}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2b18ac5c61031ff43a13854b9bfb3bbb, type: 3}
 --- !u!1001 &8465764120734034533

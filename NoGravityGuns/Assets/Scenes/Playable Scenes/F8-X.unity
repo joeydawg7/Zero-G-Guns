@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
+  m_IndirectSpecularColor: {r: 0.37311992, g: 0.38074034, b: 0.35872713, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -3320,26 +3320,6 @@ PrefabInstance:
       propertyPath: m_RootOrder
       value: 17
       objectReference: {fileID: 0}
-    - target: {fileID: 4713527608523813401, guid: 455668168d389204aabb63ceaba92e22,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -3.1732
-      objectReference: {fileID: 0}
-    - target: {fileID: 4713527608523813401, guid: 455668168d389204aabb63ceaba92e22,
-        type: 3}
-      propertyPath: m_LocalScale.y
-      value: 9.097042
-      objectReference: {fileID: 0}
-    - target: {fileID: 8280886139953781043, guid: 455668168d389204aabb63ceaba92e22,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5186477067918899598, guid: 455668168d389204aabb63ceaba92e22,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 4920617087354657533, guid: 455668168d389204aabb63ceaba92e22,
         type: 3}
       propertyPath: m_LocalPosition.z
@@ -3355,12 +3335,37 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: 51.2
       objectReference: {fileID: 0}
+    - target: {fileID: 546118329921814377, guid: 455668168d389204aabb63ceaba92e22,
+        type: 3}
+      propertyPath: m_PointLightInnerAngle
+      value: 188.48
+      objectReference: {fileID: 0}
+    - target: {fileID: 4713527608523813401, guid: 455668168d389204aabb63ceaba92e22,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -3.1732
+      objectReference: {fileID: 0}
+    - target: {fileID: 4713527608523813401, guid: 455668168d389204aabb63ceaba92e22,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 9.097042
+      objectReference: {fileID: 0}
+    - target: {fileID: 8280886139953781043, guid: 455668168d389204aabb63ceaba92e22,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1269833719738683717, guid: 455668168d389204aabb63ceaba92e22,
         type: 3}
       propertyPath: m_Name
       value: Sprite_Earth_Clouds
       objectReference: {fileID: 0}
     - target: {fileID: 2246822264810861953, guid: 455668168d389204aabb63ceaba92e22,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5186477067918899598, guid: 455668168d389204aabb63ceaba92e22,
         type: 3}
       propertyPath: m_IsActive
       value: 1
@@ -3406,11 +3411,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_SortingOrder
       value: -19
-      objectReference: {fileID: 0}
-    - target: {fileID: 546118329921814377, guid: 455668168d389204aabb63ceaba92e22,
-        type: 3}
-      propertyPath: m_PointLightInnerAngle
-      value: 188.48
       objectReference: {fileID: 0}
     - target: {fileID: 9159930956792197676, guid: 455668168d389204aabb63ceaba92e22,
         type: 3}
@@ -3819,7 +3819,7 @@ PrefabInstance:
         type: 3}
       propertyPath: characterToSpawn.Array.data[0]
       value: 
-      objectReference: {fileID: 8821908765624388855, guid: fc4346a6ef2daad4c846b9159384c4a8,
+      objectReference: {fileID: 8821908765624388855, guid: e3ed919fda9c03f4bafef69684986337,
         type: 3}
     - target: {fileID: 3645061028757661589, guid: 0a3fa051697e86045a2b80047d62ee78,
         type: 3}
@@ -3895,6 +3895,12 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3645061028757661589, guid: 0a3fa051697e86045a2b80047d62ee78,
+        type: 3}
+      propertyPath: characterToSpawn.Array.data[0]
+      value: 
+      objectReference: {fileID: 8821908765624388855, guid: c82251d27aba95e4dbae563c5dc7fada,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0a3fa051697e86045a2b80047d62ee78, type: 3}
 --- !u!1 &1218044019
@@ -5182,7 +5188,7 @@ PrefabInstance:
         type: 3}
       propertyPath: characterToSpawn.Array.data[0]
       value: 
-      objectReference: {fileID: 8821908765624388855, guid: 901194f466ba06447bba14ca82330155,
+      objectReference: {fileID: 8821908765624388855, guid: 9c48b468f9e874f4f976aba79b0d781d,
         type: 3}
     - target: {fileID: 3645061028757661589, guid: 0a3fa051697e86045a2b80047d62ee78,
         type: 3}
