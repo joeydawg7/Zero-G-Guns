@@ -112,11 +112,11 @@ public class GunSO : ScriptableObject
     }
 
     //pushes player back
-    public virtual void KnockBack(PlayerScript player, Vector2 shootDir)
+    public virtual void KnockBack(PlayerScript player, Vector2 shootDir, float knockbackMultiplier)
     {
         ArmsScript arms = player.armsScript;
 
-        player.rb.AddForce(-arms.bulletSpawn.transform.right * knockback, ForceMode2D.Impulse);
+        player.rb.AddForce(-arms.bulletSpawn.transform.right * knockback * knockbackMultiplier, ForceMode2D.Impulse);
         player.armsScript.cameraShake.shakeDuration += cameraShakeDuration;
         arms.timeSinceLastShot = 0;
     }

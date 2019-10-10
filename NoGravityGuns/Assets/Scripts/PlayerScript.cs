@@ -13,8 +13,9 @@ public class PlayerScript : MonoBehaviour
     //Variables
     #region publics
 
-    [Header("Health and Lives")]
+    [Header("Tweakables")]
     public int health;
+    public float knockbackMultiplier =1;
     public int numLives;
 
     public PlayerCanvasScript playerCanvasScript;
