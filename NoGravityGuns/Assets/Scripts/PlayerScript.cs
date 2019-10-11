@@ -101,7 +101,8 @@ public class PlayerScript : MonoBehaviour
     Rigidbody2D[] legRBs;
     GameObject cameraParent;
     Quaternion spawnRotation;
-    GameManager gameManager;
+    GameManager gameManager;    
+   
     #endregion
     #region constants
     const float HEADSHOT_MULTIPLIER = 2f;
@@ -155,8 +156,6 @@ public class PlayerScript : MonoBehaviour
         gameManager = GameManager.Instance;
 
         lastHitDamageType = DamageType.self;
-
-
     }
 
     private void Start()
@@ -188,9 +187,11 @@ public class PlayerScript : MonoBehaviour
                 //A button
                 OnFlail();
 
+                OnPause();
+
             }
 
-            OnPause();
+            
 
 
         }
@@ -228,17 +229,26 @@ public class PlayerScript : MonoBehaviour
 
     void OnPause()
     {
-
+      
         if (gameManager.isGameStarted && player.GetButtonDown("Start"))
         {
-
-            Debug.Log(gameObject.name + " tried to pause");
-
-            if (Time.timeScale > 0)
-                Time.timeScale = 0;
+            if (!PauseMenu.Instance.gameObject.activeInHierarchy)
+            {
+                Debug.Log("Dumb shit");
+                PauseMenu.Instance.MenuOn();
+            }
             else
-                Time.timeScale = 1;
-            Debug.Log("timescale = " + Time.timeScale);
+            {              
+                PauseMenu.Instance.MenuOff();
+            }
+
+            //Debug.Log(gameObject.name + " tried to pause");
+
+            //if (Time.timeScale > 0)
+            //    Time.timeScale = 0;
+            //else
+            //    Time.timeScale = 1;
+            //Debug.Log("timescale = " + Time.timeScale);
         }
 
     }
