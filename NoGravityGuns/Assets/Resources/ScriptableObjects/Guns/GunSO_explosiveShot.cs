@@ -37,22 +37,22 @@ public class GunSO_explosiveShot : GunSO
         bulletGo.GetComponent<Rocket>().Construct(GunDamage, player, dir, player.playerColor, this);
     }
 
-    public override void KnockBack(PlayerScript player, Vector2 shootDir)
+    public override void KnockBack(PlayerScript player, Vector2 shootDir, float knockbackMultiplier)
     {
         mono = player;
-        mono.StartCoroutine(PushBackBeforeKnockBack(player, shootDir));
+        mono.StartCoroutine(PushBackBeforeKnockBack(player, shootDir, knockbackMultiplier));
     }
 
-    void KnockBackAfterShot(PlayerScript player, Vector3 dir)
+    void KnockBackAfterShot(PlayerScript player, Vector3 dir, float knockbackMultiplier)
     {
         ArmsScript arms = player.armsScript;
 
-        player.rb.AddForce(-arms.bulletSpawn.transform.right * knockback, ForceMode2D.Impulse);
+        player.rb.AddForce(-arms.bulletSpawn.transform.right * knockback * knockbackMultiplier, ForceMode2D.Impulse);
         player.armsScript.cameraShake.shakeDuration += cameraShakeDuration;
         arms.timeSinceLastShot = 0;
     }
 
-    IEnumerator PushBackBeforeKnockBack(PlayerScript player, Vector3 dir)
+    IEnumerator PushBackBeforeKnockBack(PlayerScript player, Vector3 dir, float knockbackMultiplier)
     {
         ArmsScript arms = player.armsScript;
 
@@ -99,7 +99,7 @@ public class GunSO_explosiveShot : GunSO
 
             SpawnBullet(dir, player);
 
-            KnockBackAfterShot(player, dir);
+            KnockBackAfterShot(player, dir, knockbackMultiplier);
 
             ReduceBullets(player);
         }

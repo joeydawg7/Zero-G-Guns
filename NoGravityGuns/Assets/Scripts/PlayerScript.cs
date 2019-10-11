@@ -13,8 +13,9 @@ public class PlayerScript : MonoBehaviour
     //Variables
     #region publics
 
-    [Header("Health and Lives")]
+    [Header("Tweakables")]
     public int health;
+    public float knockbackMultiplier =1;
     public int numLives;
 
     public PlayerCanvasScript playerCanvasScript;
@@ -117,7 +118,6 @@ public class PlayerScript : MonoBehaviour
     {
         playerID = 0;
 
-        health = 100;
         float barVal = ((float)health / 100f);
         isDead = false;
         spawnPoint = transform.position;
