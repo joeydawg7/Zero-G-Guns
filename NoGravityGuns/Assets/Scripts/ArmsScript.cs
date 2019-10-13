@@ -66,7 +66,7 @@ public class ArmsScript : MonoBehaviour
     int totalBulletsGunCanLoad;
     LimbSolver2D IKLimbSolver;
     bool flipped = false;
-    
+
 
     #endregion
 
@@ -118,30 +118,46 @@ public class ArmsScript : MonoBehaviour
     void AimController()
     {
         //cant aim if we cant get an aim value from base player
-        if (basePlayer == null )
+        if (basePlayer == null)
         {
             Debug.LogError("BasePlayer is null!");
             return;
         }
 
-        if(basePlayer.player == null)
+        if (basePlayer.player == null)
         {
             Debug.LogError("BasePlayer controller settings are null!");
             return;
         }
 
-        Vector2 rawAim = basePlayer.player.GetAxis2D("Move Horizontal", "Move Vertical");
+        Vector2 rawAim = new Vector2(0, 0);
+        Vector2 rawAimLeft = basePlayer.player.GetAxis2D("Move Horizontal Left Stick", "Move Vertical Left Stick");
+        Vector2 rawAimRight = basePlayer.player.GetAxis2D("Move Horizontal", "Move Vertical");
 
+        //if there's any input from right stick use that one above all others
+        if (rawAimRight.magnitude > 0)
+        {
+            rawAim = rawAimRight;
+        }
+        //else allow use of left stick
+        else
+        {            
+            rawAim = rawAimLeft;
+        }
+
+        //lock pos of the pivot to the shoulder bone
         transform.position = frontupperArmBone.position;
 
         //if we are aiming somewhere update everything, else we will hold on last known direction
-        if (rawAim.magnitude > 0f && Time.timeScale ==1)
+        if (rawAim.magnitude > 0f && Time.timeScale == 1)
         {
-            // aiming stuff
+            // draw line in direction of aiming vector
             shootDir = -Vector2.right * rawAim + Vector2.up * rawAim;
+            //place IK target along that line at targetVectorLength distance (larger vector length = more accuracy but less good looking anim)
             shootDir = shootDir.normalized * targetVectorLength;
-
             IKTarget.transform.localPosition = shootDir;
+
+            //angle hand bone to point along shoot direction
             handBone.right = new Vector2(IKTarget.transform.localPosition.x, IKTarget.transform.localPosition.y * -1) - new Vector2(shootDir.x * -1, shootDir.y) * Vector2.right;
         }
 
@@ -229,7 +245,7 @@ public class ArmsScript : MonoBehaviour
 
     public void OnShoot()
     {
-        if (basePlayer.isDead || Time.timeScale !=1)
+        if (basePlayer.isDead || Time.timeScale != 1)
             return;
 
         //dry fire effect

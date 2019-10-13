@@ -281,10 +281,28 @@ MonoBehaviour:
       _behaviorId: 1
       _userAssignable: 1
       _categoryId: 0
+    - _id: 9
+      _name: Move Horizontal Left Stick
+      _type: 0
+      _descriptiveName: Move Horizontal Left Stick
+      _positiveDescriptiveName: Move Right
+      _negativeDescriptiveName: Move Left
+      _behaviorId: 1
+      _userAssignable: 1
+      _categoryId: 0
     - _id: 2
       _name: Move Vertical
       _type: 0
       _descriptiveName: Move Vertical
+      _positiveDescriptiveName: Move Up
+      _negativeDescriptiveName: Move Down
+      _behaviorId: 1
+      _userAssignable: 1
+      _categoryId: 0
+    - _id: 10
+      _name: Move Vertical Left Stick
+      _type: 0
+      _descriptiveName: Move Vertical Left Stick
       _positiveDescriptiveName: Move Up
       _negativeDescriptiveName: Move Down
       _behaviorId: 1
@@ -335,6 +353,15 @@ MonoBehaviour:
       _behaviorId: 0
       _userAssignable: 1
       _categoryId: 0
+    - _id: 8
+      _name: Select
+      _type: 1
+      _descriptiveName: Select
+      _positiveDescriptiveName: 
+      _negativeDescriptiveName: 
+      _behaviorId: 0
+      _userAssignable: 1
+      _categoryId: 0
     actionCategories:
     - _name: Default
       _descriptiveName: Default
@@ -344,7 +371,7 @@ MonoBehaviour:
     actionCategoryMap:
       list:
       - categoryId: 0
-        actionIds: 00000000020000000100000004000000050000000600000007000000
+        actionIds: 0000000009000000020000000a000000010000000400000005000000060000000700000008000000
     inputBehaviors:
     - _id: 0
       _name: Default
@@ -439,7 +466,7 @@ MonoBehaviour:
       customControllerUid: 0
       actionElementMaps:
       - _actionCategoryId: 0
-        _actionId: 0
+        _actionId: 9
         _elementType: 0
         _elementIdentifierId: 0
         _axisRange: 0
@@ -450,7 +477,7 @@ MonoBehaviour:
         _modifierKey2: 0
         _modifierKey3: 0
       - _actionCategoryId: 0
-        _actionId: 2
+        _actionId: 10
         _elementType: 0
         _elementIdentifierId: 1
         _axisRange: 0
@@ -593,7 +620,7 @@ MonoBehaviour:
         _modifierKey2: 0
         _modifierKey3: 0
       - _actionCategoryId: 0
-        _actionId: -1
+        _actionId: 8
         _elementType: 1
         _elementIdentifierId: 14
         _axisRange: 0
@@ -958,7 +985,7 @@ MonoBehaviour:
     controllerMapLayoutManagerRuleSets: []
     controllerMapEnablerRuleSets: []
     playerIdCounter: 7
-    actionIdCounter: 8
+    actionIdCounter: 11
     actionCategoryIdCounter: 1
     inputBehaviorIdCounter: 2
     mapCategoryIdCounter: 3
