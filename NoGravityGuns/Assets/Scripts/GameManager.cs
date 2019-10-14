@@ -66,8 +66,6 @@ public class GameManager : MonoBehaviour
     public AudioClip countdownBeep;
     public AudioClip startingBeep;
 
-    public float FinalBlowHoldTime = 2f;
-
     [HideInInspector]
     public AudioSource audioSource;
 
@@ -292,7 +290,7 @@ public class GameManager : MonoBehaviour
     }
 
     //every time somebody runs out of lives check if theres only 1 player left
-    public void CheckForLastManStanding(Transform playerWhoJustDied, PlayerScript.DamageType damageType)
+    public bool CheckForLastManStanding()
     {
         int leftAlive = 0;
 
@@ -305,8 +303,11 @@ public class GameManager : MonoBehaviour
         //last man standing, end the game!
         if (leftAlive == 1)
         {
-            cameraController.TrackFinalBlow(playerWhoJustDied, FinalBlowHoldTime, damageType);
+            
+            return true;
         }
+
+        return false;
 
     }
 

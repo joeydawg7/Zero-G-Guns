@@ -15,7 +15,7 @@ public class PlayerScript : MonoBehaviour
 
     [Header("Tweakables")]
     public int health;
-    public float knockbackMultiplier =1;
+    public float knockbackMultiplier = 1;
     public int numLives;
 
     public PlayerCanvasScript playerCanvasScript;
@@ -101,8 +101,8 @@ public class PlayerScript : MonoBehaviour
     Rigidbody2D[] legRBs;
     GameObject cameraParent;
     Quaternion spawnRotation;
-    GameManager gameManager;    
-   
+    GameManager gameManager;
+
     #endregion
     #region constants
     const float HEADSHOT_MULTIPLIER = 2f;
@@ -110,7 +110,6 @@ public class PlayerScript : MonoBehaviour
     const float FOOTSHOT_MULTIPLIER = 0.5f;
     const float LEGSHOT_MULTIPLIER = 0.75f;
     const float EXPLOSION_MULTIPLIER = 0.5f;
-    const int COLLIDER_DAMAGE_MITIGATOR = 5;
     #endregion
     //End Variables
 
@@ -174,7 +173,7 @@ public class PlayerScript : MonoBehaviour
 
         //DEBUG: take damage to torso
         if (Input.GetKeyDown(KeyCode.K) && GameManager.Instance.debugManager.useDebugSettings)
-            TakeDamage(50, new Vector2(0, 0), DamageType.torso, null, true);
+            TakeDamage(50, new Vector2(0, 0), DamageType.torso, null, true, null);
 
         if (gameManager.isGameStarted)
         {
@@ -191,7 +190,7 @@ public class PlayerScript : MonoBehaviour
 
             }
 
-            
+
 
 
         }
@@ -220,16 +219,16 @@ public class PlayerScript : MonoBehaviour
     {
         while (player.GetButton("Join"))
         {
-            
+
             yield return null;
-            
+
         }
 
     }
 
     void OnPause()
     {
-      
+
         if (gameManager.isGameStarted && player.GetButtonDown("Start"))
         {
             if (!PauseMenu.Instance.gameObject.activeInHierarchy)
@@ -238,7 +237,7 @@ public class PlayerScript : MonoBehaviour
                 PauseMenu.Instance.MenuOn();
             }
             else
-            {              
+            {
                 PauseMenu.Instance.MenuOff();
             }
 
@@ -255,7 +254,7 @@ public class PlayerScript : MonoBehaviour
     #endregion
 
     #region Take Damage
-    public void TakeDamage(float damage, Vector2 dir, DamageType damageType, PlayerScript PlayerWhoShotYou, bool playBulletSFX)
+    public void TakeDamage(float damage, Vector2 dir, DamageType damageType, PlayerScript PlayerWhoShotYou, bool playBulletSFX, GunSO gunThatShotYou)
     {
         if (!isDead && !isInvulnerable)
         {
@@ -347,7 +346,7 @@ public class PlayerScript : MonoBehaviour
                     //playerLastHitBy.playerUIPanel.AddKill(this);
                 }
 
-                Die(damageType);
+                Die(damageType, gunThatShotYou);
             }
 
         }
@@ -357,7 +356,7 @@ public class PlayerScript : MonoBehaviour
     #endregion
 
     #region Die and respawn
-    public PlayerScript Die(DamageType damageType)
+    public PlayerScript Die(DamageType damageType, GunSO gunWhoShotYou)
     {
         //cant die if yer dead
         if (!isDead)
@@ -370,24 +369,24 @@ public class PlayerScript : MonoBehaviour
             isDead = true;
 
             numLives--;
-
-            
-
             //playerUIPanel.LoseStock();
 
             if (numLives <= 0)
             {
-                //playerUIPanel.Disable();
-
-                //playerCanvasScript.Destroy();
-                GameManager.Instance.CheckForLastManStanding(transform, damageType);
-
+                if (GameManager.Instance.CheckForLastManStanding())
+                {
+                    gameManager.cameraController.TrackFinalBlow(transform, 2f, damageType, gunWhoShotYou);
+                }
+                else
+                {
+                    playerCanvasScript.gameObject.SetActive(false);
+                }
             }
             // armsSR = armsScript.currentArms.GetComponent<SpriteRenderer>();
-            
+
             torsoSR.color = deadColor;
-           
-            
+
+
             foreach (var SR in armsSR)
             {
                 SR.color = deadColor;
@@ -403,7 +402,10 @@ public class PlayerScript : MonoBehaviour
             if (numLives > 0)
                 StartCoroutine(WaitForRespawn());
             lastHitDamageType = damageType;
-            playerCanvasScript.gameObject.SetActive(false);
+
+            //makes it so you are holding nothing while dead
+            armsScript.HideAllGuns();
+
         }
 
         return this;
@@ -424,7 +426,7 @@ public class PlayerScript : MonoBehaviour
         transform.position = spawnPoint;
         transform.rotation = spawnRotation;
         rb.isKinematic = false;
-        
+
         //emit those PFX
         //var mainFlash = respawnFlash.main;
         //var mainBits = respawnBits.main;
@@ -697,6 +699,8 @@ public class PlayerScript : MonoBehaviour
         return damageType;
     }
 
+    const int COLLIDER_DAMAGE_MITIGATOR = 5;
+
     public void DealColliderDamage(Collision2D collision, GameObject hitLocation, PlayerScript hitBy)
     {
         //float dmg = collision.relativeVelocity.magnitude;
@@ -708,12 +712,13 @@ public class PlayerScript : MonoBehaviour
 
         if (collision.rigidbody != null && collision.rigidbody.mass <= 1)
             dmg *= collision.rigidbody.mass;
-
+        else if (collision.rigidbody != null && collision.rigidbody.mass > 1)
+            dmg /= collision.rigidbody.mass;
         //reduces damage so its not bullshit
         dmg = dmg / COLLIDER_DAMAGE_MITIGATOR;
 
         //dont bother dealing damage unless unmitigated damage indicates fast enough collision
-        if (dmg > 25)
+        if (dmg >= 20)
         {
 
             if (collision.rigidbody != null)
@@ -742,7 +747,7 @@ public class PlayerScript : MonoBehaviour
             {
                 immuneToCollisionsTimer = 0;
                 audioSource.PlayOneShot(soundClipToPlay);
-                TakeDamage(dmg, new Vector2(0, 0), dmgType, hitBy, false);
+                TakeDamage(dmg, new Vector2(0, 0), dmgType, hitBy, false, null);
             }
         }
     }

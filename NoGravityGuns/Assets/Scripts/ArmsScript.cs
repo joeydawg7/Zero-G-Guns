@@ -233,7 +233,7 @@ public class ArmsScript : MonoBehaviour
         //SendGunText();
     }
 
-    void HideAllGuns()
+    public void HideAllGuns()
     {
 
         for (int i = 0; i < handBone.childCount; i++)

@@ -66,6 +66,9 @@ public class GunSO : ScriptableObject
 
         if (ps != null)
         {
+            var main = ps.main;
+            main.startColor = new ParticleSystem.MinMaxGradient(player.playerColor); 
+
             ps.Play(true);
 
             //var main = ps.main;

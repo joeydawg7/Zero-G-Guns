@@ -93,6 +93,9 @@ public class PlayerSpawnPoint : MonoBehaviour
         playerScript.collisionLayer = globalPlayerSettings.playerSettings[IDToSpawn].CollisionLayer;
         playerScript.playerColor = globalPlayerSettings.playerSettings[IDToSpawn].Color;
         playerScript.deadColor = globalPlayerSettings.playerSettings[IDToSpawn].DeadColor;
+
+
+        gameObject.SetActive(false);
     }
 
 }

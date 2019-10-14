@@ -148,13 +148,13 @@ public class CameraController : MonoBehaviour
         }
     }
 
-    public void TrackFinalBlow(Transform playerWhoWasHit, float timeToHold, PlayerScript.DamageType damageType)
+    public void TrackFinalBlow(Transform playerWhoWasHit, float timeToHold, PlayerScript.DamageType damageType, GunSO gunWhoShotYou)
     {
-        StartCoroutine(HoldOnFinalBlow(playerWhoWasHit, timeToHold, damageType));
+        StartCoroutine(HoldOnFinalBlow(playerWhoWasHit, timeToHold, damageType, gunWhoShotYou));
     }
 
 
-    IEnumerator HoldOnFinalBlow(Transform playerWhoWasHit, float t, PlayerScript.DamageType damageType)
+    IEnumerator HoldOnFinalBlow(Transform playerWhoWasHit, float t, PlayerScript.DamageType damageType, GunSO gunWhoShotYou)
     {
         //store old data about who we were tracking, then clear who we are tracking and set only the hit player so we zoom in on them
         var lastPlayerStanding = players[0];
@@ -199,7 +199,7 @@ public class CameraController : MonoBehaviour
             players.Add(trackedPlayers[i]);
         }
         //
-        RoundManager.Instance.roundEndCanvasScript.EndRoundCanvasDisplay(playerWhoWasHit, damageType);
+        RoundManager.Instance.roundEndCanvasScript.EndRoundCanvasDisplay(playerWhoWasHit, damageType, gunWhoShotYou);
         //additional wait
         yield return new WaitForSeconds(6 * Time.timeScale);
         RoundManager.Instance.roundEndCanvasScript.ClearEndRoundCanvasDisplay();

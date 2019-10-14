@@ -157,7 +157,7 @@ public class Bullet : MonoBehaviour, IPooledObject
 
         if (dmgType != PlayerScript.DamageType.self)
         {
-            hitPlayerScript.TakeDamage(damage, startingForce, dmgType, this.player, true);
+            hitPlayerScript.TakeDamage(damage, startingForce, dmgType, this.player, true, gun);
             // collision.transform.GetComponentInChildren<ParticleSystem>().Emit(30);
             GetComponent<Collider2D>().enabled = false;
         }

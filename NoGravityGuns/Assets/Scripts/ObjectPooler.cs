@@ -60,11 +60,6 @@ public class ObjectPooler : MonoBehaviour
         }
     }
 
-    public void StartUp()
-    {
-
-    }
-
     //works like instatiate but from a magic poooooool
     public GameObject SpawnFromPool(string tag, Vector3 position, Quaternion rotation)
     {
