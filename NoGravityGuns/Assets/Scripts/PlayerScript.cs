@@ -257,8 +257,6 @@ public class PlayerScript : MonoBehaviour
     {
         if (!isDead && !isInvulnerable)
         {
-
-
             //only reset if it wasnt a world kill
             if (PlayerWhoShotYou != null)
             {
@@ -278,8 +276,6 @@ public class PlayerScript : MonoBehaviour
             }
             else
             {
-                //temp damage mod
-                damage *= 1.2f;
 
                 //TODO: amplify pushback from bullets direction
                 //rb.AddForce(transform.right * dir * 0.01f, ForceMode2D.Impulse);
@@ -729,6 +725,9 @@ public class PlayerScript : MonoBehaviour
 
             DamageType dmgType = PlayerScript.ParsePlayerDamage(hitLocation);
 
+            if (dmgType == DamageType.head)
+                dmgType = DamageType.torso;
+
             AudioClip soundClipToPlay;
 
             if (dmgType == DamageType.legs || dmgType == DamageType.feet)
@@ -736,7 +735,7 @@ public class PlayerScript : MonoBehaviour
             else
                 soundClipToPlay = torsoImpact;
 
-            Debug.Log(hitLocation.name + ": " + dmg);
+
 
             //caps damage
             if (dmg > 100)
@@ -746,13 +745,20 @@ public class PlayerScript : MonoBehaviour
             {
                 immuneToCollisionsTimer = 0;
                 audioSource.PlayOneShot(soundClipToPlay);
+                //Debug.Log("Impulse taken: " + dmg);
+                Debug.Log(hitLocation.name + ": " + dmg);
                 TakeDamage(dmg, new Vector2(0, 0), dmgType, hitBy, false, null);
             }
         }
+
+
     }
+
+
+
     #endregion
 
-    #region Floating Damage Text
+        #region Floating Damage Text
     public struct FloatingDamageStuff
     {
         public readonly GameObject floatingDamageGameObject;
