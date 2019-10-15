@@ -211,6 +211,7 @@ public class RoundManager : MonoBehaviour
             newRoundTextAnimator.SetTrigger("NewRound");
 
 
+            //find out who current winner is (if any) and set them to receive a crown
             int max = 0;
             PlayerDataScript currentWinner = null;
             for (int i = 0; i < playerDataList.Count; i++)
@@ -224,6 +225,7 @@ public class RoundManager : MonoBehaviour
                 }
             }
 
+            //if we have a tie in who the current winner is, nobody gets a crown
             if (currentWinner != null)
             {
                 int winners = 0;
