@@ -25,6 +25,7 @@ public class ArmsScript : MonoBehaviour
 
     public Transform handBone;
     public Transform frontupperArmBone;
+    public Transform backUpperArmBone;
 
     [Header("Audio")]
     public AudioClip dryFire;
@@ -67,6 +68,9 @@ public class ArmsScript : MonoBehaviour
     LimbSolver2D IKLimbSolver;
     bool flipped = false;
 
+    Vector3 frontArmPos;
+    Vector3 backArmPos;
+
 
     #endregion
 
@@ -95,6 +99,13 @@ public class ArmsScript : MonoBehaviour
     {
         gameManager = GameManager.Instance;
         EquipGun(gameManager.pistol);
+
+        frontArmPos = frontupperArmBone.position;
+        //backArmPos = backUpperArmBone.position;
+
+        transform.parent = transform.parent.root;
+        //frontupperArmBone.parent = transform.parent.root;
+        //backUpperArmBone.parent = transform.parent.root;
     }
 
     private void Update()
@@ -111,6 +122,16 @@ public class ArmsScript : MonoBehaviour
             }
         }
     }
+
+    private void LateUpdate()
+    {
+        //lock pos of the pivot to the shoulder bone
+        transform.position = frontupperArmBone.position;
+
+        //frontupperArmBone.position = frontArmPos;
+        //backUpperArmBone.position = backArmPos;
+    }
+
     #endregion
 
 
@@ -145,9 +166,6 @@ public class ArmsScript : MonoBehaviour
             rawAim = rawAimLeft;
         }
 
-        //lock pos of the pivot to the shoulder bone
-        transform.position = frontupperArmBone.position;
-
         //if we are aiming somewhere update everything, else we will hold on last known direction
         if (rawAim.magnitude > 0f && Time.timeScale == 1)
         {
@@ -171,7 +189,13 @@ public class ArmsScript : MonoBehaviour
             Gizmos.color = Color.magenta;
             // DrawHelperAtCenter(shootDir, Color.red, 1f);
             if (IKTarget != null)
+            {
                 Gizmos.DrawLine(transform.position, IKTarget.transform.position);
+                if (bulletSpawn != null)
+                {
+                    Gizmos.DrawLine(transform.position, -shootDir);
+                }
+            }
         }
 
     }

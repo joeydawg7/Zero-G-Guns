@@ -121,7 +121,7 @@ public class CameraController : MonoBehaviour
 
         for (int i = 0; i < playersArray.Length; i++)
         {
-            players.Add(playersArray[i].transform);
+            players.Add(playersArray[i].rb.transform);
         }
     }
 

@@ -60,7 +60,7 @@ public class PlayerCanvasScript : MonoBehaviour
         if (GameManager.Instance.isGameStarted)
         {
             if (playerScript != null)
-                transform.position = playerScript.transform.position;
+                transform.position = playerScript.rb.transform.position;
 
 
             if (fillAmount != hpFront.fillAmount)

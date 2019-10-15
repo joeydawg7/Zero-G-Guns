@@ -82,7 +82,6 @@ public class PlayerScript : MonoBehaviour
     public string playerName;
     [HideInInspector]
     public string hexColorCode;
-    [HideInInspector]
     public Rigidbody2D rb;
     [HideInInspector]
     public PlayerInput playerInput;

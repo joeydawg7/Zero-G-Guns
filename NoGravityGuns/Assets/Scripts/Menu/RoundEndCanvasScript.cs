@@ -22,13 +22,13 @@ public class RoundEndCanvasScript : MonoBehaviour
         string winnerTextString = string.Empty;
         string looserTextString = string.Empty;
 
-        var players = GameObject.FindGameObjectsWithTag("Player");
+        var players = FindObjectsOfType<PlayerScript>();
         PlayerScript winningPlayer = null;
         foreach (var p in players)
         {
-            if (p.GetComponent<PlayerScript>().numLives > 0)
+            if (p.numLives > 0)
             {
-                winningPlayer = p.GetComponent<PlayerScript>();
+                winningPlayer = p;
             }
         }
 
@@ -84,7 +84,7 @@ public class RoundEndCanvasScript : MonoBehaviour
             rand = Random.Range(0, 100);
         }
 
-        if (rand > 1)
+        if (rand > 75)
         {
             if (gunWhoShotYou.name == "RailGun")
             {
