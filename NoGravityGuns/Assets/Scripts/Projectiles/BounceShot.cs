@@ -51,8 +51,6 @@ public class BounceShot : Bullet
                     canImapact = false;
                 }
 
-                Debug.Log(bounces);
-
                 SpawnSparkEffect();
             }
         }
