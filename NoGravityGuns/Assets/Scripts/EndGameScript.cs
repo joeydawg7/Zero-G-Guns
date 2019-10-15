@@ -36,6 +36,7 @@ public class EndGameScript : MonoBehaviour
                 {
                     tickTimer = false;
                     timer = 0;
+                    Debug.Log("starting new game!");
                     RoundManager.Instance.NewRound(true);
                 }
                 else

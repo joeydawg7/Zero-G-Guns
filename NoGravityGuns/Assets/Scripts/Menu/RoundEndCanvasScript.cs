@@ -84,6 +84,7 @@ public class RoundEndCanvasScript : MonoBehaviour
             rand = Random.Range(0, 100);
         }
 
+        //25% chance gun text
         if (rand > 75)
         {
             if (gunWhoShotYou.name == "RailGun")

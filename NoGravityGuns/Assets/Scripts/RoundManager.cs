@@ -144,6 +144,7 @@ public class RoundManager : MonoBehaviour
             {
                 //then pick a random room from everything playable
                 nextRoom = tempRooms[Random.Range(0, tempRooms.Count)];
+                nextRoom.isPlayable = false;
             }
 
         }
@@ -241,17 +242,19 @@ public class RoundManager : MonoBehaviour
                 }
             }
 
-            
+            foreach (var PD in playerDataList)
+            {
+                PD.SpawnAtMatchingPoint(globalPlayerSettings, playerCanvas);
+            }
+            GameManager.Instance.StartGame();
         }
-
-        Debug.Log("spawning players");
-        foreach (var PD in playerDataList)
-        {
-            PD.SpawnAtMatchingPoint(globalPlayerSettings, playerCanvas);
-        }
+        //else
+        //    joiningPlayerScript.Start();
 
 
-        GameManager.Instance.StartGame();
+     
+
+       
 
 
     }
