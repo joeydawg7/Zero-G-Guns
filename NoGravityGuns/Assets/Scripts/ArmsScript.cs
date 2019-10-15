@@ -98,7 +98,7 @@ public class ArmsScript : MonoBehaviour
     private void Start()
     {
         gameManager = GameManager.Instance;
-        EquipGun(gameManager.pistol);
+        EquipGun(gameManager.pistol, true);
 
         frontArmPos = frontupperArmBone.position;
         //backArmPos = backUpperArmBone.position;
@@ -228,8 +228,27 @@ public class ArmsScript : MonoBehaviour
     }
 
     //equips a new gun
-    public void EquipGun(GunSO weaponToEquip)
+    public void EquipGun(GunSO weaponToEquip, bool equipInstant)
     {
+        //instant equip assumes time since last shot as being functionally infinite so player can grab weapon and shoot right away
+        if (equipInstant)
+            timeSinceLastShot = int.MaxValue;
+
+        //delays the swapping of weapons so player will hold the old weapon for as long as the recoilDelay on the gun is before switching.
+        StartCoroutine(EquipGunAfterDelay(weaponToEquip));
+       
+        //update UI
+        //SendGunText();
+    }
+
+    IEnumerator EquipGunAfterDelay(GunSO weaponToEquip)
+    {
+        //waits until some time has passed depending on the gun
+        while (timeSinceLastShot < currentWeapon.recoilDelay)
+        {
+            yield return null;
+        }
+
         //get rid of all the other guns
         HideAllGuns();
 
@@ -253,8 +272,6 @@ public class ArmsScript : MonoBehaviour
 
         //find the new bulelt spawn location (bleh)
         bulletSpawn = gunGo.transform.Find("BulletSpawner");
-        //update UI
-        //SendGunText();
     }
 
     public void HideAllGuns()

@@ -50,6 +50,9 @@ public class PlayerScript : MonoBehaviour
     [HideInInspector]
     public int numKills;
     public PlayerScript playerLastHitBy;
+
+    public bool isCurrentLeader = false;
+
     int _roundWins;
     public int roundWins
     {
@@ -91,13 +94,13 @@ public class PlayerScript : MonoBehaviour
     #region privates
     //Private
     Quaternion targetRotation;
-    Color32 defaultColor;
     float angle;
     float immuneToCollisionsTimer;
     SpriteRenderer[] legsSR;
     SpriteRenderer torsoSR;
     SpriteRenderer[] armsSR;
     Rigidbody2D[] legRBs;
+    Color defaultColor;
     GameObject cameraParent;
     Quaternion spawnRotation;
     GameManager gameManager;
@@ -189,9 +192,6 @@ public class PlayerScript : MonoBehaviour
 
             }
 
-
-
-
         }
 
 
@@ -203,7 +203,7 @@ public class PlayerScript : MonoBehaviour
     {
         if (player.GetButtonDown("Drop") && armsScript.currentWeapon.name != "Pistol")
         {
-            armsScript.EquipGun(GameManager.Instance.pistol);
+            armsScript.EquipGun(GameManager.Instance.pistol, true);
         }
     }
 
@@ -232,7 +232,7 @@ public class PlayerScript : MonoBehaviour
         {
             if (!PauseMenu.Instance.gameObject.activeInHierarchy)
             {
-                Debug.Log("Dumb shit");
+                Debug.Log("pause");
                 PauseMenu.Instance.MenuOn();
             }
             else
@@ -422,15 +422,6 @@ public class PlayerScript : MonoBehaviour
         transform.rotation = spawnRotation;
         rb.isKinematic = false;
 
-        //emit those PFX
-        //var mainFlash = respawnFlash.main;
-        //var mainBits = respawnBits.main;
-        //Color c = playerColor;
-        //mainFlash.startColor = c;
-        //mainBits.startColor = c;
-        //respawnFlash.Emit(1);
-        //respawnBits.Emit(Random.Range(15, 30));
-
         ForcePushOnSpawn();
 
         //foreach (var legToFix in legFixers)
@@ -450,7 +441,7 @@ public class PlayerScript : MonoBehaviour
         //last thing you were hit by set back to world, just in case you suicide without help
         playerLastHitBy = null;
 
-        armsScript.EquipGun(GameManager.Instance.pistol);
+        armsScript.EquipGun(GameManager.Instance.pistol, true);
         armsScript.currentAmmo = armsScript.currentWeapon.clipSize;
 
         if (numLives <= 0)
@@ -624,7 +615,7 @@ public class PlayerScript : MonoBehaviour
         isDead = false;
         numKills = 0;
 
-        armsScript.EquipGun(GameManager.Instance.pistol);
+        armsScript.EquipGun(GameManager.Instance.pistol, true);
 
         //torsoSR = GetComponent<SpriteRenderer>();
         //armsSR = armsScript.currentArms.GetComponent<SpriteRenderer>();
@@ -652,7 +643,6 @@ public class PlayerScript : MonoBehaviour
     #region collision Damage
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        Debug.Log("hit something!");
         if (collision.collider.tag == "ImpactObject" || collision.collider.tag == "ExplosiveObject" || collision.collider.tag == "Chunk")
         {
             DealColliderDamage(collision, gameObject, null);
@@ -736,7 +726,6 @@ public class PlayerScript : MonoBehaviour
                 soundClipToPlay = torsoImpact;
 
 
-
             //caps damage
             if (dmg > 100)
                 dmg = 100;
@@ -745,7 +734,6 @@ public class PlayerScript : MonoBehaviour
             {
                 immuneToCollisionsTimer = 0;
                 audioSource.PlayOneShot(soundClipToPlay);
-                //Debug.Log("Impulse taken: " + dmg);
                 Debug.Log(hitLocation.name + ": " + dmg);
                 TakeDamage(dmg, new Vector2(0, 0), dmgType, hitBy, false, null);
             }
@@ -758,7 +746,7 @@ public class PlayerScript : MonoBehaviour
 
     #endregion
 
-        #region Floating Damage Text
+    #region Floating Damage Text
     public struct FloatingDamageStuff
     {
         public readonly GameObject floatingDamageGameObject;

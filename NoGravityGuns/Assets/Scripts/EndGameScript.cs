@@ -106,91 +106,91 @@ public class EndGameScript : MonoBehaviour
         Winners.alpha = 1;
 
         //if more than one person left alive we need to check kills
-        if (winnersList.Count > 1)
-        {
-            List<PlayerScript> mostKillsPlayers = new List<PlayerScript>();
+        //if (winnersList.Count > 1)
+        //{
+        //    List<PlayerScript> mostKillsPlayers = new List<PlayerScript>();
 
-            //winOrTie.text = "Its a tie!";            
-            for (int i = 0; i < winnersList.Count - 1; i++)
-            {
-                for (int j = i + 1; j < winnersList.Count; j++)
-                {
-                    //if they are not equal we should do more stuff
-                    if (winnersList[i].numKills != winnersList[j].numKills)
-                    {
-                        //we found a new highest, kill the old stuff make this the only entry in the list
-                        if (winnersList[i].numKills > winnersList[j].numKills)
-                        {
-                            mostKillsPlayers.Clear();
-                            mostKillsPlayers.Add(winnersList[i]);
-                        }
-                    }
-                    //otherwise they are equal so we might have a tie in kills
-                    else
-                    {
-                        if (!mostKillsPlayers.Contains(winnersList[i]))
-                            mostKillsPlayers.Add(winnersList[i]);
-                        if (!mostKillsPlayers.Contains(winnersList[j]))
-                            mostKillsPlayers.Add(winnersList[j]);
-                    }
-                }
-            }
+        //    //winOrTie.text = "Its a tie!";            
+        //    for (int i = 0; i < winnersList.Count - 1; i++)
+        //    {
+        //        for (int j = i + 1; j < winnersList.Count; j++)
+        //        {
+        //            //if they are not equal we should do more stuff
+        //            if (winnersList[i].numKills != winnersList[j].numKills)
+        //            {
+        //                //we found a new highest, kill the old stuff make this the only entry in the list
+        //                if (winnersList[i].numKills > winnersList[j].numKills)
+        //                {
+        //                    mostKillsPlayers.Clear();
+        //                    mostKillsPlayers.Add(winnersList[i]);
+        //                }
+        //            }
+        //            //otherwise they are equal so we might have a tie in kills
+        //            else
+        //            {
+        //                if (!mostKillsPlayers.Contains(winnersList[i]))
+        //                    mostKillsPlayers.Add(winnersList[i]);
+        //                if (!mostKillsPlayers.Contains(winnersList[j]))
+        //                    mostKillsPlayers.Add(winnersList[j]);
+        //            }
+        //        }
+        //    }
 
-            //tie in kills, time to nitty gritty with health
-            if (mostKillsPlayers.Count > 1)
-            {
-                for (int i = 0; i < winnersList.Count - 1; i++)
-                {
-                    for (int j = i + 1; j < winnersList.Count; j++)
-                    {
-                        //if they are not equal we should do more stuff
-                        if (winnersList[i].health != winnersList[j].health)
-                        {
-                            //we found a new highest, kill the old stuff make this the only entry in the list
-                            if (winnersList[i].health > winnersList[j].health)
-                            {
-                                mostKillsPlayers.Clear();
-                                mostKillsPlayers.Add(winnersList[i]);
-                            }
-                        }
-                        //otherwise they are equal so we might have a tie in health
-                        else
-                        {
-                            if (!mostKillsPlayers.Contains(winnersList[i]))
-                                mostKillsPlayers.Add(winnersList[i]);
-                            if (!mostKillsPlayers.Contains(winnersList[j]))
-                                mostKillsPlayers.Add(winnersList[j]);
-                        }
-                    }
-                }
-            }
+        //    //tie in kills, time to nitty gritty with health
+        //    if (mostKillsPlayers.Count > 1)
+        //    {
+        //        for (int i = 0; i < winnersList.Count - 1; i++)
+        //        {
+        //            for (int j = i + 1; j < winnersList.Count; j++)
+        //            {
+        //                //if they are not equal we should do more stuff
+        //                if (winnersList[i].health != winnersList[j].health)
+        //                {
+        //                    //we found a new highest, kill the old stuff make this the only entry in the list
+        //                    if (winnersList[i].health > winnersList[j].health)
+        //                    {
+        //                        mostKillsPlayers.Clear();
+        //                        mostKillsPlayers.Add(winnersList[i]);
+        //                    }
+        //                }
+        //                //otherwise they are equal so we might have a tie in health
+        //                else
+        //                {
+        //                    if (!mostKillsPlayers.Contains(winnersList[i]))
+        //                        mostKillsPlayers.Add(winnersList[i]);
+        //                    if (!mostKillsPlayers.Contains(winnersList[j]))
+        //                        mostKillsPlayers.Add(winnersList[j]);
+        //                }
+        //            }
+        //        }
+        //    }
 
-            foreach (var realWinner in mostKillsPlayers)
-            {
+        //    foreach (var realWinner in mostKillsPlayers)
+        //    {
                 
-                if (mostKillsPlayers.Count <= 1)
-                {
-                    winOrTie.text = "<color=" + realWinner.hexColorCode + ">" + realWinner.playerName + " Is the winner!" + "</color>";
-                    yield return new WaitForSeconds(0.5f);
-                }
-                else
-                {
-                    winOrTie.text = "<color=" + realWinner.hexColorCode + ">" + realWinner.playerName + " Are the winners! It's a tie!" + "</color>";
-                    yield return new WaitForSeconds(0.35f);
-                }
+        //        if (mostKillsPlayers.Count <= 1)
+        //        {
+        //            winOrTie.text = "<color=" + realWinner.hexColorCode + ">" + realWinner.playerName + " Is the winner!" + "</color>";
+        //            yield return new WaitForSeconds(0.5f);
+        //        }
+        //        else
+        //        {
+        //            winOrTie.text = "<color=" + realWinner.hexColorCode + ">" + realWinner.playerName + " Are the winners! It's a tie!" + "</color>";
+        //            yield return new WaitForSeconds(0.35f);
+        //        }
                 
-            }
+        //    }
          
-            foreach (var player in GameManager.Instance.players)
-            {
-                yield return new WaitForSeconds(0.5f);
-                Winners.text += "<" + player.hexColorCode + ">" + player.playerName + ": " + player.numKills + "</color> \n";
+        //    foreach (var player in GameManager.Instance.players)
+        //    {
+        //        yield return new WaitForSeconds(0.5f);
+        //        Winners.text += "<" + player.hexColorCode + ">" + player.playerName + ": " + player.numKills + "</color> \n";
 
-            }
-        }
-        //one winner
-        else
-        {            
+        //    }
+        //}
+        ////one winner
+        //else
+        //{            
             if (winnersList.Count > 0)
             {
                 PlayerDataScript roundWinner = AddRoundWinToWinner(winnersList[0]);
@@ -262,7 +262,7 @@ public class EndGameScript : MonoBehaviour
 
 
 
-        }
+      //  }
 
     }
 

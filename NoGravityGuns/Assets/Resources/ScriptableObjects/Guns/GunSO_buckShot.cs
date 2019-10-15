@@ -12,7 +12,6 @@ public class GunSO_buckShot : GunSO
 
     public override void Fire(PlayerScript player, Vector3 dir)
     {
-
         BuckShot(player, dir);
     }
 
@@ -31,6 +30,8 @@ public class GunSO_buckShot : GunSO
             arms.audioSource.Stop();
 
         arms.audioSource.PlayOneShot(GetRandomGunshotSFX);
+
+        player.StartCoroutine(DelayShotCoroutine(player, dir));
 
         ReduceBullets(player);
 

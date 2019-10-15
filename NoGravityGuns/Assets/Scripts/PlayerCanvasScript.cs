@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.Experimental.Rendering.LWRP;
 
 //quick script to keep the worldspace canvas attached to player without inheriting rotation like it would if it were a child
 public class PlayerCanvasScript : MonoBehaviour
@@ -15,6 +16,7 @@ public class PlayerCanvasScript : MonoBehaviour
     public Image hpFront;
     public Image hpBack;
     public Image hpFlash;
+    public Image winnerCrown;
 
     float fillAmount;
 
@@ -34,6 +36,8 @@ public class PlayerCanvasScript : MonoBehaviour
         {
             text.color = playerScript.playerColor;
         }
+
+        winnerCrown.gameObject.SetActive(false);
     }
 
     public void setHealth(float fillDamage)
@@ -52,6 +56,20 @@ public class PlayerCanvasScript : MonoBehaviour
             }
 
             hpContainerAnimator.SetTrigger("takeDamage");
+        }
+    }
+
+    public void ShowCurrentWinnerCrown(bool show)
+    {
+        if(show)
+        {
+            winnerCrown.gameObject.SetActive(true);
+            winnerCrown.color = playerScript.playerColor;
+            winnerCrown.GetComponent<Light2D>().color = playerScript.playerColor;
+        }
+        else
+        {
+            winnerCrown.gameObject.SetActive(false);
         }
     }
 

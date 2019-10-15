@@ -43,7 +43,7 @@ public class PlayerSpawnPoint : MonoBehaviour
     //}
 
 
-    public void SpawnCharacter(int IDToSpawn, Controller controller, GlobalPlayerSettingsSO globalPlayerSettings, GameObject playerCanvas)
+    public void SpawnCharacter(int IDToSpawn, Controller controller, GlobalPlayerSettingsSO globalPlayerSettings, GameObject playerCanvas, bool isCurrentWinner)
     {
 
         //TODO: change this from random to a choice  in GUI :D
@@ -58,13 +58,21 @@ public class PlayerSpawnPoint : MonoBehaviour
         playerScript.SetController(IDToSpawn, controller);
 
         go.name = "Player" + IDToSpawn;
-        //go.transform.parent = transform;
+
+        //sets everything from global player settings
+        playerScript.playerName = globalPlayerSettings.playerSettings[IDToSpawn].playerName;
+        playerScript.hexColorCode = globalPlayerSettings.playerSettings[IDToSpawn].playerColorHexCode;
+        playerScript.collisionLayer = globalPlayerSettings.playerSettings[IDToSpawn].CollisionLayer;
+        playerScript.playerColor = globalPlayerSettings.playerSettings[IDToSpawn].Color;
+        playerScript.deadColor = globalPlayerSettings.playerSettings[IDToSpawn].DeadColor;
 
         //set stuff for player canvas
         PlayerCanvasScript playerCanvasScript = Instantiate(playerCanvas).GetComponent<PlayerCanvasScript>();
         playerCanvasScript.SetPlayerCanvas(globalPlayerSettings.playerSettings[IDToSpawn].PlayerCanvasSettings.hpFront,
             globalPlayerSettings.playerSettings[IDToSpawn].PlayerCanvasSettings.hpBack, globalPlayerSettings.playerSettings[IDToSpawn].PlayerCanvasSettings.hpCriticalFlash,
             playerScript);
+
+        playerCanvasScript.ShowCurrentWinnerCrown(isCurrentWinner);
 
         switch (facingDirection)
         {
@@ -87,13 +95,7 @@ public class PlayerSpawnPoint : MonoBehaviour
         playerCanvasScript.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 8);
         playerCanvasScript.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 21);
 
-        //sets everything from global player settings
-        playerScript.playerName = globalPlayerSettings.playerSettings[IDToSpawn].playerName;
-        playerScript.hexColorCode = globalPlayerSettings.playerSettings[IDToSpawn].playerColorHexCode;
-        playerScript.collisionLayer = globalPlayerSettings.playerSettings[IDToSpawn].CollisionLayer;
-        playerScript.playerColor = globalPlayerSettings.playerSettings[IDToSpawn].Color;
-        playerScript.deadColor = globalPlayerSettings.playerSettings[IDToSpawn].DeadColor;
-
+     
 
         gameObject.SetActive(false);
     }

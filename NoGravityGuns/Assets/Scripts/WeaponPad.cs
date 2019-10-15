@@ -102,7 +102,7 @@ public class WeaponPad : MonoBehaviour
             else
             {
                 //equip the new gun and play the sound
-                player.armsScript.EquipGun(currentWeapon);
+                player.armsScript.EquipGun(currentWeapon,true);
                 GetComponent<AudioSource>().PlayOneShot(pickupSFX);
             }
 

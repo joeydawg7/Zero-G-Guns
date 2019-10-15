@@ -63,7 +63,7 @@ public class RoundManager : MonoBehaviour
                 room.isPlayable = true;
             }
 
-                // ObjectPooler.Instance.StartUp();
+            // ObjectPooler.Instance.StartUp();
         }
 
         finishedControllerSetup = false;
@@ -100,7 +100,7 @@ public class RoundManager : MonoBehaviour
 
             if (playerDataList.Count > 0)
             {
-                for (int i = playerDataList.Count-1; i >=0; i--)
+                for (int i = playerDataList.Count - 1; i >= 0; i--)
                 {
                     Destroy(playerDataList[i]);
                 }
@@ -118,7 +118,7 @@ public class RoundManager : MonoBehaviour
         RoomSO nextRoom = null;
 
         //we have no room to go to!
-        while(nextRoom == null)
+        while (nextRoom == null)
         {
             //make a list of all possible rooms we could go to that are playable
             foreach (var room in rooms)
@@ -126,7 +126,7 @@ public class RoundManager : MonoBehaviour
                 if (room.isPlayable)
                 {
                     tempRooms.Add(room);
-                   // Debug.Log(room.name);
+                    // Debug.Log(room.name);
                 }
             }
 
@@ -150,7 +150,7 @@ public class RoundManager : MonoBehaviour
 
 
         StartCoroutine(AddLevel(nextRoom.sceneName, nextRoom, startOver));
-       
+
         roundEndCanvasScript.ClearEndRoundCanvasDisplay();
     }
 
@@ -180,14 +180,14 @@ public class RoundManager : MonoBehaviour
 
         ObjectPooler.Instance.ResetRound();
 
-        AsyncOperation asyncLoadLevel = SceneManager.LoadSceneAsync(lvl); 
+        AsyncOperation asyncLoadLevel = SceneManager.LoadSceneAsync(lvl);
 
-        while (!asyncLoadLevel.isDone )
+        while (!asyncLoadLevel.isDone)
         {
             yield return null;
         }
 
-        
+
 
         LevelLoaded(nextRoom, startOver);
         yield return new WaitForSeconds(0.5f);
@@ -210,22 +210,50 @@ public class RoundManager : MonoBehaviour
 
             newRoundTextAnimator.SetTrigger("NewRound");
 
-            Debug.Log("spawning players");
-            foreach (var PD in playerDataList)
+
+            int max = 0;
+            PlayerDataScript currentWinner = null;
+            for (int i = 0; i < playerDataList.Count; i++)
             {
-                PD.SpawnAtMatchingPoint(globalPlayerSettings, playerCanvas);
+                playerDataList[i].isCurrentWinner = false;
+
+                if (playerDataList[i].roundWins > max)
+                {
+                    max = playerDataList[i].roundWins;
+                    currentWinner = playerDataList[i];
+                }
             }
 
+            if (currentWinner != null)
+            {
+                int winners = 0;
+                foreach (var pd in playerDataList)
+                {
+                    if (pd.roundWins == currentWinner.roundWins)
+                        winners++;
+                }
 
-            GameManager.Instance.StartGame();
+                if (winners <= 1)
+                {
+                    currentWinner.isCurrentWinner = true;
+                }
+            }
 
-           
+            
+        }
+
+        Debug.Log("spawning players");
+        foreach (var PD in playerDataList)
+        {
+            PD.SpawnAtMatchingPoint(globalPlayerSettings, playerCanvas);
         }
 
 
-       
+        GameManager.Instance.StartGame();
+
 
     }
+
 
 
 
@@ -275,7 +303,7 @@ public class RoundManager : MonoBehaviour
         {
             loadingImage.fillAmount += Time.deltaTime;
 
-            if(loadingImage.fillAmount>=1)
+            if (loadingImage.fillAmount >= 1)
             {
                 loadingImage.fillAmount = 0;
                 loading = false;
@@ -291,5 +319,5 @@ public class RoundManager : MonoBehaviour
         }
     }
 
-  
+
 }

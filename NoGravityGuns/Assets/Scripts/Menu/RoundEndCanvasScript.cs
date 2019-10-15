@@ -100,6 +100,11 @@ public class RoundEndCanvasScript : MonoBehaviour
                 options = new[] { "PULL!", "Hunting season!"};
 
             }
+            else if (gunWhoShotYou.name == "Minigun")
+            {
+                options = new[] { "Clever Minigun text!", "Shot to bits!" };
+
+            }
             //TODO: be funnier, add more
         }
 
@@ -124,13 +129,13 @@ public class RoundEndCanvasScript : MonoBehaviour
             }
             else if (damageType == PlayerScript.DamageType.feet)
             {
-                options = new[] { "A foot shot how embarrassing", "A shoelace kill", "It's just a flesh wound" };
+                options = new[] { "A foot shot. How embarrassing", "A shoelace kill", "It's just a flesh wound" };
 
             }
             //this seems to only come up on collision damage
             else if (damageType == PlayerScript.DamageType.self)
             {
-                options = new[] { "Whoo slow  it down", "Smack!", "that left a small crater", "No need to rush" };
+                options = new[] { "Whoo slow it down", "Smack!", "That left a small crater", "No need to rush" };
 
             }
             else if (damageType == PlayerScript.DamageType.explosive)
