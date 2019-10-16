@@ -1693,7 +1693,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6618733368401359375}
-  m_LocalRotation: {x: 0, y: 0, z: -0.98025566, w: -0.19773425}
+  m_LocalRotation: {x: 0, y: 0, z: -0.9802557, w: -0.19773437}
   m_LocalPosition: {x: 5.049613, y: 3.0330434, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -2069,14 +2069,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6618733368635729436}
-  m_LocalRotation: {x: -0.21670453, y: 0.14382283, z: -0.48241544, w: 0.8364386}
+  m_LocalRotation: {x: -0.21331915, y: 0.14143096, z: -0.48299623, w: 0.837381}
   m_LocalPosition: {x: 2.05, y: -0.05, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 6618733367923125351}
   m_Father: {fileID: 6618733368401359372}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: -1.7240001, y: 0, z: 130.578}
+  m_LocalEulerAnglesHint: {x: -12.747001, y: 27.009, z: 296.851}
 --- !u!1 &6618733368738373106
 GameObject:
   m_ObjectHideFlags: 0
@@ -2652,7 +2652,6 @@ GameObject:
   - component: {fileID: 8821908765624388814}
   - component: {fileID: 1285382714}
   - component: {fileID: 4662038382817390170}
-  - component: {fileID: 6358910227747522118}
   m_Layer: 22
   m_Name: '!USSR_Char_Green'
   m_TagString: Player
@@ -2917,29 +2916,3 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!61 &6358910227747522118
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8821908765624388855}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: -0.56296974, y: 4.486979}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.49186325, y: 0.48665705}
-    oldSize: {x: 21.611876, y: 24.16}
-    newSize: {x: 21.611876, y: 24.16}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 1.0122024, y: 1.5567999}
-  m_EdgeRadius: 0

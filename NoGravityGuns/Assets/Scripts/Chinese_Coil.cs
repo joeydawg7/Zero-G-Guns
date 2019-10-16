@@ -28,9 +28,9 @@ public class Chinese_Coil : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.tag == "Player")
+        if(collision.tag == "Player" || collision.tag == "Torso" || collision.tag == "Leg" || collision.tag == "Feet" || collision.tag == "Head")
         {
-            PlayerScript player = collision.gameObject.GetComponentInChildren<PlayerScript>();
+            PlayerScript player = collision.transform.root.GetComponentInChildren<PlayerScript>();
 
             if (!player.isDead)
             {
