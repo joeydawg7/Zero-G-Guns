@@ -17,7 +17,7 @@ public class RoundManager : MonoBehaviour
     [Header("----------")]
 
 
-    public int maxRounds;
+    public int roundsToWin;
 
     [Header("Round-Fluid elements")]
     GameObject newRoundElementBacker;
