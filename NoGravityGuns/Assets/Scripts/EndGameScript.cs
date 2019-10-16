@@ -195,6 +195,7 @@ public class EndGameScript : MonoBehaviour
             //{            
             if (winnersList.Count > 0)
             {
+            ////^^^^^ ??? causing round errors? check ealier shit
                 PlayerDataScript roundWinner = AddRoundWinToWinner(winnersList[0]);
                 if (roundWinner == null)
                 {
@@ -202,6 +203,7 @@ public class EndGameScript : MonoBehaviour
                     yield break;
                 }
 
+                //5/2 = 2.5 (3)
                 if (roundWinner.roundWins >= Mathf.Ceil((float)RoundManager.Instance.maxRounds / 2f))
                 {
                     gameOverText.text = "Game Over!";
@@ -213,7 +215,6 @@ public class EndGameScript : MonoBehaviour
                     {
                         yield return new WaitForSeconds(0.5f);
                         Winners.text += "<color=" + player.hexColorCode + ">" + player.playerName + ": " + player.roundWins + " Rounds Won " + "</color> \n";
-
                     }
                 }
                 else
