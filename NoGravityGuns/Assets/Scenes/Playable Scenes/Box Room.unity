@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311992, g: 0.38074034, b: 0.35872713, a: 1}
+  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -698,6 +698,12 @@ PrefabInstance:
       propertyPath: m_Name
       value: CameraParent
       objectReference: {fileID: 0}
+    - target: {fileID: 3999692916492170048, guid: 2b18ac5c61031ff43a13854b9bfb3bbb,
+        type: 3}
+      propertyPath: SFXMixer
+      value: 
+      objectReference: {fileID: 24100000, guid: cc88a01cb1e528a4c86567170282719a,
+        type: 2}
     - target: {fileID: 3999692916492170063, guid: 2b18ac5c61031ff43a13854b9bfb3bbb,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -753,12 +759,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3999692916492170048, guid: 2b18ac5c61031ff43a13854b9bfb3bbb,
-        type: 3}
-      propertyPath: SFXMixer
-      value: 
-      objectReference: {fileID: 24100000, guid: cc88a01cb1e528a4c86567170282719a,
-        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2b18ac5c61031ff43a13854b9bfb3bbb, type: 3}
 --- !u!1001 &251844662
@@ -2262,6 +2262,81 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4920617087354657533, guid: 455668168d389204aabb63ceaba92e22,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 56.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 4920617087354657533, guid: 455668168d389204aabb63ceaba92e22,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -15.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5322537387965353561, guid: 455668168d389204aabb63ceaba92e22,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.7962849
+      objectReference: {fileID: 0}
+    - target: {fileID: 5322537387965353561, guid: 455668168d389204aabb63ceaba92e22,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.6049217
+      objectReference: {fileID: 0}
+    - target: {fileID: 5322537387965353561, guid: 455668168d389204aabb63ceaba92e22,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 1.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5322537387965353561, guid: 455668168d389204aabb63ceaba92e22,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.44
+      objectReference: {fileID: 0}
+    - target: {fileID: 5322537387965353561, guid: 455668168d389204aabb63ceaba92e22,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: -105.55401
+      objectReference: {fileID: 0}
+    - target: {fileID: 546118329921814377, guid: 455668168d389204aabb63ceaba92e22,
+        type: 3}
+      propertyPath: m_PointLightInnerAngle
+      value: 193.13
+      objectReference: {fileID: 0}
+    - target: {fileID: 546118329921814377, guid: 455668168d389204aabb63ceaba92e22,
+        type: 3}
+      propertyPath: m_PointLightOuterAngle
+      value: 360
+      objectReference: {fileID: 0}
+    - target: {fileID: 546118329921814377, guid: 455668168d389204aabb63ceaba92e22,
+        type: 3}
+      propertyPath: m_PointLightOuterRadius
+      value: 68.323044
+      objectReference: {fileID: 0}
+    - target: {fileID: 546118329921814377, guid: 455668168d389204aabb63ceaba92e22,
+        type: 3}
+      propertyPath: m_BlendStyleIndex
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 546118329921814377, guid: 455668168d389204aabb63ceaba92e22,
+        type: 3}
+      propertyPath: m_Intensity
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 546118329921814377, guid: 455668168d389204aabb63ceaba92e22,
+        type: 3}
+      propertyPath: m_AlphaBlendOnOverlap
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 546118329921814377, guid: 455668168d389204aabb63ceaba92e22,
+        type: 3}
+      propertyPath: m_PointLightDistance
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6764479600093498608, guid: 455668168d389204aabb63ceaba92e22,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -11.2
+      objectReference: {fileID: 0}
     - target: {fileID: 4713527608523813401, guid: 455668168d389204aabb63ceaba92e22,
         type: 3}
       propertyPath: m_LocalRotation.x
@@ -2312,94 +2387,19 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5186477067918899598, guid: 455668168d389204aabb63ceaba92e22,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4920617087354657533, guid: 455668168d389204aabb63ceaba92e22,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 56.8
-      objectReference: {fileID: 0}
-    - target: {fileID: 4920617087354657533, guid: 455668168d389204aabb63ceaba92e22,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -15.4
-      objectReference: {fileID: 0}
-    - target: {fileID: 6764479600093498608, guid: 455668168d389204aabb63ceaba92e22,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -11.2
-      objectReference: {fileID: 0}
     - target: {fileID: 1269833719738683717, guid: 455668168d389204aabb63ceaba92e22,
         type: 3}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5322537387965353561, guid: 455668168d389204aabb63ceaba92e22,
+    - target: {fileID: 5186477067918899598, guid: 455668168d389204aabb63ceaba92e22,
         type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0.7962849
-      objectReference: {fileID: 0}
-    - target: {fileID: 5322537387965353561, guid: 455668168d389204aabb63ceaba92e22,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.6049217
-      objectReference: {fileID: 0}
-    - target: {fileID: 5322537387965353561, guid: 455668168d389204aabb63ceaba92e22,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 1.3
-      objectReference: {fileID: 0}
-    - target: {fileID: 5322537387965353561, guid: 455668168d389204aabb63ceaba92e22,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -0.44
-      objectReference: {fileID: 0}
-    - target: {fileID: 5322537387965353561, guid: 455668168d389204aabb63ceaba92e22,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: -105.55401
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8924079392440195508, guid: 455668168d389204aabb63ceaba92e22,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 546118329921814377, guid: 455668168d389204aabb63ceaba92e22,
-        type: 3}
-      propertyPath: m_PointLightInnerAngle
-      value: 193.13
-      objectReference: {fileID: 0}
-    - target: {fileID: 546118329921814377, guid: 455668168d389204aabb63ceaba92e22,
-        type: 3}
-      propertyPath: m_PointLightOuterAngle
-      value: 360
-      objectReference: {fileID: 0}
-    - target: {fileID: 546118329921814377, guid: 455668168d389204aabb63ceaba92e22,
-        type: 3}
-      propertyPath: m_PointLightOuterRadius
-      value: 68.323044
-      objectReference: {fileID: 0}
-    - target: {fileID: 546118329921814377, guid: 455668168d389204aabb63ceaba92e22,
-        type: 3}
-      propertyPath: m_BlendStyleIndex
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 546118329921814377, guid: 455668168d389204aabb63ceaba92e22,
-        type: 3}
-      propertyPath: m_Intensity
-      value: 0.7
-      objectReference: {fileID: 0}
-    - target: {fileID: 546118329921814377, guid: 455668168d389204aabb63ceaba92e22,
-        type: 3}
-      propertyPath: m_AlphaBlendOnOverlap
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 546118329921814377, guid: 455668168d389204aabb63ceaba92e22,
-        type: 3}
-      propertyPath: m_PointLightDistance
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -7882,16 +7882,16 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 56.69995
       objectReference: {fileID: 0}
-    - target: {fileID: 5615414817126304228, guid: 5f9a7b3882159b848a3afddda6958eb5,
-        type: 3}
-      propertyPath: bulletImage
-      value: 
-      objectReference: {fileID: 164302392}
     - target: {fileID: 5903085415896932467, guid: 5f9a7b3882159b848a3afddda6958eb5,
         type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5615414817126304228, guid: 5f9a7b3882159b848a3afddda6958eb5,
+        type: 3}
+      propertyPath: bulletImage
+      value: 
+      objectReference: {fileID: 164302392}
     - target: {fileID: 4856656272695402484, guid: 5f9a7b3882159b848a3afddda6958eb5,
         type: 3}
       propertyPath: m_Colors.m_DisabledColor.r
