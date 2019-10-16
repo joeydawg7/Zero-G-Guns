@@ -18,6 +18,7 @@ public class PlayerScript : MonoBehaviour
     public float knockbackMultiplier = 1;
     public int numLives;
 
+    [HideInInspector]
     public PlayerCanvasScript playerCanvasScript;
     [HideInInspector]
     public Color32 playerColor;
@@ -40,7 +41,9 @@ public class PlayerScript : MonoBehaviour
 
     public ArmsScript armsScript;
 
+    [HideInInspector]
     public HingeJoint2D leftLegHinge;
+    [HideInInspector]
     public HingeJoint2D rightLegHinge;
 
     [Header("Spawning and kills")]
