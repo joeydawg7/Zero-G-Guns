@@ -30,7 +30,7 @@ public class Chinese_Coil : MonoBehaviour
     {
         if(collision.tag == "Player")
         {
-            PlayerScript player = collision.gameObject.GetComponent<PlayerScript>();
+            PlayerScript player = collision.gameObject.GetComponentInChildren<PlayerScript>();
 
             if (!player.isDead)
             {
@@ -43,10 +43,11 @@ public class Chinese_Coil : MonoBehaviour
                 explosion = go.GetComponent<Explosion>();
                 explosion.Explode(null, explosionRadius, explosionPower, damageAtcenter, cameraShakeDuration, 40f);
 
-
+                /*
                 playerLighting.transform.parent = collision.gameObject.transform;
                 playerLighting.transform.localPosition = Vector3.zero;
                 playerLighting.Play();
+                */
                 var audSource = this.gameObject.GetComponent<AudioSource>();                
                 audSource.PlayOneShot(shockClip);
 
