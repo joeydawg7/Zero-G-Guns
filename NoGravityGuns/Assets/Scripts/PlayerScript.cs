@@ -379,20 +379,7 @@ public class PlayerScript : MonoBehaviour
             }
             // armsSR = armsScript.currentArms.GetComponent<SpriteRenderer>();
 
-            torsoSR.color = deadColor;
-
-
-            foreach (var SR in armsSR)
-            {
-                SR.color = deadColor;
-            }
-            //armsSR.color = deadColor;
-
-            //foreach (var sr in legsSR)
-            //{
-            //    sr.color = deadColor;
-            //}
-            //armsScript.reloadTimer.SetActive(false);
+            StartCoroutine(AnimateDeadColorChange());
 
             if (numLives > 0)
                 StartCoroutine(WaitForRespawn());
@@ -404,6 +391,32 @@ public class PlayerScript : MonoBehaviour
         }
 
         return this;
+    }
+
+    IEnumerator AnimateDeadColorChange()
+    {
+
+        float progress = 0;
+
+        while (progress < 1)
+        {
+            torsoSR.color = Color32.Lerp(playerColor, deadColor, progress);
+            foreach (var SR in armsSR)
+            {
+                SR.color = Color32.Lerp(playerColor,deadColor, progress);
+            }
+            
+            progress += 0.05f;
+
+            yield return null;
+        }
+
+        torsoSR.color = deadColor;
+        foreach (var SR in armsSR)
+        {
+            SR.color = deadColor;
+        }
+
     }
 
     IEnumerator WaitForRespawn()

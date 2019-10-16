@@ -66,7 +66,7 @@ public class RoundEndCanvasScript : MonoBehaviour
             //loserText.color = winnerColour;
 
             //sets as winner color with less opacity
-            bulletImage.color = new Color32(winnerColour.r, winnerColour.g, winnerColour.b, 140);
+            bulletImage.color = new Color32(winnerColour.r, winnerColour.g, winnerColour.b, 180);
         }      
 
         endRoundPanel.SetActive(true);
