@@ -224,8 +224,6 @@ public class RoundManager : MonoBehaviour
                 }
             }
 
-
-
             //if we have a tie in who the current winner is, nobody gets a crown
             foreach (var pd in playerDataList)
             {
