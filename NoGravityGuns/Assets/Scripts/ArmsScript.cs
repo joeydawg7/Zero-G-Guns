@@ -23,7 +23,8 @@ public class ArmsScript : MonoBehaviour
     public GunSO currentWeapon;
     public float targetVectorLength;
 
-    public Transform handBone;
+    public Transform frontHandBone;
+    public Transform backHandBone;
     public Transform frontupperArmBone;
     public Transform backUpperArmBone;
 
@@ -128,7 +129,6 @@ public class ArmsScript : MonoBehaviour
         //lock pos of the pivot to the shoulder bone
         transform.position = frontupperArmBone.position;
 
-
         if (gameManager.isGameStarted)
         {
             if (!basePlayer.isDead)
@@ -180,10 +180,15 @@ public class ArmsScript : MonoBehaviour
             shootDir = shootDir.normalized * targetVectorLength;
             IKTarget.transform.localPosition = shootDir;
 
-            //angle hand bone to point along shoot direction
-            Vector2 handBoneDirection = new Vector2(IKTarget.transform.localPosition.x, IKTarget.transform.localPosition.y * -1) - new Vector2(shootDir.x * -1, shootDir.y) * Vector2.right;
-            handBone.right = handBoneDirection;
+           
         }
+
+        //angle hand bone to point along shoot direction
+        Vector2 frontHandBoneDirection = new Vector2(IKTarget.transform.localPosition.x, IKTarget.transform.localPosition.y * -1) - new Vector2(shootDir.x * -1, shootDir.y) * Vector2.right;
+        frontHandBone.right = frontHandBoneDirection;
+
+        Vector2 backandBoneDirection = new Vector2(IKTarget.transform.localPosition.x, IKTarget.transform.localPosition.y * -1) - new Vector2(shootDir.x * -1, shootDir.y) * Vector2.right;
+        backHandBone.right = backandBoneDirection;
 
     }
 
@@ -259,7 +264,7 @@ public class ArmsScript : MonoBehaviour
         HideAllGuns();
 
         //spawn new gun
-        GameObject gunGo = GameObject.Instantiate(weaponToEquip.gunPrefab, handBone);
+        GameObject gunGo = GameObject.Instantiate(weaponToEquip.gunPrefab, frontHandBone);
 
         currentGunGameObject = gunGo;
 
@@ -283,10 +288,10 @@ public class ArmsScript : MonoBehaviour
     public void HideAllGuns()
     {
 
-        for (int i = 0; i < handBone.childCount; i++)
+        for (int i = 0; i < frontHandBone.childCount; i++)
         {
-            if (handBone.GetChild(i).tag == "Gun")
-                Destroy(handBone.GetChild(i).gameObject);
+            if (frontHandBone.GetChild(i).tag == "Gun")
+                Destroy(frontHandBone.GetChild(i).gameObject);
         }
     }
 

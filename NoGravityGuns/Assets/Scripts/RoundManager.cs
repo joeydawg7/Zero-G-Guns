@@ -214,7 +214,6 @@ public class RoundManager : MonoBehaviour
 
             //find out who current winner is (if any) and set them to receive a crown
             int max = 0;
-            PlayerDataScript currentWinner = null;
             for (int i = 0; i < playerDataList.Count; i++)
             {
                 playerDataList[i].isCurrentWinner = false;
@@ -222,25 +221,19 @@ public class RoundManager : MonoBehaviour
                 if (playerDataList[i].roundWins > max)
                 {
                     max = playerDataList[i].roundWins;
-                    currentWinner = playerDataList[i];
                 }
             }
+
+
 
             //if we have a tie in who the current winner is, nobody gets a crown
-            if (currentWinner != null)
+            foreach (var pd in playerDataList)
             {
-                int winners = 0;
-                foreach (var pd in playerDataList)
-                {
-                    if (pd.roundWins == currentWinner.roundWins)
-                        winners++;
-                }
-
-                if (winners <= 1)
-                {
-                    currentWinner.isCurrentWinner = true;
-                }
+                if (pd.roundWins == max && max>0)
+                    pd.isCurrentWinner = true;
             }
+
+
 
             foreach (var PD in playerDataList)
             {
@@ -252,9 +245,9 @@ public class RoundManager : MonoBehaviour
         //    joiningPlayerScript.Start();
 
 
-     
 
-       
+
+
 
 
     }
