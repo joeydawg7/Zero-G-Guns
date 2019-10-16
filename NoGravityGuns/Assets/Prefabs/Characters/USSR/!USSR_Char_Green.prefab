@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 627699804}
   - component: {fileID: 627699805}
-  m_Layer: 22
+  m_Layer: 16
   m_Name: teamVisorBlue
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -90,7 +90,7 @@ GameObject:
   m_Component:
   - component: {fileID: 919420575}
   - component: {fileID: 919420576}
-  m_Layer: 22
+  m_Layer: 16
   m_Name: teamVisorRed
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -170,7 +170,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1657281335}
   - component: {fileID: 1657281336}
-  m_Layer: 22
+  m_Layer: 16
   m_Name: teamVisorGreen
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -250,7 +250,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1839575308}
   - component: {fileID: 1839575309}
-  m_Layer: 22
+  m_Layer: 16
   m_Name: teamVisorYellow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -332,7 +332,7 @@ GameObject:
   - component: {fileID: 5731538829372167085}
   - component: {fileID: 8797576541913981716}
   - component: {fileID: 7354967554984418093}
-  m_Layer: 22
+  m_Layer: 16
   m_Name: TailBone
   m_TagString: Leg
   m_Icon: {fileID: 0}
@@ -447,7 +447,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3394315995718915860}
   - component: {fileID: 2610624708012999036}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: backHandSolver
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -513,7 +513,7 @@ GameObject:
   - component: {fileID: 6618733368466825880}
   - component: {fileID: 6618733368466825862}
   - component: {fileID: 2126276076}
-  m_Layer: 22
+  m_Layer: 16
   m_Name: lowerRightLegBone
   m_TagString: Leg
   m_Icon: {fileID: 0}
@@ -644,7 +644,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6618733367111417906}
   - component: {fileID: 6618733367111417907}
-  m_Layer: 22
+  m_Layer: 16
   m_Name: backHandSolver
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -707,7 +707,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6618733367150440669}
-  m_Layer: 22
+  m_Layer: 16
   m_Name: frontUpperArmBone
   m_TagString: Arms
   m_Icon: {fileID: 0}
@@ -743,7 +743,7 @@ GameObject:
   - component: {fileID: 6618733368466825879}
   - component: {fileID: 6618733368466825860}
   - component: {fileID: 2122056150}
-  m_Layer: 22
+  m_Layer: 16
   m_Name: rightFootBone
   m_TagString: Feet
   m_Icon: {fileID: 0}
@@ -865,7 +865,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6618733367531802912}
-  m_Layer: 22
+  m_Layer: 16
   m_Name: backHandSolver_Target
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -896,7 +896,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6618733367576289504}
   - component: {fileID: 6618733367576289505}
-  m_Layer: 22
+  m_Layer: 16
   m_Name: CA_forearm
   m_TagString: Arms
   m_Icon: {fileID: 0}
@@ -976,7 +976,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6618733367697385377}
   - component: {fileID: 6618733368466825841}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: frontHandSolver_Target
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1059,7 +1059,7 @@ GameObject:
   - component: {fileID: 6618733368466825872}
   - component: {fileID: 6618733368466825864}
   - component: {fileID: 386054157}
-  m_Layer: 22
+  m_Layer: 16
   m_Name: upperLegRightBone
   m_TagString: Leg
   m_Icon: {fileID: 0}
@@ -1190,7 +1190,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6618733367923125351}
-  m_Layer: 22
+  m_Layer: 16
   m_Name: backHandBone
   m_TagString: Arms
   m_Icon: {fileID: 0}
@@ -1222,7 +1222,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6618733367951493278}
   - component: {fileID: 6618733367951493279}
-  m_Layer: 22
+  m_Layer: 16
   m_Name: CA_Hand
   m_TagString: Arms
   m_Icon: {fileID: 0}
@@ -1305,7 +1305,7 @@ GameObject:
   - component: {fileID: 6618733368466825844}
   - component: {fileID: 6618733368466825842}
   - component: {fileID: 650468084655184496}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: frontHandSolver
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1375,7 +1375,8 @@ MonoBehaviour:
   basePlayer: {fileID: 0}
   currentWeapon: {fileID: 11400000, guid: 49ead892372b5274e987c2ac71fbb8e3, type: 2}
   targetVectorLength: 5
-  handBone: {fileID: 6618733368957391394}
+  frontHandBone: {fileID: 0}
+  backHandBone: {fileID: 0}
   frontupperArmBone: {fileID: 6618733367150440669}
   backUpperArmBone: {fileID: 6618733368401359372}
   dryFire: {fileID: 0}
@@ -1546,7 +1547,7 @@ GameObject:
   - component: {fileID: 6618733368466825878}
   - component: {fileID: 6618733368466825858}
   - component: {fileID: 1000975633}
-  m_Layer: 22
+  m_Layer: 16
   m_Name: headBone
   m_TagString: Head
   m_Icon: {fileID: 0}
@@ -1678,7 +1679,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6618733368401359372}
-  m_Layer: 22
+  m_Layer: 16
   m_Name: backUpperArmBone
   m_TagString: Arms
   m_Icon: {fileID: 0}
@@ -1713,7 +1714,7 @@ GameObject:
   - component: {fileID: 6618733368466825876}
   - component: {fileID: 6618733368466825854}
   - component: {fileID: 817673159}
-  m_Layer: 22
+  m_Layer: 16
   m_Name: lowerLegLeftBone
   m_TagString: Leg
   m_Icon: {fileID: 0}
@@ -1846,7 +1847,7 @@ GameObject:
   - component: {fileID: 6618733368466825869}
   - component: {fileID: 6618733368466825856}
   - component: {fileID: 2120015805}
-  m_Layer: 22
+  m_Layer: 16
   m_Name: upperLegLeftBone
   m_TagString: Leg
   m_Icon: {fileID: 0}
@@ -1975,7 +1976,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6618733368571811577}
   - component: {fileID: 6618733368571811574}
-  m_Layer: 22
+  m_Layer: 16
   m_Name: CA_upperArm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2054,7 +2055,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6618733368635729437}
-  m_Layer: 22
+  m_Layer: 16
   m_Name: backForearmBone
   m_TagString: Arms
   m_Icon: {fileID: 0}
@@ -2089,7 +2090,7 @@ GameObject:
   - component: {fileID: 6618733368466825875}
   - component: {fileID: 6618733368466825852}
   - component: {fileID: 166292085}
-  m_Layer: 22
+  m_Layer: 16
   m_Name: leftFootBone
   m_TagString: Feet
   m_Icon: {fileID: 0}
@@ -2210,7 +2211,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6618733368938515297}
-  m_Layer: 22
+  m_Layer: 16
   m_Name: frontForeArmBone
   m_TagString: Arms
   m_Icon: {fileID: 0}
@@ -2242,7 +2243,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6618733368957391394}
-  m_Layer: 22
+  m_Layer: 16
   m_Name: frontHandBone
   m_TagString: Arms
   m_Icon: {fileID: 0}
@@ -2278,7 +2279,7 @@ GameObject:
   - component: {fileID: 769758489}
   - component: {fileID: 5661708028579990512}
   - component: {fileID: 6118401690446117129}
-  m_Layer: 22
+  m_Layer: 16
   m_Name: hipBone
   m_TagString: Torso
   m_Icon: {fileID: 0}
@@ -2554,7 +2555,7 @@ GameObject:
   - component: {fileID: 1285382714}
   - component: {fileID: 4662038382817390170}
   - component: {fileID: 6358910227747522118}
-  m_Layer: 22
+  m_Layer: 16
   m_Name: '!USSR_Char_Green'
   m_TagString: Player
   m_Icon: {fileID: 0}
