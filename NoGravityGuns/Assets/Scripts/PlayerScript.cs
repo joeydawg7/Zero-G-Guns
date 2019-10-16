@@ -406,7 +406,7 @@ public class PlayerScript : MonoBehaviour
                 SR.color = Color32.Lerp(playerColor,deadColor, progress);
             }
             
-            progress += 0.05f;
+            progress += 0.005f;
 
             yield return null;
         }
