@@ -10,6 +10,8 @@ public class RoundEndCanvasScript : MonoBehaviour
     public TextMeshProUGUI winnerText;
     public TextMeshProUGUI loserText;
 
+    public Image bulletImage;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -36,8 +38,8 @@ public class RoundEndCanvasScript : MonoBehaviour
         {
             winnerText.text = "No one wins round!";
             loserText.text = "you all suck!";
-            var bulletTrails = endRoundPanel.GetComponent<Image>();
-            bulletTrails.color = Color.white;
+
+            bulletImage.color = Color.white;
         }
         else
         {
@@ -63,8 +65,8 @@ public class RoundEndCanvasScript : MonoBehaviour
             loserText.text = looserTextString;
             //loserText.color = winnerColour;
 
-            var bulletTrails = endRoundPanel.GetComponent<Image>();
-            bulletTrails.color = winnerColour;
+            //sets as winner color with less opacity
+            bulletImage.color = new Color32(winnerColour.r, winnerColour.g, winnerColour.b, 140);
         }      
 
         endRoundPanel.SetActive(true);
@@ -84,6 +86,7 @@ public class RoundEndCanvasScript : MonoBehaviour
             rand = Random.Range(0, 100);
         }
 
+        //25% chance gun text
         if (rand > 75)
         {
             if (gunWhoShotYou.name == "RailGun")

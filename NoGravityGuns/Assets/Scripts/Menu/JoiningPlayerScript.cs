@@ -64,7 +64,6 @@ public class JoiningPlayerScript : MonoBehaviour
     void Start()
     {
 
-
         if (!RoundManager.Instance.finishedControllerSetup)
         {
             gameObject.SetActive(true);
