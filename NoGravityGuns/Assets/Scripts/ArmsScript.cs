@@ -116,7 +116,7 @@ public class ArmsScript : MonoBehaviour
 
             if (!basePlayer.isDead)
             {
-                AimController();
+                //AimController();
                 OnReload();
                 ShootController();
             }
@@ -128,12 +128,17 @@ public class ArmsScript : MonoBehaviour
         //lock pos of the pivot to the shoulder bone
         transform.position = frontupperArmBone.position;
 
-        //frontupperArmBone.position = frontArmPos;
-        //backUpperArmBone.position = backArmPos;
+
+        if (gameManager.isGameStarted)
+        {
+            if (!basePlayer.isDead)
+            {
+                AimController();
+            }
+        }
     }
 
     #endregion
-
 
     #region Input Handler Functions
     void AimController()
@@ -162,7 +167,7 @@ public class ArmsScript : MonoBehaviour
         }
         //else allow use of left stick
         else
-        {            
+        {
             rawAim = rawAimLeft;
         }
 
@@ -176,7 +181,8 @@ public class ArmsScript : MonoBehaviour
             IKTarget.transform.localPosition = shootDir;
 
             //angle hand bone to point along shoot direction
-            handBone.right = new Vector2(IKTarget.transform.localPosition.x, IKTarget.transform.localPosition.y * -1) - new Vector2(shootDir.x * -1, shootDir.y) * Vector2.right;
+            Vector2 handBoneDirection = new Vector2(IKTarget.transform.localPosition.x, IKTarget.transform.localPosition.y * -1) - new Vector2(shootDir.x * -1, shootDir.y) * Vector2.right;
+            handBone.right = handBoneDirection;
         }
 
     }
@@ -236,7 +242,7 @@ public class ArmsScript : MonoBehaviour
 
         //delays the swapping of weapons so player will hold the old weapon for as long as the recoilDelay on the gun is before switching.
         StartCoroutine(EquipGunAfterDelay(weaponToEquip));
-       
+
         //update UI
         //SendGunText();
     }
