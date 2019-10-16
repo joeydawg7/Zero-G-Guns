@@ -110,7 +110,7 @@ public class JoiningPlayerScript : MonoBehaviour
 
     void AssignNextPlayer()
     {
-        if (assignedControls.Count >= 4 || rewiredPlayerIdCounter >= 4)
+        if (assignedControls.Count >= 4)
         {
             Debug.Log("Max player limit already reached!");
             return;
@@ -141,7 +141,6 @@ public class JoiningPlayerScript : MonoBehaviour
                 throw new System.NotImplementedException();
             }
         }
-
     }
 
     private void AssignJoystickToPlayer(Player player, Joystick joystick)
@@ -149,6 +148,12 @@ public class JoiningPlayerScript : MonoBehaviour
         // Mark this joystick as assigned so we don't give it to the System Player again
         if (!assignedControls.Contains(joystick.id))
         {
+            foreach (var i in assignedControls)
+            {
+                Debug.Log("ints:");
+                Debug.Log(i);
+
+            }
             assignedControls.Add(joystick.id);
             //only play the sound if not contained, so we can tell if someone is joining when they are already in
             GameManager.Instance.audioSource.PlayOneShot(joinClick);
@@ -163,7 +168,7 @@ public class JoiningPlayerScript : MonoBehaviour
 
                 jp.AssignController(playerControllerData.ID, playerControllerData.controller);
 
-                Debug.Log("Assigned " + joystick.name + " " + joystick.id + " to Player " + player.descriptiveName);
+                //Debug.Log("Assigned " + joystick.name + " " + joystick.id + " to Player " + player.descriptiveName);
             }
 
 
@@ -223,7 +228,7 @@ public class JoiningPlayerScript : MonoBehaviour
         }
     }
 
-  
+
     private void RemoveJoystickFromPlayer(Joystick joystick)
     {
         // Mark this joystick as assigned so we don't give it to the System Player again
@@ -313,7 +318,7 @@ public class JoiningPlayerScript : MonoBehaviour
 
         foreach (var pCdataDic in playerControllerDataDictionary)
         {
-            
+
             Debug.Log("controller: " + pCdataDic.Value.controller.name);
             RoundManager.Instance.SpawnPlayerManager(pCdataDic.Value);
         }
