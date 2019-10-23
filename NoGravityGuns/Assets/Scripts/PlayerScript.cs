@@ -118,6 +118,9 @@ public class PlayerScript : MonoBehaviour
     #endregion
     //End Variables
 
+
+    ParticleSystem speedIndication;
+
     #region Awake, Update, Start
     private void Awake()
     {
@@ -165,6 +168,13 @@ public class PlayerScript : MonoBehaviour
     private void Start()
     {
         rb.simulated = true;
+
+        GameObject go = ObjectPooler.Instance.SpawnFromPool("SpeedIndication", new Vector3(0, 0, 0), Quaternion.identity, transform);
+        go.transform.localPosition = new Vector3(0, 0, 0);
+        ParticleSystem ps = go.GetComponent<ParticleSystem>();
+        var main = ps.main;
+        main.startColor = new ParticleSystem.MinMaxGradient(playerColor);
+        speedIndication = ps;
     }
 
     private void Update()
@@ -199,6 +209,15 @@ public class PlayerScript : MonoBehaviour
 
 
     }
+
+    private void LateUpdate()
+    {
+        if(rb.velocity.magnitude >= 100)
+        {        
+            speedIndication.Play(true);
+        }
+    }
+
     #endregion
 
     #region Input Handler Functions
