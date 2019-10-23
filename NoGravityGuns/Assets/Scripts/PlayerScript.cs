@@ -215,6 +215,7 @@ public class PlayerScript : MonoBehaviour
         if(rb.velocity.magnitude >= 100)
         {        
             speedIndication.Play(true);
+          
         }
     }
 
@@ -770,6 +771,10 @@ public class PlayerScript : MonoBehaviour
                 immuneToCollisionsTimer = 0;
                 audioSource.PlayOneShot(soundClipToPlay);
                 Debug.Log(hitLocation.name + ": " + dmg);
+
+                if(dmg > 5)
+                    cameraParent.GetComponentInChildren<RippleController>().Ripple(transform.position, dmg, 0.95f);
+
                 TakeDamage(dmg, new Vector2(0, 0), dmgType, hitBy, false, null);
             }
         }
