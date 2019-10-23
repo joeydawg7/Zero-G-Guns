@@ -182,7 +182,7 @@ public class CameraController : MonoBehaviour
 
         //initial slowdown last 0.3 /0.1 due to slow down seconds (3s) and scales up post effects during that time
         float timer = 0;
-        while (timer < 0.3f)
+        while (timer < 0.2f)
         {
             chromaticAbberation.intensity.value += Time.deltaTime*5f;
             lensDistortion.scale.value -= Time.deltaTime*5f;
@@ -199,13 +199,12 @@ public class CameraController : MonoBehaviour
             players.Add(trackedPlayers[i]);
         }
         //
-        RoundManager.Instance.roundEndCanvasScript.EndRoundCanvasDisplay(playerWhoWasHit, damageType, gunWhoShotYou);
+        
         //additional wait
-        yield return new WaitForSeconds(6 * Time.timeScale);
-        RoundManager.Instance.roundEndCanvasScript.ClearEndRoundCanvasDisplay();
+        yield return new WaitForSeconds(1 * Time.timeScale);
         //starts showing the end game GUI
         GameManager.Instance.OnGameEnd();
-
+        RoundManager.Instance.roundEndCanvasScript.EndRoundCanvasDisplay(playerWhoWasHit, damageType, gunWhoShotYou);
         //make all SFX pitched normal
         SFXMixer.SetFloat("SFXPitch", 1f);
 
@@ -216,12 +215,14 @@ public class CameraController : MonoBehaviour
         //ramps up return to normal time
         while (Time.timeScale < 1)
         {
-            Time.timeScale += 0.01f;
+            Time.timeScale += 0.05f;
             Time.fixedDeltaTime = 0.02f*Time.deltaTime;
             chromaticAbberation.intensity.value -= Time.deltaTime * 5f;
             lensDistortion.scale.value += Time.deltaTime * 5f;
             yield return null;
         }
+
+       
 
         //sets everything back to normal
         ResetAllSlowdownEffects();

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using Rewired;
 
 public class RoundEndCanvasScript : MonoBehaviour
 {
@@ -12,17 +13,95 @@ public class RoundEndCanvasScript : MonoBehaviour
 
     public Image bulletImage;
 
+    public List<EndGameScoreStatus> endGameScoreStatuses;
+
+    bool tickTimer = false;
+    float timer = 0;
+    bool weHaveAWinner = false;
+
+    CameraController cameraController;
+
+    Animator animator;
+
+    private void Awake()
+    {
+       
+    }
+
     // Start is called before the first frame update
     void Start()
     {
         endRoundPanel.SetActive(false);
+
+        cameraController = Camera.main.GetComponent<CameraController>();
+        animator = gameObject.transform.root.GetComponent<Animator>();
+        endGameScoreStatuses = new List<EndGameScoreStatus>();
+
+
+        EndGameScoreStatus[] egss = FindObjectsOfType<EndGameScoreStatus>();
+
+        for (int i = 0; i < egss.Length; i++)
+        {
+            endGameScoreStatuses.Add(egss[i]);
+        }
+
     }
+
+    private void Update()
+    {
+        if (tickTimer)
+            timer += Time.deltaTime;
+
+        foreach (var player in ReInput.players.AllPlayers)
+        {
+            //A button end of round screen
+            if (player.GetButtonDown("Join") && weHaveAWinner)
+            {
+                if (weHaveAWinner)
+                {
+                    tickTimer = false;
+                    timer = 0;
+                    Debug.Log("starting new game!");
+                    RoundManager.Instance.NewRound(true);
+                }
+                else
+                {
+                    tickTimer = false;
+                    timer = 0;
+                    //SceneManager.LoadScene(SceneManager.GetActiveScene().name, LoadSceneMode.Single);
+                    RoundManager.Instance.NewRound(false);
+                }
+
+                cameraController.ResetAllSlowdownEffects();
+
+            }
+
+            //timer ending of round endscreen
+            if (timer >= 5f && weHaveAWinner == false)
+            {
+                tickTimer = false;
+                timer = 0;
+                RoundManager.Instance.NewRound(false);
+            }
+
+            if (player.GetButtonDown("Drop"))
+            {
+                //cameraController.ResetAllSlowdownEffects();
+                //SceneManager.LoadScene(mainMenuScene, LoadSceneMode.Single);
+            }
+        }
+
+    }
+
 
     public void EndRoundCanvasDisplay(Transform playerWhoWasHit, PlayerScript.DamageType damageType, GunSO gunWhoShotYou)
     {
 
         string winnerTextString = string.Empty;
         string looserTextString = string.Empty;
+
+        animator.SetBool("ShowEndRoundPanel", true);
+
 
         var players = FindObjectsOfType<PlayerScript>();
         PlayerScript winningPlayer = null;
@@ -33,6 +112,25 @@ public class RoundEndCanvasScript : MonoBehaviour
                 winningPlayer = p;
             }
         }
+
+        PlayerDataScript winningPlayerData= null;
+
+        foreach (var pd in RoundManager.Instance.playerDataList)
+        {
+            if(pd.playerControllerData.ID == winningPlayer.playerID)
+            {
+                winningPlayerData = pd;
+                break;
+            }
+        }
+
+        winningPlayerData.IncreaseRoundWins();
+
+        for (int i = 0; i < RoundManager.Instance.playerDataList.Count; i++)
+        {
+            endGameScoreStatuses[i].SetNameAndScore(RoundManager.Instance.playerDataList[i].playerName, "Rounds won: " + RoundManager.Instance.playerDataList[i].roundWins);
+        }
+
 
         if (!winningPlayer)
         {
@@ -67,9 +165,10 @@ public class RoundEndCanvasScript : MonoBehaviour
 
             //sets as winner color with less opacity
             bulletImage.color = new Color32(winnerColour.r, winnerColour.g, winnerColour.b, 180);
-        }      
+        }
 
         endRoundPanel.SetActive(true);
+
 
     }
 
@@ -81,7 +180,7 @@ public class RoundEndCanvasScript : MonoBehaviour
         int rand = 0;
 
         //roll a dice if you were shot by a gun to determine if we should comment on the gun instead
-        if(gunWhoShotYou !=null)
+        if (gunWhoShotYou != null)
         {
             rand = Random.Range(0, 100);
         }
@@ -91,16 +190,16 @@ public class RoundEndCanvasScript : MonoBehaviour
         {
             if (gunWhoShotYou.name == "RailGun")
             {
-                options = new[] { "Pew! Pew!", "Zap!", "Watch out for bounce shots!"};
+                options = new[] { "Pew! Pew!", "Zap!", "Watch out for bounce shots!" };
             }
             else if (gunWhoShotYou.name == "Pistol")
             {
-                options = new[] { "How embarrasing", "Killed by a pea shooter!"};
+                options = new[] { "How embarrasing", "Killed by a pea shooter!" };
 
             }
             else if (gunWhoShotYou.name == "Shotgun")
             {
-                options = new[] { "PULL!", "Hunting season!"};
+                options = new[] { "PULL!", "Hunting season!" };
 
             }
             else if (gunWhoShotYou.name == "Minigun")
@@ -112,7 +211,7 @@ public class RoundEndCanvasScript : MonoBehaviour
         }
 
         //didn't find any options from the above attempt at making witty gun comments... current system demands we have at least 2 comments for each death type because of the error string
-        if(options.Length <=1)
+        if (options.Length <= 1)
         {
             if (damageType == PlayerScript.DamageType.head)
             {
@@ -160,6 +259,8 @@ public class RoundEndCanvasScript : MonoBehaviour
 
     public void ClearEndRoundCanvasDisplay()
     {
+        if(animator!=null)
+        animator.SetBool("ShowEndRoundPanel",false);
 
         winnerText.text = string.Empty;
         loserText.text = string.Empty;
