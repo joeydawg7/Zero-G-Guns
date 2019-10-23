@@ -245,20 +245,19 @@ public class ArmsScript : MonoBehaviour
         if (equipInstant)
             timeSinceLastShot = int.MaxValue;
 
+        timeSinceLastShot = 0;
+
         //delays the swapping of weapons so player will hold the old weapon for as long as the recoilDelay on the gun is before switching.
-        StartCoroutine(EquipGunAfterDelay(weaponToEquip));
+        EquipGun(weaponToEquip);
+
+        
 
         //update UI
         //SendGunText();
     }
 
-    IEnumerator EquipGunAfterDelay(GunSO weaponToEquip)
+    void EquipGun(GunSO weaponToEquip)
     {
-        //waits until some time has passed depending on the gun
-        while (timeSinceLastShot < currentWeapon.recoilDelay)
-        {
-            yield return null;
-        }
 
         //get rid of all the other guns
         HideAllGuns();

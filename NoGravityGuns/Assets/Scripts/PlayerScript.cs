@@ -82,6 +82,7 @@ public class PlayerScript : MonoBehaviour
     public AudioClip headImpact;
     public AudioClip deathClip;
     public AudioClip respawnClip;
+    public AudioClip whooshClip;
     #endregion
     #region hidden publics
     [HideInInspector]
@@ -183,7 +184,7 @@ public class PlayerScript : MonoBehaviour
         if (GameManager.Instance.isGameStarted)
         {
             immuneToCollisionsTimer += Time.deltaTime;
-
+            speedIndicationTimer += Time.deltaTime;
         }
 
         //DEBUG: take damage to torso
@@ -210,12 +211,16 @@ public class PlayerScript : MonoBehaviour
 
     }
 
+    float speedIndicationTimer = 0;
+
     private void LateUpdate()
     {
-        if(rb.velocity.magnitude >= 100)
+        if(rb.velocity.magnitude >= 150 && speedIndicationTimer >=2)
         {        
             speedIndication.Play(true);
-          
+            cameraParent.GetComponentInChildren<RippleController>().Ripple(rb.transform.position, 12, 0.88f);
+            speedIndicationTimer = 0;
+            audioSource.PlayOneShot(whooshClip);
         }
     }
 
@@ -771,9 +776,7 @@ public class PlayerScript : MonoBehaviour
                 immuneToCollisionsTimer = 0;
                 audioSource.PlayOneShot(soundClipToPlay);
                 Debug.Log(hitLocation.name + ": " + dmg);
-
-                if(dmg > 5)
-                    cameraParent.GetComponentInChildren<RippleController>().Ripple(transform.position, dmg, 0.95f);
+                    
 
                 TakeDamage(dmg, new Vector2(0, 0), dmgType, hitBy, false, null);
             }
