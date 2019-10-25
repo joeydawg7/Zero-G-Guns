@@ -54,9 +54,6 @@ public class RoundManager : MonoBehaviour
         else
         {
             _instance = this;
-            DontDestroyOnLoad(gameObject);
-            DontDestroyOnLoad(persistentCanvas);
-            DontDestroyOnLoad(loadingImage.gameObject);
 
             foreach (var room in rooms)
             {
