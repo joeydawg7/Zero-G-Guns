@@ -115,6 +115,8 @@ public class CameraController : MonoBehaviour
     //grab all the players from the scene
     IEnumerator DelayOnGameStart()
     {
+        players.Clear();
+
         yield return new WaitForSeconds(0.25f);
 
         PlayerScript[] playersArray = FindObjectsOfType<PlayerScript>();
@@ -240,7 +242,7 @@ public class CameraController : MonoBehaviour
 
         //make all SFX pitched normal
         SFXMixer.SetFloat("SFXPitch", 1f);
-
+        players.Clear();
     }
 
 

@@ -16,12 +16,10 @@ public class RandomizeFanRotationScript : MonoBehaviour
         int rand = Random.Range(0,2);
         if (rand ==1 )
         {
-            Debug.Log("FAN:1");
             motor.motorSpeed = 600;
         }
         else
         {
-            Debug.Log("FAN:2");
             motor.motorSpeed = -600;
         }
 

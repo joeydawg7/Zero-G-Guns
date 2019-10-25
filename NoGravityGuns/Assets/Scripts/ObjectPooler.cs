@@ -154,11 +154,6 @@ public class ObjectPooler : MonoBehaviour
                 GameObject go = poolDictionary[poolDictionary.Keys.ToList()[i]].ToList()[j];
 
 
-                if(go.name.Contains("Speed"))
-                {
-                    Debug.Log("lksjad");
-                }
-
                 if (go == null)
                 {
                     //if you see this error it means a pooled object got deleted from its parent pool somehow, which should never happen as it can lead to some incredibly fatal errors during extended play
