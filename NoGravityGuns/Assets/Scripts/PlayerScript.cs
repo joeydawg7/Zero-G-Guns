@@ -3,9 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.PlayerInput;
-using UnityEngine.InputSystem.Users;
 using Rewired;
 using XInputDotNetPure;
 
@@ -93,8 +90,6 @@ public class PlayerScript : MonoBehaviour
     public string hexColorCode;
     public Rigidbody2D rb;
     [HideInInspector]
-    public PlayerInput playerInput;
-    [HideInInspector]
     public DamageType lastHitDamageType;
     #endregion
     #region privates
@@ -134,7 +129,6 @@ public class PlayerScript : MonoBehaviour
 
         rb = GetComponent<Rigidbody2D>();
         audioSource = GetComponent<AudioSource>();
-        playerInput = GetComponent<PlayerInput>();
         numKills = 0;
 
         //legFixers = new List<LegFixer>();
@@ -391,6 +385,22 @@ public class PlayerScript : MonoBehaviour
                 Die(damageType, gunThatShotYou);
             }
 
+        }
+    }
+
+    IEnumerator DamageFlash(float damage)
+    {
+        torsoSR.color = invulnerabilityColorFlash;
+        foreach (var SR in armsSR)
+        {
+            SR.color = invulnerabilityColorFlash;
+        }
+
+        yield return new WaitForSeconds(damage/100f);
+        torsoSR.color = defaultColor;
+        foreach (var SR in armsSR)
+        {
+            SR.color = defaultColor;
         }
     }
     #endregion

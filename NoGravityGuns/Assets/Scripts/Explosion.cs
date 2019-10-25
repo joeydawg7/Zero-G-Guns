@@ -103,9 +103,9 @@ public class Explosion : MonoBehaviour, IPooledObject
                     {
                         rb.AddExplosionForce(power * physicsObjectPushForceMod, explosionPos, radius, ForceMode2D.Impulse);
                     }
-                    else
+                    else if (rb.tag == "Torso")
                     {
-                        rb.AddExplosionForce(power, damageAtCenter, explosionPos, radius, ForceMode2D.Force, playerWhoShot, dealDamage);
+                        rb.AddExplosionForce(power * physicsObjectPushForceMod, damageAtCenter, explosionPos, radius, ForceMode2D.Force, playerWhoShot, dealDamage);
                     }
                 }
             }

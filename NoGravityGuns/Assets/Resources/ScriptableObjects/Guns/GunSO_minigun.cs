@@ -6,18 +6,18 @@ public class GunSO_minigun : GunSO
 {
     public float spinUpTime;
     float spinUpAmount;
-    public override void Fire(PlayerScript player, Vector3 dir)
-    {
-        player.armsScript.audioSource.PlayOneShot(GetRandomGunshotSFX);
+    //public override void Fire(PlayerScript player, Vector3 dir)
+    //{
+    //    player.armsScript.audioSource.PlayOneShot(GetRandomGunshotSFX);
 
-        spinUpAmount = 0;
+    //    spinUpAmount += recoilDelay;
 
-        player.StartCoroutine(spinUpMinigun(player));
+    //    player.StartCoroutine(spinUpMinigun(player));
 
-        player.StartCoroutine(DelayShotCoroutine(player, dir));
+    //    player.StartCoroutine(DelayShotCoroutine(player, dir));
 
-        ReduceBullets(player);
-    }
+    //    ReduceBullets(player);
+    //}
 
     /*
      * hold button down
@@ -28,20 +28,28 @@ public class GunSO_minigun : GunSO
      * slowly decrease spinup amount until 0
      * 
      * */
-    IEnumerator spinUpMinigun(PlayerScript player)
-    {
-        while (spinUpAmount < (spinUpTime+recoilDelay) && player.player.GetAxis("Shoot") > 0.5f && player.armsScript.currentWeapon.name == "Minigun")
-        {
-            spinUpAmount += Time.deltaTime;
-            recoilDelay = 1 - spinUpAmount;
-            yield return null;
-        }
+    //IEnumerator spinUpMinigun(PlayerScript player)
+    //{
+    //    while (spinUpAmount < (spinUpTime+recoilDelay) && player.player.GetAxis("Shoot") > 0.5f && player.armsScript.currentWeapon.name == "Minigun")
+    //    {
+    //        spinUpAmount += Time.deltaTime;
+    //        if (spinUpAmount >= 0.25f)
+    //        {
+    //            recoilDelay = 1 - spinUpAmount;
+    //        }          
+    //        yield return null;
+    //    }
+
+    //    recoilDelay = 0.08f;
+
+    //    while (player.player.GetAxis("Shoot") < 0.5f)
+    //    {
+
+    //    }
 
 
-
-
-        //timer = 0;
-    }
+    //    //timer = 0;
+    //}
 
 
     //public override void KnockBack(PlayerScript player, Vector2 shootDir, float knockbackMultiplier)
