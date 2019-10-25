@@ -7,6 +7,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.PlayerInput;
 using UnityEngine.InputSystem.Users;
 using Rewired;
+using XInputDotNetPure;
 
 public class PlayerScript : MonoBehaviour
 {
@@ -49,6 +50,7 @@ public class PlayerScript : MonoBehaviour
     [Header("Spawning and kills")]
     public Vector3 spawnPoint;
     public Color32 invulnerabilityColorFlash;
+    public Color32 defaultColor;
     public float invulnerablityTime;
     [HideInInspector]
     public int numKills;
@@ -104,7 +106,6 @@ public class PlayerScript : MonoBehaviour
     SpriteRenderer torsoSR;
     SpriteRenderer[] armsSR;
     Rigidbody2D[] legRBs;
-    Color defaultColor;
     GameObject cameraParent;
     Quaternion spawnRotation;
     GameManager gameManager;
@@ -144,7 +145,7 @@ public class PlayerScript : MonoBehaviour
         torsoSR = gameObject.transform.root.GetComponent<SpriteRenderer>();
         armsSR = gameObject.GetComponentsInChildren<SpriteRenderer>();
         //torsoSR.color = playerColor;
-        //defaultColor = torsoSR.color;
+        defaultColor = torsoSR.color;
 
         //foreach (var SR in armsSR)
         //{
@@ -168,8 +169,10 @@ public class PlayerScript : MonoBehaviour
     private void Start()
     {
         rb.simulated = true;
-       
+
     }
+
+    public float vibrateAmount = 0;
 
     private void Update()
     {
@@ -178,6 +181,12 @@ public class PlayerScript : MonoBehaviour
         {
             immuneToCollisionsTimer += Time.deltaTime;
             speedIndicationTimer += Time.deltaTime;
+
+            //if (vibrateAmount > 0)
+            //    vibrateAmount -= Time.deltaTime;
+            //Debug.Log(vibrateAmount);
+
+            //GamePad.SetVibration((PlayerIndex)controller.id, vibrateAmount, vibrateAmount);
         }
 
         //DEBUG: take damage to torso
@@ -196,7 +205,6 @@ public class PlayerScript : MonoBehaviour
                 OnFlail();
 
                 OnPause();
-
             }
 
         }
@@ -206,12 +214,12 @@ public class PlayerScript : MonoBehaviour
 
     float speedIndicationTimer = 0;
 
-    private void LateUpdate()
+    private void FixedUpdate()
     {
-        if(rb.velocity.magnitude >= 150 && speedIndicationTimer >=2)
-        {        
+        if (rb.velocity.magnitude >= 150 && speedIndicationTimer >= 2)
+        {
             speedIndication.Play(true);
-            cameraParent.GetComponentInChildren<RippleController>().Ripple(rb.transform.position, 12, 0.88f);
+            cameraParent.GetComponentInChildren<RippleController>().Ripple(rb.transform.position, 15, 0.88f);
             speedIndicationTimer = 0;
             audioSource.PlayOneShot(whooshClip);
         }
@@ -271,6 +279,21 @@ public class PlayerScript : MonoBehaviour
         }
 
     }
+    public void Vibrate(float strength, float time)
+    {
+        if (vibrateController != null)
+            StopCoroutine(vibrateController);
+        vibrateController = StartCoroutine(VibrateController(strength, time));
+    }
+
+    Coroutine vibrateController;
+    IEnumerator VibrateController(float strength, float time)
+    {
+        GamePad.SetVibration((PlayerIndex)controller.id, strength, strength);
+        yield return new WaitForSeconds(time);
+        GamePad.SetVibration((PlayerIndex)controller.id, 0, 0);
+    }
+
     #endregion
 
     #region Take Damage
@@ -346,6 +369,9 @@ public class PlayerScript : MonoBehaviour
             float barVal = ((float)health / 100f);
             playerCanvasScript.setHealth(barVal);
 
+            if(!RoundManager.Instance.debugManager.useDebugSettings)
+                Vibrate(damage / 100f, damage / 100f);
+
             if (health <= 0)
             {
                 //add a kill to whoever shot you, as long as its not you
@@ -367,8 +393,6 @@ public class PlayerScript : MonoBehaviour
 
         }
     }
-
-
     #endregion
 
     #region Die and respawn
@@ -424,9 +448,9 @@ public class PlayerScript : MonoBehaviour
             torsoSR.color = Color32.Lerp(playerColor, deadColor, progress);
             foreach (var SR in armsSR)
             {
-                SR.color = Color32.Lerp(playerColor,deadColor, progress);
+                SR.color = Color32.Lerp(playerColor, deadColor, progress);
             }
-            
+
             progress += 0.005f;
 
             yield return null;
@@ -509,6 +533,7 @@ public class PlayerScript : MonoBehaviour
         //armsSR = armsScript.currentArms.GetComponent<SpriteRenderer>();
 
         float invulnerabilityFlashIncriments = (float)invulnerablityTime / 12f;
+
 
         for (int i = 0; i < invulnerablityTime; i++)
         {
@@ -671,7 +696,6 @@ public class PlayerScript : MonoBehaviour
         main.startColor = new ParticleSystem.MinMaxGradient(playerColor);
         speedIndication = ps;
 
-
         //RoundManager.Instance.SetPlayer(this);
 
         StartCoroutine(RespawnInvulernability());
@@ -775,7 +799,7 @@ public class PlayerScript : MonoBehaviour
                 immuneToCollisionsTimer = 0;
                 audioSource.PlayOneShot(soundClipToPlay);
                 Debug.Log(hitLocation.name + ": " + dmg);
-                    
+
 
                 TakeDamage(dmg, new Vector2(0, 0), dmgType, hitBy, false, null);
             }
