@@ -92,6 +92,7 @@ public class RoundManager : MonoBehaviour
 
         Time.timeScale = 1;
 
+        ObjectPooler.Instance.ResetRound();
 
         if (startOver)
         {
@@ -179,7 +180,6 @@ public class RoundManager : MonoBehaviour
 
         }
 
-        ObjectPooler.Instance.ResetRound();
 
         AsyncOperation asyncLoadLevel = SceneManager.LoadSceneAsync(lvl);
 

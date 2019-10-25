@@ -142,6 +142,7 @@ public class ObjectPooler : MonoBehaviour
         ProfilerMarker marker = new ProfilerMarker();
 
         marker.Begin();
+        Debug.Log("resetting round");
 
         for (int i = 0; i < poolDictionary.Keys.Count; i++)
         {
@@ -152,6 +153,11 @@ public class ObjectPooler : MonoBehaviour
             {
                 GameObject go = poolDictionary[poolDictionary.Keys.ToList()[i]].ToList()[j];
 
+
+                if(go.name.Contains("Speed"))
+                {
+                    Debug.Log("lksjad");
+                }
 
                 if (go == null)
                 {
