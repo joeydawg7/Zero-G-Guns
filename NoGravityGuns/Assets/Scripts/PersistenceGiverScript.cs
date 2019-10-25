@@ -5,18 +5,19 @@ using UnityEngine.SceneManagement;
 
 public class PersistenceGiverScript : MonoBehaviour
 {
-    public List<GameObject> ListToGivePersistenceTo;
-
     // Start is called before the first frame update
     void Start()
     {
-        foreach (var go in ListToGivePersistenceTo)
+
+        GameObject[] objects = FindObjectsOfType<GameObject>();
+
+        foreach (var go in objects)
         {
             DontDestroyOnLoad(go);
         }
 
-
-        SceneManager.LoadScene("FanRoom");
+        Debug.Log("starting new round from persistant scene");
+        RoundManager.Instance.NewRound(true);
 
     }
 

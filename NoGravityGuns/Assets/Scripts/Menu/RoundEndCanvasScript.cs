@@ -18,6 +18,7 @@ public class RoundEndCanvasScript : MonoBehaviour
     bool tickTimer = false;
     float timer = 0;
     bool weHaveAWinner = false;
+    bool gameIsOver = false;
 
     CameraController cameraController;
 
@@ -33,7 +34,7 @@ public class RoundEndCanvasScript : MonoBehaviour
     {
         endRoundPanel.SetActive(false);
 
-        cameraController = Camera.main.GetComponent<CameraController>();
+        cameraController = Camera.main.transform.root.GetComponent<CameraController>();
         animator = gameObject.transform.root.GetComponent<Animator>();
         endGameScoreStatuses = new List<EndGameScoreStatus>();
 
@@ -52,42 +53,48 @@ public class RoundEndCanvasScript : MonoBehaviour
         if (tickTimer)
             timer += Time.deltaTime;
 
-        foreach (var player in ReInput.players.AllPlayers)
+        if (weHaveAWinner)
         {
-            //A button end of round screen
-            if (player.GetButtonDown("Join") && weHaveAWinner)
+            foreach (var player in ReInput.players.AllPlayers)
             {
-                if (weHaveAWinner)
+                //A button end of round screen
+                if (player.GetButtonDown("Join"))
                 {
-                    tickTimer = false;
-                    timer = 0;
-                    Debug.Log("starting new game!");
-                    RoundManager.Instance.NewRound(true);
+                    if (gameIsOver)
+                    {
+                        tickTimer = false;
+                        timer = 0;
+                        Debug.Log("starting new game!");
+                        weHaveAWinner = false;
+                        gameIsOver = false;
+                        RoundManager.Instance.NewRound(true);
+                    }
+                    else
+                    {
+                        tickTimer = false;
+                        timer = 0;
+                        weHaveAWinner = false;
+                        //SceneManager.LoadScene(SceneManager.GetActiveScene().name, LoadSceneMode.Single);
+                        RoundManager.Instance.NewRound(false);
+                    }
+
+                    cameraController.ResetAllSlowdownEffects();
                 }
-                else
+
+                //timer ending of round endscreen
+                if (timer >= 5f && gameIsOver == false)
                 {
                     tickTimer = false;
+                    weHaveAWinner = false;
                     timer = 0;
-                    //SceneManager.LoadScene(SceneManager.GetActiveScene().name, LoadSceneMode.Single);
                     RoundManager.Instance.NewRound(false);
                 }
 
-                cameraController.ResetAllSlowdownEffects();
-
-            }
-
-            //timer ending of round endscreen
-            if (timer >= 5f && weHaveAWinner == false)
-            {
-                tickTimer = false;
-                timer = 0;
-                RoundManager.Instance.NewRound(false);
-            }
-
-            if (player.GetButtonDown("Drop"))
-            {
-                //cameraController.ResetAllSlowdownEffects();
-                //SceneManager.LoadScene(mainMenuScene, LoadSceneMode.Single);
+                if (player.GetButtonDown("Drop"))
+                {
+                    //cameraController.ResetAllSlowdownEffects();
+                    //SceneManager.LoadScene(mainMenuScene, LoadSceneMode.Single);
+                }
             }
         }
 
@@ -117,14 +124,18 @@ public class RoundEndCanvasScript : MonoBehaviour
 
         foreach (var pd in RoundManager.Instance.playerDataList)
         {
-            if(pd.playerControllerData.ID == winningPlayer.playerID)
+            if(winningPlayer !=null && pd.playerControllerData.ID == winningPlayer.playerID)
             {
                 winningPlayerData = pd;
                 break;
             }
         }
-
-        winningPlayerData.IncreaseRoundWins();
+        if (winningPlayer)
+        {
+            winningPlayerData.IncreaseRoundWins();
+            if(winningPlayerData.roundWins >= RoundManager.Instance.roundsToWin)
+                gameIsOver = true;
+        }
 
         for (int i = 0; i < RoundManager.Instance.playerDataList.Count; i++)
         {
@@ -166,9 +177,10 @@ public class RoundEndCanvasScript : MonoBehaviour
             //sets as winner color with less opacity
             bulletImage.color = new Color32(winnerColour.r, winnerColour.g, winnerColour.b, 180);
 
-            weHaveAWinner = true;
+            
         }
 
+        weHaveAWinner = true;
         endRoundPanel.SetActive(true);
 
 

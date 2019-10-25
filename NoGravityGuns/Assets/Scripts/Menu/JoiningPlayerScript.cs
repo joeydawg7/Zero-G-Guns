@@ -148,12 +148,6 @@ public class JoiningPlayerScript : MonoBehaviour
         // Mark this joystick as assigned so we don't give it to the System Player again
         if (!assignedControls.Contains(joystick.id))
         {
-            foreach (var i in assignedControls)
-            {
-                Debug.Log("ints:");
-                Debug.Log(i);
-
-            }
             assignedControls.Add(joystick.id);
             //only play the sound if not contained, so we can tell if someone is joining when they are already in
             GameManager.Instance.audioSource.PlayOneShot(joinClick);

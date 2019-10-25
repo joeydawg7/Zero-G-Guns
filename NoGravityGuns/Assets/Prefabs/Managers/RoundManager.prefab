@@ -44,8 +44,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e49312f61c502b40ab50b03563ebd53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  debugStayOnThisScene: 1
-  roundsToWin: 5
+  debugManager: {fileID: 11400000, guid: 35650090ad5e29d48aac8fd370c67a8e, type: 2}
+  debugStayOnThisScene: {fileID: 11400000, guid: 16d1f62a3f54530488daefd8fd31fd37,
+    type: 2}
+  roundsToWin: 3
   rooms:
   - {fileID: 11400000, guid: 16d1f62a3f54530488daefd8fd31fd37, type: 2}
   - {fileID: 11400000, guid: 2ee89881f6de9aa48b6e3c022680f7da, type: 2}
@@ -64,6 +66,7 @@ MonoBehaviour:
   playerCanvas: {fileID: 6624704998225192752, guid: ac27b34b9c6090d49b1b29a0c6453f62,
     type: 3}
   roundEndCanvasScript: {fileID: 0}
+  loading: 0
 --- !u!114 &2181779809021178799
 MonoBehaviour:
   m_ObjectHideFlags: 0

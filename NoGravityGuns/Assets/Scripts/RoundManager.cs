@@ -13,7 +13,8 @@ public class RoundManager : MonoBehaviour
     #endregion
 
     [Header("DEBUG")]
-    public bool debugStayOnThisScene;
+    public DebugManager debugManager;
+    public RoomSO debugStayOnThisScene;
     [Header("----------")]
 
 
@@ -88,7 +89,6 @@ public class RoundManager : MonoBehaviour
         timeSinceRoundStarted = 0;
 
         Time.timeScale = 1;
-
         ObjectPooler.Instance.ResetRound();
 
         if (startOver)
@@ -153,7 +153,7 @@ public class RoundManager : MonoBehaviour
         roundEndCanvasScript.ClearEndRoundCanvasDisplay();
     }
 
-    bool loading = false;
+    public bool loading = false;
 
     IEnumerator AddLevel(string lvl, RoomSO nextRoom, bool startOver)
     {
@@ -161,9 +161,9 @@ public class RoundManager : MonoBehaviour
 
 
         //DEBUG: use original scene
-        if (debugStayOnThisScene && GameManager.Instance.debugManager.useDebugSettings)
+        if (debugStayOnThisScene!=null && debugManager.useDebugSettings)
         {
-            lvl = SceneManager.GetActiveScene().name;
+            lvl = debugStayOnThisScene.sceneName;
 
             //figure out which room we are in an set that as the real next room 
             for (int i = 0; i < rooms.Count; i++)
@@ -179,12 +179,12 @@ public class RoundManager : MonoBehaviour
 
 
         AsyncOperation asyncLoadLevel = SceneManager.LoadSceneAsync(lvl);
-
+        print("loading async now!");
         while (!asyncLoadLevel.isDone)
         {
             yield return null;
         }
-
+        print("done loading!");
 
 
         LevelLoaded(nextRoom, startOver);

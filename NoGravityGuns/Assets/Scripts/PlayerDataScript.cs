@@ -44,8 +44,6 @@ public class PlayerDataScript : MonoBehaviour
     {
         Dictionary<int, PlayerSpawnPoint> playerSpawnPoints = globalPlayerSettings.GetAllPlayerSpawnPoints();
 
-        print(playerControllerData.controller.name);
-
         playerName = globalPlayerSettings.playerSettings[playerControllerData.ID].playerName;
         hexColorCode = globalPlayerSettings.playerSettings[playerControllerData.ID].playerColorHexCode;
 
