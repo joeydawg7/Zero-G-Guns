@@ -72,6 +72,8 @@ public class PlayerSpawnPoint : MonoBehaviour
             globalPlayerSettings.playerSettings[IDToSpawn].PlayerCanvasSettings.hpBack, globalPlayerSettings.playerSettings[IDToSpawn].PlayerCanvasSettings.hpCriticalFlash,
             playerScript);
 
+        playerCanvasScript.gameObject.transform.position = new Vector2(10000, 10000);
+
         playerCanvasScript.ShowCurrentWinnerCrown(isCurrentWinner);
 
         switch (facingDirection)
@@ -95,7 +97,7 @@ public class PlayerSpawnPoint : MonoBehaviour
         playerCanvasScript.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 8);
         playerCanvasScript.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 21);
 
-     
+        playerScript.OnGameStart();
 
         gameObject.SetActive(false);
     }

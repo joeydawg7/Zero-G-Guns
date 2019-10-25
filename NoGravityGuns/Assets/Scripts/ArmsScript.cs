@@ -7,7 +7,7 @@ using System;
 using UnityEngine.InputSystem.PlayerInput;
 using UnityEngine.InputSystem.Controls;
 using UnityEngine.Experimental.U2D.IK;
-
+using XInputDotNetPure;
 public class ArmsScript : MonoBehaviour
 {
     #region Publics
@@ -180,7 +180,7 @@ public class ArmsScript : MonoBehaviour
             shootDir = shootDir.normalized * targetVectorLength;
             IKTarget.transform.localPosition = shootDir;
 
-           
+
         }
 
         //angle hand bone to point along shoot direction
@@ -250,7 +250,7 @@ public class ArmsScript : MonoBehaviour
         //delays the swapping of weapons so player will hold the old weapon for as long as the recoilDelay on the gun is before switching.
         EquipGun(weaponToEquip);
 
-        
+
 
         //update UI
         //SendGunText();
@@ -318,12 +318,16 @@ public class ArmsScript : MonoBehaviour
                 //add force to player in opposite direction of shot
                 currentWeapon.KnockBack(basePlayer, dir, basePlayer.knockbackMultiplier);
 
+                //Vibrate(0.2f, 0.2f);
+
                 //shoot gun based on weapons fire function
                 currentWeapon.Fire(basePlayer, dir);
 
             }
         }
     }
+
+
     #endregion
 
     #region UIStuff

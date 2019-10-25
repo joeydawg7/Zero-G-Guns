@@ -119,7 +119,6 @@ public class GunSO : ScriptableObject
     {
         ArmsScript arms = player.armsScript;
 
-
         player.rb.AddForce(-arms.bulletSpawn.transform.right * knockback * knockbackMultiplier, ForceMode2D.Impulse);
         //player.rb.AddForce(inverseDir * knockbackMultiplier, ForceMode2D.Impulse);
         player.armsScript.cameraShake.shakeDuration += cameraShakeDuration;
