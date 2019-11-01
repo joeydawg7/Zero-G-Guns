@@ -31,10 +31,13 @@ public class ObjectPooler : MonoBehaviour
         public string tag;
         public GameObject prefab;
         public int size;
+       
     }
 
     public List<Pool> pools;
     public Dictionary<string, Queue<GameObject>> poolDictionary;
+    public List<Guns> potentialGunsToSpawn;
+    public Guns defaultPistol;
 
     bool resetDisableTimer;
 

@@ -9643,6 +9643,7 @@ GameObject:
   - component: {fileID: 6823073435345197549}
   - component: {fileID: 6823073435345197548}
   - component: {fileID: 1030935126047940999}
+  - component: {fileID: 4427222019965959408}
   m_Layer: 0
   m_Name: shotgun
   m_TagString: Gun
@@ -9729,6 +9730,39 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   position: {x: 2.85, y: -0.54, z: 0}
   AnimationTrigger: shotgun
+--- !u!114 &4427222019965959408
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6823073435345197550}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c1b4199a61a69644b73fd0f9c43a0ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  knockBack: 50
+  clipSize: 8
+  numBullets: 0
+  recoilDelay: 0.8
+  minDamageRange: 12
+  maxDamageRange: 19
+  bulletSpeed: 2500
+  projectileTypeName: BuckShot
+  cameraShakeDuration: 0
+  bulletSounds:
+  - {fileID: 8300000, guid: f8ad5fe2db815d44ca3097be4640d53e, type: 3}
+  - {fileID: 8300000, guid: 4bfe20abb2cabb240922690c0f43a084, type: 3}
+  - {fileID: 8300000, guid: a386ddc919a49994db774968ac6c53f2, type: 3}
+  reloadSound: {fileID: 8300000, guid: 35bd2f6b5f56cc64590f17ab6597c993, type: 3}
+  prefireSound: {fileID: 0}
+  outOfAmmoSound: {fileID: 8300000, guid: 35bd2f6b5f56cc64590f17ab6597c993, type: 3}
+  gunPrefab: {fileID: 6823073435345197550}
+  theGunSprite: {fileID: 21300000, guid: c8ec9722394376d4889aa58f129269ec, type: 3}
+  name: Shotgun
+  knockBackModifier: 0
+  delayBeforeShot: 0
 --- !u!1 &6823073435459735286
 GameObject:
   m_ObjectHideFlags: 0

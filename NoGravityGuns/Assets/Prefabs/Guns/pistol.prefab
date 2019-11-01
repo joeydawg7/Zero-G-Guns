@@ -171,6 +171,7 @@ GameObject:
   - component: {fileID: 4118771727991183169}
   - component: {fileID: 4118771727991183168}
   - component: {fileID: 6263549668840546797}
+  - component: {fileID: -241674355871316191}
   m_Layer: 26
   m_Name: pistol
   m_TagString: Gun
@@ -257,3 +258,38 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   position: {x: 1.534, y: -0.168, z: 0}
   AnimationTrigger: pistol
+--- !u!114 &-241674355871316191
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4118771727991183230}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 481b5d3b3cee44c4da98fddd60b75e28, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  knockBack: 35
+  clipSize: 30
+  numBullets: 0
+  recoilDelay: 0.5
+  minDamageRange: 10
+  maxDamageRange: 20
+  bulletSpeed: 2000
+  projectileTypeName: Bullet
+  cameraShakeDuration: 0.08
+  bulletSounds:
+  - {fileID: 8300000, guid: 0d9f85d9ea69a734895afc382b692db2, type: 3}
+  - {fileID: 8300000, guid: fae95b73a7d8253448ab7311a06badf7, type: 3}
+  - {fileID: 8300000, guid: 6627c2b7c9dcb2349b21c06ef7969c8e, type: 3}
+  - {fileID: 8300000, guid: 07fdadc77bdcdbf488a3e0de14db6c40, type: 3}
+  - {fileID: 8300000, guid: 85ca42f0dfd72424a84a1669cbcd53b9, type: 3}
+  reloadSound: {fileID: 8300000, guid: d56d3ae5baabec943a0b3bb65f1c56cd, type: 3}
+  prefireSound: {fileID: 0}
+  outOfAmmoSound: {fileID: 8300000, guid: d56d3ae5baabec943a0b3bb65f1c56cd, type: 3}
+  gunPrefab: {fileID: 4118771727991183230}
+  theGunSprite: {fileID: 21300000, guid: 74d1a3583dfb628498a253223f1025ad, type: 3}
+  name: Pistol
+  knockBackModifier: 0
+  delayBeforeShot: 0

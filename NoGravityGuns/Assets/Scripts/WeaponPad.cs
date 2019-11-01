@@ -21,6 +21,7 @@ public class WeaponPad : MonoBehaviour
     float timeToNextSpawn;
     float timer;
 
+    [HideInInspector]
     public List<Guns> potentialGunsToSpawn;
     public AudioClip pickupSFX;
     public AudioClip healthKitSFX;
@@ -35,6 +36,7 @@ public class WeaponPad : MonoBehaviour
         hasWeapon = false;
         currentWeapon = null;
         barSprite.color = new Color(0, 1.0f, 1.0f);
+        potentialGunsToSpawn = ObjectPooler.Instance.potentialGunsToSpawn;
     }
 
     // Start is called before the first frame update

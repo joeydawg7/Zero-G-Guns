@@ -6,6 +6,7 @@ public abstract class Guns : MonoBehaviour
 {    
     public float knockBack;
     public int clipSize;
+    [HideInInspector]
     public int numBullets;
     public float recoilDelay;
     public int minDamageRange;
@@ -25,6 +26,10 @@ public abstract class Guns : MonoBehaviour
 
     public Sprite theGunSprite;
 
+    private void Start()
+    {
+        numBullets = clipSize;
+    }
 
     public AudioClip GetRandomGunshotSFX
     {
@@ -90,10 +95,49 @@ public abstract class Guns : MonoBehaviour
         if (string.IsNullOrEmpty(projectileTypeName))
             projectileTypeName = "Bullet";
 
-        GameObject bulletGo = ObjectPooler.Instance.SpawnFromPool(projectileTypeName, bulletSpawn.position, Quaternion.identity);
-        var dir = bulletSpawn.transform.right * bulletSpeed;
+        
 
-        bulletGo.GetComponent<Bullet>().Construct(GunDamage(minDamagae, maxDamage), player, dir, player.playerColor);
+        if(projectileTypeName == "BuckShot")
+        {
+            float spreadAngle = 22.0f;
+            for (int i = 0; i < 6; i++)
+            {
+                
+                GameObject bulletGo = ObjectPooler.Instance.SpawnFromPool("BuckShot", bulletSpawn.transform.position, Quaternion.identity);
+                var dir = bulletSpawn.transform.right;
+
+                float rotateAngle = spreadAngle +
+               (Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg);
+
+                Vector2 MovementDirection = new Vector2(
+              Mathf.Cos(rotateAngle * Mathf.Deg2Rad),
+              Mathf.Sin(rotateAngle * Mathf.Deg2Rad)).normalized;
+
+                MovementDirection *= bulletSpeed;
+
+                bulletGo.GetComponent<Bullet>().Construct(GunDamage(minDamagae, maxDamage), player, MovementDirection, player.playerColor);
+                spreadAngle -= 3.6f;
+
+            }
+        }
+        else if(projectileTypeName == "Rocket")
+        {
+            
+
+            GameObject bulletGo = ObjectPooler.Instance.SpawnFromPool("Rocket", bulletSpawn.transform.position, Quaternion.identity);
+            bulletGo.GetComponent<SpriteRenderer>().enabled = false;
+            Vector2 dir = bulletSpawn.transform.right * bulletSpeed;
+            float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+            bulletGo.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+
+            bulletGo.GetComponent<Rocket>().Construct(GunDamage(minDamageRange,maxDamageRange), player, dir, player.playerColor);
+        }
+        else
+        {
+            GameObject bulletGo = ObjectPooler.Instance.SpawnFromPool(projectileTypeName, bulletSpawn.position, Quaternion.identity);
+            var dir = bulletSpawn.transform.right * bulletSpeed;
+            bulletGo.GetComponent<Bullet>().Construct(GunDamage(minDamagae, maxDamage), player, dir, player.playerColor);
+        }        
     }
     
     public void KnockBack(PlayerScript player, float knockBackModifier)

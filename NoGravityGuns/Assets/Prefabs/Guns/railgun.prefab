@@ -4911,6 +4911,7 @@ GameObject:
   - component: {fileID: 3198932703841508899}
   - component: {fileID: 3198932703841508896}
   - component: {fileID: 3817670225536161002}
+  - component: {fileID: -1696368475402260872}
   m_Layer: 0
   m_Name: railgun
   m_TagString: Gun
@@ -4997,3 +4998,37 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   position: {x: 3.86, y: -0.86, z: 0}
   AnimationTrigger: railgun
+--- !u!114 &-1696368475402260872
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3198932703841508898}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c496a69a97ab1b74784ac44c139276ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  knockBack: 50
+  clipSize: 6
+  numBullets: 0
+  recoilDelay: 0.75
+  minDamageRange: 43
+  maxDamageRange: 57
+  bulletSpeed: 4500
+  projectileTypeName: BounceShot
+  cameraShakeDuration: 0.1
+  bulletSounds:
+  - {fileID: 8300000, guid: 39d57f0dfa262f440b6fdfd92843728f, type: 3}
+  - {fileID: 8300000, guid: d33c6fc9f2225af46af5abd3b2b3be05, type: 3}
+  - {fileID: 8300000, guid: 95ab9c888689cc344a2e7b70b7e68f5f, type: 3}
+  - {fileID: 8300000, guid: 425e3e49a0be2c344a72307185cc8f3e, type: 3}
+  reloadSound: {fileID: 8300000, guid: 4dae545ced1cd824fb12b922c3dc86a2, type: 3}
+  prefireSound: {fileID: 0}
+  outOfAmmoSound: {fileID: 0}
+  gunPrefab: {fileID: 3198932703841508898}
+  theGunSprite: {fileID: 21300000, guid: 489ff2c4d042194428e52cb81d2475c1, type: 3}
+  name: RailGun
+  knockBackModifier: 0
+  delayBeforeShot: 0.1

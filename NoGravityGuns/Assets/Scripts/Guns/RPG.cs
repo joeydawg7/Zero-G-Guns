@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class RPG : Guns
 {
+    public string name;
     [Header("explosive specific variables")]
     public float rocketPushbackMod;
 
@@ -16,20 +17,20 @@ public class RPG : Guns
     public float rocketAccelerationMod;
     public float damageAtCenter;
 
-    public float knockback;
+    //public float knockback;
     public float knockbackMultiplier;
 
     public override void Fire(PlayerScript player)
     {
         //does nothing :D
-        player.StartCoroutine(PushBackBeforeKnockBack(player, knockbackMultiplier));
+        //player.StartCoroutine(PushBackBeforeKnockBack(player, knockbackMultiplier));
     }
 
     void KnockBackAfterShot(PlayerScript player, float knockbackMultiplier)
     {
         ArmsScript arms = player.armsScript;
 
-        player.rb.AddForce(-arms.bulletSpawn.transform.right * knockback * knockbackMultiplier, ForceMode2D.Impulse);
+        player.rb.AddForce(-arms.bulletSpawn.transform.right * base.knockBack * knockbackMultiplier, ForceMode2D.Impulse);
         player.armsScript.cameraShake.shakeDuration += cameraShakeDuration;
         arms.timeSinceLastShot = 0;
     }
@@ -52,7 +53,7 @@ public class RPG : Guns
         {
             //time to give pushback
             if (timer < 0.5f)
-                player.rb.AddForce(-arms.bulletSpawn.transform.right * knockback * Time.deltaTime * rocketPushbackMod, ForceMode2D.Impulse);
+                player.rb.AddForce(-arms.bulletSpawn.transform.right * base.knockBack * Time.deltaTime * rocketPushbackMod, ForceMode2D.Impulse);
 
             //rocket held too long, blow up in hand
             if (timer > 3.0f)
@@ -75,15 +76,15 @@ public class RPG : Guns
         //if its still an rpg... just checking :)
         if (player.armsScript.currentWeapon.name == "RPG")
         {
-            player.rb.AddForce(arms.bulletSpawn.transform.right * knockback, ForceMode2D.Impulse);
+            player.rb.AddForce(arms.bulletSpawn.transform.right * base.knockBack, ForceMode2D.Impulse);
             arms.cameraShake.shakeDuration += cameraShakeDuration;
             arms.timeSinceLastShot = 0;
 
-            SpawnBullet(player, bulletSpeed, minDamageRange, maxDamageRange);
+            base.SpawnBullet(player, bulletSpeed, minDamageRange, maxDamageRange);
 
             KnockBackAfterShot(player, knockbackMultiplier);
 
-            ReduceBullets(player);
+            base.ReduceBullets(player);
         }
 
         if (arms.currentAmmo <= 0)
@@ -95,7 +96,7 @@ public class RPG : Guns
 
     void ExplodeInHand(ArmsScript arms)
     {
-        GameObject bulletGo = ObjectPooler.Instance.SpawnFromPool("Rocket", arms.bulletSpawn.transform.position, Quaternion.identity);
+        GameObject bulletGo = ObjectPooler.Instance.SpawnFromPool(projectileTypeName, arms.bulletSpawn.transform.position, Quaternion.identity);
         bulletGo.GetComponent<SpriteRenderer>().enabled = false;
         bulletGo.GetComponent<Rocket>().ExplodeBullet(true);
     }

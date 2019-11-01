@@ -81,7 +81,15 @@ public class ArmsScript : MonoBehaviour
         timeSinceLastShot = 0;
 
         facing = transform.rotation;
-        currentAmmo = currentWeapon.clipSize;
+        if(currentWeapon)
+        {
+            currentAmmo = currentWeapon.clipSize;
+        }
+        else
+        {
+            EquipGun(ObjectPooler.Instance.defaultPistol);           
+        }
+        
         totalBulletsGunCanLoad = currentWeapon.numBullets;
 
         audioSource = GetComponent<AudioSource>();
@@ -258,30 +266,32 @@ public class ArmsScript : MonoBehaviour
 
     void EquipGun(Guns weaponToEquip)
     {
+        if(weaponToEquip)
+        {
+            //get rid of all the other guns
+            HideAllGuns();
 
-        //get rid of all the other guns
-        HideAllGuns();
+            //spawn new gun
+            GameObject gunGo = GameObject.Instantiate(weaponToEquip.gunPrefab, frontHandBone);
 
-        //spawn new gun
-        GameObject gunGo = GameObject.Instantiate(weaponToEquip.gunPrefab, frontHandBone);
+            currentGunGameObject = gunGo;
 
-        currentGunGameObject = gunGo;
-
-        //set gun position and hand position
-        GunPositionValue gunPosValue = gunGo.GetComponent<GunPositionValue>();
-        gunGo.transform.localPosition = gunPosValue.position;
-        gunPosValue.SetHandPositions(this);
+            //set gun position and hand position
+            GunPositionValue gunPosValue = gunGo.GetComponent<GunPositionValue>();
+            gunGo.transform.localPosition = gunPosValue.position;
+            gunPosValue.SetHandPositions(this);
 
 
-        //set weapon and bullet stats for new gun
-        currentWeapon = weaponToEquip;
-        totalBulletsGunCanLoad = weaponToEquip.numBullets;
-        currentAmmo = weaponToEquip.clipSize;
+            //set weapon and bullet stats for new gun
+            currentWeapon = weaponToEquip;
+            totalBulletsGunCanLoad = weaponToEquip.numBullets;
+            currentAmmo = weaponToEquip.clipSize;
 
-        isReloading = false;
+            isReloading = false;
 
-        //find the new bulelt spawn location (bleh)
-        bulletSpawn = gunGo.transform.Find("BulletSpawner");
+            //find the new bulelt spawn location (bleh)
+            bulletSpawn = gunGo.transform.Find("BulletSpawner");
+        }       
     }
 
     public void HideAllGuns()
@@ -306,6 +316,7 @@ public class ArmsScript : MonoBehaviour
             {
                 audioSource.PlayOneShot(dryFire);
                 timeSinceLastShot = 0;
+                EquipGun(ObjectPooler.Instance.defaultPistol);
             }
         }
 
@@ -324,6 +335,12 @@ public class ArmsScript : MonoBehaviour
                 currentWeapon.Fire(basePlayer);
 
             }
+        }
+        else
+        {
+            audioSource.PlayOneShot(dryFire);
+            timeSinceLastShot = 0;
+            EquipGun(ObjectPooler.Instance.defaultPistol);
         }
     }
 

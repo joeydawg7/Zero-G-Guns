@@ -6,9 +6,9 @@ public class Railgun : Guns
 {
     public string name;
     public float knockBackModifier;
-    public int minDamageRange;
-    public int maxDamageRange;
-    public float bulletSpeed;
+    //public int minDamageRange;
+    //public int maxDamageRange;
+    //public float bulletSpeed;
     
     public float delayBeforeShot;
 

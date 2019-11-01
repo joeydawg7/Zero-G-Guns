@@ -91,6 +91,7 @@ GameObject:
   - component: {fileID: 5541007303167428356}
   - component: {fileID: 5541007303167428355}
   - component: {fileID: 5889044119898667377}
+  - component: {fileID: -8398064656369561847}
   m_Layer: 0
   m_Name: chaingun
   m_TagString: Gun
@@ -176,3 +177,37 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   position: {x: 5.93, y: 1.05, z: 0}
   AnimationTrigger: chaingun
+--- !u!114 &-8398064656369561847
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5541007303167428357}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69315bd833eb0c747b287545f92f048f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  knockBack: 18
+  clipSize: 100
+  numBullets: 0
+  recoilDelay: 0.08
+  minDamageRange: 8
+  maxDamageRange: 13
+  bulletSpeed: 1700
+  projectileTypeName: Bullet
+  cameraShakeDuration: 0
+  bulletSounds:
+  - {fileID: 8300000, guid: 25a916c09cd93864197df4bb8de91811, type: 3}
+  - {fileID: 8300000, guid: 9f0d00e87175ff24d810257e3a7ee4c2, type: 3}
+  - {fileID: 8300000, guid: 94fb25696384fa247b11d8bc93a7e753, type: 3}
+  reloadSound: {fileID: 8300000, guid: 60f65470218565d47a2a9da4fcadd239, type: 3}
+  prefireSound: {fileID: 0}
+  outOfAmmoSound: {fileID: 8300000, guid: 60f65470218565d47a2a9da4fcadd239, type: 3}
+  gunPrefab: {fileID: 5541007303167428357}
+  theGunSprite: {fileID: 21300000, guid: 7481688a4728a4443b0a106e751ff781, type: 3}
+  name: Minigun
+  knockBackModifier: 0
+  delayBeforeShot: 0
+  spinUpTime: 1.2

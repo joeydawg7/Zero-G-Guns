@@ -251,6 +251,7 @@ GameObject:
   - component: {fileID: 5613299302601926065}
   - component: {fileID: 5613299302601926064}
   - component: {fileID: 3921367464156457763}
+  - component: {fileID: -5088727334185508711}
   m_Layer: 0
   m_Name: rifle
   m_TagString: Gun
@@ -339,6 +340,44 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   position: {x: 1.668, y: -0.492, z: 0}
   AnimationTrigger: rifle
+--- !u!114 &-5088727334185508711
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5613299302601926070}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 168602a5459c91544a55a0d281fe3af0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  knockBack: 35
+  clipSize: 30
+  numBullets: 0
+  recoilDelay: 0.75
+  minDamageRange: 18
+  maxDamageRange: 27
+  bulletSpeed: 2500
+  projectileTypeName: Bullet
+  cameraShakeDuration: 0
+  bulletSounds:
+  - {fileID: 8300000, guid: c8a88de7fd5f5fe49bae94317a0a8873, type: 3}
+  - {fileID: 8300000, guid: 5da2b02d42e5ea44689c718e49049fda, type: 3}
+  - {fileID: 8300000, guid: b7f47affed9a3b9449f400ca30b339fc, type: 3}
+  - {fileID: 8300000, guid: 6bc44558a1abf224c87b2557219727ce, type: 3}
+  - {fileID: 8300000, guid: 1e4df662f36ee9a4b82c5c4f3d0ea2a4, type: 3}
+  - {fileID: 8300000, guid: ae5dde34dfaa0964d8d71b19c81044f4, type: 3}
+  reloadSound: {fileID: 8300000, guid: 81029910cd25afa46987f9530a14eb0d, type: 3}
+  prefireSound: {fileID: 0}
+  outOfAmmoSound: {fileID: 8300000, guid: 81029910cd25afa46987f9530a14eb0d, type: 3}
+  gunPrefab: {fileID: 5613299302601926070}
+  theGunSprite: {fileID: 21300000, guid: 4399d23395cb29945b77f9ee59c8c4d5, type: 3}
+  name: AssaultRifle
+  knockBackModifier: 0
+  delayBeforeShot: 0
+  numBurstShots: 3
+  timeBetweenBurstShots: 0.08
 --- !u!1 &5613299303606415690
 GameObject:
   m_ObjectHideFlags: 0
