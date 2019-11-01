@@ -1,0 +1,21 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Railgun : Guns
+{
+    public string name;
+    public float knockBackModifier;
+    public int minDamageRange;
+    public int maxDamageRange;
+    public float bulletSpeed;
+    
+    public float delayBeforeShot;
+
+    public override void Fire(PlayerScript player)
+    {
+        player.armsScript.audioSource.PlayOneShot(GetRandomGunshotSFX);
+        player.StartCoroutine(DelayShotCoroutine(player, delayBeforeShot, bulletSpeed, minDamageRange, maxDamageRange));
+        ReduceBullets(player);
+    }
+}

@@ -291,7 +291,7 @@ public class PlayerScript : MonoBehaviour
     #endregion
 
     #region Take Damage
-    public void TakeDamage(float damage, Vector2 dir, DamageType damageType, PlayerScript PlayerWhoShotYou, bool playBulletSFX, GunSO gunThatShotYou)
+    public void TakeDamage(float damage, Vector2 dir, DamageType damageType, PlayerScript PlayerWhoShotYou, bool playBulletSFX, Guns gunThatShotYou)
     {
         if (!isDead && !isInvulnerable)
         {
@@ -406,7 +406,7 @@ public class PlayerScript : MonoBehaviour
     #endregion
 
     #region Die and respawn
-    public PlayerScript Die(DamageType damageType, GunSO gunWhoShotYou)
+    public PlayerScript Die(DamageType damageType, Guns gunWhoShotYou)
     {
         //cant die if yer dead
         if (!isDead)

@@ -10,9 +10,9 @@ public class BounceShot : Bullet
     AudioSource audioSource;
     Vector2 dir;
 
-    public override void Construct(float damage, PlayerScript player, Vector3 dir, Color32 color, GunSO gun)
+    public override void Construct(float damage, PlayerScript player, Vector3 dir, Color32 color)
     {
-        base.Construct(damage, player, dir, color, gun);
+        base.Construct(damage, player, dir, color);
 
         bounces = 0;
 

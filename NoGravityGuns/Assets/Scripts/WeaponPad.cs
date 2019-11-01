@@ -16,12 +16,12 @@ public class WeaponPad : MonoBehaviour
 
     public bool hasWeapon;
 
-    public GunSO weaponToSpawn;
-    public GunSO currentWeapon;
+    public Guns weaponToSpawn;
+    public Guns currentWeapon;
     float timeToNextSpawn;
     float timer;
 
-    public List<GunSO> potentialGunsToSpawn;
+    public List<Guns> potentialGunsToSpawn;
     public AudioClip pickupSFX;
     public AudioClip healthKitSFX;
     public AudioClip pickupDisabled;
@@ -40,18 +40,13 @@ public class WeaponPad : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        potentialGunsToSpawn.Clear();
-        var guns = Resources.LoadAll("ScriptableObjects/Guns", typeof(ScriptableObject)).Cast<GunSO>().ToArray();
-        foreach (var g in guns)
-            potentialGunsToSpawn.Add(g);
-
         //debug spawn weapons
         if (SpawnSelectedWeaponInstant && GameManager.Instance.debugManager.useDebugSettings)
         {
             hasWeapon = true;
             currentWeapon = weaponToSpawn;
             barSprite.color = emptyPadBarsColour;
-            gunSprite.sprite = weaponToSpawn.theGun;
+            gunSprite.sprite = weaponToSpawn.theGunSprite;
         }
         //spawn normally
         else
@@ -76,7 +71,7 @@ public class WeaponPad : MonoBehaviour
             hasWeapon = true;
             currentWeapon = weaponToSpawn;
             barSprite.color = fullPadBarsColour;
-            gunSprite.sprite = weaponToSpawn.theGun;
+            gunSprite.sprite = weaponToSpawn.theGunSprite;
         }
     }
 
@@ -96,7 +91,7 @@ public class WeaponPad : MonoBehaviour
             if (currentWeapon.name == "HealthPack")
             {
                 player.audioSource.PlayOneShot(healthKitSFX);
-                player.TakeDamage(currentWeapon.GunDamage, new Vector2(0,0), PlayerScript.DamageType.torso, null, false, null);
+                player.TakeDamage(currentWeapon.GunDamage(currentWeapon.minDamageRange, currentWeapon.maxDamageRange), new Vector2(0,0), PlayerScript.DamageType.torso, null, false, null);
 
             }
             else

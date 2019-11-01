@@ -12,12 +12,12 @@ public class Rocket : Bullet
     float rocketTopSpeed;
     float rocketAccelerationMod;
 
-    public override void Construct(float damage, PlayerScript player, Vector3 dir, Color32 color, GunSO gun)
+    public override void Construct(float damage, PlayerScript player, Vector3 dir, Color32 color)
     {
         //call the base version first, the rest of the stuff we do after
-        base.Construct(damage, player, dir, color, gun);
+        base.Construct(damage, player, dir, color);
 
-        if (gun.GetType() != typeof(GunSO_explosiveShot))
+        if (gun.GetType() != typeof(RPG))
         {
             Debug.LogError("Tried to spawn a rocket but wasn't given rocket stats!");
 
@@ -31,7 +31,7 @@ public class Rocket : Bullet
         //dont change rocket collision layer, we dont want it colliding with other bullets
         sr.enabled = true;
 
-        GunSO_explosiveShot gunExplosive = (GunSO_explosiveShot)gun;
+        RPG gunExplosive = (RPG)gun;
 
         rocketTopSpeed = gunExplosive.rocketMaxSpeed;
         rocketAccelerationMod = gunExplosive.rocketAccelerationMod;
@@ -103,10 +103,10 @@ public class Rocket : Bullet
                 //spawn some impact sparks from pool
                 SpawnSparkEffect();
 
-                GunSO_explosiveShot rocketShot = (GunSO_explosiveShot)gun;
+                RPG rocketShot = (RPG)gun;
 
                 //if you are a rcoket who hit something, blow up
-                ExplodeBullet(false, rocketShot);
+                ExplodeBullet(false);
 
             }
         }
@@ -114,7 +114,7 @@ public class Rocket : Bullet
 
 
     //explodes a bullet "gracefully"
-    public void ExplodeBullet(bool explodeInstantly, GunSO_explosiveShot gun)
+    public void ExplodeBullet(bool explodeInstantly)
     {
         gameObject.GetComponent<Collider2D>().enabled = false;
         GameObject explosionGO = ObjectPooler.Instance.SpawnFromPool("Explosion", transform.position, Quaternion.identity);
@@ -123,7 +123,7 @@ public class Rocket : Bullet
         if (explosion != null)
         {
             explosion.gameObject.SetActive(true);
-            explosion.Explode(player, gun);
+            explosion.Explode(player);
             rb.simulated = false;
             rb.isKinematic = true;
         }

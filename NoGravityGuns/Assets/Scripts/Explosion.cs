@@ -17,7 +17,7 @@ public class Explosion : MonoBehaviour, IPooledObject
     public AudioSource audioSouce;
     public List<AudioClip> explosionClips;
 
-    GunSO_explosiveShot gun;
+    RPG gun;
 
     CameraShake cameraShake;
 
@@ -31,10 +31,10 @@ public class Explosion : MonoBehaviour, IPooledObject
     }
 
     //explode from a gun or bullet
-    public void Explode(PlayerScript playerWhoShot, GunSO_explosiveShot gun)
+    public void Explode(PlayerScript playerWhoShot)
     {
         this.playerWhoShot = playerWhoShot;
-        this.gun = gun;
+        //this.gun = gun;
 
         power = gun.explosionPower;
         radius = gun.explosionRadius;

@@ -1,11 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-[CreateAssetMenu(fileName = "Gun", menuName = "ScriptableObjects/Guns/Gun_Minigun", order = 1)]
-public class GunSO_minigun : GunSO
-{
-    public float spinUpTime;
-    float spinUpAmount;
+﻿//using System.Collections;
+//using System.Collections.Generic;
+//using UnityEngine;
+//[CreateAssetMenu(fileName = "Gun", menuName = "ScriptableObjects/Guns/Gun_Minigun", order = 1)]
+//public class GunSO_minigun : GunSO
+//{
+//    public float spinUpTime;
+//    float spinUpAmount;
     //public override void Fire(PlayerScript player, Vector3 dir)
     //{
     //    player.armsScript.audioSource.PlayOneShot(GetRandomGunshotSFX);
@@ -63,4 +63,4 @@ public class GunSO_minigun : GunSO
     //        arms.timeSinceLastShot = 0;
     //    }
     //}
-}
+//}

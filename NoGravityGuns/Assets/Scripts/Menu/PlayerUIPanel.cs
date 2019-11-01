@@ -88,7 +88,7 @@ public class PlayerUIPanel : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    public void SetGunText(GunSO gun)
+    public void SetGunText(Guns gun)
     {
         //gunImage.sprite = gun.EquipSprite;
         /*

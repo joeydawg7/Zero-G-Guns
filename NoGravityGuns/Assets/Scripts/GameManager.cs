@@ -26,11 +26,11 @@ public class GameManager : MonoBehaviour
     public DebugManager debugManager;
 
     [Header("Guns")]
-    public GunSO pistol;
-    public GunSO shotgun;
-    public GunSO LMG;
-    public GunSO assaultRifle;
-    public GunSO railGun;
+    public Guns pistol;
+    public Guns shotgun;
+    public Guns LMG;
+    public Guns assaultRifle;
+    public Guns railGun;
 
     public GameObject playUIPrefab;
     public Transform playerUIParent;

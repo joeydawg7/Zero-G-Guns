@@ -150,13 +150,13 @@ public class CameraController : MonoBehaviour
         }
     }
 
-    public void TrackFinalBlow(Transform playerWhoWasHit, float timeToHold, PlayerScript.DamageType damageType, GunSO gunWhoShotYou)
+    public void TrackFinalBlow(Transform playerWhoWasHit, float timeToHold, PlayerScript.DamageType damageType, Guns gunWhoShotYou)
     {
         StartCoroutine(HoldOnFinalBlow(playerWhoWasHit, timeToHold, damageType, gunWhoShotYou));
     }
 
 
-    IEnumerator HoldOnFinalBlow(Transform playerWhoWasHit, float t, PlayerScript.DamageType damageType, GunSO gunWhoShotYou)
+    IEnumerator HoldOnFinalBlow(Transform playerWhoWasHit, float t, PlayerScript.DamageType damageType, Guns gunWhoShotYou)
     {
         //store old data about who we were tracking, then clear who we are tracking and set only the hit player so we zoom in on them
         var lastPlayerStanding = players[0];

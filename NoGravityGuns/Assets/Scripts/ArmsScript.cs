@@ -20,7 +20,7 @@ public class ArmsScript : MonoBehaviour
     public PlayerScript basePlayer;
 
     [Header("Gun")]
-    public GunSO currentWeapon;
+    public Guns currentWeapon;
     public float targetVectorLength;
 
     public Transform frontHandBone;
@@ -239,7 +239,7 @@ public class ArmsScript : MonoBehaviour
     }
 
     //equips a new gun
-    public void EquipGun(GunSO weaponToEquip, bool equipInstant)
+    public void EquipGun(Guns weaponToEquip, bool equipInstant)
     {
         //instant equip assumes time since last shot as being functionally infinite so player can grab weapon and shoot right away
         if (equipInstant)
@@ -256,7 +256,7 @@ public class ArmsScript : MonoBehaviour
         //SendGunText();
     }
 
-    void EquipGun(GunSO weaponToEquip)
+    void EquipGun(Guns weaponToEquip)
     {
 
         //get rid of all the other guns
@@ -316,12 +316,12 @@ public class ArmsScript : MonoBehaviour
             if (timeSinceLastShot >= currentWeapon.recoilDelay && Time.timeScale != 0)
             {
                 //add force to player in opposite direction of shot
-                currentWeapon.KnockBack(basePlayer, dir, basePlayer.knockbackMultiplier);
+                currentWeapon.KnockBack(basePlayer, basePlayer.knockbackMultiplier);
 
                 //Vibrate(0.2f, 0.2f);
 
                 //shoot gun based on weapons fire function
-                currentWeapon.Fire(basePlayer, dir);
+                currentWeapon.Fire(basePlayer);
 
             }
         }

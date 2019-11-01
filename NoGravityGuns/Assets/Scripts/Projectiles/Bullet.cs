@@ -18,7 +18,7 @@ public class Bullet : MonoBehaviour, IPooledObject
     protected SpriteRenderer sr;
     protected ParticleSystem bulletTrail;
 
-    protected GunSO gun;
+    protected Guns gun;
 
     protected string layer;
 
@@ -43,7 +43,7 @@ public class Bullet : MonoBehaviour, IPooledObject
         startingForce = new Vector2(vel.x, vel.y);
     }
 
-    public virtual void Construct(float damage, PlayerScript player, Vector3 dir, Color32 color, GunSO gun)
+    public virtual void Construct(float damage, PlayerScript player, Vector3 dir, Color32 color)
     {
         //who shot the bullet
         this.player = player;

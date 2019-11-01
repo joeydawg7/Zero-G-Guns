@@ -101,7 +101,7 @@ public class RoundEndCanvasScript : MonoBehaviour
     }
 
 
-    public void EndRoundCanvasDisplay(Transform playerWhoWasHit, PlayerScript.DamageType damageType, GunSO gunWhoShotYou)
+    public void EndRoundCanvasDisplay(Transform playerWhoWasHit, PlayerScript.DamageType damageType, Guns gunWhoShotYou)
     {
 
         string winnerTextString = string.Empty;
@@ -186,7 +186,7 @@ public class RoundEndCanvasScript : MonoBehaviour
 
     }
 
-    public string GetWittyCommentOnLastHitPoint(PlayerScript.DamageType damageType, GunSO gunWhoShotYou)
+    public string GetWittyCommentOnLastHitPoint(PlayerScript.DamageType damageType, Guns gunWhoShotYou)
     {
         string wit = string.Empty;
         string[] options = new[] { "Error! emptyString!" };
