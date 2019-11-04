@@ -14,6 +14,7 @@ public class Railgun : Guns
 
     public override void Fire(PlayerScript player)
     {
+        base.KnockBack(player, player.knockbackMultiplier);
         player.armsScript.audioSource.PlayOneShot(GetRandomGunshotSFX);
         player.StartCoroutine(DelayShotCoroutine(player, delayBeforeShot, bulletSpeed, minDamageRange, maxDamageRange));
         ReduceBullets(player);

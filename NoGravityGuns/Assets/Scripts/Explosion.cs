@@ -31,10 +31,10 @@ public class Explosion : MonoBehaviour, IPooledObject
     }
 
     //explode from a gun or bullet
-    public void Explode(PlayerScript playerWhoShot)
+    public void Explode(PlayerScript playerWhoShot, RPG rocketThatShot)
     {
         this.playerWhoShot = playerWhoShot;
-        //this.gun = gun;
+        this.gun = rocketThatShot;
 
         power = gun.explosionPower;
         radius = gun.explosionRadius;

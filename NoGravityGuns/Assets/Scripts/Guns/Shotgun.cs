@@ -14,6 +14,7 @@ public class Shotgun : Guns
     
     public override void Fire(PlayerScript player)
     {
+        base.KnockBack(player, player.knockbackMultiplier);
         ArmsScript arms = player.armsScript;
 
         if (arms.audioSource.isPlaying)

@@ -106,7 +106,7 @@ public class Rocket : Bullet
                 RPG rocketShot = (RPG)gun;
 
                 //if you are a rcoket who hit something, blow up
-                ExplodeBullet(false);
+                ExplodeBullet(false, rocketShot);
 
             }
         }
@@ -114,7 +114,7 @@ public class Rocket : Bullet
 
 
     //explodes a bullet "gracefully"
-    public void ExplodeBullet(bool explodeInstantly)
+    public void ExplodeBullet(bool explodeInstantly, RPG rocketThatShot)
     {
         gameObject.GetComponent<Collider2D>().enabled = false;
         GameObject explosionGO = ObjectPooler.Instance.SpawnFromPool("Explosion", transform.position, Quaternion.identity);
@@ -123,7 +123,7 @@ public class Rocket : Bullet
         if (explosion != null)
         {
             explosion.gameObject.SetActive(true);
-            explosion.Explode(player);
+            explosion.Explode(player, rocketThatShot);
             rb.simulated = false;
             rb.isKinematic = true;
         }

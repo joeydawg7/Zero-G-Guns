@@ -327,7 +327,7 @@ public class ArmsScript : MonoBehaviour
             if (timeSinceLastShot >= currentWeapon.recoilDelay && Time.timeScale != 0)
             {
                 //add force to player in opposite direction of shot
-                currentWeapon.KnockBack(basePlayer, basePlayer.knockbackMultiplier);
+                //currentWeapon.KnockBack(basePlayer, basePlayer.knockbackMultiplier);
 
                 //Vibrate(0.2f, 0.2f);
 

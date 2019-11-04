@@ -23,6 +23,7 @@ public class Minigun : Guns
 
     public override void Fire(PlayerScript player)
     {
+        base.KnockBack(player, player.knockbackMultiplier);
         player.armsScript.audioSource.PlayOneShot(GetRandomGunshotSFX);
         spinUpAmount += recoilDelay;
         player.StartCoroutine(spinUpMinigun(player));

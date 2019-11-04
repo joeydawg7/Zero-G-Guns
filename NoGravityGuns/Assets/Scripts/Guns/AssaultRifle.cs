@@ -19,6 +19,7 @@ public class AssaultRifle : Guns
 
     public override void Fire(PlayerScript player)
     {
+        base.KnockBack(player, player.knockbackMultiplier);
         player.StartCoroutine(FireInBurst(player, numBurstShots));
     }
 

@@ -29,7 +29,7 @@ public abstract class Guns : MonoBehaviour
     private void Start()
     {
         numBullets = clipSize;
-    }
+    }    
 
     public AudioClip GetRandomGunshotSFX
     {
@@ -122,8 +122,6 @@ public abstract class Guns : MonoBehaviour
         }
         else if(projectileTypeName == "Rocket")
         {
-            
-
             GameObject bulletGo = ObjectPooler.Instance.SpawnFromPool("Rocket", bulletSpawn.transform.position, Quaternion.identity);
             bulletGo.GetComponent<SpriteRenderer>().enabled = false;
             Vector2 dir = bulletSpawn.transform.right * bulletSpeed;
