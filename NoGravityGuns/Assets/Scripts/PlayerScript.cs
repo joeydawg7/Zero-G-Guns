@@ -31,7 +31,7 @@ public class PlayerScript : MonoBehaviour
     public Controller controller;
 
 
-    public enum DamageType { head = 4, torso = 3, legs = 2, feet = 1, self = 5, explosive = 6 };
+    public enum DamageType { head = 4, torso = 3, legs = 2, feet = 1, self = 5, explosive = 6, blackhole = 7 };
 
     [Header("Bools")]
     public bool isDead;

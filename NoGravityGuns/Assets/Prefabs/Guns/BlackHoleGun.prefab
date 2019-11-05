@@ -10,13 +10,14 @@ GameObject:
   m_Component:
   - component: {fileID: 4118771726022207450}
   - component: {fileID: 4118771726022207453}
+  - component: {fileID: 7081929234298086914}
   m_Layer: 26
   m_Name: BulletSpawner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4118771726022207450
 Transform:
   m_ObjectHideFlags: 0
@@ -80,6 +81,36 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &7081929234298086914
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4118771726022207451}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 75003cf70b82a2b4ebf7febd8c180c8f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  knockBack: 0
+  clipSize: 0
+  numBullets: 0
+  recoilDelay: 0
+  minDamageRange: 0
+  maxDamageRange: 0
+  bulletSpeed: 0
+  projectileTypeName: 
+  cameraShakeDuration: 0
+  bulletSounds: []
+  reloadSound: {fileID: 0}
+  prefireSound: {fileID: 0}
+  outOfAmmoSound: {fileID: 0}
+  gunPrefab: {fileID: 0}
+  theGunSprite: {fileID: 0}
+  name: 
+  knockBackModifier: 0
+  delayBeforeShot: 0
 --- !u!1 &4118771726945397043
 GameObject:
   m_ObjectHideFlags: 0
@@ -171,6 +202,7 @@ GameObject:
   - component: {fileID: 4118771727991183169}
   - component: {fileID: 4118771727991183168}
   - component: {fileID: 6263549668840546797}
+  - component: {fileID: 8969851840897010819}
   m_Layer: 26
   m_Name: BlackHoleGun
   m_TagString: Gun
@@ -256,4 +288,35 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   position: {x: 1.534, y: -0.168, z: 0}
-  AnimationTrigger: pistol
+  AnimationTrigger: 
+--- !u!114 &8969851840897010819
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4118771727991183230}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 75003cf70b82a2b4ebf7febd8c180c8f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  knockBack: 50
+  clipSize: 300
+  numBullets: 0
+  recoilDelay: 1
+  minDamageRange: 45
+  maxDamageRange: 55
+  bulletSpeed: 2000
+  projectileTypeName: BlackHoleSun
+  cameraShakeDuration: 0.25
+  bulletSounds:
+  - {fileID: 8300000, guid: 08e8ceaf07b69694c989f5fec9709e03, type: 3}
+  reloadSound: {fileID: 8300000, guid: 81029910cd25afa46987f9530a14eb0d, type: 3}
+  prefireSound: {fileID: 0}
+  outOfAmmoSound: {fileID: 8300000, guid: 81029910cd25afa46987f9530a14eb0d, type: 3}
+  gunPrefab: {fileID: 4118771727991183230}
+  theGunSprite: {fileID: 21300000, guid: 70d8eb643c391884b94d670a3ee0a3c7, type: 3}
+  name: BlackHoleGun
+  knockBackModifier: 0
+  delayBeforeShot: 0
