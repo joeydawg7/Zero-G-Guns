@@ -350,6 +350,10 @@ public class PlayerScript : MonoBehaviour
                         damage *= EXPLOSION_MULTIPLIER;
                         SpawnFloatingDamageText(Mathf.RoundToInt(damage), DamageType.explosive, "FloatAway");
                         break;
+                    case DamageType.blackhole:
+                        //damage *= EXPLOSION_MULTIPLIER;
+                        SpawnFloatingDamageText(Mathf.RoundToInt(damage), DamageType.blackhole, "FloatAway");
+                        break;
                     default:
                         break;
                 }

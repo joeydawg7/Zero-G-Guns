@@ -22,7 +22,9 @@ public class BlackHoleSun : MonoBehaviour, IPooledObject
 
     protected Guns gun;
 
-    protected string layer;    
+    protected string layer;
+
+    private bool hitTarget;
 
     private void Awake()
     {
@@ -91,28 +93,13 @@ public class BlackHoleSun : MonoBehaviour, IPooledObject
         float timer = 0;
         while(timer < 1.00f)
         {
-            if (timer >= 0.25f && timer < 0.50f)
+            this.gameObject.transform.localScale = this.gameObject.transform.localScale - new Vector3(Time.deltaTime, Time.deltaTime, Time.deltaTime);
+            if(hitTarget)
             {
-                this.gameObject.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
-                //rb.velocity = rb.velocity / 2.0f;
-                //rb.angularVelocity = rb.angularVelocity / 2.0f;
-                if (shrinkSound)
-                {
-                    player.armsScript.audioSource.PlayOneShot(shrinkSound);
-                    //some form of shrinking particle should be added
-                }
+                this.gameObject.transform.localScale = Vector3.zero;
+                break;
             }
-            else if (timer >= 0.50f && timer < 0.75f)
-            {
-                this.gameObject.transform.localScale = new Vector3(0.25f, 0.25f, 0.25f);
-                //rb.velocity = rb.velocity / 2.0f;
-                //rb.angularVelocity = rb.angularVelocity / 2.0f;
-                if (shrinkSound)
-                {
-                    player.armsScript.audioSource.PlayOneShot(shrinkSound);
-                    //some form of shrinking particle should be added
-                }
-            }
+           
             yield return null;
             timer += Time.deltaTime;                  
         }        
@@ -163,7 +150,7 @@ public class BlackHoleSun : MonoBehaviour, IPooledObject
                 SpawnSparkEffect();
 
                 canImapact = false;
-                MakeBlackHole();
+                hitTarget = true;
             }
         }
     }
@@ -231,6 +218,8 @@ public class BlackHoleSun : MonoBehaviour, IPooledObject
     {        
         GameObject blackHole = ObjectPooler.Instance.SpawnFromPool("BlackHole", this.gameObject.transform.position, Quaternion.identity);
         blackHole.GetComponent<BlackHole>().Construct(player, player.armsScript.currentWeapon);
+        //blackHole.transform.parent = null;
+        //blackHole.transform.localScale = new Vector3(5.0f, 5.0f, 5.0f);
         StartCoroutine(DisableOverTime(0.0f));
 
         this.StopAllCoroutines();

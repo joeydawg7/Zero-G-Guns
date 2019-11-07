@@ -1169,7 +1169,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   showAimingVector: 0
   basePlayer: {fileID: 0}
-  currentWeapon: {fileID: 11400000, guid: 49ead892372b5274e987c2ac71fbb8e3, type: 2}
+  currentWeapon: {fileID: 0}
   targetVectorLength: 5
   frontHandBone: {fileID: 6618733368957391394}
   backHandBone: {fileID: 6618733367923125351}
@@ -2163,6 +2163,9 @@ MonoBehaviour:
   invulnerabilityColorFlash:
     serializedVersion: 2
     rgba: 520093695
+  defaultColor:
+    serializedVersion: 2
+    rgba: 0
   invulnerablityTime: 5
   numKills: 0
   playerLastHitBy: {fileID: 0}
@@ -2185,8 +2188,8 @@ MonoBehaviour:
   playerName: 
   hexColorCode: 
   rb: {fileID: 769758489}
-  playerInput: {fileID: 0}
   lastHitDamageType: 0
+  vibrateAmount: 0
 --- !u!82 &1818601546398240708
 AudioSource:
   m_ObjectHideFlags: 0
