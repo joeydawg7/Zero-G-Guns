@@ -515,7 +515,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 27843feee11983944bd91955e6e2ee4d, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 206446ce663f9ec4bbcaf329314ab397, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -701,20 +701,20 @@ MonoBehaviour:
   m_RootBone: {fileID: 8962047038956437954}
   m_BoneTransforms:
   - {fileID: 8962047038956437954}
-  - {fileID: 8962047039701479824}
-  - {fileID: 8962047039512385827}
   - {fileID: 8962047039873553505}
-  - {fileID: 8962047039435369654}
+  - {fileID: 8962047039512385827}
+  - {fileID: 2249071395567880373}
+  - {fileID: 8962047039701479824}
   - {fileID: 8962047040737467400}
-  - {fileID: 8962047040580360110}
+  - {fileID: 8962047039435369654}
   - {fileID: 8962047039210123482}
+  - {fileID: 8962047040580360110}
   - {fileID: 8962047039408922405}
   - {fileID: 8962047040928341492}
   - {fileID: 8962047038871299656}
   - {fileID: 8962047039174576948}
   - {fileID: 1196860777078471125}
   - {fileID: 9041621141773289501}
-  - {fileID: 2249071395567880373}
   - {fileID: 8962047038890180363}
   - {fileID: 8962047040021070158}
   m_Bounds:
@@ -1102,6 +1102,9 @@ MonoBehaviour:
   invulnerabilityColorFlash:
     serializedVersion: 2
     rgba: 520093695
+  defaultColor:
+    serializedVersion: 2
+    rgba: 0
   invulnerablityTime: 5
   numKills: 0
   playerLastHitBy: {fileID: 0}
@@ -1124,8 +1127,8 @@ MonoBehaviour:
   playerName: 
   hexColorCode: 
   rb: {fileID: 2847929329516066864}
-  playerInput: {fileID: 0}
   lastHitDamageType: 0
+  vibrateAmount: 0
 --- !u!82 &8317318695263769632
 AudioSource:
   m_ObjectHideFlags: 0
@@ -2184,7 +2187,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   showAimingVector: 1
   basePlayer: {fileID: 0}
-  currentWeapon: {fileID: 11400000, guid: 49ead892372b5274e987c2ac71fbb8e3, type: 2}
+  currentWeapon: {fileID: 0}
   targetVectorLength: 7
   frontHandBone: {fileID: 8962047038890180363}
   backHandBone: {fileID: 8962047040021070158}
