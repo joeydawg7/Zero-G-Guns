@@ -11,7 +11,7 @@ public class BlackHole : MonoBehaviour
     private Guns gunThatShot;
     private bool shrinkingPlayer;
 
-    public AudioClip blackHoleForming;
+    public AudioClip blackHoleForming, blackHoleCollapsing;
     public AudioClip blackHoleTeleport;
     private AudioSource theSource;
     
@@ -37,15 +37,37 @@ public class BlackHole : MonoBehaviour
 
     public IEnumerator GrowBlackHole()
     {
+        float timer = 0;
         if(blackHoleForming)
         {
             theSource.PlayOneShot(blackHoleForming);
         }
         
-        while(this.gameObject.transform.localScale.x < 5.0f)
+        while(this.gameObject.transform.localScale.x < 2.0f)
         {
-            scale += Time.deltaTime * 5.0f;
+            scale += Time.deltaTime * 2.0f;
             this.gameObject.transform.localScale = new Vector3(scale, scale, scale);
+            yield return null;
+        }
+        while(timer < 3.0f)
+        {
+            timer += Time.deltaTime;
+            yield return null;
+        }
+        StartCoroutine(ShrinkBlackHole());
+    }
+
+    public IEnumerator ShrinkBlackHole()
+    {
+        if (blackHoleCollapsing)
+        {
+            theSource.PlayOneShot(blackHoleCollapsing);
+        }
+
+        while (this.gameObject.transform.localScale.x > 0.0f)
+        {
+            scale -= Time.deltaTime * 2.0f;
+            this.gameObject.transform.localScale -= new Vector3(scale, scale, scale);
             yield return null;
         }
     }

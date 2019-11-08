@@ -10,9 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 7750251609520748188}
   - component: {fileID: 1263236481591746171}
-  - component: {fileID: 7862106914169005638}
   - component: {fileID: -3759093359852405473}
   - component: {fileID: -6685422383240795425}
+  - component: {fileID: 8004238886950188376}
   m_Layer: 0
   m_Name: WormHole
   m_TagString: Untagged
@@ -83,22 +83,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!58 &7862106914169005638
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6178848896952289239}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Radius: 1.77
 --- !u!114 &-3759093359852405473
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -114,6 +98,7 @@ MonoBehaviour:
   minDamage: 25
   maxDamage: 35
   blackHoleForming: {fileID: 8300000, guid: 04b3bb79f76db7642b47f05ad0e7b327, type: 3}
+  blackHoleCollapsing: {fileID: 8300000, guid: a2d1597a0fca54047b185a20bba59686, type: 3}
   blackHoleTeleport: {fileID: 8300000, guid: 7c67be973f4074c4cbbd90ff50b61edc, type: 3}
 --- !u!82 &-6685422383240795425
 AudioSource:
@@ -211,3 +196,19 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!70 &8004238886950188376
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6178848896952289239}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.042888183, y: -0.04288026}
+  m_Size: {x: 9.518991, y: 5.831359}
+  m_Direction: 1
