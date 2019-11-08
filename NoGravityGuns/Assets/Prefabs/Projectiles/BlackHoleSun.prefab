@@ -11,11 +11,11 @@ GameObject:
   - component: {fileID: 7079446627462762135}
   - component: {fileID: 7124787575454824946}
   - component: {fileID: 1476169661435681533}
-  - component: {fileID: 6985934816260310001}
   - component: {fileID: 1393185259820215455}
+  - component: {fileID: 2702889966772717097}
   m_Layer: 0
   m_Name: BlackHoleSun
-  m_TagString: Untagged
+  m_TagString: BlackHoleSun
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -104,19 +104,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 0
---- !u!114 &6985934816260310001
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5614434748910034190}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 79bc53673424e694cac8792dfa5805ec, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 0}
 --- !u!58 &1393185259820215455
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -133,3 +120,16 @@ CircleCollider2D:
   m_Offset: {x: -0.09, y: 0}
   serializedVersion: 2
   m_Radius: 2.25
+--- !u!114 &2702889966772717097
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5614434748910034190}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24161e44429bb864eb60148896acf6bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 0}

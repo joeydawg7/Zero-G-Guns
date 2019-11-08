@@ -31,7 +31,7 @@ public class PlayerScript : MonoBehaviour
     public Controller controller;
 
 
-    public enum DamageType { head = 4, torso = 3, legs = 2, feet = 1, self = 5, explosive = 6 };
+    public enum DamageType { head = 4, torso = 3, legs = 2, feet = 1, self = 5, explosive = 6, blackhole = 7 };
 
     [Header("Bools")]
     public bool isDead;
@@ -349,6 +349,10 @@ public class PlayerScript : MonoBehaviour
                     case DamageType.explosive:
                         damage *= EXPLOSION_MULTIPLIER;
                         SpawnFloatingDamageText(Mathf.RoundToInt(damage), DamageType.explosive, "FloatAway");
+                        break;
+                    case DamageType.blackhole:
+                        //damage *= EXPLOSION_MULTIPLIER;
+                        SpawnFloatingDamageText(Mathf.RoundToInt(damage), DamageType.blackhole, "FloatAway");
                         break;
                     default:
                         break;

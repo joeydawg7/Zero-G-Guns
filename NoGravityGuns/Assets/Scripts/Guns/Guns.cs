@@ -134,7 +134,17 @@ public abstract class Guns : MonoBehaviour
         {
             GameObject bulletGo = ObjectPooler.Instance.SpawnFromPool(projectileTypeName, bulletSpawn.position, Quaternion.identity);
             var dir = bulletSpawn.transform.right * bulletSpeed;
-            bulletGo.GetComponent<Bullet>().Construct(GunDamage(minDamagae, maxDamage), player, dir, player.playerColor);
+
+            if (projectileTypeName == "BlackHoleSun")
+            {
+                bulletGo.GetComponent<BlackHoleSun>().Construct(GunDamage(minDamagae, maxDamage), player, dir, player.playerColor);
+            }
+            else
+            {
+                bulletGo.GetComponent<Bullet>().Construct(GunDamage(minDamagae, maxDamage), player, dir, player.playerColor);
+            }
+
+            
         }        
     }
     

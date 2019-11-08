@@ -998,7 +998,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6618733367150440668}
-  m_LocalRotation: {x: -0.00982095, y: 0.0020036725, z: 0.98603964, w: 0.16620916}
+  m_LocalRotation: {x: -0.009821905, y: 0.0020047268, z: 0.98603964, w: 0.16620916}
   m_LocalPosition: {x: 7.193709, y: -2.0401816, z: 0.1303652}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -1475,13 +1475,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6618733367923125350}
-  m_LocalRotation: {x: 0.121384025, y: -0.25729606, z: 0.23334903, w: 0.92984563}
+  m_LocalRotation: {x: 0.12197841, y: -0.25804937, z: 0.23397207, w: 0.9294025}
   m_LocalPosition: {x: 2.7484026, y: -0.23130655, z: 0.41684705}
   m_LocalScale: {x: 0.9, y: 0.9, z: 1}
   m_Children: []
   m_Father: {fileID: 6618733368635729437}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 20.232, y: -26.717001, z: 23.323002}
+  m_LocalEulerAnglesHint: {x: 20.334002, y: -26.787, z: 23.37}
 --- !u!1 &6618733367951493249
 GameObject:
   m_ObjectHideFlags: 0
@@ -1643,7 +1643,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   showAimingVector: 0
   basePlayer: {fileID: 0}
-  currentWeapon: {fileID: 11400000, guid: 49ead892372b5274e987c2ac71fbb8e3, type: 2}
+  currentWeapon: {fileID: 0}
   targetVectorLength: 5
   frontHandBone: {fileID: 6618733368957391394}
   backHandBone: {fileID: 6618733367923125351}
@@ -1960,7 +1960,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6618733368401359375}
-  m_LocalRotation: {x: -0.17042875, y: 0.18321402, z: 0.9664884, w: 0.057331137}
+  m_LocalRotation: {x: -0.17067723, y: 0.18421908, z: 0.9663127, w: 0.05632461}
   m_LocalPosition: {x: 6.9821367, y: -0.93380785, z: -1.4269766}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -2319,7 +2319,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6618733368635729436}
-  m_LocalRotation: {x: 0.06296649, y: 0.040927123, z: -0.7417207, w: 0.6664914}
+  m_LocalRotation: {x: 0.062959895, y: 0.040920824, z: -0.7428693, w: 0.6652118}
   m_LocalPosition: {x: 2.2566197, y: 0.029858232, z: 0.00027218502}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -2481,7 +2481,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6618733368938515296}
-  m_LocalRotation: {x: -0.00000002748144, y: -0.00000001738228, z: -0.6909921, w: 0.72286224}
+  m_LocalRotation: {x: -0.000000031058313, y: -0.000000021076017, z: -0.69099206,
+    w: 0.7228623}
   m_LocalPosition: {x: 3.5647745, y: 0.061942577, z: 0.0000006305054}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -2745,6 +2746,9 @@ MonoBehaviour:
   invulnerabilityColorFlash:
     serializedVersion: 2
     rgba: 520093695
+  defaultColor:
+    serializedVersion: 2
+    rgba: 0
   invulnerablityTime: 5
   numKills: 0
   playerLastHitBy: {fileID: 0}
@@ -2767,8 +2771,8 @@ MonoBehaviour:
   playerName: 
   hexColorCode: 
   rb: {fileID: 0}
-  playerInput: {fileID: 0}
   lastHitDamageType: 0
+  vibrateAmount: 0
 --- !u!1 &8821908765624388855
 GameObject:
   m_ObjectHideFlags: 0
