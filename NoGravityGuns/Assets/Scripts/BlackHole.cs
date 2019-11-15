@@ -51,7 +51,10 @@ public class BlackHole : MonoBehaviour
         }
         while(timer < 3.0f)
         {
-            timer += Time.deltaTime;
+            if(!shrinkingPlayer)
+            {
+                timer += Time.deltaTime;
+            }            
             yield return null;
         }
         StartCoroutine(ShrinkBlackHole());
@@ -63,13 +66,16 @@ public class BlackHole : MonoBehaviour
         {
             theSource.PlayOneShot(blackHoleCollapsing);
         }
-
-        while (this.gameObject.transform.localScale.x > 0.0f)
+        float progression = 0.0f;
+        while (progression < 1.0f)
         {
-            scale -= Time.deltaTime * 2.0f;
-            this.gameObject.transform.localScale -= new Vector3(scale, scale, scale);
+            progression += Time.deltaTime;
+            this.transform.localScale = Vector3.Lerp(new Vector3(2.0f, 2.0f, 2.0f), Vector3.zero, progression);          
             yield return null;
         }
+        this.transform.localScale = Vector3.zero;
+
+
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -85,7 +91,7 @@ public class BlackHole : MonoBehaviour
                 }               
             }          
         }
-        else if(collision.gameObject.GetComponent<Rigidbody2D>() && collision.tag != "BlackHoleSun")
+        else if(collision.gameObject.GetComponent<Rigidbody2D>() && collision.tag != "BlackHoleSun" && !collision.gameObject.GetComponent<WheelJoint2D>())
         {
            
             StartCoroutine(ShrinkPlayer(collision.gameObject, collision.gameObject.transform.localScale));

@@ -222,7 +222,7 @@ public class BlackHoleSun : MonoBehaviour, IPooledObject
         //blackHole.transform.localScale = new Vector3(5.0f, 5.0f, 5.0f);
         StartCoroutine(DisableOverTime(0.0f));
 
-        this.StopAllCoroutines();
+        //this.StopAllCoroutines();
 
         bulletTrail.transform.parent = null;
         bulletTrail.Stop();
