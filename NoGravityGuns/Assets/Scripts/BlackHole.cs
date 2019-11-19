@@ -83,11 +83,14 @@ public class BlackHole : MonoBehaviour
         if((collision.tag == "Arms" || collision.tag == "Leg" || collision.tag == "Torso" || collision.tag == "Head" || collision.tag == "Feet"))
         {
             if(!shrinkingPlayer)
-            {                
+            {               
                 var player = collision.gameObject.GetComponent<PlayerScript>();                
-                if(!player.isDead)
-                {                    
-                    StartCoroutine(ShrinkPlayer(player.gameObject, player.gameObject.transform.localScale));
+                if(player)
+                {    
+                    if (!player.isDead)
+                    {
+                        StartCoroutine(ShrinkPlayer(player.gameObject, player.gameObject.transform.localScale));
+                    }                    
                 }               
             }          
         }

@@ -19,8 +19,14 @@ public class AssaultRifle : Guns
 
     public override void Fire(PlayerScript player)
     {
-        base.KnockBack(player, player.knockbackMultiplier);
-        player.StartCoroutine(FireInBurst(player, numBurstShots));
+        if (CheckIfAbleToiFire(this))
+        {
+            player.StartCoroutine(FireInBurst(player, numBurstShots));
+        }
+        else
+        {
+            CheckForAmmo(player);
+        }       
     }
 
     IEnumerator FireInBurst(PlayerScript player, int bulletsToShoot)

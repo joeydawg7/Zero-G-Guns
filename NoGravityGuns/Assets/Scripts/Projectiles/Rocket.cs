@@ -12,7 +12,7 @@ public class Rocket : Bullet
     float rocketTopSpeed;
     float rocketAccelerationMod;
 
-    public override void Construct(float damage, PlayerScript player, Vector3 dir, Color32 color)
+    public void Construct(float damage, PlayerScript player, Vector3 dir, Color32 color, RPG thRPG)
     {
         //call the base version first, the rest of the stuff we do after
         base.Construct(damage, player, dir, color);
@@ -38,7 +38,9 @@ public class Rocket : Bullet
 
         this.dir = dir;
 
-        rb.AddForce(dir , ForceMode2D.Force);
+        rb.AddForce(dir , ForceMode2D.Force);   
+        
+
 
     }
 

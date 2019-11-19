@@ -18,16 +18,47 @@ public class RPG : Guns
     public float damageAtCenter;
 
     //public float knockback;
-    public float knockbackMultiplier;     
+    public float knockbackMultiplier;
+    public Sprite emptyRPG;    
+
+    private bool isReloading;
+
+
+
+
+    private void Awake()
+    {       
+        isReloading = false;
+    }
+
+    private void Update()
+    {
+        if (isReloading)
+        {
+            if (CheckIfAbleToiFire(this))
+            {
+                this.gameObject.GetComponent<SpriteRenderer>().sprite = theGunSprite;
+                isReloading = false;
+            }
+        }
+    }
 
     public override void Fire(PlayerScript player)
     {       
         //base.KnockBack(player, player.knockbackMultiplier);
-        player.StartCoroutine(PushBackBeforeKnockBack(player));
+        if(CheckIfAbleToiFire(this))
+        {
+            player.StartCoroutine(PushBackBeforeKnockBack(player));
+        }
+        else
+        {
+            CheckForAmmo(player);
+        }
     }        
 
     IEnumerator PushBackBeforeKnockBack(PlayerScript player)
     {
+        base.timeSinceLastShot = Time.time;
         base.KnockBack(player, player.knockbackMultiplier);
         player.armsScript.audioSource.PlayOneShot(base.GetRandomGunshotSFX);
         float timer = 0.0f;
@@ -46,27 +77,28 @@ public class RPG : Guns
 
             timer += Time.deltaTime;
             //time since last shot remains 0 as long as this is held down so new rockets wont try to be shot
-            player.armsScript.timeSinceLastShot = 0;
+            base.timeSinceLastShot = Time.time;
 
             yield return null;
         }
-
-        ////if its still an rpg... just checking :)
-        //if (player.armsScript.currentWeapon.name == "RPG")
-        //{
+     
             base.KnockBack(player, player.knockbackMultiplier);
             player.armsScript.audioSource.PlayOneShot(base.GetRandomGunshotSFX);
-            base.SpawnBullet(player, bulletSpeed, minDamageRange, maxDamageRange);    
+            base.SpawnBullet(player, bulletSpeed, minDamageRange, maxDamageRange);            
             base.ReduceBullets(player);
-        //}
+            this.gameObject.GetComponent<SpriteRenderer>().sprite = emptyRPG;
+            isReloading = true;
 
-        if (player.armsScript.currentAmmo <= 1)
+
+
+        if (player.armsScript.currentAmmo < 1)
         {
-            //reloadCoroutine = StartCoroutine(Reload());
-            player.armsScript.EquipGun(GameManager.Instance.pistol, false);
+            player.armsScript.EquipGun(GameManager.Instance.pistol, true);
         }
+      
     }
 
+    
     void ExplodeInHand(ArmsScript arms)
     {
         GameObject bulletGo = ObjectPooler.Instance.SpawnFromPool(projectileTypeName, arms.bulletSpawn.transform.position, Quaternion.identity);

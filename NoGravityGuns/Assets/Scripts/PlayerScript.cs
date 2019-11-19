@@ -462,7 +462,10 @@ public class PlayerScript : MonoBehaviour
             torsoSR.color = Color32.Lerp(playerColor, deadColor, progress);
             foreach (var SR in armsSR)
             {
-                SR.color = Color32.Lerp(playerColor, deadColor, progress);
+                if(SR)
+                {
+                    SR.color = Color32.Lerp(playerColor, deadColor, progress);
+                }                
             }
 
             progress += 0.005f;

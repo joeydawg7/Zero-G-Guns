@@ -21,6 +21,7 @@ public abstract class Guns : MonoBehaviour
     [Tooltip("Leave blank for nothing")]
     public AudioClip prefireSound;
     public AudioClip outOfAmmoSound;
+    public float timeSinceLastShot;
 
     public GameObject gunPrefab;
 
@@ -28,7 +29,7 @@ public abstract class Guns : MonoBehaviour
 
     private void Start()
     {
-        numBullets = clipSize;
+        numBullets = clipSize;        
     }    
 
     public AudioClip GetRandomGunshotSFX
@@ -46,6 +47,7 @@ public abstract class Guns : MonoBehaviour
 
     public IEnumerator DelayShotCoroutine(PlayerScript player, float delayBeforeShot, float bulletSpeed, int minDamage, int maxDamage)
     {
+        timeSinceLastShot = Time.time;
         ArmsScript arms = player.armsScript;
 
         //GameObject tempGo = gunPrefab.transform.GetChild(0).transform.Find(muzzleFlash).gameObject;
@@ -69,7 +71,7 @@ public abstract class Guns : MonoBehaviour
         }
 
         yield return new WaitForSeconds(delayBeforeShot);
-
+        KnockBack(player, player.knockbackMultiplier);
         SpawnBullet(player, bulletSpeed, minDamage, maxDamage);
     }
 
@@ -83,7 +85,7 @@ public abstract class Guns : MonoBehaviour
             {
                 player.armsScript.audioSource.PlayOneShot(outOfAmmoSound);
             }
-            player.armsScript.EquipGun(GameManager.Instance.pistol, false);
+            player.armsScript.EquipGun(GameManager.Instance.pistol, true);
         }
     }
 
@@ -128,7 +130,9 @@ public abstract class Guns : MonoBehaviour
             float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
             bulletGo.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
 
-            bulletGo.GetComponent<Rocket>().Construct(GunDamage(minDamageRange,maxDamageRange), player, dir, player.playerColor);
+            bulletGo.GetComponent<Rocket>().Construct(GunDamage(minDamageRange,maxDamageRange), player, dir, player.playerColor, gunPrefab.GetComponent<RPG>());
+            
+            
         }
         else
         {
@@ -154,8 +158,31 @@ public abstract class Guns : MonoBehaviour
 
         player.rb.AddForce(-arms.bulletSpawn.transform.right * knockBack * knockBackModifier, ForceMode2D.Impulse);
         //player.rb.AddForce(inverseDir * knockbackMultiplier, ForceMode2D.Impulse);
-        player.armsScript.cameraShake.shakeDuration += cameraShakeDuration;
-        arms.timeSinceLastShot = 0;
+        player.armsScript.cameraShake.shakeDuration += cameraShakeDuration;        
+    }
+
+    public bool  CheckIfAbleToiFire(Guns gun)
+    {
+        //gotta have bullets to shoot
+       
+        //enough time has passed between shots and not paused
+        if ((Time.time - timeSinceLastShot) >= gun.recoilDelay && Time.timeScale != 0)
+        {
+            //player.armsScript.currentWeapon.Fire(player);
+            return true;
+        }      
+        
+        return false;
+    }
+
+    public void CheckForAmmo(PlayerScript player)
+    {
+        if(player.armsScript.currentAmmo <= 0)
+        {
+            player.armsScript.audioSource.PlayOneShot(player.armsScript.dryFire);
+            timeSinceLastShot = Time.time;
+            player.armsScript.EquipGun(ObjectPooler.Instance.defaultPistol, true);
+        }        
     }
    
 }

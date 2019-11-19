@@ -48,8 +48,8 @@ public class ArmsScript : MonoBehaviour
     public AudioSource audioSource;
     [HideInInspector]
     public CameraShake cameraShake;
-    [HideInInspector]
-    public float timeSinceLastShot;
+    //[HideInInspector]
+   // public float timeSinceLastShot;
     [HideInInspector]
     public Transform bulletSpawn;
 
@@ -78,7 +78,7 @@ public class ArmsScript : MonoBehaviour
     #region Start, Awake, Update
     private void Awake()
     {
-        timeSinceLastShot = 0;
+        //timeSinceLastShot = Time.time;
 
         facing = transform.rotation;
         if(currentWeapon)
@@ -121,12 +121,12 @@ public class ArmsScript : MonoBehaviour
     {
         if (gameManager.isGameStarted)
         {
-            CountShotDelay();
+            //CountShotDelay();
 
             if (!basePlayer.isDead)
             {
                 //AimController();
-                OnReload();
+                //OnReload();
                 ShootController();
             }
         }
@@ -219,14 +219,14 @@ public class ArmsScript : MonoBehaviour
 
     }
 
-    public void OnReload()
-    {
+    //public void OnReload()
+    //{
         //if (basePlayer.player.GetButtonDown("Reload"))
         //{
         //    // if (!isReloading && currentAmmo < currentWeapon.clipSize)
         //    //reloadCoroutine = StartCoroutine(Reload());
         //}
-    }
+    //}
 
     void ShootController()
     {
@@ -239,21 +239,21 @@ public class ArmsScript : MonoBehaviour
 
     #region Equip Guns, Shoot
     //counts time between shots 
-    void CountShotDelay()
-    {
-        //delay shooting stuff
-        timeSinceLastShot += Time.deltaTime;
+    //void CountShotDelay()
+    //{
+    //    //delay shooting stuff
+    //    timeSinceLastShot += Time.deltaTime;
 
-    }
+    //}
 
     //equips a new gun
     public void EquipGun(Guns weaponToEquip, bool equipInstant)
     {
         //instant equip assumes time since last shot as being functionally infinite so player can grab weapon and shoot right away
         if (equipInstant)
-            timeSinceLastShot = int.MaxValue;
+            //timeSinceLastShot = 0.0f;
 
-        timeSinceLastShot = 0;
+        //timeSinceLastShot = Time.time;
 
         //delays the swapping of weapons so player will hold the old weapon for as long as the recoilDelay on the gun is before switching.
         EquipGun(weaponToEquip);
@@ -283,7 +283,7 @@ public class ArmsScript : MonoBehaviour
 
 
             //set weapon and bullet stats for new gun
-            currentWeapon = weaponToEquip;
+            currentWeapon = gunGo.GetComponent<Guns>();
             totalBulletsGunCanLoad = weaponToEquip.numBullets;
             currentAmmo = weaponToEquip.clipSize;
 
@@ -291,6 +291,7 @@ public class ArmsScript : MonoBehaviour
 
             //find the new bulelt spawn location (bleh)
             bulletSpawn = gunGo.transform.Find("BulletSpawner");
+            weaponToEquip.timeSinceLastShot = -weaponToEquip.recoilDelay;
         }       
     }
 
@@ -310,38 +311,17 @@ public class ArmsScript : MonoBehaviour
             return;
 
         //dry fire effect
-        if (isReloading)
-        {
-            if (timeSinceLastShot >= currentWeapon.recoilDelay)
-            {
-                audioSource.PlayOneShot(dryFire);
-                timeSinceLastShot = 0;
-                EquipGun(ObjectPooler.Instance.defaultPistol);
-            }
-        }
+        //if (isReloading)
+        //{
+        //    if (timeSinceLastShot >= currentWeapon.recoilDelay)
+        //    {
+        //        audioSource.PlayOneShot(dryFire);
+        //        timeSinceLastShot = Time.time;
+        //        EquipGun(ObjectPooler.Instance.defaultPistol);
+        //    }
+        //}
 
-        //gotta have bullets to shoot
-        if (currentAmmo > 0)
-        {
-            //enough time has passed between shots and not paused
-            if (timeSinceLastShot >= currentWeapon.recoilDelay && Time.timeScale != 0)
-            {
-                //add force to player in opposite direction of shot
-                //currentWeapon.KnockBack(basePlayer, basePlayer.knockbackMultiplier);
-
-                //Vibrate(0.2f, 0.2f);
-
-                //shoot gun based on weapons fire function
-                currentWeapon.Fire(basePlayer);
-
-            }
-        }
-        else
-        {
-            audioSource.PlayOneShot(dryFire);
-            timeSinceLastShot = 0;
-            EquipGun(ObjectPooler.Instance.defaultPistol);
-        }
+        currentWeapon.Fire(basePlayer);       
     }
 
 
@@ -374,5 +354,4 @@ public class ArmsScript : MonoBehaviour
         Gizmos.DrawLine(bulletSpawn.transform.position, destination);
     }
     #endregion
-
 }
