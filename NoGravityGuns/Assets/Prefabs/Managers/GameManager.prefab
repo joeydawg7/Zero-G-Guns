@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c83b9550a3765784b8ca4ab9e35f878a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  debugSkipCountdown: 1
+  debugSkipCountdown: 0
   isGameStarted: 0
   players:
   - {fileID: 0}
@@ -57,38 +57,16 @@ MonoBehaviour:
   cameraController: {fileID: 0}
   joiningPlayerScript: {fileID: 0}
   debugManager: {fileID: 11400000, guid: 35650090ad5e29d48aac8fd370c67a8e, type: 2}
-  pistol: {fileID: 11400000, guid: 49ead892372b5274e987c2ac71fbb8e3, type: 2}
-  shotgun: {fileID: 11400000, guid: e4762a43f52cd6949ac0e75094aa650a, type: 2}
-  LMG: {fileID: 11400000, guid: 61c7a06b43bfe9d46ac7af4b91085191, type: 2}
-  assaultRifle: {fileID: 11400000, guid: 8fe3a682d243b3749b0240414241b09e, type: 2}
-  railGun: {fileID: 11400000, guid: d588e9814200c604d8bdb691ef9e777b, type: 2}
-  playUIPrefab: {fileID: 1236504130686009864, guid: 7c3f6ab5b694f93408628955aba9e7c9,
-    type: 3}
-  playerUIParent: {fileID: 0}
+  pistol: {fileID: -241674355871316191, guid: 03d1e6d4c024a444da17375e48ba38be, type: 3}
   matchTime: 480
-  guiManager: {fileID: 0}
   EndGameScript: {fileID: 0}
   timer: 1
   countdownText: {fileID: 0}
   PlayerObject: {fileID: 0}
   countdownBeep: {fileID: 8300000, guid: 59f2e7dbf27a5be46a08512cc763b071, type: 3}
   startingBeep: {fileID: 8300000, guid: f74dd0285e45f99409988cd7c910ab17, type: 3}
-  FinalBlowHoldTime: 4
   audioSource: {fileID: 0}
-  pistolKills: 0
-  shotGunKills: 0
-  railgunKills: 0
-  minigunKills: 0
-  assaultRifleKills: 0
-  collisionKills: 0
-  pistolDamage: 0
-  shotGunDamage: 0
-  railgunDamage: 0
-  minigunDamage: 0
-  assaultDamage: 0
-  collisionDamage: 0
-  healthPackHeals: 0
-  dataManager: {fileID: 1647903992}
+  ranFromPersistentScene: 0
 --- !u!82 &1647903993
 AudioSource:
   m_ObjectHideFlags: 0
