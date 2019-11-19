@@ -10,26 +10,36 @@ public class Minigun : Guns
     //public int maxDamageRange;
     //public float bulletSpeed;
     
-    public float delayBeforeShot;
+    public float minSpeed, maxSpeed;
     
     
-    public float spinUpTime;
-    float spinUpAmount;
-
+    public bool spinning;
     //public override int GunDamage()
     //{
     //    return Random.Range(minDamageRange, maxDamageRange); 
     //}
+
+    private void Start()
+    {
+        spinning = false;
+        recoilDelay = minSpeed;
+    }
 
     public override void Fire(PlayerScript player)
     {
 
         if (CheckIfAbleToiFire(this))
         {            
-            player.armsScript.audioSource.PlayOneShot(GetRandomGunshotSFX);
-            spinUpAmount += recoilDelay;
-            player.StartCoroutine(spinUpMinigun(player));
-            player.StartCoroutine(DelayShotCoroutine(player, delayBeforeShot, bulletSpeed, minDamageRange, maxDamageRange));
+           
+            if(!spinning)
+            {
+                player.StartCoroutine(spinUpMinigun(player));
+            }
+            if (recoilDelay > maxSpeed)
+            {
+                recoilDelay -= Time.deltaTime;
+            }
+            player.StartCoroutine(DelayShotCoroutine(player, 0.0f, bulletSpeed, minDamageRange, maxDamageRange));
             ReduceBullets(player);
         }
         else
@@ -39,7 +49,6 @@ public class Minigun : Guns
        
     }
 
-    
 
     /*
      * hold button down
@@ -52,22 +61,18 @@ public class Minigun : Guns
      * */
     IEnumerator spinUpMinigun(PlayerScript player)
     {
-        while (spinUpAmount < (spinUpTime + recoilDelay) && player.player.GetAxis("Shoot") > 0.5f && player.armsScript.currentWeapon.name == "Minigun")
+        spinning = true;
+        while (spinning)
         {
-            spinUpAmount += Time.deltaTime;
-            if (spinUpAmount >= 0.25f)
+            if (player.player.GetAxis("Shoot") < 0.5f)
             {
-                recoilDelay = 1 - spinUpAmount;
+                if (recoilDelay < minSpeed)
+                {
+                    recoilDelay += Time.deltaTime;
+                }                
+                yield return null;
             }
             yield return null;
-        }
-
-        recoilDelay = 0.08f;
-
-        while (player.player.GetAxis("Shoot") < 0.5f)
-        {
-
-        }
-        //timer = 0;
+        }        
     }
 }

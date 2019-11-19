@@ -47,6 +47,7 @@ public abstract class Guns : MonoBehaviour
 
     public IEnumerator DelayShotCoroutine(PlayerScript player, float delayBeforeShot, float bulletSpeed, int minDamage, int maxDamage)
     {
+
         timeSinceLastShot = Time.time;
         ArmsScript arms = player.armsScript;
 
@@ -72,6 +73,7 @@ public abstract class Guns : MonoBehaviour
 
         yield return new WaitForSeconds(delayBeforeShot);
         KnockBack(player, player.knockbackMultiplier);
+        player.armsScript.audioSource.PlayOneShot(GetRandomGunshotSFX);
         SpawnBullet(player, bulletSpeed, minDamage, maxDamage);
     }
 

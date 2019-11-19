@@ -14,11 +14,14 @@ public class BlackHole : MonoBehaviour
     public AudioClip blackHoleForming, blackHoleCollapsing;
     public AudioClip blackHoleTeleport;
     private AudioSource theSource;
-    
+
+
+    GameObject cameraParent;
     // Start is called before the first frame update
 
     public virtual void Construct(PlayerScript player, Guns theGun)
     {
+        cameraParent = Camera.main.transform.parent.gameObject;
         playerWhoShot = player;
         gunThatShot = theGun;
 
@@ -27,6 +30,8 @@ public class BlackHole : MonoBehaviour
         this.gameObject.transform.localScale = Vector3.zero;
         shrinkingPlayer = false;
         StartCoroutine(GrowBlackHole());
+
+        
     }
 
     // Update is called once per frame
@@ -120,7 +125,9 @@ public class BlackHole : MonoBehaviour
         }
         var teleportLocation = new Vector3(Random.Range(-50.0f, 50.0f), Random.Range(-50.0f, 50.0f), player.transform.position.z);
         //add in a partial affect to show where you will spawn.
-        yield return new WaitForSeconds(0.125f);
+        yield return new WaitForSeconds(0.065f);        
+        cameraParent.GetComponentInChildren<RippleController>().Ripple(teleportLocation, 15, 0.88f);         
+        yield return new WaitForSeconds(0.065f);
         Teleport(player, oldScale, teleportLocation);
     }
     

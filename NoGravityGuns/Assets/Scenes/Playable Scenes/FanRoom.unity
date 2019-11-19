@@ -377,12 +377,19 @@ PrefabInstance:
         type: 3}
       propertyPath: weaponToSpawn
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: -8398064656369561847, guid: b4f980a46f51e404bbc5a9dbf1d63616,
+        type: 3}
     - target: {fileID: 4342875599540125397, guid: 1a7509d866bc6524b889c05ab85cf0eb,
         type: 3}
       propertyPath: hasWeapon
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4342875599540125397, guid: 1a7509d866bc6524b889c05ab85cf0eb,
+        type: 3}
+      propertyPath: currentWeapon
+      value: 
+      objectReference: {fileID: -8398064656369561847, guid: b4f980a46f51e404bbc5a9dbf1d63616,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1a7509d866bc6524b889c05ab85cf0eb, type: 3}
 --- !u!114 &126123403 stripped
@@ -1157,7 +1164,14 @@ PrefabInstance:
         type: 3}
       propertyPath: weaponToSpawn
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: -8398064656369561847, guid: b4f980a46f51e404bbc5a9dbf1d63616,
+        type: 3}
+    - target: {fileID: 4342875599540125397, guid: 1a7509d866bc6524b889c05ab85cf0eb,
+        type: 3}
+      propertyPath: currentWeapon
+      value: 
+      objectReference: {fileID: -8398064656369561847, guid: b4f980a46f51e404bbc5a9dbf1d63616,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1a7509d866bc6524b889c05ab85cf0eb, type: 3}
 --- !u!1001 &477004150
@@ -2844,6 +2858,18 @@ PrefabInstance:
       propertyPath: SpawnSelectedWeaponInstant
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4342875599540125397, guid: 1a7509d866bc6524b889c05ab85cf0eb,
+        type: 3}
+      propertyPath: weaponToSpawn
+      value: 
+      objectReference: {fileID: -8398064656369561847, guid: b4f980a46f51e404bbc5a9dbf1d63616,
+        type: 3}
+    - target: {fileID: 4342875599540125397, guid: 1a7509d866bc6524b889c05ab85cf0eb,
+        type: 3}
+      propertyPath: currentWeapon
+      value: 
+      objectReference: {fileID: -8398064656369561847, guid: b4f980a46f51e404bbc5a9dbf1d63616,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1a7509d866bc6524b889c05ab85cf0eb, type: 3}
 --- !u!4 &1479428362 stripped
@@ -3170,8 +3196,20 @@ PrefabInstance:
     - target: {fileID: 4342875599540125397, guid: 1a7509d866bc6524b889c05ab85cf0eb,
         type: 3}
       propertyPath: SpawnSelectedWeaponInstant
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4342875599540125397, guid: 1a7509d866bc6524b889c05ab85cf0eb,
+        type: 3}
+      propertyPath: weaponToSpawn
+      value: 
+      objectReference: {fileID: -8398064656369561847, guid: b4f980a46f51e404bbc5a9dbf1d63616,
+        type: 3}
+    - target: {fileID: 4342875599540125397, guid: 1a7509d866bc6524b889c05ab85cf0eb,
+        type: 3}
+      propertyPath: currentWeapon
+      value: 
+      objectReference: {fileID: -8398064656369561847, guid: b4f980a46f51e404bbc5a9dbf1d63616,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1a7509d866bc6524b889c05ab85cf0eb, type: 3}
 --- !u!4 &1704143984 stripped
@@ -4554,6 +4592,11 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8465764121378957575, guid: d3df09d88d7d467479da1238604e6823,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8465764121579146274, guid: d3df09d88d7d467479da1238604e6823,
         type: 3}
       propertyPath: m_fontAsset
@@ -4898,11 +4941,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 8465764120279603911, guid: d3df09d88d7d467479da1238604e6823,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8465764121378957575, guid: d3df09d88d7d467479da1238604e6823,
         type: 3}
       propertyPath: m_IsActive
       value: 1
