@@ -476,10 +476,8 @@ public class PlayerScript : MonoBehaviour
         torsoSR.color = deadColor;
         foreach (var SR in armsSR)
         {
-            if(SR)
-            {
+            if(SR!=null)
                 SR.color = deadColor;
-            }           
         }
 
     }

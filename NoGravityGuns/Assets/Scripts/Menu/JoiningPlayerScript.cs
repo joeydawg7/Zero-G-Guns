@@ -175,7 +175,7 @@ public class JoiningPlayerScript : MonoBehaviour
     void RemoveNextPlayer()
     {
         Debug.Log(rewiredPlayerIdCounter);
-        if (assignedControls.Count < 0 || rewiredPlayerIdCounter < 0)
+        if (assignedControls.Count <= 0 || rewiredPlayerIdCounter < 0)
         {
             Debug.Log("Min player limit already reached!");
             return;

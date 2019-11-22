@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311947, g: 0.38074005, b: 0.35872722, a: 1}
+  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -97,7 +97,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -358,14 +358,13 @@ PrefabInstance:
     - target: {fileID: 4342875599540125397, guid: 1a7509d866bc6524b889c05ab85cf0eb,
         type: 3}
       propertyPath: SpawnSelectedWeaponInstant
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4342875599540125397, guid: 1a7509d866bc6524b889c05ab85cf0eb,
         type: 3}
       propertyPath: weaponToSpawn
       value: 
-      objectReference: {fileID: 11400000, guid: e4762a43f52cd6949ac0e75094aa650a,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 4342875599540125397, guid: 1a7509d866bc6524b889c05ab85cf0eb,
         type: 3}
       propertyPath: hasWeapon
@@ -570,18 +569,6 @@ MonoBehaviour:
   m_EffectColor: {r: 0, g: 0, b: 0, a: 0.16862746}
   m_EffectDistance: {x: 0, y: 0}
   m_UseGraphicAlpha: 1
---- !u!114 &206274057 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8465764120939074668, guid: d3df09d88d7d467479da1238604e6823,
-    type: 3}
-  m_PrefabInstance: {fileID: 8465764120734034533}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 41a101d0410efae4fb19dbdc52cd635a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &211562502
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -935,14 +922,13 @@ PrefabInstance:
     - target: {fileID: 4342875599540125397, guid: 1a7509d866bc6524b889c05ab85cf0eb,
         type: 3}
       propertyPath: SpawnSelectedWeaponInstant
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4342875599540125397, guid: 1a7509d866bc6524b889c05ab85cf0eb,
         type: 3}
       propertyPath: weaponToSpawn
       value: 
-      objectReference: {fileID: 11400000, guid: 9919c7cf47e963747a4827c2340b8b58,
-        type: 2}
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1a7509d866bc6524b889c05ab85cf0eb, type: 3}
 --- !u!1001 &539335578
@@ -1411,7 +1397,7 @@ Transform:
   - {fileID: 264870461}
   - {fileID: 343589641}
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &845260359 stripped
 MonoBehaviour:
@@ -2236,8 +2222,8 @@ Transform:
   m_LocalPosition: {x: 34.8, y: -1.81, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 1382707730}
   - {fileID: 1837848176}
+  - {fileID: 1382707730}
   - {fileID: 1914267197}
   - {fileID: 1508141944}
   - {fileID: 1083503973}
@@ -2246,13 +2232,13 @@ Transform:
   - {fileID: 1451096521}
   - {fileID: 1670515352}
   - {fileID: 2091753468}
+  - {fileID: 677536325}
   - {fileID: 1230568982}
   - {fileID: 539335579}
-  - {fileID: 677536325}
+  - {fileID: 782133717}
   - {fileID: 156881858}
   - {fileID: 1150834908}
   - {fileID: 848061458}
-  - {fileID: 782133717}
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3107,7 +3093,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 12
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &2011379037
 PrefabInstance:
@@ -3905,19 +3891,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1266405587583640708, guid: 53b2a148a6b50ea45addede7db15165f,
         type: 3}
-      propertyPath: cameraController
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 1266405587583640708, guid: 53b2a148a6b50ea45addede7db15165f,
-        type: 3}
       propertyPath: joiningPlayerScript
       value: 
       objectReference: {fileID: 126123403}
-    - target: {fileID: 1266405587583640708, guid: 53b2a148a6b50ea45addede7db15165f,
-        type: 3}
-      propertyPath: guiManager
-      value: 
-      objectReference: {fileID: 206274057}
     - target: {fileID: 1266405587583640708, guid: 53b2a148a6b50ea45addede7db15165f,
         type: 3}
       propertyPath: EndGameScript
@@ -3928,11 +3904,6 @@ PrefabInstance:
       propertyPath: countdownText
       value: 
       objectReference: {fileID: 845260359}
-    - target: {fileID: 1266405587583640708, guid: 53b2a148a6b50ea45addede7db15165f,
-        type: 3}
-      propertyPath: debugSkipCountdown
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 53b2a148a6b50ea45addede7db15165f, type: 3}
 --- !u!1001 &3645061028158419242
@@ -3985,7 +3956,7 @@ PrefabInstance:
     - target: {fileID: 3645061028757661674, guid: 0a3fa051697e86045a2b80047d62ee78,
         type: 3}
       propertyPath: m_RootOrder
-      value: 10
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 3645061028757661674, guid: 0a3fa051697e86045a2b80047d62ee78,
         type: 3}

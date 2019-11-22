@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -17,7 +18,6 @@ public class GameManager : MonoBehaviour
     [HideInInspector]
     public List<PlayerScript> players;
     
-
     public CameraController cameraController;
 
     public JoiningPlayerScript joiningPlayerScript;
@@ -25,35 +25,11 @@ public class GameManager : MonoBehaviour
     [Header("Stores DebugManager scriptable object to easily turn debug options on / off")]
     public DebugManager debugManager;
 
-    [Header("Guns")]
     public Guns pistol;
-    public Guns shotgun;
-    public Guns LMG;
-    public Guns assaultRifle;
-    public Guns railGun;
-
-    public GameObject playUIPrefab;
-    public Transform playerUIParent;
 
     public float matchTime;
 
-    public GUIManager guiManager;
     public EndGameScript EndGameScript;   
-
-    //[HideInInspector]
-    //public PlayerUIPanel p1HUD;
-    //[HideInInspector]
-    //public PlayerUIPanel p2HUD;
-    //[HideInInspector]
-    //public PlayerUIPanel p3HUD;
-    //[HideInInspector]
-    //public PlayerUIPanel p4HUD;
-
-    //temp temp temp
-    //public PlayerScript player1;
-    //public PlayerScript player2;
-    //public PlayerScript player3;
-    //public PlayerScript player4;
 
     [HideInInspector]
     public float timer;
@@ -68,6 +44,8 @@ public class GameManager : MonoBehaviour
 
     [HideInInspector]
     public AudioSource audioSource;
+
+    public bool ranFromPersistentScene = false;
 
     #region Unused Sprite Storage
     //[Header("Red Sprites")]
@@ -106,7 +84,7 @@ public class GameManager : MonoBehaviour
     //public Sprite yellowBackForeLeg;
     //public Sprite yellowBackFoot;
     #endregion
-
+    /*
     #region Data Variables
     public float pistolKills;
     public float shotGunKills;
@@ -125,6 +103,7 @@ public class GameManager : MonoBehaviour
 
     public DataManager dataManager;
     #endregion
+    */
 
 
     private void Awake()
@@ -140,13 +119,17 @@ public class GameManager : MonoBehaviour
 
         isGameStarted = false;
         countdownText.gameObject.SetActive(false);
-        dataManager = GetComponent<DataManager>();
         audioSource = GetComponent<AudioSource>();
 
         players = new List<PlayerScript>();
         cameraController = FindObjectOfType<CameraController>();
         joiningPlayerScript = FindObjectOfType<JoiningPlayerScript>();
         EndGameScript = FindObjectOfType<EndGameScript>();
+
+    }
+
+    private void Start()
+    {
     }
 
     PlayerSpawnPoint[] playerSpawnPoints;
