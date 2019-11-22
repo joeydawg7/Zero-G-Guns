@@ -558,7 +558,10 @@ public class PlayerScript : MonoBehaviour
             torsoSR.color = invulnerabilityColorFlash;
             foreach (var SR in armsSR)
             {
-                SR.color = invulnerabilityColorFlash;
+                if (SR)
+                {
+                    SR.color = invulnerabilityColorFlash;
+                }
             }
             //foreach (var sr in legsSR)
             //{
@@ -569,7 +572,10 @@ public class PlayerScript : MonoBehaviour
             torsoSR.color = defaultColor;
             foreach (var SR in armsSR)
             {
-                SR.color = defaultColor;
+                if(SR)
+                {
+                    SR.color = defaultColor;
+                }               
             }
             //foreach (var sr in legsSR)
             //{
@@ -580,7 +586,10 @@ public class PlayerScript : MonoBehaviour
             torsoSR.color = invulnerabilityColorFlash;
             foreach (var SR in armsSR)
             {
-                SR.color = invulnerabilityColorFlash;
+                if (SR)
+                {
+                    SR.color = invulnerabilityColorFlash;
+                }
             }
             //foreach (var sr in legsSR)
             //{
@@ -591,7 +600,10 @@ public class PlayerScript : MonoBehaviour
             torsoSR.color = defaultColor;
             foreach (var SR in armsSR)
             {
-                SR.color = defaultColor;
+                if (SR)
+                {
+                    SR.color = defaultColor;
+                }
             }
             //foreach (var sr in legsSR)
             //{
@@ -602,7 +614,10 @@ public class PlayerScript : MonoBehaviour
         torsoSR.color = defaultColor;
         foreach (var SR in armsSR)
         {
-            SR.color = defaultColor;
+            if (SR)
+            {
+                SR.color = defaultColor;
+            }
         }
         //foreach (var sr in legsSR)
         //{
