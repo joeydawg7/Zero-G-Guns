@@ -56,6 +56,7 @@ public class JoiningPlayerScript : MonoBehaviour
 
         // Subscribe to controller connected events
         ReInput.ControllerConnectedEvent += OnControllerConnected;
+        ReInput.ControllerPreDisconnectEvent += OnControllerDisConnected;
 
         playerControllerDataDictionary = new Dictionary<int, PlayerControllerData>();
 
@@ -78,7 +79,12 @@ public class JoiningPlayerScript : MonoBehaviour
         }
 
     }
+    void OnControllerDisConnected(ControllerStatusChangedEventArgs args)
+    {
+        if (args.controllerType != ControllerType.Joystick) return;
+        if (assignedControls.Contains(args.controllerId)) RemoveJoystickFromPlayer(ReInput.controllers.GetJoystick(args.controllerId));
 
+    }
     void OnControllerConnected(ControllerStatusChangedEventArgs args)
     {
         if (args.controllerType != ControllerType.Joystick) return;
