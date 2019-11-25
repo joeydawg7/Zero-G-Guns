@@ -226,6 +226,20 @@ public class BlackHoleSun : MonoBehaviour, IPooledObject
 
         bulletTrail.transform.parent = null;
         bulletTrail.Stop();
+
+        ParticleSystem blackholeEffect = blackHole.GetComponentInChildren<ParticleSystem>();
+        var main = blackholeEffect.main;
+        main.startColor = new ParticleSystem.MinMaxGradient(player.playerColor);
+
+        foreach (Transform child in blackholeEffect.transform)
+        {
+            ParticleSystem ps = child.gameObject.GetComponent<ParticleSystem>();
+            var psMain = ps.main;
+            psMain.startColor = new ParticleSystem.MinMaxGradient(player.playerColor);
+        }
+
+        blackholeEffect.Play(true);
+
         bulletTrail.GetComponent<DisableOverTime>().DisableOverT(3.1f);
     }
 

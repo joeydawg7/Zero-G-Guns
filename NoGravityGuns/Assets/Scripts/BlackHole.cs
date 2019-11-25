@@ -17,11 +17,13 @@ public class BlackHole : MonoBehaviour
 
 
     GameObject cameraParent;
+    RippleController rippleController;
     // Start is called before the first frame update
 
     public virtual void Construct(PlayerScript player, Guns theGun)
     {
         cameraParent = Camera.main.transform.parent.gameObject;
+        rippleController = cameraParent.GetComponentInChildren<RippleController>();
         playerWhoShot = player;
         gunThatShot = theGun;
 
@@ -37,7 +39,8 @@ public class BlackHole : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+            //if(gameObject.activeInHierarchy && !isHoleCollapsing)
+            //    transform.localScale = new Vector3(Mathf.PingPong(Time.time, 0.5f) + 0.5f, Mathf.PingPong(Time.time, 0.5f) + 0.5f, Mathf.PingPong(Time.time, 0.5f) + 0.5f);
     }
 
     public IEnumerator GrowBlackHole()
@@ -47,7 +50,9 @@ public class BlackHole : MonoBehaviour
         {
             theSource.PlayOneShot(blackHoleForming);
         }
-        
+
+        rippleController.Ripple(transform.position);
+
         while(this.gameObject.transform.localScale.x < 2.0f)
         {
             scale += Time.deltaTime * 2.0f;
@@ -65,12 +70,18 @@ public class BlackHole : MonoBehaviour
         StartCoroutine(ShrinkBlackHole());
     }
 
+    bool isHoleCollapsing = false;
+
     public IEnumerator ShrinkBlackHole()
     {
+        isHoleCollapsing = true;
+
         if (blackHoleCollapsing)
         {
             theSource.PlayOneShot(blackHoleCollapsing);
         }
+
+        rippleController.Ripple(transform.position);
         float progression = 0.0f;
         while (progression < 1.0f)
         {
@@ -80,7 +91,9 @@ public class BlackHole : MonoBehaviour
         }
         this.transform.localScale = Vector3.zero;
 
-
+        gameObject.SetActive(false);
+        transform.parent = null;
+        isHoleCollapsing = false;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

@@ -30,18 +30,19 @@ public class RippleController : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0))
-        {
-            Vector2 position = Input.mousePosition;
+        //on mouse click ripples
+        //if (Input.GetMouseButtonDown(0))
+        //{
+        //    Vector2 position = Input.mousePosition;
 
-            if (rippleRoutine != null)
-                StopCoroutine(rippleRoutine);
+        //    if (rippleRoutine != null)
+        //        StopCoroutine(rippleRoutine);
 
-            ripple.CenterX.Override(position.x / Screen.width);
-            ripple.CenterY.Override(position.y / Screen.height);
+        //    ripple.CenterX.Override(position.x / Screen.width);
+        //    ripple.CenterY.Override(position.y / Screen.height);
 
-            rippleRoutine = StartCoroutine(DoRipple());
-        }
+        //    rippleRoutine = StartCoroutine(DoRipple());
+        //}
     }
 
     public void Ripple(Vector3 pos, float maxAmount =25f, float friction = .95f )
