@@ -97,14 +97,15 @@ public class BlackHole : MonoBehaviour
                         StartCoroutine(ShrinkPlayer(player.gameObject, player.gameObject.transform.localScale));
                     }                    
                 }               
-            }          
+            }
+            Physics2D.IgnoreCollision(this.gameObject.GetComponent<Collider2D>(), collision.gameObject.GetComponent<Collider2D>(), true);
         }
         else if(collision.gameObject.GetComponent<Rigidbody2D>() && collision.tag != "BlackHoleSun" && !collision.gameObject.GetComponent<WheelJoint2D>())
-        {
-           
+        {           
             StartCoroutine(ShrinkPlayer(collision.gameObject, collision.gameObject.transform.localScale));
+            Physics2D.IgnoreCollision(this.gameObject.GetComponent<Collider2D>(), collision.gameObject.GetComponent<Collider2D>(), true);
         }
-    }
+    }   
 
     public IEnumerator ShrinkPlayer(GameObject player, Vector3 oldScale)
     {

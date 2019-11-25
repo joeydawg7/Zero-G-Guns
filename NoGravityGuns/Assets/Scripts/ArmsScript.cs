@@ -251,9 +251,13 @@ public class ArmsScript : MonoBehaviour
     {
         //instant equip assumes time since last shot as being functionally infinite so player can grab weapon and shoot right away
         if (equipInstant)
-            //timeSinceLastShot = 0.0f;
-
-        //timeSinceLastShot = Time.time;
+        {
+            weaponToEquip.timeSinceLastShot = Time.time - ((weaponToEquip.recoilDelay / 4.0f) * 3.0f);
+        }
+        else
+        {
+            weaponToEquip.timeSinceLastShot = Time.time +weaponToEquip.recoilDelay;
+        }            
 
         //delays the swapping of weapons so player will hold the old weapon for as long as the recoilDelay on the gun is before switching.
         EquipGun(weaponToEquip);
