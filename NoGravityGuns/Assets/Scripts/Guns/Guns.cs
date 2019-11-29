@@ -158,7 +158,11 @@ public abstract class Guns : MonoBehaviour
     {
         ArmsScript arms = player.armsScript;
 
-        player.rb.AddForce(-arms.bulletSpawn.transform.right * knockBack * knockBackModifier, ForceMode2D.Impulse);
+        if(player.transform)
+        {
+            player.rb.AddForce(-arms.bulletSpawn.transform.right * knockBack * knockBackModifier, ForceMode2D.Impulse);
+        }       
+
         //player.rb.AddForce(inverseDir * knockbackMultiplier, ForceMode2D.Impulse);
         player.armsScript.cameraShake.shakeDuration += cameraShakeDuration;        
     }

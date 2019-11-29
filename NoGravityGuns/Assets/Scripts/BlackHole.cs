@@ -18,6 +18,8 @@ public class BlackHole : MonoBehaviour
 
     GameObject cameraParent;
     RippleController rippleController;
+
+    BlackHoleColourController theWornHole;
     // Start is called before the first frame update
 
     public virtual void Construct(PlayerScript player, Guns theGun)
@@ -31,16 +33,15 @@ public class BlackHole : MonoBehaviour
         scale = 0.0f;
         this.gameObject.transform.localScale = Vector3.zero;
         shrinkingPlayer = false;
-        StartCoroutine(GrowBlackHole());
-
-        
+        theWornHole = this.gameObject.GetComponentInChildren<BlackHoleColourController>();
+        theWornHole.SetBlackHoleColour(player);
+        StartCoroutine(GrowBlackHole());        
     }
 
     // Update is called once per frame
     void Update()
     {
-            //if(gameObject.activeInHierarchy && !isHoleCollapsing)
-            //    transform.localScale = new Vector3(Mathf.PingPong(Time.time, 0.5f) + 0.5f, Mathf.PingPong(Time.time, 0.5f) + 0.5f, Mathf.PingPong(Time.time, 0.5f) + 0.5f);
+        theWornHole.gameObject.transform.Rotate(new Vector3(0.0f, 0.0f, -1.0f), 360 * Time.deltaTime);
     }
 
     public IEnumerator GrowBlackHole()
@@ -91,6 +92,11 @@ public class BlackHole : MonoBehaviour
         }
         this.transform.localScale = Vector3.zero;
 
+        while(shrinkingPlayer)
+        {
+            yield return null;
+
+        }
         gameObject.SetActive(false);
         transform.parent = null;
         isHoleCollapsing = false;
@@ -98,22 +104,31 @@ public class BlackHole : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if((collision.tag == "Arms" || collision.tag == "Leg" || collision.tag == "Torso" || collision.tag == "Head" || collision.tag == "Feet"))
-        {
+        if((collision.tag == "Arms" || collision.tag == "Leg" || collision.tag == "Torso" || collision.tag == "Head" || collision.tag == "Feet"))        
+        {           
             if(!shrinkingPlayer)
-            {               
+            {
+                shrinkingPlayer = true;
                 var player = collision.gameObject.GetComponent<PlayerScript>();                
                 if(player)
                 {    
                     if (!player.isDead)
                     {
-                        StartCoroutine(ShrinkPlayer(player.gameObject, player.gameObject.transform.localScale));
-                    }                    
-                }               
+                        StartCoroutine(ShrinkPlayer(collision.gameObject, player.gameObject.transform.localScale));
+                    }
+                    else
+                    {
+                        shrinkingPlayer = false;
+                    }
+                }
+                else
+                {
+                    shrinkingPlayer = false;
+                }
             }
             Physics2D.IgnoreCollision(this.gameObject.GetComponent<Collider2D>(), collision.gameObject.GetComponent<Collider2D>(), true);
         }
-        else if(collision.gameObject.GetComponent<Rigidbody2D>() && collision.tag != "BlackHoleSun" && !collision.gameObject.GetComponent<WheelJoint2D>())
+        else if(collision.gameObject.GetComponent<Rigidbody2D>() && collision.tag != "BlackHoleSun" && !collision.gameObject.GetComponent<WheelJoint2D>() && collision.tag != "BlackHole")
         {           
             StartCoroutine(ShrinkPlayer(collision.gameObject, collision.gameObject.transform.localScale));
             Physics2D.IgnoreCollision(this.gameObject.GetComponent<Collider2D>(), collision.gameObject.GetComponent<Collider2D>(), true);
@@ -124,7 +139,9 @@ public class BlackHole : MonoBehaviour
     {
         shrinkingPlayer = true;
         var start = new Vector3(player.transform.position.x, player.transform.position.y, player.transform.position.z);
-        
+        var rb = player.gameObject.GetComponent<Rigidbody2D>();
+        rb.velocity = Vector3.zero;
+        rb.angularVelocity = 0.0f;
         for(int i =0; i < 15.0f; i++)
         {
             player.transform.position = Vector3.Lerp(start, this.gameObject.transform.position, i / 15.0f);
@@ -152,11 +169,15 @@ public class BlackHole : MonoBehaviour
             theSource.PlayOneShot(blackHoleTeleport);
         }
         player.transform.position = teleportLocation;
-        if(player.GetComponent<PlayerScript>())
+        var rb = player.gameObject.GetComponent<Rigidbody2D>();
+        rb.velocity = Vector3.zero;
+        rb.angularVelocity = 0.0f;
+        if (player.GetComponent<PlayerScript>())
         {
             player.GetComponent<PlayerScript>().TakeDamage(Random.Range(minDamage, maxDamage), Vector2.zero, PlayerScript.DamageType.blackhole, playerWhoShot, false, gunThatShot);
         }
         player.transform.localScale = oldScale;
+        //player.transform.parent = null;
         oldScale = Vector3.zero;
         shrinkingPlayer = false;   
     }

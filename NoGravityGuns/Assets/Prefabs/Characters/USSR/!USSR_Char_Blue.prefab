@@ -530,7 +530,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6618733367150440668}
-  m_LocalRotation: {x: 0, y: 0, z: -0.9348185, w: -0.355126}
+  m_LocalRotation: {x: 0, y: 0, z: -0.93481845, w: -0.35512593}
   m_LocalPosition: {x: 5.340414, y: -1.6748769, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -1000,8 +1000,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6618733367923125350}
-  m_LocalRotation: {x: -0.0000000012521726, y: 0.0000000033456375, z: -0.53506386,
-    w: -0.8448117}
+  m_LocalRotation: {x: -0.0000000013788057, y: 0.000000003758461, z: -0.5350644, w: -0.8448113}
   m_LocalPosition: {x: 2.5632563, y: 0.1557486, z: 5.2301124e-12}
   m_LocalScale: {x: 0.9, y: 0.9, z: 1}
   m_Children: []
@@ -1182,7 +1181,6 @@ MonoBehaviour:
   currentGunGameObject: {fileID: 0}
   audioSource: {fileID: 0}
   cameraShake: {fileID: 0}
-  timeSinceLastShot: 0
   bulletSpawn: {fileID: 0}
 --- !u!212 &6618733368466825842
 SpriteRenderer:
@@ -1483,8 +1481,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6618733368401359375}
-  m_LocalRotation: {x: 0.0000000022852937, y: -0.000000002745353, z: -0.90147793,
-    w: -0.43282515}
+  m_LocalRotation: {x: 0.0000000025409013, y: -0.000000003093381, z: -0.90147805,
+    w: -0.43282488}
   m_LocalPosition: {x: 5.225443, y: 1.3420057, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -1841,7 +1839,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6618733368635729436}
-  m_LocalRotation: {x: -6.875691e-13, y: -4.436955e-13, z: 0.6256421, w: -0.78011024}
+  m_LocalRotation: {x: -6.8839975e-13, y: -4.448026e-13, z: 0.6256431, w: -0.78010947}
   m_LocalPosition: {x: 3.9197068, y: 0.006673813, z: 3.9270254e-12}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -1994,7 +1992,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6618733368938515296}
-  m_LocalRotation: {x: -1.4072435e-15, y: -9.858944e-16, z: -0.6728036, w: 0.7398211}
+  m_LocalRotation: {x: -1.4072173e-15, y: -9.859161e-16, z: -0.6728039, w: 0.73982096}
   m_LocalPosition: {x: 3.9783778, y: -0.021363258, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -2302,9 +2300,10 @@ GameObject:
   - component: {fileID: 8821908765624388814}
   - component: {fileID: 1285382714}
   - component: {fileID: 6085663469587393809}
+  - component: {fileID: 2393085616936850187}
   m_Layer: 15
   m_Name: '!USSR_Char_Blue'
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2468,3 +2467,19 @@ MonoBehaviour:
   m_Bounds:
     m_Center: {x: -2.470047, y: 0.2618723, z: 0}
     m_Extent: {x: 15.07772, y: 12.58266, z: 0}
+--- !u!70 &2393085616936850187
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8821908765624388855}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.061040606, y: 0.04160336}
+  m_Size: {x: 16.769987, y: 23.569574}
+  m_Direction: 0
