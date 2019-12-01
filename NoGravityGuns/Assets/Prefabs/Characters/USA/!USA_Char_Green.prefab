@@ -903,13 +903,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6618733367923125350}
-  m_LocalRotation: {x: 0.0000000036163303, y: -6.867068e-10, z: -0.0054168385, w: 0.99998534}
+  m_LocalRotation: {x: 0.0000000036061345, y: -7.383366e-10, z: 0.0088799605, w: 0.99996066}
   m_LocalPosition: {x: 3.6252623, y: 0.033142805, z: 0.41685134}
   m_LocalScale: {x: 0.9, y: 0.9, z: 1}
   m_Children: []
   m_Father: {fileID: 6618733368635729437}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -0.62100005}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 1.018}
 --- !u!50 &8464017448849470503
 Rigidbody2D:
   serializedVersion: 4
@@ -941,20 +941,20 @@ HingeJoint2D:
   m_Enabled: 1
   serializedVersion: 4
   m_EnableCollision: 0
-  m_ConnectedRigidBody: {fileID: 0}
+  m_ConnectedRigidBody: {fileID: 2631706775857889717}
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
   m_AutoConfigureConnectedAnchor: 1
   m_Anchor: {x: 0, y: 0}
-  m_ConnectedAnchor: {x: -62.55328, y: 41.00704}
+  m_ConnectedAnchor: {x: 3.6252599, y: 0.033144966}
   m_UseMotor: 0
   m_Motor:
     m_MotorSpeed: 0
     m_MaximumMotorForce: 100
   m_UseLimits: 1
   m_AngleLimits:
-    m_LowerAngle: -213.3
-    m_UpperAngle: -155.2
+    m_LowerAngle: -26.53
+    m_UpperAngle: 11.01
 --- !u!60 &6994916697697489927
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -1140,14 +1140,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6618733368401359375}
-  m_LocalRotation: {x: 0.000000013277525, y: -0.0000000015882624, z: 0.6333383, w: 0.7738752}
+  m_LocalRotation: {x: 0.000000013227522, y: -0.0000000019617281, z: 0.65489167, w: 0.7557229}
   m_LocalPosition: {x: 5.7278566, y: -1.2475686, z: -1.8962142}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 6618733368635729437}
   m_Father: {fileID: 6618733369021574379}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 78.594}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 81.823006}
 --- !u!50 &939803945933585893
 Rigidbody2D:
   serializedVersion: 4
@@ -1179,20 +1179,20 @@ HingeJoint2D:
   m_Enabled: 1
   serializedVersion: 4
   m_EnableCollision: 0
-  m_ConnectedRigidBody: {fileID: 0}
+  m_ConnectedRigidBody: {fileID: 769758489}
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
   m_AutoConfigureConnectedAnchor: 1
   m_Anchor: {x: 0, y: 0}
-  m_ConnectedAnchor: {x: -67.444244, y: 41.624706}
+  m_ConnectedAnchor: {x: 5.7278547, y: -1.2475682}
   m_UseMotor: 0
   m_Motor:
     m_MotorSpeed: 0
     m_MaximumMotorForce: 100
   m_UseLimits: 1
   m_AngleLimits:
-    m_LowerAngle: -296.2
-    m_UpperAngle: -41.7
+    m_LowerAngle: 228.6
+    m_UpperAngle: 0
 --- !u!60 &8645419087397553344
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -1500,15 +1500,15 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6618733368635729436}
-  m_LocalRotation: {x: 0.0000000017813142, y: -0.0000000010106003, z: -0.040768344,
-    w: 0.99916863}
+  m_LocalRotation: {x: 0.0000000017776518, y: -0.0000000010170034, z: -0.03716901,
+    w: 0.99930906}
   m_LocalPosition: {x: 3.423194, y: 0.04085207, z: 0.00027446906}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 6618733367923125351}
   m_Father: {fileID: 6618733368401359372}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -4.6730003}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -4.26}
 --- !u!50 &2631706775857889717
 Rigidbody2D:
   serializedVersion: 4
@@ -1540,20 +1540,20 @@ HingeJoint2D:
   m_Enabled: 1
   serializedVersion: 4
   m_EnableCollision: 0
-  m_ConnectedRigidBody: {fileID: 0}
+  m_ConnectedRigidBody: {fileID: 939803945933585893}
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
   m_AutoConfigureConnectedAnchor: 1
   m_Anchor: {x: 0, y: 0}
-  m_ConnectedAnchor: {x: -65.08198, y: 41.221622}
+  m_ConnectedAnchor: {x: 3.423195, y: 0.040851176}
   m_UseMotor: 0
   m_Motor:
     m_MotorSpeed: 0
     m_MaximumMotorForce: 100
   m_UseLimits: 1
   m_AngleLimits:
-    m_LowerAngle: -303.2
-    m_UpperAngle: -166.4
+    m_LowerAngle: -125.99
+    m_UpperAngle: 2.9
 --- !u!60 &9101198338594880908
 PolygonCollider2D:
   m_ObjectHideFlags: 0

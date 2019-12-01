@@ -710,6 +710,7 @@ GameObject:
   - component: {fileID: 8962047039174576948}
   - component: {fileID: 7496546113169385785}
   - component: {fileID: 766471726283224721}
+  - component: {fileID: 8248690435894953108}
   m_Layer: 25
   m_Name: backForearmBone
   m_TagString: Arms
@@ -724,14 +725,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8962047039174576949}
-  m_LocalRotation: {x: -0, y: -0, z: -0.07480254, w: 0.99719834}
+  m_LocalRotation: {x: -0, y: -0, z: -0.046138097, w: 0.9989351}
   m_LocalPosition: {x: 3.1938632, y: 0.0128855705, z: -0.0017321706}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 8962047040021070158}
   m_Father: {fileID: 8962047039408922405}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -8.580001}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -5.289}
 --- !u!50 &7496546113169385785
 Rigidbody2D:
   serializedVersion: 4
@@ -766,9 +767,9 @@ HingeJoint2D:
   m_ConnectedRigidBody: {fileID: 3458058721081471935}
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
-  m_AutoConfigureConnectedAnchor: 0
+  m_AutoConfigureConnectedAnchor: 1
   m_Anchor: {x: 0, y: 0}
-  m_ConnectedAnchor: {x: 3.154947, y: 0.020762255}
+  m_ConnectedAnchor: {x: 3.1938617, y: 0.0128872655}
   m_UseMotor: 0
   m_Motor:
     m_MotorSpeed: -25
@@ -777,6 +778,39 @@ HingeJoint2D:
   m_AngleLimits:
     m_LowerAngle: -120.46
     m_UpperAngle: 2.2
+--- !u!60 &8248690435894953108
+PolygonCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8962047039174576949}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: 1.8176559, y: 0.7013962}
+      - {x: 0.8398987, y: 1.1512958}
+      - {x: -0.13042042, y: 0.9780372}
+      - {x: -0.46289355, y: 0.508386}
+      - {x: 0.19810897, y: -0.7512646}
+      - {x: 1.5998602, y: -0.66106963}
+      - {x: 1.9841875, y: -0.48768175}
+      - {x: 1.9214616, y: 0.33172545}
 --- !u!1 &8962047039210123483
 GameObject:
   m_ObjectHideFlags: 0
@@ -913,6 +947,7 @@ GameObject:
   - component: {fileID: 8962047039408922405}
   - component: {fileID: 3458058721081471935}
   - component: {fileID: 7174576498205509183}
+  - component: {fileID: 3199109199638910297}
   m_Layer: 25
   m_Name: backUpperArmBone
   m_TagString: Arms
@@ -969,7 +1004,7 @@ HingeJoint2D:
   m_ConnectedRigidBody: {fileID: 2847929329516066864}
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
-  m_AutoConfigureConnectedAnchor: 0
+  m_AutoConfigureConnectedAnchor: 1
   m_Anchor: {x: 0, y: 0}
   m_ConnectedAnchor: {x: 5.109081, y: 3.3282826}
   m_UseMotor: 0
@@ -980,6 +1015,42 @@ HingeJoint2D:
   m_AngleLimits:
     m_LowerAngle: 9.177402
     m_UpperAngle: 214.42729
+--- !u!60 &3199109199638910297
+PolygonCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8962047039408922406}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: 3.5963602, y: 0.8659401}
+      - {x: 2.323833, y: 0.943465}
+      - {x: 1.1131756, y: 0.57554054}
+      - {x: 0, y: 1}
+      - {x: -0.95105654, y: 0.30901697}
+      - {x: -0.5877852, y: -0.80901706}
+      - {x: 0.58778536, y: -0.80901694}
+      - {x: 1.2988657, y: -0.50108826}
+      - {x: 2.003027, y: -0.8690692}
+      - {x: 2.8798685, y: -0.7193599}
+      - {x: 3.4337914, y: 0.085062504}
 --- !u!1 &8962047039435369655
 GameObject:
   m_ObjectHideFlags: 0
@@ -1523,6 +1594,7 @@ GameObject:
   - component: {fileID: 8962047040021070158}
   - component: {fileID: 9183832851749747620}
   - component: {fileID: 559906761721284396}
+  - component: {fileID: 3283864746785710968}
   m_Layer: 25
   m_Name: backHandBone
   m_TagString: Arms
@@ -1537,13 +1609,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8962047040021070159}
-  m_LocalRotation: {x: -0, y: -0, z: -0.015218584, w: 0.9998842}
+  m_LocalRotation: {x: -0, y: -0, z: 0.007912761, w: 0.9999687}
   m_LocalPosition: {x: 1.5338715, y: -0.004799396, z: 0.03302778}
   m_LocalScale: {x: 0.9, y: 0.9, z: 1}
   m_Children: []
   m_Father: {fileID: 8962047039174576948}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -1.7440001}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0.90700006}
 --- !u!50 &9183832851749747620
 Rigidbody2D:
   serializedVersion: 4
@@ -1589,6 +1661,39 @@ HingeJoint2D:
   m_AngleLimits:
     m_LowerAngle: -33.096104
     m_UpperAngle: 42.647835
+--- !u!60 &3283864746785710968
+PolygonCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8962047040021070159}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: 1.8708748, y: 1.0037014}
+      - {x: 0.67360884, y: 0.7609972}
+      - {x: -0.5332027, y: 0.7621446}
+      - {x: -0.6084521, y: -0.25497395}
+      - {x: 0.26995417, y: -0.6374917}
+      - {x: 1.2744501, y: -0.93124145}
+      - {x: 2.5293713, y: -0.7690083}
+      - {x: 3.0808666, y: 0.17646597}
 --- !u!1 &8962047040580360111
 GameObject:
   m_ObjectHideFlags: 0
