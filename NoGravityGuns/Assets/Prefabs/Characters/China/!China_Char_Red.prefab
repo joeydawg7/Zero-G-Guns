@@ -677,7 +677,7 @@ MonoBehaviour:
   playerID: 0
   isDead: 0
   isInvulnerable: 0
-  armsScript: {fileID: 0}
+  armsScript: {fileID: 3425825963427934119}
   leftLegHinge: {fileID: 0}
   rightLegHinge: {fileID: 0}
   spawnPoint: {x: 0, y: 0, z: 0}
@@ -965,7 +965,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 0.006
+  m_Mass: 0.003
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 1
@@ -1699,7 +1699,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 0.006
+  m_Mass: 0.003
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 1
@@ -1808,7 +1808,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 0.006
+  m_Mass: 0.003
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 1
@@ -2016,6 +2016,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8962047040928341492}
+  - component: {fileID: 3425825963427934119}
   m_Layer: 13
   m_Name: frontUpperArmBone
   m_TagString: Arms
@@ -2038,6 +2039,34 @@ Transform:
   m_Father: {fileID: 8962047038956437954}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3425825963427934119
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8962047040928341493}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 375154d03f5477b4eb14ad83736791f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  showAimingVector: 1
+  basePlayer: {fileID: 0}
+  currentWeapon: {fileID: 0}
+  targetVectorLength: 0
+  frontHandBone: {fileID: 8962047038890180363}
+  backHandBone: {fileID: 8962047040021070158}
+  frontupperArmBone: {fileID: 8962047040928341492}
+  backUpperArmBone: {fileID: 8962047039408922405}
+  dryFire: {fileID: 0}
+  IKTarget: {fileID: 8962047038890180363}
+  currentAmmo: 0
+  isReloading: 0
+  currentGunGameObject: {fileID: 0}
+  audioSource: {fileID: 0}
+  cameraShake: {fileID: 0}
+  bulletSpawn: {fileID: 0}
 --- !u!1 &9119224574961531744
 GameObject:
   m_ObjectHideFlags: 0

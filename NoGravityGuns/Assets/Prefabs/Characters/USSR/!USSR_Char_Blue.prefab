@@ -132,6 +132,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6618733367150440669}
+  - component: {fileID: 1481038463170719003}
   m_Layer: 15
   m_Name: frontUpperArmBone
   m_TagString: Arms
@@ -146,7 +147,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6618733367150440668}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: -0.05006994, w: 0.99874574}
   m_LocalPosition: {x: 5.340414, y: -1.6748769, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -154,7 +155,35 @@ Transform:
   - {fileID: 6618733368571811577}
   m_Father: {fileID: 6618733369021574379}
   m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -5.74}
+--- !u!114 &1481038463170719003
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6618733367150440668}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 375154d03f5477b4eb14ad83736791f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  showAimingVector: 1
+  basePlayer: {fileID: 0}
+  currentWeapon: {fileID: 0}
+  targetVectorLength: 0
+  frontHandBone: {fileID: 6618733368957391394}
+  backHandBone: {fileID: 6618733367923125351}
+  frontupperArmBone: {fileID: 6618733368938515297}
+  backUpperArmBone: {fileID: 6618733368401359372}
+  dryFire: {fileID: 0}
+  IKTarget: {fileID: 6618733368957391394}
+  currentAmmo: 0
+  isReloading: 0
+  currentGunGameObject: {fileID: 0}
+  audioSource: {fileID: 0}
+  cameraShake: {fileID: 0}
+  bulletSpawn: {fileID: 0}
 --- !u!1 &6618733367367776902
 GameObject:
   m_ObjectHideFlags: 0
@@ -449,7 +478,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 0.03
+  m_Mass: 0.003
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 1
@@ -668,15 +697,15 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6618733368401359375}
-  m_LocalRotation: {x: 0.0000000029771834, y: -0.000000001979226, z: -0.74010885,
-    w: -0.67248714}
+  m_LocalRotation: {x: 0.0000000029764997, y: -0.0000000019802535, z: -0.74034107,
+    w: -0.67223155}
   m_LocalPosition: {x: 5.846049, y: 0.8064151, z: 0.0000000047966324}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 6618733368635729437}
   m_Father: {fileID: 6618733369021574379}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 95.481}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 95.521}
 --- !u!50 &6566535551547829418
 Rigidbody2D:
   serializedVersion: 4
@@ -1353,6 +1382,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6618733368957391394}
+  - component: {fileID: 4779311163173468423}
   m_Layer: 15
   m_Name: frontHandBone
   m_TagString: Arms
@@ -1374,6 +1404,21 @@ Transform:
   m_Father: {fileID: 6618733368938515297}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4779311163173468423
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6618733368957391397}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 097b551f2844b054290f18a39bf892e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Solvers:
+  - {fileID: 0}
+  m_Weight: 1
 --- !u!1 &6618733369021574378
 GameObject:
   m_ObjectHideFlags: 0
@@ -1498,7 +1543,7 @@ MonoBehaviour:
   playerID: 0
   isDead: 0
   isInvulnerable: 0
-  armsScript: {fileID: 0}
+  armsScript: {fileID: 1481038463170719003}
   leftLegHinge: {fileID: 0}
   rightLegHinge: {fileID: 0}
   spawnPoint: {x: 0, y: 0, z: 0}
