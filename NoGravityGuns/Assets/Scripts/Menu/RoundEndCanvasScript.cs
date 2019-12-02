@@ -99,9 +99,6 @@ public class RoundEndCanvasScript : MonoBehaviour
         string winnerTextString = string.Empty;
         string looserTextString = string.Empty;
 
-        animator.SetBool("ShowEndRoundPanel", true);
-
-
         var players = FindObjectsOfType<PlayerScript>();
         PlayerScript winningPlayer = null;
         foreach (var p in players)
@@ -112,18 +109,10 @@ public class RoundEndCanvasScript : MonoBehaviour
             }
         }
 
-        PlayerDataScript winningPlayerData = null;
 
-        foreach (var pd in RoundManager.Instance.playerDataList)
-        {
-            //figure out the playerData of our winner
-            if (winningPlayer != null && pd.playerControllerData.ID == winningPlayer.playerID)
-            {
-                winningPlayerData = pd;
-                break;
-            }
-        }
-        if (winningPlayer)
+       PlayerDataScript winningPlayerData = getWinningPlayerData(winningPlayer);
+
+        if (winningPlayerData !=null)
         {
             //give the winning player more round wins, check if they won for real
             winningPlayerData.IncreaseRoundWins();
@@ -131,28 +120,8 @@ public class RoundEndCanvasScript : MonoBehaviour
                 gameIsOver = true;
         }
 
-        List<PlayerDataScript> SortedListOfPlayerDatas = RoundManager.Instance.playerDataList.OrderByDescending(o => o.roundWins).ToList();
-
-        foreach (var item in SortedListOfPlayerDatas)
-        {
-            print(item.playerName);
-        }
-
-        for (int i = 0; i < endGameScoreStatuses.Count; i++)
-        {
-            endGameScoreStatuses[i].gameObject.SetActive(false);
-        }
-
-        for (int i = 0; i < SortedListOfPlayerDatas.Count; i++)
-        {
-            if (SortedListOfPlayerDatas[i] != null)
-            {
-                endGameScoreStatuses[i].gameObject.SetActive(true);
-                endGameScoreStatuses[i].SetNameAndScore(SortedListOfPlayerDatas[i].playerName, "Rounds won: " + SortedListOfPlayerDatas[i].roundWins);
-            }
-
-        }
-
+        //Sorts and displays round wins for end round screen
+        SortAndDisplayRoundWins();
 
         if (!winningPlayer)
         {
@@ -179,7 +148,6 @@ public class RoundEndCanvasScript : MonoBehaviour
                 looserTextString = GetWittyCommentOnLastHitPoint(PlayerScript.DamageType.self, null);
             }
 
-
             winnerText.text = winnerTextString;
             //winnerText.color = winnerColour;
             loserText.text = looserTextString;
@@ -187,14 +155,51 @@ public class RoundEndCanvasScript : MonoBehaviour
 
             //sets as winner color with less opacity
             bulletImage.color = new Color32(winnerColour.r, winnerColour.g, winnerColour.b, 180);
-
-
         }
 
         weHaveAWinner = true;
         endRoundPanel.SetActive(true);
 
 
+    }
+
+    private PlayerDataScript getWinningPlayerData(PlayerScript winningPlayer)
+    {
+        foreach (var pd in RoundManager.Instance.playerDataList)
+        {
+            //figure out the playerData of our winner
+            if (winningPlayer != null && pd.playerControllerData.ID == winningPlayer.playerID)
+            {
+                return pd;
+            }
+        }
+
+        return null;
+    }
+
+    private void SortAndDisplayRoundWins()
+    {
+        animator.SetBool("ShowEndRoundPanel", true);
+
+        //sort by round wins descending
+        List<PlayerDataScript> SortedListOfPlayerDatas = RoundManager.Instance.playerDataList.OrderByDescending(o => o.roundWins).ToList();
+
+        //turn off all slide-in text
+        for (int i = 0; i < endGameScoreStatuses.Count; i++)
+        {
+            endGameScoreStatuses[i].gameObject.SetActive(false);
+        }
+
+        //turn on and change the text of all slide in components as required in order of round wins
+        for (int i = 0; i < SortedListOfPlayerDatas.Count; i++)
+        {
+            if (SortedListOfPlayerDatas[i] != null)
+            {
+                endGameScoreStatuses[i].gameObject.SetActive(true);
+                endGameScoreStatuses[i].SetNameAndScore(SortedListOfPlayerDatas[i].playerName, "Rounds won: " + SortedListOfPlayerDatas[i].roundWins);
+            }
+
+        }
     }
 
     public string GetWittyCommentOnLastHitPoint(PlayerScript.DamageType damageType, Guns gunWhoShotYou)
