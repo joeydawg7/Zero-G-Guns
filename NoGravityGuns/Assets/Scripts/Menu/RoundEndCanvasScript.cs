@@ -4,6 +4,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using Rewired;
+using System.Linq;
 
 public class RoundEndCanvasScript : MonoBehaviour
 {
@@ -26,7 +27,7 @@ public class RoundEndCanvasScript : MonoBehaviour
 
     private void Awake()
     {
-       
+
     }
 
     // Start is called before the first frame update
@@ -36,15 +37,6 @@ public class RoundEndCanvasScript : MonoBehaviour
 
         cameraController = Camera.main.transform.root.GetComponent<CameraController>();
         animator = gameObject.transform.root.GetComponent<Animator>();
-        endGameScoreStatuses = new List<EndGameScoreStatus>();
-
-
-        EndGameScoreStatus[] egss = FindObjectsOfType<EndGameScoreStatus>();
-
-        for (int i = 0; i < egss.Length; i++)
-        {
-            endGameScoreStatuses.Add(egss[i]);
-        }
 
     }
 
@@ -120,11 +112,12 @@ public class RoundEndCanvasScript : MonoBehaviour
             }
         }
 
-        PlayerDataScript winningPlayerData= null;
+        PlayerDataScript winningPlayerData = null;
 
         foreach (var pd in RoundManager.Instance.playerDataList)
         {
-            if(winningPlayer !=null && pd.playerControllerData.ID == winningPlayer.playerID)
+            //figure out the playerData of our winner
+            if (winningPlayer != null && pd.playerControllerData.ID == winningPlayer.playerID)
             {
                 winningPlayerData = pd;
                 break;
@@ -132,14 +125,32 @@ public class RoundEndCanvasScript : MonoBehaviour
         }
         if (winningPlayer)
         {
+            //give the winning player more round wins, check if they won for real
             winningPlayerData.IncreaseRoundWins();
-            if(winningPlayerData.roundWins >= RoundManager.Instance.roundsToWin)
+            if (winningPlayerData.roundWins >= RoundManager.Instance.roundsToWin)
                 gameIsOver = true;
         }
 
-        for (int i = 0; i < RoundManager.Instance.playerDataList.Count; i++)
+        List<PlayerDataScript> SortedListOfPlayerDatas = RoundManager.Instance.playerDataList.OrderByDescending(o => o.roundWins).ToList();
+
+        foreach (var item in SortedListOfPlayerDatas)
         {
-            endGameScoreStatuses[i].SetNameAndScore(RoundManager.Instance.playerDataList[i].playerName, "Rounds won: " + RoundManager.Instance.playerDataList[i].roundWins);
+            print(item.playerName);
+        }
+
+        for (int i = 0; i < endGameScoreStatuses.Count; i++)
+        {
+            endGameScoreStatuses[i].gameObject.SetActive(false);
+        }
+
+        for (int i = 0; i < SortedListOfPlayerDatas.Count; i++)
+        {
+            if (SortedListOfPlayerDatas[i] != null)
+            {
+                endGameScoreStatuses[i].gameObject.SetActive(true);
+                endGameScoreStatuses[i].SetNameAndScore(SortedListOfPlayerDatas[i].playerName, "Rounds won: " + SortedListOfPlayerDatas[i].roundWins);
+            }
+
         }
 
 
@@ -177,7 +188,7 @@ public class RoundEndCanvasScript : MonoBehaviour
             //sets as winner color with less opacity
             bulletImage.color = new Color32(winnerColour.r, winnerColour.g, winnerColour.b, 180);
 
-            
+
         }
 
         weHaveAWinner = true;
@@ -273,8 +284,8 @@ public class RoundEndCanvasScript : MonoBehaviour
 
     public void ClearEndRoundCanvasDisplay()
     {
-        if(animator!=null)
-        animator.SetBool("ShowEndRoundPanel",false);
+        if (animator != null)
+            animator.SetBool("ShowEndRoundPanel", false);
 
         winnerText.text = string.Empty;
         loserText.text = string.Empty;

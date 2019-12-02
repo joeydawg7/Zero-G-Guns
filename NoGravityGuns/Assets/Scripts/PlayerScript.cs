@@ -213,7 +213,7 @@ public class PlayerScript : MonoBehaviour
         if (rb.velocity.magnitude >= 150 && speedIndicationTimer >= 2)
         {
             speedIndication.Play(true);
-            cameraParent.GetComponentInChildren<RippleController>().Ripple(rb.transform.position, 15, 0.88f);
+            //cameraParent.GetComponentInChildren<RippleController>().Ripple(rb.transform.position, 15, 0.88f);
             speedIndicationTimer = 0;
             audioSource.PlayOneShot(whooshClip);
         }
@@ -367,6 +367,7 @@ public class PlayerScript : MonoBehaviour
             float barVal = ((float)health / 100f);
             playerCanvasScript.setHealth(barVal);
 
+            //apply haptic feedback on controller based on damage taken
             if(!RoundManager.Instance.debugManager.useDebugSettings)
                 Vibrate(damage / 100f, damage / 100f);
 
