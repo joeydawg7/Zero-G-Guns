@@ -52,7 +52,11 @@ public class BlackHole : MonoBehaviour
             theSource.PlayOneShot(blackHoleForming);
         }
 
-        rippleController.Ripple(transform.position);
+        Vector2 rippleVector = new Vector2(transform.position.x, transform.position.z);
+
+        rippleController.Ripple(rippleVector);
+
+        Debug.Log("is this being called mutliple times?!");
 
         while(this.gameObject.transform.localScale.x < 2.0f)
         {
@@ -82,7 +86,7 @@ public class BlackHole : MonoBehaviour
             theSource.PlayOneShot(blackHoleCollapsing);
         }
 
-        rippleController.Ripple(transform.position);
+       // rippleController.Ripple(transform.position);
         float progression = 0.0f;
         while (progression < 1.0f)
         {

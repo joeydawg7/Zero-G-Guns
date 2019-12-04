@@ -267,7 +267,7 @@ public class RoundEndCanvasScript : MonoBehaviour
             //this seems to only come up on collision damage
             else if (damageType == PlayerScript.DamageType.self)
             {
-                options = new[] { "Whoo slow it down", "Smack!", "That left a small crater", "No need to rush" };
+                options = new[] { "Whoo slow it down", "Smack!", "That left a small crater", "No need to rush", "Oof!" };
 
             }
             else if (damageType == PlayerScript.DamageType.explosive)
