@@ -196,7 +196,7 @@ public class RoundEndCanvasScript : MonoBehaviour
             if (SortedListOfPlayerDatas[i] != null)
             {
                 endGameScoreStatuses[i].gameObject.SetActive(true);
-                endGameScoreStatuses[i].SetNameAndScore(SortedListOfPlayerDatas[i].playerName, "Rounds won: " + SortedListOfPlayerDatas[i].roundWins);
+                endGameScoreStatuses[i].SetNameAndScore("<color=" + SortedListOfPlayerDatas[i].hexColorCode + ">" + SortedListOfPlayerDatas[i].playerName + "</color>", "Rounds won: " + SortedListOfPlayerDatas[i].roundWins);
             }
 
         }

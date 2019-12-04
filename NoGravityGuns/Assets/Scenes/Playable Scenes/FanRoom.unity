@@ -97,7 +97,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 0
+  m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -1240,21 +1240,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 44.189003
-      objectReference: {fileID: 0}
-    - target: {fileID: 2029473659711159751, guid: 83ed02fbec9a44549827365cb6aff858,
-        type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1.38
-      objectReference: {fileID: 0}
-    - target: {fileID: 2029473659711159751, guid: 83ed02fbec9a44549827365cb6aff858,
-        type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1.38
-      objectReference: {fileID: 0}
-    - target: {fileID: 2029473659711159751, guid: 83ed02fbec9a44549827365cb6aff858,
-        type: 3}
-      propertyPath: m_LocalScale.z
-      value: 1.38
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 83ed02fbec9a44549827365cb6aff858, type: 3}
@@ -4592,11 +4577,6 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 8465764121378957575, guid: d3df09d88d7d467479da1238604e6823,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 8465764121579146274, guid: d3df09d88d7d467479da1238604e6823,
         type: 3}
       propertyPath: m_fontAsset
@@ -4941,6 +4921,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 8465764120279603911, guid: d3df09d88d7d467479da1238604e6823,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8465764121378957575, guid: d3df09d88d7d467479da1238604e6823,
         type: 3}
       propertyPath: m_IsActive
       value: 1
