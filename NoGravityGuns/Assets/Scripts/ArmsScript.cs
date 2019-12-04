@@ -32,6 +32,7 @@ public class ArmsScript : MonoBehaviour
     public AudioClip dryFire;
 
     public Transform IKTarget;
+    public Transform shoulderPos;
     // public Transform parentObject;
 
     #endregion
@@ -127,6 +128,7 @@ public class ArmsScript : MonoBehaviour
             {
                 //AimController();
                 //OnReload();
+                transform.position = shoulderPos.position;
                 ShootController();
             }
         }
@@ -147,6 +149,8 @@ public class ArmsScript : MonoBehaviour
     }
 
     #endregion
+
+    Quaternion _facing;
 
     #region Input Handler Functions
     void AimController()
@@ -186,7 +190,10 @@ public class ArmsScript : MonoBehaviour
             shootDir = -Vector2.right * rawAim + Vector2.up * rawAim;
             //place IK target along that line at targetVectorLength distance (larger vector length = more accuracy but less good looking anim)
             shootDir = shootDir.normalized * targetVectorLength;
-            IKTarget.transform.localPosition = shootDir;
+            //IKTarget.transform.localPosition = shootDir;
+            var rotation = Quaternion.LookRotation(shootDir.normalized);
+            rotation *= _facing;
+            transform.rotation = rotation;
 
 
         }
