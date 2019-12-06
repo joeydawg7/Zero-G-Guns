@@ -314,7 +314,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 6
   m_Sprite: {fileID: 21300000, guid: 4399d23395cb29945b77f9ee59c8c4d5, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -371,6 +371,7 @@ MonoBehaviour:
   reloadSound: {fileID: 8300000, guid: 81029910cd25afa46987f9530a14eb0d, type: 3}
   prefireSound: {fileID: 0}
   outOfAmmoSound: {fileID: 8300000, guid: 81029910cd25afa46987f9530a14eb0d, type: 3}
+  timeSinceLastShot: 0
   gunPrefab: {fileID: 5613299302601926070}
   theGunSprite: {fileID: 21300000, guid: 4399d23395cb29945b77f9ee59c8c4d5, type: 3}
   name: AssaultRifle
