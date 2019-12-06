@@ -530,7 +530,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6618733367150440668}
-  m_LocalRotation: {x: 0, y: 0, z: -0.93481845, w: -0.35512593}
+  m_LocalRotation: {x: 0, y: 0, z: -0.93481827, w: -0.35512647}
   m_LocalPosition: {x: 5.340414, y: -1.6748769, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -538,7 +538,7 @@ Transform:
   - {fileID: 6618733368571811577}
   m_Father: {fileID: 6618733369021574379}
   m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 178.57301}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 139.806}
 --- !u!1 &6618733367367776902
 GameObject:
   m_ObjectHideFlags: 0
@@ -1000,7 +1000,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6618733367923125350}
-  m_LocalRotation: {x: -0.0000000013788057, y: 0.000000003758461, z: -0.5350644, w: -0.8448113}
+  m_LocalRotation: {x: -0.0000000013905541, y: 0.0000000037967776, z: -0.5350637,
+    w: -0.8448118}
   m_LocalPosition: {x: 2.5632563, y: 0.1557486, z: 5.2301124e-12}
   m_LocalScale: {x: 0.9, y: 0.9, z: 1}
   m_Children: []
@@ -1481,8 +1482,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6618733368401359375}
-  m_LocalRotation: {x: 0.0000000025409013, y: -0.000000003093381, z: -0.90147805,
-    w: -0.43282488}
+  m_LocalRotation: {x: 0.000000002564626, y: -0.0000000031256795, z: -0.9014778, w: -0.43282545}
   m_LocalPosition: {x: 5.225443, y: 1.3420057, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -1839,7 +1839,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6618733368635729436}
-  m_LocalRotation: {x: -6.8839975e-13, y: -4.448026e-13, z: 0.6256431, w: -0.78010947}
+  m_LocalRotation: {x: -6.8923247e-13, y: -4.4590902e-13, z: 0.62564194, w: -0.7801104}
   m_LocalPosition: {x: 3.9197068, y: 0.006673813, z: 3.9270254e-12}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -1992,7 +1992,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6618733368938515296}
-  m_LocalRotation: {x: -1.4072173e-15, y: -9.859161e-16, z: -0.6728039, w: 0.73982096}
+  m_LocalRotation: {x: -1.4072149e-15, y: -9.859185e-16, z: -0.6728034, w: 0.7398214}
   m_LocalPosition: {x: 3.9783778, y: -0.021363258, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -2297,10 +2297,8 @@ GameObject:
   - component: {fileID: 8821908765624388852}
   - component: {fileID: 8821908765624388850}
   - component: {fileID: 8821908765624388848}
-  - component: {fileID: 8821908765624388814}
   - component: {fileID: 1285382714}
   - component: {fileID: 6085663469587393809}
-  - component: {fileID: 2393085616936850187}
   m_Layer: 15
   m_Name: '!USSR_Char_Blue'
   m_TagString: Player
@@ -2401,22 +2399,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: afb6404781555c04b94d057ffb3676d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &8821908765624388814
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8821908765624388855}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 097b551f2844b054290f18a39bf892e9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Solvers:
-  - {fileID: 6618733367968190524}
-  - {fileID: 6618733367111417907}
-  m_Weight: 1
 --- !u!95 &1285382714
 Animator:
   serializedVersion: 3
@@ -2467,19 +2449,3 @@ MonoBehaviour:
   m_Bounds:
     m_Center: {x: -2.470047, y: 0.2618723, z: 0}
     m_Extent: {x: 15.07772, y: 12.58266, z: 0}
---- !u!70 &2393085616936850187
-CapsuleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8821908765624388855}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: -0.061040606, y: 0.04160336}
-  m_Size: {x: 16.769987, y: 23.569574}
-  m_Direction: 0

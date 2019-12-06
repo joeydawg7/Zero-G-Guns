@@ -330,7 +330,6 @@ GameObject:
   m_Component:
   - component: {fileID: 6766755106234524122}
   - component: {fileID: 6766755106234524125}
-  - component: {fileID: 6766755106234524123}
   - component: {fileID: 6766755106234524121}
   - component: {fileID: 6766755106234524124}
   - component: {fileID: 6766755106234524135}
@@ -408,22 +407,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &6766755106234524123
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6766755106234524126}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 097b551f2844b054290f18a39bf892e9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Solvers:
-  - {fileID: 8962047040110329109}
-  - {fileID: 0}
-  m_Weight: 1
 --- !u!114 &6766755106234524121
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2190,7 +2173,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   showAimingVector: 1
   basePlayer: {fileID: 0}
-  currentWeapon: {fileID: 11400000, guid: 49ead892372b5274e987c2ac71fbb8e3, type: 2}
+  currentWeapon: {fileID: 0}
   targetVectorLength: 5
   frontHandBone: {fileID: 8962047038890180363}
   backHandBone: {fileID: 8962047040021070158}
@@ -2203,7 +2186,6 @@ MonoBehaviour:
   currentGunGameObject: {fileID: 0}
   audioSource: {fileID: 0}
   cameraShake: {fileID: 0}
-  timeSinceLastShot: 0
   bulletSpawn: {fileID: 0}
 --- !u!212 &8962047039481597787
 SpriteRenderer:
