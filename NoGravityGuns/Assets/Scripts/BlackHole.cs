@@ -106,16 +106,16 @@ public class BlackHole : MonoBehaviour
         isHoleCollapsing = false;
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        if((collision.tag == "Arms" || collision.tag == "Leg" || collision.tag == "Torso" || collision.tag == "Head" || collision.tag == "Feet"))        
-        {           
-            if(!shrinkingPlayer)
+        if ((collision.gameObject.tag == "Arms" || collision.gameObject.tag == "Leg" || collision.gameObject.tag == "Torso" || collision.gameObject.tag == "Head" || collision.gameObject.tag == "Feet"))
+        {
+            if (!shrinkingPlayer)
             {
                 shrinkingPlayer = true;
-                var player = collision.gameObject.GetComponent<PlayerScript>();                
-                if(player)
-                {    
+                var player = collision.gameObject.GetComponent<PlayerScript>();
+                if (player)
+                {
                     if (!player.isDead)
                     {
                         StartCoroutine(ShrinkPlayer(collision.gameObject, player.gameObject.transform.localScale));
@@ -132,12 +132,12 @@ public class BlackHole : MonoBehaviour
             }
             Physics2D.IgnoreCollision(this.gameObject.GetComponent<Collider2D>(), collision.gameObject.GetComponent<Collider2D>(), true);
         }
-        else if(collision.gameObject.GetComponent<Rigidbody2D>() && collision.tag != "BlackHoleSun" && !collision.gameObject.GetComponent<WheelJoint2D>() && collision.tag != "BlackHole")
-        {           
+        else if (collision.gameObject.GetComponent<Rigidbody2D>() && collision.gameObject.tag != "BlackHoleSun" && !collision.gameObject.GetComponent<WheelJoint2D>() && collision.gameObject.tag != "BlackHole")
+        {
             StartCoroutine(ShrinkPlayer(collision.gameObject, collision.gameObject.transform.localScale));
             Physics2D.IgnoreCollision(this.gameObject.GetComponent<Collider2D>(), collision.gameObject.GetComponent<Collider2D>(), true);
         }
-    }   
+    }
 
     public IEnumerator ShrinkPlayer(GameObject player, Vector3 oldScale)
     {
@@ -184,5 +184,33 @@ public class BlackHole : MonoBehaviour
         //player.transform.parent = null;
         oldScale = Vector3.zero;
         shrinkingPlayer = false;   
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        var rb = this.gameObject.GetComponent<Rigidbody2D>();
+        if(Mathf.Abs(rb.velocity.x) > 2.0f)
+        {
+            if (rb.velocity.x > 0)
+            {
+                rb.velocity = new Vector2(2.0f, rb.velocity.y); 
+            }
+            else
+            {
+                rb.velocity = new Vector2(-2.0f, rb.velocity.y);
+            }
+        }
+        if (Mathf.Abs(rb.velocity.y) > 2.0f)
+        {
+            if (rb.velocity.y > 0)
+            {
+                rb.velocity = new Vector2(rb.velocity.x, 2.0f);
+            }
+            else
+            {
+                rb.velocity = new Vector2(rb.velocity.x, -2.0f);
+            }
+        }
+
     }
 }

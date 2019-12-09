@@ -232,7 +232,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 6
   m_Sprite: {fileID: 21300000, guid: 74d1a3583dfb628498a253223f1025ad, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 1
@@ -256,7 +256,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c7068e575539b34a8f9b3bf2ce22fea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  position: {x: 1.534, y: -0.168, z: 0}
+  position: {x: 3, y: -0.168, z: 0}
   AnimationTrigger: pistol
 --- !u!114 &-241674355871316191
 MonoBehaviour:
@@ -288,6 +288,7 @@ MonoBehaviour:
   reloadSound: {fileID: 8300000, guid: d56d3ae5baabec943a0b3bb65f1c56cd, type: 3}
   prefireSound: {fileID: 0}
   outOfAmmoSound: {fileID: 8300000, guid: d56d3ae5baabec943a0b3bb65f1c56cd, type: 3}
+  timeSinceLastShot: -0.5
   gunPrefab: {fileID: 4118771727991183230}
   theGunSprite: {fileID: 21300000, guid: 74d1a3583dfb628498a253223f1025ad, type: 3}
   name: Pistol

@@ -14426,7 +14426,6 @@ GameObject:
   - component: {fileID: -3759093359852405473}
   - component: {fileID: -6685422383240795425}
   - component: {fileID: 4282195781807454688}
-  - component: {fileID: 1112140220004940277}
   - component: {fileID: 6686534231065371264}
   m_Layer: 0
   m_Name: WormHole
@@ -14580,23 +14579,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 3.04
---- !u!58 &1112140220004940277
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6178848896952289239}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Radius: 4.08
+  m_Radius: 4
 --- !u!50 &6686534231065371264
 Rigidbody2D:
   serializedVersion: 4
@@ -14666,7 +14649,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 09db2e367f3179b479fe1d10e70d39a3, type: 2}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
