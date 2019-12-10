@@ -33,6 +33,7 @@ public class ArmsScript : MonoBehaviour
 
     public Transform IKTarget;
     // public Transform parentObject;
+    public Transform handConnectionPoint;
 
     #endregion
 
