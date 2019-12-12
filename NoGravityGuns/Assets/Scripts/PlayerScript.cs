@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using TMPro;
 using Rewired;
 using XInputDotNetPure;
+using UnityEngine.SceneManagement;
 
 public class PlayerScript : MonoBehaviour
 {
@@ -199,6 +200,8 @@ public class PlayerScript : MonoBehaviour
                 OnFlail();
 
                 OnPause();
+
+                OnQuit();
             }
 
         }
@@ -271,8 +274,25 @@ public class PlayerScript : MonoBehaviour
             //    Time.timeScale = 1;
             //Debug.Log("timescale = " + Time.timeScale);
         }
-
+       
     }
+
+    public void OnQuit()
+    {
+        if (gameManager.isGameStarted && PauseMenu.Instance.gameObject.activeInHierarchy && player.GetButtonDown("Drop"))
+        {
+            Debug.Log("QUIT to Main");
+            GameObject.FindGameObjectWithTag("CameraParent").GetComponent<CameraController>().players.Clear();            
+            RoundManager.Instance.NewRound(true);
+            PauseMenu.Instance.MenuOff();
+        }
+        else if (gameManager.isGameStarted && PauseMenu.Instance.gameObject.activeInHierarchy && player.GetButtonDown("Join"))
+        {
+            Debug.Log("QUIT Game");
+            Application.Quit();
+        }
+    }
+
     public void Vibrate(float strength, float time)
     {
         if (vibrateController != null)
