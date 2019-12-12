@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311947, g: 0.38074005, b: 0.35872722, a: 1}
+  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -371,14 +371,13 @@ PrefabInstance:
     - target: {fileID: 4342875599540125397, guid: 1a7509d866bc6524b889c05ab85cf0eb,
         type: 3}
       propertyPath: SpawnSelectedWeaponInstant
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4342875599540125397, guid: 1a7509d866bc6524b889c05ab85cf0eb,
         type: 3}
       propertyPath: weaponToSpawn
       value: 
-      objectReference: {fileID: 8969851840897010819, guid: 482e53ef8b65dc44183b62b5eee47f6d,
-        type: 3}
+      objectReference: {fileID: 0}
     - target: {fileID: 4342875599540125397, guid: 1a7509d866bc6524b889c05ab85cf0eb,
         type: 3}
       propertyPath: hasWeapon
@@ -388,8 +387,7 @@ PrefabInstance:
         type: 3}
       propertyPath: currentWeapon
       value: 
-      objectReference: {fileID: -8398064656369561847, guid: b4f980a46f51e404bbc5a9dbf1d63616,
-        type: 3}
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1a7509d866bc6524b889c05ab85cf0eb, type: 3}
 --- !u!114 &126123403 stripped
@@ -992,20 +990,18 @@ PrefabInstance:
     - target: {fileID: 4342875599540125397, guid: 1a7509d866bc6524b889c05ab85cf0eb,
         type: 3}
       propertyPath: SpawnSelectedWeaponInstant
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4342875599540125397, guid: 1a7509d866bc6524b889c05ab85cf0eb,
         type: 3}
       propertyPath: weaponToSpawn
       value: 
-      objectReference: {fileID: 8969851840897010819, guid: 482e53ef8b65dc44183b62b5eee47f6d,
-        type: 3}
+      objectReference: {fileID: 0}
     - target: {fileID: 4342875599540125397, guid: 1a7509d866bc6524b889c05ab85cf0eb,
         type: 3}
       propertyPath: currentWeapon
       value: 
-      objectReference: {fileID: -8398064656369561847, guid: b4f980a46f51e404bbc5a9dbf1d63616,
-        type: 3}
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1a7509d866bc6524b889c05ab85cf0eb, type: 3}
 --- !u!1001 &477004150
@@ -2521,14 +2517,12 @@ PrefabInstance:
         type: 3}
       propertyPath: weaponToSpawn
       value: 
-      objectReference: {fileID: -8398064656369561847, guid: b4f980a46f51e404bbc5a9dbf1d63616,
-        type: 3}
+      objectReference: {fileID: 0}
     - target: {fileID: 4342875599540125397, guid: 1a7509d866bc6524b889c05ab85cf0eb,
         type: 3}
       propertyPath: currentWeapon
       value: 
-      objectReference: {fileID: -8398064656369561847, guid: b4f980a46f51e404bbc5a9dbf1d63616,
-        type: 3}
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1a7509d866bc6524b889c05ab85cf0eb, type: 3}
 --- !u!4 &1479428362 stripped
@@ -2775,20 +2769,18 @@ PrefabInstance:
     - target: {fileID: 4342875599540125397, guid: 1a7509d866bc6524b889c05ab85cf0eb,
         type: 3}
       propertyPath: SpawnSelectedWeaponInstant
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4342875599540125397, guid: 1a7509d866bc6524b889c05ab85cf0eb,
         type: 3}
       propertyPath: weaponToSpawn
       value: 
-      objectReference: {fileID: -8398064656369561847, guid: b4f980a46f51e404bbc5a9dbf1d63616,
-        type: 3}
+      objectReference: {fileID: 0}
     - target: {fileID: 4342875599540125397, guid: 1a7509d866bc6524b889c05ab85cf0eb,
         type: 3}
       propertyPath: currentWeapon
       value: 
-      objectReference: {fileID: -8398064656369561847, guid: b4f980a46f51e404bbc5a9dbf1d63616,
-        type: 3}
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1a7509d866bc6524b889c05ab85cf0eb, type: 3}
 --- !u!4 &1704143984 stripped
@@ -3049,6 +3041,16 @@ PrefabInstance:
       propertyPath: m_LocalPosition.x
       value: 0.7
       objectReference: {fileID: 0}
+    - target: {fileID: 6876629178447412802, guid: bfe42aea5814a534b9b32cc80632d9de,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 6876629178447412802, guid: bfe42aea5814a534b9b32cc80632d9de,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -9.7
+      objectReference: {fileID: 0}
     - target: {fileID: 7991880614393255625, guid: bfe42aea5814a534b9b32cc80632d9de,
         type: 3}
       propertyPath: m_Sprite
@@ -3059,16 +3061,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_PointLightInnerRadius
       value: 28.6
-      objectReference: {fileID: 0}
-    - target: {fileID: 6876629178447412802, guid: bfe42aea5814a534b9b32cc80632d9de,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -0.7
-      objectReference: {fileID: 0}
-    - target: {fileID: 6876629178447412802, guid: bfe42aea5814a534b9b32cc80632d9de,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -9.7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bfe42aea5814a534b9b32cc80632d9de, type: 3}
@@ -3902,11 +3894,6 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 8465764121378957575, guid: d3df09d88d7d467479da1238604e6823,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 8465764121579146274, guid: d3df09d88d7d467479da1238604e6823,
         type: 3}
       propertyPath: m_fontAsset
@@ -4251,6 +4238,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 8465764120279603911, guid: d3df09d88d7d467479da1238604e6823,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8465764121378957575, guid: d3df09d88d7d467479da1238604e6823,
         type: 3}
       propertyPath: m_IsActive
       value: 1
