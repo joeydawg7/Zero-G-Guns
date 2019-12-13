@@ -21,7 +21,25 @@ public class ObjectPooler : MonoBehaviour
             DontDestroyOnLoad(gameObject);
         }
 
+        poolDictionary = new Dictionary<string, Queue<GameObject>>();
+        resetDisableTimer = false;
 
+        Debug.Log("i wwas in the start and did stuff");
+
+        foreach (Pool pool in pools)
+        {
+            Queue<GameObject> objectPool = new Queue<GameObject>();
+
+            for (int i = 0; i < pool.size; i++)
+            {
+                GameObject obj = Instantiate(pool.prefab, gameObject.transform);
+                obj.SetActive(false);
+                objectPool.Enqueue(obj);
+            }
+
+            poolDictionary.Add(pool.tag, objectPool);
+
+        }
     }
 
 
@@ -44,23 +62,7 @@ public class ObjectPooler : MonoBehaviour
 
     private void Start()
     {
-        poolDictionary = new Dictionary<string, Queue<GameObject>>();
-        resetDisableTimer = false;
-
-        foreach (Pool pool in pools)
-        {
-            Queue<GameObject> objectPool = new Queue<GameObject>();
-
-            for (int i = 0; i < pool.size; i++)
-            {
-                GameObject obj = Instantiate(pool.prefab, gameObject.transform);
-                obj.SetActive(false);
-                objectPool.Enqueue(obj);
-            }
-
-            poolDictionary.Add(pool.tag, objectPool);
-
-        }
+       
     }
 
     //works like instatiate but from a magic poooooool
