@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using UnityEngine.SceneManagement;
 
 public class WeaponPad : MonoBehaviour
 {
@@ -31,12 +32,22 @@ public class WeaponPad : MonoBehaviour
     private static Color fullPadBarsColour = new Color(0.25f, 1.0f, 0.0f);
     private static Color disabledPadBarsColour = Color.red;
 
+    
+
     private void Awake()
     {
         hasWeapon = false;
         currentWeapon = null;
         barSprite.color = new Color(0, 1.0f, 1.0f);
-        potentialGunsToSpawn = ObjectPooler.Instance.potentialGunsToSpawn;
+
+        try
+        {
+            potentialGunsToSpawn = ObjectPooler.Instance.potentialGunsToSpawn;
+        }
+        catch
+        {
+            SceneManager.LoadScene("PersistentScene");
+        }
     }
 
     // Start is called before the first frame update

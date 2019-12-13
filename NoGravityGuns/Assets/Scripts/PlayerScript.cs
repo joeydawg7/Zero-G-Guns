@@ -213,10 +213,10 @@ public class PlayerScript : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (rb.velocity.magnitude >= 150 && speedIndicationTimer >= 2)
+        if (rb.velocity.magnitude >= 100 && speedIndicationTimer >= 0.75f)
         {
-            speedIndication.Play(true);
-            //cameraParent.GetComponentInChildren<RippleController>().Ripple(rb.transform.position, 15, 0.88f);
+            speedIndication.Emit(1);
+            cameraParent.GetComponentInChildren<RippleController>().Ripple(rb.transform.position, 4, 0.88f);
             speedIndicationTimer = 0;
             audioSource.PlayOneShot(whooshClip);
         }
@@ -227,8 +227,11 @@ public class PlayerScript : MonoBehaviour
     #region Input Handler Functions
     public void OnDrop()
     {
-        if (player.GetButtonDown("Drop") && armsScript.currentWeapon.name != "Pistol")
+        
+
+        if (player.GetButtonDown("Drop") )
         {
+            Debug.Log("dahp");
             armsScript.EquipGun(GameManager.Instance.pistol, true);
         }
     }

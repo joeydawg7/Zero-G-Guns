@@ -25,7 +25,7 @@ public class RippleController : MonoBehaviour
     private void OnDestroy()
     {
         StopAllCoroutines();
-        RuntimeUtilities.DestroyVolume(rippleVolume, true, true);
+        //RuntimeUtilities.DestroyVolume(rippleVolume, true, true);
     }
 
     private void Update()
