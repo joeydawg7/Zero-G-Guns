@@ -219,6 +219,9 @@ public class PlayerScript : MonoBehaviour
             cameraParent.GetComponentInChildren<RippleController>().Ripple(rb.transform.position, 4, 0.88f);
             speedIndicationTimer = 0;
             audioSource.PlayOneShot(whooshClip);
+
+
+            Smorph();
         }
     }
 
@@ -309,6 +312,13 @@ public class PlayerScript : MonoBehaviour
         GamePad.SetVibration((PlayerIndex)controller.id, strength, strength);
         yield return new WaitForSeconds(time);
         GamePad.SetVibration((PlayerIndex)controller.id, 0, 0);
+    }
+
+
+    void Smorph()
+    {
+        Vector2 directionOfTravel = rb.velocity;
+
     }
 
     #endregion
