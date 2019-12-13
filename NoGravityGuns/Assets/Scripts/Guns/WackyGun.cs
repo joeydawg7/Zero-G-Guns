@@ -9,9 +9,10 @@ public class WackyGun : Guns
     //public int minDamageRange;
     //public int maxDamageRange;
     //public float bulletSpeed;
-    
+
     public float delayBeforeShot;
     public List<Transform> bulletSpawns;
+    private List<int> spawnIds = new List<int> { 0, 1, 2 };
 
     private void Start()
     {
@@ -34,16 +35,23 @@ public class WackyGun : Guns
 
     public IEnumerator ShootThisGun(PlayerScript player)
     {
-        player.armsScript.bulletSpawn = bulletSpawns[Random.Range(0, bulletSpawns.Count)];
+        var id = Random.Range(0, spawnIds.Count-1);
+        player.armsScript.bulletSpawn = bulletSpawns[spawnIds[id]];
+        spawnIds.Remove(spawnIds[id]);
         player.StartCoroutine(DelayShotCoroutine(player, delayBeforeShot, bulletSpeed, minDamageRange, maxDamageRange));
         ReduceBullets(player);
         yield return new WaitForSeconds(delayBeforeShot);
-        player.armsScript.bulletSpawn = bulletSpawns[Random.Range(0, bulletSpawns.Count)];
+        id = Random.Range(0, spawnIds.Count - 1);
+        player.armsScript.bulletSpawn = bulletSpawns[spawnIds[id]];
+        spawnIds.Remove(spawnIds[id]);        
         player.StartCoroutine(DelayShotCoroutine(player, delayBeforeShot, bulletSpeed, minDamageRange, maxDamageRange));
         ReduceBullets(player);
         yield return new WaitForSeconds(delayBeforeShot);
-        player.armsScript.bulletSpawn = bulletSpawns[Random.Range(0, bulletSpawns.Count)];
+        id = Random.Range(0, spawnIds.Count - 1);
+        player.armsScript.bulletSpawn = bulletSpawns[spawnIds[id]];        
         player.StartCoroutine(DelayShotCoroutine(player, delayBeforeShot, bulletSpeed, minDamageRange, maxDamageRange));
         ReduceBullets(player);
+        spawnIds.Clear();
+        spawnIds.AddRange(new List<int> { 0, 1, 2 });
     }
 }

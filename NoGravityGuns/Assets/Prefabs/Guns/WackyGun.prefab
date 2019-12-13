@@ -4844,13 +4844,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3110017796400452373}
-  m_LocalRotation: {x: -0, y: -0, z: -0.49479902, w: 0.8690074}
+  m_LocalRotation: {x: -0, y: -0, z: 0.9410668, w: 0.33822083}
   m_LocalPosition: {x: 9.41, y: -1.8300003, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 3198932703841508899}
   m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -59.313004}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 140.46301}
 --- !u!212 &532675952826139958
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -4924,13 +4924,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3198932702554654224}
-  m_LocalRotation: {x: -0, y: -0, z: 0.819942, w: -0.57244664}
+  m_LocalRotation: {x: -0, y: -0, z: 0.93843603, w: -0.34545314}
   m_LocalPosition: {x: 9.41, y: 2.04, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 3198932703841508899}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 249.842}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 220.41899}
 --- !u!212 &3198932702554654446
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -5094,17 +5094,21 @@ MonoBehaviour:
   knockBack: 50
   clipSize: 18
   numBullets: 0
-  recoilDelay: 0.3
+  recoilDelay: 0.4
   minDamageRange: 42
   maxDamageRange: 55
   bulletSpeed: 4500
   projectileTypeName: BounceShot
   cameraShakeDuration: 0.1
-  bulletSounds: []
+  bulletSounds:
+  - {fileID: 8300000, guid: 39d57f0dfa262f440b6fdfd92843728f, type: 3}
+  - {fileID: 8300000, guid: d33c6fc9f2225af46af5abd3b2b3be05, type: 3}
+  - {fileID: 8300000, guid: 95ab9c888689cc344a2e7b70b7e68f5f, type: 3}
+  - {fileID: 8300000, guid: 425e3e49a0be2c344a72307185cc8f3e, type: 3}
   reloadSound: {fileID: 8300000, guid: 4dae545ced1cd824fb12b922c3dc86a2, type: 3}
   prefireSound: {fileID: 0}
   outOfAmmoSound: {fileID: 0}
-  timeSinceLastShot: 0
+  timeSinceLastShot: -0.3
   gunPrefab: {fileID: 3198932703841508898}
   theGunSprite: {fileID: 21300000, guid: b91b9fff9e117f8459dfab6c36f3b29f, type: 3}
   name: WackeyGun

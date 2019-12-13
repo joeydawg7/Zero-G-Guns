@@ -34,7 +34,7 @@ public abstract class Guns : MonoBehaviour
 
     public AudioClip GetRandomGunshotSFX
     {
-        get { return bulletSounds[Random.Range(0, bulletSounds.Count)]; }
+        get { return bulletSounds[Random.Range(0, bulletSounds.Count-1)]; }
     }
 
     public int GunDamage(int min, int max)
