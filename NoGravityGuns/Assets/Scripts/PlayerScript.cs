@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using TMPro;
 using Rewired;
 using XInputDotNetPure;
+using UnityEngine.SceneManagement;
 
 public class PlayerScript : MonoBehaviour
 {
@@ -199,6 +200,8 @@ public class PlayerScript : MonoBehaviour
                 OnFlail();
 
                 OnPause();
+
+                OnQuit();
             }
 
         }
@@ -210,12 +213,15 @@ public class PlayerScript : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (rb.velocity.magnitude >= 150 && speedIndicationTimer >= 2)
+        if (rb.velocity.magnitude >= 100 && speedIndicationTimer >= 0.75f)
         {
-            speedIndication.Play(true);
-            //cameraParent.GetComponentInChildren<RippleController>().Ripple(rb.transform.position, 15, 0.88f);
+            speedIndication.Emit(1);
+            cameraParent.GetComponentInChildren<RippleController>().Ripple(rb.transform.position, 4, 0.88f);
             speedIndicationTimer = 0;
             audioSource.PlayOneShot(whooshClip);
+
+
+            Smorph();
         }
     }
 
@@ -224,8 +230,11 @@ public class PlayerScript : MonoBehaviour
     #region Input Handler Functions
     public void OnDrop()
     {
-        if (player.GetButtonDown("Drop") && armsScript.currentWeapon.name != "Pistol")
+        
+
+        if (player.GetButtonDown("Drop") )
         {
+            Debug.Log("dahp");
             armsScript.EquipGun(GameManager.Instance.pistol, true);
         }
     }
@@ -271,8 +280,25 @@ public class PlayerScript : MonoBehaviour
             //    Time.timeScale = 1;
             //Debug.Log("timescale = " + Time.timeScale);
         }
-
+       
     }
+
+    public void OnQuit()
+    {
+        if (gameManager.isGameStarted && PauseMenu.Instance.gameObject.activeInHierarchy && player.GetButtonDown("Drop"))
+        {
+            Debug.Log("QUIT to Main");
+            GameObject.FindGameObjectWithTag("CameraParent").GetComponent<CameraController>().players.Clear();            
+            RoundManager.Instance.NewRound(true);
+            PauseMenu.Instance.MenuOff();
+        }
+        else if (gameManager.isGameStarted && PauseMenu.Instance.gameObject.activeInHierarchy && player.GetButtonDown("Join"))
+        {
+            Debug.Log("QUIT Game");
+            Application.Quit();
+        }
+    }
+
     public void Vibrate(float strength, float time)
     {
         if (vibrateController != null)
@@ -286,6 +312,13 @@ public class PlayerScript : MonoBehaviour
         GamePad.SetVibration((PlayerIndex)controller.id, strength, strength);
         yield return new WaitForSeconds(time);
         GamePad.SetVibration((PlayerIndex)controller.id, 0, 0);
+    }
+
+
+    void Smorph()
+    {
+        Vector2 directionOfTravel = rb.velocity;
+
     }
 
     #endregion

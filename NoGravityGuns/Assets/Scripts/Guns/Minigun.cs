@@ -19,6 +19,8 @@ public class Minigun : Guns
     //    return Random.Range(minDamageRange, maxDamageRange); 
     //}
 
+    public AudioClip spinUp, spinDown;
+
     private void Start()
     {
         spinning = false;
@@ -34,10 +36,16 @@ public class Minigun : Guns
             if(!spinning)
             {
                 player.StartCoroutine(spinUpMinigun(player));
+
+                //player.armsScript.audioSource.PlayOneShot(spinUp);
+                //SoundPooler.Instance.PlaySoundEffect(spinUp);
+
             }
             if (recoilDelay > maxSpeed)
             {
                 recoilDelay -= Time.deltaTime;
+                //SoundPooler.Instance.PlaySoundEffect(spinDown);
+
             }
             player.StartCoroutine(DelayShotCoroutine(player, 0.0f, bulletSpeed, minDamageRange, maxDamageRange));
             ReduceBullets(player);
