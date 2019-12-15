@@ -194,10 +194,13 @@ public class ArmsScript : MonoBehaviour
 
         //angle hand bone to point along shoot direction
         Vector2 frontHandBoneDirection = new Vector2(IKTarget.transform.localPosition.x, IKTarget.transform.localPosition.y * -1) - new Vector2(shootDir.x * -1, shootDir.y) * Vector2.right;
-        frontHandBone.right = frontHandBoneDirection;
+        //frontHandBone.right = frontHandBoneDirection;
 
-        Vector2 backandBoneDirection = new Vector2(IKTarget.transform.localPosition.x, IKTarget.transform.localPosition.y * -1) - new Vector2(shootDir.x * -1, shootDir.y) * Vector2.right;
-        backHandBone.right = backandBoneDirection;
+        //Vector2 backandBoneDirection = new Vector2(IKTarget.transform.localPosition.x, IKTarget.transform.localPosition.y * -1) - new Vector2(shootDir.x * -1, shootDir.y) * Vector2.right;
+        //backHandBone.right = backandBoneDirection;
+
+        if (currentWeapon != null)
+            currentWeapon.transform.right = -frontHandBoneDirection;
 
     }
 
@@ -263,10 +266,6 @@ public class ArmsScript : MonoBehaviour
         //delays the swapping of weapons so player will hold the old weapon for as long as the recoilDelay on the gun is before switching.
         EquipGun(weaponToEquip);
 
-
-
-        //update UI
-        //SendGunText();
     }
 
     void EquipGun(Guns weaponToEquip)

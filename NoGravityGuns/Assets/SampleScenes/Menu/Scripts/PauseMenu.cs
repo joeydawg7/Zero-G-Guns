@@ -1,3 +1,4 @@
+using Rewired;
 using System;
 using UnityEngine;
 using UnityEngine.UI;
@@ -19,6 +20,8 @@ public class PauseMenu : MonoBehaviour
 
     void Awake()
     {
+
+        
         if (_instance != null && _instance != this)
         {
             Destroy(this.gameObject);
@@ -45,9 +48,9 @@ public class PauseMenu : MonoBehaviour
 
     //private void Update()
     //{
-    //    if(pauseCanvas.gameObject.activeInHierarchy)
+    //    if (pauseCanvas.gameObject.activeInHierarchy)
     //    {
-    //        if(Input.GetButtonDown("Select"))
+    //        if (ReInput.players.GetSystemPlayer().GetButtonDown("Join"))
     //        {
     //            Application.Quit();
     //            Debug.Log("you Quit");
