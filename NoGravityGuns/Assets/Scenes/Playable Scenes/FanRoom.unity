@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311992, g: 0.38074034, b: 0.35872713, a: 1}
+  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -371,7 +371,7 @@ PrefabInstance:
     - target: {fileID: 4342875599540125397, guid: 1a7509d866bc6524b889c05ab85cf0eb,
         type: 3}
       propertyPath: SpawnSelectedWeaponInstant
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4342875599540125397, guid: 1a7509d866bc6524b889c05ab85cf0eb,
         type: 3}
@@ -1167,7 +1167,7 @@ PrefabInstance:
     - target: {fileID: 4342875599540125397, guid: 1a7509d866bc6524b889c05ab85cf0eb,
         type: 3}
       propertyPath: SpawnSelectedWeaponInstant
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4342875599540125397, guid: 1a7509d866bc6524b889c05ab85cf0eb,
         type: 3}
@@ -3034,7 +3034,7 @@ PrefabInstance:
     - target: {fileID: 4342875599540125397, guid: 1a7509d866bc6524b889c05ab85cf0eb,
         type: 3}
       propertyPath: SpawnSelectedWeaponInstant
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4342875599540125397, guid: 1a7509d866bc6524b889c05ab85cf0eb,
         type: 3}
@@ -4124,7 +4124,12 @@ PrefabInstance:
     - target: {fileID: 8465764121220277408, guid: d3df09d88d7d467479da1238604e6823,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8465764121378957575, guid: d3df09d88d7d467479da1238604e6823,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8465764121579146274, guid: d3df09d88d7d467479da1238604e6823,
         type: 3}
@@ -4261,7 +4266,7 @@ PrefabInstance:
     - target: {fileID: 8637339206862937070, guid: d3df09d88d7d467479da1238604e6823,
         type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8465764120359994613, guid: d3df09d88d7d467479da1238604e6823,
         type: 3}
@@ -4470,11 +4475,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 8465764120279603911, guid: d3df09d88d7d467479da1238604e6823,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8465764121378957575, guid: d3df09d88d7d467479da1238604e6823,
         type: 3}
       propertyPath: m_IsActive
       value: 1

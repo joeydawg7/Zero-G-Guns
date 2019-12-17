@@ -116,7 +116,7 @@ public class PlayerScript : MonoBehaviour
     #endregion
     //End Variables
 
-    ParticleSystem speedIndication;
+    //ParticleSystem speedIndication;
 
     #region Awake, Update, Start
     private void Awake()
@@ -215,8 +215,8 @@ public class PlayerScript : MonoBehaviour
     {
         if (rb.velocity.magnitude >= 100 && speedIndicationTimer >= 0.75f)
         {
-            speedIndication.Emit(1);
-            cameraParent.GetComponentInChildren<RippleController>().Ripple(rb.transform.position, 4, 0.88f);
+            //speedIndication.Emit(1);
+            //cameraParent.GetComponentInChildren<RippleController>().Ripple(rb.transform.position, 4, 0.88f);
             speedIndicationTimer = 0;
             audioSource.PlayOneShot(whooshClip);
 
@@ -756,12 +756,12 @@ public class PlayerScript : MonoBehaviour
 
         rb.simulated = true;
 
-        GameObject go = ObjectPooler.Instance.SpawnFromPool("SpeedIndication", new Vector3(0, 0, 0), Quaternion.identity, transform);
-        go.transform.localPosition = new Vector3(0, 0, 0);
-        ParticleSystem ps = go.GetComponent<ParticleSystem>();
-        var main = ps.main;
-        main.startColor = new ParticleSystem.MinMaxGradient(playerColor);
-        speedIndication = ps;
+        //GameObject go = ObjectPooler.Instance.SpawnFromPool("SpeedIndication", new Vector3(0, 0, 0), Quaternion.identity, transform);
+        //go.transform.localPosition = new Vector3(0, 0, 0);
+        //ParticleSystem ps = go.GetComponent<ParticleSystem>();
+        //var main = ps.main;
+        //main.startColor = new ParticleSystem.MinMaxGradient(playerColor);
+        //speedIndication = ps;
 
         //RoundManager.Instance.SetPlayer(this);
 

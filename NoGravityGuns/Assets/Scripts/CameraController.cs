@@ -11,12 +11,20 @@ public class CameraController : MonoBehaviour
     public List<Transform> players;
 
     public Vector3 offset;
-    public float smoothTime;
+    public float minSmoothTime;
+    public float maxSmoothTime;
+    float smoothTime;
 
     public float minZoom;
     public float maxZoom;
     public float zoomLimit;
     public float zoomSpeed;
+
+    public float minDistToCapY;
+    public float yMax;
+    public float yMin;
+    //public float xMax;
+    //public float xMin;
 
     Vector3 velocity;
 
@@ -45,6 +53,8 @@ public class CameraController : MonoBehaviour
 
         CurrentGameVolume.profile.TryGetSettings(out lensDistortion);
         CurrentGameVolume.profile.TryGetSettings(out chromaticAbberation);
+
+        smoothTime = minSmoothTime;
 
         if(lensDistortion == null || chromaticAbberation == null)
         {
@@ -91,7 +101,32 @@ public class CameraController : MonoBehaviour
             bounds.Encapsulate(players[i].position);
         }
 
-        return bounds.center;
+        Vector3 centerPoint = bounds.center;
+        if(GetGreatestDistance() > minDistToCapY)
+        {
+            smoothTime = minSmoothTime;
+            if (bounds.center.y > 0)
+            {
+                if (bounds.center.y > yMax)
+                {
+                    centerPoint.y = yMax;
+                }
+            }
+            else if (bounds.center.y < 0)
+            {
+                if (bounds.center.y < yMin)
+                {
+                    centerPoint.y = yMin;
+                }
+            }
+        }
+        else
+        {
+            smoothTime = maxSmoothTime;
+        }
+             
+
+        return centerPoint;
     }
 
     //returns between 0 and 1

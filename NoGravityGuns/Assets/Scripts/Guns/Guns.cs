@@ -143,7 +143,7 @@ public abstract class Guns : MonoBehaviour
 
             if (projectileTypeName == "BlackHoleSun")
             {
-                bulletGo.GetComponent<BlackHoleSun>().Construct(GunDamage(minDamagae, maxDamage), player, dir, player.playerColor);
+                //bulletGo.GetComponent<BlackHoleSun>().Construct(GunDamage(minDamagae, maxDamage), player, dir, player.playerColor);
             }
             else
             {
