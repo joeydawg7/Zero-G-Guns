@@ -1,5 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using XInputDotNetPure;
+using Rewired;
 using UnityEngine;
 
 public abstract class Guns : MonoBehaviour
@@ -161,10 +163,17 @@ public abstract class Guns : MonoBehaviour
         if(player.transform)
         {
             player.rb.AddForce(-arms.bulletSpawn.transform.right * knockBack * knockBackModifier, ForceMode2D.Impulse);
-        }       
+        }
+
+        //if (!RoundManager.Instance.debugManager.useDebugSettings)
+        //{
+           StartCoroutine(VibrateOnShot(player, 0.06f, 1.0f));
+
+        //}
+
 
         //player.rb.AddForce(inverseDir * knockbackMultiplier, ForceMode2D.Impulse);
-        player.armsScript.cameraShake.shakeDuration += cameraShakeDuration;        
+        //player.armsScript.cameraShake.shakeDuration += cameraShakeDuration;        
     }
 
     public bool  CheckIfAbleToiFire(Guns gun)
@@ -179,6 +188,14 @@ public abstract class Guns : MonoBehaviour
         }      
         
         return false;
+    }
+
+    public IEnumerator VibrateOnShot(PlayerScript player, float time, float intensity)
+    {
+        GamePad.SetVibration((PlayerIndex)player.controller.id, intensity, intensity);
+        yield return new WaitForSeconds(time);
+        GamePad.SetVibration((PlayerIndex)player.controller.id, 0, 0);
+
     }
 
     public void CheckForAmmo(PlayerScript player)
