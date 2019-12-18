@@ -90,7 +90,7 @@ public class Explosion : MonoBehaviour, IPooledObject
             if (rb != null)
             {
                 //explosion cant hit itself, or other explosions for that matter
-                if (rb.tag != "Explosion")
+                if (rb.tag != "Explosion" || rb.tag == "Bullet")
                 {
                     //treat players different from other objects
                   //  if (rb.tag == "Player")

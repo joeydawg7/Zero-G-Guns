@@ -65,7 +65,7 @@ public class WeaponPad : MonoBehaviour
         else
         {
             timer = 0;
-            timeToNextSpawn = Random.Range(5, 25f);
+            timeToNextSpawn = Random.Range(5f, 10f);
             weaponToSpawn = potentialGunsToSpawn[Random.Range(0, potentialGunsToSpawn.Count)];
 
           
