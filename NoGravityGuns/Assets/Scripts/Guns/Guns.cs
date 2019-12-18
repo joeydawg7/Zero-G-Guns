@@ -167,7 +167,7 @@ public abstract class Guns : MonoBehaviour
 
         //if (!RoundManager.Instance.debugManager.useDebugSettings)
         //{
-           StartCoroutine(VibrateOnShot(player, 0.06f, 1.0f));
+           player.Vibrate(0.06f, 0.25f);
 
         //}
 
@@ -190,13 +190,13 @@ public abstract class Guns : MonoBehaviour
         return false;
     }
 
-    public IEnumerator VibrateOnShot(PlayerScript player, float time, float intensity)
-    {
-        GamePad.SetVibration((PlayerIndex)player.controller.id, intensity, intensity);
-        yield return new WaitForSeconds(time);
-        GamePad.SetVibration((PlayerIndex)player.controller.id, 0, 0);
+    //public IEnumerator VibrateOnShot(PlayerScript player, float time, float intensity)
+    //{
+    //    GamePad.SetVibration((PlayerIndex)player.controller.id, intensity, intensity);
+    //    yield return new WaitForSeconds(time);
+    //    GamePad.SetVibration((PlayerIndex)player.controller.id, 0, 0);
 
-    }
+    //}
 
     public void CheckForAmmo(PlayerScript player)
     {
