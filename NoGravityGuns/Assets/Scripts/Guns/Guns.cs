@@ -91,7 +91,7 @@ public abstract class Guns : MonoBehaviour
             {
                 player.armsScript.audioSource.PlayOneShot(outOfAmmoSound);
             }
-            player.armsScript.EquipGun(GameManager.Instance.pistol, true);
+            player.armsScript.EquipGun(GameManager.Instance.pistol, false);
         }
     }
 
