@@ -136,7 +136,14 @@ public class Bullet : MonoBehaviour, IPooledObject
     {
         //spawn some impact sparks from pool
         GameObject sparkyObj = objectPooler.SpawnFromPool("BulletImpact", transform.position, Quaternion.identity);
-        sparkyObj.GetComponent<ParticleSystem>().Emit(10);
+
+
+        ParticleSystem ps = sparkyObj.GetComponent<ParticleSystem>();
+        ps.Emit(10);
+
+        var main = ps.main;
+        main.startColor = new ParticleSystem.MinMaxGradient(player.playerColor);
+
         //start a timer to kill it
         sparkyObj.GetComponent<DisableOverTime>().DisableOverT(2f);
     }

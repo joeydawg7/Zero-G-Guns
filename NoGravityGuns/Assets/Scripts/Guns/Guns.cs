@@ -25,6 +25,8 @@ public abstract class Guns : MonoBehaviour
     public AudioClip outOfAmmoSound;
     public float timeSinceLastShot;
 
+    public float vibrateAmount;
+
     public GameObject gunPrefab;
 
     public Sprite theGunSprite;
@@ -89,7 +91,7 @@ public abstract class Guns : MonoBehaviour
             {
                 player.armsScript.audioSource.PlayOneShot(outOfAmmoSound);
             }
-            player.armsScript.EquipGun(GameManager.Instance.pistol, true);
+            player.armsScript.EquipGun(GameManager.Instance.pistol, false);
         }
     }
 
@@ -160,20 +162,27 @@ public abstract class Guns : MonoBehaviour
     {
         ArmsScript arms = player.armsScript;
 
-        if(player.transform)
+        if (player.transform)
         {
             player.rb.AddForce(-arms.bulletSpawn.transform.right * knockBack * knockBackModifier, ForceMode2D.Impulse);
         }
 
         //if (!RoundManager.Instance.debugManager.useDebugSettings)
         //{
-           player.Vibrate(0.06f, 0.25f);
+
+        Vibrate(player);
+            
 
         //}
 
 
         //player.rb.AddForce(inverseDir * knockbackMultiplier, ForceMode2D.Impulse);
         //player.armsScript.cameraShake.shakeDuration += cameraShakeDuration;        
+    }
+
+    private void Vibrate(PlayerScript player)
+    {
+        player.Vibrate(vibrateAmount, 0.25f);
     }
 
     public bool  CheckIfAbleToiFire(Guns gun)

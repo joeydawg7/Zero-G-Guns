@@ -22,9 +22,7 @@ public class RPG : Guns
     public Sprite emptyRPG;    
 
     private bool isReloading;
-
-
-
+    
 
     private void Awake()
     {       
@@ -47,7 +45,7 @@ public class RPG : Guns
     {       
         //base.KnockBack(player, player.knockbackMultiplier);
         if(CheckIfAbleToiFire(this))
-        {
+        {            
             player.StartCoroutine(PushBackBeforeKnockBack(player));
         }
         else
@@ -58,6 +56,7 @@ public class RPG : Guns
 
     IEnumerator PushBackBeforeKnockBack(PlayerScript player)
     {
+        this.gameObject.GetComponent<SpriteRenderer>().sprite = theGunSprite;
         base.timeSinceLastShot = Time.time;
         base.KnockBack(player, player.knockbackMultiplier);
         player.armsScript.audioSource.PlayOneShot(base.GetRandomGunshotSFX);
