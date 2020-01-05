@@ -52,7 +52,7 @@ public class Minigun : Guns
         }
         else
         {
-            CheckForAmmo(player);
+            CheckForGunTimeout(player);
         }
        
     }

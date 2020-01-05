@@ -22,7 +22,7 @@ public class Pistol : Guns
         }
         else
         {
-            CheckForAmmo(player);
+            CheckForGunTimeout(player);
         }
        
     }       

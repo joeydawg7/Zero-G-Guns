@@ -31,7 +31,7 @@ public class WackyGun : Guns
         }
         else
         {
-            CheckForAmmo(player);
+            CheckForGunTimeout(player);
         }       
     }
 

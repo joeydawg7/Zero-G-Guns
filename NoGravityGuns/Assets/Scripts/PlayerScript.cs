@@ -552,7 +552,7 @@ public class PlayerScript : MonoBehaviour
         playerLastHitBy = null;
 
         armsScript.EquipGun(GameManager.Instance.pistol, true);
-        armsScript.currentAmmo = armsScript.currentWeapon.clipSize;
+        //armsScript.currentAmmo = armsScript.currentWeapon.clipSize;
 
         if (numLives <= 0)
         {
