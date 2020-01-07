@@ -97,7 +97,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -2594,7 +2594,7 @@ PrefabInstance:
     - target: {fileID: 8465764121220277408, guid: d3df09d88d7d467479da1238604e6823,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8465764121220277420, guid: d3df09d88d7d467479da1238604e6823,
         type: 3}
@@ -2704,7 +2704,7 @@ PrefabInstance:
     - target: {fileID: 8637339206862937070, guid: d3df09d88d7d467479da1238604e6823,
         type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d3df09d88d7d467479da1238604e6823, type: 3}
@@ -3426,16 +3426,6 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: 51.2
       objectReference: {fileID: 0}
-    - target: {fileID: 4713527608523813401, guid: 455668168d389204aabb63ceaba92e22,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -3.1732
-      objectReference: {fileID: 0}
-    - target: {fileID: 4713527608523813401, guid: 455668168d389204aabb63ceaba92e22,
-        type: 3}
-      propertyPath: m_LocalScale.y
-      value: 9.097042
-      objectReference: {fileID: 0}
     - target: {fileID: 3494511054971899837, guid: 455668168d389204aabb63ceaba92e22,
         type: 3}
       propertyPath: m_LocalPosition.z
@@ -3445,6 +3435,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_RootOrder
       value: 17
+      objectReference: {fileID: 0}
+    - target: {fileID: 546118329921814377, guid: 455668168d389204aabb63ceaba92e22,
+        type: 3}
+      propertyPath: m_PointLightInnerAngle
+      value: 188.48
+      objectReference: {fileID: 0}
+    - target: {fileID: 4713527608523813401, guid: 455668168d389204aabb63ceaba92e22,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -3.1732
+      objectReference: {fileID: 0}
+    - target: {fileID: 4713527608523813401, guid: 455668168d389204aabb63ceaba92e22,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 9.097042
       objectReference: {fileID: 0}
     - target: {fileID: 8280886139953781043, guid: 455668168d389204aabb63ceaba92e22,
         type: 3}
@@ -3456,12 +3461,12 @@ PrefabInstance:
       propertyPath: m_Name
       value: Sprite_Earth_Clouds
       objectReference: {fileID: 0}
-    - target: {fileID: 2246822264810861953, guid: 455668168d389204aabb63ceaba92e22,
+    - target: {fileID: 5186477067918899598, guid: 455668168d389204aabb63ceaba92e22,
         type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 5186477067918899598, guid: 455668168d389204aabb63ceaba92e22,
+    - target: {fileID: 2246822264810861953, guid: 455668168d389204aabb63ceaba92e22,
         type: 3}
       propertyPath: m_IsActive
       value: 1
@@ -3507,11 +3512,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_SortingOrder
       value: -19
-      objectReference: {fileID: 0}
-    - target: {fileID: 546118329921814377, guid: 455668168d389204aabb63ceaba92e22,
-        type: 3}
-      propertyPath: m_PointLightInnerAngle
-      value: 188.48
       objectReference: {fileID: 0}
     - target: {fileID: 9159930956792197676, guid: 455668168d389204aabb63ceaba92e22,
         type: 3}

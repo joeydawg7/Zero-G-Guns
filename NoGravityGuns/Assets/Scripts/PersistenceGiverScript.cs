@@ -18,11 +18,5 @@ public class PersistenceGiverScript : MonoBehaviour
 
         Debug.Log("starting new round from persistant scene");
         RoundManager.Instance.NewRound(true);
-
-
-
-
     }
-
-
 }
