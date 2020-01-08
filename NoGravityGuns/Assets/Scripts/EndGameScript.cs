@@ -31,7 +31,15 @@ public class EndGameScript : MonoBehaviour
     {
         gameObject.SetActive(false);
 
-        cameraController = Camera.main.transform.parent.GetComponent<CameraController>();
+        try
+        {
+            cameraController = Camera.main.transform.parent.GetComponent<CameraController>();
+        }
+        catch
+        {
+            SceneManager.LoadScene("PersistentScene");
+        }
+
     }
 
     public void StartEndGame(List<PlayerScript> winners)
