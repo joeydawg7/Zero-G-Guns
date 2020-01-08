@@ -177,11 +177,8 @@ public class PlayerScript : MonoBehaviour
             immuneToCollisionsTimer += Time.deltaTime;
             speedIndicationTimer += Time.deltaTime;
 
-            //if (vibrateAmount > 0)
-            //    vibrateAmount -= Time.deltaTime;
-            //Debug.Log(vibrateAmount);
-
-            //GamePad.SetVibration((PlayerIndex)controller.id, vibrateAmount, vibrateAmount);
+            if(Time.timeScale ==0)
+                GamePad.SetVibration((PlayerIndex)controller.id, 0, 0);
         }
 
         //DEBUG: take damage to torso
@@ -265,6 +262,8 @@ public class PlayerScript : MonoBehaviour
             {
                 Debug.Log("pause");
                 PauseMenu.Instance.MenuOn();
+                GamePad.SetVibration((PlayerIndex)controller.id, 0, 0);
+
             }
             else
             {
