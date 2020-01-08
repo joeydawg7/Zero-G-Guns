@@ -234,7 +234,6 @@ public class PlayerScript : MonoBehaviour
 
         if (player.GetButtonDown("Drop") )
         {
-            Debug.Log("dahp");
             armsScript.EquipGun(GameManager.Instance.pistol, true);
         }
     }

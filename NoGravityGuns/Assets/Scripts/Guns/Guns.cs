@@ -79,7 +79,9 @@ public abstract class Guns : MonoBehaviour
         yield return new WaitForSeconds(delayBeforeShot);
         KnockBack(player, player.knockbackMultiplier);
         player.armsScript.audioSource.PlayOneShot(GetRandomGunshotSFX);
-        SpawnBullet(player, bulletSpeed, minDamage, maxDamage);
+
+        if(timeSinceLastShot > recoilDelay)
+            SpawnBullet(player, bulletSpeed, minDamage, maxDamage);
     }
 
 
@@ -162,7 +164,7 @@ public abstract class Guns : MonoBehaviour
     {
         ArmsScript arms = player.armsScript;
 
-        if (player.transform)
+        if (player.transform && arms.bulletSpawn)
         {
             player.rb.AddForce(-arms.bulletSpawn.transform.right * knockBack * knockBackModifier, ForceMode2D.Impulse);
         }

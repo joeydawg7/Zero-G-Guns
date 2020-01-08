@@ -269,7 +269,9 @@ public class ArmsScript : MonoBehaviour
         else
         {
             weaponToEquip.timeSinceLastShot = Time.time +weaponToEquip.recoilDelay;
-        }            
+        }
+
+        currentWeapon.StopAllCoroutines();
 
         //delays the swapping of weapons so player will hold the old weapon for as long as the recoilDelay on the gun is before switching.
         EquipGun(weaponToEquip);
@@ -306,6 +308,15 @@ public class ArmsScript : MonoBehaviour
             //find the new bulelt spawn location (bleh)
             bulletSpawn = gunGo.transform.Find("BulletSpawner");
             weaponToEquip.timeSinceLastShot = -weaponToEquip.recoilDelay;
+
+            if (basePlayer)
+            {
+                if (weaponToEquip == GameManager.Instance.pistol)
+                    basePlayer.playerCanvasScript.ShowGunTimer();
+                else
+                    basePlayer.playerCanvasScript.HideGunTimer();
+            }
+
         }       
     }
 

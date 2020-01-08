@@ -32,9 +32,9 @@ public class PlayerCanvasScript : MonoBehaviour
         this.hpBack.sprite = hpBack;
         this.hpFlash.sprite = hpFlash;
 
-        this.gunTimeFront.sprite = hpFront;
-        this.gunTimeBack.sprite = hpBack;
-        this.gunTimeFlash.sprite = hpFlash;
+        //this.gunTimeFront.sprite = hpFront;
+        //this.gunTimeBack.sprite = hpBack;
+        //this.gunTimeFlash.sprite = hpFlash;
 
         this.playerScript = playerScript;
 
@@ -85,6 +85,19 @@ public class PlayerCanvasScript : MonoBehaviour
     {
         gunTimeFront.fillAmount = 1;
     }
+
+    public void ShowGunTimer()
+    {
+        gunTimeBack.gameObject.SetActive(false);
+        gunTimeFlash.gameObject.SetActive(false);
+    }
+
+    public void HideGunTimer()
+    {
+        gunTimeBack.gameObject.SetActive(true);
+        gunTimeFlash.gameObject.SetActive(false);
+    }
+
 
     void Update()
     {

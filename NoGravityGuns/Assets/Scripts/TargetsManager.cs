@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Linq;
+using TMPro;
 
 public class TargetsManager : MonoBehaviour
 {
-    //[HideInInspector]
+    [HideInInspector]
     public List<GameObject> targets;
-    public int numTargetsToDestroy;
-    public int targetsDestroyed;
+    public AudioClip targetShatter;
+    public TextMeshProUGUI timerTextMesh;
+
     private void Start()
     {
         List<TargetScript> targetsList = FindObjectsOfType<TargetScript>().ToList();
@@ -19,7 +21,6 @@ public class TargetsManager : MonoBehaviour
             targets.Add(t.gameObject);
         }
 
-        numTargetsToDestroy = targets.Count;
         try
         {
             if (Camera.main.GetComponentInParent<CameraController>() != null)
@@ -29,30 +30,43 @@ public class TargetsManager : MonoBehaviour
         {
             //haha lol
         }
+
+        
+
+        timerTextMesh.gameObject.SetActive(true);
     }
 
     public void TargetDestroyed()
     {
         StartCoroutine(WaitThenCheckNumTargets());
-       
+
     }
 
     IEnumerator WaitThenCheckNumTargets()
     {
+        SoundPooler.Instance.PlaySoundEffect(targetShatter);
+
         yield return new WaitForSeconds(0.1f);
 
         targets = targets.Where(item => item != null).ToList();
 
-        if (targets.Count ==0)
+        if (targets.Count == 0)
         {
             //end round here!
             //SceneManager.LoadScene("PersistentScene");
-            Debug.Log("you weeen!");
             Time.timeScale = 0;
-            
+
         }
 
+    }
 
+    private void Update()
+    {
+        
+        float timer = RoundManager.Instance.timeSinceRoundStarted;
+
+        if(timer < 3600)
+            timerTextMesh.text = Extensions.FloatToTime(timer, "#0:00.000");
 
     }
 
