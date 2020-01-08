@@ -12,29 +12,26 @@ public class SplashScreenController : MonoBehaviour
     private bool devilsCiderLogoPlayed;
     private bool controllerRequiredInPosition;
     private float logoTrans;
-    private bool pressAEnabled;
+   
 
     private Vector3 startPosition;
     private Vector3 endPosition;
 
     public Image logo;
-    public RectTransform bulletCanvas;
-    public TextMeshProUGUI pressAText;
+    public RectTransform bulletCanvas;    
     public GameObject loadingRing;
-
-    private float timer;
+    public GameObject mainMenu;
+    public Button trainingBtn;
+    
     private bool starting;
-
     
     // Start is called before the first frame update
     void Start()
     {
-        logoTrans = 0.0f;
-        pressAText.enabled = false;
-        pressAEnabled = false;
+        logoTrans = 0.0f;       
         startPosition = bulletCanvas.transform.position;
-        timer = 0;
-        endPosition = new Vector3(0.0f, 0.0f, startPosition.z);
+        
+        endPosition = new Vector3(0.0f, 0.0f, startPosition.z);        
         
         StartCoroutine(FadeInLogo());    
     }
@@ -42,41 +39,41 @@ public class SplashScreenController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {        
-        if(pressAEnabled)
-        {
-            if (!starting)
-            {
-                if (timer < 1.0f)
-                {
-                    if (!pressAText.enabled)
-                    {
-                        pressAText.enabled = true;
-                    }
-                }
-                else
-                {
-                    if (pressAText.enabled)
-                    {
-                        pressAText.enabled = false;
-                    }
-                }
+        //if(pressAEnabled)
+        //{
+        //    if (!starting)
+        //    {
+        //        if (timer < 1.0f)
+        //        {
+        //            if (!pressAText.enabled)
+        //            {
+        //                pressAText.enabled = true;
+        //            }
+        //        }
+        //        else
+        //        {
+        //            if (pressAText.enabled)
+        //            {
+        //                pressAText.enabled = false;
+        //            }
+        //        }
 
-                if (timer > 2.0f)
-                {
-                    timer = 0.0f;
-                }
-                timer += Time.deltaTime;
-            }
+        //        if (timer > 2.0f)
+        //        {
+        //            timer = 0.0f;
+        //        }
+        //        timer += Time.deltaTime;
+        //    }
 
-            if (Input.anyKey)
-            {
-                starting = true;
-                pressAText.enabled = false;
-                bulletCanvas.gameObject.SetActive(false);
-                loadingRing.SetActive(true);
-                SceneManager.LoadScene("PersistentScene");
-            }
-        }
+        //    //if (Input.anyKey)
+        //    //{
+        //    //    starting = true;
+        //    //    pressAText.enabled = false;
+        //    //    bulletCanvas.gameObject.SetActive(false);
+        //    //    loadingRing.SetActive(true);
+        //    //    SceneManager.LoadScene("PersistentScene");
+        //    //}
+        //}
     }
 
    IEnumerator FadeInLogo()
@@ -102,9 +99,12 @@ public class SplashScreenController : MonoBehaviour
             yield return null;
         }
         yield return new WaitForSeconds(1.0f);
-        pressAText.enabled = true;    
-        pressAEnabled = true;
-   }
-
+        //pressAText.enabled = true;    
+        //pressAEnabled = true;
+        bulletCanvas.gameObject.SetActive(false);
+        mainMenu.SetActive(true);
+        trainingBtn.Select();
+   }   
+    
     
 }
