@@ -12,6 +12,7 @@ public class SplashScreenController : MonoBehaviour
     private bool devilsCiderLogoPlayed;
     private bool controllerRequiredInPosition;
     private float logoTrans;
+    
    
 
     private Vector3 startPosition;
@@ -33,47 +34,20 @@ public class SplashScreenController : MonoBehaviour
         
         endPosition = new Vector3(0.0f, 0.0f, startPosition.z);        
         
-        StartCoroutine(FadeInLogo());    
+        if(RoundManager.Instance == null)
+        {
+            StartCoroutine(FadeInLogo());
+        }
+        else
+        {
+            OpenStartMenu();
+        }            
     }
 
-    // Update is called once per frame
-    void Update()
-    {        
-        //if(pressAEnabled)
-        //{
-        //    if (!starting)
-        //    {
-        //        if (timer < 1.0f)
-        //        {
-        //            if (!pressAText.enabled)
-        //            {
-        //                pressAText.enabled = true;
-        //            }
-        //        }
-        //        else
-        //        {
-        //            if (pressAText.enabled)
-        //            {
-        //                pressAText.enabled = false;
-        //            }
-        //        }
-
-        //        if (timer > 2.0f)
-        //        {
-        //            timer = 0.0f;
-        //        }
-        //        timer += Time.deltaTime;
-        //    }
-
-        //    //if (Input.anyKey)
-        //    //{
-        //    //    starting = true;
-        //    //    pressAText.enabled = false;
-        //    //    bulletCanvas.gameObject.SetActive(false);
-        //    //    loadingRing.SetActive(true);
-        //    //    SceneManager.LoadScene("PersistentScene");
-        //    //}
-        //}
+   public void OpenStartMenu()
+    {
+        mainMenu.SetActive(true);
+        trainingBtn.Select();
     }
 
    IEnumerator FadeInLogo()
@@ -102,8 +76,7 @@ public class SplashScreenController : MonoBehaviour
         //pressAText.enabled = true;    
         //pressAEnabled = true;
         bulletCanvas.gameObject.SetActive(false);
-        mainMenu.SetActive(true);
-        trainingBtn.Select();
+        OpenStartMenu();
    }   
     
     
