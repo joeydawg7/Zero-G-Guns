@@ -73,7 +73,6 @@ public class PlayerCanvasScript : MonoBehaviour
         {
             winnerCrown.gameObject.SetActive(true);
             winnerCrown.color = playerScript.playerColor;
-            winnerCrown.GetComponent<Light2D>().color = playerScript.playerColor;
         }
         else
         {

@@ -21,6 +21,7 @@ public class TargetsManager : MonoBehaviour
             targets.Add(t.gameObject);
         }
 
+        //this is just here to prevent errors from running from this scene instead of persistent scene. Evntually the persistant scene will load and this scene will restart and the problem fixes itself
         try
         {
             if (Camera.main.GetComponentInParent<CameraController>() != null)
@@ -31,47 +32,52 @@ public class TargetsManager : MonoBehaviour
             //haha lol
         }
 
-        
-
+        //show timer
         timerTextMesh.gameObject.SetActive(true);
     }
 
     public void TargetDestroyed(Transform lockOnTarget)
     {
         StartCoroutine(WaitThenCheckNumTargets(lockOnTarget));
-
     }
 
+    /// <summary>
+    /// pauses for a tenth of a second to allow the target to be properly destroyed, then determines if the last target has been destroyed
+    /// </summary>
+    /// <param name="lockOnTarget"></param>
+    /// <returns></returns>
     IEnumerator WaitThenCheckNumTargets(Transform lockOnTarget)
     {
-
-        GameManager.Instance.stopTimer = true;
-
+        //play a sound for target breaks
         SoundPooler.Instance.PlaySoundEffect(targetShatter);
-
-        
 
         yield return new WaitForSeconds(0.1f);
 
+        //reorder the list so that it only contains existing targets
         targets = targets.Where(item => item != null).ToList();
 
+        //if there are no existing targets, game is over
         if (targets.Count == 0)
         {
-            //end round here!
-            //SceneManager.LoadScene("PersistentScene");
-            GameManager.Instance.cameraController.TrackFinalBlow(lockOnTarget, 2f, PlayerScript.DamageType.self, GameManager.Instance.pistol);
-            Time.timeScale = 0;
+            //cut the timer
+            GameManager.Instance.stopTimer = true;
 
+            //show a slowmo zoom effect at the particle effect that plays
+            GameManager.Instance.cameraController.TrackFinalBlow(lockOnTarget, 2f, PlayerScript.DamageType.self, GameManager.Instance.pistol);
         }
+
+
+
 
     }
 
     private void Update()
     {
-        
+
         float timer = GameManager.Instance.timeSinceRoundStarted;
 
-        if(timer < 3600)
+        //after an hour the timer screws up, so we stop tracking
+        if (timer < 3600)
             timerTextMesh.text = Extensions.FloatToTime(timer, "#0:00.000");
 
     }
