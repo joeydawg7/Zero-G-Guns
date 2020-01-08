@@ -31,7 +31,7 @@ public class WackyGun : Guns
         }
         else
         {
-            CheckForAmmo(player);
+            CheckForGunTimeout(player);
         }       
     }
 
@@ -73,5 +73,6 @@ public class WackyGun : Guns
         shooting = false;
         spawnIds.Clear();
         spawnIds.AddRange(new List<int> { 0, 1, 2 });
+        timeSinceLastShot = 0;
     }
 }

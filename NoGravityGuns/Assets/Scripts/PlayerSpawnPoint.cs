@@ -69,7 +69,8 @@ public class PlayerSpawnPoint : MonoBehaviour
         //set stuff for player canvas
         PlayerCanvasScript playerCanvasScript = Instantiate(playerCanvas).GetComponent<PlayerCanvasScript>();
         playerCanvasScript.SetPlayerCanvas(globalPlayerSettings.playerSettings[IDToSpawn].PlayerCanvasSettings.hpFront,
-            globalPlayerSettings.playerSettings[IDToSpawn].PlayerCanvasSettings.hpBack, globalPlayerSettings.playerSettings[IDToSpawn].PlayerCanvasSettings.hpCriticalFlash,
+            globalPlayerSettings.playerSettings[IDToSpawn].PlayerCanvasSettings.hpBack, 
+            globalPlayerSettings.playerSettings[IDToSpawn].PlayerCanvasSettings.hpCriticalFlash,
             playerScript);
 
         playerCanvasScript.gameObject.transform.position = new Vector2(10000, 10000);

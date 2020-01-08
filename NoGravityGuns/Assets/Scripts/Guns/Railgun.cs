@@ -22,7 +22,7 @@ public class Railgun : Guns
         }
         else
         {
-            CheckForAmmo(player);
+            CheckForGunTimeout(player);
         }
        
     }

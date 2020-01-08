@@ -28,15 +28,25 @@ public class ExplosiveObjectScript : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.collider.tag != "Bullet" || collision.collider.tag != "RedBullet" || collision.collider.tag != "BlueBullet" ||
-            collision.collider.tag != "YellowBullet" || collision.collider.tag != "GreenBullet")
+        //first check if you got hit by a bullet, if so take damage from it
+        if (collision.collider.tag == "Bullet")
         {
-            //playerScript.DealColliderDamage(collision, gameObject.tag, null);
-            DealColliderDamage(collision);
+            Bullet bullet = collision.collider.GetComponent<Bullet>();
+            DamageExplosiveObject(bullet.damage, bullet.player);
         }
-        else if (collision.collider.tag == "Torso" || collision.collider.tag == "Head" || collision.collider.tag == "Feet" || collision.collider.tag == "Legs")
+        //else assume its some kind of physics collision and see if it hurts
+        else
         {
-            DealColliderDamage(collision);
+            if (collision.collider.tag != "Bullet" || collision.collider.tag != "RedBullet" || collision.collider.tag != "BlueBullet" ||
+                collision.collider.tag != "YellowBullet" || collision.collider.tag != "GreenBullet")
+            {
+                //playerScript.DealColliderDamage(collision, gameObject.tag, null);
+                DealColliderDamage(collision);
+            }
+            else if (collision.collider.tag == "Torso" || collision.collider.tag == "Head" || collision.collider.tag == "Feet" || collision.collider.tag == "Legs")
+            {
+                DealColliderDamage(collision);
+            }
         }
     }
 

@@ -8,8 +8,9 @@ public abstract class Guns : MonoBehaviour
 {    
     public float knockBack;
     public int clipSize;
-    [HideInInspector]
-    public int numBullets;
+    //[HideInInspector]
+    //public int numBullets;
+    public float time;
     public float recoilDelay;
     public int minDamageRange;
     public int maxDamageRange;
@@ -33,7 +34,7 @@ public abstract class Guns : MonoBehaviour
 
     private void Start()
     {
-        numBullets = clipSize;        
+        //numBullets = clipSize;        
     }    
 
     public AudioClip GetRandomGunshotSFX
@@ -78,21 +79,22 @@ public abstract class Guns : MonoBehaviour
         yield return new WaitForSeconds(delayBeforeShot);
         KnockBack(player, player.knockbackMultiplier);
         player.armsScript.audioSource.PlayOneShot(GetRandomGunshotSFX);
-        SpawnBullet(player, bulletSpeed, minDamage, maxDamage);
+
+        if(timeSinceLastShot > recoilDelay)
+            SpawnBullet(player, bulletSpeed, minDamage, maxDamage);
     }
 
 
     public virtual void ReduceBullets(PlayerScript player)
     {
-        player.armsScript.currentAmmo--;
-        if(player.armsScript.currentAmmo <= 0)
-        {
-            if(outOfAmmoSound != null)
-            {
-                player.armsScript.audioSource.PlayOneShot(outOfAmmoSound);
-            }
-            player.armsScript.EquipGun(GameManager.Instance.pistol, false);
-        }
+        //if(player.armsScript.currentAmmo <= 0)
+        //{
+        //    if(outOfAmmoSound != null)
+        //    {
+        //        player.armsScript.audioSource.PlayOneShot(outOfAmmoSound);
+        //    }
+        //    player.armsScript.EquipGun(GameManager.Instance.pistol, false);
+        //}
     }
 
     public void SpawnBullet(PlayerScript player, float bulletSpeed,int minDamagae,int maxDamage)
@@ -162,7 +164,7 @@ public abstract class Guns : MonoBehaviour
     {
         ArmsScript arms = player.armsScript;
 
-        if (player.transform)
+        if (player.transform && arms.bulletSpawn)
         {
             player.rb.AddForce(-arms.bulletSpawn.transform.right * knockBack * knockBackModifier, ForceMode2D.Impulse);
         }
@@ -207,14 +209,15 @@ public abstract class Guns : MonoBehaviour
 
     //}
 
-    public void CheckForAmmo(PlayerScript player)
+    public void CheckForGunTimeout(PlayerScript player)
     {
-        if(player.armsScript.currentAmmo <= 0)
+        if(player.armsScript.timeYouCanHoldGun <= 0)
         {
             player.armsScript.audioSource.PlayOneShot(player.armsScript.dryFire);
             timeSinceLastShot = Time.time;
             player.armsScript.EquipGun(ObjectPooler.Instance.defaultPistol, true);
         }        
     }
-   
+
+
 }

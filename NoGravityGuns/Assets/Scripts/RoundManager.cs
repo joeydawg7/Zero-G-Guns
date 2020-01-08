@@ -307,7 +307,8 @@ public class RoundManager : MonoBehaviour
         {
             loadingImage.gameObject.SetActive(false);
 
-            timeSinceRoundStarted += Time.deltaTime;
+            if(GameManager.Instance.isGameStarted)
+                timeSinceRoundStarted += Time.deltaTime;
 
         }
     }
