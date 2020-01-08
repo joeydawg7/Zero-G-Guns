@@ -18,6 +18,10 @@ public class PlayerCanvasScript : MonoBehaviour
     public Image hpFlash;
     public Image winnerCrown;
 
+    public Image gunTimeFront;
+    public Image gunTimeBack;
+    public Image gunTimeFlash;
+
     float fillAmount;
 
     const float HEALTH_ANIM_RATE =10f;
@@ -27,6 +31,10 @@ public class PlayerCanvasScript : MonoBehaviour
         this.hpFront.sprite = hpFront;
         this.hpBack.sprite = hpBack;
         this.hpFlash.sprite = hpFlash;
+
+        this.gunTimeFront.sprite = hpFront;
+        this.gunTimeBack.sprite = hpBack;
+        this.gunTimeFlash.sprite = hpFlash;
 
         this.playerScript = playerScript;
 
@@ -73,6 +81,11 @@ public class PlayerCanvasScript : MonoBehaviour
         }
     }
 
+    public void ResetGunTimer()
+    {
+        gunTimeFront.fillAmount = 1;
+    }
+
     void Update()
     {
         if (GameManager.Instance.isGameStarted)
@@ -84,6 +97,11 @@ public class PlayerCanvasScript : MonoBehaviour
             if (fillAmount != hpFront.fillAmount)
             {
                 hpFront.fillAmount = Mathf.Lerp(hpFront.fillAmount, fillAmount, Time.deltaTime * HEALTH_ANIM_RATE);
+            }
+
+            if(((float)playerScript.armsScript.timeYouCanHoldGun /playerScript.armsScript.currentWeapon.time) != gunTimeFront.fillAmount)
+            {
+                gunTimeFront.fillAmount = Mathf.Lerp(gunTimeFront.fillAmount, (float)playerScript.armsScript.timeYouCanHoldGun / playerScript.armsScript.currentWeapon.time, Time.deltaTime * HEALTH_ANIM_RATE);
             }
         }
     }

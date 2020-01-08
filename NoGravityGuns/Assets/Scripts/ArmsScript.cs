@@ -274,6 +274,8 @@ public class ArmsScript : MonoBehaviour
         //delays the swapping of weapons so player will hold the old weapon for as long as the recoilDelay on the gun is before switching.
         EquipGun(weaponToEquip);
 
+        basePlayer.playerCanvasScript.ResetGunTimer();
+
     }
 
     void EquipGun(Guns weaponToEquip)
