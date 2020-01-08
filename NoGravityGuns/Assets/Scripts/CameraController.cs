@@ -203,6 +203,9 @@ public class CameraController : MonoBehaviour
 
     IEnumerator HoldOnFinalBlow(Transform playerWhoWasHit, float t, PlayerScript.DamageType damageType, Guns gunWhoShotYou)
     {
+
+        setToMaxZoom = false;
+
         //store old data about who we were tracking, then clear who we are tracking and set only the hit player so we zoom in on them
         var lastPlayerStanding = players[0];
         Transform[] trackedPlayers = players.ToArray();

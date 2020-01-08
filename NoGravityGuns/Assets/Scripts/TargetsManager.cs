@@ -36,15 +36,20 @@ public class TargetsManager : MonoBehaviour
         timerTextMesh.gameObject.SetActive(true);
     }
 
-    public void TargetDestroyed()
+    public void TargetDestroyed(Transform lockOnTarget)
     {
-        StartCoroutine(WaitThenCheckNumTargets());
+        StartCoroutine(WaitThenCheckNumTargets(lockOnTarget));
 
     }
 
-    IEnumerator WaitThenCheckNumTargets()
+    IEnumerator WaitThenCheckNumTargets(Transform lockOnTarget)
     {
+
+        GameManager.Instance.stopTimer = true;
+
         SoundPooler.Instance.PlaySoundEffect(targetShatter);
+
+        
 
         yield return new WaitForSeconds(0.1f);
 
@@ -54,6 +59,7 @@ public class TargetsManager : MonoBehaviour
         {
             //end round here!
             //SceneManager.LoadScene("PersistentScene");
+            GameManager.Instance.cameraController.TrackFinalBlow(lockOnTarget, 2f, PlayerScript.DamageType.self, GameManager.Instance.pistol);
             Time.timeScale = 0;
 
         }
@@ -63,7 +69,7 @@ public class TargetsManager : MonoBehaviour
     private void Update()
     {
         
-        float timer = RoundManager.Instance.timeSinceRoundStarted;
+        float timer = GameManager.Instance.timeSinceRoundStarted;
 
         if(timer < 3600)
             timerTextMesh.text = Extensions.FloatToTime(timer, "#0:00.000");

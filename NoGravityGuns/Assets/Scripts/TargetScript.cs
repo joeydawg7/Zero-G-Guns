@@ -73,7 +73,7 @@ public class TargetScript : MonoBehaviour
         {
             deathEffect.transform.parent = null;
             deathEffect.Play(true);
-            targetsManager.TargetDestroyed();
+            targetsManager.TargetDestroyed(deathEffect.transform);
             Destroy(gameObject);
         }
     }

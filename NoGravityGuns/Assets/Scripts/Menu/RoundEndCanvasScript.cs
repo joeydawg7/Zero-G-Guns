@@ -110,9 +110,9 @@ public class RoundEndCanvasScript : MonoBehaviour
         }
 
 
-       PlayerDataScript winningPlayerData = getWinningPlayerData(winningPlayer);
+        PlayerDataScript winningPlayerData = getWinningPlayerData(winningPlayer);
 
-        if (winningPlayerData !=null)
+        if (winningPlayerData != null)
         {
             //give the winning player more round wins, check if they won for real
             winningPlayerData.IncreaseRoundWins();
@@ -135,17 +135,22 @@ public class RoundEndCanvasScript : MonoBehaviour
             winnerTextString = winningPlayer.playerName + " wins round!";
             var winnerColour = winningPlayer.playerColor;
 
+
             PlayerScript playerWhoWasHitScript = playerWhoWasHit.gameObject.GetComponent<PlayerScript>();
 
+            if (playerWhoWasHitScript)
+            {
 
-            if (playerWhoWasHitScript.playerLastHitBy)
-            {
-                looserTextString = GetWittyCommentOnLastHitPoint(damageType, gunWhoShotYou);
-            }
-            //nobody hit you last, you killed yourself
-            else
-            {
-                looserTextString = GetWittyCommentOnLastHitPoint(PlayerScript.DamageType.self, null);
+                if (playerWhoWasHitScript.playerLastHitBy)
+                {
+                    looserTextString = GetWittyCommentOnLastHitPoint(damageType, gunWhoShotYou);
+                }
+                //nobody hit you last, you killed yourself
+                else
+                {
+                    looserTextString = GetWittyCommentOnLastHitPoint(PlayerScript.DamageType.self, null);
+                }
+
             }
 
             winnerText.text = winnerTextString;

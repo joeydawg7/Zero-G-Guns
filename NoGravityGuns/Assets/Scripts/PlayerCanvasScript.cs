@@ -112,10 +112,10 @@ public class PlayerCanvasScript : MonoBehaviour
                 hpFront.fillAmount = Mathf.Lerp(hpFront.fillAmount, fillAmount, Time.deltaTime * HEALTH_ANIM_RATE);
             }
 
-            if(((float)playerScript.armsScript.timeYouCanHoldGun /playerScript.armsScript.currentWeapon.time) != gunTimeFront.fillAmount)
-            {
-                gunTimeFront.fillAmount = Mathf.Lerp(gunTimeFront.fillAmount, (float)playerScript.armsScript.timeYouCanHoldGun / playerScript.armsScript.currentWeapon.time, Time.deltaTime * HEALTH_ANIM_RATE);
-            }
+            //if(((float)playerScript.armsScript.timeYouCanHoldGun /playerScript.armsScript.currentWeapon.time) != gunTimeFront.fillAmount)
+            //{
+            //    gunTimeFront.fillAmount = Mathf.Lerp(gunTimeFront.fillAmount, (float)playerScript.armsScript.timeYouCanHoldGun / playerScript.armsScript.currentWeapon.time, Time.deltaTime * HEALTH_ANIM_RATE);
+            //}
         }
     }
 }

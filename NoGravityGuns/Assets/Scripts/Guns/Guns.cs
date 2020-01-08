@@ -8,9 +8,9 @@ public abstract class Guns : MonoBehaviour
 {    
     public float knockBack;
     public int clipSize;
-    //[HideInInspector]
-    //public int numBullets;
-    public float time;
+    [HideInInspector]
+    public int numBullets;
+  //  public float time;
     public float recoilDelay;
     public int minDamageRange;
     public int maxDamageRange;
@@ -32,9 +32,12 @@ public abstract class Guns : MonoBehaviour
 
     public Sprite theGunSprite;
 
+    [HideInInspector]
+    public bool canFire;
+
     private void Start()
     {
-        //numBullets = clipSize;        
+        numBullets = clipSize;
     }    
 
     public AudioClip GetRandomGunshotSFX
@@ -87,14 +90,18 @@ public abstract class Guns : MonoBehaviour
 
     public virtual void ReduceBullets(PlayerScript player)
     {
-        //if(player.armsScript.currentAmmo <= 0)
-        //{
-        //    if(outOfAmmoSound != null)
-        //    {
-        //        player.armsScript.audioSource.PlayOneShot(outOfAmmoSound);
-        //    }
-        //    player.armsScript.EquipGun(GameManager.Instance.pistol, false);
-        //}
+        player.armsScript.currentAmmo--;
+
+        if (player.armsScript.currentAmmo <= 0)
+        {
+            if (outOfAmmoSound != null)
+            {
+                player.armsScript.audioSource.PlayOneShot(outOfAmmoSound);
+            }
+
+            //canFire = false;
+            player.armsScript.EquipGun(GameManager.Instance.pistol, false);
+        }
     }
 
     public void SpawnBullet(PlayerScript player, float bulletSpeed,int minDamagae,int maxDamage)
@@ -192,7 +199,7 @@ public abstract class Guns : MonoBehaviour
         //gotta have bullets to shoot
        
         //enough time has passed between shots and not paused
-        if ((Time.time - timeSinceLastShot) >= gun.recoilDelay && Time.timeScale != 0)
+        if ((Time.time - timeSinceLastShot) >= gun.recoilDelay && Time.timeScale != 0 && canFire )
         {
             //player.armsScript.currentWeapon.Fire(player);
             return true;
@@ -201,22 +208,14 @@ public abstract class Guns : MonoBehaviour
         return false;
     }
 
-    //public IEnumerator VibrateOnShot(PlayerScript player, float time, float intensity)
-    //{
-    //    GamePad.SetVibration((PlayerIndex)player.controller.id, intensity, intensity);
-    //    yield return new WaitForSeconds(time);
-    //    GamePad.SetVibration((PlayerIndex)player.controller.id, 0, 0);
-
-    //}
-
     public void CheckForGunTimeout(PlayerScript player)
     {
-        if(player.armsScript.timeYouCanHoldGun <= 0)
-        {
-            player.armsScript.audioSource.PlayOneShot(player.armsScript.dryFire);
-            timeSinceLastShot = Time.time;
-            player.armsScript.EquipGun(ObjectPooler.Instance.defaultPistol, true);
-        }        
+        //if(player.armsScript.timeYouCanHoldGun <= 0)
+        //{
+        //    player.armsScript.audioSource.PlayOneShot(player.armsScript.dryFire);
+        //    timeSinceLastShot = Time.time;
+        //    player.armsScript.EquipGun(ObjectPooler.Instance.defaultPistol, true);
+        //}        
     }
 
 
