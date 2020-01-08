@@ -33,8 +33,6 @@ public class RoundManager : MonoBehaviour
 
     [HideInInspector]
     public int currentRound;
-    [HideInInspector]
-    public float timeSinceRoundStarted;
 
     public List<PlayerDataScript> playerDataList;
     public GameObject playerDataPrefab;
@@ -86,7 +84,6 @@ public class RoundManager : MonoBehaviour
         loading = true;
         loadingImage.fillAmount = 0;
         currentRound++;
-        timeSinceRoundStarted = 0;
 
         Time.timeScale = 1;
         ObjectPooler.Instance.ResetRound();
@@ -307,8 +304,7 @@ public class RoundManager : MonoBehaviour
         {
             loadingImage.gameObject.SetActive(false);
 
-            timeSinceRoundStarted += Time.deltaTime;
-
+           
         }
     }
 

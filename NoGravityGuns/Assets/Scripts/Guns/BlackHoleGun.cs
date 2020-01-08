@@ -22,7 +22,7 @@ public class BlackHoleGun : Guns
         }
         else
         {
-            CheckForAmmo(player);
+            CheckForGunTimeout(player);
         }        
     }
 }

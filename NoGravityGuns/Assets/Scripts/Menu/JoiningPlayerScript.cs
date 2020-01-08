@@ -6,7 +6,7 @@ using TMPro;
 using UnityEngine.InputSystem.Users;
 using UnityEngine.InputSystem.PlayerInput;
 using Rewired;
-
+using UnityEngine.SceneManagement;
 
 public struct PlayerControllerData
 {
@@ -64,18 +64,25 @@ public class JoiningPlayerScript : MonoBehaviour
 
     void Start()
     {
+        try
+        {
 
-        if (!RoundManager.Instance.finishedControllerSetup)
-        {
-            gameObject.SetActive(true);
-            AssignAllJoysticksToSystemPlayer(true);
+            if (!RoundManager.Instance.finishedControllerSetup)
+            {
+                gameObject.SetActive(true);
+                AssignAllJoysticksToSystemPlayer(true);
+            }
+            else
+            {
+                gameObject.SetActive(false);
+                //GameManager.Instance.StartGame();
+                if (RoundManager.Instance.currentRound == 0)
+                    RoundManager.Instance.NewRound(false);
+            }
         }
-        else
+        catch
         {
-            gameObject.SetActive(false);
-            //GameManager.Instance.StartGame();
-            if (RoundManager.Instance.currentRound == 0)
-                RoundManager.Instance.NewRound(false);
+            SceneManager.LoadScene("PersistentScene");
         }
 
     }
@@ -290,6 +297,11 @@ public class JoiningPlayerScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+        //if either of these things are null we can't proceed. probably broken from loading outside of persistent scene and will fix itself shortly :D
+        if (!GameManager.Instance || !RoundManager.Instance)
+            return;
+        
         if (!GameManager.Instance.isGameStarted && !RoundManager.Instance.finishedControllerSetup)
         {
             // Watch for JoinGame action in System Player

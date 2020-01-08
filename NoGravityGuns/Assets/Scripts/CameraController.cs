@@ -43,8 +43,11 @@ public class CameraController : MonoBehaviour
     LensDistortion lensDistortion;
     ChromaticAberration chromaticAbberation;
 
+    public bool setToMaxZoom;
+
     private void Awake()
     {
+        setToMaxZoom = false;
         players = new List<Transform>();
         mainCam = Camera.main;
         cameraShake = mainCam.GetComponent<CameraShake>();
@@ -83,8 +86,15 @@ public class CameraController : MonoBehaviour
 
     void Zoom()
     {
-        float newZoom = Mathf.Lerp(maxZoom, minZoom, GetGreatestDistance() / zoomLimit);
-        mainCam.fieldOfView = Mathf.Lerp(mainCam.fieldOfView, newZoom, Time.deltaTime * zoomSpeed);
+        if (setToMaxZoom)
+        {
+            mainCam.fieldOfView = Mathf.Lerp(mainCam.fieldOfView, zoomLimit, Time.deltaTime * zoomSpeed);
+        }
+        else
+        {
+            float newZoom = Mathf.Lerp(maxZoom, minZoom, GetGreatestDistance() / zoomLimit);
+            mainCam.fieldOfView = Mathf.Lerp(mainCam.fieldOfView, newZoom, Time.deltaTime * zoomSpeed);
+        }
     }
 
     Vector3 GetCenterPoint()
@@ -193,6 +203,9 @@ public class CameraController : MonoBehaviour
 
     IEnumerator HoldOnFinalBlow(Transform playerWhoWasHit, float t, PlayerScript.DamageType damageType, Guns gunWhoShotYou)
     {
+
+        setToMaxZoom = false;
+
         //store old data about who we were tracking, then clear who we are tracking and set only the hit player so we zoom in on them
         var lastPlayerStanding = players[0];
         Transform[] trackedPlayers = players.ToArray();

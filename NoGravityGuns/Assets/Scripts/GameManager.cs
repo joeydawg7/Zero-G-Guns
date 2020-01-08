@@ -34,6 +34,9 @@ public class GameManager : MonoBehaviour
     [HideInInspector]
     public float timer;
 
+    [HideInInspector]
+    public float timeSinceRoundStarted;
+
     public TextMeshProUGUI countdownText;
 
     [HideInInspector]
@@ -46,6 +49,9 @@ public class GameManager : MonoBehaviour
     public AudioSource audioSource;
 
     public bool ranFromPersistentScene = false;
+
+    [HideInInspector]
+    public bool stopTimer;
 
     #region Unused Sprite Storage
     //[Header("Red Sprites")]
@@ -125,6 +131,7 @@ public class GameManager : MonoBehaviour
         cameraController = FindObjectOfType<CameraController>();
         joiningPlayerScript = FindObjectOfType<JoiningPlayerScript>();
         EndGameScript = FindObjectOfType<EndGameScript>();
+        
 
     }
 
@@ -209,6 +216,7 @@ public class GameManager : MonoBehaviour
 
         countdownText.gameObject.SetActive(false);
         isGameStarted = true;
+        stopTimer = false;
     }
 
     //spawns GUI for every player in game
@@ -250,6 +258,11 @@ public class GameManager : MonoBehaviour
             isGameStarted = false;
             OnGameEnd();
         }
+
+
+        if (isGameStarted && !stopTimer)
+            timeSinceRoundStarted += Time.deltaTime;
+
     }
 
     public void OnGameEnd()

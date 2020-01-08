@@ -50,7 +50,7 @@ public class RPG : Guns
         }
         else
         {
-            CheckForAmmo(player);
+            CheckForGunTimeout(player);
         }
     }        
 
@@ -90,10 +90,10 @@ public class RPG : Guns
 
 
 
-        if (player.armsScript.currentAmmo < 1)
-        {
-            player.armsScript.EquipGun(GameManager.Instance.pistol, true);
-        }
+        //if (player.armsScript.currentAmmo < 1)
+        //{
+        //    player.armsScript.EquipGun(GameManager.Instance.pistol, true);
+        //}
       
     }
 

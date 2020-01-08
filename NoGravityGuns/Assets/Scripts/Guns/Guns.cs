@@ -10,6 +10,7 @@ public abstract class Guns : MonoBehaviour
     public int clipSize;
     [HideInInspector]
     public int numBullets;
+  //  public float time;
     public float recoilDelay;
     public int minDamageRange;
     public int maxDamageRange;
@@ -31,9 +32,12 @@ public abstract class Guns : MonoBehaviour
 
     public Sprite theGunSprite;
 
+    [HideInInspector]
+    public bool canFire;
+
     private void Start()
     {
-        numBullets = clipSize;        
+        numBullets = clipSize;
     }    
 
     public AudioClip GetRandomGunshotSFX
@@ -78,19 +82,24 @@ public abstract class Guns : MonoBehaviour
         yield return new WaitForSeconds(delayBeforeShot);
         KnockBack(player, player.knockbackMultiplier);
         player.armsScript.audioSource.PlayOneShot(GetRandomGunshotSFX);
-        SpawnBullet(player, bulletSpeed, minDamage, maxDamage);
+
+        if(timeSinceLastShot > recoilDelay)
+            SpawnBullet(player, bulletSpeed, minDamage, maxDamage);
     }
 
 
     public virtual void ReduceBullets(PlayerScript player)
     {
         player.armsScript.currentAmmo--;
-        if(player.armsScript.currentAmmo <= 0)
+
+        if (player.armsScript.currentAmmo <= 0)
         {
-            if(outOfAmmoSound != null)
+            if (outOfAmmoSound != null)
             {
                 player.armsScript.audioSource.PlayOneShot(outOfAmmoSound);
             }
+
+            //canFire = false;
             player.armsScript.EquipGun(GameManager.Instance.pistol, false);
         }
     }
@@ -162,7 +171,7 @@ public abstract class Guns : MonoBehaviour
     {
         ArmsScript arms = player.armsScript;
 
-        if (player.transform)
+        if (player.transform && arms.bulletSpawn)
         {
             player.rb.AddForce(-arms.bulletSpawn.transform.right * knockBack * knockBackModifier, ForceMode2D.Impulse);
         }
@@ -190,7 +199,7 @@ public abstract class Guns : MonoBehaviour
         //gotta have bullets to shoot
        
         //enough time has passed between shots and not paused
-        if ((Time.time - timeSinceLastShot) >= gun.recoilDelay && Time.timeScale != 0)
+        if ((Time.time - timeSinceLastShot) >= gun.recoilDelay && Time.timeScale != 0 && canFire )
         {
             //player.armsScript.currentWeapon.Fire(player);
             return true;
@@ -199,22 +208,15 @@ public abstract class Guns : MonoBehaviour
         return false;
     }
 
-    //public IEnumerator VibrateOnShot(PlayerScript player, float time, float intensity)
-    //{
-    //    GamePad.SetVibration((PlayerIndex)player.controller.id, intensity, intensity);
-    //    yield return new WaitForSeconds(time);
-    //    GamePad.SetVibration((PlayerIndex)player.controller.id, 0, 0);
-
-    //}
-
-    public void CheckForAmmo(PlayerScript player)
+    public void CheckForGunTimeout(PlayerScript player)
     {
-        if(player.armsScript.currentAmmo <= 0)
-        {
-            player.armsScript.audioSource.PlayOneShot(player.armsScript.dryFire);
-            timeSinceLastShot = Time.time;
-            player.armsScript.EquipGun(ObjectPooler.Instance.defaultPistol, true);
-        }        
+        //if(player.armsScript.timeYouCanHoldGun <= 0)
+        //{
+        //    player.armsScript.audioSource.PlayOneShot(player.armsScript.dryFire);
+        //    timeSinceLastShot = Time.time;
+        //    player.armsScript.EquipGun(ObjectPooler.Instance.defaultPistol, true);
+        //}        
     }
-   
+
+
 }

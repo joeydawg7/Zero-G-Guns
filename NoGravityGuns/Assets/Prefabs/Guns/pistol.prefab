@@ -188,7 +188,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 481b5d3b3cee44c4da98fddd60b75e28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  knockBack: 35
+  knockBack: 45
   clipSize: 30
   numBullets: 0
   recoilDelay: 0.5
@@ -207,8 +207,10 @@ MonoBehaviour:
   prefireSound: {fileID: 0}
   outOfAmmoSound: {fileID: 8300000, guid: d56d3ae5baabec943a0b3bb65f1c56cd, type: 3}
   timeSinceLastShot: -0.5
+  vibrateAmount: 0
   gunPrefab: {fileID: 4118771727991183230}
   theGunSprite: {fileID: 21300000, guid: 74d1a3583dfb628498a253223f1025ad, type: 3}
+  canFire: 1
   name: Pistol
   knockBackModifier: 0
   delayBeforeShot: 0

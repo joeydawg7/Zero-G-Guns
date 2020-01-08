@@ -26,7 +26,7 @@ public class Shotgun : Guns
         }
         else
         {
-            CheckForAmmo(player);
+            CheckForGunTimeout(player);
         }        
     }
 }

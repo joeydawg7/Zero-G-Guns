@@ -53,6 +53,7 @@ public class ArmsScript : MonoBehaviour
    // public float timeSinceLastShot;
     [HideInInspector]
     public Transform bulletSpawn;
+    //public float timeYouCanHoldGun;
 
     #endregion
 
@@ -67,6 +68,7 @@ public class ArmsScript : MonoBehaviour
     Vector3 dir;
     GameManager gameManager;
     int totalBulletsGunCanLoad;
+    
     LimbSolver2D IKLimbSolver;
     bool flipped = false;
 
@@ -84,14 +86,14 @@ public class ArmsScript : MonoBehaviour
         facing = transform.rotation;
         if(currentWeapon)
         {
-            currentAmmo = currentWeapon.clipSize;
+            //timeYouCanHoldGun = currentWeapon.time;
         }
         else
         {
-            EquipGun(ObjectPooler.Instance.defaultPistol);           
+            //EquipGun(ObjectPooler.Instance.defaultPistol);           
         }
-        
-        totalBulletsGunCanLoad = currentWeapon.numBullets;
+
+        //timeYouCanHoldGun = currentWeapon.time;
 
         audioSource = GetComponent<AudioSource>();
 
@@ -129,6 +131,12 @@ public class ArmsScript : MonoBehaviour
                 //AimController();
                 //OnReload();
                 ShootController();
+
+                //if(currentWeapon != GameManager.Instance.pistol)
+                //{
+                //    ReduceTimeToHoldGun();
+                //}
+
             }
         }
     }
@@ -261,10 +269,12 @@ public class ArmsScript : MonoBehaviour
         else
         {
             weaponToEquip.timeSinceLastShot = Time.time +weaponToEquip.recoilDelay;
-        }            
+        }
+
 
         //delays the swapping of weapons so player will hold the old weapon for as long as the recoilDelay on the gun is before switching.
         EquipGun(weaponToEquip);
+
 
     }
 
@@ -288,7 +298,7 @@ public class ArmsScript : MonoBehaviour
 
             //set weapon and bullet stats for new gun
             currentWeapon = gunGo.GetComponent<Guns>();
-            totalBulletsGunCanLoad = weaponToEquip.numBullets;
+            //timeYouCanHoldGun = weaponToEquip.time;
             currentAmmo = weaponToEquip.clipSize;
 
             isReloading = false;
@@ -296,6 +306,16 @@ public class ArmsScript : MonoBehaviour
             //find the new bulelt spawn location (bleh)
             bulletSpawn = gunGo.transform.Find("BulletSpawner");
             weaponToEquip.timeSinceLastShot = -weaponToEquip.recoilDelay;
+            currentWeapon.canFire = true;
+
+            //if (basePlayer)
+            //{
+            //    if (weaponToEquip == GameManager.Instance.pistol)
+            //        basePlayer.playerCanvasScript.ShowGunTimer();
+            //    else
+            //        basePlayer.playerCanvasScript.HideGunTimer();
+            //}
+
         }       
     }
 
@@ -328,13 +348,20 @@ public class ArmsScript : MonoBehaviour
         currentWeapon.Fire(basePlayer);       
     }
 
+    //void ReduceTimeToHoldGun()
+    //{
+    //    timeYouCanHoldGun -= Time.deltaTime;
+
+    //    currentWeapon.CheckForGunTimeout(basePlayer);
+    //}
 
     #endregion
 
     #region UIStuff
     public string AmmoText()
     {
-        return currentAmmo + "/" + currentWeapon.clipSize + " (" + ((totalBulletsGunCanLoad < 2000) ? totalBulletsGunCanLoad.ToString() : "\u221E") + ")";
+        // return currentAmmo + "/" + currentWeapon.clipSize + " (" + ((totalBulletsGunCanLoad < 2000) ? totalBulletsGunCanLoad.ToString() : "\u221E") + ")";
+        return "";
     }
 
     //public void SendGunText()

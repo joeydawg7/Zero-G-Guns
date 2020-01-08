@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour, IPooledObject
 {
-    protected float damage;
+    [HideInInspector]
+    public float damage;
 
     [HideInInspector]
     public PlayerScript player;
@@ -111,16 +112,6 @@ public class Bullet : MonoBehaviour, IPooledObject
             //we've hit something that isnt a bullet, or the player that shot the original bullet
             if (collision.collider.tag != "Bullet" || collision.collider.GetComponent<Bullet>().player.playerID != player.playerID)
             {
-
-                ExplosiveObjectScript explosiveObjectScript = collision.collider.gameObject.GetComponent<ExplosiveObjectScript>();
-
-                if (explosiveObjectScript != null)
-                {
-                    if (explosiveObjectScript != null && damage > 0)
-                    {
-                        explosiveObjectScript.DamageExplosiveObject(damage, player);
-                    }
-                }
 
                 //default damage type is nothing, we don't know what we hit yet.
                 PlayerScript.DamageType dmgType = DamageBodyParts(collision);
