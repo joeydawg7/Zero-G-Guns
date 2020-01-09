@@ -15,6 +15,8 @@ public class RoundManager : MonoBehaviour
     [Header("DEBUG")]
     public DebugManager debugManager;
     public RoomSO debugStayOnThisScene;
+    public bool multiPlayer;
+    public bool singlePlayer;
     [Header("----------")]
 
 
@@ -27,7 +29,52 @@ public class RoundManager : MonoBehaviour
 
     Animator newRoundTextAnimator;
 
-    public List<RoomSO> rooms;
+    private List<RoomSO> activeRooms;
+    public List<RoomSO> ActiveRooms
+    {
+        get
+        {
+            var tempRooms = new List<RoomSO>();
+            if (GameManager.Instance != null)
+            {
+                if (GameModeFlag.Instance.MultiPlayer == true)
+                {
+                    tempRooms = arenaRooms;
+                }
+                if (GameModeFlag.Instance.MultiPlayer == false)
+                {
+                    tempRooms = timedRooms;
+                }
+            }            
+            else
+            {                
+                if (multiPlayer)
+                {
+                    tempRooms = arenaRooms;
+                }
+
+                if (singlePlayer)
+                {
+                    tempRooms = timedRooms;
+                }
+
+                if ((multiPlayer && singlePlayer) || (!multiPlayer && !singlePlayer))
+                {
+                    Debug.Log("MULTIPLAYER AND/OR SINGLE PLAYER NOT SET PROPER ITS ALL RANDOM NOW");
+                    tempRooms.AddRange(arenaRooms);
+                    tempRooms.AddRange(timedRooms);
+                }               
+            }
+            return tempRooms;
+        }
+        set
+        {
+            activeRooms = new List<RoomSO>();
+            activeRooms = value;
+        }
+    }
+    public List<RoomSO> arenaRooms;
+    public List<RoomSO> timedRooms;
 
     public bool finishedControllerSetup;
 
@@ -42,7 +89,7 @@ public class RoundManager : MonoBehaviour
     public GlobalPlayerSettingsSO globalPlayerSettings;
     public GameObject playerCanvas;
     public RoundEndCanvasScript roundEndCanvasScript;
-    JoiningPlayerScript joiningPlayerScript;
+    JoiningPlayerScript joiningPlayerScript;    
 
     private void Awake()
     {
@@ -54,7 +101,11 @@ public class RoundManager : MonoBehaviour
         {
             _instance = this;
 
-            foreach (var room in rooms)
+          
+                
+           
+           
+            foreach (var room in this.ActiveRooms)
             {
                 room.isPlayable = true;
             }
@@ -116,7 +167,7 @@ public class RoundManager : MonoBehaviour
         while (nextRoom == null)
         {
             //make a list of all possible rooms we could go to that are playable
-            foreach (var room in rooms)
+            foreach (var room in this.ActiveRooms)
             {
                 if (room.isPlayable)
                 {
@@ -130,7 +181,7 @@ public class RoundManager : MonoBehaviour
             //if our list has no playable rooms make everything playable
             if (tempRooms.Count < 1)
             {
-                foreach (var room in rooms)
+                foreach (var room in this.ActiveRooms)
                 {
                     room.isPlayable = true;
                 }
@@ -163,11 +214,11 @@ public class RoundManager : MonoBehaviour
             lvl = debugStayOnThisScene.sceneName;
 
             //figure out which room we are in an set that as the real next room 
-            for (int i = 0; i < rooms.Count; i++)
+            for (int i = 0; i < this.ActiveRooms.Count; i++)
             {
-                if (rooms[i].sceneName == lvl)
+                if (this.ActiveRooms[i].sceneName == lvl)
                 {
-                    nextRoom = rooms[i];
+                    nextRoom = this.ActiveRooms[i];
                     break;
                 }
             }

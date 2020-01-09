@@ -81,10 +81,37 @@ public class MenuBtnController : MonoBehaviour, ISelectHandler, IDeselectHandler
         switch (button)
         {
             case "TrainingBtn":
-                SceneManager.LoadScene("BreakTheShit");
+                if (RoundManager.Instance == null)
+                {
+                    Debug.Log("Click, Round Manger Null");
+                    GameModeFlag.Instance.MultiPlayer = false;
+                    Debug.Log("FlagSet");
+                    SceneManager.LoadScene("PersistentScene");
+                   
+                }
+                else
+                {
+                    Debug.Log("Click, HAS Round Manger");
+                    GameModeFlag.Instance.MultiPlayer = false;
+                    RoundManager.Instance.NewRound(true);
+                }
                 break;
             case "ArenaBtn":
-                SceneManager.LoadScene("PersistentScene");
+                if(RoundManager.Instance == null)
+                {
+                    Debug.Log("Click, Round Manger Null");
+                    GameModeFlag.Instance.MultiPlayer = true;
+                    Debug.Log("FlagSet");
+                    SceneManager.LoadScene("PersistentScene");
+                }
+                else
+                {
+                    Debug.Log("Click, HAS Round Manger");
+                    GameModeFlag.Instance.MultiPlayer = true;
+                    Debug.Log("FlagSet");
+                    RoundManager.Instance.NewRound(true);
+                }
+                
                 break;
             case "OptionsBtn":
                 //options

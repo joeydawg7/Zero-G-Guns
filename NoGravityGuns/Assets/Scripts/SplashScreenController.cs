@@ -12,8 +12,8 @@ public class SplashScreenController : MonoBehaviour
     private bool devilsCiderLogoPlayed;
     private bool controllerRequiredInPosition;
     private float logoTrans;
+
     
-   
 
     private Vector3 startPosition;
     private Vector3 endPosition;
@@ -23,7 +23,9 @@ public class SplashScreenController : MonoBehaviour
     public GameObject loadingRing;
     public GameObject mainMenu;
     public Button trainingBtn;
-    
+    public AudioSource soundSource;
+    public AudioClip[] sounds;
+
     private bool starting;
     
     // Start is called before the first frame update
@@ -47,13 +49,17 @@ public class SplashScreenController : MonoBehaviour
    public void OpenStartMenu()
     {
         mainMenu.SetActive(true);
+        soundSource.Stop();
+        soundSource.PlayOneShot(sounds[2]);
         trainingBtn.Select();
     }
 
    IEnumerator FadeInLogo()
    {
-        while(logoTrans < 1.0f)
-        {
+
+        soundSource.PlayOneShot(sounds[0]);
+        while (logoTrans < 1.0f)
+        {            
             logo.color = Color.Lerp(new Color(1.0f, 1.0f, 1.0f, 0.0f), new Color(1.0f, 1.0f, 1.0f, 1.0f), logoTrans);
             logoTrans += Time.deltaTime;
             yield return null;
@@ -66,13 +72,16 @@ public class SplashScreenController : MonoBehaviour
             yield return null;
         }
         float t = 0.0f;
-        while (t < 1.0f)
+        soundSource.Stop();
+        soundSource.PlayOneShot(sounds[1]);
+        while (t < 0.5f)
         {
-            bulletCanvas.transform.position = Vector3.Lerp(startPosition, endPosition, t);
+            bulletCanvas.transform.position = Vector3.Lerp(startPosition, endPosition, t*2.0f);
             t += Time.deltaTime;
             yield return null;
         }
         yield return new WaitForSeconds(1.0f);
+        soundSource.Stop();
         //pressAText.enabled = true;    
         //pressAEnabled = true;
         bulletCanvas.gameObject.SetActive(false);

@@ -46,6 +46,8 @@ public class JoiningPlayerScript : MonoBehaviour
     Dictionary<int, PlayerControllerData> playerControllerDataDictionary;
 
     public GameObject playerCanvas;
+    private float holdTimer;
+    public Image backIndecator;
 
     private void Awake()
     {
@@ -58,7 +60,8 @@ public class JoiningPlayerScript : MonoBehaviour
         ReInput.ControllerConnectedEvent += OnControllerConnected;
         ReInput.ControllerPreDisconnectEvent += OnControllerDisConnected;
 
-        playerControllerDataDictionary = new Dictionary<int, PlayerControllerData>();
+        playerControllerDataDictionary = new Dictionary<int, PlayerControllerData>();        
+        holdTimer = 0;
 
     }
 
@@ -79,6 +82,7 @@ public class JoiningPlayerScript : MonoBehaviour
                 if (RoundManager.Instance.currentRound == 0)
                     RoundManager.Instance.NewRound(false);
             }
+           
         }
         catch
         {
@@ -178,8 +182,25 @@ public class JoiningPlayerScript : MonoBehaviour
                 //Debug.Log("Assigned " + joystick.name + " " + joystick.id + " to Player " + player.descriptiveName);
             }
 
-
-            tipToStart.alpha = 1;
+            if (GameModeFlag.Instance)
+            {
+                if (GameModeFlag.Instance.MultiPlayer)
+                {
+                    if (assignedControls.Count > 1)
+                    {
+                        tipToStart.alpha = 1;
+                    }                        
+                }
+                else
+                {
+                    tipToStart.alpha = 1;
+                }
+            }
+            else
+            {
+                tipToStart.alpha = 1;
+            }
+            
 
         }
     }
@@ -251,7 +272,7 @@ public class JoiningPlayerScript : MonoBehaviour
         playerControllerDataDictionary.Remove(joystick.id);
 
         Debug.Log("Removed " + joystick.name + " from Player " + joystick.id);
-
+       
         if (assignedControls.Count < 1)
             tipToStart.alpha = 0;
     }
@@ -270,25 +291,51 @@ public class JoiningPlayerScript : MonoBehaviour
     void StartButtonPressed()
     {
         //start game for real on a new round with start over = false
-        if (assignedControls.Count >= 2)
+        if(GameModeFlag.Instance)
         {
-            ReInput.players.SystemPlayer.controllers.ClearAllControllers();
-            GameManager.Instance.StartGame();
-            RoundManager.Instance.finishedControllerSetup = true;
-            RoundManager.Instance.NewRound(false);
+            if (GameModeFlag.Instance.MultiPlayer)
+            {
+                if (assignedControls.Count >= 2)
+                {
+                    ReInput.players.SystemPlayer.controllers.ClearAllControllers();
+                    GameManager.Instance.StartGame();
+                    RoundManager.Instance.finishedControllerSetup = true;
+                    RoundManager.Instance.NewRound(false);
 
+                }
+            }
+            else
+            {
+                if (assignedControls.Count >= 1)
+                {
+                    ReInput.players.SystemPlayer.controllers.ClearAllControllers();
+                    GameManager.Instance.StartGame();
+                    RoundManager.Instance.finishedControllerSetup = true;
+                    RoundManager.Instance.NewRound(false);
+                }
+            }
         }
-        else if (GameManager.Instance.debugManager.useDebugSettings)
+        else
         {
-            //allow single player for testing
-            if (assignedControls.Count >= 1)
+            if (assignedControls.Count >= 2)
             {
                 ReInput.players.SystemPlayer.controllers.ClearAllControllers();
                 GameManager.Instance.StartGame();
                 RoundManager.Instance.finishedControllerSetup = true;
                 RoundManager.Instance.NewRound(false);
             }
-        }
+            else if (GameManager.Instance.debugManager.useDebugSettings)
+            {
+                //allow single player for testing
+                if (assignedControls.Count >= 1)
+                {
+                    ReInput.players.SystemPlayer.controllers.ClearAllControllers();
+                    GameManager.Instance.StartGame();
+                    RoundManager.Instance.finishedControllerSetup = true;
+                    RoundManager.Instance.NewRound(false);
+                }
+            }
+        }      
 
         tipToStart.alpha = 0;
     }
@@ -320,12 +367,32 @@ public class JoiningPlayerScript : MonoBehaviour
                 RemoveNextPlayer();
             }
         }
+
+        if(this.gameObject.activeInHierarchy)
+        {
+            if (ReInput.players.GetSystemPlayer().GetButtonTimedPressDown("Drop", 1.0f))
+            {
+                holdTimer = 0;
+                SceneManager.LoadScene(0);
+            }
+
+            if (ReInput.players.GetSystemPlayer().GetButton("Drop"))
+            {
+                holdTimer += Time.deltaTime;
+            }
+
+            if (ReInput.players.GetSystemPlayer().GetButtonUp("Drop"))
+            {
+                holdTimer = 0;
+            }
+
+            backIndecator.fillAmount = holdTimer;
+        }        
     }
 
 
     public void OnGameStart()
     {
-
         //Debug.Log(playerControllerDataDictionary.Count);
 
         foreach (var pCdataDic in playerControllerDataDictionary)
@@ -337,5 +404,7 @@ public class JoiningPlayerScript : MonoBehaviour
 
         gameObject.SetActive(false);
     }
+
+    
 
 }
