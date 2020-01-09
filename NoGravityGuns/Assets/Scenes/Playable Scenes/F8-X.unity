@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
+  m_IndirectSpecularColor: {r: 0.37311947, g: 0.38074005, b: 0.35872722, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -980,7 +980,23 @@ PrefabInstance:
       propertyPath: m_Color.b
       value: 0.17568529
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5494411202923321526, guid: 34d2a469b51221246bacb17c7de8d34f, type: 3}
+    - {fileID: 3583728476447364549, guid: 34d2a469b51221246bacb17c7de8d34f, type: 3}
+    - {fileID: 122674294449615467, guid: 34d2a469b51221246bacb17c7de8d34f, type: 3}
+    - {fileID: 1547171854466188946, guid: 34d2a469b51221246bacb17c7de8d34f, type: 3}
+    - {fileID: 8937741901359639065, guid: 34d2a469b51221246bacb17c7de8d34f, type: 3}
+    - {fileID: 7100789901396012519, guid: 34d2a469b51221246bacb17c7de8d34f, type: 3}
+    - {fileID: 7427104296471375287, guid: 34d2a469b51221246bacb17c7de8d34f, type: 3}
+    - {fileID: 1777497153222023531, guid: 34d2a469b51221246bacb17c7de8d34f, type: 3}
+    - {fileID: 4487582154366152663, guid: 34d2a469b51221246bacb17c7de8d34f, type: 3}
+    - {fileID: 5606124252995508065, guid: 34d2a469b51221246bacb17c7de8d34f, type: 3}
+    - {fileID: 6497268887337717289, guid: 34d2a469b51221246bacb17c7de8d34f, type: 3}
+    - {fileID: 978055664277828058, guid: 34d2a469b51221246bacb17c7de8d34f, type: 3}
+    - {fileID: 8435835183322605535, guid: 34d2a469b51221246bacb17c7de8d34f, type: 3}
+    - {fileID: 4254191043253582746, guid: 34d2a469b51221246bacb17c7de8d34f, type: 3}
+    - {fileID: 2613575962854352670, guid: 34d2a469b51221246bacb17c7de8d34f, type: 3}
+    - {fileID: 8189798158737806243, guid: 34d2a469b51221246bacb17c7de8d34f, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 34d2a469b51221246bacb17c7de8d34f, type: 3}
 --- !u!4 &249885053 stripped
 Transform:
@@ -3770,6 +3786,86 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1086121174}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1111957360
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1111957362}
+  - component: {fileID: 1111957361}
+  m_Layer: 0
+  m_Name: russia
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!212 &1111957361
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1111957360}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 10
+  m_Sprite: {fileID: 21300000, guid: 99f09709abfd002499157f3ba5b95b6b, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 25, y: 20.483398}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
+--- !u!4 &1111957362
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1111957360}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -6.2, y: -1.1, z: 0}
+  m_LocalScale: {x: 11.56379, y: 11.56379, z: 11.563791}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 15
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1158261722
 PrefabInstance:
   m_ObjectHideFlags: 0
