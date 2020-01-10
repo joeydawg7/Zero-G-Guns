@@ -83,7 +83,7 @@ public class RoundManager : MonoBehaviour
 
     public List<PlayerDataScript> playerDataList;
     public GameObject playerDataPrefab;
-    public Image loadingImage;
+    
     public GameObject persistentCanvas;
 
     public GlobalPlayerSettingsSO globalPlayerSettings;
@@ -116,7 +116,7 @@ public class RoundManager : MonoBehaviour
         finishedControllerSetup = false;
 
         currentRound = 0;
-        loadingImage.gameObject.SetActive(false);
+        
 
         Cursor.visible = false;
 
@@ -131,9 +131,10 @@ public class RoundManager : MonoBehaviour
 
     public void NewRound(bool startOver)
     {
+        LoadingBar.Instance.StopLoadingBar();
         Debug.Log("starting new round");
         loading = true;
-        loadingImage.fillAmount = 0;
+        
         currentRound++;
 
         Time.timeScale = 1;
@@ -153,7 +154,6 @@ public class RoundManager : MonoBehaviour
 
                 playerDataList.Clear();
             }
-
         }
 
         //TODO: only grab from a list of playable rooms so player can check off maps they dont want to play
@@ -205,7 +205,7 @@ public class RoundManager : MonoBehaviour
 
     IEnumerator AddLevel(string lvl, RoomSO nextRoom, bool startOver)
     {
-        loadingImage.gameObject.SetActive(true);
+        
 
 
         //DEBUG: use original scene
@@ -338,25 +338,7 @@ public class RoundManager : MonoBehaviour
 
     private void Update()
     {
-
-        //spins a fun lil' loading spinner
-        if (loading)
-        {
-            loadingImage.fillAmount += Time.deltaTime;
-
-            if (loadingImage.fillAmount >= 1)
-            {
-                loadingImage.fillAmount = 0;
-                loading = false;
-            }
-
-        }
-        else
-        {
-            loadingImage.gameObject.SetActive(false);
-
-           
-        }
+        //spins a fun lil' loading spinner       
     }
 
 

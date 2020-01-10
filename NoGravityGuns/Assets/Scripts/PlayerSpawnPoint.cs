@@ -29,7 +29,7 @@ public class PlayerSpawnPoint : MonoBehaviour
 
         Gizmos.DrawCube(transform.position, cubeSize);
 #endif
-    }
+    }    
 
     //public void SetCharacter(int IDToSpawn, Controller controller)
     //{

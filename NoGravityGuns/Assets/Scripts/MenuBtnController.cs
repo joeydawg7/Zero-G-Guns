@@ -86,7 +86,8 @@ public class MenuBtnController : MonoBehaviour, ISelectHandler, IDeselectHandler
                     Debug.Log("Click, Round Manger Null");
                     GameModeFlag.Instance.MultiPlayer = false;
                     Debug.Log("FlagSet");
-                    SceneManager.LoadScene("PersistentScene");
+                    SceneManager.LoadSceneAsync("PersistentScene", LoadSceneMode.Single);
+                    LoadingBar.Instance.StartLoadingBar();
                    
                 }
                 else
@@ -94,6 +95,7 @@ public class MenuBtnController : MonoBehaviour, ISelectHandler, IDeselectHandler
                     Debug.Log("Click, HAS Round Manger");
                     GameModeFlag.Instance.MultiPlayer = false;
                     RoundManager.Instance.NewRound(true);
+                    LoadingBar.Instance.StartLoadingBar();
                 }
                 break;
             case "ArenaBtn":
@@ -101,8 +103,9 @@ public class MenuBtnController : MonoBehaviour, ISelectHandler, IDeselectHandler
                 {
                     Debug.Log("Click, Round Manger Null");
                     GameModeFlag.Instance.MultiPlayer = true;
-                    Debug.Log("FlagSet");
-                    SceneManager.LoadScene("PersistentScene");
+                    Debug.Log("FlagSet");                    
+                    SceneManager.LoadSceneAsync("PersistentScene", LoadSceneMode.Single);
+                    LoadingBar.Instance.StartLoadingBar();
                 }
                 else
                 {
@@ -110,6 +113,7 @@ public class MenuBtnController : MonoBehaviour, ISelectHandler, IDeselectHandler
                     GameModeFlag.Instance.MultiPlayer = true;
                     Debug.Log("FlagSet");
                     RoundManager.Instance.NewRound(true);
+                    LoadingBar.Instance.StartLoadingBar();
                 }
                 
                 break;

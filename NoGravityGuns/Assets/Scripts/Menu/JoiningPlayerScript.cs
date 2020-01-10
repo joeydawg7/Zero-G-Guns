@@ -86,7 +86,8 @@ public class JoiningPlayerScript : MonoBehaviour
         }
         catch
         {
-            SceneManager.LoadScene("PersistentScene");
+            SceneManager.LoadSceneAsync("PersistentScene", LoadSceneMode.Single);
+            LoadingBar.Instance.StartLoadingBar();
         }
 
     }
@@ -373,7 +374,8 @@ public class JoiningPlayerScript : MonoBehaviour
             if (ReInput.players.GetSystemPlayer().GetButtonTimedPressDown("Drop", 1.0f))
             {
                 holdTimer = 0;
-                SceneManager.LoadScene(0);
+                SceneManager.LoadSceneAsync(0,LoadSceneMode.Single);
+                LoadingBar.Instance.StartLoadingBar();
             }
 
             if (ReInput.players.GetSystemPlayer().GetButton("Drop"))

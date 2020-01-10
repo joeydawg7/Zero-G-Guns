@@ -733,6 +733,7 @@ public class PlayerScript : MonoBehaviour
 
     public void OnGameStart()
     {
+        LoadingBar.Instance.StopLoadingBar();
         health = 100;
         float barVal = ((float)health / 100f);
         playerCanvasScript.setHealth(barVal);
