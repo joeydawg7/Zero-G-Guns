@@ -97,7 +97,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 0
+  m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -970,6 +970,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2164500791341123796, guid: e9829905d64e5c34f80bd110a3cd6d9d,
+        type: 3}
+      propertyPath: levelSongs.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2164500791341123796, guid: e9829905d64e5c34f80bd110a3cd6d9d,
+        type: 3}
+      propertyPath: levelSongs.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: 9395e0fba0c65e144a24ad980faef557, type: 3}
+    - target: {fileID: 2164500791341123796, guid: e9829905d64e5c34f80bd110a3cd6d9d,
+        type: 3}
+      propertyPath: levelSongs.Array.data[1]
+      value: 
+      objectReference: {fileID: 8300000, guid: 8460d9356c5199a479de0f215f56b015, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e9829905d64e5c34f80bd110a3cd6d9d, type: 3}
 --- !u!224 &1182993878 stripped

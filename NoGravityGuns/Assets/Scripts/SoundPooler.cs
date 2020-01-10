@@ -10,6 +10,7 @@ public class SoundPooler : MonoBehaviour
     public int numSourcesToSpawn;
     public GameObject audioSourceObject;
     List<AudioSource> audioSources;
+    public List<AudioClip> levelSongs;
 
     private void Awake()
     {

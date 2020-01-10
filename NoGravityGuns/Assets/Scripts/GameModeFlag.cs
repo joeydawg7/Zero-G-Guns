@@ -9,6 +9,7 @@ public class GameModeFlag : MonoBehaviour
     public static GameModeFlag Instance { get { return _instance; } }
     #endregion
 
+    private AudioSource music;
     private bool multiPlayer;
     public bool MultiPlayer { get; set; }
 
@@ -23,5 +24,24 @@ public class GameModeFlag : MonoBehaviour
             _instance = this;
             DontDestroyOnLoad(gameObject);
         }
+        music = this.gameObject.GetComponent<AudioSource>();
+    }
+
+    public void PlayMusic()
+    {
+        if(music)
+        {
+            if(music.clip)
+            {
+                music.Stop();
+                music.Play();
+            }
+        }
+    }
+
+    public void SetMusicClip(AudioClip song)
+    {
+        music.Stop();
+        music.clip = song;
     }
 }

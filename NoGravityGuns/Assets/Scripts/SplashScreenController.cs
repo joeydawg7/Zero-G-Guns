@@ -50,7 +50,7 @@ public class SplashScreenController : MonoBehaviour
     {
         mainMenu.SetActive(true);
         soundSource.Stop();
-        soundSource.PlayOneShot(sounds[2]);
+        GameModeFlag.Instance.PlayMusic();
         trainingBtn.Select();
     }
 

@@ -141,6 +141,7 @@ public class RoundManager : MonoBehaviour
 
         if (startOver)
         {
+            GameModeFlag.Instance.SetMusicClip(SoundPooler.Instance.levelSongs[0]);
             currentRound = 0;
             finishedControllerSetup = false;
 
@@ -152,8 +153,14 @@ public class RoundManager : MonoBehaviour
                 }
 
                 playerDataList.Clear();
+                GameModeFlag.Instance.PlayMusic();
             }
 
+        }
+        else
+        {
+            GameModeFlag.Instance.SetMusicClip(SoundPooler.Instance.levelSongs[1]);
+            GameModeFlag.Instance.PlayMusic();
         }
 
         //TODO: only grab from a list of playable rooms so player can check off maps they dont want to play
