@@ -8,12 +8,9 @@ using UnityEngine.SceneManagement;
 
 public class SplashScreenController : MonoBehaviour
 {
-
     private bool devilsCiderLogoPlayed;
     private bool controllerRequiredInPosition;
-    private float logoTrans;
-
-    
+    private float logoTrans;    
 
     private Vector3 startPosition;
     private Vector3 endPosition;
@@ -43,7 +40,9 @@ public class SplashScreenController : MonoBehaviour
         else
         {
             OpenStartMenu();
-        }            
+        }
+
+        LoadingBar.Instance.StopLoadingBar();
     }
 
    public void OpenStartMenu()
@@ -86,7 +85,5 @@ public class SplashScreenController : MonoBehaviour
         //pressAEnabled = true;
         bulletCanvas.gameObject.SetActive(false);
         OpenStartMenu();
-   }   
-    
-    
+   }      
 }
