@@ -9,11 +9,15 @@ public class MenuBtnController : MonoBehaviour, ISelectHandler, IDeselectHandler
 {
     private bool selected;
     float timer = 0.0f;
-    private Button thisButton;    
+    private Button thisButton;
+    private MenuBtnSpriteHolder sprt;
+    private Image thisImage;
     // Start is called before the first frame update
     void Start()
     {
-        if(this.gameObject.name != "TrainingBtn")
+        sprt = this.gameObject.GetComponent<MenuBtnSpriteHolder>();
+        thisImage = this.gameObject.GetComponent<Image>();
+        if(this.gameObject.name != "ArenaBtn")
         {
             selected = false;
         }          
@@ -28,17 +32,17 @@ public class MenuBtnController : MonoBehaviour, ISelectHandler, IDeselectHandler
         { 
             if (timer < 0.25f)
             {
-                if(this.gameObject.GetComponentInChildren<TMPro.TextMeshProUGUI>().color != new Color(1.0f, 1.0f, 1.0f, 1.0f))
-                {
-                    this.gameObject.GetComponentInChildren<TMPro.TextMeshProUGUI>().color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
+                if(thisImage.sprite.name != sprt.activeSprite.name)
+                {                   
+                    thisImage.sprite = sprt.activeSprite;
                 }                
             }
             else
-            {
-                if(this.gameObject.GetComponentInChildren<TMPro.TextMeshProUGUI>().color != new Color(1.0f, 1.0f, 1.0f, 0.0f))
-                {
-                    this.gameObject.GetComponentInChildren<TMPro.TextMeshProUGUI>().color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
-                }                
+            {               
+                if (thisImage.sprite.name != sprt.inActiveSprite.name)
+                {                   
+                    thisImage.sprite = sprt.inActiveSprite;
+                }
             }
 
             if (timer > 0.5f)
@@ -46,34 +50,27 @@ public class MenuBtnController : MonoBehaviour, ISelectHandler, IDeselectHandler
                 timer = 0.0f;
             }
             timer += Time.deltaTime;            
-        }
-        else
-        {
-            if(this.gameObject.GetComponentInChildren<TMPro.TextMeshProUGUI>().color != new Color(1.0f, 1.0f, 1.0f, 1.0f))
-            {
-                this.gameObject.GetComponentInChildren<TMPro.TextMeshProUGUI>().color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
-            }            
-            if(timer!=0.0f)
-            {
-                timer = 0.0f;
-            }
-            
-        }
+        }       
     }
 
     public void OnSelect(BaseEventData eventData)
-    {
-       
-        selected = true;
-            
+    {  
+        if(!selected)
+        {
+            selected = true;
+        }
+                    
     }
 
    public void OnDeselect(BaseEventData data)
-   {
-       
-       selected = false;
-      
-   }
+   {   
+        if(selected)
+        {
+            selected = false;
+            thisImage.sprite = sprt.inActiveSprite;
+            timer = 0.0f;
+        }       
+    }
     
     public void ThisOnClick()
     {

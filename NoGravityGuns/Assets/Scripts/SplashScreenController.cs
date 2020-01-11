@@ -16,10 +16,9 @@ public class SplashScreenController : MonoBehaviour
     private Vector3 endPosition;
 
     public Image logo;
-    public RectTransform bulletCanvas;    
-    public GameObject loadingRing;
+    public RectTransform bulletCanvas;       
     public GameObject mainMenu;
-    public Button trainingBtn;
+    public Button arenaBtn;
     public AudioSource soundSource;
     public AudioClip[] sounds;
 
@@ -50,7 +49,7 @@ public class SplashScreenController : MonoBehaviour
         mainMenu.SetActive(true);
         soundSource.Stop();
         GameModeFlag.Instance.PlayMusic();
-        trainingBtn.Select();
+        arenaBtn.Select();
     }
 
    IEnumerator FadeInLogo()

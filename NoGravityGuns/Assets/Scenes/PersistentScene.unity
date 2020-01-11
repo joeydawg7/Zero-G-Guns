@@ -97,7 +97,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -806,13 +806,13 @@ PrefabInstance:
     - target: {fileID: 2181779809021178793, guid: 03b570c18870f384c992d818d6c5581e,
         type: 3}
       propertyPath: timedRooms.Array.size
-      value: 2
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 2181779809021178793, guid: 03b570c18870f384c992d818d6c5581e,
         type: 3}
       propertyPath: loadingImage
       value: 
-      objectReference: {fileID: 2063549409}
+      objectReference: {fileID: 0}
     - target: {fileID: 2181779809021178793, guid: 03b570c18870f384c992d818d6c5581e,
         type: 3}
       propertyPath: persistentCanvas
@@ -893,13 +893,25 @@ PrefabInstance:
         type: 3}
       propertyPath: timedRooms.Array.data[0]
       value: 
-      objectReference: {fileID: 11400000, guid: ed0cb85bbf427fc45a60b8bd25c482ba,
+      objectReference: {fileID: 11400000, guid: 10ff91518d915a648a6b4d2cadf72dfb,
         type: 2}
     - target: {fileID: 2181779809021178793, guid: 03b570c18870f384c992d818d6c5581e,
         type: 3}
       propertyPath: timedRooms.Array.data[1]
       value: 
       objectReference: {fileID: 11400000, guid: 04db4436eb3258842b0b86e267b0fd92,
+        type: 2}
+    - target: {fileID: 2181779809021178793, guid: 03b570c18870f384c992d818d6c5581e,
+        type: 3}
+      propertyPath: timedRooms.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: 131334bb86434104d80de626efc38d17,
+        type: 2}
+    - target: {fileID: 2181779809021178793, guid: 03b570c18870f384c992d818d6c5581e,
+        type: 3}
+      propertyPath: timedRooms.Array.data[3]
+      value: 
+      objectReference: {fileID: 11400000, guid: 14c9e510f608bc8459b80cca5a3869ad,
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 03b570c18870f384c992d818d6c5581e, type: 3}
@@ -1876,17 +1888,5 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 058cba836c1846c3aa1c5fd2e28aea77, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &2063549409 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8469620016923445729, guid: 5f9a7b3882159b848a3afddda6958eb5,
-    type: 3}
-  m_PrefabInstance: {fileID: 2063549406}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
