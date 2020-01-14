@@ -37,7 +37,7 @@ public class BounceShot : Bullet
                 {
                     if (explosiveObjectScript != null && damage > 0)
                     {
-                        explosiveObjectScript.DamageExplosiveObject(damage, player);
+                        explosiveObjectScript.DamageExplosiveObject(damage, player, collision.transform.position);
                     }
                 }
 

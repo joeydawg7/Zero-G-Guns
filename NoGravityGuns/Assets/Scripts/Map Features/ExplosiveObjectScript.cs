@@ -21,50 +21,69 @@ public class ExplosiveObjectScript : MonoBehaviour
     Vector2 impactLocation;
     AudioSource audioSource;
 
+    float toExplodeTimer;
+    bool alreadyBurning;
+    float timeToExplode;
+    WindZone wz;
+    ParticleSystem ps;
+
     private void Awake()
     {
         audioSource = GetComponent<AudioSource>();
+        timeToExplode = 1.2f;
+        toExplodeTimer = 0.0f;
+        alreadyBurning = false;
     }
 
-    public void DamageExplosiveObject(float damage, PlayerScript playerLastHitBy)
+    private void Update()
+    {
+        if (alreadyBurning)
+            toExplodeTimer += Time.deltaTime;
+
+        //explode if you've been burning too long
+        if (alreadyBurning && toExplodeTimer >= timeToExplode && health > 0)
+        {
+            Explode();
+            //max this out so we dont blow up more than once due to update
+            timeToExplode = float.MaxValue;
+        }
+    }
+
+    public void DamageExplosiveObject(float damage, PlayerScript playerLastHitBy, Vector2 hitPos)
     {
         this.playerLastHitBy = playerLastHitBy;
         health -= damage;
 
-        if(health<=0 && !alreadyBurning)
+        if(health>0)
+            timeToExplode = health / 60f;
+            
+
+        if (!alreadyBurning && timeToExplode > 0.15f)
         {
-            StartCoroutine(DelayExplosion());
-        }
-    }
-
-    bool alreadyBurning = false;
-
-    IEnumerator DelayExplosion()
-    {
-        alreadyBurning = true;
-        float delayTime = Random.Range(0.1f, 1f);
-
-        if(delayTime>0.15f)
+            //play audio
             audioSource.PlayOneShot(audioSource.clip);
 
-        ParticleSystem ps = ObjectPooler.Instance.SpawnFromPool("BoomBoxFlameEffect", transform.position, Quaternion.identity, this.transform).GetComponent<ParticleSystem>();
+            //spawn the flame effect from pool and start playing it
+            ps = ObjectPooler.Instance.SpawnFromPool("ExplosiveObjectFire", transform.position, Quaternion.identity, this.transform).GetComponentInChildren<ParticleSystem>();
+            wz =  ps.transform.parent.GetComponentInChildren<WindZone>();
 
-        //Rect rect = new Rect()
+            //set the decal parent to the explosive object
+            ps.gameObject.transform.parent.SetParent(transform);
+            //set the pos of the decal
+            ps.gameObject.transform.parent.localPosition = Vector2.zero;
+            //play the effect
+            ps.Play(true);
 
-        var sh = ps.shape;
-        sh.enabled = true;
-        sh.shapeType = ParticleSystemShapeType.Sprite;
-        sh.sprite = GetComponent<SpriteRenderer>().sprite;
+            //burn babeee
+            alreadyBurning = true;
+        }
 
-        ps.Play();
-
-        yield return new WaitForSeconds(delayTime);
-
-
-        audioSource.Stop();
-      
-    
-        Explode();
+        //explodey object is dead
+        if (health<=0)
+        {
+            //StartCoroutine(DelayExplosion(hitPos));
+            Explode();
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -75,7 +94,7 @@ public class ExplosiveObjectScript : MonoBehaviour
             Bullet bullet = collision.collider.GetComponent<Bullet>();
             impactDirection = collision.relativeVelocity;
             impactLocation = collision.transform.position;
-            DamageExplosiveObject(bullet.damage, bullet.player);
+            DamageExplosiveObject(bullet.damage, bullet.player, collision.transform.position);
         }
         //else assume its some kind of physics collision and see if it hurts
         else
@@ -111,7 +130,28 @@ public class ExplosiveObjectScript : MonoBehaviour
 
         explosion.Explode(playerLastHitBy, explosionRadius, explosionPower, damageAtcenter,cameraShakeDuration, 40f);
 
+        if(wz)
+            wz.windMain = 150;
+        if (ps)
+            ps.transform.parent.SetParent(null);
+
+        StartCoroutine(QuickDelay());        
+    }
+
+    IEnumerator QuickDelay()
+    {
+        yield return new WaitForSeconds(0.3f);
+
+        if (wz)
+            wz.windMain = 0;
+
         gameObject.SetActive(false);
+    }
+
+    private void OnParticleSystemStopped()
+    {
+        Debug.Log("SYSTEM WAS STOPPED!");
+        ps.transform.parent.gameObject.SetActive(false);
     }
 
     void DealColliderDamage(Collision2D collision)
@@ -135,7 +175,7 @@ public class ExplosiveObjectScript : MonoBehaviour
             if (dmg > 100)
                 dmg = 100;
 
-            DamageExplosiveObject(dmg, null);
+            DamageExplosiveObject(dmg, null, collision.transform.position);
         }
     }
 
