@@ -215,7 +215,7 @@ public class PlayerScript : MonoBehaviour
             //speedIndication.Emit(1);
             //cameraParent.GetComponentInChildren<RippleController>().Ripple(rb.transform.position, 4, 0.88f);
             speedIndicationTimer = 0;
-            audioSource.PlayOneShot(whooshClip);
+            //audioSource.PlayOneShot(whooshClip);
 
 
             Smorph();
@@ -733,6 +733,7 @@ public class PlayerScript : MonoBehaviour
 
     public void OnGameStart()
     {
+        if(LoadingBar.Instance)
         LoadingBar.Instance.StopLoadingBar();
         health = 100;
         float barVal = ((float)health / 100f);

@@ -43,12 +43,12 @@ public class CameraController : MonoBehaviour
     LensDistortion lensDistortion;
     ChromaticAberration chromaticAbberation;
 
-    public bool setToMaxZoom;
+    public bool setToMaxZoom = false;
 
     private void Awake()
     {
         setToMaxZoom = false;
-        players = new List<Transform>();
+        players = new List<Transform>(4);
         mainCam = Camera.main;
         cameraShake = mainCam.GetComponent<CameraShake>();
         audioSource = GetComponent<AudioSource>();
@@ -71,6 +71,9 @@ public class CameraController : MonoBehaviour
     {
         if (players.Count == 0)
             return;
+
+        if (players.Count < 2)
+            setToMaxZoom = true;
 
         Move();
         Zoom();

@@ -325,7 +325,10 @@ public class ArmsScript : MonoBehaviour
         for (int i = 0; i < frontHandBone.childCount; i++)
         {
             if (frontHandBone.GetChild(i).tag == "Gun")
+            {
+                frontHandBone.GetChild(i).gameObject.GetComponent<Guns>().StopAllCoroutines();
                 Destroy(frontHandBone.GetChild(i).gameObject);
+            }
         }
     }
 

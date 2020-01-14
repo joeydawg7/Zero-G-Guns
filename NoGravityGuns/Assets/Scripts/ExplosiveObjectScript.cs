@@ -12,18 +12,59 @@ public class ExplosiveObjectScript : MonoBehaviour
     public float damageAtcenter = 40f;
     public float cameraShakeDuration = 0.25f;
 
+    public AudioClip fuseLight;
+
     public List<GameObject> explodedChunks;
     PlayerScript playerLastHitBy;
+
+    Vector2 impactDirection;
+    Vector2 impactLocation;
+    AudioSource audioSource;
+
+    private void Awake()
+    {
+        audioSource = GetComponent<AudioSource>();
+    }
 
     public void DamageExplosiveObject(float damage, PlayerScript playerLastHitBy)
     {
         this.playerLastHitBy = playerLastHitBy;
         health -= damage;
 
-        if(health<=0)
+        if(health<=0 && !alreadyBurning)
         {
-            Explode();
+            StartCoroutine(DelayExplosion());
         }
+    }
+
+    bool alreadyBurning = false;
+
+    IEnumerator DelayExplosion()
+    {
+        alreadyBurning = true;
+        float delayTime = Random.Range(0.1f, 1f);
+
+        if(delayTime>0.15f)
+            audioSource.PlayOneShot(audioSource.clip);
+
+        ParticleSystem ps = ObjectPooler.Instance.SpawnFromPool("BoomBoxFlameEffect", transform.position, Quaternion.identity, this.transform).GetComponent<ParticleSystem>();
+
+        //Rect rect = new Rect()
+
+        var sh = ps.shape;
+        sh.enabled = true;
+        sh.shapeType = ParticleSystemShapeType.Sprite;
+        sh.sprite = GetComponent<SpriteRenderer>().sprite;
+
+        ps.Play();
+
+        yield return new WaitForSeconds(delayTime);
+
+
+        audioSource.Stop();
+      
+    
+        Explode();
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -32,6 +73,8 @@ public class ExplosiveObjectScript : MonoBehaviour
         if (collision.collider.tag == "Bullet")
         {
             Bullet bullet = collision.collider.GetComponent<Bullet>();
+            impactDirection = collision.relativeVelocity;
+            impactLocation = collision.transform.position;
             DamageExplosiveObject(bullet.damage, bullet.player);
         }
         //else assume its some kind of physics collision and see if it hurts

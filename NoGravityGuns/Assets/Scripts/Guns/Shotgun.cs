@@ -21,7 +21,7 @@ public class Shotgun : Guns
                 arms.audioSource.Stop();
 
             //arms.audioSource.PlayOneShot(GetRandomGunshotSFX);
-            player.StartCoroutine(DelayShotCoroutine(player, delayBeforeShot, bulletSpeed, minDamageRange, maxDamageRange));
+            player.StartCoroutine(DelayShotCoroutine(player, delayBeforeShot, bulletSpeed, minDamageRange, maxDamageRange,this));
             ReduceBullets(player);
         }
         else

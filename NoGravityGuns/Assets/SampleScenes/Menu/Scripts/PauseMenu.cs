@@ -29,7 +29,7 @@ public class PauseMenu : MonoBehaviour
         else
         {
             _instance = this;
-            DontDestroyOnLoad(gameObject);         
+            DontDestroyOnLoad(transform.parent.gameObject);         
         }
 
         if (!m_MenuToggle)

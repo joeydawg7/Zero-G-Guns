@@ -47,7 +47,8 @@ public class WeaponPad : MonoBehaviour
         catch
         {
             SceneManager.LoadSceneAsync("PersistentScene", LoadSceneMode.Single);
-            LoadingBar.Instance.StartLoadingBar();
+            if(LoadingBar.Instance)
+                LoadingBar.Instance.StartLoadingBar();
         }
     }
 
@@ -77,7 +78,7 @@ public class WeaponPad : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (GameManager.Instance.isGameStarted)
+        if (GameManager.Instance.isGameStarted && Time.timeScale ==1)
             timer += Time.deltaTime;
 
         if (timer >= timeToNextSpawn)
@@ -91,7 +92,10 @@ public class WeaponPad : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        
+
+        if (Time.timeScale <= 0)
+            return;
+
         //hit a player who isnt a floating corpse, and the pad has a weapon to give
         if ((collision.tag == "Torso" || collision.tag == "Head" || collision.tag == "Feet" || collision.tag == "Leg") && hasWeapon && currentWeapon != null)
         {
@@ -144,6 +148,9 @@ public class WeaponPad : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
+        if (Time.timeScale <= 0)
+            return;
+
         if ((collision.tag == "Torso" || collision.tag == "Head" || collision.tag == "Feet" || collision.tag == "Leg"))
         {
 

@@ -47,15 +47,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   players: []
   offset: {x: 0, y: 0, z: -80}
-  smoothTime: 0.1
+  minSmoothTime: 0
+  maxSmoothTime: 0
   minZoom: 60
   maxZoom: 25
   zoomLimit: 50
   zoomSpeed: 25
+  minDistToCapY: 0
+  yMax: 0
+  yMin: 0
   SFXMixer: {fileID: 24100000, guid: cc88a01cb1e528a4c86567170282719a, type: 2}
   timeSlow: {fileID: 8300000, guid: 8a7df0563bd9e83499d1469100d66ea4, type: 3}
   timeSpeed: {fileID: 8300000, guid: 5a9144b560054304ea64adaa76dd774b, type: 3}
   CurrentGameVolume: {fileID: 0}
+  setToMaxZoom: 0
 --- !u!82 &3755018566215501865
 AudioSource:
   m_ObjectHideFlags: 0
@@ -166,7 +171,6 @@ GameObject:
   - component: {fileID: 3999692917492853686}
   - component: {fileID: 3999692917492853682}
   - component: {fileID: 3999692917492853681}
-  - component: {fileID: 999264397}
   m_Layer: 24
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -299,7 +303,7 @@ MonoBehaviour:
   m_BeforeTransparentBundles: []
   m_BeforeStackBundles: []
   m_AfterStackBundles:
-  - assemblyQualifiedName: Ripple, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+  - assemblyQualifiedName: Ripple, Assembly-CSharp, Version=1.0.0.0, Culture=neutral,
       PublicKeyToken=null
 --- !u!114 &3999692917492853681
 MonoBehaviour:
@@ -317,17 +321,3 @@ MonoBehaviour:
   shakeDuration: 0
   shakeAmount: 0.7
   decreaseFactor: 1
---- !u!114 &999264397
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3999692917492853687}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a88da45c502049b44ad149431a09a4ed, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxAmount: 25
-  friction: 0.95

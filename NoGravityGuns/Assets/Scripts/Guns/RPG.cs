@@ -83,7 +83,7 @@ public class RPG : Guns
      
             base.KnockBack(player, player.knockbackMultiplier);
             player.armsScript.audioSource.PlayOneShot(base.GetRandomGunshotSFX);
-            base.SpawnBullet(player, bulletSpeed, minDamageRange, maxDamageRange);            
+            base.SpawnBullet(player, bulletSpeed, minDamageRange, maxDamageRange, this);            
             base.ReduceBullets(player);
             this.gameObject.GetComponent<SpriteRenderer>().sprite = emptyRPG;
             isReloading = true;

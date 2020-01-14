@@ -22,6 +22,7 @@ public class Explosion : MonoBehaviour, IPooledObject
     CameraShake cameraShake;
 
     new Collider2D collider;
+ 
 
     private void Awake()
     {

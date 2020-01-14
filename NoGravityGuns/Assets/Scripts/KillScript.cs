@@ -21,7 +21,7 @@ public class KillScript : MonoBehaviour
             //null this crap out... very important
             playerScript.floatingDamage = new PlayerScript.FloatingDamageStuff();
             GetComponent<Animator>().SetTrigger(animType);
-            transform.parent = null;
+            transform.SetParent(null);
             DontDestroyOnLoad(gameObject);
             gameObject.SetActive(false);
             

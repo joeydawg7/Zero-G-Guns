@@ -8,13 +8,13 @@ public class LegFixer : MonoBehaviour
 
     Rigidbody2D rb;
     Vector3 startingPos;
-    HingeJoint2D hingeJoint;
+    HingeJoint2D hingeJointBodyPart;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         startingPos = transform.position;
-        hingeJoint = GetComponent<HingeJoint2D>();
+        hingeJointBodyPart = GetComponent<HingeJoint2D>();
 
     }
 

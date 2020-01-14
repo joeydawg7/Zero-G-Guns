@@ -5,12 +5,12 @@ using Rewired;
 using UnityEngine;
 
 public abstract class Guns : MonoBehaviour
-{    
+{
     public float knockBack;
     public int clipSize;
     [HideInInspector]
     public int numBullets;
-  //  public float time;
+    //  public float time;
     public float recoilDelay;
     public int minDamageRange;
     public int maxDamageRange;
@@ -38,11 +38,11 @@ public abstract class Guns : MonoBehaviour
     private void Start()
     {
         numBullets = clipSize;
-    }    
+    }
 
     public AudioClip GetRandomGunshotSFX
     {
-        get { return bulletSounds[Random.Range(0, bulletSounds.Count-1)]; }
+        get { return bulletSounds[Random.Range(0, bulletSounds.Count - 1)]; }
     }
 
     public int GunDamage(int min, int max)
@@ -51,9 +51,9 @@ public abstract class Guns : MonoBehaviour
     }
 
     public abstract void Fire(PlayerScript player);
-   
 
-    public IEnumerator DelayShotCoroutine(PlayerScript player, float delayBeforeShot, float bulletSpeed, int minDamage, int maxDamage)
+
+    public IEnumerator DelayShotCoroutine(PlayerScript player, float delayBeforeShot, float bulletSpeed, int minDamage, int maxDamage, Guns gun)
     {
 
         timeSinceLastShot = Time.time;
@@ -83,8 +83,8 @@ public abstract class Guns : MonoBehaviour
         KnockBack(player, player.knockbackMultiplier);
         player.armsScript.audioSource.PlayOneShot(GetRandomGunshotSFX);
 
-        if(timeSinceLastShot > recoilDelay)
-            SpawnBullet(player, bulletSpeed, minDamage, maxDamage);
+        if (timeSinceLastShot > recoilDelay)
+            SpawnBullet(player, bulletSpeed, minDamage, maxDamage, gun);
     }
 
 
@@ -104,22 +104,32 @@ public abstract class Guns : MonoBehaviour
         }
     }
 
-    public void SpawnBullet(PlayerScript player, float bulletSpeed,int minDamagae,int maxDamage)
+    public void SpawnBullet(PlayerScript player, float bulletSpeed, int minDamagae, int maxDamage, Guns gun)
     {
+        //before spawing a bullet, check that the held weapon is the same as the one that was intended to shoot the shot. Fixes a bug where you switch weapons mid-fire causing an error
+        if (player.armsScript.currentWeapon != gun)
+            projectileTypeName = gun.projectileTypeName;
+
+        if (gun == null)
+        {
+            projectileTypeName = player.armsScript.currentWeapon.projectileTypeName;
+
+        }
+
         Transform bulletSpawn = player.armsScript.bulletSpawn;
 
         //replace blank entries with default bullet :D
         if (string.IsNullOrEmpty(projectileTypeName))
             projectileTypeName = "Bullet";
 
-        
 
-        if(projectileTypeName == "BuckShot")
+
+        if (projectileTypeName == "BuckShot")
         {
             float spreadAngle = 22.0f;
             for (int i = 0; i < 6; i++)
             {
-                
+
                 GameObject bulletGo = ObjectPooler.Instance.SpawnFromPool("BuckShot", bulletSpawn.transform.position, Quaternion.identity);
                 var dir = bulletSpawn.transform.right;
 
@@ -137,7 +147,7 @@ public abstract class Guns : MonoBehaviour
 
             }
         }
-        else if(projectileTypeName == "Rocket")
+        else if (projectileTypeName == "Rocket")
         {
             GameObject bulletGo = ObjectPooler.Instance.SpawnFromPool("Rocket", bulletSpawn.transform.position, Quaternion.identity);
             bulletGo.GetComponent<SpriteRenderer>().enabled = false;
@@ -145,9 +155,9 @@ public abstract class Guns : MonoBehaviour
             float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
             bulletGo.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
 
-            bulletGo.GetComponent<Rocket>().Construct(GunDamage(minDamageRange,maxDamageRange), player, dir, player.playerColor, gunPrefab.GetComponent<RPG>());
-            
-            
+            bulletGo.GetComponent<Rocket>().Construct(GunDamage(minDamageRange, maxDamageRange), player, dir, player.playerColor, gunPrefab.GetComponent<RPG>());
+
+
         }
         else
         {
@@ -163,10 +173,10 @@ public abstract class Guns : MonoBehaviour
                 bulletGo.GetComponent<Bullet>().Construct(GunDamage(minDamagae, maxDamage), player, dir, player.playerColor);
             }
 
-            
-        }        
+
+        }
     }
-    
+
     public void KnockBack(PlayerScript player, float knockBackModifier)
     {
         ArmsScript arms = player.armsScript;
@@ -180,7 +190,7 @@ public abstract class Guns : MonoBehaviour
         //{
 
         Vibrate(player);
-            
+
 
         //}
 
@@ -194,17 +204,17 @@ public abstract class Guns : MonoBehaviour
         player.Vibrate(vibrateAmount, 0.25f);
     }
 
-    public bool  CheckIfAbleToiFire(Guns gun)
+    public bool CheckIfAbleToiFire(Guns gun)
     {
         //gotta have bullets to shoot
-       
+
         //enough time has passed between shots and not paused
-        if ((Time.time - timeSinceLastShot) >= gun.recoilDelay && Time.timeScale != 0 && canFire )
+        if ((Time.time - timeSinceLastShot) >= gun.recoilDelay && Time.timeScale != 0 && canFire)
         {
             //player.armsScript.currentWeapon.Fire(player);
             return true;
-        }      
-        
+        }
+
         return false;
     }
 

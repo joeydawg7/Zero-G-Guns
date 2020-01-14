@@ -13,10 +13,15 @@ public class PersistenceGiverScript : MonoBehaviour
 
         foreach (var go in objects)
         {
-            DontDestroyOnLoad(go);
+            //only need to set parent objects to DDOL
+            if(go.transform.parent ==null)
+                DontDestroyOnLoad(go);
         }
 
         Debug.Log("starting new round from persistant scene");
+
+        print(RoundManager.Instance.ActiveRooms[0].roomName);
         RoundManager.Instance.NewRound(true);
+
     }
 }

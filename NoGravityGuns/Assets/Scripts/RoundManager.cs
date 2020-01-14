@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
 using UnityEngine.UI;
+using UnityEngine.Profiling;
 
 public class RoundManager : MonoBehaviour
 {
@@ -35,7 +36,7 @@ public class RoundManager : MonoBehaviour
         get
         {
             var tempRooms = new List<RoomSO>();
-            if (GameManager.Instance != null)
+            if (GameManager.Instance != null && GameModeFlag.Instance)
             {
                 if (GameModeFlag.Instance.MultiPlayer == true)
                 {
@@ -60,16 +61,17 @@ public class RoundManager : MonoBehaviour
 
                 if ((multiPlayer && singlePlayer) || (!multiPlayer && !singlePlayer))
                 {
-                    Debug.Log("MULTIPLAYER AND/OR SINGLE PLAYER NOT SET PROPER ITS ALL RANDOM NOW");
+                    //Debug.Log("MULTIPLAYER AND/OR SINGLE PLAYER NOT SET PROPER ITS ALL RANDOM NOW");
                     tempRooms.AddRange(arenaRooms);
                     tempRooms.AddRange(timedRooms);
                 }               
             }
+
             return tempRooms;
         }
         set
         {
-            activeRooms = new List<RoomSO>();
+            activeRooms = new List<RoomSO>(24);
             activeRooms = value;
         }
     }
@@ -101,9 +103,9 @@ public class RoundManager : MonoBehaviour
         {
             _instance = this;
 
-          
-                
-           
+
+
+            print("starting roundManager in scene " + SceneManager.GetActiveScene().name);
            
             foreach (var room in this.ActiveRooms)
             {
@@ -131,7 +133,8 @@ public class RoundManager : MonoBehaviour
 
     public void NewRound(bool startOver)
     {
-        LoadingBar.Instance.StopLoadingBar();
+        if (LoadingBar.Instance)
+            LoadingBar.Instance.StopLoadingBar();
         Debug.Log("starting new round");
         loading = true;
         
@@ -142,7 +145,8 @@ public class RoundManager : MonoBehaviour
 
         if (startOver)
         {
-            GameModeFlag.Instance.SetMusicClip(SoundPooler.Instance.levelSongs[0]);
+            if (GameModeFlag.Instance)
+                GameModeFlag.Instance.SetMusicClip(SoundPooler.Instance.levelSongs[0]);
             currentRound = 0;
             finishedControllerSetup = false;
 
@@ -159,8 +163,11 @@ public class RoundManager : MonoBehaviour
         }
         else
         {
-            GameModeFlag.Instance.SetMusicClip(SoundPooler.Instance.levelSongs[1]);
-            GameModeFlag.Instance.PlayMusic();
+            if (GameModeFlag.Instance)
+            {
+                GameModeFlag.Instance.SetMusicClip(SoundPooler.Instance.levelSongs[1]);
+                GameModeFlag.Instance.PlayMusic();
+            }
         }
 
         //TODO: only grab from a list of playable rooms so player can check off maps they dont want to play

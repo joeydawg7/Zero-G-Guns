@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 988863103689316518}
   - component: {fileID: 293315900156263616}
   - component: {fileID: 3404576927452942320}
-  - component: {fileID: 2564058011309175549}
   - component: {fileID: 7770141872188485006}
   m_Layer: 12
   m_Name: Grapple
@@ -121,20 +120,6 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.093
---- !u!114 &2564058011309175549
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2195968235287420273}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1ee79fc696f52ae478f9068528933259, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  isAttached: 0
 --- !u!232 &7770141872188485006
 DistanceJoint2D:
   m_ObjectHideFlags: 0

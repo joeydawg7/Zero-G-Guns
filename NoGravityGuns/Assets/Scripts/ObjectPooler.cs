@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using Unity.Profiling;
+using UnityEngine.Profiling;
+
 public class ObjectPooler : MonoBehaviour
 {
 
@@ -23,8 +25,6 @@ public class ObjectPooler : MonoBehaviour
 
         poolDictionary = new Dictionary<string, Queue<GameObject>>();
         resetDisableTimer = false;
-
-        Debug.Log("i wwas in the start and did stuff");
 
         foreach (Pool pool in pools)
         {
@@ -49,7 +49,7 @@ public class ObjectPooler : MonoBehaviour
         public string tag;
         public GameObject prefab;
         public int size;
-       
+
     }
 
     public List<Pool> pools;
@@ -62,7 +62,7 @@ public class ObjectPooler : MonoBehaviour
 
     private void Start()
     {
-       
+
     }
 
     //works like instatiate but from a magic poooooool
@@ -144,10 +144,10 @@ public class ObjectPooler : MonoBehaviour
         //goes through every pooled object and turns it off at the end of the round to prevent leftover bullets
         finishedResetting = false;
 
-        ProfilerMarker marker = new ProfilerMarker();
-
-        marker.Begin();
         Debug.Log("resetting round");
+
+        float t = Extensions.StartCodeTimer();
+
 
         for (int i = 0; i < poolDictionary.Keys.Count; i++)
         {
@@ -166,15 +166,19 @@ public class ObjectPooler : MonoBehaviour
                 }
                 //turn off the object, make sure it wont destroy for future rounds and that it has no parent to ovveride its "don't destroy" status
                 go.SetActive(false);
-                go.transform.parent = null;
-                DontDestroyOnLoad(go);
+                go.transform.SetParent(transform);
+                //only set DDOL for parent objects
+                if (go.transform.parent == null)
+                    DontDestroyOnLoad(go);
 
-                go.transform.parent = transform;
-            }          
+                //go.transform.SetParent(transform);
+            }
 
         }
 
-        marker.End();
+        System.GC.Collect();
+
+        Extensions.EndCodeTimer(t, "ResettingCode");
 
         finishedResetting = true;
     }
