@@ -190,11 +190,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   knockBack: 35
   clipSize: 30
-  time: 8
+  numBullets: 0
   recoilDelay: 0.75
   minDamageRange: 19
   maxDamageRange: 27
-  bulletSpeed: 2500
+  bulletSpeed: 2700
   projectileTypeName: Bullet
   cameraShakeDuration: 0
   bulletSounds:
@@ -211,6 +211,7 @@ MonoBehaviour:
   vibrateAmount: 0.02
   gunPrefab: {fileID: 5613299302601926070}
   theGunSprite: {fileID: 21300000, guid: 4399d23395cb29945b77f9ee59c8c4d5, type: 3}
+  canFire: 0
   name: AssaultRifle
   knockBackModifier: 0
   delayBeforeShot: 0

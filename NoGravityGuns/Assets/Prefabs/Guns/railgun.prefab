@@ -5011,11 +5011,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   knockBack: 55
   clipSize: 6
-  time: 5
+  numBullets: 0
   recoilDelay: 0.9
   minDamageRange: 43
   maxDamageRange: 57
-  bulletSpeed: 4500
+  bulletSpeed: 4700
   projectileTypeName: BounceShot
   cameraShakeDuration: 0.1
   bulletSounds:
@@ -5030,6 +5030,7 @@ MonoBehaviour:
   vibrateAmount: 0.06
   gunPrefab: {fileID: 3198932703841508898}
   theGunSprite: {fileID: 21300000, guid: 489ff2c4d042194428e52cb81d2475c1, type: 3}
+  canFire: 0
   name: RailGun
   knockBackModifier: 0
   delayBeforeShot: 0.1

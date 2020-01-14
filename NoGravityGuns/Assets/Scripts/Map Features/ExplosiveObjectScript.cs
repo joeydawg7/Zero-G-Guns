@@ -69,7 +69,7 @@ public class ExplosiveObjectScript : MonoBehaviour
 
     private void LightOnFire()
     {
-        if (!alreadyBurning && timeToExplode > 0.15f)
+        if (!alreadyBurning /*&& timeToExplode > 0.15f*/)
         {
             //play audio
             audioSource.PlayOneShot(audioSource.clip);
@@ -78,6 +78,11 @@ public class ExplosiveObjectScript : MonoBehaviour
             ps = ObjectPooler.Instance.SpawnFromPool("ExplosiveObjectFire", transform.position, Quaternion.identity, this.transform).GetComponentInChildren<ParticleSystem>();
             wz = ps.transform.parent.GetComponentInChildren<WindZone>();
 
+            var main = ps.main;
+
+            if(timeToExplode < 0.15f)
+                main.simulationSpeed = 1.2f;
+         
             //set the decal parent to the explosive object
             ps.gameObject.transform.parent.SetParent(transform);
             //set the pos of the decal
