@@ -91,7 +91,7 @@ public class Explosion : MonoBehaviour, IPooledObject
             if (rb != null)
             {
                 //explosion cant hit itself, or other explosions for that matter
-                if (rb.tag != "Explosion" || rb.tag == "Bullet")
+                if (rb.tag != "Explosion" || rb.tag != "Bullet")
                 {
                     //treat players different from other objects
                   //  if (rb.tag == "Player")
@@ -205,6 +205,9 @@ public static class Rigidbody2DExt
     {
         float dmg = damageAtCenter * wearoff;
 
+        //Debug.Log("wearoff = " + wearoff);
+       // Debug.Log("Explosion dealt " + dmg + " damage");
+
         PlayerScript HitplayerScript = body.transform.root.GetComponentInChildren<PlayerScript>();
 
         PlayerScript.DamageType damageType = PlayerScript.DamageType.explosive; //PlayerScript.ParsePlayerDamage(body.gameObject);
@@ -217,7 +220,9 @@ public static class Rigidbody2DExt
         {
             if (dmg > 0)
             {
-               // Debug.Log(body.gameObject.name + " taking " + dmg + " damage, modded by " + damageType.ToString());
+                //sets collision damage timer to half, so if you fly for longer than half a second youll take collisions but otherwise you wont take full damage from begin right next to a wall
+                HitplayerScript.immuneToCollisionsTimer = 0.75f;
+                //actually deal the damage
                 HitplayerScript.TakeDamage(dmg, new Vector2(0,0), damageType, playerWhoShot, true, null);
             }
         }

@@ -74,6 +74,8 @@ public class CameraController : MonoBehaviour
 
         if (players.Count < 2)
             setToMaxZoom = true;
+        else
+            setToMaxZoom = false;
 
         Move();
         Zoom();

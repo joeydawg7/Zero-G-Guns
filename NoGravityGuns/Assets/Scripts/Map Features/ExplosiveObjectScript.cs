@@ -54,10 +54,21 @@ public class ExplosiveObjectScript : MonoBehaviour
         this.playerLastHitBy = playerLastHitBy;
         health -= damage;
 
-        if(health>0)
+        if (health > 0)
             timeToExplode = health / 60f;
-            
 
+        LightOnFire();
+
+        //explodey object is dead
+        if (health <= 0)
+        {
+            //StartCoroutine(DelayExplosion(hitPos));
+            Explode();
+        }
+    }
+
+    private void LightOnFire()
+    {
         if (!alreadyBurning && timeToExplode > 0.15f)
         {
             //play audio
@@ -65,7 +76,7 @@ public class ExplosiveObjectScript : MonoBehaviour
 
             //spawn the flame effect from pool and start playing it
             ps = ObjectPooler.Instance.SpawnFromPool("ExplosiveObjectFire", transform.position, Quaternion.identity, this.transform).GetComponentInChildren<ParticleSystem>();
-            wz =  ps.transform.parent.GetComponentInChildren<WindZone>();
+            wz = ps.transform.parent.GetComponentInChildren<WindZone>();
 
             //set the decal parent to the explosive object
             ps.gameObject.transform.parent.SetParent(transform);
@@ -76,13 +87,6 @@ public class ExplosiveObjectScript : MonoBehaviour
 
             //burn babeee
             alreadyBurning = true;
-        }
-
-        //explodey object is dead
-        if (health<=0)
-        {
-            //StartCoroutine(DelayExplosion(hitPos));
-            Explode();
         }
     }
 
@@ -128,14 +132,16 @@ public class ExplosiveObjectScript : MonoBehaviour
 
         explosion = go.GetComponent<Explosion>();
 
-        explosion.Explode(playerLastHitBy, explosionRadius, explosionPower, damageAtcenter,cameraShakeDuration, 40f);
+        explosion.Explode(playerLastHitBy, explosionRadius, explosionPower, damageAtcenter, cameraShakeDuration, 40f);
 
-        if(wz)
+        gameObject.GetComponent<Rigidbody2D>().isKinematic = true;
+
+        if (wz)
             wz.windMain = 150;
         if (ps)
             ps.transform.parent.SetParent(null);
 
-        StartCoroutine(QuickDelay());        
+        StartCoroutine(QuickDelay());
     }
 
     IEnumerator QuickDelay()
@@ -146,12 +152,6 @@ public class ExplosiveObjectScript : MonoBehaviour
             wz.windMain = 0;
 
         gameObject.SetActive(false);
-    }
-
-    private void OnParticleSystemStopped()
-    {
-        Debug.Log("SYSTEM WAS STOPPED!");
-        ps.transform.parent.gameObject.SetActive(false);
     }
 
     void DealColliderDamage(Collision2D collision)
@@ -168,14 +168,17 @@ public class ExplosiveObjectScript : MonoBehaviour
         }
 
         //dont bother dealing damage unless unmitigated damage indicates fast enough collision
-        if (dmg > 20)
+        if (dmg > 30)
         {
 
             //caps damage
             if (dmg > 100)
                 dmg = 100;
 
-            DamageExplosiveObject(dmg, null, collision.transform.position);
+            //DamageExplosiveObject(dmg, null, collision.transform.position);
+
+            if (!alreadyBurning)
+                LightOnFire();
         }
     }
 

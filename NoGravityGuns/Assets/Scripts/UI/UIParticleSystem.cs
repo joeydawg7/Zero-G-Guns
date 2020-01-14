@@ -65,7 +65,7 @@ public class UIParticleSystem : MaskableGraphic
             {
                 particleTexture = currentMaterial.mainTexture;
             }
-            Material material = new Material(Shader.Find("UI/Particles/Hidden")); // TODO - You should create this discard shader
+            //Material material = new Material(Shader.Find("UI/Particles/Hidden")); // TODO - You should create this discard shader
             if (Application.isPlaying)
             {
                 renderer.material = material;

@@ -77,7 +77,7 @@ public class PlayerScript : MonoBehaviour
     [Header("Audio")]
     public AudioClip headShot;
     public List<AudioClip> standardShots;
-    public AudioClip torsoImpact;
+    public MultiClip_SO torsoImpact;
     public AudioClip legsImpact;
     public AudioClip headImpact;
     public AudioClip deathClip;
@@ -92,12 +92,14 @@ public class PlayerScript : MonoBehaviour
     public Rigidbody2D rb;
     [HideInInspector]
     public DamageType lastHitDamageType;
+    [HideInInspector]
+    public float immuneToCollisionsTimer;
     #endregion
     #region privates
     //Private
     Quaternion targetRotation;
     float angle;
-    float immuneToCollisionsTimer;
+    
     SpriteRenderer[] legsSR;
     SpriteRenderer torsoSR;
     SpriteRenderer[] armsSR;
@@ -227,8 +229,6 @@ public class PlayerScript : MonoBehaviour
     #region Input Handler Functions
     public void OnDrop()
     {
-        
-
         if (player.GetButtonDown("Drop") )
         {
             armsScript.EquipGun(GameManager.Instance.pistol, true);
@@ -824,6 +824,13 @@ public class PlayerScript : MonoBehaviour
         //float dmg = collision.relativeVelocity.normalized.magnitude;
         //tor3.Dot(col.contacts[0].normal,col.relativeVelocity) * rigidbody.mass
 
+        //no reason to do all the upcoming math if we cant take the damage anyway
+        if (immuneToCollisionsTimer < 1)
+        {
+            return;
+        }
+
+
         float dmg = Vector3.Dot(collision.contacts[0].normal, collision.relativeVelocity);
 
         if (collision.rigidbody != null && collision.rigidbody.mass <= 1)
@@ -852,24 +859,22 @@ public class PlayerScript : MonoBehaviour
             AudioClip soundClipToPlay;
 
             if (dmgType == DamageType.legs || dmgType == DamageType.feet)
-                soundClipToPlay = legsImpact;
+                soundClipToPlay = torsoImpact.GetRandomClip();
             else
-                soundClipToPlay = torsoImpact;
+                soundClipToPlay = torsoImpact.GetRandomClip();
 
 
             //caps damage
             if (dmg > 100)
                 dmg = 100;
 
-            if (immuneToCollisionsTimer >= 1)
-            {
-                immuneToCollisionsTimer = 0;
-                audioSource.PlayOneShot(soundClipToPlay);
-                Debug.Log(hitLocation.name + ": " + dmg);
 
+            TakeDamage(dmg, new Vector2(0, 0), dmgType, hitBy, false, null);
 
-                TakeDamage(dmg, new Vector2(0, 0), dmgType, hitBy, false, null);
-            }
+            audioSource.PlayOneShot(soundClipToPlay);
+
+            immuneToCollisionsTimer = 0;
+
         }
 
 

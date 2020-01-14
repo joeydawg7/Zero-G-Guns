@@ -21,6 +21,9 @@ public class RoundEndCanvasScript : MonoBehaviour
     bool weHaveAWinner = false;
     bool gameIsOver = false;
 
+    public ParticleSystem firework1;
+    public ParticleSystem firework2;
+
     CameraController cameraController;
 
     Animator animator;
@@ -132,7 +135,44 @@ public class RoundEndCanvasScript : MonoBehaviour
         }
         else
         {
-            winnerTextString = winningPlayer.playerName + " wins round!";
+            if (gameIsOver)
+            {
+                winnerTextString = winningPlayer.playerName + " wins the game!";
+
+
+                firework1.GetComponent<UIParticleSystem>().GetPixelAdjustedRect();
+                firework2.GetComponent<UIParticleSystem>().GetPixelAdjustedRect();
+
+                firework1.GetComponent<UIParticleSystem>().GraphicUpdateComplete();
+                firework2.GetComponent<UIParticleSystem>().GraphicUpdateComplete();
+
+                firework1.GetComponent<UIParticleSystem>().RecalculateClipping();
+                firework2.GetComponent<UIParticleSystem>().RecalculateClipping();
+
+                firework1.GetComponent<UIParticleSystem>().RecalculateMasking();
+                firework2.GetComponent<UIParticleSystem>().RecalculateMasking();
+
+                firework1.GetComponent<UIParticleSystem>().Rebuild(CanvasUpdate.MaxUpdateValue);
+                firework2.GetComponent<UIParticleSystem>().Rebuild(CanvasUpdate.MaxUpdateValue);
+
+                firework1.GetComponent<UIParticleSystem>().enabled = true;
+                firework2.GetComponent<UIParticleSystem>().enabled = true;
+
+                print("PLAY THOSE FIRWORKS");
+
+                var main1 = firework1.main;
+                var main2 = firework2.main;
+
+                main1.startColor = new ParticleSystem.MinMaxGradient(winningPlayer.playerColor);
+                main2.startColor = new ParticleSystem.MinMaxGradient(winningPlayer.playerColor);
+
+                firework1.Play();
+                firework2.Play();
+
+            }
+            else
+                winnerTextString = winningPlayer.playerName + " wins the round!";
+
             var winnerColour = winningPlayer.playerColor;
 
 
