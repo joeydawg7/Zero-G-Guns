@@ -48,7 +48,7 @@ public class SplashScreenController : MonoBehaviour
     {
         mainMenu.SetActive(true);
         soundSource.Stop();
-        GameModeFlag.Instance.PlayMusic();
+        Camera.main.GetComponent<AudioSource>().Play();
         arenaBtn.Select();
     }
 

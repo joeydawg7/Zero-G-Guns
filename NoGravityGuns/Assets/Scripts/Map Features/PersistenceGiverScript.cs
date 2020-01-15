@@ -5,23 +5,55 @@ using UnityEngine.SceneManagement;
 
 public class PersistenceGiverScript : MonoBehaviour
 {
+    #region singleton stuff
+    private static PersistenceGiverScript _instance;
+    public static PersistenceGiverScript Instance { get { return _instance; } }
+    #endregion
+
+    List<string> persistentStuff;
     // Start is called before the first frame update
     void Start()
     {
+        if(_instance != null)
+        {
+            Destroy(this);
+        }
+        else
+        {
+            _instance = this;
+        }
 
+        persistentStuff = new List<string>();
         GameObject[] objects = FindObjectsOfType<GameObject>();
 
         foreach (var go in objects)
         {
             //only need to set parent objects to DDOL
             if(go.transform.parent ==null)
+            {
                 DontDestroyOnLoad(go);
+                persistentStuff.Add(go.name);
+            }
+                
         }
 
         Debug.Log("starting new round from persistant scene");
 
-        print(RoundManager.Instance.ActiveRooms[0].roomName);
+        //print(RoundManager.Instance.arenaRooms[0].roomName);
         RoundManager.Instance.NewRound(true);
 
+    }
+
+    public void PersistenceTaker()
+    {
+        GameObject[] objects = FindObjectsOfType<GameObject>();
+
+        foreach (var go in objects)
+        {
+            if(persistentStuff.Contains(go.name))
+            {
+                Destroy(go);
+            }
+        }
     }
 }

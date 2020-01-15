@@ -29,54 +29,11 @@ public class RoundManager : MonoBehaviour
     TextMeshProUGUI roundNumText;
 
     Animator newRoundTextAnimator;
-
-    private List<RoomSO> activeRooms;
-    public List<RoomSO> ActiveRooms
-    {
-        get
-        {
-            var tempRooms = new List<RoomSO>();
-            if (GameManager.Instance != null && GameModeFlag.Instance)
-            {
-                if (GameModeFlag.Instance.MultiPlayer == true)
-                {
-                    tempRooms = arenaRooms;
-                }
-                if (GameModeFlag.Instance.MultiPlayer == false)
-                {
-                    tempRooms = timedRooms;
-                }
-            }            
-            else
-            {                
-                if (multiPlayer)
-                {
-                    tempRooms = arenaRooms;
-                }
-
-                if (singlePlayer)
-                {
-                    tempRooms = timedRooms;
-                }
-
-                if ((multiPlayer && singlePlayer) || (!multiPlayer && !singlePlayer))
-                {
-                    //Debug.Log("MULTIPLAYER AND/OR SINGLE PLAYER NOT SET PROPER ITS ALL RANDOM NOW");
-                    tempRooms.AddRange(arenaRooms);
-                    tempRooms.AddRange(timedRooms);
-                }               
-            }
-
-            return tempRooms;
-        }
-        set
-        {
-            activeRooms = new List<RoomSO>(24);
-            activeRooms = value;
-        }
-    }
-    public List<RoomSO> arenaRooms;
-    public List<RoomSO> timedRooms;
+    
+    public List<RoomSO> arenaRooms; 
+    
+    public List<RoomSO> newRooms;
+    public List<RoomSO> usedRooms;
 
     public bool finishedControllerSetup;
 
@@ -104,13 +61,16 @@ public class RoundManager : MonoBehaviour
             _instance = this;
 
 
-
+            newRooms = new List<RoomSO>();
+            newRooms.AddRange(arenaRooms);
+            arenaRooms.Clear();            
+            usedRooms = new List<RoomSO>(newRooms.Count);
             print("starting roundManager in scene " + SceneManager.GetActiveScene().name);
            
-            foreach (var room in this.ActiveRooms)
-            {
-                room.isPlayable = true;
-            }
+            //foreach (var room in this.ActiveRooms)
+            //{
+            //    room.isPlayable = true;
+            //}
 
             // ObjectPooler.Instance.StartUp();
         }
@@ -145,8 +105,7 @@ public class RoundManager : MonoBehaviour
 
         if (startOver)
         {
-            if (GameModeFlag.Instance)
-                GameModeFlag.Instance.SetMusicClip(SoundPooler.Instance.levelSongs[0]);
+            Camera.main.GetComponent<AudioSource>().clip = SoundPooler.Instance.levelSongs[0];
             currentRound = 0;
             finishedControllerSetup = false;
 
@@ -158,57 +117,67 @@ public class RoundManager : MonoBehaviour
                 }
 
                 playerDataList.Clear();
-                GameModeFlag.Instance.PlayMusic();
+                Camera.main.GetComponent<AudioSource>().Play();
+                newRooms.AddRange(usedRooms);
+                usedRooms.Clear();
             }
         }
         else
         {
-            if (GameModeFlag.Instance)
-            {
-                GameModeFlag.Instance.SetMusicClip(SoundPooler.Instance.levelSongs[1]);
-                GameModeFlag.Instance.PlayMusic();
-            }
+            Camera.main.GetComponent<AudioSource>().clip = SoundPooler.Instance.levelSongs[1];
+            Camera.main.GetComponent<AudioSource>().Play();
         }
 
         //TODO: only grab from a list of playable rooms so player can check off maps they dont want to play
         //RoomSO nextRoom = rooms[Random.Range(0, rooms.Count)];
 
-        List<RoomSO> tempRooms = new List<RoomSO>();
+        //List<RoomSO> tempRooms = new List<RoomSO>();
 
         RoomSO nextRoom = null;
 
         //we have no room to go to!
-        while (nextRoom == null)
+        //while (nextRoom == null)
+        //{
+        //    //make a list of all possible rooms we could go to that are playable
+        //    foreach (var room in this.ActiveRooms)
+        //    {
+        //        if (room.isPlayable)
+        //        {
+        //            tempRooms.Add(room);
+        //            // Debug.Log(room.name);
+        //        }
+        //    }
+        //    //Debug.Log("---------------");
+        //    //if our list has no playable rooms make everything playable
+        //    if (tempRooms.Count < 1)
+        //    {
+        //        foreach (var room in this.ActiveRooms)
+        //        {
+        //            room.isPlayable = true;
+        //        }
+        //    }
+        //    else
+        //    {
+        //        //then pick a random room from everything playable
+        //        nextRoom = tempRooms[Random.Range(0, tempRooms.Count)];
+        //        nextRoom.isPlayable = false;
+        //    }
+        //}
+        if(newRooms.Count > 1)
         {
-            //make a list of all possible rooms we could go to that are playable
-            foreach (var room in this.ActiveRooms)
-            {
-                if (room.isPlayable)
-                {
-                    tempRooms.Add(room);
-                    // Debug.Log(room.name);
-                }
-            }
-
-            //Debug.Log("---------------");
-
-            //if our list has no playable rooms make everything playable
-            if (tempRooms.Count < 1)
-            {
-                foreach (var room in this.ActiveRooms)
-                {
-                    room.isPlayable = true;
-                }
-            }
-            else
-            {
-                //then pick a random room from everything playable
-                nextRoom = tempRooms[Random.Range(0, tempRooms.Count)];
-                nextRoom.isPlayable = false;
-            }
-
+            nextRoom = newRooms[Random.Range(0, newRooms.Count)];
+            newRooms.Remove(nextRoom);
+            usedRooms.Add(nextRoom);
+            
         }
-
+        else
+        {
+            nextRoom = newRooms[Random.Range(0, newRooms.Count)];
+            newRooms.Remove(nextRoom);
+            newRooms.AddRange(usedRooms);
+            usedRooms.Clear();
+            usedRooms.Add(nextRoom);
+        }       
 
         StartCoroutine(AddLevel(nextRoom.sceneName, nextRoom, startOver));
 
@@ -219,26 +188,11 @@ public class RoundManager : MonoBehaviour
 
     IEnumerator AddLevel(string lvl, RoomSO nextRoom, bool startOver)
     {
-        
-
-
         //DEBUG: use original scene
         if (debugStayOnThisScene!=null && debugManager.useDebugSettings)
-        {
-            lvl = debugStayOnThisScene.sceneName;
-
-            //figure out which room we are in an set that as the real next room 
-            for (int i = 0; i < this.ActiveRooms.Count; i++)
-            {
-                if (this.ActiveRooms[i].sceneName == lvl)
-                {
-                    nextRoom = this.ActiveRooms[i];
-                    break;
-                }
-            }
-
+        {           
+            nextRoom = debugStayOnThisScene;
         }
-
 
         AsyncOperation asyncLoadLevel = SceneManager.LoadSceneAsync(lvl);
         print("loading async now!");
@@ -248,10 +202,8 @@ public class RoundManager : MonoBehaviour
         }
         print("done loading!");
 
-
         LevelLoaded(nextRoom, startOver);
         yield return new WaitForSeconds(0.5f);
-
     }
 
     void LevelLoaded(RoomSO nextRoom, bool startOver)
@@ -269,7 +221,6 @@ public class RoundManager : MonoBehaviour
             roundNumText.text = "Round " + currentRound + "";
 
             newRoundTextAnimator.SetTrigger("NewRound");
-
 
             //find out who current winner is (if any) and set them to receive a crown
             int max = 0;

@@ -182,30 +182,13 @@ public class JoiningPlayerScript : MonoBehaviour
 
                 //Debug.Log("Assigned " + joystick.name + " " + joystick.id + " to Player " + player.descriptiveName);
             }
-
-            if (GameModeFlag.Instance)
-            {
-                if (GameModeFlag.Instance.MultiPlayer)
-                {
-                    if (assignedControls.Count > 1)
-                    {
-                        tipToStart.alpha = 1;
-                    }                        
-                }
-                else
-                {
-                    tipToStart.alpha = 1;
-                }
-            }
-            else
+            
+            if (assignedControls.Count > 1)
             {
                 tipToStart.alpha = 1;
             }
-            
-
         }
     }
-
 
     void RemoveNextPlayer()
     {
@@ -292,10 +275,10 @@ public class JoiningPlayerScript : MonoBehaviour
     void StartButtonPressed()
     {
         //start game for real on a new round with start over = false
-        if(GameModeFlag.Instance)
-        {
-            if (GameModeFlag.Instance.MultiPlayer)
-            {
+        //if(GameModeFlag.Instance)
+        //{
+        //    if (GameModeFlag.Instance.MultiPlayer)
+        //    {
                 if (assignedControls.Count >= 2)
                 {
                     ReInput.players.SystemPlayer.controllers.ClearAllControllers();
@@ -304,41 +287,52 @@ public class JoiningPlayerScript : MonoBehaviour
                     RoundManager.Instance.NewRound(false);
 
                 }
-            }
-            else
-            {
-                if (assignedControls.Count >= 1)
+                else if (GameManager.Instance.debugManager.useDebugSettings)
                 {
-                    ReInput.players.SystemPlayer.controllers.ClearAllControllers();
-                    GameManager.Instance.StartGame();
-                    RoundManager.Instance.finishedControllerSetup = true;
-                    RoundManager.Instance.NewRound(false);
+                    //allow single player for testing
+                    if (assignedControls.Count >= 1)
+                    {
+                        ReInput.players.SystemPlayer.controllers.ClearAllControllers();
+                        GameManager.Instance.StartGame();
+                        RoundManager.Instance.finishedControllerSetup = true;
+                        RoundManager.Instance.NewRound(false);
+                    }
                 }
-            }
-        }
-        else
-        {
-            if (assignedControls.Count >= 2)
-            {
-                ReInput.players.SystemPlayer.controllers.ClearAllControllers();
-                GameManager.Instance.StartGame();
-                RoundManager.Instance.finishedControllerSetup = true;
-                RoundManager.Instance.NewRound(false);
-            }
-            else if (GameManager.Instance.debugManager.useDebugSettings)
-            {
-                //allow single player for testing
-                if (assignedControls.Count >= 1)
-                {
-                    ReInput.players.SystemPlayer.controllers.ClearAllControllers();
-                    GameManager.Instance.StartGame();
-                    RoundManager.Instance.finishedControllerSetup = true;
-                    RoundManager.Instance.NewRound(false);
-                }
-            }
-        }      
+            //}
+            //else
+            //{
+            //    if (assignedControls.Count >= 1)
+            //    {
+            //        ReInput.players.SystemPlayer.controllers.ClearAllControllers();
+            //        GameManager.Instance.StartGame();
+            //        RoundManager.Instance.finishedControllerSetup = true;
+            //        RoundManager.Instance.NewRound(false);
+            //    }
+            //}
+            //}
+            //else
+            //{
+            //    if (assignedControls.Count >= 2)
+            //    {
+            //        ReInput.players.SystemPlayer.controllers.ClearAllControllers();
+            //        GameManager.Instance.StartGame();
+            //        RoundManager.Instance.finishedControllerSetup = true;
+            //        RoundManager.Instance.NewRound(false);
+            //    }
+            //    else if (GameManager.Instance.debugManager.useDebugSettings)
+            //    {
+            //        //allow single player for testing
+            //        if (assignedControls.Count >= 1)
+            //        {
+            //            ReInput.players.SystemPlayer.controllers.ClearAllControllers();
+            //            GameManager.Instance.StartGame();
+            //            RoundManager.Instance.finishedControllerSetup = true;
+            //            RoundManager.Instance.NewRound(false);
+            //        }
+            //    }
+            //}      
 
-        tipToStart.alpha = 0;
+            tipToStart.alpha = 0;
     }
 
 

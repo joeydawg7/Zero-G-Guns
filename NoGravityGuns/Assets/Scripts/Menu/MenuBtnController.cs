@@ -80,36 +80,31 @@ public class MenuBtnController : MonoBehaviour, ISelectHandler, IDeselectHandler
             case "TrainingBtn":
                 if (RoundManager.Instance == null)
                 {
-                    Debug.Log("Click, Round Manger Null");
-                    GameModeFlag.Instance.MultiPlayer = false;
-                    Debug.Log("FlagSet");
-                    SceneManager.LoadSceneAsync("PersistentScene", LoadSceneMode.Single);
+                    Debug.Log("Click, Round Manger Null");                   
+                    SceneManager.LoadSceneAsync("BTT_PersistentScene", LoadSceneMode.Single);
                     LoadingBar.Instance.StartLoadingBar();
                    
                 }
                 else
                 {
-                    Debug.Log("Click, HAS Round Manger");
-                    GameModeFlag.Instance.MultiPlayer = false;
-                    RoundManager.Instance.NewRound(true);
+                    PersistenceGiverScript.Instance.PersistenceTaker();
+                    SceneManager.LoadSceneAsync("BTT_PersistentScene", LoadSceneMode.Single);
                     LoadingBar.Instance.StartLoadingBar();
+
                 }
                 break;
             case "ArenaBtn":
                 if(RoundManager.Instance == null)
                 {
-                    Debug.Log("Click, Round Manger Null");
-                    GameModeFlag.Instance.MultiPlayer = true;
-                    Debug.Log("FlagSet");                    
-                    SceneManager.LoadSceneAsync("PersistentScene", LoadSceneMode.Single);
+                    Debug.Log("Click, Round Manger Null");                       
+                    SceneManager.LoadSceneAsync("Arena_PersistentScene", LoadSceneMode.Single);
                     LoadingBar.Instance.StartLoadingBar();
                 }
                 else
                 {
                     Debug.Log("Click, HAS Round Manger");
-                    GameModeFlag.Instance.MultiPlayer = true;
-                    Debug.Log("FlagSet");
-                    RoundManager.Instance.NewRound(true);
+                    PersistenceGiverScript.Instance.PersistenceTaker();
+                    SceneManager.LoadSceneAsync("Arena_PersistentScene", LoadSceneMode.Single);
                     LoadingBar.Instance.StartLoadingBar();
                 }
                 
