@@ -21,6 +21,7 @@ public class GameManager : MonoBehaviour
     public CameraController cameraController;
 
     public JoiningPlayerScript joiningPlayerScript;
+    public AddSinglePlayer singlePlayerAddingScript;
 
     [Header("Stores DebugManager scriptable object to easily turn debug options on / off")]
     public DebugManager debugManager;
@@ -129,10 +130,16 @@ public class GameManager : MonoBehaviour
 
         players = new List<PlayerScript>();
         cameraController = FindObjectOfType<CameraController>();
-        joiningPlayerScript = FindObjectOfType<JoiningPlayerScript>();
-        EndGameScript = FindObjectOfType<EndGameScript>();
+        if(FindObjectOfType<JoiningPlayerScript>())
+        {
+            joiningPlayerScript = FindObjectOfType<JoiningPlayerScript>();
+        }
+        if(FindObjectOfType<AddSinglePlayer>())
+        {
+            singlePlayerAddingScript = FindObjectOfType<AddSinglePlayer>();
+        }
         
-
+        EndGameScript = FindObjectOfType<EndGameScript>();
     }
 
     private void Start()
@@ -143,9 +150,6 @@ public class GameManager : MonoBehaviour
 
     public void StartGame()
     {
-
-
-
         //RoundManager.Instance.SetAllPlayersDataIntoPlayerObjects();
 
         //get rid of players that nobody is playing as... again unless your a dummy
@@ -168,8 +172,14 @@ public class GameManager : MonoBehaviour
         cameraController.OnGameStart();
 
         Time.timeScale = 1;
-
-        joiningPlayerScript.OnGameStart();
+        if(joiningPlayerScript)
+        {
+            joiningPlayerScript.OnGameStart();
+        }
+        else if(singlePlayerAddingScript)
+        {
+            singlePlayerAddingScript.OnGameStart();
+        }       
 
         PlayerScript[] ps = FindObjectsOfType<PlayerScript>();
 
@@ -177,12 +187,9 @@ public class GameManager : MonoBehaviour
         for (int i = 0; i < ps.Length; i++)
         {
             ps[i].gameObject.SetActive(true);
-
-
             // if(ps[i].isDummy)
             players.Add(ps[i]);
         }
-
         StartCoroutine(Countdown());
     }
 

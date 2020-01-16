@@ -73,16 +73,10 @@ public class TargetsManager : MonoBehaviour
 
     private void Update()
     {
-
         float timer = GameManager.Instance.timeSinceRoundStarted;
 
         //after an hour the timer screws up, so we stop tracking
         if (timer < 3600)           
         timerTextMesh.text = Extensions.FloatToTime(timer, "#0:00.000");
-         
-           
-
     }
-
-
 }

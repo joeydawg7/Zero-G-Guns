@@ -385,7 +385,7 @@ PrefabInstance:
     - target: {fileID: 2181779809021178794, guid: 03b570c18870f384c992d818d6c5581e,
         type: 3}
       propertyPath: m_Name
-      value: RoundManager
+      value: BTT_Manager
       objectReference: {fileID: 0}
     - target: {fileID: 2181779809021178792, guid: 03b570c18870f384c992d818d6c5581e,
         type: 3}
@@ -562,8 +562,44 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 14c9e510f608bc8459b80cca5a3869ad,
         type: 2}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2181779809021178793, guid: 03b570c18870f384c992d818d6c5581e, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 03b570c18870f384c992d818d6c5581e, type: 3}
+--- !u!1 &1026531097 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2181779809021178794, guid: 03b570c18870f384c992d818d6c5581e,
+    type: 3}
+  m_PrefabInstance: {fileID: 1026531096}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1026531098
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1026531097}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c6927f4e11c4974eaa2dc7d4f7d1f37, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BTT_Rooms:
+  - {fileID: 11400000, guid: 14c9e510f608bc8459b80cca5a3869ad, type: 2}
+  - {fileID: 11400000, guid: 10ff91518d915a648a6b4d2cadf72dfb, type: 2}
+  - {fileID: 11400000, guid: 04db4436eb3258842b0b86e267b0fd92, type: 2}
+  - {fileID: 11400000, guid: 131334bb86434104d80de626efc38d17, type: 2}
+  finishedControllerSetup: 0
+  currentRound: 0
+  playerDataList: []
+  playerDataPrefab: {fileID: 6440091866813165666, guid: e16004b1fb22f3f42a8a0745a0a2a9fd,
+    type: 3}
+  persistentCanvas: {fileID: 2063549407}
+  globalPlayerSettings: {fileID: 11400000, guid: cb0757b590e031b498b8242038b5639a,
+    type: 2}
+  playerCanvas: {fileID: 6624704998225192752, guid: ac27b34b9c6090d49b1b29a0c6453f62,
+    type: 3}
+  roundEndCanvasScript: {fileID: 0}
+  loading: 0
 --- !u!1001 &1083082869
 PrefabInstance:
   m_ObjectHideFlags: 0

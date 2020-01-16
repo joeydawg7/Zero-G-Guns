@@ -40,8 +40,14 @@ public class PersistenceGiverScript : MonoBehaviour
         Debug.Log("starting new round from persistant scene");
 
         //print(RoundManager.Instance.arenaRooms[0].roomName);
-        RoundManager.Instance.NewRound(true);
-
+        if(RoundManager.Instance)
+        {
+            RoundManager.Instance.NewRound(true);
+        }
+        else if (BTT_Manager.Instance)
+        {
+            BTT_Manager.Instance.NewBTT_Level(0);
+        }
     }
 
     public void PersistenceTaker()
