@@ -75,6 +75,9 @@ public class ArmsScript : MonoBehaviour
     Vector3 frontArmPos;
     Vector3 backArmPos;
 
+    LineRenderer laserPointerLine;
+    
+
 
     #endregion
 
@@ -151,6 +154,37 @@ public class ArmsScript : MonoBehaviour
             if (!basePlayer.isDead)
             {
                 AimController();
+                DrawLaserPointer();
+            }
+        }
+    }
+
+
+
+    void DrawLaserPointer()
+    {
+        if (laserPointerLine && bulletSpawn)
+        {
+
+            Vector2 drawLineFromPosition = laserPointerLine.transform.position;
+
+            //laserPointerLine.transform.position = bulletSpawn.transform.position;
+            laserPointerLine.SetPosition(0, drawLineFromPosition);
+
+            RaycastHit2D laserPointerRay = Physics2D.Raycast(drawLineFromPosition, -bulletSpawn.transform.right);
+
+            if (laserPointerRay.collider != null 
+                && ( (!laserPointerRay.collider.CompareTag("Player")) 
+                || (!laserPointerRay.collider.CompareTag("Legs"))
+                || (!laserPointerRay.collider.CompareTag("Arms"))
+                || (!laserPointerRay.collider.CompareTag("Torso"))
+                || (!laserPointerRay.collider.CompareTag("Torso"))
+                || (!laserPointerRay.collider.CompareTag("Tail"))
+                )
+                )
+            {
+                Vector2 hitpoint = laserPointerRay.point;
+                laserPointerLine.SetPosition(1, hitpoint);
             }
         }
     }
@@ -229,6 +263,12 @@ public class ArmsScript : MonoBehaviour
             }
         }
 
+        if (bulletSpawn)
+        {
+            Gizmos.DrawCube(bulletSpawn.transform.position, new Vector3(1, 1, 1));
+
+        }
+
     }
 
     //public void OnReload()
@@ -305,6 +345,16 @@ public class ArmsScript : MonoBehaviour
 
             //find the new bulelt spawn location (bleh)
             bulletSpawn = gunGo.transform.Find("BulletSpawner");
+            laserPointerLine = currentWeapon.GetComponentInChildren<LineRenderer>();
+            if (laserPointerLine)
+            {
+
+                //laserPointerLine.transform.position = bulletSpawn.transform.position;
+                
+                laserPointerLine.startColor = basePlayer.playerColor;
+                laserPointerLine.endColor = basePlayer.playerColor;
+            }
+
             weaponToEquip.timeSinceLastShot = -weaponToEquip.recoilDelay;
             currentWeapon.canFire = true;
 
@@ -386,6 +436,8 @@ public class ArmsScript : MonoBehaviour
         Gizmos.color = color;
         Vector3 destination = transform.position + direction * scale;
         Gizmos.DrawLine(bulletSpawn.transform.position, destination);
+
+      
     }
     #endregion
 }
