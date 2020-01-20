@@ -31,10 +31,18 @@ public class BTTEndCanvas : MonoBehaviour
         }
     }
 
-    public void ShowEndScreen(string t)
+    public void ShowEndScreen(float t)
     {
         SetAllTextAlphas(1);
-        StartCoroutine(AnimateEndScreen(t));
+        string tString = Extensions.FloatToTime(t, "#0:00.000");
+
+        //TODO: do new record stuff here!
+        if (BTT_Manager.Instance.currentRoom.bestTime <= 0)
+            BTT_Manager.Instance.currentRoom.bestTime = t;
+        else if (t < BTT_Manager.Instance.currentRoom.bestTime)
+            BTT_Manager.Instance.currentRoom.bestTime = t;
+
+        StartCoroutine(AnimateEndScreen(tString));
     }
 
     IEnumerator AnimateEndScreen(string t)

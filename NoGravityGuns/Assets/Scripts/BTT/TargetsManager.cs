@@ -23,6 +23,7 @@ public class TargetsManager : MonoBehaviour
         foreach (var t in targetsList)
         {
             targets.Add(t.gameObject);
+            GameObject.Instantiate(BTT_Manager.Instance.targetUIImagePrefab, BTT_Manager.Instance.targetsToDestroy.transform);
         }
 
         //this is just here to prevent errors from running from this scene instead of persistent scene. Evntually the persistant scene will load and this scene will restart and the problem fixes itself
@@ -38,6 +39,7 @@ public class TargetsManager : MonoBehaviour
 
         //show timer
         timerTextMesh.gameObject.SetActive(true);
+
     }
 
     public void TargetDestroyed(Transform lockOnTarget)
@@ -60,6 +62,8 @@ public class TargetsManager : MonoBehaviour
         //reorder the list so that it only contains existing targets
         targets = targets.Where(item => item != null).ToList();
 
+        Destroy(BTT_Manager.Instance.targetsToDestroy.transform.GetChild(0).gameObject);
+
         //if there are no existing targets, game is over
         if (targets.Count == 0)
         {
@@ -70,7 +74,7 @@ public class TargetsManager : MonoBehaviour
             GameManager.Instance.cameraController.TrackFinalBlow(lockOnTarget, 2f, PlayerScript.DamageType.self, GameManager.Instance.pistol);
 
             yield return new WaitForSeconds(0.25f);
-            BTT_Manager.Instance.BTTEndCanvas.ShowEndScreen(timeInString);
+            BTT_Manager.Instance.BTTEndCanvas.ShowEndScreen(timer);
 
 
         }
@@ -82,9 +86,11 @@ public class TargetsManager : MonoBehaviour
 
     }
 
+    float timer;
+
     private void Update()
     {
-        float timer = GameManager.Instance.timeSinceRoundStarted;
+        timer = GameManager.Instance.timeSinceRoundStarted;
 
         //after an hour the timer screws up, so we stop tracking
         if (timer < 3600)

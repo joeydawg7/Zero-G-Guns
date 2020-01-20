@@ -34,7 +34,10 @@ public class BTT_Manager : MonoBehaviour
     public GlobalPlayerSettingsSO globalPlayerSettings;
     public GameObject playerCanvas;
     public BTTEndCanvas BTTEndCanvas;
+    public GameObject targetsToDestroy;
+    public GameObject targetUIImagePrefab;
     JoiningPlayerScript joiningPlayerScript;
+    public BTT_RoomSO currentRoom;
 
     private void Awake()
     {
@@ -79,6 +82,7 @@ public class BTT_Manager : MonoBehaviour
         {
             if (bttroom.playOnLoad)
             {
+                currentRoom = bttroom;
                 NewBTT_Room(bttroom);
                 break;
             }
