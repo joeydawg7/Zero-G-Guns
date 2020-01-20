@@ -32,13 +32,16 @@ public class TraningLevelsScreen : MonoBehaviour
         bg.GetComponent<GridLayoutGroup>().constraintCount = columns;
 
         int iterator = 0;
+        //fill 2d array based on rooms list
         for (int r = 0; r < rows; r++)
         {
             for (int c = 0; c < columns; c++)
             {
-
+                //iterate thru rooms list linearly
                 var room = BTTRooms[iterator];
+                //btt_manager plays the first room it finds with this set to true, so all should be false until one is selected
                 room.playOnLoad = false;
+                //spawn level selection box prefab
                 LevelSelectData LSD = GameObject.Instantiate(levelSelectDataPrefab, bg).GetComponent<LevelSelectData>();
                 LSD.SetRoomData(room);
 
@@ -47,11 +50,14 @@ public class TraningLevelsScreen : MonoBehaviour
                 //set OnClick for the button
                 LSDs[r, c].onClick.AddListener(() => LSD.OnClick());
 
+                //select the first in the list by default
                 if (iterator == 0)
                     LSDs[r, c].Select();
 
-                    if (iterator >= BTTRooms.Count)
-                        break;
+                //if we have iterated past the number of created rooms no reason to keep looping
+                if (iterator >= BTTRooms.Count)
+                    break;
+
                 iterator++;
             }
         }
@@ -60,8 +66,7 @@ public class TraningLevelsScreen : MonoBehaviour
         {
             for (int c = 0; c < LSDs.GetLength(1); c++)
             {
-
-
+                //get our nav from the button
                 var nav = LSDs[r, c].navigation;
 
                 //check if you can go left and set pos
@@ -80,15 +85,12 @@ public class TraningLevelsScreen : MonoBehaviour
                 if (r - 1 >= 0)
                     nav.selectOnUp = LSDs[r - 1, c];
 
+                //overwrite the old buttons nav with the new one
                 LSDs[r, c].navigation = nav;
 
             }
         }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
+    
 }

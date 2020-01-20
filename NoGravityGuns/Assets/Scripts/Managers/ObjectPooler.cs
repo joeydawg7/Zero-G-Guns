@@ -20,7 +20,7 @@ public class ObjectPooler : MonoBehaviour
         else
         {
             _instance = this;
-            DontDestroyOnLoad(gameObject);
+            gameObject.DontDestroyOnLoad();
         }
 
         poolDictionary = new Dictionary<string, Queue<GameObject>>();
@@ -169,7 +169,7 @@ public class ObjectPooler : MonoBehaviour
                 go.transform.SetParent(transform);
                 //only set DDOL for parent objects
                 if (go.transform.parent == null)
-                    DontDestroyOnLoad(go);
+                    go.DontDestroyOnLoad();
 
                 //go.transform.SetParent(transform);
             }

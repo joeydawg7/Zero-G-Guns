@@ -33,7 +33,7 @@ public class LoadingBar : MonoBehaviour
         else
         {
             _instance = this;
-            DontDestroyOnLoad(this);
+            this.gameObject.DontDestroyOnLoad();
         }
     }
 

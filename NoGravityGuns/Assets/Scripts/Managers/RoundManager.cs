@@ -289,7 +289,7 @@ public class RoundManager : MonoBehaviour
     public void SpawnPlayerManager(PlayerControllerData playerControllerData)
     {
         PlayerDataScript PD = GameObject.Instantiate(playerDataPrefab).GetComponent<PlayerDataScript>();
-        DontDestroyOnLoad(PD);
+        PD.gameObject.DontDestroyOnLoad();
 
         PD.SetPlayerInfoAfterRoundStart(playerControllerData, globalPlayerSettings);
 

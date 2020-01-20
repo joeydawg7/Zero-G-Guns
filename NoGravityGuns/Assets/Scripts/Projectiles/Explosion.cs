@@ -115,7 +115,7 @@ public class Explosion : MonoBehaviour, IPooledObject
         dealDamage = false;
 
         transform.parent = null;
-        DontDestroyOnLoad(gameObject);
+        gameObject.DontDestroyOnLoad();
 
     }
 

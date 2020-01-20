@@ -21,7 +21,7 @@ public class SoundPooler : MonoBehaviour
         else
         {
             _instance = this;
-            DontDestroyOnLoad(gameObject);
+            gameObject.DontDestroyOnLoad();
         }
     }
 

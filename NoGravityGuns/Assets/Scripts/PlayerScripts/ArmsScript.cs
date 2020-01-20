@@ -298,7 +298,11 @@ public class ArmsScript : MonoBehaviour
 
     //}
 
-    //equips a new gun
+    /// <summary>
+    /// equips a new gun
+    /// </summary>
+    /// <param name="weaponToEquip"> the new weapon to equip</param>
+    /// <param name="equipInstant">should I skip the usual delay and just equip this instantly?</param>
     public void EquipGun(Guns weaponToEquip, bool equipInstant)
     {
         //instant equip assumes time since last shot as being functionally infinite so player can grab weapon and shoot right away

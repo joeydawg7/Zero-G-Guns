@@ -9,6 +9,6 @@ public class DontDestroyMe : MonoBehaviour
     private void Start()
     {
         //if(RoundManager.Instance.currentRound==1)
-            DontDestroyOnLoad(gameObject);
+        gameObject.DontDestroyOnLoad();
     }
 }

@@ -38,6 +38,7 @@ public class BTT_Manager : MonoBehaviour
     public GameObject targetUIImagePrefab;
     JoiningPlayerScript joiningPlayerScript;
     public BTT_RoomSO currentRoom;
+    public RoomSO mainMenu;
 
     private void Awake()
     {
@@ -87,9 +88,15 @@ public class BTT_Manager : MonoBehaviour
                 break;
             }
         }
-
-       
     }
+
+    public void BackToMenu()
+    {
+        DontDestroyOnLoadManager.DestroyAll();
+        SceneManager.LoadScene("SplashScreen");
+    }
+
+
 
     private void NewBTT_Room(BTT_RoomSO nextRoom)
     {
@@ -144,7 +151,7 @@ public class BTT_Manager : MonoBehaviour
         {
             PD.SpawnAtMatchingPoint(globalPlayerSettings, playerCanvas);
         }
-    
+
         SetupP1Controller();
 
         GameManager.Instance.StartGame();
@@ -191,7 +198,7 @@ public class BTT_Manager : MonoBehaviour
     public void SpawnPlayerManager(PlayerControllerData playerControllerData)
     {
         PlayerDataScript PD = GameObject.Instantiate(playerDataPrefab).GetComponent<PlayerDataScript>();
-        DontDestroyOnLoad(PD);
+        gameObject.DontDestroyOnLoad();
 
         PD.SetPlayerInfoAfterRoundStart(playerControllerData, globalPlayerSettings);
 

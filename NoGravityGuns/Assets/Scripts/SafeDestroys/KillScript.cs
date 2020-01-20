@@ -22,7 +22,7 @@ public class KillScript : MonoBehaviour
             playerScript.floatingDamage = new PlayerScript.FloatingDamageStuff();
             GetComponent<Animator>().SetTrigger(animType);
             transform.SetParent(null);
-            DontDestroyOnLoad(gameObject);
+            gameObject.DontDestroyOnLoad();
             gameObject.SetActive(false);
             
         }

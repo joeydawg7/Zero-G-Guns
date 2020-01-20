@@ -27,8 +27,6 @@ public class MenuBtnController : MonoBehaviour, ISelectHandler, IDeselectHandler
 
     }
 
-    
-
     // Update is called once per frame
     void Update()
     {

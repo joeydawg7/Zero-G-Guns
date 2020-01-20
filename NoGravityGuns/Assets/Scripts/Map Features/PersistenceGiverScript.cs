@@ -31,7 +31,7 @@ public class PersistenceGiverScript : MonoBehaviour
             //only need to set parent objects to DDOL
             if(go.transform.parent ==null)
             {
-                DontDestroyOnLoad(go);
+                go.DontDestroyOnLoad();
                 persistentStuff.Add(go.name);
             }
                 
