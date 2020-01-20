@@ -97,7 +97,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 0
+  m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -795,6 +795,11 @@ PrefabInstance:
         type: 3}
       propertyPath: maxSmoothTime
       value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3999692916492170048, guid: 2b18ac5c61031ff43a13854b9bfb3bbb,
+        type: 3}
+      propertyPath: maxZoom
+      value: 66
       objectReference: {fileID: 0}
     - target: {fileID: 3999692917492853682, guid: 2b18ac5c61031ff43a13854b9bfb3bbb,
         type: 3}

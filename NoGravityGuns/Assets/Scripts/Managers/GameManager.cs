@@ -169,6 +169,8 @@ public class GameManager : MonoBehaviour
         //    }
         //}
 
+        print("startGame called!");
+
         cameraController.OnGameStart();
 
         Time.timeScale = 1;

@@ -296,14 +296,12 @@ public class RoundManager : MonoBehaviour
         PD.SpawnAtMatchingPoint(globalPlayerSettings, playerCanvas);
 
         playerDataList.Add(PD);
-
     }
 
 
 
     private void Update()
     {
-        //spins a fun lil' loading spinner       
     }
 
 

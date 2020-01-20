@@ -166,7 +166,7 @@ public class ArmsScript : MonoBehaviour
         if (laserPointerLine && bulletSpawn)
         {
 
-            Vector2 drawLineFromPosition = laserPointerLine.transform.position;
+            Vector2 drawLineFromPosition = bulletSpawn.transform.position;
 
             //laserPointerLine.transform.position = bulletSpawn.transform.position;
             laserPointerLine.SetPosition(0, drawLineFromPosition);
@@ -350,7 +350,7 @@ public class ArmsScript : MonoBehaviour
             {
 
                 //laserPointerLine.transform.position = bulletSpawn.transform.position;
-                
+                laserPointerLine.transform.SetParent(null);
                 laserPointerLine.startColor = basePlayer.playerColor;
                 laserPointerLine.endColor = basePlayer.playerColor;
             }

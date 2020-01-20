@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Rewired;
 
 public class BTT_Manager : MonoBehaviour
 {
@@ -18,7 +19,7 @@ public class BTT_Manager : MonoBehaviour
 
     Animator newRoundTextAnimator;
 
-    public List<RoomSO> BTT_Rooms;   
+    public List<RoomSO> BTT_Rooms;
 
     public bool finishedControllerSetup;
 
@@ -44,7 +45,7 @@ public class BTT_Manager : MonoBehaviour
         else
         {
             _instance = this;
-           
+
             print("starting roundManager in scene " + SceneManager.GetActiveScene().name);
         }
 
@@ -54,12 +55,24 @@ public class BTT_Manager : MonoBehaviour
 
         Cursor.visible = false;
 
-        joiningPlayerScript = FindObjectOfType<JoiningPlayerScript>();
+        //SpawnPlayerManager(ReInput.players.GetSystemPlayer());
+
         roundEndCanvasScript = FindObjectOfType<RoundEndCanvasScript>();
 
         roundEndCanvasScript.ClearEndRoundCanvasDisplay();
+
+        // Iterating through Players (excluding the System Player) and clearing any existing data on them
+        for (int i = 0; i < ReInput.players.playerCount; i++)
+        {
+            Player p = ReInput.players.Players[i];
+
+            p.controllers.ClearAllControllers();
+        }
+
+
         globalPlayerSettings.SortPlayerSettings();
     }
+
 
     public void NewBTT_Level(int nextRoomID)
     {
@@ -68,9 +81,9 @@ public class BTT_Manager : MonoBehaviour
 
     private void NewBTT_Room(RoomSO nextRoom)
     {
-        StartCoroutine(AddLevel(nextRoom.sceneName, nextRoom));       
+        StartCoroutine(AddLevel(nextRoom.sceneName, nextRoom));
 
-        roundEndCanvasScript.ClearEndRoundCanvasDisplay();
+        // roundEndCanvasScript.ClearEndRoundCanvasDisplay();
     }
 
     public bool loading = false;
@@ -90,7 +103,7 @@ public class BTT_Manager : MonoBehaviour
     }
 
     void LevelLoaded(RoomSO nextRoom)
-    {      
+    {
         newRoundElementBacker = GameObject.Find("roomSetupBacker");
         newRoundTextAnimator = newRoundElementBacker.GetComponent<Animator>();
         newRoundText = newRoundElementBacker.transform.Find("RoomNamePopup").GetComponent<TextMeshProUGUI>();
@@ -115,20 +128,53 @@ public class BTT_Manager : MonoBehaviour
             }
         }
 
-        //if we have a tie in who the current winner is, nobody gets a crown
-        foreach (var pd in playerDataList)
-        {
-            if (pd.roundWins == max && max > 0)
-                pd.isCurrentWinner = true;
-        }
-
         foreach (var PD in playerDataList)
         {
             PD.SpawnAtMatchingPoint(globalPlayerSettings, playerCanvas);
         }
-        GameManager.Instance.StartGame();     
+    
+        SetupP1Controller();
+
+        GameManager.Instance.StartGame();
     }
 
+    private void SetupP1Controller()
+    {
+        Player player1 = ReInput.players.GetPlayer(0);
+
+        Joystick j = ReInput.controllers.GetController(ControllerType.Joystick, 0) as Joystick;
+
+        player1.controllers.AddController(j, true);
+
+        PlayerControllerData playerDataScript = new PlayerControllerData(0, j);
+
+        SpawnPlayerManager(playerDataScript);
+
+        finishedControllerSetup = true;
+    }
+
+    void AssignAllJoysticksToSystemPlayer(bool removeFromOtherPlayers)
+    {
+        foreach (var j in ReInput.controllers.Joysticks)
+        {
+            ReInput.players.GetSystemPlayer().controllers.AddController(j, removeFromOtherPlayers);
+        }
+    }
+
+
+    private void Update()
+    {
+        if (finishedControllerSetup)
+        {
+            //if either of these things are null we can't proceed. probably broken from loading outside of persistent scene and will fix itself shortly :D
+            if (!GameManager.Instance)
+            {
+                Debug.LogError("No gameManager or Roundmanager found in BTT_Manager!");
+                return;
+            }
+
+        }
+    }
 
     public void SpawnPlayerManager(PlayerControllerData playerControllerData)
     {
@@ -140,6 +186,8 @@ public class BTT_Manager : MonoBehaviour
         PD.SpawnAtMatchingPoint(globalPlayerSettings, playerCanvas);
 
         playerDataList.Add(PD);
+
+        GameManager.Instance.StartGame();
 
     }
 }

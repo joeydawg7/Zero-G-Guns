@@ -59,6 +59,7 @@ public class CameraController : MonoBehaviour
 
         smoothTime = minSmoothTime;
 
+
         if(lensDistortion == null || chromaticAbberation == null)
         {
             Debug.LogError("Lens distortion or chromatic abberation not found on current post processing profile!");
@@ -93,7 +94,8 @@ public class CameraController : MonoBehaviour
     {
         if (setToMaxZoom)
         {
-            mainCam.fieldOfView = Mathf.Lerp(mainCam.fieldOfView, zoomLimit, Time.deltaTime * zoomSpeed);
+            float newZoom = Mathf.Lerp(maxZoom, 1f, 1f / zoomLimit);
+             mainCam.fieldOfView = Mathf.Lerp(mainCam.fieldOfView, newZoom, Time.deltaTime * zoomSpeed);
         }
         else
         {
@@ -259,7 +261,12 @@ public class CameraController : MonoBehaviour
         yield return new WaitForSeconds(1 * Time.timeScale);
         //starts showing the end game GUI
         GameManager.Instance.OnGameEnd();
-        RoundManager.Instance.roundEndCanvasScript.EndRoundCanvasDisplay(playerWhoWasHit, damageType, gunWhoShotYou);
+
+        if(RoundManager.Instance)
+            RoundManager.Instance.roundEndCanvasScript.EndRoundCanvasDisplay(playerWhoWasHit, damageType, gunWhoShotYou);
+        else
+            //BTT_Manager.Instance.roundEndCanvasScript.EndRoundCanvasDisplay(transform)
+
         //make all SFX pitched normal
         SFXMixer.SetFloat("SFXPitch", 1f);
 

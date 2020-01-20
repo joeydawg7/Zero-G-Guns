@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using Rewired;
 
 public class MenuBtnController : MonoBehaviour, ISelectHandler, IDeselectHandler
 {
@@ -75,6 +76,7 @@ public class MenuBtnController : MonoBehaviour, ISelectHandler, IDeselectHandler
     public void ThisOnClick()
     {
         var button = this.gameObject.name;
+
         switch (button)
         {
             case "TrainingBtn":
@@ -120,4 +122,5 @@ public class MenuBtnController : MonoBehaviour, ISelectHandler, IDeselectHandler
         }        
         
     }
+
 }

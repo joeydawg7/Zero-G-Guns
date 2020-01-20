@@ -399,8 +399,15 @@ public class PlayerScript : MonoBehaviour
             playerCanvasScript.setHealth(barVal);
 
             //apply haptic feedback on controller based on damage taken
-            if(!RoundManager.Instance.debugManager.useDebugSettings)
+            if (RoundManager.Instance)
+            {
+                if (!RoundManager.Instance.debugManager.useDebugSettings)
+                    Vibrate(damage / 100f, damage / 100f);
+            }
+            else
+            {
                 Vibrate(damage / 100f, damage / 100f);
+            }
 
             if (health <= 0)
             {
