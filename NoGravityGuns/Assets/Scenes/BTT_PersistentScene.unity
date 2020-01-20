@@ -97,7 +97,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -584,10 +584,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BTT_Rooms:
-  - {fileID: 11400000, guid: 14c9e510f608bc8459b80cca5a3869ad, type: 2}
-  - {fileID: 11400000, guid: 10ff91518d915a648a6b4d2cadf72dfb, type: 2}
-  - {fileID: 11400000, guid: 04db4436eb3258842b0b86e267b0fd92, type: 2}
-  - {fileID: 11400000, guid: 131334bb86434104d80de626efc38d17, type: 2}
+  - {fileID: 11400000, guid: 7a9761c574b655140bfb00f80b7519f7, type: 2}
+  - {fileID: 11400000, guid: 9b831b4f13918f043b10121e1f7124e2, type: 2}
+  - {fileID: 11400000, guid: e479a11571f476e42a117b00dc55f7b6, type: 2}
+  - {fileID: 11400000, guid: bb7e785a300d7d34ca174276c8ab8a35, type: 2}
   finishedControllerSetup: 0
   currentRound: 0
   playerDataList: []
@@ -598,7 +598,7 @@ MonoBehaviour:
     type: 2}
   playerCanvas: {fileID: 6624704998225192752, guid: ac27b34b9c6090d49b1b29a0c6453f62,
     type: 3}
-  roundEndCanvasScript: {fileID: 0}
+  BTTEndCanvas: {fileID: 0}
   loading: 0
 --- !u!1001 &1083082869
 PrefabInstance:
@@ -1043,15 +1043,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5903085415896932467, guid: 5f9a7b3882159b848a3afddda6958eb5,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 828682124, guid: 5f9a7b3882159b848a3afddda6958eb5, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -30.999939
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5f9a7b3882159b848a3afddda6958eb5, type: 3}

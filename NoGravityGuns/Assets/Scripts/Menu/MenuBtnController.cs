@@ -8,6 +8,7 @@ using Rewired;
 
 public class MenuBtnController : MonoBehaviour, ISelectHandler, IDeselectHandler
 {
+
     private bool selected;
     float timer = 0.0f;
     private Button thisButton;
@@ -21,7 +22,9 @@ public class MenuBtnController : MonoBehaviour, ISelectHandler, IDeselectHandler
         if(this.gameObject.name != "ArenaBtn")
         {
             selected = false;
-        }          
+        }
+
+
     }
 
     
@@ -80,20 +83,16 @@ public class MenuBtnController : MonoBehaviour, ISelectHandler, IDeselectHandler
         switch (button)
         {
             case "TrainingBtn":
-                if (RoundManager.Instance == null)
+
+                var traningLevelsScreens = Resources.FindObjectsOfTypeAll<TraningLevelsScreen>();
+                if (traningLevelsScreens.Length > 0)
                 {
-                    Debug.Log("Click, Round Manger Null");                   
-                    SceneManager.LoadSceneAsync("BTT_PersistentScene", LoadSceneMode.Single);
-                    LoadingBar.Instance.StartLoadingBar();
-                   
+                    var traningLevelsScreen = traningLevelsScreens[0];
+                    traningLevelsScreen.ShowTrainingLevelsScreen();
                 }
                 else
-                {
-                    PersistenceGiverScript.Instance.PersistenceTaker();
-                    SceneManager.LoadSceneAsync("BTT_PersistentScene", LoadSceneMode.Single);
-                    LoadingBar.Instance.StartLoadingBar();
-
-                }
+                    Debug.LogError("Couldn't Find a training levels screen!");
+               
                 break;
             case "ArenaBtn":
                 if(RoundManager.Instance == null)

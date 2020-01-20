@@ -19,7 +19,7 @@ public class BTT_Manager : MonoBehaviour
 
     Animator newRoundTextAnimator;
 
-    public List<RoomSO> BTT_Rooms;
+    public List<BTT_RoomSO> BTT_Rooms;
 
     public bool finishedControllerSetup;
 
@@ -33,7 +33,7 @@ public class BTT_Manager : MonoBehaviour
 
     public GlobalPlayerSettingsSO globalPlayerSettings;
     public GameObject playerCanvas;
-    public RoundEndCanvasScript roundEndCanvasScript;
+    public BTTEndCanvas BTTEndCanvas;
     JoiningPlayerScript joiningPlayerScript;
 
     private void Awake()
@@ -57,9 +57,7 @@ public class BTT_Manager : MonoBehaviour
 
         //SpawnPlayerManager(ReInput.players.GetSystemPlayer());
 
-        roundEndCanvasScript = FindObjectOfType<RoundEndCanvasScript>();
-
-        roundEndCanvasScript.ClearEndRoundCanvasDisplay();
+        BTTEndCanvas = FindObjectOfType<BTTEndCanvas>();
 
         // Iterating through Players (excluding the System Player) and clearing any existing data on them
         for (int i = 0; i < ReInput.players.playerCount; i++)
@@ -76,10 +74,20 @@ public class BTT_Manager : MonoBehaviour
 
     public void NewBTT_Level(int nextRoomID)
     {
-        NewBTT_Room(BTT_Rooms[nextRoomID]);
+
+        foreach (var bttroom in BTT_Rooms)
+        {
+            if (bttroom.playOnLoad)
+            {
+                NewBTT_Room(bttroom);
+                break;
+            }
+        }
+
+       
     }
 
-    private void NewBTT_Room(RoomSO nextRoom)
+    private void NewBTT_Room(BTT_RoomSO nextRoom)
     {
         StartCoroutine(AddLevel(nextRoom.sceneName, nextRoom));
 

@@ -73,7 +73,7 @@ public class CameraController : MonoBehaviour
         if (players.Count == 0)
             return;
 
-        if (players.Count < 2)
+        if (players.Count < 2 && !holdingOnFinalBlow)
             setToMaxZoom = true;
         else
             setToMaxZoom = false;
@@ -207,10 +207,11 @@ public class CameraController : MonoBehaviour
         StartCoroutine(HoldOnFinalBlow(playerWhoWasHit, timeToHold, damageType, gunWhoShotYou));
     }
 
+    bool holdingOnFinalBlow = false;
 
     IEnumerator HoldOnFinalBlow(Transform playerWhoWasHit, float t, PlayerScript.DamageType damageType, Guns gunWhoShotYou)
     {
-
+        holdingOnFinalBlow = true;
         setToMaxZoom = false;
 
         //store old data about who we were tracking, then clear who we are tracking and set only the hit player so we zoom in on them
@@ -262,10 +263,9 @@ public class CameraController : MonoBehaviour
         //starts showing the end game GUI
         GameManager.Instance.OnGameEnd();
 
-        if(RoundManager.Instance)
+        if (RoundManager.Instance)
             RoundManager.Instance.roundEndCanvasScript.EndRoundCanvasDisplay(playerWhoWasHit, damageType, gunWhoShotYou);
-        else
-            //BTT_Manager.Instance.roundEndCanvasScript.EndRoundCanvasDisplay(transform)
+
 
         //make all SFX pitched normal
         SFXMixer.SetFloat("SFXPitch", 1f);

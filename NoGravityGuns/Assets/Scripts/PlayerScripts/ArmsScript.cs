@@ -351,6 +351,7 @@ public class ArmsScript : MonoBehaviour
 
                 //laserPointerLine.transform.position = bulletSpawn.transform.position;
                 laserPointerLine.transform.SetParent(null);
+                laserPointerLine.transform.localScale = new Vector3(1, 1, 1);
                 laserPointerLine.startColor = basePlayer.playerColor;
                 laserPointerLine.endColor = basePlayer.playerColor;
             }

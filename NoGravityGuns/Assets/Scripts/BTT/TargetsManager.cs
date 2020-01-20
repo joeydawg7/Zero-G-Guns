@@ -12,8 +12,12 @@ public class TargetsManager : MonoBehaviour
     public AudioClip targetShatter;
     public TextMeshProUGUI timerTextMesh;
 
+    string timeInString;
+
     private void Start()
     {
+        timeInString = "";
+
         List<TargetScript> targetsList = FindObjectsOfType<TargetScript>().ToList();
 
         foreach (var t in targetsList)
@@ -30,7 +34,7 @@ public class TargetsManager : MonoBehaviour
         catch
         {
             //haha lol
-        }        
+        }
 
         //show timer
         timerTextMesh.gameObject.SetActive(true);
@@ -64,10 +68,17 @@ public class TargetsManager : MonoBehaviour
 
             //show a slowmo zoom effect at the particle effect that plays
             GameManager.Instance.cameraController.TrackFinalBlow(lockOnTarget, 2f, PlayerScript.DamageType.self, GameManager.Instance.pistol);
+
+            yield return new WaitForSeconds(0.25f);
+            BTT_Manager.Instance.BTTEndCanvas.ShowEndScreen(timeInString);
+
+
         }
-
-
-
+        //there still more targets to shoot!
+        else
+        {
+            yield break;
+        }
 
     }
 
@@ -76,7 +87,10 @@ public class TargetsManager : MonoBehaviour
         float timer = GameManager.Instance.timeSinceRoundStarted;
 
         //after an hour the timer screws up, so we stop tracking
-        if (timer < 3600)           
-        timerTextMesh.text = Extensions.FloatToTime(timer, "#0:00.000");
+        if (timer < 3600)
+        {
+            timeInString = Extensions.FloatToTime(timer, "#0:00.000");
+            timerTextMesh.text = timeInString;
+        }
     }
 }
