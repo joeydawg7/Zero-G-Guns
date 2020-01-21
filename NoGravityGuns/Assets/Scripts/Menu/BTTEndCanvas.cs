@@ -44,22 +44,26 @@ public class BTTEndCanvas : MonoBehaviour
         float prevBestTime = PlayerPrefs.GetFloat(BTT_Manager.Instance.currentRoom.roomName);
 
 
+        bool newRecord = false;
+
         //TODO: do new record stuff here!
         if (prevBestTime <= 0)
         {
             PlayerPrefs.SetFloat(BTT_Manager.Instance.currentRoom.roomName, t);
+            newRecord = true;
         }
         else if (t < prevBestTime)
         {
             PlayerPrefs.SetFloat(BTT_Manager.Instance.currentRoom.roomName, t);
+            newRecord = true;
         }
 
 
 
-        StartCoroutine(AnimateEndScreen(tString));
+        StartCoroutine(AnimateEndScreen(tString, newRecord));
     }
 
-    IEnumerator AnimateEndScreen(string t)
+    IEnumerator AnimateEndScreen(string t, bool gotNewRecord)
     {
         yield return new WaitForSeconds(0.25f);
         gameIsDone = true;
@@ -69,7 +73,11 @@ public class BTTEndCanvas : MonoBehaviour
 
         yield return new WaitForSeconds(0.25f);
 
-        newRecord.gameObject.SetActive(true);
+        if (gotNewRecord)
+        {
+            Cursor.visible = true;
+            newRecord.gameObject.SetActive(true);
+        }
     }
 
     private void Update()
@@ -81,7 +89,9 @@ public class BTTEndCanvas : MonoBehaviour
                 //A retry
                 if (player.GetButtonDown("Join"))
                 {
-                    BTT_Manager.Instance.NewBTT_Level(0);
+                    //BTT_Manager.Instance.NewBTT_Level(0);
+                    //BTT_Manager.inst.
+                    BTT_Manager.Instance.BackToPersistentScene();
                     gameIsDone = false;
                     break;
                 }

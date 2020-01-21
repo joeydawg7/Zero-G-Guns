@@ -63,13 +63,7 @@ public class BTT_Manager : MonoBehaviour
 
         BTTEndCanvas = FindObjectOfType<BTTEndCanvas>();
 
-        // Iterating through Players (excluding the System Player) and clearing any existing data on them
-        for (int i = 0; i < ReInput.players.playerCount; i++)
-        {
-            Player p = ReInput.players.Players[i];
-
-            p.controllers.ClearAllControllers();
-        }
+        ClearAllControllers();
 
 
         globalPlayerSettings.SortPlayerSettings();
@@ -95,8 +89,24 @@ public class BTT_Manager : MonoBehaviour
         DontDestroyOnLoadManager.DestroyAll();
         SceneManager.LoadScene("SplashScreen");
     }
+    
+    public void BackToPersistentScene()
+    {
+        DontDestroyOnLoadManager.DestroyAll();
+        SceneManager.LoadScene("BTT_PersistentScene");
+    }
 
 
+    void ClearAllControllers()
+    {
+        // Iterating through Players (excluding the System Player) and clearing any existing data on them
+        for (int i = 0; i < ReInput.players.playerCount; i++)
+        {
+            Player p = ReInput.players.Players[i];
+
+            p.controllers.ClearAllControllers();
+        }
+    }
 
     private void NewBTT_Room(BTT_RoomSO nextRoom)
     {
@@ -111,6 +121,9 @@ public class BTT_Manager : MonoBehaviour
     {
         AsyncOperation asyncLoadLevel = SceneManager.LoadSceneAsync(lvl);
         print("loading async now!");
+
+        ClearAllControllers();
+
         while (!asyncLoadLevel.isDone)
         {
             yield return null;
@@ -165,6 +178,7 @@ public class BTT_Manager : MonoBehaviour
 
         player1.controllers.AddController(j, true);
 
+
         PlayerControllerData playerDataScript = new PlayerControllerData(0, j);
 
         SpawnPlayerManager(playerDataScript);
@@ -201,6 +215,8 @@ public class BTT_Manager : MonoBehaviour
         gameObject.DontDestroyOnLoad();
 
         PD.SetPlayerInfoAfterRoundStart(playerControllerData, globalPlayerSettings);
+
+        Debug.Log("This: " + playerControllerData.ID);
 
         PD.SpawnAtMatchingPoint(globalPlayerSettings, playerCanvas);
 
