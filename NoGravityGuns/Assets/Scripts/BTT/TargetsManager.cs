@@ -74,7 +74,7 @@ public class TargetsManager : MonoBehaviour
             GameManager.Instance.cameraController.TrackFinalBlow(lockOnTarget, 2f, PlayerScript.DamageType.self, GameManager.Instance.pistol);
 
             yield return new WaitForSeconds(0.25f);
-            BTT_Manager.Instance.BTTEndCanvas.ShowEndScreen(timer);
+            BTT_Manager.Instance.BTTEndCanvas.ShowEndScreen(timer, false);
 
 
         }
@@ -87,6 +87,17 @@ public class TargetsManager : MonoBehaviour
     }
 
     float timer;
+
+    public void DeadPlayer(Transform player)
+    {
+        //cut the timer
+        GameManager.Instance.stopTimer = true;
+
+        //show a slowmo zoom effect at the particle effect that plays
+        GameManager.Instance.cameraController.TrackFinalBlow(player, 2f, PlayerScript.DamageType.self, GameManager.Instance.pistol);
+
+        BTT_Manager.Instance.BTTEndCanvas.ShowEndScreen(timer, true);
+    }
 
     private void Update()
     {

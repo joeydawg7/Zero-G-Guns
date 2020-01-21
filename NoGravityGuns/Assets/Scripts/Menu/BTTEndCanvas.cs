@@ -9,6 +9,7 @@ public class BTTEndCanvas : MonoBehaviour
 {
     public TextMeshProUGUI time;
     public TextMeshProUGUI newRecord;
+    public TextMeshProUGUI complete;
 
     bool gameIsDone;
 
@@ -36,7 +37,7 @@ public class BTTEndCanvas : MonoBehaviour
         }
     }
 
-    public void ShowEndScreen(float t)
+    public void ShowEndScreen(float t, bool isDead)
     {
         SetAllTextAlphas(1);
         string tString = Extensions.FloatToTime(t, "#0:00.000");
@@ -46,27 +47,35 @@ public class BTTEndCanvas : MonoBehaviour
 
         bool newRecord = false;
 
-        //TODO: do new record stuff here!
-        if (prevBestTime <= 0)
+        if (!isDead)
         {
-            PlayerPrefs.SetFloat(BTT_Manager.Instance.currentRoom.roomName, t);
-            newRecord = true;
+            //TODO: do new record stuff here!
+            if (prevBestTime <= 0)
+            {
+                PlayerPrefs.SetFloat(BTT_Manager.Instance.currentRoom.roomName, t);
+                newRecord = true;
+            }
+            else if (t < prevBestTime)
+            {
+                PlayerPrefs.SetFloat(BTT_Manager.Instance.currentRoom.roomName, t);
+                newRecord = true;
+            }
+
+            StartCoroutine(AnimateEndScreen(tString, newRecord));
         }
-        else if (t < prevBestTime)
+        else
         {
-            PlayerPrefs.SetFloat(BTT_Manager.Instance.currentRoom.roomName, t);
-            newRecord = true;
+            StartCoroutine(AnimateFailureScreen());
         }
-
-
-
-        StartCoroutine(AnimateEndScreen(tString, newRecord));
+        
     }
 
     IEnumerator AnimateEndScreen(string t, bool gotNewRecord)
     {
+        complete.text = "Complete!";
         yield return new WaitForSeconds(0.25f);
         gameIsDone = true;
+        
 
         time.gameObject.SetActive(true);
         time.text = "Time: " + t;
@@ -78,6 +87,17 @@ public class BTTEndCanvas : MonoBehaviour
             Cursor.visible = true;
             newRecord.gameObject.SetActive(true);
         }
+    }
+
+    IEnumerator AnimateFailureScreen()
+    {
+        complete.text = "Failure!";
+        yield return new WaitForSeconds(0.25f);
+        
+        gameIsDone = true;
+
+        yield return new WaitForSeconds(0.25f);
+
     }
 
     private void Update()

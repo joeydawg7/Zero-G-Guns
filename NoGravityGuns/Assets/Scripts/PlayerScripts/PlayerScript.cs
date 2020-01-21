@@ -486,6 +486,11 @@ public class PlayerScript : MonoBehaviour
             //makes it so you are holding nothing while dead
             armsScript.HideAllGuns();
 
+            TargetsManager TM = FindObjectOfType<TargetsManager>();
+
+            if (TM)
+                TM.DeadPlayer(gameObject.transform);
+
         }
 
         return this;
