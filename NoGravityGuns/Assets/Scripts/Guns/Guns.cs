@@ -83,7 +83,7 @@ public abstract class Guns : MonoBehaviour
         KnockBack(player, player.knockbackMultiplier);
         player.armsScript.audioSource.PlayOneShot(GetRandomGunshotSFX);
 
-        if (timeSinceLastShot > recoilDelay)
+        if (timeSinceLastShot > recoilDelay && player.armsScript.currentWeapon == gun)
             SpawnBullet(player, bulletSpeed, minDamage, maxDamage, gun);
     }
 
@@ -161,6 +161,13 @@ public abstract class Guns : MonoBehaviour
         }
         else
         {
+            if (!bulletSpawn)
+            {
+                bulletSpawn.position = player.armsScript.GetBulletSpawnPos();         
+            }
+
+            Debug.Log(bulletSpawn.position);
+
             GameObject bulletGo = ObjectPooler.Instance.SpawnFromPool(projectileTypeName, bulletSpawn.position, Quaternion.identity);
             var dir = bulletSpawn.transform.right * bulletSpeed;
 

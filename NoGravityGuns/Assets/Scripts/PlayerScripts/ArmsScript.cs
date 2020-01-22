@@ -322,6 +322,14 @@ public class ArmsScript : MonoBehaviour
 
     }
 
+    public Vector3 GetBulletSpawnPos()
+    {
+        //find the new bulelt spawn location (bleh)
+        bulletSpawn = currentWeapon.gameObject.transform.Find("BulletSpawner");
+
+        return bulletSpawn.position;
+    }
+
     void EquipGun(Guns weaponToEquip)
     {
         if(weaponToEquip)
@@ -347,8 +355,9 @@ public class ArmsScript : MonoBehaviour
 
             isReloading = false;
 
-            //find the new bulelt spawn location (bleh)
-            bulletSpawn = gunGo.transform.Find("BulletSpawner");
+
+            GetBulletSpawnPos();
+
             laserPointerLine = currentWeapon.GetComponentInChildren<LineRenderer>();
             if (laserPointerLine)
             {
