@@ -88,12 +88,34 @@ public class BTT_Manager : MonoBehaviour
     {
         DontDestroyOnLoadManager.DestroyAll();
         SceneManager.LoadScene("SplashScreen");
+        //StartCoroutine(LoadSceneAsyncByName("SplashScreen"));
     }
-    
+
     public void BackToPersistentScene()
     {
         DontDestroyOnLoadManager.DestroyAll();
         SceneManager.LoadScene("BTT_PersistentScene");
+        //StartCoroutine(LoadSceneAsyncByName("BTT_PersistentScene"));
+    }
+
+    IEnumerator LoadSceneAsyncByName(string s)
+    {
+
+        AsyncOperation asyncLoadLevel = SceneManager.LoadSceneAsync(s);
+
+        ClearAllControllers();
+
+        while (!asyncLoadLevel.isDone)
+        {
+            yield return null;
+        }
+        print("done loading!");
+
+        DontDestroyOnLoadManager.DestroyAll();
+
+        yield return new WaitForSeconds(0.5f);
+
+
     }
 
 
