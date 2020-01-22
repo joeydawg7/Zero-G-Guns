@@ -3,18 +3,22 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Linq;
+using Rewired;
 
 public class TraningLevelsScreen : MonoBehaviour
 {
     public List<BTT_RoomSO> BTTRooms;
     public LevelSelectData levelSelectDataPrefab;
     //public int columns;
-
+    private float holdTimer;
     public Button[] LSDs;
+    public Image holdTimerIndicator;
+    public Button areanButton;
 
     // Start is called before the first frame update
     void Start()
     {
+        holdTimer = 0;
         int i = 0;
         foreach(Button b in LSDs)
         {          
@@ -103,5 +107,32 @@ public class TraningLevelsScreen : MonoBehaviour
         //}
     }
 
-    
+    private void Update()
+    {
+        if (this.gameObject.activeInHierarchy)
+        {
+            if (Input.GetButton("Cancel"))
+            {
+                holdTimer += Time.deltaTime;
+                holdTimerIndicator.fillAmount = holdTimer;
+            }
+            if (Input.GetButtonUp("Cancel"))
+            {
+                holdTimer = 0;
+                holdTimerIndicator.fillAmount = holdTimer;
+            }
+            if (holdTimer > 1.0f)
+            {
+                holdTimer = 0;
+                holdTimerIndicator.fillAmount = holdTimer;
+                this.gameObject.SetActive(false);
+            }
+        }
+    }
+
+    private void OnDisable()
+    {
+        areanButton.Select();
+    }
+
 }

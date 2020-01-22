@@ -87,12 +87,14 @@ public class BTT_Manager : MonoBehaviour
     public void BackToMenu()
     {
         DontDestroyOnLoadManager.DestroyAll();
+        Time.timeScale = 1.0f;
         SceneManager.LoadScene("SplashScreen");
     }
     
     public void BackToPersistentScene()
     {
         DontDestroyOnLoadManager.DestroyAll();
+        Time.timeScale = 1.0f;
         SceneManager.LoadScene("BTT_PersistentScene");
     }
 

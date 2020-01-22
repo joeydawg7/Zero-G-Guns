@@ -38,7 +38,7 @@ public class BTTEndCanvas : MonoBehaviour
     }
 
     public void ShowEndScreen(float t, bool isDead)
-    {
+    {        
         SetAllTextAlphas(1);
         string tString = Extensions.FloatToTime(t, "#0:00.000");
 
@@ -108,11 +108,11 @@ public class BTTEndCanvas : MonoBehaviour
             {
                 //A retry
                 if (player.GetButtonDown("Join"))
-                {
+                {                    
                     //BTT_Manager.Instance.NewBTT_Level(0);
                     //BTT_Manager.inst.
                     BTT_Manager.Instance.BackToPersistentScene();
-                    gameIsDone = false;
+                    gameIsDone = false;                    
                     break;
                 }
 
