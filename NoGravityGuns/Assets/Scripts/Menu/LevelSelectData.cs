@@ -4,38 +4,45 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using System;
 
 public class LevelSelectData : MonoBehaviour
 {
     public BTT_RoomSO room;
 
-    public TextMeshProUGUI roomName;
-    public TextMeshProUGUI time;
+    //public TextMeshProUGUI roomName;
+    //public TextMeshProUGUI time;
 
     /// <summary>
     /// sets initial room data on the UI object when spawned
     /// </summary>
     /// <param name="room"></param>
-    public void SetRoomData(BTT_RoomSO room)
+    public void SetRoomData(BTT_RoomSO room, Button but)
     {
         this.room = room;
-        roomName.text = room.roomName;
-        gameObject.name = room.roomName;
-
+        string bestTimeText = string.Empty;
         float bestTime = PlayerPrefs.GetFloat(room.roomName);
 
         //show best time if exists
         if (bestTime > 0)
-            time.text = "Best Time: " + Extensions.FloatToTime(bestTime, "#0:00.000");
-        else
-            time.text = "No Best Time!";
-
-        //set room preview if it exists
-        if(room.roomPreviewImage)
         {
-            gameObject.GetComponent<Image>().sprite = room.roomPreviewImage.sprite;
+            bestTimeText = "Best Time: " + Extensions.FloatToTime(bestTime, "#0:00.000");
+        }           
+        else
+        {
+            bestTimeText = "No Best Time!";
         }
 
+
+        but.GetComponentInChildren<TextMeshProUGUI>().text = room.roomName + Environment.NewLine + bestTimeText;
+        //roomName.text = room.roomName;
+        //gameObject.name = room.roomName;        
+
+        //set room preview if it exists
+        //if(room.roomPreviewImage)
+        //{
+        //    gameObject.GetComponent<Image>().sprite = room.roomPreviewImage.sprite;
+        //}
     }
 
     /// <summary>
