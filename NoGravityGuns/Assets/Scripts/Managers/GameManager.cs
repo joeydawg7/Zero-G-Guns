@@ -171,6 +171,7 @@ public class GameManager : MonoBehaviour
 
         print("startGame called!");
 
+        cameraController.setToMaxZoom = false;
         cameraController.OnGameStart();
 
         Time.timeScale = 1;
@@ -192,6 +193,10 @@ public class GameManager : MonoBehaviour
             // if(ps[i].isDummy)
             players.Add(ps[i]);
         }
+
+        
+
+
         StartCoroutine(Countdown());
     }
 

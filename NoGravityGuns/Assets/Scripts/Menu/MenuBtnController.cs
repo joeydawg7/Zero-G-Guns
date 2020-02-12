@@ -78,6 +78,26 @@ public class MenuBtnController : MonoBehaviour, ISelectHandler, IDeselectHandler
     {
         var button = this.gameObject.name;
 
+        for (int i = 0; i < ReInput.players.AllPlayers.Count; i++)
+        {
+            foreach (Joystick joystick in ReInput.players.AllPlayers[i].controllers.Joysticks)
+            {
+                //ReInput.players.AllPlayers[i].controllers.maps.SetAllMapsEnabled(true);
+                ReInput.players.AllPlayers[i].controllers.maps.SetMapsEnabled(false, "UI");
+                ReInput.players.AllPlayers[i].controllers.maps.SetMapsEnabled(true, "Gameplay");
+                ReInput.players.AllPlayers[i].controllers.maps.SetMapsEnabled(true, "Default");
+                Debug.Log(ReInput.players.AllPlayers[i].controllers.maps.ContainsMapInCategory("Gameplay") + " " + ReInput.players.AllPlayers[i].name);
+            }
+        }
+
+        //ReInput.players.GetPlayer(0).controllers.maps.SetMapsEnabled(false, "UI"); ;
+        //ReInput.players.GetPlayer(1).controllers.maps.SetMapsEnabled(false, "UI"); 
+        //ReInput.players.GetPlayer(2).controllers.maps.SetMapsEnabled(false, "UI"); ;
+        //ReInput.players.GetPlayer(3).controllers.maps.SetMapsEnabled(false, "UI"); ;
+
+        Debug.Log("aoihoaijs");
+
+
         switch (button)
         {
             case "TrainingBtn":

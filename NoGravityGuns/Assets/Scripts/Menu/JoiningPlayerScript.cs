@@ -63,6 +63,18 @@ public class JoiningPlayerScript : MonoBehaviour
         playerControllerDataDictionary = new Dictionary<int, PlayerControllerData>();        
         holdTimer = 0;
 
+        for (int i = 0; i < ReInput.players.AllPlayers.Count; i++)
+        {
+            foreach (Joystick joystick in ReInput.players.AllPlayers[i].controllers.Joysticks)
+            {
+                //ReInput.players.AllPlayers[i].controllers.maps.SetAllMapsEnabled(true);
+                ReInput.players.AllPlayers[i].controllers.maps.SetMapsEnabled(false, "UI");
+                ReInput.players.AllPlayers[i].controllers.maps.SetMapsEnabled(true, "Gameplay");
+                ReInput.players.AllPlayers[i].controllers.maps.SetMapsEnabled(true, "Default");
+                Debug.Log(ReInput.players.AllPlayers[i].controllers.maps.ContainsMapInCategory("Gameplay") + " " + ReInput.players.AllPlayers[i].name);
+            }
+        }
+
     }
 
     void Start()

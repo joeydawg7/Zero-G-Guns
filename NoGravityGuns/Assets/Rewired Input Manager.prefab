@@ -10,6 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 5056031935020888196}
   - component: {fileID: 4947233617113513924}
+  - component: {fileID: 1295119039}
+  - component: {fileID: 1295119040}
   m_Layer: 0
   m_Name: Rewired Input Manager
   m_TagString: Untagged
@@ -126,10 +128,10 @@ MonoBehaviour:
       assignJoysticksToPlayingPlayersOnly: 0
       distributeJoysticksEvenly: 1
       reassignJoystickToPreviousOwnerOnReconnect: 1
-      defaultJoystickAxis2DDeadZoneType: 1
-      defaultJoystickAxis2DSensitivityType: 0
+      defaultJoystickAxis2DDeadZoneType: 2
+      defaultJoystickAxis2DSensitivityType: 1
       defaultAxisSensitivityType: 0
-      force4WayHats: 0
+      force4WayHats: 1
       throttleCalibrationMode: 0
       activateActionButtonsOnNegativeValue: 0
       deferControllerConnectedEventsOnStart: 0
@@ -167,7 +169,7 @@ MonoBehaviour:
       _startPlaying: 1
       _defaultJoystickMaps:
       - _enabled: 1
-        _categoryId: 1
+        _categoryId: 2
         _layoutId: 0
       _defaultMouseMaps: []
       _defaultKeyboardMaps: []
@@ -189,6 +191,9 @@ MonoBehaviour:
       _startPlaying: 1
       _defaultJoystickMaps:
       - _enabled: 1
+        _categoryId: 1
+        _layoutId: 0
+      - _enabled: 0
         _categoryId: 2
         _layoutId: 0
       _defaultMouseMaps: []
@@ -204,13 +209,18 @@ MonoBehaviour:
         _ruleSets: []
       _controllerMapEnablerSettings:
         _enabled: 1
-        _ruleSets: []
+        _ruleSets:
+        - _enabled: 0
+          _id: 0
     - _id: 2
       _name: Player2
       _descriptiveName: Player2
       _startPlaying: 1
       _defaultJoystickMaps:
       - _enabled: 1
+        _categoryId: 1
+        _layoutId: 0
+      - _enabled: 0
         _categoryId: 2
         _layoutId: 0
       _defaultMouseMaps: []
@@ -226,13 +236,18 @@ MonoBehaviour:
         _ruleSets: []
       _controllerMapEnablerSettings:
         _enabled: 1
-        _ruleSets: []
+        _ruleSets:
+        - _enabled: 0
+          _id: 0
     - _id: 5
       _name: Player3
       _descriptiveName: Player3
       _startPlaying: 1
       _defaultJoystickMaps:
       - _enabled: 1
+        _categoryId: 1
+        _layoutId: 0
+      - _enabled: 0
         _categoryId: 2
         _layoutId: 0
       _defaultMouseMaps: []
@@ -248,13 +263,18 @@ MonoBehaviour:
         _ruleSets: []
       _controllerMapEnablerSettings:
         _enabled: 1
-        _ruleSets: []
+        _ruleSets:
+        - _enabled: 0
+          _id: 0
     - _id: 6
       _name: Player4
       _descriptiveName: Player4
       _startPlaying: 1
       _defaultJoystickMaps:
       - _enabled: 1
+        _categoryId: 1
+        _layoutId: 0
+      - _enabled: 0
         _categoryId: 2
         _layoutId: 0
       _defaultMouseMaps: []
@@ -270,7 +290,9 @@ MonoBehaviour:
         _ruleSets: []
       _controllerMapEnablerSettings:
         _enabled: 1
-        _ruleSets: []
+        _ruleSets:
+        - _enabled: 0
+          _id: 0
     actions:
     - _id: 0
       _name: Move Horizontal
@@ -344,16 +366,77 @@ MonoBehaviour:
       _behaviorId: 0
       _userAssignable: 1
       _categoryId: 0
+    - _id: 9
+      _name: Action0
+      _type: 1
+      _descriptiveName: Action0
+      _positiveDescriptiveName: 
+      _negativeDescriptiveName: 
+      _behaviorId: 0
+      _userAssignable: 1
+      _categoryId: 0
+    - _id: 10
+      _name: Action1
+      _type: 1
+      _descriptiveName: Action1
+      _positiveDescriptiveName: 
+      _negativeDescriptiveName: 
+      _behaviorId: 0
+      _userAssignable: 1
+      _categoryId: 0
+    - _id: 11
+      _name: UIHorizontal
+      _type: 0
+      _descriptiveName: UIHorizontal
+      _positiveDescriptiveName: Move Right
+      _negativeDescriptiveName: Move Left
+      _behaviorId: 1
+      _userAssignable: 1
+      _categoryId: 1
+    - _id: 12
+      _name: UIVertical
+      _type: 0
+      _descriptiveName: UIVertical
+      _positiveDescriptiveName: Move Up
+      _negativeDescriptiveName: Move Down
+      _behaviorId: 0
+      _userAssignable: 1
+      _categoryId: 1
+    - _id: 13
+      _name: UISubmit
+      _type: 1
+      _descriptiveName: Action4
+      _positiveDescriptiveName: 
+      _negativeDescriptiveName: 
+      _behaviorId: 0
+      _userAssignable: 1
+      _categoryId: 1
+    - _id: 14
+      _name: UICancel
+      _type: 1
+      _descriptiveName: UICancel
+      _positiveDescriptiveName: 
+      _negativeDescriptiveName: 
+      _behaviorId: 0
+      _userAssignable: 1
+      _categoryId: 1
     actionCategories:
     - _name: Default
       _descriptiveName: Default
       _tag: 
       _id: 0
       _userAssignable: 1
+    - _name: UI
+      _descriptiveName: UI
+      _tag: 
+      _id: 1
+      _userAssignable: 1
     actionCategoryMap:
       list:
       - categoryId: 0
         actionIds: 0000000009000000020000000a00000001000000060000000800000007000000
+      - categoryId: 1
+        actionIds: 0b0000000c0000000d0000000e000000
     inputBehaviors:
     - _id: 0
       _name: Default
@@ -708,7 +791,7 @@ MonoBehaviour:
       customControllerUid: 0
       actionElementMaps:
       - _actionCategoryId: 0
-        _actionId: -1
+        _actionId: 11
         _elementType: 0
         _elementIdentifierId: 0
         _axisRange: 0
@@ -719,7 +802,7 @@ MonoBehaviour:
         _modifierKey2: 0
         _modifierKey3: 0
       - _actionCategoryId: 0
-        _actionId: -1
+        _actionId: 12
         _elementType: 0
         _elementIdentifierId: 1
         _axisRange: 0
@@ -752,7 +835,7 @@ MonoBehaviour:
         _modifierKey2: 0
         _modifierKey3: 0
       - _actionCategoryId: 0
-        _actionId: 6
+        _actionId: 13
         _elementType: 1
         _elementIdentifierId: 4
         _axisRange: 0
@@ -763,7 +846,7 @@ MonoBehaviour:
         _modifierKey2: 0
         _modifierKey3: 0
       - _actionCategoryId: 0
-        _actionId: 8
+        _actionId: 14
         _elementType: 1
         _elementIdentifierId: 5
         _axisRange: 0
@@ -873,7 +956,7 @@ MonoBehaviour:
         _modifierKey2: 0
         _modifierKey3: 0
       - _actionCategoryId: 0
-        _actionId: 7
+        _actionId: 13
         _elementType: 1
         _elementIdentifierId: 15
         _axisRange: 0
@@ -1229,22 +1312,101 @@ MonoBehaviour:
       _name: RuleSet0
       _tag: 
       _rules: []
-    controllerMapEnablerRuleSets: []
+    controllerMapEnablerRuleSets:
+    - _id: 0
+      _name: UItoGameplay
+      _tag: 
+      _rules:
+      - _tag: 
+        _enable: 0
+        _categoryIds: 01000000
+        _layoutIds: 00000000
+        _controllerSetSelector:
+          _type: 1
+          _controllerType: 2
+          _hardwareTypeGuidString: 
+          _hardwareIdentifier: 
+          _controllerTemplateTypeGuidString: 
+          _deviceInstanceGuidString: 
+          _customControllerSourceId: -1
+          _controllerId: -1
+      - _tag: 
+        _enable: 1
+        _categoryIds: 02000000
+        _layoutIds: 00000000
+        _controllerSetSelector:
+          _type: 1
+          _controllerType: 2
+          _hardwareTypeGuidString: 
+          _hardwareIdentifier: 
+          _controllerTemplateTypeGuidString: 
+          _deviceInstanceGuidString: 
+          _customControllerSourceId: -1
+          _controllerId: -1
     playerIdCounter: 7
-    actionIdCounter: 9
-    actionCategoryIdCounter: 1
+    actionIdCounter: 15
+    actionCategoryIdCounter: 2
     inputBehaviorIdCounter: 2
     mapCategoryIdCounter: 3
-    joystickLayoutIdCounter: 1
+    joystickLayoutIdCounter: 3
     keyboardLayoutIdCounter: 1
     mouseLayoutIdCounter: 1
     customControllerLayoutIdCounter: 1
-    joystickMapIdCounter: 4
+    joystickMapIdCounter: 5
     keyboardMapIdCounter: 0
     mouseMapIdCounter: 0
     customControllerMapIdCounter: 0
     customControllerIdCounter: 0
     controllerMapLayoutManagerSetIdCounter: 1
-    controllerMapEnablerSetIdCounter: 0
+    controllerMapEnablerSetIdCounter: 1
   _controllerDataFiles: {fileID: 11400000, guid: d21d2b20df8369642b76aafbb2576ba7,
     type: 2}
+--- !u!114 &1295119039
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5145387414721088024}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10efa70eea88e69459c632aac286892d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rewiredInputManager: {fileID: 4947233617113513924}
+  useAllRewiredGamePlayers: 0
+  useRewiredSystemPlayer: 0
+  rewiredPlayerIds: 00000000
+  usePlayingPlayersOnly: 1
+  playerMice: []
+  moveOneElementPerAxisPress: 1
+  setActionsById: 1
+  horizontalActionId: 11
+  verticalActionId: 12
+  submitActionId: 13
+  cancelActionId: 14
+  m_HorizontalAxis: UIHorizontal
+  m_VerticalAxis: UIVertical
+  m_SubmitButton: UISubmit
+  m_CancelButton: UICancel
+  m_InputActionsPerSecond: 1
+  m_RepeatDelay: 0
+  m_allowMouseInput: 1
+  m_allowMouseInputIfTouchSupported: 1
+  m_allowTouchInput: 1
+  m_ForceModuleActive: 0
+--- !u!114 &1295119040
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5145387414721088024}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76c392e42b5098c458856cdf6ecaaaa1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_FirstSelected: {fileID: 0}
+  m_sendNavigationEvents: 1
+  m_DragThreshold: 10

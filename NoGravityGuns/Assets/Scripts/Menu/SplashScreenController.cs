@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using TMPro;
 using Rewired;
 using UnityEngine.SceneManagement;
+using UnityEngine.EventSystems;
 
 public class SplashScreenController : MonoBehaviour
 {
@@ -41,6 +42,15 @@ public class SplashScreenController : MonoBehaviour
             OpenStartMenu();
         }
 
+        // Load joysticks maps in each joystick in the "UI" category and "Default" layout and set it to be enabled on start
+        //foreach (Joystick joystick in ReInput.players.SystemPlayer.controllers.Joysticks)
+        //{
+        //    ReInput.players.SystemPlayer.controllers.maps.LoadMap(ControllerType.Joystick, joystick.id, "UI", "Default", true);
+        //}
+       
+
+       
+
         LoadingBar.Instance.StopLoadingBar();
     }
 
@@ -51,6 +61,7 @@ public class SplashScreenController : MonoBehaviour
         Camera.main.GetComponent<AudioSource>().clip = sounds[2];
         Camera.main.GetComponent<AudioSource>().Play();
         arenaBtn.Select();
+        EventSystem.current.SetSelectedGameObject(arenaBtn.gameObject);
     }
 
    IEnumerator FadeInLogo()

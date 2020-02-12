@@ -82,11 +82,11 @@ public class BTTEndCanvas : MonoBehaviour
 
         yield return new WaitForSeconds(0.25f);
 
-        if (gotNewRecord)
-        {
-            Cursor.visible = true;
-            newRecord.gameObject.SetActive(true);
-        }
+        //if (gotNewRecord)
+        //{
+        //    Cursor.visible = true;
+        //    newRecord.gameObject.SetActive(true);
+        //}
     }
 
     IEnumerator AnimateFailureScreen()
