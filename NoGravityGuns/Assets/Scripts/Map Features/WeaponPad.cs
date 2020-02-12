@@ -32,9 +32,7 @@ public class WeaponPad : MonoBehaviour
     private static Color fullPadBarsColour = new Color(0.25f, 1.0f, 0.0f);
     private static Color disabledPadBarsColour = Color.red;
 
-    public ParticleSystem pickupParticles;
-
-
+    
 
     private void Awake()
     {
@@ -48,7 +46,7 @@ public class WeaponPad : MonoBehaviour
         }
         catch
         {
-            SceneManager.LoadSceneAsync("Arena_PersistentScene", LoadSceneMode.Single);
+            SceneManager.LoadSceneAsync("PersistentScene", LoadSceneMode.Single);
             if(LoadingBar.Instance)
                 LoadingBar.Instance.StartLoadingBar();
         }
@@ -106,11 +104,6 @@ public class WeaponPad : MonoBehaviour
             //they dead we dont need to deal with this crap
             if (player.isDead)
                 return;
-
-            //play particles using players color as start color
-            var main = pickupParticles.main;
-            main.startColor = new ParticleSystem.MinMaxGradient(player.playerColor);
-            pickupParticles.Play(true);
 
             //special case is a health pack which is not a gun
             if (currentWeapon.name == "HealthPack")

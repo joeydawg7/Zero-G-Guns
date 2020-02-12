@@ -48,12 +48,6 @@ public class RoundEndCanvasScript : MonoBehaviour
         if (tickTimer)
             timer += Time.deltaTime;
 
-        if (!gameIsOver)
-        {
-            firework1.Stop();
-            firework2.Stop();
-        }
-
         if (weHaveAWinner)
         {
             foreach (var player in ReInput.players.AllPlayers)

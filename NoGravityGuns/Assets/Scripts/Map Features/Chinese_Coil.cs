@@ -12,10 +12,6 @@ public class Chinese_Coil : MonoBehaviour
     public float damageAtcenter = 10f;
     public float cameraShakeDuration = 0.25f;
 
-    public float downTimeAfterShock;
-
-    float timer;
-
 
 
     // Start is called before the first frame update
@@ -26,16 +22,14 @@ public class Chinese_Coil : MonoBehaviour
 
     private void Update()
     {
-
+        
     }
 
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.tag == "Player" || collision.tag == "Torso" || collision.tag == "Leg" || collision.tag == "Feet" || collision.tag == "Head" && timer >= downTimeAfterShock)
+        if(collision.tag == "Player" || collision.tag == "Torso" || collision.tag == "Leg" || collision.tag == "Feet" || collision.tag == "Head")
         {
-            timer = 0;
-
             PlayerScript player = collision.transform.root.GetComponentInChildren<PlayerScript>();
 
             if (!player.isDead)
