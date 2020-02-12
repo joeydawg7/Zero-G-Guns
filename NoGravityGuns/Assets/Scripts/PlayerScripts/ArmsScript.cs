@@ -76,8 +76,6 @@ public class ArmsScript : MonoBehaviour
     Vector3 backArmPos;
 
     LineRenderer laserPointerLine;
-    
-
 
     #endregion
 
@@ -166,26 +164,29 @@ public class ArmsScript : MonoBehaviour
         if (laserPointerLine && bulletSpawn)
         {
 
-            Vector2 drawLineFromPosition = bulletSpawn.transform.position;
+            Vector2 drawLineFromPosition = bulletSpawn.transform.localPosition;
 
             //laserPointerLine.transform.position = bulletSpawn.transform.position;
             laserPointerLine.SetPosition(0, drawLineFromPosition);
 
             RaycastHit2D laserPointerRay = Physics2D.Raycast(drawLineFromPosition, -bulletSpawn.transform.right);
 
-            if (laserPointerRay.collider != null 
-                && ( (!laserPointerRay.collider.CompareTag("Player")) 
-                || (!laserPointerRay.collider.CompareTag("Legs"))
-                || (!laserPointerRay.collider.CompareTag("Arms"))
-                || (!laserPointerRay.collider.CompareTag("Torso"))
-                || (!laserPointerRay.collider.CompareTag("Torso"))
-                || (!laserPointerRay.collider.CompareTag("Tail"))
-                )
-                )
+            //if (laserPointerRay.collider != null 
+            //    && ( (!laserPointerRay.collider.CompareTag("Player")) 
+            //    || (!laserPointerRay.collider.CompareTag("Legs"))
+            //    || (!laserPointerRay.collider.CompareTag("Arms"))
+            //    || (!laserPointerRay.collider.CompareTag("Torso"))
+            //    || (!laserPointerRay.collider.CompareTag("Torso"))
+            //    || (!laserPointerRay.collider.CompareTag("Tail"))
+            //    )
+            //    )
+            //{
+            if (laserPointerRay.collider != null)
             {
                 Vector2 hitpoint = laserPointerRay.point;
-                laserPointerLine.SetPosition(1, hitpoint);
+                laserPointerLine.SetPosition(1, transform.worldToLocalMatrix.MultiplyPoint3x4(hitpoint));
             }
+           // }
         }
     }
 
@@ -363,7 +364,7 @@ public class ArmsScript : MonoBehaviour
             {
 
                 //laserPointerLine.transform.position = bulletSpawn.transform.position;
-                laserPointerLine.transform.SetParent(null);
+                //laserPointerLine.transform.SetParent(null);
                 laserPointerLine.transform.localScale = new Vector3(1, 1, 1);
                 laserPointerLine.startColor = basePlayer.playerColor;
                 laserPointerLine.endColor = basePlayer.playerColor;

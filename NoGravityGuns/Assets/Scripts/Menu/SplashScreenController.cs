@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using TMPro;
 using Rewired;
 using UnityEngine.SceneManagement;
+using UnityEngine.EventSystems;
 
 public class SplashScreenController : MonoBehaviour
 {

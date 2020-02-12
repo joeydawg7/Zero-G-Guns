@@ -67,6 +67,10 @@ public class BTT_Manager : MonoBehaviour
 
 
         globalPlayerSettings.SortPlayerSettings();
+
+        CameraController camera = Camera.main.GetComponent<CameraController>();
+        camera.setToMaxZoom = true;
+
     }
 
 
