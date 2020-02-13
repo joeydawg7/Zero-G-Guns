@@ -85,6 +85,7 @@ public class RoundManager : MonoBehaviour
         joiningPlayerScript = FindObjectOfType<JoiningPlayerScript>();
         roundEndCanvasScript = FindObjectOfType<RoundEndCanvasScript>();
 
+        ControllerLayoutManager.SwapToGameplayMaps();
 
         roundEndCanvasScript.ClearEndRoundCanvasDisplay();
         globalPlayerSettings.SortPlayerSettings();
@@ -194,6 +195,11 @@ public class RoundManager : MonoBehaviour
             nextRoom = debugStayOnThisScene;
         }
 
+        while (!ObjectPooler.Instance.finishedResetting)
+        {
+            //wait
+        }
+
         AsyncOperation asyncLoadLevel = SceneManager.LoadSceneAsync(lvl);
         print("loading async now!");
         while (!asyncLoadLevel.isDone)
@@ -260,31 +266,6 @@ public class RoundManager : MonoBehaviour
 
     }
 
-
-
-
-    //public void SetPlayer(PlayerScript player)
-    //{
-
-    //    //only do setup if its the first round
-    //    if (currentRound == 0)
-    //    {
-
-    //        PlayerDataScript PD = GameObject.Instantiate(playerDataPrefab).GetComponent<PlayerDataScript>();
-
-    //        DontDestroyOnLoad(PD);
-
-    //        PD.playerID = player.playerID;
-    //        PD.controller = player.controller;
-    //        PD.player = player.player;
-    //        PD.hexColorCode = player.hexColorCode;
-    //        PD.playerName = player.playerName;
-
-    //        playerDataList.Add(PD);
-
-    //    }
-
-    //}
 
     public void SpawnPlayerManager(PlayerControllerData playerControllerData)
     {

@@ -62,6 +62,7 @@ public class SplashScreenController : MonoBehaviour
         Camera.main.GetComponent<AudioSource>().Play();
         arenaBtn.Select();
         EventSystem.current.SetSelectedGameObject(arenaBtn.gameObject);
+        ControllerLayoutManager.SwapToUIMaps();
     }
 
    IEnumerator FadeInLogo()

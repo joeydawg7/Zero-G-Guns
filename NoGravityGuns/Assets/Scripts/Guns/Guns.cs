@@ -167,8 +167,6 @@ public abstract class Guns : MonoBehaviour
                 bulletSpawn.position = player.armsScript.GetBulletSpawnPos();         
             }
 
-            Debug.Log(bulletSpawn.position);
-
             GameObject bulletGo = ObjectPooler.Instance.SpawnFromPool(projectileTypeName, bulletSpawn.position, Quaternion.identity);
             var dir = bulletSpawn.transform.right * bulletSpeed;
 

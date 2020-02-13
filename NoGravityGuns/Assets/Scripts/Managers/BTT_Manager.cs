@@ -65,10 +65,6 @@ public class BTT_Manager : MonoBehaviour
 
         ClearAllControllers();
 
-        CameraController cameraController = Camera.main.GetComponent<CameraController>();
-        cameraController.setToMaxZoom = true;
-
-
         globalPlayerSettings.SortPlayerSettings();
     }
 
@@ -151,11 +147,21 @@ public class BTT_Manager : MonoBehaviour
 
         ClearAllControllers();
 
+        ObjectPooler.Instance.ResetRound();
+
+        while (!ObjectPooler.Instance.finishedResetting)
+        {
+            yield return null;
+        }
+
         while (!asyncLoadLevel.isDone)
         {
             yield return null;
         }
+
         print("done loading!");
+
+        yield return new WaitForSeconds(0.5f);
 
         LevelLoaded(nextRoom);
         yield return new WaitForSeconds(0.5f);
@@ -163,6 +169,8 @@ public class BTT_Manager : MonoBehaviour
 
     void LevelLoaded(RoomSO nextRoom)
     {
+        Time.timeScale = 1;
+
         newRoundElementBacker = GameObject.Find("roomSetupBacker");
         newRoundTextAnimator = newRoundElementBacker.GetComponent<Animator>();
         newRoundText = newRoundElementBacker.transform.Find("RoomNamePopup").GetComponent<TextMeshProUGUI>();
@@ -193,6 +201,9 @@ public class BTT_Manager : MonoBehaviour
         }
 
         SetupP1Controller();
+        
+        CameraController cameraController = FindObjectOfType<CameraController>();
+        cameraController.setToMaxZoom = true;
 
         GameManager.Instance.StartGame();
     }
@@ -209,6 +220,8 @@ public class BTT_Manager : MonoBehaviour
         PlayerControllerData playerDataScript = new PlayerControllerData(0, j);
 
         SpawnPlayerManager(playerDataScript);
+
+        ControllerLayoutManager.SwapToGameplayMaps();
 
         finishedControllerSetup = true;
     }
