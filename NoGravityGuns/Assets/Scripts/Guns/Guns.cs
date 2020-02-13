@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using XInputDotNetPure;
 using Rewired;
 using UnityEngine;
+using UnityEngine.Experimental.Rendering.LWRP;
 
 public abstract class Guns : MonoBehaviour
 {
@@ -180,6 +181,9 @@ public abstract class Guns : MonoBehaviour
                 bulletGo.GetComponent<Bullet>().Construct(GunDamage(minDamagae, maxDamage), player, dir, player.playerColor);
             }
 
+
+            if (bulletGo.GetComponent<Light2D>())
+                bulletGo.GetComponent<Light2D>().color = player.playerColor;
 
         }
     }
