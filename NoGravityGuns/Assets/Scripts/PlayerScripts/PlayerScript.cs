@@ -99,7 +99,7 @@ public class PlayerScript : MonoBehaviour
     //Private
     Quaternion targetRotation;
     float angle;
-    
+
     SpriteRenderer[] legsSR;
     SpriteRenderer torsoSR;
     SpriteRenderer[] armsSR;
@@ -179,7 +179,7 @@ public class PlayerScript : MonoBehaviour
             immuneToCollisionsTimer += Time.deltaTime;
             speedIndicationTimer += Time.deltaTime;
 
-            if(Time.timeScale ==0)
+            if (Time.timeScale == 0)
                 GamePad.SetVibration((PlayerIndex)controller.id, 0, 0);
         }
 
@@ -201,6 +201,8 @@ public class PlayerScript : MonoBehaviour
                 OnPause();
 
                 OnQuit();
+
+                OnRestart();
             }
 
         }
@@ -229,7 +231,7 @@ public class PlayerScript : MonoBehaviour
     #region Input Handler Functions
     public void OnDrop()
     {
-        if (player.GetButtonDown("Drop") )
+        if (player.GetButtonDown("Drop"))
         {
             armsScript.EquipGun(GameManager.Instance.pistol, true);
         }
@@ -240,6 +242,21 @@ public class PlayerScript : MonoBehaviour
 
         StartCoroutine(FlailLegs());
 
+    }
+
+    public void OnRestart()
+    {
+        if (player.GetButtonDown("Restart"))
+        {
+
+            BTT_Manager bTT_Manager = FindObjectOfType<BTT_Manager>();
+
+            if (Time.timeScale == 0 && bTT_Manager)
+            {
+                bTT_Manager.BackToPersistentScene();
+            }
+
+        }
     }
 
     IEnumerator FlailLegs()
@@ -278,7 +295,7 @@ public class PlayerScript : MonoBehaviour
             //    Time.timeScale = 1;
             //Debug.Log("timescale = " + Time.timeScale);
         }
-       
+
     }
 
     public void OnQuit()
@@ -286,7 +303,7 @@ public class PlayerScript : MonoBehaviour
         if (gameManager.isGameStarted && PauseMenu.Instance.gameObject.activeInHierarchy && player.GetButtonDown("Drop"))
         {
             Debug.Log("QUIT to Main");
-            GameObject.FindGameObjectWithTag("CameraParent").GetComponent<CameraController>().players.Clear();            
+            GameObject.FindGameObjectWithTag("CameraParent").GetComponent<CameraController>().players.Clear();
             RoundManager.Instance.NewRound(true);
             PauseMenu.Instance.MenuOff();
         }
@@ -439,7 +456,7 @@ public class PlayerScript : MonoBehaviour
             SR.color = invulnerabilityColorFlash;
         }
 
-        yield return new WaitForSeconds(damage/100f);
+        yield return new WaitForSeconds(damage / 100f);
         torsoSR.color = defaultColor;
         foreach (var SR in armsSR)
         {
@@ -506,10 +523,10 @@ public class PlayerScript : MonoBehaviour
             torsoSR.color = Color32.Lerp(playerColor, deadColor, progress);
             foreach (var SR in armsSR)
             {
-                if(SR)
+                if (SR)
                 {
                     SR.color = Color32.Lerp(playerColor, deadColor, progress);
-                }                
+                }
             }
 
             progress += 0.005f;
@@ -520,7 +537,7 @@ public class PlayerScript : MonoBehaviour
         torsoSR.color = deadColor;
         foreach (var SR in armsSR)
         {
-            if(SR!=null)
+            if (SR != null)
                 SR.color = deadColor;
         }
 
@@ -616,10 +633,10 @@ public class PlayerScript : MonoBehaviour
             torsoSR.color = defaultColor;
             foreach (var SR in armsSR)
             {
-                if(SR)
+                if (SR)
                 {
                     SR.color = defaultColor;
-                }               
+                }
             }
             //foreach (var sr in legsSR)
             //{
@@ -745,8 +762,8 @@ public class PlayerScript : MonoBehaviour
 
     public void OnGameStart()
     {
-        if(LoadingBar.Instance)
-        LoadingBar.Instance.StopLoadingBar();
+        if (LoadingBar.Instance)
+            LoadingBar.Instance.StopLoadingBar();
         health = 100;
         float barVal = ((float)health / 100f);
         playerCanvasScript.setHealth(barVal);
@@ -852,9 +869,13 @@ public class PlayerScript : MonoBehaviour
         //reduces damage so its not bullshit
         dmg = dmg / COLLIDER_DAMAGE_MITIGATOR;
 
+
+
+
         //dont bother dealing damage unless unmitigated damage indicates fast enough collision
         if (dmg >= 20)
         {
+            PlayImpactParticle(collision);
 
             if (collision.rigidbody != null)
             {
@@ -875,6 +896,7 @@ public class PlayerScript : MonoBehaviour
             else
                 soundClipToPlay = torsoImpact.GetRandomClip();
 
+            VibrateController(0.5f, 0.5f);
 
             //caps damage
             if (dmg > 100)
@@ -890,6 +912,21 @@ public class PlayerScript : MonoBehaviour
         }
 
 
+    }
+
+    private void PlayImpactParticle(Collision2D collision)
+    {
+        GameObject tempParticleObject;
+
+        Vector2 contactPoint1 = collision.GetContact(0).point;
+
+
+        tempParticleObject = ObjectPooler.Instance.SpawnFromPool("ImpactParticles", contactPoint1, Quaternion.identity);
+
+        ParticleSystem ps = tempParticleObject.GetComponent<ParticleSystem>();
+        var main = ps.main;
+        main.startColor = new ParticleSystem.MinMaxGradient(playerColor);
+        ps.Play(true);
     }
 
 

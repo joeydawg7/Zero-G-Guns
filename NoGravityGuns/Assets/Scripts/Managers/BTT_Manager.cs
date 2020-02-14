@@ -85,6 +85,8 @@ public class BTT_Manager : MonoBehaviour
 
     public void BackToMenu()
     {
+
+        ObjectPooler.Instance.ResetRound();
         DontDestroyOnLoadManager.DestroyAll();
         Time.timeScale = 1.0f;
         SceneManager.LoadScene("SplashScreen");
@@ -93,8 +95,14 @@ public class BTT_Manager : MonoBehaviour
 
     public void BackToPersistentScene()
     {
-        DontDestroyOnLoadManager.DestroyAll();
+        
         Time.timeScale = 1.0f;
+
+        //reset all pooled objects
+        ObjectPooler.Instance.ResetRound();
+        //then destroy them all!
+        DontDestroyOnLoadManager.DestroyAll();
+
         SceneManager.LoadScene("BTT_PersistentScene");
         //StartCoroutine(LoadSceneAsyncByName("BTT_PersistentScene"));
     }

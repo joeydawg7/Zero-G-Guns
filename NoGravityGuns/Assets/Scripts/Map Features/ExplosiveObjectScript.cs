@@ -93,6 +93,7 @@ public class ExplosiveObjectScript : MonoBehaviour
             //burn babeee
             alreadyBurning = true;
         }
+ 
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
