@@ -106,7 +106,8 @@ public class RoundManager : MonoBehaviour
 
         if (startOver)
         {
-            Camera.main.GetComponent<AudioSource>().clip = SoundPooler.Instance.levelSongs[0];
+            if(SoundPooler.Instance.levelSongs.Count >0)
+                Camera.main.GetComponent<AudioSource>().clip = SoundPooler.Instance.levelSongs[0];
             currentRound = 0;
             finishedControllerSetup = false;
 

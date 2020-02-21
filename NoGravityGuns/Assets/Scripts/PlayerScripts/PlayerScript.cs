@@ -6,6 +6,7 @@ using TMPro;
 using Rewired;
 using XInputDotNetPure;
 using UnityEngine.SceneManagement;
+using UnityEngine.Experimental.Rendering.LWRP;
 
 public class PlayerScript : MonoBehaviour
 {
@@ -55,6 +56,7 @@ public class PlayerScript : MonoBehaviour
     public PlayerScript playerLastHitBy;
 
     public bool isCurrentLeader = false;
+
 
     int _roundWins;
     public int roundWins
@@ -107,6 +109,9 @@ public class PlayerScript : MonoBehaviour
     GameObject cameraParent;
     Quaternion spawnRotation;
     GameManager gameManager;
+    TrailRenderer speedTrail;
+    ParticleSystem speedTraiParticles;
+    ParticleSystem speedIndicationParticles;
 
     #endregion
     #region constants
@@ -167,6 +172,8 @@ public class PlayerScript : MonoBehaviour
     {
         rb.simulated = true;
 
+
+
     }
 
     public float vibrateAmount = 0;
@@ -179,6 +186,7 @@ public class PlayerScript : MonoBehaviour
             immuneToCollisionsTimer += Time.deltaTime;
             speedIndicationTimer += Time.deltaTime;
 
+            //stop vibrate on pause
             if (Time.timeScale == 0)
                 GamePad.SetVibration((PlayerIndex)controller.id, 0, 0);
         }
@@ -214,16 +222,48 @@ public class PlayerScript : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (rb.velocity.magnitude >= 100 && speedIndicationTimer >= 0.75f)
+        if (!GameManager.Instance.isGameStarted)
+            return;
+
+        if (speedTrail == null)
+            return;
+
+
+        if (rb.velocity.magnitude >= 50 && speedIndicationTimer >= 0.75f)
         {
-            //speedIndication.Emit(1);
             //cameraParent.GetComponentInChildren<RippleController>().Ripple(rb.transform.position, 4, 0.88f);
             speedIndicationTimer = 0;
-            //audioSource.PlayOneShot(whooshClip);
 
+            //speedTrail.emitting = true;
+            speedTraiParticles.Play(true);
 
-            Smorph();
+            GameObject speedGO = ObjectPooler.Instance.SpawnFromPool("SpeedExplosion", transform.position, Quaternion.identity);
+            ParticleSystem speedExplosion = speedGO.GetComponent<ParticleSystem>();
+
+            if (speedExplosion != null)
+            {
+                var main = speedExplosion.main;
+                main.startColor = new ParticleSystem.MinMaxGradient(playerColor);
+                speedExplosion.transform.up = -rb.velocity;
+                Debug.Log("velocity = " + -rb.velocity);
+
+                ParticleSystem childSystem = speedExplosion.GetComponentInChildren<ParticleSystem>();
+                var main2 = childSystem.main;
+                main2.startColor = new ParticleSystem.MinMaxGradient(Color.white);
+
+                speedExplosion.Play(true);
+
+                
+            }
+
         }
+        //else
+        //{
+        //    speedTrail.emitting = false;
+        //    //speedIndicationParticles.Stop(true);
+        //    speedTraiParticles.Stop(true);
+        //}
+
     }
 
     #endregion
@@ -327,13 +367,6 @@ public class PlayerScript : MonoBehaviour
         GamePad.SetVibration((PlayerIndex)controller.id, strength, strength);
         yield return new WaitForSeconds(time);
         GamePad.SetVibration((PlayerIndex)controller.id, 0, 0);
-    }
-
-
-    void Smorph()
-    {
-        Vector2 directionOfTravel = rb.velocity;
-
     }
 
     #endregion
@@ -772,30 +805,47 @@ public class PlayerScript : MonoBehaviour
 
         armsScript.EquipGun(GameManager.Instance.pistol, true);
 
-        //torsoSR = GetComponent<SpriteRenderer>();
-        //armsSR = armsScript.currentArms.GetComponent<SpriteRenderer>();
-        //legsSR = legsParent.GetComponentsInChildren<SpriteRenderer>();
-
-
-        //legRBs = legsParent.GetComponentsInChildren<Rigidbody2D>();
-
-
-        // playerUIPanel.SetLives(numLives, playerHead);
         player.controllers.AddController(controller, true);
 
+        //fix all player rigidbodies
         rb.simulated = true;
+        foreach (Rigidbody2D rb2d in this.transform.GetComponentsInChildren<Rigidbody2D>())
+        {
+            rb2d.drag = 0f;
+            rb2d.angularDrag = 0f;
+        }
 
-        //GameObject go = ObjectPooler.Instance.SpawnFromPool("SpeedIndication", new Vector3(0, 0, 0), Quaternion.identity, transform);
-        //go.transform.localPosition = new Vector3(0, 0, 0);
-        //ParticleSystem ps = go.GetComponent<ParticleSystem>();
-        //var main = ps.main;
-        //main.startColor = new ParticleSystem.MinMaxGradient(playerColor);
-        //speedIndication = ps;
 
-        //RoundManager.Instance.SetPlayer(this);
+        SetupSpeedIndicationEffects();
 
         StartCoroutine(RespawnInvulernability());
 
+    }
+
+    private void SetupSpeedIndicationEffects()
+    {
+        //speedTrail = GetComponentInChildren<TrailRenderer>();
+        speedTraiParticles = GetComponentInChildren<ParticleSystem>();
+        speedTrail = GetComponentInChildren<TrailRenderer>();
+
+        if (speedTraiParticles == null)
+        {
+            Debug.LogError("Please add speed trail prefab to be a child of the HipBone of player " + playerName);
+        }
+        else
+        {
+            speedTrail.transform.localPosition = rb.centerOfMass;
+
+            speedTrail.emitting = false;
+
+            speedTrail.startColor = playerColor;
+
+            speedIndicationParticles = speedTraiParticles.transform.GetChild(0).GetComponent<ParticleSystem>();
+            var mainTrail = speedTraiParticles.main;
+            mainTrail.startColor = new ParticleSystem.MinMaxGradient(playerColor);
+            var main = speedIndicationParticles.main;
+            main.startColor = new ParticleSystem.MinMaxGradient(playerColor);
+        }
     }
     #endregion
 
@@ -869,12 +919,15 @@ public class PlayerScript : MonoBehaviour
         //reduces damage so its not bullshit
         dmg = dmg / COLLIDER_DAMAGE_MITIGATOR;
 
-
-
-
         //dont bother dealing damage unless unmitigated damage indicates fast enough collision
         if (dmg >= 20)
         {
+            //GameObject goLight = ObjectPooler.Instance.SpawnFromPool("ImpactLight", collision.contacts[0].point, Quaternion.identity);
+            //goLight.GetComponent<Animator>().SetTrigger("ImpactLightUp");
+            //goLight.GetComponent<Light2D>().color = playerColor;
+            //goLight.GetComponent<DisableOverTime>().DisableOverT(0.25f);
+
+
             PlayImpactParticle(collision);
 
             if (collision.rigidbody != null)
@@ -916,17 +969,20 @@ public class PlayerScript : MonoBehaviour
 
     private void PlayImpactParticle(Collision2D collision)
     {
-        GameObject tempParticleObject;
+        //GameObject tempParticleObject;
 
-        Vector2 contactPoint1 = collision.GetContact(0).point;
+        //foreach (ContactPoint2D contact in collision.contacts)
+        //{
+        //    tempParticleObject = ObjectPooler.Instance.SpawnFromPool("ImpactParticles", contact.point, Quaternion.identity);
 
+        //    ParticleSystem ps = tempParticleObject.GetComponent<ParticleSystem>();
+        //    var main = ps.main;
+        //    main.startColor = new ParticleSystem.MinMaxGradient(playerColor);
+        //    ps.Play(true);
+        //}
 
-        tempParticleObject = ObjectPooler.Instance.SpawnFromPool("ImpactParticles", contactPoint1, Quaternion.identity);
+        //Vector2 contactPoints = collision.GetContact(0).point;
 
-        ParticleSystem ps = tempParticleObject.GetComponent<ParticleSystem>();
-        var main = ps.main;
-        main.startColor = new ParticleSystem.MinMaxGradient(playerColor);
-        ps.Play(true);
     }
 
 

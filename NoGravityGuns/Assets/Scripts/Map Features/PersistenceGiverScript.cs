@@ -37,7 +37,8 @@ public class PersistenceGiverScript : MonoBehaviour
                 
         }
 
-        Debug.Log("starting new round from persistant scene");
+        ControllerLayoutManager.SwapToGameplayMaps();
+        Debug.Log("starting new round from persistant scene, control scheme is now Gameplay");
 
         //print(RoundManager.Instance.arenaRooms[0].roomName);
         if(RoundManager.Instance)

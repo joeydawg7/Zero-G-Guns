@@ -46,7 +46,7 @@ public class WeaponPad : MonoBehaviour
         }
         catch
         {
-            SceneManager.LoadSceneAsync("PersistentScene", LoadSceneMode.Single);
+            SceneManager.LoadSceneAsync("Arena_PersistentScene", LoadSceneMode.Single);
             if(LoadingBar.Instance)
                 LoadingBar.Instance.StartLoadingBar();
         }
