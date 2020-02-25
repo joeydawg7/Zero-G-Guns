@@ -196,10 +196,14 @@ public class RoundManager : MonoBehaviour
             nextRoom = debugStayOnThisScene;
         }
 
+        ObjectPooler.Instance.ResetRound();
+
         while (!ObjectPooler.Instance.finishedResetting)
         {
             //wait
         }
+
+       
 
         AsyncOperation asyncLoadLevel = SceneManager.LoadSceneAsync(lvl);
         print("loading async now!");
