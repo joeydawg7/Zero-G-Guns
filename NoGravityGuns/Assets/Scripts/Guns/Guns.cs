@@ -155,6 +155,10 @@ public abstract class Guns : MonoBehaviour
                 bulletGo.GetComponent<Bullet>().Construct(GunDamage(minDamagae, maxDamage), player, MovementDirection, player.playerColor);
                 spreadAngle -= 3.6f;
 
+                if (bulletGo.GetComponent<Light2D>())
+                    bulletGo.GetComponent<Light2D>().color = player.playerColor;
+
+
             }
         }
         else if (projectileTypeName == "Rocket")
@@ -166,6 +170,10 @@ public abstract class Guns : MonoBehaviour
             bulletGo.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
 
             bulletGo.GetComponent<Rocket>().Construct(GunDamage(minDamageRange, maxDamageRange), player, dir, player.playerColor, gunPrefab.GetComponent<RPG>());
+
+            if (bulletGo.GetComponent<Light2D>())
+                bulletGo.GetComponent<Light2D>().color = player.playerColor;
+
 
 
         }
@@ -188,9 +196,9 @@ public abstract class Guns : MonoBehaviour
                 bulletGo.GetComponent<Bullet>().Construct(GunDamage(minDamagae, maxDamage), player, dir, player.playerColor);
             }
 
-
             if (bulletGo.GetComponent<Light2D>())
                 bulletGo.GetComponent<Light2D>().color = player.playerColor;
+
 
         }
     }
