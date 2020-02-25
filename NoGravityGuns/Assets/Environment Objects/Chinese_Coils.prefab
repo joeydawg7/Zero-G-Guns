@@ -9602,7 +9602,6 @@ GameObject:
   - component: {fileID: 1077200901419004029}
   - component: {fileID: 3295850596813610742}
   - component: {fileID: 63339338383627342}
-  - component: {fileID: 1860975786}
   m_Layer: 0
   m_Name: Chinese_Coils
   m_TagString: Untagged
@@ -9707,7 +9706,7 @@ MonoBehaviour:
   playerLighting: {fileID: 1436645086481162550}
   shockClip: {fileID: 8300000, guid: eb965661cd0e361499c8e6cd7119e00b, type: 3}
   explosionRadius: 20
-  explosionPower: 500
+  explosionPower: 250
   damageAtcenter: 0
   cameraShakeDuration: 0.25
 --- !u!82 &63339338383627342
@@ -9806,21 +9805,3 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &1860975786
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7481891546308214980}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7bfeac64c19253a4d9b64d1c16e9f22a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerLighting: {fileID: 0}
-  shockClip: {fileID: 0}
-  explosionRadius: 15
-  explosionPower: 250
-  damageAtcenter: 10
-  cameraShakeDuration: 0.25

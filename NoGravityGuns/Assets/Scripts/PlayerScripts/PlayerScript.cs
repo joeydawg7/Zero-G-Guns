@@ -229,7 +229,7 @@ public class PlayerScript : MonoBehaviour
             return;
 
 
-        if (rb.velocity.magnitude >= 50 && speedIndicationTimer >= 0.75f)
+        if (rb.velocity.magnitude >= 150 && speedIndicationTimer >= 0.75f)
         {
             //cameraParent.GetComponentInChildren<RippleController>().Ripple(rb.transform.position, 4, 0.88f);
             speedIndicationTimer = 0;
@@ -237,24 +237,24 @@ public class PlayerScript : MonoBehaviour
             //speedTrail.emitting = true;
             speedTraiParticles.Play(true);
 
-            GameObject speedGO = ObjectPooler.Instance.SpawnFromPool("SpeedExplosion", transform.position, Quaternion.identity);
-            ParticleSystem speedExplosion = speedGO.GetComponent<ParticleSystem>();
+            //GameObject speedGO = ObjectPooler.Instance.SpawnFromPool("SpeedExplosion", transform.position, Quaternion.identity);
+            //ParticleSystem speedExplosion = speedGO.GetComponent<ParticleSystem>();
 
-            if (speedExplosion != null)
-            {
-                var main = speedExplosion.main;
-                main.startColor = new ParticleSystem.MinMaxGradient(playerColor);
-                speedExplosion.transform.up = -rb.velocity;
-                Debug.Log("velocity = " + -rb.velocity);
+            //if (speedExplosion != null)
+            //{
+            //    //var main = speedExplosion.main;
+            //    //main.startColor = new ParticleSystem.MinMaxGradient(playerColor);
+            //    //speedExplosion.transform.up = -rb.velocity;
+            //    //Debug.Log("velocity = " + -rb.velocity);
 
-                ParticleSystem childSystem = speedExplosion.GetComponentInChildren<ParticleSystem>();
-                var main2 = childSystem.main;
-                main2.startColor = new ParticleSystem.MinMaxGradient(Color.white);
+            //    ParticleSystem childSystem = speedExplosion.GetComponentInChildren<ParticleSystem>();
+            //    var main2 = childSystem.main;
+            //    main2.startColor = new ParticleSystem.MinMaxGradient(Color.white);
 
-                speedExplosion.Play(true);
+            //    speedExplosion.Play(true);
 
                 
-            }
+            //}
 
         }
         //else
@@ -828,24 +828,24 @@ public class PlayerScript : MonoBehaviour
         speedTraiParticles = GetComponentInChildren<ParticleSystem>();
         speedTrail = GetComponentInChildren<TrailRenderer>();
 
-        if (speedTraiParticles == null)
-        {
-            Debug.LogError("Please add speed trail prefab to be a child of the HipBone of player " + playerName);
-        }
-        else
-        {
-            speedTrail.transform.localPosition = rb.centerOfMass;
+        //if (speedTraiParticles == null)
+        //{
+        //    Debug.LogError("Please add speed trail prefab to be a child of the HipBone of player " + playerName);
+        //}
+        //else
+        //{
+        //    speedTrail.transform.localPosition = rb.centerOfMass;
 
-            speedTrail.emitting = false;
+        //    speedTrail.emitting = false;
 
-            speedTrail.startColor = playerColor;
+        //    speedTrail.startColor = playerColor;
 
-            speedIndicationParticles = speedTraiParticles.transform.GetChild(0).GetComponent<ParticleSystem>();
-            var mainTrail = speedTraiParticles.main;
-            mainTrail.startColor = new ParticleSystem.MinMaxGradient(playerColor);
-            var main = speedIndicationParticles.main;
-            main.startColor = new ParticleSystem.MinMaxGradient(playerColor);
-        }
+        //    speedIndicationParticles = speedTraiParticles.transform.GetChild(0).GetComponent<ParticleSystem>();
+        //    var mainTrail = speedTraiParticles.main;
+        //    mainTrail.startColor = new ParticleSystem.MinMaxGradient(playerColor);
+        //    var main = speedIndicationParticles.main;
+        //    main.startColor = new ParticleSystem.MinMaxGradient(playerColor);
+        //}
     }
     #endregion
 
@@ -939,8 +939,10 @@ public class PlayerScript : MonoBehaviour
 
             DamageType dmgType = PlayerScript.ParsePlayerDamage(hitLocation);
 
-            if (dmgType == DamageType.head)
-                dmgType = DamageType.torso;
+            //if (dmgType == DamageType.head)
+
+            //maybe temp, make all collision damage torso type
+            dmgType = DamageType.torso;
 
             AudioClip soundClipToPlay;
 

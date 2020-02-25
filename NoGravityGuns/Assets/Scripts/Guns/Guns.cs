@@ -80,12 +80,21 @@ public abstract class Guns : MonoBehaviour
                 arms.audioSource.PlayOneShot(prefireSound);
         }
 
+        if (player.armsScript.currentWeapon != gun)
+            yield break;
+
+
         yield return new WaitForSeconds(delayBeforeShot);
+
+        if(player.armsScript.currentWeapon!=gun)
+            yield break;
+
         KnockBack(player, player.knockbackMultiplier);
         player.armsScript.audioSource.PlayOneShot(GetRandomGunshotSFX);
 
         if (timeSinceLastShot > recoilDelay && player.armsScript.currentWeapon == gun)
             SpawnBullet(player, bulletSpeed, minDamage, maxDamage, gun);
+           
     }
 
 

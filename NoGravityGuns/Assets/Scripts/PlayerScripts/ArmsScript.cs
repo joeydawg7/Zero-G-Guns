@@ -266,7 +266,6 @@ public class ArmsScript : MonoBehaviour
         if (bulletSpawn)
         {
             Gizmos.DrawCube(bulletSpawn.transform.position, new Vector3(1, 1, 1));
-
         }
 
     }
