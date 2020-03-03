@@ -14,7 +14,7 @@ public class PlayerScript : MonoBehaviour
     #region publics
 
     [Header("Tweakables")]
-    public int health;
+    public float health;
     public float knockbackMultiplier = 1;
     public int numLives;
 
@@ -96,11 +96,14 @@ public class PlayerScript : MonoBehaviour
     public DamageType lastHitDamageType;
     [HideInInspector]
     public float immuneToCollisionsTimer;
+    [HideInInspector]
+    public float explosionTimer = 0;
     #endregion
     #region privates
     //Private
     Quaternion targetRotation;
     float angle;
+    Vector2 SpeedToMaintain;
 
     SpriteRenderer[] legsSR;
     SpriteRenderer torsoSR;
@@ -119,11 +122,10 @@ public class PlayerScript : MonoBehaviour
     const float TORSOSHOT_MULTIPLIER = 1f;
     const float FOOTSHOT_MULTIPLIER = 0.5f;
     const float LEGSHOT_MULTIPLIER = 0.75f;
-    const float EXPLOSION_MULTIPLIER = 0.5f;
+    const float EXPLOSION_MULTIPLIER = 1f;
+    const float COLLIDER_DAMAGE_MITIGATOR = 5f;
     #endregion
     //End Variables
-
-    //ParticleSystem speedIndication;
 
     #region Awake, Update, Start
     private void Awake()
@@ -211,6 +213,12 @@ public class PlayerScript : MonoBehaviour
                 OnQuit();
 
                 OnRestart();
+
+                if(explosionTimer >0)
+                {
+                    explosionTimer -= Time.deltaTime;
+                }
+
             }
 
         }
@@ -224,6 +232,9 @@ public class PlayerScript : MonoBehaviour
     {
         if (!GameManager.Instance.isGameStarted)
             return;
+
+
+        LimitVelocity();
 
         if (speedTrail == null)
             return;
@@ -253,7 +264,7 @@ public class PlayerScript : MonoBehaviour
 
             //    speedExplosion.Play(true);
 
-                
+
             //}
 
         }
@@ -264,6 +275,19 @@ public class PlayerScript : MonoBehaviour
         //    speedTraiParticles.Stop(true);
         //}
 
+    }
+
+    private void LimitVelocity()
+    {
+        if (rb.velocity.magnitude / COLLIDER_DAMAGE_MITIGATOR < 101)
+        {
+            SpeedToMaintain = rb.velocity;
+        }
+        else
+        {
+            rb.velocity = SpeedToMaintain;
+            Debug.Log("<color=#0017FF> slowing down player</color> " + playerName);
+        }
     }
 
     #endregion
@@ -398,7 +422,7 @@ public class PlayerScript : MonoBehaviour
 
                 //TODO: amplify pushback from bullets direction
                 //rb.AddForce(transform.right * dir * 0.01f, ForceMode2D.Impulse);
-
+                    
                 switch (damageType)
                 {
                     case DamageType.head:
@@ -429,7 +453,7 @@ public class PlayerScript : MonoBehaviour
                         break;
                     case DamageType.explosive:
                         damage *= EXPLOSION_MULTIPLIER;
-                        SpawnFloatingDamageText(Mathf.RoundToInt(damage), DamageType.explosive, "FloatAway");
+                        SpawnFloatingDamageText(Mathf.RoundToInt(damage), DamageType.explosive, "Impact");
                         break;
                     case DamageType.blackhole:
                         //damage *= EXPLOSION_MULTIPLIER;
@@ -443,7 +467,9 @@ public class PlayerScript : MonoBehaviour
                     audioSource.PlayOneShot(standardShots[Random.Range(0, standardShots.Count)]);
             }
 
-            health -= (int)damage;
+            Debug.Log("damage: " + damage + " of type " + damageType.ToString() + ", from source: " + PlayerWhoShotYou);
+
+            health -= damage;
             health = Mathf.Clamp(health, 0, 100);
             float barVal = ((float)health / 100f);
             playerCanvasScript.setHealth(barVal);
@@ -856,6 +882,10 @@ public class PlayerScript : MonoBehaviour
         if (collision.collider.tag == "ImpactObject" || collision.collider.tag == "ExplosiveObject" || collision.collider.tag == "Chunk")
         {
             DealColliderDamage(collision, gameObject, null);
+
+            if (collision.collider.tag == "Explosion")
+                Debug.Log("hit by explostion!");
+                
         }
         else if ((collision.collider.tag == "Torso" && collision.gameObject != this.gameObject) || (collision.collider.tag == "Head" && collision.gameObject != this.gameObject)
             || (collision.collider.tag == "Feet" && collision.gameObject != this.gameObject) || (collision.collider.tag == "Legs" && collision.gameObject != this.gameObject))
@@ -894,52 +924,32 @@ public class PlayerScript : MonoBehaviour
         return damageType;
     }
 
-    const int COLLIDER_DAMAGE_MITIGATOR = 5;
+
 
     public void DealColliderDamage(Collision2D collision, GameObject hitLocation, PlayerScript hitBy)
     {
-        //float dmg = collision.relativeVelocity.magnitude;
-
-        //float dmg = collision.relativeVelocity.normalized.magnitude;
-        //tor3.Dot(col.contacts[0].normal,col.relativeVelocity) * rigidbody.mass
 
         //no reason to do all the upcoming math if we cant take the damage anyway
         if (immuneToCollisionsTimer < 1)
         {
             return;
         }
-
-
-        float dmg = Vector3.Dot(collision.contacts[0].normal, collision.relativeVelocity);
-
-        if (collision.rigidbody != null && collision.rigidbody.mass <= 1)
-            dmg *= collision.rigidbody.mass;
-        else if (collision.rigidbody != null && collision.rigidbody.mass > 1)
-            dmg /= collision.rigidbody.mass;
+        //get how fast player is at moment of impact
+        float dmg = rb.velocity.magnitude;
         //reduces damage so its not bullshit
-        dmg = dmg / COLLIDER_DAMAGE_MITIGATOR;
+        dmg /= COLLIDER_DAMAGE_MITIGATOR;
+
 
         //dont bother dealing damage unless unmitigated damage indicates fast enough collision
         if (dmg >= 20)
         {
-            //GameObject goLight = ObjectPooler.Instance.SpawnFromPool("ImpactLight", collision.contacts[0].point, Quaternion.identity);
-            //goLight.GetComponent<Animator>().SetTrigger("ImpactLightUp");
-            //goLight.GetComponent<Light2D>().color = playerColor;
-            //goLight.GetComponent<DisableOverTime>().DisableOverT(0.25f);
+            Debug.Log("impact damage = " + dmg);
 
 
             PlayImpactParticle(collision);
 
-            if (collision.rigidbody != null)
-            {
-
-                if (collision.rigidbody.isKinematic == false)
-                    dmg *= collision.rigidbody.mass;
-            }
-
             DamageType dmgType = PlayerScript.ParsePlayerDamage(hitLocation);
 
-            //if (dmgType == DamageType.head)
 
             //maybe temp, make all collision damage torso type
             dmgType = DamageType.torso;
@@ -957,13 +967,18 @@ public class PlayerScript : MonoBehaviour
             if (dmg > 100)
                 dmg = 100;
 
+            if (explosionTimer > 0)
+            {
+                dmg = dmg / 2;
+                Debug.Log("halving impact damage due to explosion!");
+            }
+
 
             TakeDamage(dmg, new Vector2(0, 0), dmgType, hitBy, false, null);
 
             audioSource.PlayOneShot(soundClipToPlay);
 
             immuneToCollisionsTimer = 0;
-
         }
 
 
@@ -1035,6 +1050,7 @@ public class PlayerScript : MonoBehaviour
                 break;
             case DamageType.feet:
                 color = Color.grey;
+                break;
                 break;
             default:
                 color = Color.yellow;

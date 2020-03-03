@@ -221,7 +221,8 @@ public static class Rigidbody2DExt
             if (dmg > 0)
             {
                 //sets collision damage timer to half, so if you fly for longer than half a second youll take collisions but otherwise you wont take full damage from begin right next to a wall
-                HitplayerScript.immuneToCollisionsTimer = 0.75f;
+                //HitplayerScript.immuneToCollisionsTimer = 0.75f;
+                HitplayerScript.explosionTimer = 1f;
                 //actually deal the damage
                 HitplayerScript.TakeDamage(dmg, new Vector2(0,0), damageType, playerWhoShot, true, null);
             }

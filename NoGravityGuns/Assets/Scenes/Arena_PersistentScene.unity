@@ -120,6 +120,18 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!114 &27298124 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 179332494, guid: 5f9a7b3882159b848a3afddda6958eb5,
+    type: 3}
+  m_PrefabInstance: {fileID: 2063549406}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &143640744
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -322,6 +334,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a0b50efadfef02548b88ed9c13544806, type: 3}
+--- !u!114 &852461489 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 852461489, guid: 5f9a7b3882159b848a3afddda6958eb5,
+    type: 3}
+  m_PrefabInstance: {fileID: 2063549406}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1026531096
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -781,6 +805,81 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4947233617113513924, guid: 13fcf64b8ba74bd4e83fa71f35fe194c,
+        type: 3}
+      propertyPath: _userData.actions.Array.size
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 4947233617113513924, guid: 13fcf64b8ba74bd4e83fa71f35fe194c,
+        type: 3}
+      propertyPath: _userData.actionCategoryMap.list.Array.data[1].actionIds.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4947233617113513924, guid: 13fcf64b8ba74bd4e83fa71f35fe194c,
+        type: 3}
+      propertyPath: _userData.actions.Array.data[14]._id
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 4947233617113513924, guid: 13fcf64b8ba74bd4e83fa71f35fe194c,
+        type: 3}
+      propertyPath: _userData.actions.Array.data[14]._name
+      value: UIStart
+      objectReference: {fileID: 0}
+    - target: {fileID: 4947233617113513924, guid: 13fcf64b8ba74bd4e83fa71f35fe194c,
+        type: 3}
+      propertyPath: _userData.actions.Array.data[14]._descriptiveName
+      value: Action4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4947233617113513924, guid: 13fcf64b8ba74bd4e83fa71f35fe194c,
+        type: 3}
+      propertyPath: _userData.actions.Array.data[15]._id
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 4947233617113513924, guid: 13fcf64b8ba74bd4e83fa71f35fe194c,
+        type: 3}
+      propertyPath: _userData.actions.Array.data[15]._name
+      value: UICancel
+      objectReference: {fileID: 0}
+    - target: {fileID: 4947233617113513924, guid: 13fcf64b8ba74bd4e83fa71f35fe194c,
+        type: 3}
+      propertyPath: _userData.actions.Array.data[15]._type
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4947233617113513924, guid: 13fcf64b8ba74bd4e83fa71f35fe194c,
+        type: 3}
+      propertyPath: _userData.actions.Array.data[15]._descriptiveName
+      value: UICancel
+      objectReference: {fileID: 0}
+    - target: {fileID: 4947233617113513924, guid: 13fcf64b8ba74bd4e83fa71f35fe194c,
+        type: 3}
+      propertyPath: _userData.actions.Array.data[15]._userAssignable
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4947233617113513924, guid: 13fcf64b8ba74bd4e83fa71f35fe194c,
+        type: 3}
+      propertyPath: _userData.actions.Array.data[15]._categoryId
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4947233617113513924, guid: 13fcf64b8ba74bd4e83fa71f35fe194c,
+        type: 3}
+      propertyPath: _userData.actionCategoryMap.list.Array.data[1].actionIds.Array.data[3]
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 4947233617113513924, guid: 13fcf64b8ba74bd4e83fa71f35fe194c,
+        type: 3}
+      propertyPath: _userData.actionCategoryMap.list.Array.data[1].actionIds.Array.data[4]
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 4947233617113513924, guid: 13fcf64b8ba74bd4e83fa71f35fe194c,
+        type: 3}
+      propertyPath: _userData.actionIdCounter
+      value: 17
+      objectReference: {fileID: 0}
+    - target: {fileID: 4947233617113513924, guid: 13fcf64b8ba74bd4e83fa71f35fe194c,
+        type: 3}
+      propertyPath: _userData.joystickMaps.Array.data[1].actionElementMaps.Array.data[15]._actionId
+      value: 16
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 13fcf64b8ba74bd4e83fa71f35fe194c, type: 3}
 --- !u!1 &2020376308 stripped
@@ -1019,21 +1118,30 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1527570383, guid: 5f9a7b3882159b848a3afddda6958eb5, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -24
+    - target: {fileID: 89554725, guid: 5f9a7b3882159b848a3afddda6958eb5, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
       objectReference: {fileID: 0}
-    - target: {fileID: 5903085415896932467, guid: 5f9a7b3882159b848a3afddda6958eb5,
+    - target: {fileID: 1570656528, guid: 5f9a7b3882159b848a3afddda6958eb5, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2690379504992124264, guid: 5f9a7b3882159b848a3afddda6958eb5,
         type: 3}
-      propertyPath: m_IsActive
-      value: 1
+      propertyPath: quitSlider
+      value: 
+      objectReference: {fileID: 27298124}
+    - target: {fileID: 2690379504992124264, guid: 5f9a7b3882159b848a3afddda6958eb5,
+        type: 3}
+      propertyPath: restartSlider
+      value: 
+      objectReference: {fileID: 852461489}
+    - target: {fileID: 2047609251, guid: 5f9a7b3882159b848a3afddda6958eb5, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 828682124, guid: 5f9a7b3882159b848a3afddda6958eb5, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -30.999878
-      objectReference: {fileID: 0}
-    - target: {fileID: 89554723, guid: 5f9a7b3882159b848a3afddda6958eb5, type: 3}
-      propertyPath: m_Enabled
+    - target: {fileID: 1198787912, guid: 5f9a7b3882159b848a3afddda6958eb5, type: 3}
+      propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

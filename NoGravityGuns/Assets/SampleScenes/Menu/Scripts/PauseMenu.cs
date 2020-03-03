@@ -11,17 +11,20 @@ public class PauseMenu : MonoBehaviour
     #endregion
 
     private Toggle m_MenuToggle;
-	private float m_TimeScaleRef = 1f;
+    private float m_TimeScaleRef = 1f;
     private float m_VolumeRef = 1f;
     private bool m_Paused;
 
     private Canvas pauseCanvas;
 
+    public Slider quitSlider;
+    public Slider restartSlider;
+
 
     void Awake()
     {
 
-        
+
         if (_instance != null && _instance != this)
         {
             Destroy(this.gameObject);
@@ -29,7 +32,7 @@ public class PauseMenu : MonoBehaviour
         else
         {
             _instance = this;
-            transform.parent.gameObject.DontDestroyOnLoad();         
+            transform.parent.gameObject.DontDestroyOnLoad();
         }
 
         if (!m_MenuToggle)
@@ -43,7 +46,7 @@ public class PauseMenu : MonoBehaviour
 
         this.gameObject.SetActive(false);
 
-        
+
     }
 
     //private void Update()
@@ -61,15 +64,15 @@ public class PauseMenu : MonoBehaviour
 
     private void OnEnable()
     {
-        if(!m_MenuToggle)
+        if (!m_MenuToggle)
         {
             m_MenuToggle = GetComponent<Toggle>();
         }
-        if(!pauseCanvas)
+        if (!pauseCanvas)
         {
             pauseCanvas = this.gameObject.GetComponent<Canvas>();
         }
-        
+
     }
 
     public void MenuOn()
@@ -84,17 +87,27 @@ public class PauseMenu : MonoBehaviour
 
         m_Paused = true;
 
-        var buttons = pauseCanvas.GetComponentsInChildren<Button>();
-        foreach (var b in buttons)
-        {
-            b.enabled = true;
-            b.interactable = true;
-            if (b.name == "btnResume")
-            {
-                b.Select();
-            }
+        quitSlider.value = 0f;
+        restartSlider.value = 0f;
 
-        }
+        ControllerLayoutManager.SwapToUIMaps();
+
+        //foreach (var j in ReInput.controllers.Joysticks)
+        //{
+        //    ReInput.players.GetSystemPlayer().controllers.AddController(j, true);
+        //}
+
+        //var buttons = pauseCanvas.GetComponentsInChildren<Button>();
+        //foreach (var b in buttons)
+        //{
+        //    b.enabled = true;
+        //    b.interactable = true;
+        //    if (b.name == "btnResume")
+        //    {
+        //        b.Select();
+        //    }
+
+        //}
 
 
     }
@@ -107,18 +120,72 @@ public class PauseMenu : MonoBehaviour
         m_Paused = false;
 
         pauseCanvas.gameObject.SetActive(false);
+
+        ControllerLayoutManager.SwapToGameplayMaps();
     }
 
     public void QuitMatch()
     {
+        MenuOff();
         RoundManager.Instance.NewRound(true);
     }
 
     public void ExitGame()
     {
-        Application.Quit();        
+        Debug.Log("Qutting the game!");
+        Application.Quit();
     }
 
+    bool holdingQuit = false;
+    bool holdingRestart = false;
+
+    private void Update()
+    {
+
+        foreach (var player in ReInput.players.AllPlayers)
+        {
+            if (player.GetButton("UICancel"))
+            {
+                quitSlider.value += 0.03f;
+
+                holdingQuit = true;
+
+                if (quitSlider.value >= 1f)
+                {
+                    ExitGame();
+                }
+            }
+            else
+                holdingQuit = false;
+
+
+            if (player.GetButton("UISubmit"))
+            {
+                restartSlider.value += 0.03f;
+
+                holdingRestart = true;
+
+                if (restartSlider.value >= 1f)
+                {
+                    QuitMatch();
+                }
+            }
+            else
+                holdingRestart = false;
+
+            if (player.GetButtonDown("UIStart"))
+            {
+                MenuOff();
+            }
+        }
+
+        if (!holdingQuit)
+        {
+            quitSlider.value -= 0.01f;
+            if (quitSlider.value < 0)
+                quitSlider.value = 0;
+        }
+    }
 
     //public void OnMenuStatusChange ()
     //{
