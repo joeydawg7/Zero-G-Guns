@@ -7,6 +7,7 @@ using UnityEngine.InputSystem.Users;
 using UnityEngine.InputSystem.PlayerInput;
 using Rewired;
 using UnityEngine.SceneManagement;
+using XInputDotNetPure;
 
 public struct PlayerControllerData
 {
@@ -187,6 +188,7 @@ public class JoiningPlayerScript : MonoBehaviour
         if (!assignedControls.Contains(joystick.id))
         {
             assignedControls.Add(joystick.id);
+            Vibrate(0.5f, 0.1f, joystick.id);
             //only play the sound if not contained, so we can tell if someone is joining when they are already in
             GameManager.Instance.audioSource.PlayOneShot(joinClick);
 
@@ -203,10 +205,7 @@ public class JoiningPlayerScript : MonoBehaviour
                 //Debug.Log("Assigned " + joystick.name + " " + joystick.id + " to Player " + player.descriptiveName);
             }
             
-            if (assignedControls.Count > 1)
-            {
-                tipToStart.alpha = 1;
-            }
+         
         }
     }
 
@@ -363,7 +362,16 @@ public class JoiningPlayerScript : MonoBehaviour
         //if either of these things are null we can't proceed. probably broken from loading outside of persistent scene and will fix itself shortly :D
         if (!GameManager.Instance || !RoundManager.Instance)
             return;
-        
+
+        if (assignedControls.Count > 1)
+        {
+            tipToStart.alpha = 1;
+        }
+        if (assignedControls.Count <= 1)
+        {
+            tipToStart.alpha = 0;
+        }
+
         if (!GameManager.Instance.isGameStarted && !RoundManager.Instance.finishedControllerSetup)
         {
             // Watch for JoinGame action in System Player
@@ -421,6 +429,19 @@ public class JoiningPlayerScript : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    
+    public void Vibrate(float strength, float time, int controllerID)
+    {
+        if (vibrateController != null)
+            StopCoroutine(vibrateController);
+        vibrateController = StartCoroutine(VibrateController(strength, time, controllerID));
+    }
+
+    Coroutine vibrateController;
+    IEnumerator VibrateController(float strength, float time, int controllerID)
+    {
+        GamePad.SetVibration((PlayerIndex)controllerID, strength, strength);
+        yield return new WaitForSeconds(time);
+        GamePad.SetVibration((PlayerIndex)controllerID, 0, 0);
+    }
 
 }
