@@ -16,7 +16,7 @@ public static class Extensions
     {
        float t = Time.realtimeSinceStartup -time;
 
-        Debug.Log("Time since start of tag " + codeSnippetTag+ ": " + t.ToString("#.###########"));
+        //Debug.Log("Time since start of tag " + codeSnippetTag+ ": " + t.ToString("#.###########"));
     }
 
     public static string FloatToTime(float toConvert, string format)

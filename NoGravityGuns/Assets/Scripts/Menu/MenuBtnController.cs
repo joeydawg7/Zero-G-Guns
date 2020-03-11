@@ -78,8 +78,6 @@ public class MenuBtnController : MonoBehaviour, ISelectHandler, IDeselectHandler
     {
         var button = this.gameObject.name;
 
-        Debug.Log("aoihoaijs");
-
         switch (button)
         {
             case "TrainingBtn":

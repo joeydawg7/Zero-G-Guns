@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Rewired;
+using System.Linq;
 
 public static class ControllerLayoutManager 
 {
@@ -10,32 +11,56 @@ public static class ControllerLayoutManager
     /// </summary>
     public static void SwapToGameplayMaps()
     {
-        for (int i = 0; i < ReInput.players.AllPlayers.Count; i++)
-        {
-            foreach (Joystick joystick in ReInput.players.AllPlayers[i].controllers.Joysticks)
-            {
-                //ReInput.players.AllPlayers[i].controllers.maps.SetAllMapsEnabled(true);
-                ReInput.players.AllPlayers[i].controllers.maps.SetMapsEnabled(false, "UI");
-                ReInput.players.AllPlayers[i].controllers.maps.SetMapsEnabled(true, "Gameplay");
-                ReInput.players.AllPlayers[i].controllers.maps.SetMapsEnabled(true, "Default");
-            }
-        }
+        Debug.Log("swapped to Gameplay maps");
+
+        ControllerLayoutManager.RemoveAllJoysticksFromSystemPlayer();
     }
 
     /// <summary>
-    /// Changes controller layout to use UI settings
+    /// Changes controller layout to use UI settings. 
+    /// removeFromOtherPlayers: determines if joystick assignment should be remembered after switching controller maps.
     /// </summary>
-    public static void SwapToUIMaps()
+    public static void SwapToUIMaps(bool removeFromOtherPlayers)
     {
-        for (int i = 0; i < ReInput.players.AllPlayers.Count; i++)
-        {
-            foreach (Joystick joystick in ReInput.players.AllPlayers[i].controllers.Joysticks)
-            {
-                //ReInput.players.AllPlayers[i].controllers.maps.SetAllMapsEnabled(true);
-                ReInput.players.AllPlayers[i].controllers.maps.SetMapsEnabled(true, "UI");
-                ReInput.players.AllPlayers[i].controllers.maps.SetMapsEnabled(false, "Gameplay");
-                ReInput.players.AllPlayers[i].controllers.maps.SetMapsEnabled(false, "Default");
-            }
-        }
+        Debug.Log("swapped to UI maps");
+
+        ControllerLayoutManager.AssignAllJoysticksToSystemPlayer(removeFromOtherPlayers);
     }
+
+
+    static void AssignAllJoysticksToSystemPlayer(bool removeFromOtherPlayers)
+    {
+        foreach (var j in ReInput.controllers.Joysticks)
+        {
+            ReInput.players.GetSystemPlayer().controllers.AddController(j, removeFromOtherPlayers);   
+        }
+
+        //why isnt this a dictionary rewired!?!
+        //basically 0 = gameplayMaps rule, 1 = UI maps rule
+        ReInput.players.GetSystemPlayer().controllers.maps.mapEnabler.ruleSets[0].enabled = false;
+        ReInput.players.GetSystemPlayer().controllers.maps.mapEnabler.ruleSets[1].enabled = true;
+
+        ReInput.players.GetSystemPlayer().controllers.maps.mapEnabler.Apply();
+
+
+
+    }
+
+    static void RemoveAllJoysticksFromSystemPlayer()
+    {
+        foreach (var j in ReInput.controllers.Joysticks)
+        {
+            ReInput.players.GetSystemPlayer().controllers.RemoveController(j);           
+        }
+
+        //why isnt this a dictionary rewired!?!
+        //basically 0 = gameplayMaps rule, 1 = UI maps rule
+        ReInput.players.GetSystemPlayer().controllers.maps.mapEnabler.ruleSets[0].enabled = true;
+        ReInput.players.GetSystemPlayer().controllers.maps.mapEnabler.ruleSets[1].enabled = false;
+
+        ReInput.players.GetSystemPlayer().controllers.maps.mapEnabler.Apply();
+
+            
+    }
+    
 }

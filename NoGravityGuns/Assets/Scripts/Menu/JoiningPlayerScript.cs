@@ -73,7 +73,7 @@ public class JoiningPlayerScript : MonoBehaviour
                     ReInput.players.AllPlayers[i].controllers.maps.SetMapsEnabled(false, "UI");
                     ReInput.players.AllPlayers[i].controllers.maps.SetMapsEnabled(true, "Gameplay");
                     ReInput.players.AllPlayers[i].controllers.maps.SetMapsEnabled(true, "Default");
-                    Debug.Log(ReInput.players.AllPlayers[i].controllers.maps.ContainsMapInCategory("Gameplay") + " " + ReInput.players.AllPlayers[i].name);
+                   // Debug.Log(ReInput.players.AllPlayers[i].controllers.maps.ContainsMapInCategory("Gameplay") + " " + ReInput.players.AllPlayers[i].name);
                 }
             }
         }
@@ -88,6 +88,8 @@ public class JoiningPlayerScript : MonoBehaviour
 
     void Start()
     {
+        ControllerLayoutManager.SwapToGameplayMaps();
+
         try
         {
 
@@ -112,12 +114,14 @@ public class JoiningPlayerScript : MonoBehaviour
         }
 
     }
+    //TODO: move this to something that is on every scene no matter what
     void OnControllerDisConnected(ControllerStatusChangedEventArgs args)
     {
         if (args.controllerType != ControllerType.Joystick) return;
         if (assignedControls.Contains(args.controllerId)) RemoveJoystickFromPlayer(ReInput.controllers.GetJoystick(args.controllerId));
 
     }
+    //TODO: move this to something that is on every scene no matter what
     void OnControllerConnected(ControllerStatusChangedEventArgs args)
     {
         if (args.controllerType != ControllerType.Joystick) return;
@@ -136,6 +140,7 @@ public class JoiningPlayerScript : MonoBehaviour
 
     void AssignAllJoysticksToSystemPlayer(bool removeFromOtherPlayers)
     {
+        Debug.Log("assigning all to systemplayer!");
         foreach (var j in ReInput.controllers.Joysticks)
         {
             ReInput.players.GetSystemPlayer().controllers.AddController(j, removeFromOtherPlayers);
@@ -188,7 +193,8 @@ public class JoiningPlayerScript : MonoBehaviour
         if (!assignedControls.Contains(joystick.id))
         {
             assignedControls.Add(joystick.id);
-            Vibrate(0.5f, 0.1f, joystick.id);
+            //buzz joining controller so its easier to tell who just joined
+            Vibrate(0.5f, 0.25f, joystick.id);
             //only play the sound if not contained, so we can tell if someone is joining when they are already in
             GameManager.Instance.audioSource.PlayOneShot(joinClick);
 
@@ -211,10 +217,10 @@ public class JoiningPlayerScript : MonoBehaviour
 
     void RemoveNextPlayer()
     {
-        Debug.Log(rewiredPlayerIdCounter);
+        //Debug.Log(rewiredPlayerIdCounter);
         if (assignedControls.Count <= 0 || rewiredPlayerIdCounter < 0)
         {
-            Debug.Log("Min player limit already reached!");
+            //Debug.Log("Min player limit already reached!");
             return;
         }
 

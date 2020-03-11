@@ -65,7 +65,6 @@ public class RoundManager : MonoBehaviour
             newRooms.AddRange(arenaRooms);
             arenaRooms.Clear();            
             usedRooms = new List<RoomSO>(newRooms.Count);
-            print("starting roundManager in scene " + SceneManager.GetActiveScene().name);
            
             //foreach (var room in this.ActiveRooms)
             //{
@@ -96,7 +95,6 @@ public class RoundManager : MonoBehaviour
     {
         if (LoadingBar.Instance)
             LoadingBar.Instance.StopLoadingBar();
-        Debug.Log("starting new round");
         loading = true;
         
         currentRound++;
@@ -206,12 +204,12 @@ public class RoundManager : MonoBehaviour
        
 
         AsyncOperation asyncLoadLevel = SceneManager.LoadSceneAsync(lvl);
-        print("loading async now!");
+        //print("loading async now!");
         while (!asyncLoadLevel.isDone)
         {
             yield return null;
         }
-        print("done loading!");
+        //print("done loading!");
 
         LevelLoaded(nextRoom, startOver);
         yield return new WaitForSeconds(0.5f);

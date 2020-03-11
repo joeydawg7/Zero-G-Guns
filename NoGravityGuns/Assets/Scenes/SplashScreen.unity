@@ -603,10 +603,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1295119039, guid: 13fcf64b8ba74bd4e83fa71f35fe194c, type: 3}
-      propertyPath: useAllRewiredGamePlayers
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 13fcf64b8ba74bd4e83fa71f35fe194c, type: 3}
 --- !u!1 &138539087
@@ -1115,7 +1111,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &301955270
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1123,7 +1119,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 301955269}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 01614664b831546d2ae94a42149d80ac, type: 3}
   m_Name: 
@@ -3778,6 +3774,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: f548da947c273b944a59713043045ce7, type: 3}
   - {fileID: 8300000, guid: 07fdadc77bdcdbf488a3e0de14db6c40, type: 3}
   - {fileID: 8300000, guid: 9395e0fba0c65e144a24ad980faef557, type: 3}
+  mainMenuCamera: {fileID: 1713054346}
 --- !u!4 &1917687796
 Transform:
   m_ObjectHideFlags: 0

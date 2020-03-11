@@ -2,6 +2,7 @@ using Rewired;
 using System;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Linq;
 
 public class PauseMenu : MonoBehaviour
 {
@@ -90,24 +91,7 @@ public class PauseMenu : MonoBehaviour
         quitSlider.value = 0f;
         restartSlider.value = 0f;
 
-        ControllerLayoutManager.SwapToUIMaps();
-
-        //foreach (var j in ReInput.controllers.Joysticks)
-        //{
-        //    ReInput.players.GetSystemPlayer().controllers.AddController(j, true);
-        //}
-
-        //var buttons = pauseCanvas.GetComponentsInChildren<Button>();
-        //foreach (var b in buttons)
-        //{
-        //    b.enabled = true;
-        //    b.interactable = true;
-        //    if (b.name == "btnResume")
-        //    {
-        //        b.Select();
-        //    }
-
-        //}
+        ControllerLayoutManager.SwapToUIMaps(false);
 
 
     }
@@ -142,42 +126,40 @@ public class PauseMenu : MonoBehaviour
     private void Update()
     {
 
-        foreach (var player in ReInput.players.AllPlayers)
+        if (ReInput.players.GetSystemPlayer().GetButton("UICancel"))
         {
-            if (player.GetButton("UICancel"))
+            quitSlider.value += 0.03f;
+
+            holdingQuit = true;
+
+            if (quitSlider.value >= 1f)
             {
-                quitSlider.value += 0.03f;
-
-                holdingQuit = true;
-
-                if (quitSlider.value >= 1f)
-                {
-                    ExitGame();
-                }
-            }
-            else
-                holdingQuit = false;
-
-
-            if (player.GetButton("UISubmit"))
-            {
-                restartSlider.value += 0.03f;
-
-                holdingRestart = true;
-
-                if (restartSlider.value >= 1f)
-                {
-                    QuitMatch();
-                }
-            }
-            else
-                holdingRestart = false;
-
-            if (player.GetButtonDown("UIStart"))
-            {
-                MenuOff();
+                ExitGame();
             }
         }
+        else
+            holdingQuit = false;
+
+
+        if (ReInput.players.GetSystemPlayer().GetButton("UISubmit"))
+        {
+            restartSlider.value += 0.03f;
+
+            holdingRestart = true;
+
+            if (restartSlider.value >= 1f)
+            {
+                QuitMatch();
+            }
+        }
+        else
+            holdingRestart = false;
+
+        if (ReInput.players.GetSystemPlayer().GetButtonDown("UIStart"))
+        {
+            MenuOff();
+        }
+
 
         if (!holdingQuit)
         {

@@ -23,6 +23,8 @@ public class SplashScreenController : MonoBehaviour
     public AudioSource soundSource;
     public AudioClip[] sounds;
 
+    public Camera mainMenuCamera;
+
     private bool starting;
     
     // Start is called before the first frame update
@@ -31,8 +33,10 @@ public class SplashScreenController : MonoBehaviour
         logoTrans = 0.0f;       
         startPosition = bulletCanvas.transform.position;
         
-        endPosition = new Vector3(0.0f, 0.0f, startPosition.z);        
+        endPosition = new Vector3(0.0f, 0.0f, startPosition.z);
+
         
+
         if(RoundManager.Instance == null)
         {
             StartCoroutine(FadeInLogo());
@@ -42,31 +46,32 @@ public class SplashScreenController : MonoBehaviour
             OpenStartMenu();
         }
 
-        // Load joysticks maps in each joystick in the "UI" category and "Default" layout and set it to be enabled on start
-        //foreach (Joystick joystick in ReInput.players.SystemPlayer.controllers.Joysticks)
-        //{
-        //    ReInput.players.SystemPlayer.controllers.maps.LoadMap(ControllerType.Joystick, joystick.id, "UI", "Default", true);
-        //}
-       
-
-       
-
         LoadingBar.Instance.StopLoadingBar();
     }
 
-   public void OpenStartMenu()
+    public void OpenStartMenu()
     {
         mainMenu.SetActive(true);
         soundSource.Stop();
         Camera.main.GetComponent<AudioSource>().clip = sounds[2];
         Camera.main.GetComponent<AudioSource>().Play();
+
         arenaBtn.Select();
         EventSystem.current.SetSelectedGameObject(arenaBtn.gameObject);
-        ControllerLayoutManager.SwapToUIMaps();
-        
+
+
+        ControllerLayoutManager.SwapToUIMaps(true);
+
+        //stop that error about having more than 1 audio listener because it bugs me
+        if (FindObjectsOfType<Camera>().Length > 1)
+        {
+            mainMenuCamera.GetComponent<AudioListener>().enabled = false;
+        }
+
+
     }
 
-   IEnumerator FadeInLogo()
+    IEnumerator FadeInLogo()
    {
 
         soundSource.PlayOneShot(sounds[0]);
