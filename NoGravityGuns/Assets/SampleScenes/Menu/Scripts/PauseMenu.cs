@@ -120,6 +120,16 @@ public class PauseMenu : MonoBehaviour
     public void QuitMatch()
     {
         MenuOff();
+
+        //do the break the targets reset instead
+        if(FindObjectOfType<BTT_Manager>())
+        {
+            //TODO: create a quick reset for BTT levels that doesn't need to load so much stuff
+            //TODO: add a method of quitting to menu from BTT levels
+            BTT_Manager.Instance.BackToPersistentScene();
+
+        }
+
         RoundManager.Instance.NewRound(true);
     }
 
