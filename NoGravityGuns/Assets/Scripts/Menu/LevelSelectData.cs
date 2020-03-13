@@ -52,6 +52,8 @@ public class LevelSelectData : MonoBehaviour
     {
         room.playOnLoad = true;
 
+        ControllerLayoutManager.SwapToGameplayMaps();
+
         if (RoundManager.Instance == null)
         {
             Debug.Log("Click, Round Manger Null");

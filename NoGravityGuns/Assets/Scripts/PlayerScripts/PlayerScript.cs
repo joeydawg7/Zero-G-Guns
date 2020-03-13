@@ -210,7 +210,7 @@ public class PlayerScript : MonoBehaviour
 
                 OnPause();
 
-                OnQuit();
+                //OnQuit();
 
                 OnRestart();
 
@@ -341,9 +341,10 @@ public class PlayerScript : MonoBehaviour
         {
             if (!PauseMenu.Instance.gameObject.activeInHierarchy)
             {
+                GamePad.SetVibration((PlayerIndex)controller.id, 0, 0);
                 Debug.Log("pause");
                 PauseMenu.Instance.MenuOn();
-                GamePad.SetVibration((PlayerIndex)controller.id, 0, 0);
+               
 
             }
             else
@@ -362,21 +363,21 @@ public class PlayerScript : MonoBehaviour
 
     }
 
-    public void OnQuit()
-    {
-        if (gameManager.isGameStarted && PauseMenu.Instance.gameObject.activeInHierarchy && player.GetButtonDown("Drop"))
-        {
-            Debug.Log("QUIT to Main");
-            GameObject.FindGameObjectWithTag("CameraParent").GetComponent<CameraController>().players.Clear();
-            RoundManager.Instance.NewRound(true);
-            PauseMenu.Instance.MenuOff();
-        }
-        else if (gameManager.isGameStarted && PauseMenu.Instance.gameObject.activeInHierarchy && player.GetButtonDown("Join"))
-        {
-            Debug.Log("QUIT Game");
-            Application.Quit();
-        }
-    }
+    //public void OnQuit()
+    //{
+    //    if (gameManager.isGameStarted && PauseMenu.Instance.gameObject.activeInHierarchy && player.GetButtonDown("Drop"))
+    //    {
+    //        Debug.Log("QUIT to Main");
+    //        GameObject.FindGameObjectWithTag("CameraParent").GetComponent<CameraController>().players.Clear();
+    //        RoundManager.Instance.NewRound(true);
+    //        PauseMenu.Instance.MenuOff();
+    //    }
+    //    else if (gameManager.isGameStarted && PauseMenu.Instance.gameObject.activeInHierarchy && player.GetButtonDown("Join"))
+    //    {
+    //        Debug.Log("QUIT Game");
+    //        Application.Quit();
+    //    }
+    //}
 
     public void Vibrate(float strength, float time)
     {
@@ -796,11 +797,7 @@ public class PlayerScript : MonoBehaviour
         player = ReInput.players.GetPlayer(playerID);
         player.controllers.AddController(controller, true);
 
-        Debug.Log(player.descriptiveName);
-        Debug.Log(controller.name);
-
-        //player.controllers.maps.SetMapsEnabled(true, "Gameplay");
-        //player.controllers.maps.SetMapsEnabled(false, "UI");
+        Debug.Log("setting " + player.descriptiveName + " to have controller: " + controller.name);
 
         armsScript.basePlayer = this;
 

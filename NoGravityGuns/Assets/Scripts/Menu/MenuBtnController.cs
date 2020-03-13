@@ -80,8 +80,7 @@ public class MenuBtnController : MonoBehaviour, ISelectHandler, IDeselectHandler
 
         switch (button)
         {
-            case "TrainingBtn":
-
+            case "TrainingBtn":    
                 var traningLevelsScreens = Resources.FindObjectsOfTypeAll<TraningLevelsScreen>();
                 if (traningLevelsScreens.Length > 0)
                 {

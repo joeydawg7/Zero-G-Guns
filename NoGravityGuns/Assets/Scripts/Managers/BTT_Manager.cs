@@ -63,6 +63,7 @@ public class BTT_Manager : MonoBehaviour
 
         BTTEndCanvas = FindObjectOfType<BTTEndCanvas>();
 
+
         ClearAllControllers();
 
         globalPlayerSettings.SortPlayerSettings();
@@ -218,29 +219,21 @@ public class BTT_Manager : MonoBehaviour
 
     private void SetupP1Controller()
     {
+
         Player player1 = ReInput.players.GetPlayer(0);
 
         Joystick j = ReInput.controllers.GetController(ControllerType.Joystick, 0) as Joystick;
 
         player1.controllers.AddController(j, true);
 
-
         PlayerControllerData playerDataScript = new PlayerControllerData(0, j);
 
         SpawnPlayerManager(playerDataScript);
-
-        ControllerLayoutManager.SwapToGameplayMaps();
-
+       
         finishedControllerSetup = true;
+
     }
 
-    void AssignAllJoysticksToSystemPlayer(bool removeFromOtherPlayers)
-    {
-        foreach (var j in ReInput.controllers.Joysticks)
-        {
-            ReInput.players.GetSystemPlayer().controllers.AddController(j, removeFromOtherPlayers);
-        }
-    }
 
 
     private void Update()
@@ -263,8 +256,6 @@ public class BTT_Manager : MonoBehaviour
         gameObject.DontDestroyOnLoad();
 
         PD.SetPlayerInfoAfterRoundStart(playerControllerData, globalPlayerSettings);
-
-        Debug.Log("This: " + playerControllerData.ID);
 
         PD.SpawnAtMatchingPoint(globalPlayerSettings, playerCanvas);
 

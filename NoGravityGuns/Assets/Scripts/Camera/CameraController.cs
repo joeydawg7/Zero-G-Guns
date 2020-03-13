@@ -101,9 +101,20 @@ public class CameraController : MonoBehaviour
 
     Vector3 GetCenterPoint()
     {
+        if (players[0] == null)
+        {
+            players.Clear();
+
+            Debug.Log("playa count: " + players.Count);
+        }
+
+        if (players.Count == 0)
+            return new Vector3(0,0,0);
+
+
         if (players.Count == 1)
         {
-            return players[0].position;
+           return players[0].position;
         }
 
         var bounds = new Bounds(players[0].position, Vector3.zero);
@@ -144,6 +155,9 @@ public class CameraController : MonoBehaviour
     //returns between 0 and 1
     float GetGreatestDistance()
     {
+        if (players.Count == 0)
+            return 0.0f;
+
         var bounds = new Bounds(players[0].position, Vector3.zero);
         for (int i = 0; i < players.Count; i++)
         {

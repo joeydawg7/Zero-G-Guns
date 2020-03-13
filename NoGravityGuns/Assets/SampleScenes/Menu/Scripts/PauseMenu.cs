@@ -18,9 +18,11 @@ public class PauseMenu : MonoBehaviour
 
     private Canvas pauseCanvas;
 
-    public Slider quitSlider;
-    public Slider restartSlider;
+    public Image quitSlider;
+    public Image restartSlider;
 
+    float quitTimer;
+    float submitTimer;
 
     void Awake()
     {
@@ -78,20 +80,27 @@ public class PauseMenu : MonoBehaviour
 
     public void MenuOn()
     {
-        pauseCanvas.gameObject.SetActive(true);
+        if (GameManager.Instance.isGameStarted)
+        {
 
-        m_TimeScaleRef = Time.timeScale;
-        Time.timeScale = 0f;
+            pauseCanvas.gameObject.SetActive(true);
 
-        m_VolumeRef = AudioListener.volume;
-        AudioListener.volume = 0f;
+            m_TimeScaleRef = Time.timeScale;
+            Time.timeScale = 0f;
 
-        m_Paused = true;
+            m_VolumeRef = AudioListener.volume;
+            AudioListener.volume = 0f;
 
-        quitSlider.value = 0f;
-        restartSlider.value = 0f;
+            m_Paused = true;
 
-        ControllerLayoutManager.SwapToUIMaps(false);
+            quitSlider.fillAmount = 0f;
+            restartSlider.fillAmount = 0f;
+            quitTimer = 0f;
+            submitTimer = 0f;
+
+            ControllerLayoutManager.SwapToUIMaps(false);
+
+        }
 
 
     }
@@ -126,73 +135,86 @@ public class PauseMenu : MonoBehaviour
     private void Update()
     {
 
+        //if (ReInput.players.GetSystemPlayer().GetButton("UICancel"))
+        //{
+        //    quitSlider.value += 0.03f;
+
+        //    holdingQuit = true;
+
+        //    if (quitSlider.value >= 1f)
+        //    {
+        //        ExitGame();
+        //    }
+        //}
+        //else
+        //    holdingQuit = false;
+
+
+        //if (ReInput.players.GetSystemPlayer().GetButton("UISubmit"))
+        //{
+        //    restartSlider.value += 0.03f;
+
+        //    holdingRestart = true;
+
+        //    if (restartSlider.value >= 1f)
+        //    {
+        //        QuitMatch();
+        //    }
+        //}
+        //else
+        //    holdingRestart = false;
+
+        //if (ReInput.players.GetSystemPlayer().GetButtonDown("UIStart"))
+        //{
+        //    MenuOff();
+        //}
+
+
+        //if (!holdingQuit)
+        //{
+        //    quitSlider.value -= 0.01f;
+        //    if (quitSlider.value < 0)
+        //        quitSlider.value = 0;
+        //}
+
         if (ReInput.players.GetSystemPlayer().GetButton("UICancel"))
         {
-            quitSlider.value += 0.03f;
-
-            holdingQuit = true;
-
-            if (quitSlider.value >= 1f)
-            {
-                ExitGame();
-            }
+            quitTimer += Time.unscaledDeltaTime;
+            quitSlider.fillAmount = quitTimer;
         }
+        // if (ReInput.players.GetSystemPlayer().GetButtonUp("UICancel"))
         else
-            holdingQuit = false;
-
+        {
+            quitTimer = 0;
+            quitSlider.fillAmount = quitTimer;
+        }
+        if (quitTimer > 1.0f)
+        {
+            quitTimer = 0;
+            quitSlider.fillAmount = quitTimer;
+            ExitGame();
+        }
 
         if (ReInput.players.GetSystemPlayer().GetButton("UISubmit"))
         {
-            restartSlider.value += 0.03f;
-
-            holdingRestart = true;
-
-            if (restartSlider.value >= 1f)
-            {
-                QuitMatch();
-            }
+            submitTimer += Time.unscaledDeltaTime;
+            restartSlider.fillAmount = submitTimer;
         }
+        //if (ReInput.players.GetSystemPlayer().GetButtonUp("UISubmit"))
         else
-            holdingRestart = false;
-
-        if (ReInput.players.GetSystemPlayer().GetButtonDown("UIStart"))
         {
-            MenuOff();
+            submitTimer = 0;
+            restartSlider.fillAmount = submitTimer;
+        }
+        if (submitTimer > 1.0f)
+        {
+            submitTimer = 0;
+            restartSlider.fillAmount = submitTimer;
+            QuitMatch();
         }
 
 
-        if (!holdingQuit)
-        {
-            quitSlider.value -= 0.01f;
-            if (quitSlider.value < 0)
-                quitSlider.value = 0;
-        }
     }
-
-    //public void OnMenuStatusChange ()
-    //{
-    //    if (m_MenuToggle.isOn && !m_Paused)
-    //    {
-    //        MenuOn();
-    //    }
-    //    else if (!m_MenuToggle.isOn && m_Paused)
-    //    {
-    //        MenuOff();
-    //    }
-    //}
-
-
-    //#if !MOBILE_INPUT
-    //	void Update()
-    //	{
-    //		if(Input.GetKeyUp(KeyCode.Escape))
-    //		{
-    //		    m_MenuToggle.isOn = !m_MenuToggle.isOn;
-    //            Cursor.visible = m_MenuToggle.isOn;//force the cursor visible if anythign had hidden it
-    //		}
-    //	}
-    //#endif
-
 
 
 }

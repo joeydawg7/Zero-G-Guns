@@ -148,8 +148,6 @@ public class RoundEndCanvasScript : MonoBehaviour
                 firework1.GetComponent<UIParticleSystem>().enabled = true;
                 firework2.GetComponent<UIParticleSystem>().enabled = true;
 
-                print("PLAY THOSE FIRWORKS");
-
                 var main1 = firework1.main;
                 var main2 = firework2.main;
 

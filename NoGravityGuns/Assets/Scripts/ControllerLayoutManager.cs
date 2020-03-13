@@ -14,6 +14,7 @@ public static class ControllerLayoutManager
         Debug.Log("swapped to Gameplay maps");
 
         ControllerLayoutManager.RemoveAllJoysticksFromSystemPlayer();
+        ControllerLayoutManager.SetAllPlayersToGameplayMaps();
     }
 
     /// <summary>
@@ -25,6 +26,7 @@ public static class ControllerLayoutManager
         Debug.Log("swapped to UI maps");
 
         ControllerLayoutManager.AssignAllJoysticksToSystemPlayer(removeFromOtherPlayers);
+        ControllerLayoutManager.SetAllPlayersToUIMaps();
     }
 
 
@@ -41,26 +43,41 @@ public static class ControllerLayoutManager
         ReInput.players.GetSystemPlayer().controllers.maps.mapEnabler.ruleSets[1].enabled = true;
 
         ReInput.players.GetSystemPlayer().controllers.maps.mapEnabler.Apply();
-
-
-
     }
 
     static void RemoveAllJoysticksFromSystemPlayer()
     {
+
+        //why isnt this a dictionary rewired!?!
+        //basically 0 = gameplayMaps rule, 1 = UI maps rule      
+        ReInput.players.GetSystemPlayer().controllers.maps.mapEnabler.ruleSets[0].enabled = true;
+        ReInput.players.GetSystemPlayer().controllers.maps.mapEnabler.ruleSets[1].enabled = false;
+
+
         foreach (var j in ReInput.controllers.Joysticks)
         {
             ReInput.players.GetSystemPlayer().controllers.RemoveController(j);           
         }
 
-        //why isnt this a dictionary rewired!?!
-        //basically 0 = gameplayMaps rule, 1 = UI maps rule
-        ReInput.players.GetSystemPlayer().controllers.maps.mapEnabler.ruleSets[0].enabled = true;
-        ReInput.players.GetSystemPlayer().controllers.maps.mapEnabler.ruleSets[1].enabled = false;
+        ReInput.players.GetSystemPlayer().controllers.maps.mapEnabler.Apply();            
+    }
 
-        ReInput.players.GetSystemPlayer().controllers.maps.mapEnabler.Apply();
+    static void SetAllPlayersToGameplayMaps()
+    {
+        foreach (var player in ReInput.players.AllPlayers)
+        {
+            player.controllers.maps.mapEnabler.ruleSets[0].enabled = true;
+            player.controllers.maps.mapEnabler.ruleSets[1].enabled = false;
+        }  
+    }
 
-            
+    static void SetAllPlayersToUIMaps()
+    {
+        foreach (var player in ReInput.players.AllPlayers)
+        {
+            ReInput.players.GetSystemPlayer().controllers.maps.mapEnabler.ruleSets[0].enabled = false;
+            ReInput.players.GetSystemPlayer().controllers.maps.mapEnabler.ruleSets[1].enabled = true;
+        }
     }
     
 }

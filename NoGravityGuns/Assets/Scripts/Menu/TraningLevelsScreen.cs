@@ -30,7 +30,6 @@ public class TraningLevelsScreen : MonoBehaviour
             b.onClick.AddListener(() => LSD.OnClick());           
             i++;                        
         }
-        gameObject.SetActive(false);        
     }
 
     public void ShowTrainingLevelsScreen()

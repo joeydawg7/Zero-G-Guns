@@ -35,7 +35,7 @@ public class PlayerDataScript : MonoBehaviour
         this.globalPlayerSettings = globalPlayerSettings;
         isCurrentWinner = false;
 
-        Debug.Log("player id in set :" + playerControllerData.ID + " controller: " + playerControllerData.controller.name);
+        Debug.Log("player id set for player" + playerControllerData.ID + " with controller: " + playerControllerData.controller.name);
     }
 
 
