@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 using TMPro;
 using UnityEngine.UI;
 using UnityEngine.Profiling;
+using Rewired;
 
 public class RoundManager : MonoBehaviour
 {
@@ -36,6 +37,7 @@ public class RoundManager : MonoBehaviour
     public List<RoomSO> usedRooms;
 
     public bool finishedControllerSetup;
+    public bool preventPlayerAction;
 
     [HideInInspector]
     public int currentRound;
@@ -89,6 +91,8 @@ public class RoundManager : MonoBehaviour
         roundEndCanvasScript.ClearEndRoundCanvasDisplay();
         globalPlayerSettings.SortPlayerSettings();
 
+        preventPlayerAction = false;
+
     }
 
     public void NewRound(bool startOver)
@@ -99,11 +103,14 @@ public class RoundManager : MonoBehaviour
         
         currentRound++;
 
+
+
         Time.timeScale = 1;
-        ObjectPooler.Instance.ResetRound();
+        //ObjectPooler.Instance.ResetRound();
 
         if (startOver)
         {
+
             CameraController cameraController = Camera.main.GetComponent<CameraController>();
 
             if (SoundPooler.Instance.levelSongs.Count >0 && cameraController)
@@ -131,40 +138,9 @@ public class RoundManager : MonoBehaviour
         }
 
         //TODO: only grab from a list of playable rooms so player can check off maps they dont want to play
-        //RoomSO nextRoom = rooms[Random.Range(0, rooms.Count)];
-
-        //List<RoomSO> tempRooms = new List<RoomSO>();
 
         RoomSO nextRoom = null;
 
-        //we have no room to go to!
-        //while (nextRoom == null)
-        //{
-        //    //make a list of all possible rooms we could go to that are playable
-        //    foreach (var room in this.ActiveRooms)
-        //    {
-        //        if (room.isPlayable)
-        //        {
-        //            tempRooms.Add(room);
-        //            // Debug.Log(room.name);
-        //        }
-        //    }
-        //    //Debug.Log("---------------");
-        //    //if our list has no playable rooms make everything playable
-        //    if (tempRooms.Count < 1)
-        //    {
-        //        foreach (var room in this.ActiveRooms)
-        //        {
-        //            room.isPlayable = true;
-        //        }
-        //    }
-        //    else
-        //    {
-        //        //then pick a random room from everything playable
-        //        nextRoom = tempRooms[Random.Range(0, tempRooms.Count)];
-        //        nextRoom.isPlayable = false;
-        //    }
-        //}
         if(newRooms.Count > 1)
         {
             nextRoom = newRooms[Random.Range(0, newRooms.Count)];
@@ -190,6 +166,8 @@ public class RoundManager : MonoBehaviour
 
     IEnumerator AddLevel(string lvl, RoomSO nextRoom, bool startOver)
     {
+        
+
         //DEBUG: use original scene
         if (debugStayOnThisScene!=null && debugManager.useDebugSettings)
         {           
@@ -198,12 +176,6 @@ public class RoundManager : MonoBehaviour
 
         ObjectPooler.Instance.ResetRound();
 
-        while (!ObjectPooler.Instance.finishedResetting)
-        {
-            //wait
-        }
-
-       
 
         AsyncOperation asyncLoadLevel = SceneManager.LoadSceneAsync(lvl);
         //print("loading async now!");
@@ -212,9 +184,15 @@ public class RoundManager : MonoBehaviour
             yield return null;
         }
         //print("done loading!");
-
+        
         LevelLoaded(nextRoom, startOver);
+
+
+        ObjectPooler.Instance.ResetRound();
+
         yield return new WaitForSeconds(0.5f);
+
+        preventPlayerAction = false;
     }
 
     void LevelLoaded(RoomSO nextRoom, bool startOver)
@@ -248,7 +226,7 @@ public class RoundManager : MonoBehaviour
             //if we have a tie in who the current winner is, nobody gets a crown
             foreach (var pd in playerDataList)
             {
-                if (pd.roundWins == max && max>0)
+                if (pd.roundWins == max && max > 0)
                     pd.isCurrentWinner = true;
             }
 
@@ -258,14 +236,9 @@ public class RoundManager : MonoBehaviour
             {
                 PD.SpawnAtMatchingPoint(globalPlayerSettings, playerCanvas);
             }
+
             GameManager.Instance.StartGame();
         }
-        //else
-        //    joiningPlayerScript.Start();
-
-
-
-
 
 
 
@@ -282,12 +255,6 @@ public class RoundManager : MonoBehaviour
         PD.SpawnAtMatchingPoint(globalPlayerSettings, playerCanvas);
 
         playerDataList.Add(PD);
-    }
-
-
-
-    private void Update()
-    {
     }
 
 

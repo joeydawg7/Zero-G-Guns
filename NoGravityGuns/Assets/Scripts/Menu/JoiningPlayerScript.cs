@@ -90,6 +90,8 @@ public class JoiningPlayerScript : MonoBehaviour
     {
         ControllerLayoutManager.SwapToGameplayMaps();
 
+        PauseMenu.Instance.MenuOff();
+
         try
         {
 
@@ -450,7 +452,7 @@ public class JoiningPlayerScript : MonoBehaviour
     IEnumerator VibrateController(float strength, float time, int controllerID)
     {
         GamePad.SetVibration((PlayerIndex)controllerID, strength, strength);
-        yield return new WaitForSeconds(time);
+        yield return new WaitForSecondsRealtime(time);
         GamePad.SetVibration((PlayerIndex)controllerID, 0, 0);
     }
 

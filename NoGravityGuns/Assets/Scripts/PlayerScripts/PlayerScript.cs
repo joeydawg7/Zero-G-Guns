@@ -199,7 +199,7 @@ public class PlayerScript : MonoBehaviour
 
         if (gameManager.isGameStarted)
         {
-            if (!isDead)
+            if (!isDead && !RoundManager.Instance.preventPlayerAction)
             {
 
                 //B button
@@ -389,8 +389,9 @@ public class PlayerScript : MonoBehaviour
     Coroutine vibrateController;
     IEnumerator VibrateController(float strength, float time)
     {
+        Debug.Log("vibrating for " + time + " seconds");
         GamePad.SetVibration((PlayerIndex)controller.id, strength, strength);
-        yield return new WaitForSeconds(time);
+        yield return new WaitForSecondsRealtime(time);
         GamePad.SetVibration((PlayerIndex)controller.id, 0, 0);
     }
 
@@ -797,7 +798,7 @@ public class PlayerScript : MonoBehaviour
         player = ReInput.players.GetPlayer(playerID);
         player.controllers.AddController(controller, true);
 
-        Debug.Log("setting " + player.descriptiveName + " to have controller: " + controller.name);
+        //Debug.Log("setting " + player.descriptiveName + " to have controller: " + controller.name);
 
         armsScript.basePlayer = this;
 

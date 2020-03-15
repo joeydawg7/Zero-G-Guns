@@ -169,7 +169,7 @@ public class GameManager : MonoBehaviour
         //    }
         //}
 
-        print("startGame called!");
+        print("startGame!");
 
         cameraController.setToMaxZoom = false;
         cameraController.OnGameStart();

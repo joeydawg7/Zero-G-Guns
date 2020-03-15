@@ -156,7 +156,7 @@ public class BTT_Manager : MonoBehaviour
 
         ClearAllControllers();
 
-        ObjectPooler.Instance.ResetRound();
+        
 
         while (!ObjectPooler.Instance.finishedResetting)
         {
@@ -169,6 +169,8 @@ public class BTT_Manager : MonoBehaviour
         }
 
         print("done loading!");
+
+        ObjectPooler.Instance.ResetRound();
 
         yield return new WaitForSeconds(0.5f);
 

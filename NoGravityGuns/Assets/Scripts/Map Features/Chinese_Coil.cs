@@ -48,8 +48,10 @@ public class Chinese_Coil : MonoBehaviour
                 playerLighting.transform.localPosition = Vector3.zero;
                 playerLighting.Play();
                 */
-                var audSource = this.gameObject.GetComponent<AudioSource>();                
-                audSource.PlayOneShot(shockClip);
+                var audSource = this.gameObject.GetComponent<AudioSource>();    
+                
+                if(!audSource.isPlaying)
+                    audSource.PlayOneShot(shockClip);
 
             }            
         }

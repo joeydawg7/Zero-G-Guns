@@ -33,6 +33,7 @@ public class ObjectPooler : MonoBehaviour
             for (int i = 0; i < pool.size; i++)
             {
                 GameObject obj = Instantiate(pool.prefab, gameObject.transform);
+                obj.name = obj.name + "_" + i;
                 obj.SetActive(false);
                 objectPool.Enqueue(obj);
             }
@@ -91,6 +92,7 @@ public class ObjectPooler : MonoBehaviour
 
         objectToSpawn.transform.parent = null;
 
+
         return objectToSpawn;
 
     }
@@ -117,6 +119,7 @@ public class ObjectPooler : MonoBehaviour
         }
 
         poolDictionary[tag].Enqueue(objectToSpawn);
+
 
         return objectToSpawn;
 
@@ -149,14 +152,22 @@ public class ObjectPooler : MonoBehaviour
         float t = Extensions.StartCodeTimer();
 
 
+        //Debug.Log("num pools: " + poolDictionary.Keys.Count);
+       
+
         for (int i = 0; i < poolDictionary.Keys.Count; i++)
         {
             //yeah this all makes sense... right? lol
             //basically just grabbing from the dictionary key (tag) to get our queue of values and turning that queue into a list so we can loop through each one individually and set all these objects to false
             //ez pz
+
+            //Debug.Log("num items in current pool " + poolDictionary[poolDictionary.Keys.ToList()[i]].ToList().Count);
+
             for (int j = 0; j < poolDictionary[poolDictionary.Keys.ToList()[i]].ToList().Count; j++)
             {
                 GameObject go = poolDictionary[poolDictionary.Keys.ToList()[i]].ToList()[j];
+                
+               
 
 
                 if (go == null)
@@ -171,10 +182,14 @@ public class ObjectPooler : MonoBehaviour
                 if (go.transform.parent == null)
                     go.DontDestroyOnLoad();
 
-                //go.transform.SetParent(transform);
             }
 
+
+
         }
+
+        
+
 
         System.GC.Collect();
 
