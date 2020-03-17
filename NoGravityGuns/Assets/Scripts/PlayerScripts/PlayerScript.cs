@@ -174,7 +174,7 @@ public class PlayerScript : MonoBehaviour
     {
         rb.simulated = true;
 
-
+        Vibrate(0, 0.0f);
 
     }
 
@@ -536,6 +536,7 @@ public class PlayerScript : MonoBehaviour
             audioSource.Stop();
             audioSource.PlayOneShot(deathClip);
 
+
             //yeah you dead boy
             isDead = true;
 
@@ -546,11 +547,16 @@ public class PlayerScript : MonoBehaviour
             {
                 if (GameManager.Instance.CheckForLastManStanding())
                 {
+                    playerCanvasScript.hpBack.gameObject.SetActive(false);
+                    playerCanvasScript.hpFront.gameObject.SetActive(false);
+                    playerCanvasScript.hpFlash.gameObject.SetActive(false);
                     gameManager.cameraController.TrackFinalBlow(transform, 2f, damageType, gunWhoShotYou);
                 }
                 else
                 {
-                    playerCanvasScript.gameObject.SetActive(false);
+                    playerCanvasScript.hpBack.gameObject.SetActive(false);
+                    playerCanvasScript.hpFront.gameObject.SetActive(false);
+                    playerCanvasScript.hpFlash.gameObject.SetActive(false);
                 }
             }
             // armsSR = armsScript.currentArms.GetComponent<SpriteRenderer>();

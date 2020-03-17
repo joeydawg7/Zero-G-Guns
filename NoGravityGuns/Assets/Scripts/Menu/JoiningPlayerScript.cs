@@ -438,6 +438,11 @@ public class JoiningPlayerScript : MonoBehaviour
             RoundManager.Instance.SpawnPlayerManager(pCdataDic.Value);
         }
 
+        for (int i = 0; i < assignedControls.Count; i++)
+        {
+            Vibrate(0.0f, 0.0f, i);
+        }
+
         gameObject.SetActive(false);
     }
 
@@ -451,6 +456,7 @@ public class JoiningPlayerScript : MonoBehaviour
     Coroutine vibrateController;
     IEnumerator VibrateController(float strength, float time, int controllerID)
     {
+        Debug.Log("vibrating for " + time + " seconds");
         GamePad.SetVibration((PlayerIndex)controllerID, strength, strength);
         yield return new WaitForSecondsRealtime(time);
         GamePad.SetVibration((PlayerIndex)controllerID, 0, 0);

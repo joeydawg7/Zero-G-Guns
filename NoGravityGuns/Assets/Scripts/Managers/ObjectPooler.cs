@@ -149,6 +149,12 @@ public class ObjectPooler : MonoBehaviour
 
         Debug.Log("resetting round");
 
+        foreach (var player in GameObject.FindGameObjectsWithTag("Player"))
+        {
+            player.GetComponentInChildren<PlayerScript>().Vibrate(0.0f, 0.0f);
+        }
+
+
         float t = Extensions.StartCodeTimer();
 
 

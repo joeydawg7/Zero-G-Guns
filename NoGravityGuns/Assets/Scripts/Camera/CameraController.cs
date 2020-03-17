@@ -294,7 +294,6 @@ public class CameraController : MonoBehaviour
         }
 
        
-
         //sets everything back to normal
         ResetAllSlowdownEffects();
 
