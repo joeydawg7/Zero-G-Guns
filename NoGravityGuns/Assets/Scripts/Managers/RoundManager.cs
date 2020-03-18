@@ -37,7 +37,6 @@ public class RoundManager : MonoBehaviour
     public List<RoomSO> usedRooms;
 
     public bool finishedControllerSetup;
-    public bool preventPlayerAction;
 
     [HideInInspector]
     public int currentRound;
@@ -90,8 +89,6 @@ public class RoundManager : MonoBehaviour
 
         roundEndCanvasScript.ClearEndRoundCanvasDisplay();
         globalPlayerSettings.SortPlayerSettings();
-
-        preventPlayerAction = false;
 
     }
 
@@ -191,8 +188,6 @@ public class RoundManager : MonoBehaviour
         ObjectPooler.Instance.ResetRound();
 
         yield return new WaitForSeconds(0.5f);
-
-        preventPlayerAction = false;
     }
 
     void LevelLoaded(RoomSO nextRoom, bool startOver)

@@ -156,13 +156,7 @@ public class BTT_Manager : MonoBehaviour
 
         ClearAllControllers();
 
-        
-
-        while (!ObjectPooler.Instance.finishedResetting)
-        {
-            yield return null;
-        }
-
+       
         while (!asyncLoadLevel.isDone)
         {
             yield return null;
@@ -206,13 +200,15 @@ public class BTT_Manager : MonoBehaviour
             }
         }
 
+       
+
         foreach (var PD in playerDataList)
         {
             PD.SpawnAtMatchingPoint(globalPlayerSettings, playerCanvas);
         }
 
         SetupP1Controller();
-        
+
         CameraController cameraController = FindObjectOfType<CameraController>();
         cameraController.setToMaxZoom = true;
 

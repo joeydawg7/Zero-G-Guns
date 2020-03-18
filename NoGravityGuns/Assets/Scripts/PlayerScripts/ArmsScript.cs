@@ -129,7 +129,7 @@ public class ArmsScript : MonoBehaviour
         {
             //CountShotDelay();
 
-            if (!basePlayer.isDead && !RoundManager.Instance.preventPlayerAction)
+            if (!basePlayer.isDead)
             {
                 //AimController();
                 //OnReload();

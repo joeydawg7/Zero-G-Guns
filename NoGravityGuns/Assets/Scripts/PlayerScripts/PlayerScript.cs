@@ -199,7 +199,7 @@ public class PlayerScript : MonoBehaviour
 
         if (gameManager.isGameStarted)
         {
-            if (!isDead && !RoundManager.Instance.preventPlayerAction)
+            if (!isDead)
             {
 
                 //B button
