@@ -67,6 +67,7 @@ public class BTT_Manager : MonoBehaviour
         ClearAllControllers();
 
         globalPlayerSettings.SortPlayerSettings();
+
     }
 
 

@@ -35,9 +35,9 @@ public class SplashScreenController : MonoBehaviour
         
         endPosition = new Vector3(0.0f, 0.0f, startPosition.z);
 
-        
 
-        if(RoundManager.Instance == null)
+
+        if (RoundManager.Instance == null)
         {
             StartCoroutine(FadeInLogo());
         }
@@ -45,6 +45,8 @@ public class SplashScreenController : MonoBehaviour
         {
             OpenStartMenu();
         }
+
+        
 
         LoadingBar.Instance.StopLoadingBar();
     }
@@ -73,7 +75,6 @@ public class SplashScreenController : MonoBehaviour
 
     IEnumerator FadeInLogo()
    {
-
         soundSource.PlayOneShot(sounds[0]);
         while (logoTrans < 1.0f)
         {            
