@@ -45,7 +45,7 @@ public class WackyGun : Guns
             {
                 player.armsScript.bulletSpawn = bulletSpawns[spawnIds[id]];
                 spawnIds.Remove(spawnIds[id]);
-                player.StartCoroutine(DelayShotCoroutine(player, delayBeforeShot, bulletSpeed, minDamageRange, maxDamageRange,this));
+                player.StartCoroutine(DelayShotCoroutine(player, delayBeforeShot, /*bulletSpeed,*/ minDamageRange, maxDamageRange,this));
                 
             }
             yield return new WaitForSeconds(delayBeforeShot);
@@ -55,7 +55,7 @@ public class WackyGun : Guns
                 id = Random.Range(0, spawnIds.Count - 1);
                 player.armsScript.bulletSpawn = bulletSpawns[spawnIds[id]];
                 spawnIds.Remove(spawnIds[id]);
-                player.StartCoroutine(DelayShotCoroutine(player, delayBeforeShot, bulletSpeed, minDamageRange, maxDamageRange,this));
+                player.StartCoroutine(DelayShotCoroutine(player, delayBeforeShot, /*bulletSpeed,*/ minDamageRange, maxDamageRange,this));
                 
             }
             yield return new WaitForSeconds(delayBeforeShot);
@@ -64,7 +64,7 @@ public class WackyGun : Guns
             {
                 id = Random.Range(0, spawnIds.Count - 1);
                 player.armsScript.bulletSpawn = bulletSpawns[spawnIds[id]];
-                player.StartCoroutine(DelayShotCoroutine(player, delayBeforeShot, bulletSpeed, minDamageRange, maxDamageRange,this));
+                player.StartCoroutine(DelayShotCoroutine(player, delayBeforeShot, /*bulletSpeed,*/ minDamageRange, maxDamageRange,this));
                 
             }            
             yield return new WaitForSeconds(delayBeforeShot);

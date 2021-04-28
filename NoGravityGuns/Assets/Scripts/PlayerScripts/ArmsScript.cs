@@ -150,8 +150,8 @@ public class ArmsScript : MonoBehaviour
         transform.position = frontupperArmBone.position;
 
         if (gameManager.isGameStarted)
-        {
-            if (!basePlayer.isDead)
+        {           
+            if (!basePlayer.isDead  && !basePlayer.isStunned)
             {
                 AimController();
                 DrawLaserPointer();
@@ -207,10 +207,12 @@ public class ArmsScript : MonoBehaviour
             return;
         }
 
-        Vector2 rawAim = new Vector2(0, 0);
+        Vector2 rawAim = Vector2.zero;
+        
         Vector2 rawAimLeft = basePlayer.player.GetAxis2D("Move Horizontal Left Stick", "Move Vertical Left Stick");
         Vector2 rawAimRight = basePlayer.player.GetAxis2D("Move Horizontal", "Move Vertical");
 
+       
         //if there's any input from right stick use that one above all others
         if (rawAimRight.magnitude > 0)
         {

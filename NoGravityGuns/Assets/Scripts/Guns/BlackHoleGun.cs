@@ -17,7 +17,7 @@ public class BlackHoleGun : Guns
         if (CheckIfAbleToiFire(this))
         {
             //player.armsScript.audioSource.PlayOneShot(GetRandomGunshotSFX);
-            player.StartCoroutine(DelayShotCoroutine(player, delayBeforeShot, bulletSpeed, minDamageRange, maxDamageRange, this));
+            player.StartCoroutine(DelayShotCoroutine(player, delayBeforeShot, /*bulletSpeed,*/ minDamageRange, maxDamageRange, this));
             ReduceBullets(player);
         }
         else

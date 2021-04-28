@@ -54,7 +54,7 @@ public abstract class Guns : MonoBehaviour
     public abstract void Fire(PlayerScript player);
 
 
-    public IEnumerator DelayShotCoroutine(PlayerScript player, float delayBeforeShot, float bulletSpeed, int minDamage, int maxDamage, Guns gun)
+    public IEnumerator DelayShotCoroutine(PlayerScript player, float delayBeforeShot, /*float bulletSpeed,*/ int minDamage, int maxDamage, Guns gun)
     {
 
         timeSinceLastShot = Time.time;
@@ -93,7 +93,7 @@ public abstract class Guns : MonoBehaviour
         player.armsScript.audioSource.PlayOneShot(GetRandomGunshotSFX);
 
         if (timeSinceLastShot > recoilDelay && player.armsScript.currentWeapon == gun)
-            SpawnBullet(player, bulletSpeed, minDamage, maxDamage, gun);
+            SpawnBullet(player, gun.bulletSpeed, minDamage, maxDamage, gun);
            
     }
 
@@ -131,8 +131,6 @@ public abstract class Guns : MonoBehaviour
         //replace blank entries with default bullet :D
         if (string.IsNullOrEmpty(projectileTypeName))
             projectileTypeName = "Bullet";
-
-
 
         if (projectileTypeName == "BuckShot")
         {
@@ -173,9 +171,12 @@ public abstract class Guns : MonoBehaviour
 
             if (bulletGo.GetComponent<Light2D>())
                 bulletGo.GetComponent<Light2D>().color = player.playerColor;
-
-
-
+        }
+        else if(projectileTypeName == "Acid_Bullet")
+        {
+            GameObject bulletGo = ObjectPooler.Instance.SpawnFromPool("Acid_Bullet", bulletSpawn.transform.position, Quaternion.identity);
+            var dir = bulletSpawn.transform.right * bulletSpeed;
+            bulletGo.GetComponent<DOT_Bullet>().Construct(GunDamage(minDamagae, maxDamage), player, dir, player.playerColor);
         }
         else
         {

@@ -2,16 +2,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Bullet : MonoBehaviour, IPooledObject
+public class DOT_Bullet : MonoBehaviour, IPooledObject
 {
+    public float duration;
+    public float frequency; 
+
     [HideInInspector]
     public float damage;
+    
 
     [HideInInspector]
     public PlayerScript player;
 
     protected bool canImapact;
-   
+
 
     protected Rigidbody2D rb;
     protected Vector2 startingForce;
@@ -109,8 +113,8 @@ public class Bullet : MonoBehaviour, IPooledObject
 
         if (collision.collider.gameObject.layer != LayerMask.NameToLayer("NonBulletCollide") && canImapact == true)
         {
-            //we've hit something that isnt a bullet, or the player that shot the original bullet
-            if (collision.collider.tag != "Bullet" || collision.collider.GetComponent<Bullet>().player.playerID != player.playerID)
+            //we've hit something that isnt a bullet
+            if (collision.collider.tag != "Bullet")
             {
 
                 //default damage type is nothing, we don't know what we hit yet.
@@ -151,32 +155,32 @@ public class Bullet : MonoBehaviour, IPooledObject
 
         //checks where we hit the other guy, deals our given damage to that location. 
 
-        dmgType = PlayerScript.ParsePlayerDamage(collision.gameObject);
-
+        //dmgType = PlayerScript.ParsePlayerDamage(collision.gameObject);
+        dmgType = PlayerScript.DamageType.torso;
         if (dmgType != PlayerScript.DamageType.self)
         {
-            hitPlayerScript.TakeDamage(damage, startingForce, dmgType, this.player, true, gun);
+            //hitPlayerScript.TakeDamage(damage, startingForce, dmgType, this.player, true, gun);
 
-            //hitPlayerScript.DamageOverTime(5.0f, 0.5f , damage/2.0f, startingForce, dmgType, this.player, true, gun);
+            hitPlayerScript.DamageOverTime(duration, frequency, Random.Range(damage-2.0f,damage+2.0f), startingForce, dmgType, this.player, true, gun);
             // collision.transform.GetComponentInChildren<ParticleSystem>().Emit(30);
             GetComponent<Collider2D>().enabled = false;
         }
 
-            return dmgType;
+        return dmgType;
     }
 
     //gets rid of a bullet gracefully
-   protected virtual void KillBullet()
+    protected virtual void KillBullet()
     {
         StartCoroutine(DisableOverTime(0.02f));
 
         bulletTrail.transform.parent = null;
         bulletTrail.Stop();
-        
+
         bulletTrail.GetComponent<DisableOverTime>().DisableOverT(3.1f);
-        
+
     }
-   
+
     protected virtual IEnumerator DisableOverTime(float t)
     {
         yield return new WaitForSeconds(t);

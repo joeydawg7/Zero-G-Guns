@@ -36,7 +36,7 @@ public class AssaultRifle : Guns
         for (int i = 0; i < bulletsToShoot; i++)
         {
             player.armsScript.audioSource.PlayOneShot(GetRandomGunshotSFX);
-            player.StartCoroutine(DelayShotCoroutine(player, delayBeforeShot, bulletSpeed, minDamageRange, maxDamageRange, this));
+            player.StartCoroutine(DelayShotCoroutine(player, delayBeforeShot, /*bulletSpeed,*/ minDamageRange, maxDamageRange, this));
             ReduceBullets(player);
             yield return new WaitForSeconds(timeBetweenBurstShots);
         }

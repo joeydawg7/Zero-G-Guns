@@ -47,7 +47,7 @@ public class Minigun : Guns
                 //SoundPooler.Instance.PlaySoundEffect(spinDown);
 
             }
-            player.StartCoroutine(DelayShotCoroutine(player, 0.0f, bulletSpeed, minDamageRange, maxDamageRange,this));
+            player.StartCoroutine(DelayShotCoroutine(player, 0.0f, /*bulletSpeed,*/ minDamageRange, maxDamageRange,this));
             ReduceBullets(player);
         }
         else

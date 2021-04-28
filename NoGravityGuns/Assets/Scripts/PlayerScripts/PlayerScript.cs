@@ -38,6 +38,7 @@ public class PlayerScript : MonoBehaviour
     [Header("Bools")]
     public bool isDead;
     public bool isInvulnerable;
+    public bool isStunned;
 
     public ArmsScript armsScript;
 
@@ -168,6 +169,7 @@ public class PlayerScript : MonoBehaviour
         gameManager = GameManager.Instance;
 
         lastHitDamageType = DamageType.self;
+        isStunned = false;
     }
 
     private void Start()
@@ -523,6 +525,23 @@ public class PlayerScript : MonoBehaviour
         {
             SR.color = defaultColor;
         }
+    }
+
+    public void DamageOverTime(float duration, float frequency ,float damage, Vector2 dir, DamageType damageType, PlayerScript PlayerWhoShotYou, bool playBulletSFX, Guns gunThatShotYou)
+    {
+        StartCoroutine(DoDOTs(duration, frequency, damage, dir, damageType, PlayerWhoShotYou, playBulletSFX, gunThatShotYou));
+    }
+
+    public IEnumerator  DoDOTs(float duration, float frequency, float damage, Vector2 dir, DamageType damageType, PlayerScript PlayerWhoShotYou, bool playBulletSFX, Guns gunThatShotYou)
+    {
+        float DOT_Timer = 0;
+        while(DOT_Timer < duration)
+        {
+            TakeDamage(damage, dir, damageType, PlayerWhoShotYou, playBulletSFX, gunThatShotYou);
+            yield return new WaitForSeconds(frequency);
+            DOT_Timer += frequency;
+        }
+        
     }
     #endregion
 
