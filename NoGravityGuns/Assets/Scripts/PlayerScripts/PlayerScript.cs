@@ -399,7 +399,7 @@ public class PlayerScript : MonoBehaviour
 
     #endregion
 
-    #region Take Damage
+    #region Take Damage 
     public void TakeDamage(float damage, Vector2 dir, DamageType damageType, PlayerScript PlayerWhoShotYou, bool playBulletSFX, Guns gunThatShotYou)
     {
         if (!isDead && !isInvulnerable)
@@ -543,6 +543,37 @@ public class PlayerScript : MonoBehaviour
         }
         
     }
+    
+    public void Stun(float duration)
+    {
+        StartCoroutine(DoStun(duration));       
+    }
+
+    private IEnumerator DoStun(float duration)
+    {
+        isStunned = true;
+        float timer = 0.0f;
+        while(timer < duration)
+        {
+                //TEMP STUN indicator
+                torsoSR.color = Color.gray;
+                foreach (var SR in armsSR)
+                {
+                    SR.color = invulnerabilityColorFlash;
+                }           
+            
+            timer += Time.deltaTime;
+            yield return null;
+        }
+        torsoSR.color = defaultColor;
+        foreach (var SR in armsSR)
+        {
+            SR.color = defaultColor;
+        }
+        isStunned = false;        
+    }
+    
+    
     #endregion
 
     #region Die and respawn

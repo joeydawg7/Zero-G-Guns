@@ -97,7 +97,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 0
+  m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -190,12 +190,12 @@ PrefabInstance:
     - target: {fileID: 5718792107768967929, guid: 88333e1812cb7304698502a448c93ef0,
         type: 3}
       propertyPath: pools.Array.size
-      value: 14
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 5718792107768967929, guid: 88333e1812cb7304698502a448c93ef0,
         type: 3}
       propertyPath: potentialGunsToSpawn.Array.size
-      value: 7
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5718792107768967929, guid: 88333e1812cb7304698502a448c93ef0,
         type: 3}
@@ -234,7 +234,7 @@ PrefabInstance:
         type: 3}
       propertyPath: potentialGunsToSpawn.Array.data[0]
       value: 
-      objectReference: {fileID: -5088727334185508711, guid: 9dc64a21a95bd81419f463f9b7ca8873,
+      objectReference: {fileID: 4685851744196297828, guid: 12da994963ce2a1438ba92095617c1ed,
         type: 3}
     - target: {fileID: 5718792107768967929, guid: 88333e1812cb7304698502a448c93ef0,
         type: 3}
@@ -265,6 +265,28 @@ PrefabInstance:
       propertyPath: potentialGunsToSpawn.Array.data[5]
       value: 
       objectReference: {fileID: 8655020000262282672, guid: 744cc983903a66a4facbb3c79e146bc2,
+        type: 3}
+    - target: {fileID: 5718792107768967929, guid: 88333e1812cb7304698502a448c93ef0,
+        type: 3}
+      propertyPath: pools.Array.data[14].tag
+      value: Lightning_Bullet
+      objectReference: {fileID: 0}
+    - target: {fileID: 5718792107768967929, guid: 88333e1812cb7304698502a448c93ef0,
+        type: 3}
+      propertyPath: pools.Array.data[14].prefab
+      value: 
+      objectReference: {fileID: 5680163158229233766, guid: 0a246e56351feca488d75017af678097,
+        type: 3}
+    - target: {fileID: 5718792107768967929, guid: 88333e1812cb7304698502a448c93ef0,
+        type: 3}
+      propertyPath: pools.Array.data[14].size
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 5718792107768967929, guid: 88333e1812cb7304698502a448c93ef0,
+        type: 3}
+      propertyPath: potentialGunsToSpawn.Array.data[7]
+      value: 
+      objectReference: {fileID: 4685851744196297828, guid: 12da994963ce2a1438ba92095617c1ed,
         type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 88333e1812cb7304698502a448c93ef0, type: 3}
@@ -650,12 +672,12 @@ PrefabInstance:
         type: 3}
       propertyPath: levelSongs.Array.data[0]
       value: 
-      objectReference: {fileID: 8300000, guid: 9395e0fba0c65e144a24ad980faef557, type: 3}
+      objectReference: {fileID: 8300000, guid: 5afeec90e4a72044bbab50584ec7f39d, type: 3}
     - target: {fileID: 2164500791341123796, guid: e9829905d64e5c34f80bd110a3cd6d9d,
         type: 3}
       propertyPath: levelSongs.Array.data[1]
       value: 
-      objectReference: {fileID: 8300000, guid: 8460d9356c5199a479de0f215f56b015, type: 3}
+      objectReference: {fileID: 8300000, guid: 5afeec90e4a72044bbab50584ec7f39d, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e9829905d64e5c34f80bd110a3cd6d9d, type: 3}
 --- !u!1001 &1210100706

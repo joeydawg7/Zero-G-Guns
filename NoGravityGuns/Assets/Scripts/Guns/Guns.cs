@@ -178,6 +178,12 @@ public abstract class Guns : MonoBehaviour
             var dir = bulletSpawn.transform.right * bulletSpeed;
             bulletGo.GetComponent<DOT_Bullet>().Construct(GunDamage(minDamagae, maxDamage), player, dir, player.playerColor);
         }
+        else if (projectileTypeName == "Lightning_Bullet")
+        {
+            GameObject bulletGo = ObjectPooler.Instance.SpawnFromPool("Lightning_Bullet", bulletSpawn.transform.position, Quaternion.identity);
+            var dir = bulletSpawn.transform.right * bulletSpeed;
+            bulletGo.GetComponent<LightningBullet>().Construct(GunDamage(minDamagae, maxDamage), player, dir, player.playerColor);
+        }
         else
         {
             if (!bulletSpawn)
