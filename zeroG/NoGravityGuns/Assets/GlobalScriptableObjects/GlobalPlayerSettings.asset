@@ -1,0 +1,75 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b7569f1e419f554a8294be68f1be750, type: 3}
+  m_Name: GlobalPlayerSettings
+  m_EditorClassIdentifier: 
+  playerSettings:
+  - ID: 0
+    playerName: Player 1
+    Color:
+      serializedVersion: 2
+      rgba: 4281283761
+    playerColorHexCode: '#B1342F'
+    DeadColor:
+      serializedVersion: 2
+      rgba: 4278190080
+    CollisionLayer: 19
+    PlayerCanvasSettings:
+      hpFront: {fileID: 21300000, guid: 6084eafb9b073dd439ade79db015f81b, type: 3}
+      hpBack: {fileID: 21300000, guid: 6babac5bdf48bae4dba3e124788cc479, type: 3}
+      hpCriticalFlash: {fileID: 21300000, guid: ab25d7b64591bec439d16481a7e2c8ad,
+        type: 3}
+  - ID: 1
+    playerName: Player 2
+    Color:
+      serializedVersion: 2
+      rgba: 4290936364
+    playerColorHexCode: '#2C7EC2'
+    DeadColor:
+      serializedVersion: 2
+      rgba: 4278190080
+    CollisionLayer: 20
+    PlayerCanvasSettings:
+      hpFront: {fileID: 21300000, guid: 36ff10dfd2668d440baca3258a92317a, type: 3}
+      hpBack: {fileID: 21300000, guid: 0d56ab40b0a59174a989aad44fc69d2f, type: 3}
+      hpCriticalFlash: {fileID: 21300000, guid: 2cac5e1013dc21748b59e0ebd5a731cb,
+        type: 3}
+  - ID: 2
+    playerName: Player 3
+    Color:
+      serializedVersion: 2
+      rgba: 4280204307
+    playerColorHexCode: '#13BC1E'
+    DeadColor:
+      serializedVersion: 2
+      rgba: 4278190080
+    CollisionLayer: 21
+    PlayerCanvasSettings:
+      hpFront: {fileID: 21300000, guid: 05aaa551f9f934844a7b8174fc93f8b5, type: 3}
+      hpBack: {fileID: 21300000, guid: 5c71bea0f88f5f844b6bd363706305dc, type: 3}
+      hpCriticalFlash: {fileID: 21300000, guid: 3a7fd3c53ae99f64f9123f0b5e92ca90,
+        type: 3}
+  - ID: 3
+    playerName: Player 4
+    Color:
+      serializedVersion: 2
+      rgba: 4278377962
+    playerColorHexCode: '#EADD02'
+    DeadColor:
+      serializedVersion: 2
+      rgba: 4278190080
+    CollisionLayer: 22
+    PlayerCanvasSettings:
+      hpFront: {fileID: 21300000, guid: a7f4ec1b01687dc43b4f804bd9a2ca02, type: 3}
+      hpBack: {fileID: 21300000, guid: 1badaa109b2c6ec4d8e29dc9c97416ae, type: 3}
+      hpCriticalFlash: {fileID: 21300000, guid: 4c79b9e91dedc284f9ea921654b30fe7,
+        type: 3}
