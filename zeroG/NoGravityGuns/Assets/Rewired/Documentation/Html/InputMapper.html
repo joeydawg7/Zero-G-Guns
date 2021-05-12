@@ -137,7 +137,7 @@
     	<div class="main-body">
 	        <div class="logo"><a href="http://guavaman.com/projects/rewired" title="Rewired"><img src="files/images/rewired-logo.png" width="173" height="139" alt="Rewired" /></a></div>
                      
-            <h1>
+          <h1>
             <!-- InstanceBeginEditable name="PageHeader" -->Input Mapper
       <!-- InstanceEndEditable -->
             </h1>
@@ -145,6 +145,7 @@
 			<!-- InstanceBeginEditable name="MainBody" -->
 
     <p>Input Mapper is a class that greatly simplifies the process of remapping controls. It handles listening for controller input, conflict checking, and creating Action-element assignments in a Controller Map.</p>
+    <p>Please see <a href="HowTos.html#controller-mapping-screen">How To's - Creating a Control Mapping Screen</a> before creating a control remapping system using Input Mapper.</p>
     <p><strong>Usage</strong></p>
 <p>The basic process is as follows:</p>
 <ol>
@@ -164,7 +165,7 @@ inputMapper.Start(context);
 <span class="comment">// Or you can use the Default instance instead if you only need one Input Mapper</span> 
 InputMapper.Default.Start(context);</pre>
 <p><strong>2. Configure Options</strong></p>
-<p>Each Input Mapper has an Options object which allows you to configure various settings to fit your needs. These settings should be configured before starting the Input Mapper.</p>
+<p>Each Input Mapper has an <a href="https://guavaman.com/projects/rewired/docs/api-reference/html/T_Rewired_InputMapper_Options.htm">Options</a> object which allows you to configure various settings to fit your needs. These settings should be configured before starting the Input Mapper. <a href="https://guavaman.com/projects/rewired/docs/api-reference/html/T_Rewired_InputMapper_Options.htm">Each available option is described in the class documentation.</a></p>
 <pre class="code">inputMapper.options.timeout = 5f; <span class="comment">// set the timeout to 5 seconds</span>
 inputMapper.options.ignoreMouseXAxis = true; <span class="comment">// ignore the mouse X axis when polling for input</span>
 inputMapper.options.ignoreMouseYAxis = true; <span class="comment">// ignore the mouse Y axis when polling for input</span><br /></pre>
@@ -185,6 +186,7 @@ InputMapper.Context context = new InputMapper.Context() {
 inputMapper.Start(context);
 </pre>
 <p><strong><a name="conflicts" id="conflicts"></a>6. Handle assignment conflicts (optional)</strong></p>
+<p>Conflict checking is enabled by default in InputMapper.Options. <a href="HowTos.html#conflict-checking">See How To's - Conflict Checking for more information.</a></p>
 <p>If you subscribed to the InputMapper.ConflictFoundEvent, you will receive a notification when a conflicting assignment was found during input mapping. The object returned contains complete information about the assignment, the conflicts that were found, and provides a callback to be used to respond to the event.</p>
 <pre class="code">
 private InputMapper.ConflictFoundEventData conflictData;

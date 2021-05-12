@@ -139,7 +139,7 @@
     	<div class="main-body">
 	        <div class="logo"><a href="http://guavaman.com/projects/rewired" title="Rewired"><img src="files/images/rewired-logo.png" width="173" height="139" alt="Rewired" /></a></div>
                      
-            <h1>
+          <h1>
             <!-- InstanceBeginEditable name="PageHeader" -->Supported Controllers
       <!-- InstanceEndEditable -->
             </h1>
@@ -148,7 +148,7 @@
 			<p>Rewired supports most USB and Bluetooth controllers available, many with extended support. <span style="vertical-align: super; font-size: 65%;">[<a href="#clarifications">1</a>]</span></p>
 			<h3>Controllers with Extended Support</h3>
 			<p>Controllers with hardware definitions are recognized on each platform and are fully mappable by element name, have standardized axis directions, and may be compatible with a <a href="ControllerTemplates.html">Controller Template</a> for easy mapping. For all other controllers that do not appear in the following tables, <a href="#controllers-without-definitions">please see this important note</a>.</p>
-			<p><strong>Rewired currently includes extended support for the following game controllers as of version 1.1.29.0:</strong></p>
+			<p><strong>Rewired currently includes extended support for the following game controllers as of version 1.1.38.0:</strong></p>
 			<table width="100%" border="0" class="supported-controllers-table">
               <tr>
                 <td valign="top">&nbsp;</td>
@@ -192,7 +192,7 @@
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
-                <td align="center" valign="top"><span class="no">No</span></td>
+                <td align="center" valign="top" class="yes"><span class="no">No</span></td>
                 <td align="center" valign="top"><p>Windows: <span  class="yes">Yes</span><br />
                 OSX: <span class="yes">Yes</span> <span class="note">(<a href="https://github.com/360Controller/360Controller/releases" target="_blank">Driver Required</a>)</span></p></td>
               </tr>
@@ -264,7 +264,7 @@
                 <td align="center" valign="top"><span class="yes">Yes</span><br />
                 <span class="note">(Bluetooth only)</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
-                <td align="center" valign="top"><span class="no">No</span></td>
+                <td align="center" valign="top"><span class="yes">iOS 13+</span></td>
                 <td align="center" valign="top">Windows: <span  class="yes">Yes</span><br />
                   OSX:<span  class="yes"> Yes</span></td>
               </tr>
@@ -423,7 +423,7 @@ OSX: <span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="yes">Yes</span></td>
-                <td align="center" valign="top"><span class="no">No</span></td>
+                <td align="center" valign="top"><span class="yes">iOS 13+</span></td>
                 <td align="center" valign="top"><p>Windows: <span class="no">No</span> <strong><span style="vertical-align: super; font-size: 65%;">[<a href="#clarifications">8</a>]</span></strong><br />
                   OSX: 
                       <span class="partial">Partial <strong><span style="vertical-align: super; font-size: 65%;">[<a href="#clarifications">8</a>]</span></strong></span><br />
@@ -446,6 +446,45 @@ OSX: <span class="yes">Yes</span></td>
                 <td align="center" valign="top"><span class="no">No</span></td>
                 <td align="center" valign="top">Windows: <span  class="yes">Yes</span><br />
                   OSX:<span class="no"> No</span></td>
+              </tr>
+              <tr>
+                <td valign="top"><a href="#template-legend" class="template-icon template-icon-gamepad" title="Compatible with the Gamepad Template"></a></td>
+                <td valign="top">Sony DualSense <span class="note">(Wired)</span></td>
+                <td align="center" valign="top"><p><span class="yes">Yes</span><br/>
+                  <span class="note">(<a href="HowTos.html#dualshock-4-special-features">All features supported</a>)</span></p></td>
+                <td align="center" valign="top"><span class="yes">Yes</span><br/>
+                  <span class="note">(<a href="HowTos.html#dualshock-4-special-features">All features supported</a>)</span></td>
+                <td align="center" valign="top"><span class="no">No</span></td>
+                <td align="center" valign="top"><span class="maybe">Maybe</span><br />
+                <span class="note">(untested)</span></td>
+                <td align="center" valign="top"><span class="maybe">Maybe</span><br />
+                <span class="note">(untested)</span></td>
+                <td align="center" valign="top"><span class="yes">Yes</span></td>
+                <td align="center" valign="top" class="yes">As DS4</td>
+                <td align="center" valign="top"><span class="yes">As DS4</span></td>
+                <td align="center" valign="top"><span class="partial">Android Fallback</span></td>
+                <td align="center" valign="top"><span class="no">No</span></td>
+                <td align="center" valign="top">Windows:<span class="yes"> As DS4</span><br />
+                OSX:<span class="yes"> As DS4</span></td>
+              </tr>
+              <tr>
+                <td valign="top"><a href="#template-legend" class="template-icon template-icon-gamepad" title="Compatible with the Gamepad Template"></a></td>
+                <td valign="top">Sony DualSense <span class="note">(Bluetooth)</span></td>
+                <td align="center" valign="top"><span class="yes">Yes</span><br/>
+                  <span class="note">(<a href="HowTos.html#dualshock-4-special-features">All features supported</a>)</span></td>
+                <td align="center" valign="top"><span class="yes">Yes</span><br />
+                  <span class="note">(Lights and vibration not supported.)</span></td>
+                <td align="center" valign="top"><span class="no">No</span></td>
+                <td align="center" valign="top"><span class="yes">Yes</span></td>
+                <td align="center" valign="top"><span class="yes">Yes</span></td>
+                <td align="center" valign="top"><span class="yes">Yes</span></td>
+                <td align="center" valign="top"><span class="yes">As DS4</span></td>
+                <td align="center" valign="top"><span class="yes">As DS4</span></td>
+                <td align="center" valign="top"><span class="maybe">Maybe</span><br />
+                <span class="note">(untested)</span></td>
+                <td align="center" valign="top"><span class="no">No</span></td>
+                <td align="center" valign="top"><p>Windows:<span class="yes"> As DS4</span><br />
+                  OSX:<span class="yes"> As DS4</span></p></td>
               </tr>
               <tr>
                 <td valign="top"><a href="#template-legend" class="template-icon template-icon-gamepad" title="Compatible with the Gamepad Template"></a></td>
@@ -994,6 +1033,25 @@ OSX:<span class="no"> No</span></td>
               </tr>
               <tr>
                 <td valign="top"><a href="#template-legend" class="template-icon template-icon-gamepad" title="Compatible with the Gamepad Template"></a></td>
+                <td valign="top">SteelSeries Nimbus+ <span class="note">(iOS/OSX MFi)</span></td>
+                <td align="center" valign="top"><span class="no">No <strong><span style="vertical-align: super; font-size: 65%;">[<a href="#clarifications">4</a>]</span></strong></span></td>
+                <td align="center" valign="top"><span class="yes">Yes</span></td>
+                <td align="center" valign="top"><span class="no">No</span></td>
+                <td align="center" valign="top"><span class="no">No <strong><span style="vertical-align: super; font-size: 65%;">[<a href="#clarifications">4</a>]</span></strong></span></td>
+                <td align="center" valign="top"><span class="no">No <strong><span style="vertical-align: super; font-size: 65%;">[<a href="#clarifications">4</a>]</span></strong></span></td>
+                <td align="center" valign="top"><span class="no">No<br />
+                <span class="note">(Some elements not working)</span>                </span></td>
+                <td align="center" valign="top"><span class="no">No</span><span class="note"><br />
+                (Some elements not working)</span></td>
+                <td align="center" valign="top"><span class="no">No<span class="note"><br />
+                (Some elements not working)</span></span></td>
+                <td align="center" valign="top"><span class="no">No</span></td>
+                <td align="center" valign="top"><span class="yes">Yes</span></td>
+                <td align="center" valign="top">Windows: <span class="yes"><span class="no">No</span></span><br />
+                  OSX:<span class="yes"> Yes</span></td>
+              </tr>
+              <tr>
+                <td valign="top"><a href="#template-legend" class="template-icon template-icon-gamepad" title="Compatible with the Gamepad Template"></a></td>
                 <td valign="top">Mad Catz C.T.R.L.R</td>
                 <td align="center" valign="top"><span class="yes">Yes<br />
                 </span><span class="note">(PC Mode)</span></td>
@@ -1498,8 +1556,8 @@ OSX: <span class="no">No</span></td>
               </tr>
               <tr>
                 <td valign="top"><a href="#template-legend" class="template-icon template-icon-gamepad" title="Compatible with the Gamepad Template"></a></td>
-                <td valign="top"><p>8Bitdo SN30 Pro / SF30 Pro<br />
-                  <span class="note">(Wired, Firmware 1.25)</span><br />
+                <td valign="top"><p>8Bitdo SN30 Pro / SF30 Pro / SN30 Pro +<br />
+                  <span class="note">(Wired, Pro firmware 1.33, Plus firmware 3.02)</span><br />
                 </p></td>
                 <td align="center" valign="top"><p>Modes:<br />
                   Win: <span class="yes">Yes</span><br />
@@ -1558,8 +1616,8 @@ Modes:<br />
               </tr>
               <tr>
                 <td valign="top"><a href="#template-legend" class="template-icon template-icon-gamepad" title="Compatible with the Gamepad Template"></a></td>
-                <td valign="top">8Bitdo SN30 Pro / SF30 Pro<br />
-                <span class="note">(Bluetooth, Firmware 1.25)</span> <br /></td>
+                <td valign="top">8Bitdo SN30 Pro / SF30 Pro / SN30 Pro +<br />
+                <span class="note">(Bluetooth, Pro firmware 1.33, Plus firmware 3.02)</span> <br /></td>
                 <td align="center" valign="top"><p>Modes:<br />
                   Win: <span class="yes">Yes</span><br />
                   Mac: <span class="yes">Yes</span> <strong><span style="vertical-align: super; font-size: 65%;">[<a href="#clarifications-23">23</a>]</span></strong><br />
@@ -3614,7 +3672,20 @@ OSX: <span class="no">No</span></td>
           <table width="100%" border="0" class="supported-controllers-table">
             <tr>
               <td width="9%" valign="top">&nbsp;</td>
-              <td width="13%" valign="top"><p class="controller-type"><a name="xbox-one" id="xbox-one"></a>Xbox One</p></td>
+              <td width="13%" valign="top"><p class="controller-type"><a name="xbox-one" id="xbox-one"></a>Xbox One (XDK)</p></td>
+              <td width="78%" align="center" valign="top"><strong>Native</strong></td>
+            </tr>
+            <tr>
+              <td valign="top"><a href="#template-legend" class="template-icon template-icon-gamepad" title="Compatible with the Gamepad Template"></a></td>
+              <td valign="top">Gamepad<span class="note"></span>s</td>
+              <td align="center" valign="top"><span class="yes">Yes</span></td>
+            </tr>
+          </table>
+          <p>&nbsp;</p>
+          <table width="100%" border="0" class="supported-controllers-table">
+            <tr>
+              <td width="9%" valign="top">&nbsp;</td>
+              <td width="13%" valign="top"><p class="controller-type"><a name="game-core" id="game-core"></a>Xbox One, Xbox Series S/X (Game Core)</p></td>
               <td width="78%" align="center" valign="top"><strong>Native</strong></td>
             </tr>
             <tr>
@@ -4895,7 +4966,7 @@ OSX: <span class="no">No</span></td>
 <hr />
 <h3><a name="Logitech-G27" id="Logitech-G"></a>Logitech G27 Racing Wheel</h3>
 <p>On Windows, users must install the latest Logitech drivers for the G27 or the mappings in Rewired will be incorrect.</p>
-<p>In order to use force feedback on the Logitech G27, you must use the <a href="https://www.assetstore.unity3d.com/en/#!/content/6630" target="_new">Logitech Gaming SDK</a> which can be downloaded free from the Unity Asset Store. The SDK is only available for Windows.</p>
+<p>In order to use force feedback on the Logitech G27, you must use the <a href="https://assetstore.unity.com/packages/tools/integration/logitech-gaming-sdk-6630" target="_new">Logitech Gaming SDK</a> which can be downloaded free from the Unity Asset Store. The SDK is only available for Windows.</p>
 <p>While Rewired provides maps for <a href="SupportedControllers.html#Logitech-G27-platforms">several platforms</a> other than Windows, there is no official support of these platforms by Logitech, and therefore no force feedback SDK available. Additionally, the steering wheel may become somewhat rigid  because the centering spring may engage automatically on some platforms. Currently there is no recommended solution to these issues.</p>
 <p>&nbsp;</p>
 <hr />

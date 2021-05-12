@@ -402,8 +402,8 @@ namespace Rewired.Integration.UnityUI {
             set {
                 if(value == horizontalActionId) return;
                 horizontalActionId = value;
-                if(ReInput.isReady) {
-                    m_HorizontalAxis = ReInput.mapping.GetAction(value) != null ? ReInput.mapping.GetAction(value).name : string.Empty;
+                if(Rewired.ReInput.isReady) {
+                    m_HorizontalAxis = Rewired.ReInput.mapping.GetAction(value) != null ? Rewired.ReInput.mapping.GetAction(value).name : string.Empty;
                 }
             }
         }
@@ -418,8 +418,8 @@ namespace Rewired.Integration.UnityUI {
             set {
                 if(value == verticalActionId) return;
                 verticalActionId = value;
-                if(ReInput.isReady) {
-                    m_VerticalAxis = ReInput.mapping.GetAction(value) != null ? ReInput.mapping.GetAction(value).name : string.Empty;
+                if(Rewired.ReInput.isReady) {
+                    m_VerticalAxis = Rewired.ReInput.mapping.GetAction(value) != null ? Rewired.ReInput.mapping.GetAction(value).name : string.Empty;
                 }
             }
         }
@@ -434,8 +434,8 @@ namespace Rewired.Integration.UnityUI {
             set {
                 if(value == submitActionId) return;
                 submitActionId = value;
-                if(ReInput.isReady) {
-                    m_SubmitButton = ReInput.mapping.GetAction(value) != null ? ReInput.mapping.GetAction(value).name : string.Empty;
+                if(Rewired.ReInput.isReady) {
+                    m_SubmitButton = Rewired.ReInput.mapping.GetAction(value) != null ? Rewired.ReInput.mapping.GetAction(value).name : string.Empty;
                 }
             }
         }
@@ -450,8 +450,8 @@ namespace Rewired.Integration.UnityUI {
             set {
                 if(value == cancelActionId) return;
                 cancelActionId = value;
-                if(ReInput.isReady) {
-                    m_CancelButton = ReInput.mapping.GetAction(value) != null ? ReInput.mapping.GetAction(value).name : string.Empty;
+                if(Rewired.ReInput.isReady) {
+                    m_CancelButton = Rewired.ReInput.mapping.GetAction(value) != null ? Rewired.ReInput.mapping.GetAction(value).name : string.Empty;
                 }
             }
         }
@@ -523,8 +523,8 @@ namespace Rewired.Integration.UnityUI {
             set {
                 if(m_HorizontalAxis == value) return;
                 m_HorizontalAxis = value;
-                if(ReInput.isReady) {
-                    horizontalActionId = ReInput.mapping.GetActionId(value);
+                if(Rewired.ReInput.isReady) {
+                    horizontalActionId = Rewired.ReInput.mapping.GetActionId(value);
                 }
             }
         }
@@ -537,8 +537,8 @@ namespace Rewired.Integration.UnityUI {
             set {
                 if(m_VerticalAxis == value) return;
                 m_VerticalAxis = value;
-                if(ReInput.isReady) {
-                    verticalActionId = ReInput.mapping.GetActionId(value);
+                if(Rewired.ReInput.isReady) {
+                    verticalActionId = Rewired.ReInput.mapping.GetActionId(value);
                 }
             }
         }
@@ -551,8 +551,8 @@ namespace Rewired.Integration.UnityUI {
             set {
                 if(m_SubmitButton == value) return;
                 m_SubmitButton = value;
-                if(ReInput.isReady) {
-                    submitActionId = ReInput.mapping.GetActionId(value);
+                if(Rewired.ReInput.isReady) {
+                    submitActionId = Rewired.ReInput.mapping.GetActionId(value);
                 }
             }
         }
@@ -565,8 +565,8 @@ namespace Rewired.Integration.UnityUI {
             set {
                 if(m_CancelButton == value) return;
                 m_CancelButton = value;
-                if(ReInput.isReady) {
-                    cancelActionId = ReInput.mapping.GetActionId(value);
+                if(Rewired.ReInput.isReady) {
+                    cancelActionId = Rewired.ReInput.mapping.GetActionId(value);
                 }
             }
         }
@@ -592,7 +592,7 @@ namespace Rewired.Integration.UnityUI {
 #endif
             }
 
-            ReInput.InitializedEvent += OnRewiredInitialized;
+            Rewired.ReInput.InitializedEvent += OnRewiredInitialized;
 
             // Initialize Rewired
             InitializeRewired();
@@ -601,7 +601,7 @@ namespace Rewired.Integration.UnityUI {
         public override void UpdateModule() {
             CheckEditorRecompile();
             if (recompiling) return;
-            if (!ReInput.isReady) return;
+            if (!Rewired.ReInput.isReady) return;
 
             if (!m_HasFocus && ShouldIgnoreEventsOnNoFocus()) return;
         }
@@ -613,13 +613,13 @@ namespace Rewired.Integration.UnityUI {
         public override bool ShouldActivateModule() {
             if (!base.ShouldActivateModule()) return false;
             if (recompiling) return false;
-            if (!ReInput.isReady) return false;
+            if (!Rewired.ReInput.isReady) return false;
 
             bool shouldActivate = m_ForceModuleActive;
 
             // Combine input for all players
             for (int i = 0; i < playerIds.Length; i++) {
-                Rewired.Player player = ReInput.players.GetPlayer(playerIds[i]);
+                Rewired.Player player = Rewired.ReInput.players.GetPlayer(playerIds[i]);
                 if (player == null) continue;
                 if (usePlayingPlayersOnly && !player.isPlaying) continue;
 
@@ -671,7 +671,7 @@ namespace Rewired.Integration.UnityUI {
         }
 
         public override void Process() {
-            if (!ReInput.isReady) return;
+            if (!Rewired.ReInput.isReady) return;
             if (!m_HasFocus && ShouldIgnoreEventsOnNoFocus()) return;
             if (!enabled || !gameObject.activeInHierarchy) return;
 
@@ -748,7 +748,7 @@ namespace Rewired.Integration.UnityUI {
 
                 // Debug.Log("Pressed: " + newPressed);
 
-                double time = ReInput.time.unscaledTime;
+                double time = Rewired.ReInput.time.unscaledTime;
 
                 if (newPressed == pointerEvent.lastPress) {
                     var diffTime = time - pointerEvent.clickTime;
@@ -822,7 +822,7 @@ namespace Rewired.Integration.UnityUI {
 
             var data = GetBaseEventData();
             for (int i = 0; i < playerIds.Length; i++) {
-                Rewired.Player player = ReInput.players.GetPlayer(playerIds[i]);
+                Rewired.Player player = Rewired.ReInput.players.GetPlayer(playerIds[i]);
                 if (player == null) continue;
                 if (usePlayingPlayersOnly && !player.isPlaying) continue;
 
@@ -848,21 +848,29 @@ namespace Rewired.Integration.UnityUI {
 
             // Combine inputs of all Players
             for (int i = 0; i < playerIds.Length; i++) {
-                Rewired.Player player = ReInput.players.GetPlayer(playerIds[i]);
+                Rewired.Player player = Rewired.ReInput.players.GetPlayer(playerIds[i]);
                 if (player == null) continue;
                 if (usePlayingPlayersOnly && !player.isPlaying) continue;
+                
+                // Must double check against axis value because "Activate Action Buttons on Negative Value" may be enabled 
+                // and will prevent negative axis values from working because they're cancelled out by positive values.
+                float horizontal = GetAxis(player, horizontalActionId);
+                float vertical = GetAxis(player, verticalActionId);
+                
+                if(Mathf.Approximately(horizontal, 0f)) horizontal = 0f;
+                if(Mathf.Approximately(vertical, 0f)) vertical = 0f;
 
                 if (moveOneElementPerAxisPress) { // axis press moves only to the next UI element with each press
-                    if (GetButtonDown(player, horizontalActionId)) move.x += 1.0f;
-                    if (GetNegativeButtonDown(player, horizontalActionId)) move.x -= 1.0f;
-                    if (GetButtonDown(player, verticalActionId)) move.y += 1.0f;
-                    if (GetNegativeButtonDown(player, verticalActionId)) move.y -= 1.0f;
+                    if (GetButtonDown(player, horizontalActionId) && horizontal > 0f) move.x += 1.0f;
+                    if (GetNegativeButtonDown(player, horizontalActionId) && horizontal < 0f) move.x -= 1.0f;
+                    if (GetButtonDown(player, verticalActionId) && vertical > 0f) move.y += 1.0f;
+                    if (GetNegativeButtonDown(player, verticalActionId) && vertical < 0f) move.y -= 1.0f;
                 } else { // default behavior - axis press scrolls quickly through UI elements
                     // Use GetButton instead of GetAxis so the Input Behavior's Button Dead Zone is used for each Player
-                    if(GetButton(player, horizontalActionId)) move.x += 1.0f;
-                    if(GetNegativeButton(player, horizontalActionId)) move.x -= 1.0f;
-                    if(GetButton(player, verticalActionId)) move.y += 1.0f;
-                    if(GetNegativeButton(player, verticalActionId)) move.y -= 1.0f;
+                    if(GetButton(player, horizontalActionId) && horizontal > 0f) move.x += 1.0f;
+                    if(GetNegativeButton(player, horizontalActionId) && horizontal < 0f) move.x -= 1.0f;
+                    if(GetButton(player, verticalActionId) && vertical > 0f) move.y += 1.0f;
+                    if(GetNegativeButton(player, verticalActionId) && vertical < 0f) move.y -= 1.0f;
                 }
             }
             return move;
@@ -874,7 +882,7 @@ namespace Rewired.Integration.UnityUI {
         private bool SendMoveEventToSelectedObject() {
             if (recompiling) return false; // never allow movement while recompiling
 
-            double time = ReInput.time.unscaledTime; // get the current time
+            double time = Rewired.ReInput.time.unscaledTime; // get the current time
 
             // Check for zero movement and clear
             Vector2 movement = GetRawMoveVector();
@@ -949,7 +957,7 @@ namespace Rewired.Integration.UnityUI {
             downVertical = false;
 
             for (int i = 0; i < playerIds.Length; i++) {
-                Rewired.Player player = ReInput.players.GetPlayer(playerIds[i]);
+                Rewired.Player player = Rewired.ReInput.players.GetPlayer(playerIds[i]);
                 if (player == null) continue;
                 if (usePlayingPlayersOnly && !player.isPlaying) continue;
 
@@ -960,7 +968,7 @@ namespace Rewired.Integration.UnityUI {
 
         private void ProcessMouseEvents() {
             for(int i = 0; i < playerIds.Length; i++) {
-                Player player = ReInput.players.GetPlayer(playerIds[i]);
+                Rewired.Player player = Rewired.ReInput.players.GetPlayer(playerIds[i]);
                 if(player == null) continue;
                 if(usePlayingPlayersOnly && !player.isPlaying) continue;
                 int pointerCount = GetMouseInputSourceCount(playerIds[i]);
@@ -1042,7 +1050,7 @@ namespace Rewired.Integration.UnityUI {
 
                 // Debug.Log("Pressed: " + newPressed);
 
-                double time = ReInput.time.unscaledTime;
+                double time = Rewired.ReInput.time.unscaledTime;
 
                 if (newPressed == pointerEvent.lastPress) {
                     var diffTime = time - pointerEvent.clickTime;
@@ -1134,32 +1142,34 @@ namespace Rewired.Integration.UnityUI {
 #if UNITY_EDITOR && UNITY_5_PLUS
             if(UnityEditor.EditorApplication.isRemoteConnected) return false;
 #endif
-            if(!ReInput.isReady) return true;
+            if(!Rewired.ReInput.isReady) return true;
 #else
-            if (!ReInput.isReady) return false;
+            if (!Rewired.ReInput.isReady) return false;
 #endif
-            return ReInput.configuration.ignoreInputWhenAppNotInFocus;
+            return Rewired.ReInput.configuration.ignoreInputWhenAppNotInFocus;
         }
 
 #if UNITY_EDITOR
 
-        //protected override void OnValidate() {
-        //    base.OnValidate();
-        //    SetupRewiredVars();
-        //}
+        protected override void OnValidate() {
+            base.OnValidate();
+            SetupRewiredVars();
+        }
 
 #endif
 
         protected override void OnDestroy() {
             base.OnDestroy();
-            ReInput.InitializedEvent -= OnRewiredInitialized;
+            Rewired.ReInput.InitializedEvent -= OnRewiredInitialized;
+            Rewired.ReInput.ShutDownEvent -= OnRewiredShutDown;
+            Rewired.ReInput.EditorRecompileEvent -= OnEditorRecompile;
         }
 
         #region Rewired Methods
 
         protected override bool IsDefaultPlayer(int playerId) {
             if(playerIds == null) return false;
-            if(!ReInput.isReady) return false;
+            if(!Rewired.ReInput.isReady) return false;
             
             for(int tries = 0; tries < 3; tries++) {
 
@@ -1168,7 +1178,7 @@ namespace Rewired.Integration.UnityUI {
                 // Try 2: Find the first Player
 
                 for(int i = 0; i < playerIds.Length; i++) {
-                    Player player = ReInput.players.GetPlayer(playerIds[i]);
+                    Rewired.Player player = Rewired.ReInput.players.GetPlayer(playerIds[i]);
                     if(player == null) continue;
                     if(tries < 1 && usePlayingPlayersOnly && !player.isPlaying) continue;
                     if(tries < 2 && !player.controllers.hasMouse) continue;
@@ -1184,15 +1194,15 @@ namespace Rewired.Integration.UnityUI {
                 Debug.LogError("Rewired is not initialized! Are you missing a Rewired Input Manager in your scene?");
                 return;
             }
-            ReInput.ShutDownEvent -= OnRewiredShutDown;
-            ReInput.ShutDownEvent += OnRewiredShutDown;
-            ReInput.EditorRecompileEvent -= OnEditorRecompile;
-            ReInput.EditorRecompileEvent += OnEditorRecompile;
+            Rewired.ReInput.ShutDownEvent -= OnRewiredShutDown;
+            Rewired.ReInput.ShutDownEvent += OnRewiredShutDown;
+            Rewired.ReInput.EditorRecompileEvent -= OnEditorRecompile;
+            Rewired.ReInput.EditorRecompileEvent += OnEditorRecompile;
             SetupRewiredVars();
         }
 
         private void SetupRewiredVars() {
-            if(!ReInput.isReady) return;
+            if(!Rewired.ReInput.isReady) return;
 
             // Set up Rewired vars
 
@@ -1210,7 +1220,7 @@ namespace Rewired.Integration.UnityUI {
                 bool foundSystem = false;
                 List<int> playerIds = new List<int>(rewiredPlayerIds.Length + 1);
                 for (int i = 0; i < rewiredPlayerIds.Length; i++) {
-                    Player player = Rewired.ReInput.players.GetPlayer(rewiredPlayerIds[i]);
+                    Rewired.Player player = Rewired.ReInput.players.GetPlayer(rewiredPlayerIds[i]);
                     if(player == null) continue;
                     if(playerIds.Contains(player.id)) continue; // already in list
                     playerIds.Add(player.id);
@@ -1224,7 +1234,7 @@ namespace Rewired.Integration.UnityUI {
         }
 
         private void SetUpRewiredPlayerMice() {
-            if(!ReInput.isReady) return;
+            if(!Rewired.ReInput.isReady) return;
             ClearMouseInputSources();
             for(int i = 0; i < playerMice.Count; i++) {
                 var mouse = playerMice[i];
@@ -1234,50 +1244,50 @@ namespace Rewired.Integration.UnityUI {
         }
 
         private void SetUpRewiredActions() {
-            if(!ReInput.isReady) return;
+            if(!Rewired.ReInput.isReady) return;
             if(!setActionsById) {
-                horizontalActionId = ReInput.mapping.GetActionId(m_HorizontalAxis);
-                verticalActionId = ReInput.mapping.GetActionId(m_VerticalAxis);
-                submitActionId = ReInput.mapping.GetActionId(m_SubmitButton);
-                cancelActionId = ReInput.mapping.GetActionId(m_CancelButton);
+                horizontalActionId = Rewired.ReInput.mapping.GetActionId(m_HorizontalAxis);
+                verticalActionId = Rewired.ReInput.mapping.GetActionId(m_VerticalAxis);
+                submitActionId = Rewired.ReInput.mapping.GetActionId(m_SubmitButton);
+                cancelActionId = Rewired.ReInput.mapping.GetActionId(m_CancelButton);
             } else {
                 InputAction action;
-                action = ReInput.mapping.GetAction(horizontalActionId);
+                action = Rewired.ReInput.mapping.GetAction(horizontalActionId);
                 m_HorizontalAxis = action != null ? action.name : string.Empty;
                 if(action == null) horizontalActionId = -1;
-                action = ReInput.mapping.GetAction(verticalActionId);
+                action = Rewired.ReInput.mapping.GetAction(verticalActionId);
                 m_VerticalAxis = action != null ? action.name : string.Empty;
                 if(action == null) verticalActionId = -1;
-                action = ReInput.mapping.GetAction(submitActionId);
+                action = Rewired.ReInput.mapping.GetAction(submitActionId);
                 m_SubmitButton = action != null ? action.name : string.Empty;
                 if(action == null) submitActionId = -1;
-                action = ReInput.mapping.GetAction(cancelActionId);
+                action = Rewired.ReInput.mapping.GetAction(cancelActionId);
                 m_CancelButton = action != null ? action.name : string.Empty;
                 if(action == null) cancelActionId = -1;
             }
         }
 
-        private bool GetButton(Player player, int actionId) {
+        private bool GetButton(Rewired.Player player, int actionId) {
             if(actionId < 0) return false; // silence warnings
             return player.GetButton(actionId);
         }
 
-        private bool GetButtonDown(Player player, int actionId) {
+        private bool GetButtonDown(Rewired.Player player, int actionId) {
             if(actionId < 0) return false; // silence warnings
             return player.GetButtonDown(actionId);
         }
 
-        private bool GetNegativeButton(Player player, int actionId) {
+        private bool GetNegativeButton(Rewired.Player player, int actionId) {
             if(actionId < 0) return false; // silence warnings
             return player.GetNegativeButton(actionId);
         }
 
-        private bool GetNegativeButtonDown(Player player, int actionId) {
+        private bool GetNegativeButtonDown(Rewired.Player player, int actionId) {
             if(actionId < 0) return false; // silence warnings
             return player.GetNegativeButtonDown(actionId);
         }
 
-        private float GetAxis(Player player, int actionId) {
+        private float GetAxis(Rewired.Player player, int actionId) {
             if(actionId < 0) return 0f; // silence warnings
             return player.GetAxis(actionId);
         }
@@ -1302,7 +1312,7 @@ namespace Rewired.Integration.UnityUI {
         private bool DidAnyMouseMove() {
             for(int i = 0; i < playerIds.Length; i++) {
                 int playerId = playerIds[i];
-                Player player = ReInput.players.GetPlayer(playerId);
+                Rewired.Player player = Rewired.ReInput.players.GetPlayer(playerId);
                 if(player == null) continue;
                 if(usePlayingPlayersOnly && !player.isPlaying) continue;
                 int mouseCount = GetMouseInputSourceCount(playerId);
@@ -1318,7 +1328,7 @@ namespace Rewired.Integration.UnityUI {
         private bool GetMouseButtonDownOnAnyMouse(int buttonIndex) {
             for(int i = 0; i < playerIds.Length; i++) {
                 int playerId = playerIds[i];
-                Player player = ReInput.players.GetPlayer(playerId);
+                Rewired.Player player = Rewired.ReInput.players.GetPlayer(playerId);
                 if(player == null) continue;
                 if(usePlayingPlayersOnly && !player.isPlaying) continue;
                 int mouseCount = GetMouseInputSourceCount(playerId);

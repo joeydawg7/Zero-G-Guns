@@ -50,7 +50,7 @@ namespace Photon.Pun
 
         /// <summary>Limits the number of datagrams that are created in each LateUpdate.</summary>
         /// <remarks>Helps spreading out sending of messages minimally.</remarks>
-        public static int MaxDatagrams = 10;
+        public static int MaxDatagrams = 3;
 
         /// <summary>Signals that outgoing messages should be sent in the next LateUpdate call.</summary>
         /// <remarks>Up to MaxDatagrams are created to send queued messages.</remarks>
@@ -139,17 +139,32 @@ namespace Photon.Pun
         /// <summary>Called in intervals by UnityEngine. Affected by Time.timeScale.</summary>
         protected void FixedUpdate()
         {
+            #if PUN_DISPATCH_IN_FIXEDUPDATE
             this.Dispatch();
+            #elif PUN_DISPATCH_IN_LATEUPDATE
+            // do not dispatch here
+            #else
+            if (Time.timeScale > PhotonNetwork.MinimalTimeScaleToDispatchInFixedUpdate)
+            {
+                this.Dispatch();
+            }
+            #endif
         }
 
         /// <summary>Called in intervals by UnityEngine, after running the normal game code and physics.</summary>
         protected void LateUpdate()
         {
+            #if PUN_DISPATCH_IN_LATEUPDATE
+            this.Dispatch();
+            #elif PUN_DISPATCH_IN_FIXEDUPDATE
+            // do not dispatch here
+            #else
             // see MinimalTimeScaleToDispatchInFixedUpdate and FixedUpdate for explanation:
             if (Time.timeScale <= PhotonNetwork.MinimalTimeScaleToDispatchInFixedUpdate)
             {
                 this.Dispatch();
             }
+            #endif
 
 
             int currentMsSinceStart = (int)(Time.realtimeSinceStartup * 1000); // avoiding Environment.TickCount, which could be negative on long-running platforms
@@ -203,7 +218,7 @@ namespace Photon.Pun
             bool doDispatch = true;
             while (PhotonNetwork.IsMessageQueueRunning && doDispatch)
             {
-                // DispatchIncomingCommands() returns true of it found any command to dispatch (event, result or state change)
+                // DispatchIncomingCommands() returns true of it dispatched any command (event, response or state change)
                 Profiler.BeginSample("DispatchIncomingCommands");
                 doDispatch = PhotonNetwork.NetworkingClient.LoadBalancingPeer.DispatchIncomingCommands();
                 Profiler.EndSample();
@@ -263,8 +278,8 @@ namespace Photon.Pun
                 int viewOwnerId = view.OwnerActorNr;
                 int viewCreatorId = view.CreatorActorNr;
 
-                // Scene objects need to set their controller to the master.
-                view.RebuildControllerCache();
+                // on join / rejoin, assign control to either the Master Client (for room objects) or the owner (for anything else)
+                    view.RebuildControllerCache();
 
                 // Rejoining master should enforce its world view, and override any changes that happened while it was soft disconnected
                 if (amRejoiningMaster)
@@ -277,7 +292,7 @@ namespace Photon.Pun
 
             if (amRejoiningMaster && reusableIntList.Count > 0)
             {
-                PhotonNetwork.OnwershipUpdate(reusableIntList.ToArray());
+                PhotonNetwork.OwnershipUpdate(reusableIntList.ToArray());
             }
         }
 
@@ -314,7 +329,7 @@ namespace Photon.Pun
                 if (amMasterClient)
                 {
                     int viewOwnerId = view.OwnerActorNr;
-                    // TODO: Ideally all of this would only be targetted at the new player.
+                    // TODO: Ideally all of this would only be targeted at the new player.
                     if (viewOwnerId != view.CreatorActorNr)
                     {
                         reusableIntList.Add(view.ViewID);
@@ -325,13 +340,14 @@ namespace Photon.Pun
                 // Master rejoined - reset all ownership. The master will be broadcasting non-creator ownership shortly
                 else if (isRejoiningMaster)
                 {
+                    Debug.LogError("It's unexpected that the Master Client rejoins. Someone else should be (and stay) Master Client by now.");
                     view.ResetOwnership();
                 }
             }
 
             if (amMasterClient && reusableIntList.Count > 0)
             {
-                PhotonNetwork.OnwershipUpdate(reusableIntList.ToArray(), newPlayer.ActorNumber);
+                PhotonNetwork.OwnershipUpdate(reusableIntList.ToArray(), newPlayer.ActorNumber);
             }
 
         }
@@ -349,22 +365,31 @@ namespace Photon.Pun
             {
                 foreach (var view in views)
                 {
-                    if (view.OwnerActorNr == leavingPlayerId)
-                        view.RebuildControllerCache(true);
+                    // v2.27: changed from owner-check to controller-check
+                    if (view.ControllerActorNr == leavingPlayerId)
+                        view.ControllerActorNr = PhotonNetwork.MasterClient.ActorNumber;
                 }
 
             }
-            // HARD DISCONNECT: Player permanently removed. Remove that actor as owner for all items.
+            // HARD DISCONNECT: Player permanently removed. Remove that actor as owner for all items they created (Unless AutoCleanUp is false)
             else
             {
+                bool autocleanup = PhotonNetwork.CurrentRoom.AutoCleanUp;
+
                 foreach (var view in views)
                 {
-                    var master = PhotonNetwork.MasterClient;
-                    if (view.OwnerActorNr == leavingPlayerId)
-                        view.SetOwnerInternal(master, 0);
+                    // Skip changing Owner/Controller for items that will be cleaned up.
+                    if (autocleanup && view.CreatorActorNr == leavingPlayerId)
+                        continue;
+
+                    // Any views owned by the leaving player, default to null owner (which will become master controlled).
+                    if (view.OwnerActorNr == leavingPlayerId || view.ControllerActorNr == leavingPlayerId)
+                    {
+                        view.OwnerActorNr = 0;
+                        view.ControllerActorNr = PhotonNetwork.MasterClient.ActorNumber;
+                    }
                 }
             }
-
         }
     }
 }

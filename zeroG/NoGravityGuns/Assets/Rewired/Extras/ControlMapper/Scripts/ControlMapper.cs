@@ -2037,7 +2037,7 @@ namespace Rewired.UI.ControlMapper
                         // Draw category label
                         if(_showActionCategoryLabels) {
                             if(categoryCount > 0) yPos -= _inputRowCategorySpacing; // extra space above category
-                            GUILabel label = CreateLabel(_language.GetMapCategoryName(category.id), columnXform, new Vector2(0, yPos));
+                            GUILabel label = CreateLabel(_language.GetActionCategoryName(category.id), columnXform, new Vector2(0, yPos));
 #if REWIRED_CONTROL_MAPPER_USE_TMPRO
                             label.SetFontStyle(TMPro.FontStyles.Bold);
 #else

@@ -137,7 +137,7 @@
     	<div class="main-body">
 	        <div class="logo"><a href="http://guavaman.com/projects/rewired" title="Rewired"><img src="files/images/rewired-logo.png" width="173" height="139" alt="Rewired" /></a></div>
                      
-            <h1>
+          <h1>
             <!-- InstanceBeginEditable name="PageHeader" -->Troubleshooting <!-- InstanceEndEditable -->
             </h1>
             
@@ -161,7 +161,7 @@
       <li><a href="#missing-unity-input-entries">Rewired works in the editor but not on Xbox One, PS4, Android, iOS, etc.</a></li>
       <li><a href="#time-comparison">Time comparisons to Time.time don't match</a></li>
       <li><a href="#ongui-getbuttondown">OnGUI may return GetButtonDown/Up true for multiple frames</a></li>
-      <li><a href="#digital-axis-smoothing">When a keyboard key or D-Pad is pressed, GetAxis value ramps up/down slowly instead instantly returning 1/-1</a></li>
+      <li><a href="#digital-axis-smoothing">When a keyboard key or D-Pad is pressed, GetAxis value ramps up/down slowly instead of instantly returning 1/-1</a></li>
       <li><a href="#rewired-standalone-input-module-issues">RewiredStandaloneInputModule issues</a></li>
       <li><a href="#high-cpu-usage-deep-profile">High CPU usage in profiler when using Deep Profile</a></li>
       
@@ -182,6 +182,7 @@
 <h3><a href="#windows">Windows:</a></h3>
     <ul>
       <li><a href="#windows-xbox-one-controller-doesnt-work">Windows: XBox One controller doesn't work</a></li>
+      <li><a href="#windows-steam-configured-controllers-dont-work">Windows: XBox controllers, possibly Dual Shock 4 controllers, and potentially all controllers no longer work</a></li>
       <li><a href="#xbox360-triggers">Windows: XBox 360 controller L/R triggers can't be pressed at the same time on Windows</a></li>
       <li><a href="#windows-xinput-multiple-devices">Windows, XInput: XInput-compatible device shows up as multiple controllers</a></li>
       <li><a href="#windows-xinput-device-always-connected">Windows, XInput: XInput-compatible device is always connected even after disconnecting the controller and no connect or disconnect events are sent</a></li>
@@ -224,13 +225,15 @@
 </ul>
 <h3><a href="#steam">Steam:</a></h3>
     <ul>
-      <li><a href="#steamworks">Exceptions with Steamworks.Net plugin</a></li>
+      <li><a href="#steam">Important information about Steam</a></li>
+      <li><a href="#steam-rewired-setup">Rewired Setup</a></li>
       <li><a href="#steam-controller">Steam Controller</a></li>
-      <li><a href="#steam-controller-not-detected-windows">Steam Controller is not detected</a></li>
-      <li><a href="#steam-controller-appears-as-mouse-keyboard">Steam Controller is appearing as a mouse or keyboard instead of a joystick</a></li>
-      <li><a href="#steam-streaming">Steam Streaming / Steam Link controller support</a></li>
-      <li><a href="#steam-configured-controllers">Steam-configured controllers</a></li>
+      <li><a href="#steam-configured-controllers">Steam-Configured controllers</a></li>
       <li><a href="#steam-windows-steam-controller-unity-editor">Steam (Windows): Using the Steam Controller and Steam-configured devices in the Unity Editor</a></li>
+      <li><a href="#steam-controller-not-detected-windows">Steam Controller is not detected</a></li>
+      <li><a href="#steam-configured-controllers-not-detected">Steam-Configured controllers are not detected</a></li>
+      <li><a href="#steam-controller-appears-as-mouse-keyboard">Steam Controller is appearing as a mouse or keyboard instead of a joystick</a></li>
+      <li><a href="#steam-remote-play">Steam Remote Play controller support</a></li>
       <li><a href="#steam-gamepad-appears-as-two-devices">Steam (Windows): Sony DualShock 4, generic gamepad, or other joystick doesn't work or appears as two devices</a></li>
       <li><a href="#steam-osx-linux-duplicate-controllers">Steam (Linux/OSX): Some controllers appear as two controllers</a></li>
       <li><a href="#steam-non-gamepad-devices-dont-work">Steam: Flight sticks, racing wheels, and non-gamepad devices do not work</a></li>
@@ -553,7 +556,7 @@ things. All of this information is visible in the Debug Information tool:</p>
 }</pre>
 <p>&nbsp;</p>
 <hr />
-<h3><a name="digital-axis-smoothing" id="android-joystick-keyboard-keys2"></a>When a keyboard key or D-Pad is pressed, GetAxis value ramps up/down slowly instead instantly returning 1/-1</h3>
+<h3><a name="digital-axis-smoothing" id="android-joystick-keyboard-keys2"></a>When a keyboard key or D-Pad is pressed, GetAxis value ramps up/down slowly instead of instantly returning 1/-1</h3>
 <p>You have left the default Input Behavior Digital Axis settings. <a href="InputBehaviors.html">Please read the documentaion on Input Behaviors</a>.</p>
 <p>Digital Axis Settings:<br />
   These settings allow buttons and keyboard keys to be treated like axes and return values ranging from -1 to 1 instead of just True and False as is the usual case. This allows you, for instance, to have smooth character movement when using the keyboard for movement controls. The GetAxis value of the Action can be smoothed over time based on the Digital Axis Settings (gravity and sensitivity). See <a href="RewiredEditor.html#InputBehaviors">Rewired Editor - Input Behaviors</a> for more information about each setting.</p>
@@ -589,7 +592,21 @@ things. All of this information is visible in the Debug Information tool:</p>
 <p>&nbsp;</p>
 <h3><a name="wrong-rewired-version-installed" id="wrong-rewired-version-installed"></a>Error: The version of Rewired installed  was not designed for Unity X. Please install Rewired for Unity X.</h3>
 <p>The error indicates you have installed a version of Rewired incompatible with the version of Unity you are using. You must install the correct version of Rewired from the Unity Asset Store.</p>
-<p>The Unity Asset Store will automatically download the correct branch for the version of Unity you are using when downloading an asset. However, it does have bugs. If you have downloaded Rewired in a newer or older major version of the Unity editor, that version of the file will be cached in the Asset Store download location. The exact same download location is used for all versions of Unity from 5.0 onward, so when you switch to a different major version of Unity, the Unity Asset Store installer will install a copy of Rewired which was downloaded for a different version of Unity. The only solution is to delete the cached download and re-download it in Unity editor. <a href="https://docs.unity3d.com/Manual/AssetStore.html" target="_blank">See the Unity Manual</a> for location of the Asset Store files.</p>
+<p>The Unity Asset Store will automatically download the correct branch for the version of Unity you are using when downloading an asset. However, it does have bugs. If you have downloaded Rewired in a newer or older major version of the Unity editor, that version of the file will be cached in the Asset Store download location. The exact same download location is used for all versions of Unity from 5.0 onward, so when you switch to a different major version of Unity, the Unity Asset Store installer will install a copy of Rewired which was downloaded for a different version of Unity. The only solution is to delete the cached download and re-download it in Unity editor. <a href="https://docs.unity3d.com/2020.1/Documentation/Manual/AssetPackages.html" target="_blank">See the Unity Manual</a> for location of the Asset Store files.</p>
+<p>The download locations as the time of this writing are as follows:</p>
+<p> Windows:<br />
+  C:\Users\(your user name)\AppData\Roaming\Unity\Asset Store  <br />
+  C:\Users\(your user name)\AppData\Roaming\Unity\Asset Store-5.x</p>
+<p>MacOS:<br />
+  ~/Library/Unity/Asset Store<br />
+  ~/Library/Unity/Asset Store-5.x  <br />
+</p>
+<p>Linux:<br />
+  home/.local/share/unity3d/Asset Store-5.x</p>
+<p>These locations are subject to change at any time due to changes by Unity. Always <a href="https://docs.unity3d.com/2020.1/Documentation/Manual/AssetPackages.html" target="_blank">See the Unity Manual</a> for the most recent information about the location of the Asset Store files.</p>
+<p><strong>New Issue:</strong></p>
+<p>As of 2019.4.12f1, the Unity 2019 package manager downloads the Unity 2020 version of Rewired. This is a Unity Package Manager backend bug and was fixed by Unity on 1/3/2021. <a href="https://docs.unity3d.com/2020.1/Documentation/Manual/AssetPackages.html">Delete the downloaded packages</a> from the Unity asset store cache folder and download the package again.<br />
+</p>
 <p>&nbsp;</p>
 <hr />
 <h3><a name="installation-problems-and-compiler-errors" id="installation-problems-and-compiler-errors"></a>Rewired does not install or has compiler errors immediately after installation</h3>
@@ -755,6 +772,13 @@ void CacheRewiredPlayer() {
 <p></p>
 <h3><a name="windows-xbox-one-controller-doesnt-work" id="windows-xbox-one-controller-doesnt-work"></a>Windows: XBox One controller doesn't work</h3>
 <p>Most often this is caused by creating a Joystick Map specifically for the Xbox One controller when Use XInput is enabled instead of using the Gamepad Template. See <a href="ControllerMaps.html#xinput-devices-windows">Controller Maps - Special Considerations for XInput gamepads on Windows Standalone, Windows App Store, and Windows 10 Universal</a>.</p>
+<p>&nbsp;</p>
+<hr />
+<h3><a name="windows-steam-configured-controllers-dont-work" id="windows-steam-configured-controllers-dont-work"></a>Windows: XBox controllers, possibly Dual Shock 4 controllers, and potentially all controllers no longer work</h3>
+<div data-redactor-wrapper="1">
+  <div data-redactor="1"></div>
+</div>
+<p>This is a Steam issue and means Steam has not been properly configured. <a href="#steam-configured-controllers-not-appearing">See this for more information.</a></p>
 <p>&nbsp;</p>
 <hr />
 <h3><a name="xbox360-triggers" id="dll-not-found-xinput5"></a>Windows: XBox 360 controller L/R triggers can't be pressed at the same time on Windows</h3>
@@ -983,38 +1007,153 @@ Int64* args, IntPtr method)
 <hr />
 <p>&nbsp;</p>
 <h2><a name="steam" id="steam"></a>Steam</h2>
-<p><strong>Note:</strong> All of this information is documentation on how Steam functions and has very little to do with Rewired. Rewired is treated as any other application by Steam and Rewired does not interface with its API in any way. Steam is responsible for making the Steam Controller appear to the application based on the settings you choose in Steam. This information has been included because so many people have problems with setting up things properly in Steam. All of this information has been figured out through trial and error. Frequent changes to Steam are likely to render some or all of this information invalid.</p>
+<p>All of this information is documentation on how Steam functions and has very little to do with Rewired. Rewired is treated as any other application by Steam and Rewired does not interface with its API in any way. Steam is responsible for making the Steam Controller appear to the application based on the settings you choose in Steam. This information has been included because so many people have problems with setting up things properly in Steam. All of this information has been figured out through trial and error. Frequent changes to Steam are likely to render some or all of this information invalid.</p>
 <p>It is impractical for me to provide complete documentation on Steam or how to configure Steam. Steam is a separate system that I did not create and do not have control over. Complete Steam documentation is available in the Steamworks back end.</p>
+<p><strong>1. Read the Steamworks developer documentation</strong></p>
+<p>The Steamworks developer documentation is the authoritative source for information on Steam. Refer to it for information on how to set up Steam correctly.</p>
+<p><strong>2. Get help on Steam issues on the Steamworks forums</strong></p>
+<p>Rewired is simply a consumer of what is exposed by Steam. Rewired does not interact directly with Steam. Problems with Steam are almost always caused by improperly configured Steam settings (developer and/or end-user) or not understanding what Steam is doing. The best way to undestand Steam and requirements for your game with regard to input is to read the Steamworks developer documentation. Seek help for questions about  Steam's input configuration on the Steamworks developer forums or contacting Steam for support. (But please don't ask for specific help with Rewired on the Steamworks forums. Issues with configuring controllers in Steam and Steamworks are independent of the fact you're using Rewired.)</p>
+<p><strong>3. Understand how Steam Controllers and Steam-configured controllers work</strong></p>
+<p>It is critical to understand how <a href="#steam-controller">Steam Controllers</a> and <a href="#steam-configured-controllers">Steam-configured controllers (emulated controllers)</a> work and how to configure settings for them. I receive support issues on a very regular basis because of issues arising from developers not understanding how Steam modifies the controllers the application can detect and how the Steam must be configured to expose controllers to the application. The most common complaint is that <a href="#steam-configured-controllers-not-detected">Rewired can't detect any controllers</a>, and the problem is almost  always due to misconfiguration or lack of configuration of Steam's settings. There is a lot of information on this page about how Steam-configured controllers work which provides an overview, but Rewired's documentation is not a substitute for reading the Steamworks documentation on this topic.</p>
+<p><strong>4. Understand the difference between running your game with Steam running and initialized and without</strong></p>
+<p>When Steam is not initialized, the application may have access to entirely different information about controllers than when Steam has been initialized. This is due to their controller-configuration system. If you get different results when you test your game without Steam running than with it running, this is why.</p>
+<p>Before Steamworks is initialized (or if Steam is not running and you are testing in the Unity Editor):</p>
+<ul>
+  <li>Rewired receives ACTUAL information from the OS input APIs.</li>
+  <li> Rewired sees all devices visible to the system.</li>
+</ul>
+<p>After Steamworks is initialized:</p>
+<ul>
+  <li>Steam hooks the application so calls to OS input APIs are rerouted through Steam.</li>
+  <li> Rewired receives MODIFIED information from the input APIs.</li>
+  <li>Rewired cannot see the true devices connected to the system, only what Steam exposes to it.</li>
+</ul>
+<p><strong>5. Understand that Steam does not work well in the Unity Editor and can cause problems with controllers</strong></p>
+<p><a href="#steam-windows-steam-controller-unity-editor">See this important information about running Steam in the Unity Editor.</a></p>
 <p>&nbsp;</p>
 <hr />
-<h3><a name="steamworks" id="compile-errors-ps4-xbone3"></a>Exceptions with Steamworks.Net plugin</h3>
-<p>There have been several reports of exceptions being thrown during Rewired's initialization on Windows with the <a href="http://steamworks.github.io/">Steamworks.Net Unity plugin</a>. Thus far, the only information I have is that Steamworks may be setting up a hook that intercepts all external calls and routes them through its callback dispatcher system. When Rewired tries to initialize Raw Input, Steamworks intercepts the call and throws an exception. This is an issue with Steamworks/Steam and not Rewired. Based on reports, it appears to only happen when Steamworks is initialized and certain methods are called before instantiating and initializing Rewired. (I have been unable to reproduce this issue myself thus far.)</p>
-<p>There have also been reports of this issue happening when Steam is launched in Big Picture Mode and not in the normal mode.</p>
-<p>Until I receive a reliable repro case where I can determine exactly what Steamworks is doing and find a workaround if one exists, the only solution is to always initialize Rewired first before Steamworks. This means you must have your Rewired Input Manager in your scene before your Steamworks manager is spawned and initialized and never destroy that Rewired Input Manager for the duration of runtime. (Don't Destroy on Load is checked by default on the Rewired Input Manager.)</p>
-<p>To be on the safe side, make sure you avoid ever destroying or shutting down the Rewired system so it never has to do any setup after Steam has already been intialized. This also means you should never change input sources through ReInput.configuration in-game after Steam has been initialized because changing it causes Rewired to Reset. Also never call ReInput.Reset() which will also cause Rewired to do all its setup again.</p>
-<p>There are many, many currently games on Steam that use Rewired with no issues whatsoever.</p>
+<h3><a name="steam-rewired-setup" id="steam-rewired-setup"></a>Rewired Setup</h3>
+<p><strong> Steam should be initialized before Rewired</strong></p>
+<p>Steam should be initialized before Rewired because Steam takes over what controllers the application can see and substitutes its own virtual controllers. In order to avoid issues with Rewired seeing devices that Steam doesn't want it to see, makes sure Rewired is initialized after Steamworks in your application.</p>
+<p>This means you need to take special steps to initialize Steamworks before Rewired because the Rewired Input Manager and the Rewired Initializer are set to initialize before all other scripts so that Rewired can be available in Awake for any scripts that need it. Two possible ways to do this:</p>
+<ol>
+  <li>Create a script and set the Script Execution order to a number lower than any other script in the scene, then from that script, first initialize Steamworks, then enable or instantiate the Rewired Input Manager or the Rewired Initializer.</li>
+  <li>Initialize Steamworks in a separate scene and then load the next scene that contains the Rewired Input Manager or the Rewired Initializer.</li>
+</ol>
+<p>Explanation:</p>
+<ul>
+  <li>If Rewired initializes before Steam, Rewired will be able to see the ACTUAL devices on the system.</li>
+  <li> When Steam initializes, it may hide some of these devices and create different ones.</li>
+  <li>On Windows, If Rewired is using Raw Input or Direct Input for these devices, it will retain the device connection even after Steam has initialized and hidden the devices because Raw Input and Direct Input code paths only detect device connect/disconnect on system events. Steam does not create a device disconnect event for these devices, so Rewired does not know to re-evaluate all devices on the system.</li>
+  <li>On Windows, XInput is not affected by this issue.</li>
+</ul>
 <p>&nbsp;</p>
 <hr />
 <h3><a name="steam-controller" id="steam-controller-not-detected-windows2"></a>Steam Controller</h3>
 <p><strong>All Platforms</strong><br />
   Native Steam Controller support is not available at this time. Direct support of the controller's special features is not currently available. The Steam Controller can only be supported through Steam's automatic emulation of a standard controller (type varies by platform.)</p>
+<p><strong>Important<br />
+</strong>The Steam Controller is not a standard HID device and cannot be seen by the OS without Steam being initialized for your process through the Steam API with Steam running in the background. It is not possible to use the Steam Controller without Steam. Rewired does not initialize Steam for you -- you will have to do so using the Steam API or a C# Steam library such as <a href="http://steamworks.net/" target="_blank">Steamworks.net</a>.</p>
+<p><strong>Rewired Mappings</strong><br />
+  It is recommended you always create a Joystick Map for the <a href="ControllerTemplates.html#gamepad-template">Gamepad Template</a> in the Rewired Editor. This will cover the Steam Controller and <a href="#steam-configured-controllers">Steam-configured controllers</a> on all platforms.</p>
 <p><strong>Windows<br />
-</strong>The Steam Controller automatically emulates an XInput gampad (XBox 360) and a Direct Input gamepad on Windows and is supported as an XInput or Direct Input gamepad only at the present time. You must enable <a href="RewiredEditor.html#Settings">Use XInput in the Windows settings</a> or <a href="RewiredEditor.html#Settings">use Direct Input as the Primary Input Source</a><a href="RewiredEditor.html#Settings"></a> (not recommended) to support the Steam Controller, Steam Streaming, and Steam Link.</p>
+</strong>The Steam Controller works best with Raw Input + XInput or Direct Input + XInput. Unity Input should generally not be set as the Primary Input Source and Disable Native Input should not be checked.</p>
+<ul>
+  <li>When Use XInput is enabled, the Steam Controller will use the Xbox 360 Controller profile (XInput device).</li>
+  <li>When Use XInput is disabled and Raw Input or Direct Input is the Primary Input Source, the Steam Controller will use the Steam Controller profile and must be mapped using the <a href="ControllerTemplates.html#gamepad-template">Gamepad Template</a>.</li>
+  <li>If Unity is the Primary Input Source, the Steam Controller will use the Xbox 360 Controller profile.</li>
+  </ul>
+<p>Note: When using XInput devices with XInput enabled, Windows is limited to a maximum of 4 devices. This is a limitation of XInput, not Rewired. <a href="KnownIssues.html#more-than-4-xbox-controllers">See this for information on supporting more than 4 XInput devices</a>.</p>
 <p><a href="#steam-windows-steam-controller-unity-editor">See this for important information on using the Steam Controller and Steam-configured devices in the Unity Editor on Windows</a>.</p>
 <p><strong>OSX<br />
-</strong>As of Rewired 1.1.7.9, the Steam Controller, Steam Link, and Steam Streaming work properly using the default Native input source. It is recommended that you leave the input source set to Native for the best device support.</p>
+</strong>It is recommended that you leave the input source set to Native for the best device support. The Steam Controller will use the Steam Controller profile and must be mapped using the <a href="ControllerTemplates.html#gamepad-template">Gamepad Template</a>.</p>
 <p><strong>Linux</strong><br />
-  The Steam Controller, Steam Link, and Steam Streaming all work properly using the default Native input source. It is recommended that you leave the input source set to Native for the best device support.</p>
-<p><strong>IMPORTANT NOTE<br />
-</strong>The Steam Controller is not a standard HID device and cannot be seen by the OS without Steam being initialized for your process through the Steam API with Steam running in the background. It is not possible to use the Steam Controller without Steam. Rewired does not initialize Steam for you -- you will have to do so using the Steam API or a C# Steam library such as <a href="http://steamworks.net/" target="_blank">Steamworks.net</a>.</p>
-<p><a href="BestPractices.html#steam">See Best Practices - Steam for recommended guidelines for Steam.</a></p>
+  It is recommended that you leave the input source set to Native for the best device support.  The Steam Controller will use the Steam Controller profile and must be mapped using the <a href="ControllerTemplates.html#gamepad-template">Gamepad Template</a>.</p>
+<p><strong>***IMPORTANT*** Configuring Steam Controller Settings</strong></p>
+<p>Both Steam Controllers and Steam-configured controllers appear to the application based on settigns configured both by the developer in the Steamworks backend and by the end user in the Steam client interface.</p>
+<p><em>You <strong>MUST</strong> set up default configuration settings for the Steam Controller in the Steamworks backend for your application, otherwise the <a href="#steam-configured-controllers-not-detected">application may not detect any controllers</a>.</em></p>
+<p><strong>Developer</strong><br />
+  Set the option in the Steamworks backend under Your App -&gt; Application -&gt; Steam Input -&gt; Steam Input Default Configuration to &quot;Generic Gamepad&quot; or some other reasonable default. (The exact location of this setting may change as Rewired's documentation is not continually updated with every change made by Steam.  Refer to the Steamworks documentation for current information.) If this is set to Keyboard, None, or some other incompatible setting, Steam will hide the Steam Controller and all Steam-configured controllers from the application.</p>
+<p><strong>End User</strong><br />
+  The end user can also change how they want Steam controllers to behave in the Steam client interface. If they change the setting to cause Steam Controllers to appear to the application as Keyboard + Mouse, Steam-configured devices will not be exposed to the application.<br />
+</p>
+<p>&nbsp;</p>
+<hr />
+<h3><a name="steam-configured-controllers" id="steam-configured-controllers"></a>Steam-Configured controllers</h3>
+<p>Steam has the ability to &quot;configure&quot; certain controllers and make them appear as different controllers with custom bindings set through the Steam interface. Steam will hide the real device from the application and expose a virtual device in its place so it can take full control over it. Once a controller has been taken over by Steam, it is treated exactly like a Steam Controller. <a href="#steam-controller">See this for important information on how to support Steam Controllers</a>.</p>
+<p>Steam-configuration of controllers can be enabled or disabled for various types of controllers. This determines whether the application will see the real device or the virtual device controlled by Steam. Steam allows both the developer and the end user to separately determine what types of controllers they want Steam to treat as Steam-configured controllers.</p>
+<p><strong>Developer Default Settings</strong></p>
+<p>  The developer can set up defaults for their application in the Steamworks backend under Your App -&gt; Application -&gt; Steam Input -&gt; Opt Controllers into Steam Input. This setting determines how the different types of controllers are treated by Steam by default. (The exact location of this setting may change as Rewired's documentation is not continually updated with every change made by Steam.  Refer to the Steamworks documentation for current information.)</p>
+<p>Note that opting in by enabling the toggle box for a controller type will override the end user's settings for that controller type. The end user will not be able to opt out if you have chosen to opt in for a particular controller type in the Steam developer backend. See <a href="#steam-configured-controllers-recommendations">Should I Enable Controller Configuration Support</a> below before opting in for any controllers.</p>
+<p><strong><a name="steam-configured-controllers-end-user-settings" id="steam-configured-controllers-end-user-settings"></a>End User Settings</strong></p>
+<p>  The end user can also decide which controller types they want to be Steam-configured.</p>
+<p>The user can change these settings in Steam Big Picture mode under Settings -&gt; Controller or in the main Steam desktop interface in the menu Steam -&gt; Settings -&gt; Controller -&gt; General Controller Settings. (The exact location of these setting may change as Rewired's documentation is not continually updated with every change made by Steam. Refer to the Steamworks documentation for current information.)</p>
+<p>In general, it is recommended the end user not enable configuration support for any of these controllers as long as your game provides support for them through Rewired.</p>
+<p><img src="files/images/troubleshooting_steam-big-picture-controller-config.png" alt="Steam Big Picture controller configuration support" /></p>
+<p><strong><a name="steam-configured-controllers-recommendations" id="steam-configured-controllers-recommendations"></a>Should I opt in to Steam Controller Configuration?</strong></p>
+<p>In general, it is recommended that you <strong>do not opt in</strong> to controller configuration for any controllers in the Steam developer backend. Rewired already supports more controllers out of the box than Steam with special features for some controllers such as the Dual Shock 4. As long as your game supports controllers using the Gamepad Template, Rewired will support all of the most important controllers. The user can always opt in themselves if needed.</p>
+<p>For any of the following reasons, it is recommended you do not opt in to controller configuration  in the developer backend and inform your users to disable this option in the Steam client controller configuration settings:</p>
+<ul>
+  <li>If your game needs to support more than just gamepads. (See <a href="#steam-configured-controllers-generic-gamepad">Generic Gamepad Configuration Support</a> below.)</li>
+  <li>If your game needs to support more than 4 players at once. (XInput is limited to 4 controllers and if Steam is allowed configure all controllers, there will be a hard limit of 4 controllers if using XInput.)</li>
+  <li>If you want to support <a href="SupportedControllers.html">all the recognized gamepads or other devices Rewired supports</a>. When Steam takes over and turns devices into virtual devices, Rewired cannot see the real HID device and instead just sees the virtual device. In current testing, there are a number of devices that Steam either does not support (meaning a dead device) or supports improperly (has certain broken elements). Disable &quot;Generic Gamepad&quot; configuration to prevent these devices from being configured by Steam.</li>
+  <li>If you want to support the special features of certain controllers like the Dual Shock 4 like gyro and lights, make sure Dual Shock 4 is excluded from configuration.</li>
+  <li>If you display glyps or names for buttons or controller elements in-game or allow remapping of controls in-game. Allowing Steam to configure these controllers allows the user to remap their controls within Steam's interface. This will lead to incorrect element identification in-game as the user may have rebound the A button to the Y button, for example, and there is no way for Rewired to know this.</li>
+</ul>
+<p><strong><a name="steam-configured-controllers-generic-gamepad" id="steam-configured-controllers-generic-gamepad"></a>Generic Gamepad Configuration Support</strong></p>
+<p>Some flight joysticks, racing wheels, and other non-gamepad devices may cease to function  if Generic Gamepad Configuration Support is enabled. Other devices may only partially work having certain elements like D-Pads that do not function. It is recommend you do not enable this option.</p>
+<p><strong>IMPORTANT:</strong></p>
+<p>Steam-configured controllers become virtual <a href="#steam-controller">Steam Controllers</a> and whether or not and how they are exposed to the application is entirely up to Steam's settings. You <strong>MUST</strong> configure the Steam backend for your application to tell it how to expose these controllers to the application or Steam may hide these controllers from the applcation entirely. <a href="#steam-controller">See Steam Controller for information on how to configure this.</a></p>
+<p>&nbsp;</p>
+<hr />
+<h3><a name="steam-windows-steam-controller-unity-editor" id="steam-windows-steam-controller-unity-editor"></a>Steam (Windows): Using the Steam Controller and Steam-configured devices in the Unity Editor</h3>
+<p>In terms of controller support, Steam treats the Unity Editor as a Desktop application, not a game. Steam has separate settings for Desktop applications and games in Steam's configuration options. By default, the Unity Editor does not work correctly with the <a href="#steam-controller">Steam Controller</a> or <a href="steam-configured-controllers">Steam-configured controllers</a>.</p>
+<p><strong>In general, it is recommended that you do not attempt to use the Steam Controller or Steam-configured controllers in the Unity Editor.</strong> It's very problematic to do so because of Steam's inconsistent support of controller features between desktop applications and games. Unless you specifically need to test the Steam Controller, it's best you <a href="#steam-configured-controllers-recommendations">disable Steam-configured controller support for all controller types in both the Steam developer backend</a> and in <a href="#steam-configured-controllers-end-user-settings">your Steam client controller configuration</a> while working with the Unity Editor. This allows Rewired to work with the actual HID devices instead of having to rely on Steam's controller virtualization which is fraught with issues when used in the Unity Editor unless you take special steps to make things work.</p>
+<p>If, however, you still want to enable Steam Controller and Steam-configured controller support, the following sections tell you how.</p>
+<p><strong>Launch Unity Editor as a Steam Game</strong></p>
+<p>The most reliable way to get Steam Controllers working in the Unity Editor is to make Steam think the Unity Editor is a game and not a Desktop application. There are two different ways you can do this, each with it's own issues. You only need to do ONE of the following:</p>
+<ol>
+  <li><strong>Launch Unity Editor from Steam: </strong>Add your Unity.exe editor executable to Steam from Games -&gt; Add a Non-Steam Game to My Library and launch the Unity Editor from within the Steam interface. This seems to be the most reliable method.</li>
+  <li><strong>Launch Steam from Command Line / Shortcut: </strong>Launch Steam using the following undocumented command line (you can also make a shortcut), changing YOUR_APP_ID to the Steam App Id of your game:<br />
+    <em>steam.exe -forcecontrollerappid YOUR_APP_ID</em></li>
+</ol>
+<p>Noted differences in behavior:</p>
+<p>Method 1 - Launch Unity Editor from Steam:</p>
+<ul>
+  <li> Both XInput 1.3 and XInput 1.4 respect custom bindings for controllers configured by Steam.</li>
+</ul>
+<p>Method 2 - Launch Steam from Command Line / Shortcut:</p>
+<ul>
+  <li>Only XInput 1.4 respects custom bindings for controllers configured by Steam if Xinput 1.4 is present. XInput 1.3 still reports unmodified bindings. XInput 1.3 will also not detect a device such as the DS4 which is not a true XInput device, but is made to appear as one by Steam when configured. It is unknown why XInput 1.3 functions in a build along with 1.4 but not in the editor.</li>
+</ul>
+<p><strong>Alternate Method - Configuring Steam to Support Steam Controllers in Desktop Applications</strong></p>
+<p>Another method to partially support Steam features in the Unity Editor is to configure Steam Controller support for Desktop Applications.</p>
+<p><strong>NOTE: This method does not fully work.</strong> Steam's overlay system and their Steam Controller system does not function fully in the Unity Editor when the Unity Editor is treated as a desktop application. Some features don't work at all and some features are intermittent. You may notice issues such as Steam-configured controllers not appearing, Steam-configured controllers  appearing as both a HID device and as a virtual device, and Steam-configured devices not returning input when using some input sources (Raw Input without XInput).</p>
+<p>By default, Desktop Controller Configuration support is disabled, so no input will be possible through the <a href="#steam-controller">Steam Controller</a> or through <a href="#steam-configured-controllers">Steam-configured controllers</a>.</p>
+<p>The settings for Steam-configured controllers (Steam Controller and any controller that is being configured by Steam based on the settings in Steam -&gt; Settings -&gt; Controller -&gt; General Controller Settings) for Desktop applications can be found at:</p>
+<p>Steam -&gt; Settings -&gt; Controller -&gt; Desktop Configuration</p>
+<p>With a Steam-configurable controller or a Steam Controller attached to the system, choose Desktop Configuration -&gt; Browse Configs -&gt; Templates -&gt; and choose Gamepad. (The exact location of this setting may change as Rewired's documentation is not continually updated with every change made by Steam.  Refer to the Steamworks documentation for current information.)</p>
 <p>&nbsp;</p>
 <hr />
 <h3><a name="steam-controller-not-detected-windows" id="steam-controller-not-detected-windows"></a>Steam Controller is not detected</h3>
 <p><strong>Windows:</strong> <a href="#steam-controller">(See this topic for information on each OS</a>.)</p>
-<p>The Steam Controller automatically emulates an XInput gampad (XBox 360) and a Direct Input gamepad on Windows and is supported as an XInput or Direct Input gamepad.  You must have <a href="RewiredEditor.html#Settings">&quot;Use XInput&quot; enabled in the Rewired Input Manager - Settings</a> page or <a href="RewiredEditor.html#Settings">use Direct Input as the Primary Input Source</a><a href="RewiredEditor.html#Settings"></a> (not recommended) or else the Steam Controller will not be detected. (XInput can only be used in conjunction with Raw Input or Direct Input, not Unity Input. Further, Disable Native Input must not be checked.) In addition, Steam must be initialized through the Steam API before the Steam Controller can be detected as an XInput or Direct Input device.</p>
+<p>The Steam Controller automatically emulates an XInput gampad (XBox 360)  on Windows and is supported by XInput, Raw Input, and Direct Input. Unity Input should not be set as the Primary Input Source and Disable Native Input should not be checked. <a href="#steam-controller">Steam Controller settings must be properly configured in Steam in order to expose the Steam Controller as a gamepad.</a> In addition, Steam must be initialized through the Steam API before the Steam Controller can be detected.</p>
 <p><a href="#steam-windows-steam-controller-unity-editor">See this for important information on using the Steam Controller in the Unity Editor on Windows</a>.</p>
-<p><a href="BestPractices.html#steam">See Best Practices - Steam for recommended guidelines for Steam.</a></p>
+<p>&nbsp;</p>
+<hr />
+<h3><a name="steam-configured-controllers-not-appearing" id="steam-configured-controllers-not-appearing"></a><a name="steam-configured-controllers-not-detected" id="steam-configured-controllers-not-detected"></a>Steam Configured controllers are not detected</h3>
+<div data-redactor="1">
+  <p><strong>Windows</strong></p>
+</div>
+<ol>
+  <li>What controllers appear to Rewired are entirely determined by what   Steam allows Rewired to see. Steam hooks the Windows input APIs to   change what controllers are visible to the application. This is done so they can support   their Steam Controller Configuration, Steam Remote Play, controlling   remapping, and other Steam controller emulation features. Steam is   blocking Rewired from seeing these controllers.<br />
+  </li>
+  <li>Steam has 4 separate settings that determine how controllers are   managed: The Steamworks developer backend settings for controller &quot;configuration&quot; for the application, the default developer-defined Steam   Controller  profile used by your application, the user client   controller &quot;configuration&quot; settings, and the user   Steam controller profile setting.  These settings determine both what controllers Steam is   allowed to &ldquo;configure&rdquo; and how those controllers appear to the application. (A <a href="#steam-configured-controllers">&quot;Steam-configured&rdquo; controller</a> is a controller that Steam has taken control over and has hidden the actual device from the application. It then creates a virtual  device so the application can see only that virtual controller. This is how it handles things like button remapping and Steam Remote   Play.)</li>
+  <li>All Steam-configured controllers now appear as Steam Controllers to the application and work based on the Steam Controller settings in Steam (developer defaults and/or end-user).</li>
+  <li>By default, with no Steam Controller profile  to determine how a Steam   Controller or a Steam-configured virtual controllers should behave, it defaults to behaving as a Keyboard + Mouse, and therefore Steam hides the devices from the application.</li>
+  <li>Set the  Steam Controller profile to Gamepad to make these Steam   Controllers appear as gamepads and your controllers will appear again to   Rewired. Alternately, if &quot;configuration&quot; of the controller is disabled   in the developer backend settings or the user's client controller   configuration, the controllers will appear to Rewired without   modification from Steam and Rewired will be able to get input directly from the system.</li>
+</ol>
+  <p>Refer to the   Steamworks documentation to understand how to configure controllers for   your application.</p>
 <p>&nbsp;</p>
 <hr />
 <h3><a name="steam-controller-appears-as-mouse-keyboard" id="steam-controller-appears-as-mouse-keyboard"></a>Steam Controller is appearing as a mouse or keyboard instead of a joystick</h3>
@@ -1028,53 +1167,18 @@ Int64* args, IntPtr method)
   depending on the settings you've set up in your game profile. Set your game 
   profile up to use the default Gamepad configuration and it will be seen as 
   an XInput controller by default. The user is free to change their Steam Controller configuration and make the controller function as a gamepad, mouse, keyboard, or combination of controller types.</p>
-<p>Steam Controller profiles are set up in the Steamworks backend. Configuration of Steamworks is beyond the scope of the Rewired documentation. See the Steamworks documentation for  information on how to set up the Steam Controller for your game.</p>
+<p><a href="#steam-controller">Steam Controller profiles are set up in the Steamworks backend.</a> Configuration of Steamworks is beyond the scope of the Rewired documentation. See the Steamworks documentation for  information on how to set up the Steam Controller for your game.</p>
 <p>&nbsp;</p>
 <hr />
-<h3><a name="steam-streaming-linux" id="steam-streaming-linux"></a><a name="steam-streaming" id="steam-streaming"></a>Steam Streaming / Steam Link controller support</h3>
-<p>Steam Streaming and the Steam Link only work with XInput-compatible devices (XBox 360, XBox One, Logitech F310, etc.), Sony DualShock 4, and the Steam Controller. It is not possible to use Raw Input or Direct Input devices with Steam Streaming unless Steam has specifically added emulation support for this device. This is not a limitation of Rewired, it is a limitation of Steam.</p>
+<h3><a name="steam-streaming-linux" id="steam-streaming-linux"></a><a name="steam-streaming" id="steam-streaming"></a><a name="steam-remote-play" id="steam-remote-play"></a>Steam Remote Play controller support</h3>
+<p>Steam Remote Play only works with devices Steam recognizes<a href="#steam-configured-controllers"></a> and has explicit support for and the <a href="#steam-controller">Steam Controller</a>. It is not possible to use other devices over these Steam features unless Steam has specifically added emulation support for that device. This is not a limitation of Rewired, it is a limitation of Steam.</p>
 <p><strong>Windows<br />
-</strong>Steam Streaming and Steam Link create a controller that emulates an XInput gampad (XBox 360) and a Direct Input gamepad on Windows and is supported as an XInput gamepad or Direct Input gamepad only at the present time. You must enable <a href="RewiredEditor.html#Settings">Use XInput in the Windows settings</a> or <a href="RewiredEditor.html#Settings">use Direct Input as the Primary Input Source</a> (not recommended) to support the Steam Controller, Steam Streaming, and Steam Link. Note: When using XInput devices with XInput enabled, Windows is limited to a maximum of 4 devices. This is a limitation of XInput, not Rewired. <a href="KnownIssues.html#more-than-4-xbox-controllers">See this for information on supporting more than 4 XInput devices</a>.</p>
+</strong>Steam Remote Play exposes virtual controllers to the application for all supported remote controllers. Rewired will see these controllers as Steam Controllers when using Raw Input or Direct Input or as XInput controllers when using XInput. Note: When using XInput devices with XInput enabled, Windows is limited to a maximum of 4 devices. This is a limitation of XInput, not Rewired. <a href="KnownIssues.html#more-than-4-xbox-controllers">See this for information on supporting more than 4 XInput devices</a>.</p>
 <p><a href="#steam-windows-steam-controller-unity-editor">See this for important information on using the Steam Controller and Steam-configured devices in the Unity Editor on Windows</a>.</p>
 <p><strong>OSX<br />
-</strong>The Steam Controller, Steam Link, and Steam Streaming work using the default Native input source. It is recommended that you leave the input source set to Native for the best device support. </p>
+</strong>It is recommended that you leave the input source set to Native for the best device support. </p>
 <p><strong>Linux</strong><br />
-  The Steam Controller, Steam Link, and Steam Streaming work properly using the default Native input source. It is recommended that you leave the input source set to Native for the best device support. </p>
-<p><a href="BestPractices.html#steam">See Best Practices - Steam for recommended guidelines for Steam.</a></p>
-<p>&nbsp;</p>
-<hr />
-<h3><a name="steam-configured-controllers" id="steam-configured-controllers"></a>Steam-configured controllers</h3>
-<p>Steam has the ability to &quot;configure&quot; certain controllers and make them appear as a different device with custom bindings set through the Steam interface. This is done by enabling Configuration Support for various controller types in Steam Big Picture mode under Settings -&gt; Controller or in the main Steam interface in the menu Steam -&gt; Settings -&gt; Controller -&gt; General Controller Settings. Whetever controllers are allowed to be configured by Steam will appear as different devices to the application (exact details dependings on the platform.)</p>
-<p><img src="files/images/troubleshooting_steam-big-picture-controller-config.png" alt="Steam Big Picture controller configuration support" /></p>
-<p><strong>Windows:</strong></p>
-<p>Controllers that are configured by Steam will appear as XInput devices and Direct Input devices to the system. The real Raw Input device will be hidden by Steam from the application. This means that you must enable <a href="RewiredEditor.html#Settings">Use XInput in the Windows settings</a> or <a href="RewiredEditor.html#Settings">use Direct Input as the Primary Input Source</a> (not recommended) to support these devices.</p>
-<p><a href="#steam-windows-steam-controller-unity-editor">See this for important information on using the Steam Controller and Steam-configured devices in the Unity Editor on Windows</a>.</p>
-<p><strong>OSX<br />
-</strong>The Steam Controller, Steam Link, and Steam Streaming work using the default Native input source. It is recommended that you leave the input source set to Native for the best device support. </p>
-<p><strong>Linux</strong><br />
-  The Steam Controller, Steam Link, and Steam Streaming work properly using the default Native input source. It is recommended that you leave the input source set to Native for the best device support. </p>
-<p>&nbsp;</p>
-<hr />
-<h3><a name="steam-windows-steam-controller-unity-editor" id="steam-windows-steam-controller-unity-editor"></a>Steam (Windows): Using the Steam Controller and Steam-configured devices in the Unity Editor</h3>
-<p>In terms of controller support, Steam treats the Unity Editor as a Desktop application, not a game. Steam has separate settings for Desktop applications and games in Steam's configuration options.</p>
-<p>The settings for Steam-configured controllers (Steam Controller and any controller that is being configured by Steam based on the settings in Steam -&gt; Settings -&gt; Controller -&gt; General Controller Settings) for Desktop applications can be found at:</p>
-<p><strong>Steam -&gt; Settings -&gt; Controller -&gt; Desktop Configuration</strong></p>
-<p>By default, Desktop Configuration support is disabled, so no input will be possible through the Steam Controller or through XInput devices that are created by and controlled by Steam. (This includes Xbox controllers, PS4 controllers, etc. if they are configured for &quot;Configuration Support&quot; in Steam.)</p>
-<p>It seems to be impossible to configure a Desktop application to use gamepad controls in the Steam interface. So in order to use non-keyboard/mouse based controls for these devices in the Unity Editor, you must make Steam treat the Unity Editor as a game and not a Desktop application. There are two different ways you can do this, each with it's own issues. You only need to do ONE of the following:</p>
-<ol>
-  <li><strong>Launch Unity Editor from Steam: </strong>Add your Unity.exe editor executable to Steam from Games -&gt; Add a Non-Steam Game to My Library and launch the Unity Editor from within the Steam interface.</li>
-  <li><strong>Launch Steam from Command Line / Shortcut: </strong>Launch Steam using the following undocumented command line (you can also make a shortcut), changing YOUR_APP_ID to the Steam App Id of your game:<br />
-    <em>steam.exe -forcecontrollerappid YOUR_APP_ID</em></li>
-  </ol>
-<p>Noted differences in behavior:</p>
-<p>Method 1 - Launch Unity Editor from Steam:</p>
-<ul>
-  <li> Both XInput 1.3 and XInput 1.4 respect custom bindings for controllers configured by Steam.</li>
-  </ul>
-<p>Method 2 - Launch Steam from Command Line / Shortcut:</p>
-<ul>
-  <li>Only XInput 1.4 respects custom bindings for controllers configured by Steam if Xinput 1.4 is present. XInput 1.3 still reports unmodified bindings. XInput 1.3 will also not detect a device such as the DS4 which is not a true XInput device, but is made to appear as one by Steam when configured. It is unknown why XInput 1.3 functions in a build along with 1.4 but not in the editor.</li>
-  </ul>
+  It is recommended that you leave the input source set to Native for the best device support. </p>
 <p>&nbsp;</p>
 <hr />
 <h3><a name="steam-windows-unity-editor-xinput-problems" id="steam-windows-unity-editor-xinput-problems"></a>Steam (Windows): XInput devices do not work correctly or at all in the Unity Editor</h3>
@@ -1086,36 +1190,26 @@ Int64* args, IntPtr method)
 <p>&nbsp;</p>
 <hr />
 <h3><a name="steam-gamepad-appears-as-two-devices" id="steam-gamepad-appears-as-two-devices"></a>Steam (Windows): Sony DualShock 4, generic gamepad, or other joystick doesn't work or appears as two devices</h3>
+<p>NOTE: The duplicate device issue should not occur anymore as special handling has been added to Rewired to read Steam's environment variables in order to hide devices that are Steam-configured.</p>
 <p><a href="#steam-osx-linux-duplicate-controllers">See this for duplicate controllers on OSX/Linux.</a></p>
 <p>This can happen if the user has enabled PS4 Configuration Support  or Generic Gamepad Configuration Support in Steam Big Picture mode under Settings -&gt; Controller or in the main Steam interface in the menu Steam -&gt; Settings -&gt; Controller -&gt; General Controller Settings. Disable PS4, Xbox, and Generic Gamepad Configuration Support to prevent Steam from modifying controller layouts or creating emulated XInput devices for these devices.</p>
 <p><img src="files/images/troubleshooting_steam-big-picture-controller-config.png" alt="Steam Big Picture controller configuration support" /></p>
-<p>These settings conflict with the Rewired setting &quot;Use Steam Raw Input Fix&quot; which existed in Rewired versions below 1.0.0.112. The fix was removed because it no longer works due to changes to Steam. If you are experiencing this issue, update to the latest version of Rewired or disable  the option in the Rewired Input Manager under Settings -&gt; Windows -&gt; &quot;Use Steam Raw Input Fix.&quot;</p>
-<p>Even without the old Raw Input fix enabled, some devices may not work at all when Generic Gamepad Configuration Support is enabled in Steam. This option causes Steam to try to create an emulated XInput device for the attached controller. Note that this setting applies to <strong>ALL</strong> controllers including flight sticks, etc.,  attached to the system, not just gamepads. This setting frequently makes controllers simply non-functional because Steam is unable to create a working emulated XInput device for it but it still blocks Raw/Direct Input from seeing the device. The result is Rewired sees a dead XInput device and the user gets no input.</p>
-<p>Note that on Windows, Steam creates an emulated XInput device for all controllers for which Steam configuration support is enabled. Steam will then block access to and hide the Raw Input device when this option is enabled. Because of how Steam works, this means that <strong>your game must enable Use XInput</strong> or else your users will not be able to use these controllers when configured by Steam.</p>
-<p>The above setting is up to the end-user to set properly in their own Steam configuration. The Steam developer back-end also has a setting entitled <strong>Steam Configurator for Third-Party Controllers</strong> which is a duplicate of the above settings, but overrides the end-user's settings for each option if enabled. Note that while this option overrides the end-user's settings if the setting is enabled forcing the option to be enabled even if the end-user disables it, it cannot override in the negative meaning if the end-user has the option enabled in their control panel, the developer setting cannot disable it.</p>
-<p>Flight joysticks, racing wheels, and other devices will cease to function entirely if Generic Gamepad Configuration Support is enabled. Other devices may only partially work having certain elements like D-Pads that do not function. Allowing Steam to configure these controllers allows the user to remap their controls within Steam's interface. Allowing the user to remap their controls within Steam while also providing an in-game remapping system will lead to incorrect element identification in-game as the user may have rebound the A button to the Y button for example and there is no way for Rewired to know this. For any of the following reasons, it is recommended you disable support for Steam configuration of controllers in the Steam back-end and inform your users to disable this option in the Steam Big Picture controller configuration settings:</p>
-<ul>
-  <li>If your game needs to support more than just gamepads.</li>
-  <li>If your game needs to support more than 4 players at once. (XInput is limited to 4 controllers and if Steam is allowed to force gamepads to be XInput devices, there will be a hard limit of 4 controllers.)</li>
-  <li>If you provide a means of remapping controls in-game so there aren't two competing remapping systems.</li>
-  <li>If you want to support <a href="SupportedControllers.html">all the recognized gamepads or other devices Rewired supports</a>. When Steam takes over and turns devices into XInput devices, Rewired cannot see these devices anymore as HID devices and instead just sees XInput devices. In current testing, there are a number of devices that Steam either does not support (meaning a dead XInput device) or supports improperly (has certain broken elements).</li>
-  </ul>
-<p>Note that even with Steam controller configuration disabled, Steam Streaming and Steam Link will still work properly provided you have enabled support for XInput.</p>
-<p><a href="BestPractices.html#steam">See Best Practices - Steam for recommended guidelines for Steam.</a></p>
+<p>Some devices may not work at all when Generic Gamepad Configuration Support is enabled in Steam. This option causes Steam to try to create an virtual device for the attached controller. Note that this setting applies to <strong>ALL</strong> controllers including flight sticks, etc.,  attached to the system, not just gamepads. This setting frequently makes controllers simply non-functional because Steam is unable to create a working virtual device for it but it still blocks Raw/Direct Input from seeing the device. The result is Rewired sees a dead virtual device and the user gets no input.</p>
+<p>The above setting is up to the end-user to set properly in their own Steam configuration. The Steam developer back-end also has a setting entitled &quot;Opt Controllers into Steam Input&quot; which is a duplicate of the above settings, but overrides the end-user's settings for each option if enabled. Note that while this option overrides the end-user's settings if the setting is enabled forcing the option to be enabled even if the end-user disables it, it cannot override in the negative meaning if the end-user has the option enabled in their control panel, the developer setting cannot disable it. See <a href="#steam-configured-controllers-recommendations">Should I opt in to Steam Controller Configuration</a> for important information.</p>
 <p>&nbsp;</p>
 <hr />
 <h3><a name="steam-osx-linux-duplicate-controllers" id="steam-osx-linux-duplicate-controllers"></a>Steam (OSX/Linux): Some controllers appear as two controllers</h3>
+<p>NOTE: This issue should not occur anymore as special handling has been added to Rewired to read Steam's environment variables in order to hide devices that are Steam-configured.</p>
 <p>Prior to Rewired 1.1.8.0, some controllers  may appear as two controllers on OSX and Linux when using Steam.  This is due to the fact that Steam creates an additional device for each controller that it recognizes and is allowed to configure. This includes Xbox controllers, Sony DualShock 4, and potentially all gamepads depending on the user's settings in Steam for controller configuration and the game's default Steam developer back-end settings for the Steam Configurator for 3rd party controllers. If a controller is allowed to be configured by Steam, it will create a new device emulating an Xbox controller. Steam does not hide or disable the original controller so Rewired sees both controllers and both will provide input. It is possible to prevent Steam from creating the emulated Xbox controller by disabling Xbox, PS4, and Generic Gamepad Configuration Support in the Steam developer back-end. However, if the user has enabled Steam controller configuration in their local settings, the developer back-end default settings cannot disable it.</p>
-<p>Note that even with Steam controller configuration disabled, Steam Streaming and Steam Link will still work properly <a href="#steam-streaming">provided you are using the correct input source for the platform in question</a>.</p>
 <p>These duplicate devices are automatically filtered out in Rewired 1.1.8.0+. Specifically, the HID device is filtered out and the emulated Steam Controller device is used instead.</p>
-<p><a href="BestPractices.html#steam">See Best Practices - Steam for recommended guidelines for Steam.</a></p>
 <p>&nbsp;</p>
 <hr />
 <h3><a name="steam-non-gamepad-devices-dont-work" id="steam-non-gamepad-devices-dont-work"></a>Steam: Flight sticks, racing wheels, and non-gamepad devices do not work</h3>
-<p>This can happen if the user has enabled Generic Gamepad Configuration Support in Steam Big Picture mode under Settings -&gt; Controller or in the main Steam interface in the menu Steam -&gt; Settings -&gt; Controller -&gt; General Controller Settings.</p>
+<p>This can happen if the user has enabled Generic Gamepad Configuration Support in Steam Big Picture mode under Settings -&gt; Controller or in the main Steam interface in the menu Steam -&gt; Settings -&gt; Controller -&gt; General Controller Settings. <a href="#steam-configured-controllers">Also see the equivalent developer default settings.</a> (The exact location of this setting may change as Rewired's documentation is not continually updated with every change made by Steam.  Refer to the Steamworks documentation for current information.)</p>
 <p><img src="files/images/troubleshooting_steam-big-picture-controller-config.png" alt="Steam Big Picture controller configuration support" /></p>
-<p>When Generic Gamepad Configuration Support is enabled, all devices regardless of type will be handled by Steam and converted to emulated Steam Controller devices. If Steam has support for a particular device, it will work as an emulated Steam Controller. However, if Steam does not support the device, the device will simply not appear to the game. Flight sticks, racing wheels, and other device types, and even many gamepads do not work at all when Generic Gamepad Configuration Support is enabled.</p>
+<p>When Generic Gamepad Configuration Support is enabled, all devices regardless of type will be handled by Steam and converted to emulated Steam Controller devices. If Steam has support for a particular device, it will work as an emulated Steam Controller. However, if Steam does not support the device, the device will simply not appear to the game or may have only a limited number of working controls. Flight sticks, racing wheels, and other device types, and even many gamepads do not work at all when Generic Gamepad Configuration Support is enabled.</p>
 <p>Disable Generic Gamepad Configuration Support to prevent Steam from modifying controller layouts or creating emulated Steam Controllers for these devices.</p>
+<p>See <a href="#steam-configured-controllers-recommendations">Should I opt in to Steam Controller Configuration</a> for important information.</p>
 <p>This is an issue with Steam and cannot be controlled, modified, or corrected by Rewired.</p>
 <p>&nbsp;</p>
 <div class="bottom-pager clearfix">

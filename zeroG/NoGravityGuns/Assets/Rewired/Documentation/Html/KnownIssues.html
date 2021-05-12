@@ -137,7 +137,7 @@
     	<div class="main-body">
 	        <div class="logo"><a href="http://guavaman.com/projects/rewired" title="Rewired"><img src="files/images/rewired-logo.png" width="173" height="139" alt="Rewired" /></a></div>
                      
-            <h1>
+          <h1>
             <!-- InstanceBeginEditable name="PageHeader" -->Known Issues
       <!-- InstanceEndEditable -->
             </h1>
@@ -148,18 +148,20 @@
     <h3><a href="#general">General</a></h3>
     <ul>
       <li><a href="#not-compatible-unity-new-input-system">Rewired is not compatible with Unity's &quot;new&quot; input system</a></li>
+      <li><a href="#windows-standalone-il2cpp-vs2019-hang">All platforms compiled with IL2CPP on Windows: Builds never finish, build fails with errors, builds crash, built exe hangs at launch, or builds throw exceptions about duplicate Actions</a></li>
       <li><a href="#running-in-a-sandbox">Running in a Sandbox</a></li>
     </ul>
     <h3><a href="#windows">Windows:</a></h3>
     <ul>
+      <li><a href="#windows-editor-keyboard-keys-stuck-raw-input">Windows Editor: Keyboard keys sticking for the same duration they were pressed after being released</a></li>
       <li><a href="#windows-10-second-stall">Windows Standalone: Extra 10 second stall when pressing Play in the Unity editor and when running a build</a></li>
-      <li><a href="#windows-standalone-il2cpp-vs2019-hang">Windows Standalone, IL2CPP: Builds never finish or built exe hangs at launch</a></li>
       <li><a href="#windows-standalone-il2cpp">Windows Standalone, IL2CPP: Rewired falls back to Unity input</a></li>
       <li><a href="#windows-directinput-joysticks-not-detected-net46">Windows Standalone, Direct Input: Joysticks not detected when using .Net 4.6 scripting backend</a></li>
       <li><a href="#windows-editor-oculus-touch-crash">Windows Editor: Crash in Unity 5.6+ with Oculus Touch</a></li>
       <li><a href="#xinput-device-name">Windows Platforms: XInput devices on Windows appear as &quot;XInput Gamepad&quot;</a></li>
       <li><a href="#windows-xinput-devices-use-x360-map">Windows Platforms: All XInput devices use the Xbox 360 Controller map when &quot;Use XInput&quot; is enabled</a></li>
       <li><a href="#more-than-4-xbox-controllers">More than 4 XBox controllers cannot be used at the same time</a></li>
+      <li><a href="#windows-xinput-xbox-one-bluetooth-vibration-disconnect-lag">Windows Standalone (Use XInput enabled): Wireless Bluetooth Xbox One Controllers cause frame rate drop when disconnected during vibration</a></li>
       <li><a href="#win-10-insider-preview-xinput-crash">Windows Standalone (Use XInput enabled, Windows 10 Insider Preview): Game crashes when using or plugging in an XInput-compatible controller.</a></li>
       <li><a href="#windows-10-fallback-xbox-one-mapping-issues">Windows Standalone (Unity Fallback, Windows 10): Xbox One Controller L/R and D-Pad mapping problems</a></li>
       <li><a href="#windows-10-xbox-one-crash">Windows Standalone (Raw Input, Windows 10): XBox One controller causes system crash when removed when using Raw Input on Windows 10</a></li>
@@ -170,16 +172,21 @@
       <li><a href="#windows-nvidia-shield-controller-problems">Windows Standalone: Nvidia Shield Controller problems on Raw Input and Direct Input</a></li>
       <li><a href="#net46-windows-freeze-on-exit">Windows Standalone, .NET 4.6 experiemental backend: Application freezes on exit in Unity 2017</a></li>
       <li><a href="#unity-2011-dot-net-46-editor-errors">Windows </a><a href="#net46-windows-freeze-on-exit">Standalone</a><a href="#unity-2011-dot-net-46-editor-errors">, .NET 4.6 experimental backend: Editor corruption in Unity 2017.1</a></li>
-      <li><a href="#uwp-gamepads-appear-twice">Windows 10 Universal: Certain gamepads appear twice  when HID device support is enabled</a></li>
-      <li><a href="#uwp-il2cpp-controller-disconnect-crash">Windows 10 Universal IL2CPP: Crash when disconnecting controllers</a></li>
-      <li><a href="#uwp-shift-keys">Windows 10 Universal: Left Shift is activated when Right Shift is pressed</a></li>
-      <li><a href="#uwp-net-550-reference-rewriter-error">Windows 10 Universal .NET: UnityException: Failed to run reference rewriter error on Unity 5.5.0, 5.5.1</a></li>
       <li><a href="#windows-ri-hid-error">Windows Editor: &lt;RI.Hid&gt; Failed to create device file: 2 The system cannot find the file specified.</a></li>
       <li><a href="#windows-stuck-button-right-click-window-title-bar">Windows Standalone: Keyboard and mouse keys get stuck on when holding a key, right-clicking on the window's title bar, and then releasing the key</a></li>
       <li><a href="#windows-app-store-u5">Windows App Store support not working in Unity 5.0.0, fixed in 5.0.1</a></li>
       </ul>
+    <h3><a href="#uwp">Windows 10 Universal (UWP):</a></h3>
+    <ul>
+      <li><a href="#uwp-il2cpp-error-2020-2">Windows 10 Universal: IL2CPP build error <span class="code">(no further information about what managed code was being converted is available)</span></a><span class="code"></span></li>
+      <li><a href="#uwp-gamepads-appear-twice">Windows 10 Universal: Certain gamepads appear twice  when HID device support is enabled</a></li>
+      <li><a href="#uwp-il2cpp-controller-disconnect-crash">Windows 10 Universal IL2CPP: Crash when disconnecting controllers</a></li>
+      <li><a href="#uwp-shift-keys">Windows 10 Universal: Left Shift is activated when Right Shift is pressed</a></li>
+      <li><a href="#uwp-net-550-reference-rewriter-error">Windows 10 Universal .NET: UnityException: Failed to run reference rewriter error on Unity 5.5.0, 5.5.1</a></li>
+    </ul>
     <h3><a href="#osx">OSX:</a></h3>
     <ul>
+      <li><a href="#osx-apple-silicon-crash">OSX, Apple Silicon: Build crashes when a controller is connected</a></li>
       <li><a href="#osx-standalone-il2cpp">OSX, IL2CPP: Rewired falls back to Unity input</a></li>
       <li><a href="#osx-net46-initialization-exception">OSX, .NET 4.6 experimental backend: Throws exception on initialization in Unity 2017.1 - Unity 2017.3</a></li>
       </ul>
@@ -190,9 +197,8 @@
       <li><a href="#keyboard-stuck-linux">Keyboard keys stuck on Linux in Unity 5.1.1</a></li>
       <li><a href="#linux-keyboard-repeat-bug-builds">Keyboard keys repeat when held on Linux in builds</a></li>
     </ul>
-<h3><a href="#unity-editor">Unity Editor (all platforms):</a>    </h3>
+<h3><a href="#unity-editor">Unity Editor (all platforms):</a></h3>
 <ul>
-  
   <li><a href="#editor-recompile-after-finished-playing">Rewired stops working when changing scripts in Play mode with &quot;Recompile After Finished Playing&quot; option</a></li>
   <li><a href="#control-mapper-compiler-error-unity-2019-1-5f1">Compiler error in Unity 2019.1.5f1 when Control Mapper installed</a></li>
   <li><a href="#assembly-errors-2019-2">Assembly errors in projects upgraded to Unity 2019.2</a></li>
@@ -244,6 +250,60 @@
   Player Settings -&gt; Active Input Handling -&gt; Input Manager</p>
 <p>&nbsp;</p>
 <hr />
+<h3><a name="windows-standalone-il2cpp-vs2019-hang" id="windows-standalone-il2cpp-vs2019-hang"></a>All platforms compiled with IL2CPP on Windows: Builds never finish, build fails with errors, builds crash, built exe hangs at launch, or builds throw exceptions about duplicate Actions</h3>
+<p>The latest version at the time of writing this, Visual Studio 2019 16.8.6, still exhibits this error.</p>
+<p>Due to a new compiler bug in Visual Studio 2019 16.5+, when built with IL2CPP using the Unity Editor on Windows with Visual Studio 2019 installed, the build may never finish (hang during compile), crash during compile, the built executable may hang after launch, or they may throw exceptions about duplicate Actions, or potentially unlimited other possible manifestations. This issue can be avoided by uninstalling Visual Studio 2019 and installing Visual Studio 2017, or you can use one of the following workarounds to make builds work again in VS 2019.</p>
+<p><strong>Update: </strong>This has been updated to disable just the jump threading   optimizer instead of the entire SSA optimizer based on feedback from   Microsoft.</p>
+<p> I have tracked the issue down to a bug in the <a href="https://devblogs.microsoft.com/cppblog/new-code-optimizer/" target="_blank" rel="nofollow">new optimizer used in VS2019</a>.<br />
+</p>
+<ul>
+  <li>This affects Release and Master builds, not debug builds.</li>
+  <li>You can disable the new optimizer in the VS generated IL2CPP build   project by adding the following to the end of the IL2CPP command line:<br />
+    --compiler-flags=-d2ssa-cfg-jt-</li>
+</ul>
+<p><br />
+  <strong>Option 1: Editor Script (Probably the best solution)</strong> </p>
+<ol>
+  <li>Download the <a href="https://guavaman.com/projects/rewired/files/docs/DisableNewVS2019Optimizer.zip">DisableNewVS2019Optimizer</a> script and extract the cs file.</li>
+  <li>Create a folder somewhere in your Unity project's Assets folder and name it Editor.</li>
+  <li>Copy the DisableNewVS2019Optimizer.cs script into the Editor folder.</li>
+  <li>Now IL2CPP builds on Windows will automatically have the new   optimizer disabled, but it won't affect builds to other build targets.</li>
+  <li> Note that this method will not automatically copy the compiler flag options to the Visual Studio project if you choose to make an IL2CPP build with the &quot;Create Visual Studio Solution&quot; option in the build window. If &quot;Create Visual Studio Solution&quot; is enabled, you will have to manually add the compiler option by following the instructions under Option 2: Manual Build below.</li>
+  <li><strong>Note that you will get a compiler error if you use this script and   do not have Visual Studio 2019 installed as VS 2017 or other versions   do not have this compiler flag option.</strong></li>
+  <li> Deleting the script will not remove the compiler option if it has already been set. You can remove it by editing ProjectSettings\ProjectSettings.asset in a text editor under the heading additionalIl2CppArgs.</li>
+</ol>
+<strong>Option 2: Manual Build</strong><br />
+<br />
+Steps:<br />
+<ol>
+  <li>Set Unity Build Settings -&gt; PC, Mac &amp; Linux Standalone -&gt; Create Visual Studio Solution</li>
+  <li>Build</li>
+  <li>Open solution in Visual Studio</li>
+  <li>Right click the IL2CPPOutputProject project in the Solution Explorer and select Properties.</li>
+  <li>Make sure you have the correct build Configuration selected at the   top for the type of build you want to make (Master, Release, etc).</li>
+  <li>Go to the NMake page</li>
+  <li>On the Build Command Line field, add to the end (adding a space first):</li>
+  <li>--compiler-flags=-d2ssa-cfg-jt-</li>
+  <li>Compile</li>
+  <li>Run</li>
+  <li>No more infinite loops</li>
+</ol>
+<strong>Option 3: Environment Variable</strong><br />
+<br />
+On Windows, another easier way to disable the optimizer is to add an   environment variable. Be advised, this may cause IL2CPP builds for other   build targets to fail because I assume it will add the compiler option   regardless of the build target:<br />
+<ol>
+  <li>Click Start Menu</li>
+  <li>Type environment</li>
+  <li>Launch &quot;Edit the system environment variables&quot;</li>
+  <li>Under &quot;User Variables for USERNAME&quot;, click New.</li>
+  <li>Set the variable name to: IL2CPP_ADDITIONAL_ARGS</li>
+  <li>Set the variable value to: --compiler-flags=-d2ssa-cfg-jt-</li>
+  <li>Press Ok.</li>
+  <li>Close all copies of the Unity editor and re-open it.</li>
+  <li>Direct IL2CPP builds (without creating VS solution) will now work correctly.</li>
+</ol>
+<p>&nbsp;</p>
+<hr />
 <h3><a name="running-in-a-sandbox" id="running-in-a-sandbox"></a>Running in a Sandbox</h3>
 <p><strong>Windows (tested with Sandboxie):</strong></p>
 <ul>
@@ -255,16 +315,24 @@
 <p>&nbsp;</p>
 <h2><a name="windows" id="windows"></a>Windows</h2>
 <p>&nbsp;</p>
+<h3><a name="windows-editor-keyboard-keys-stuck-raw-input" id="windows-editor-keyboard-keys-stuck-raw-input"></a>Windows Editor: Keyboard keys sticking for the same duration they were pressed after being released</h3>
+<p><strong>Update:</strong> According to Unity, this bug will be fixed in Unity 2019.4.0f1.</p>
+<ol>
+  <li>Unity made a change to the editor update thread in <strong>2019.3.8</strong> (<a href="https://unity3d.com/unity/whats-new/2019.3.8" target="_blank" rel="nofollow">https://unity3d.com/unity/whats-new/2019.3.8</a> - Editor: Fixed the editor application main thread tick timer throttling causing unwanted spikes and delays. (<a href="https://issuetracker.unity3d.com/issues/editor-performance-drop-when-holding-down-keys-and-moving-mouse-when-in-playmode" target="_blank" rel="nofollow">1211383</a>)) that has resulted in this lag in a very roundabout way. The Windows message queue is having to wait on the editor GUI thread, so heavy CPU usage in the editor GUI update thread now maifests as a severe slowdown to the main thread if messages are waiting to be delivered to it by Raw Input. This issue persists as of 2019.3.15, the latest version, as of the date of this message.<br />
+    </li>
+  <li>The more work happening on the editor GUI thread, the worse the slowdown of the main thread will be when it has to wait on a Raw Input event to be delivered.</li>
+  <li>This affects Raw Input, presumably because Raw Input relies on the Windows messaging queue for delivery of input events.</li>
+  <li>This is most easily reproduced by having the Rewired Input Manager selected in the inspector with the Debug Information foldout open displaying a lot of fields such as when looking at Controllers -&gt; Keyboards and listing all the keys. With this open, the lag after releasing a key when held down for a second or more while is &gt; 1 second. Debug Information makes a lot of calls to Editor Prefs which slows down the editor thread enough to make the new issue visible.</li>
+  <li><strong>This also affects Unity's new input system</strong> through the exact same mechanism of preventing the Raw Input events from being delivered in a timely manner to the input thread. The lag can be reproduced exactly simply by enabling their new input system and running a CPU-intensive operation in an editor script.</li>
+</ol>
+<p>This bug has been reported to Unity with a simple reproduction case using their new input system.</p>
+<p>&nbsp;</p>
+<hr />
 <h3><a name="windows-10-second-stall" id="windows-10-second-stall"></a>Windows Standalone: Extra 10 second stall when pressing Play in the Unity editor and when running a build</h3>
 <p>Reorts have been coming in recently of a 10 second stall when pressing Play in the Unity editor and when launching the game build. Every single instance of this has turned out to be a problem getting information from some piece of hardware attached to the system. This has happened with Corsair keyboards and a Mayflower Electronics headphone amplifier so far, but could potentially be caused by any HID device.</p>
 <p>When a problem device is present, a 5-second stall happens when certain information is queried about the HID device such as getting the Product Name using the Windows API function HidD_GetProductString. This function may be called twice leading to a 10 second stall. This is a problem at the device / driver level and cannot be fixed in Rewired. Because of the sudden influx of reports like this, I can only make the educated guess that this is directly due to a new change in Windows in a recent update resulting in the 5-second stall with these devices. There is no other explanation because none of this code has changed in years, and before 2020, there were zero reports of anything like this from Rewired users.</p>
 <p>This issue is not isolated to Rewired. Every single application that calls HidD_GetProductString on these devices will experience this stall. This has been reproduced using a HID library with one of these devices. Microsoft's Direct Input itself is also subject to this issue when getting the list of devices, with reports of this happening on the web. Even Microsoft's USB Game Controller tool in Windows apparently is affected by this, causing stalls and even crashing. There are also reports of this happening with SDL2, a hugely-popular cross-platform library.</p>
 <p>This issue cannot be &quot;fixed&quot; because it is not an issue in Rewired but in the underlying device/driver/Windows API. The best way to resolve it is to identify the device or driver causing it and remove it or disable it in Device Manager. Some devices like the Mayflower Electronics headphone amplifier expose a HID device in Device Manager that can be disabled without affecting the functionality of the device itself.</p>
-<p>&nbsp;</p>
-<hr />
-<h3><a name="windows-standalone-il2cpp-vs2019-hang" id="windows-standalone-il2cpp-vs2019-hang"></a>Windows Standalone, IL2CPP: Builds never finish or built exe hangs at launch</h3>
-<p>Due to a new compiler bug in Visual Studio 2019 16.5, when built with IL2CPP for the Windows Standalone target with Visual Studio 2019 installed, the build may never finish (hang during compile) or the built executable may hang after launch. This issue can be avoided by uninstalling Visual Studio 2019 and installing Visual Studio 2017, or you can use one of the following workarounds to make builds work again in VS 2019.</p>
-<p><a href="https://forum.unity.com/threads/neverending-il2cpp-build.855235/#post-5703478">Please see this forum post for details of the issue and workarounds.</a></p>
 <p>&nbsp;</p>
 <hr />
 <h3><a name="windows-standalone-il2cpp" id="windows-standalone-il2cpp"></a>Windows Standalone, IL2CPP: Rewired falls back to Unity input</h3>
@@ -293,7 +361,6 @@
   <li>L/R triggers are treated as 1 combined axis and both   cannot be pressed simultaneously without canceling each other out.</li>
   <li>You lose universal XInput controller support because   each XInput controller now must be specifically recognized and mapped. Any unrecognized XInput devices will be treated as Unknown Controllers.</li>
   <li>Vibration is not supported without XInput enabled.</li>
-  <li>The Steam Controller as well as Steam Streaming and Steam Link can no longer be supported if using Raw Input.</li>
   <p>&nbsp;</p>
 </ol>
 <hr />
@@ -312,10 +379,43 @@
   <li>L/R triggers are treated as 1 combined axis and both   cannot be pressed simultaneously without canceling each other out.</li>
   <li>You lose universal XInput controller support because   each XInput controller now must be specifically recognized and mapped. Any unrecognized XInput devices will be treated as Unknown Controllers.</li>
   <li>Vibration is not supported without XInput enabled.</li>
-  <li>The Steam Controller as well as Steam Streaming and Steam Link can no longer be supported if using Raw Input.</li>
 </ol>
 <p><strong>OSX Standalone</strong><br />
   XBox 360 controllers on OSX require <a href="https://github.com/360Controller/360Controller/releases" target="_blank"> this XBox 360 driver</a>. This driver also imposes the 4-device limit just like XInput. It is currently not possible to use more than 4 XInput devices simultaneously on OSX. Again, you can mix and match non-XInput controllers to achieve a total count greater than 4. Because the driver is required for the controller to be detected, there is no way to disable the use of this driver and get around this issue.</p>
+<p>&nbsp;</p>
+<hr />
+<h3><a name="windows-xinput-xbox-one-bluetooth-vibration-disconnect-lag" id="windows-xinput-xbox-one-bluetooth-vibration-disconnect-lag"></a>Windows Standalone (Use XInput enabled): Wireless Bluetooth Xbox One Controllers cause frame rate drop when disconnected during vibration</h3>
+<p>The drop in frame rate is not caused by Rewried. It is indirectly caused by Unity, but ultimately the real culprit is XInput. There is nothing I can do to &quot;fix&quot; this issue because it is not caused by Rewired, nor is the CPU spike that causes the frame rate to drop even in Rewired's call stack -- it's in Unity's.</p>
+<p>Sequence of events:</p>
+<ul>
+  <li>2 or more Xbox One controllers are attached.</li>
+  <li>At least one of these is a Bluetooth controller and connected via Bluetooth.</li>
+  <li>Vibrations are being sent continuously to the Bluetooth controller.</li>
+  <li>The Bluetooth controller is disconnected (battery dies, etc.).</li>
+  <li>XInput still reports this device present for 2 or more seconds.</li>
+  <li>The other controller has to be actively producing some input (may just be axis noise in some cases.)<br />
+  </li>
+  <li>Unity stalls and stutters until the device is fully disconnected.</li>
+</ul>
+<p>During this period where the Bluetooth device has been connected but has not been reported as disconnected:<br />
+</p>
+<ul>
+  <li>Calls to XInput functions do not return with errors.</li>
+  <li>Calls to set vibration to XInput on the disconnected device   apparently stall out the entire XInput system regardless of which thread   is making the calls.<br />
+  </li>
+  <li>Calls to read input from XInput take an excessive amount of time,   even on a separate thread, because of the calls to set vibration on the   other thread.</li>
+</ul>
+<p>Rewired already  implements multiple separate threads to handle input and output (vibration) for XInput so so lags in function calls to XInput will not result in drops in frame rate. It also caps the frequency of set vibration calls to XInput because of prior problems with Xbox One controllers.</p>
+<p>Unity is causing the application frame rate to drop under this scenario, not Rewired. This can be seen in the Unity profiler. The entry UpdateSceneManagerAndInput will report a very long time such as 250ms per frame during this period. This is a Unity function.</p>
+<p>This is the best explanation I can come up with for the problem:<br />
+</p>
+<ul>
+  <li>Unity is calling functions in XInput on the main thread that are   lagging out due XInput going into some kind of spasm because set vibration is being continuously called on a wireless Bluetooth controller that has been   disconnected but XInput has not reported it disconnected yet and is not   throwing errors when functions are being called on that device.</li>
+  <li>Unity's input system cannot be disabled to avoid this issue.</li>
+  <li> Unity could jump through hoops and   implement workarounds like moving XInput to another thread, but they can't fix the   underlying cause.</li>
+  <li>Only Microsoft can fix it.</li>
+</ul>
+<p>The only possible workaround is to send fewer vibrations so the disconnecting controller doesn't get hammered with vibrations while it is in the bugged state. Do not spam controllers with vibrations unless you really have to. However, in the case you are playing back some kind of effect sequence, there is no way to avoid it.</p>
 <p>&nbsp;</p>
 <hr />
 <h3><a name="win-10-insider-preview-xinput-crash" id="win-10-insider-preview-xinput-crash"></a>Windows Standalone (Use XInput enabled, Windows 10 Insider Preview): Game crashes when using or plugging in an XInput-compatible controller.</h3>
@@ -396,6 +496,37 @@
 <p><em>Beta versions and experimental features of Unity are not supported by Rewired.</em></p>
 <p>&nbsp;</p>
 <hr />
+<h3><a name="windows-ri-hid-error" id="windows-ri-hid-error"></a>Windows Editor: &lt;RI.Hid&gt; Failed to create device file: 2 The system cannot find the file specified.</h3>
+<p>You may see the following error when starting the Unity Editor:</p>
+<ul>
+  <li>&lt;RI.Hid&gt; Failed to create device file: 2 The system cannot find the file specified.</li>
+</ul>
+<p>This error is logged by Unity itself and is not created by Rewired, nor is it related to Rewired in any way. It cannot be silenced or fixed. <a href="http://forum.unity3d.com/threads/ri-hid-failed-to-create-device-file.202934/" target="_blank">There is a forum thread detailing the issue here</a>.</p>
+<p>&nbsp;</p>
+<hr />
+<h3><a name="windows-stuck-button-right-click-window-title-bar" id="windows-stuck-button-right-click-window-title-bar"></a>Windows Standalone: Keyboard and mouse keys get stuck on when holding a key, right-clicking on the window's title bar, and then releasing the key</h3>
+<p>This  bug affects the Unity Editor and builds running in windowed mode on Windows, OSX, and (possibly) Linux.</p>
+<p>This is due to a bug in UnityEngine.Input which is used as the source of keyboard input on most platforms at the present time. Mouse buttons will also get stuck on in this same scenario of UnityEngine.Input is being used as the mouse input source (OSX, Linux, or if Native Mouse Handling is disabled on Windows.)</p>
+<p>On Windows, enabling <a href="RewiredEditor.html#Settings">Native Keyboard Handling</a> will eliminate this issue. Unfortunately, for other platforms, there is no workaround possible for this issue at this time. The bug has been reported to Unity.</p>
+<p>&nbsp;</p>
+<hr />
+<h3><a name="windows-app-store-u5" id="windows-app-store-u5"></a>Windows App Store support not working in Unity 5.0.0, fixed in 5.0.1</h3>
+<p>Due to a new bug introduced in Unity 5.0.0, Rewired is unable to be compiled in this version of Unity. The bug was fixed in Unity 5.0.1, so upgrade to 5.0.1 if you need Windows App Store support.</p>
+<p>&nbsp;</p>
+<hr />
+<p>&nbsp;</p>
+<h2><a name="uwp" id="uwp"></a>Windows 10 Universal (UWP):</h2>
+<p>&nbsp;</p>
+<h3><a name="uwp-il2cpp-error-2020-2" id="uwp-il2cpp-error-2020-2"></a>Windows 10 Universal: IL2CPP build error <span class="code">(no further information about what managed code was being converted is available)</span></h3>
+<p><strong>Severity: <span  style="color: #ff0000">Critical</span></strong><br />
+  <strong>Solution: <span style="color: #008800">Update to Rewired 1.1.38.4+.</span></strong></p>
+<p>As of Unity 2020.2.0f1, versions of Rewired prior to 1.1.38.4 no longer function on the UWP platform due to a new IL2CPP issue introduced in Unity 2020.2.0f1+.</p>
+<pre class="code">Exception: IL2CPP error (no further information about what managed code was being converted is available)
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at Unity.IL2CPP.Extensions.ModuleInitializerMethod(AssemblyDefinition assembly)
+   at Unity.IL2CPP.Metadata.PerAssemblyCodeMetadataWriter.Write(SourceWritingContext context, AssemblyDefinition assembly, GenericContextCollection genericContextCollection, String assemblyMetadataRegistrationVarName, String codeRegistrationVarName)</pre>
+<p>&nbsp;</p>
+<hr />
 <h3><a name="uwp-gamepads-appear-twice" id="uwp-gamepads-appear-twice"></a>Windows 10 Universal: Certain gamepads appear twice when HID device support is enabled</h3>
 <p>Microsoft has apparently started mapping non-Xbox gamepads like the Sony DualShock 4 to make them appear as XInput devices through their UWP Windows.Gaming.Input system. This has the side effect that, if you enable the application to allow the use of HID input devices in the Package.appxmanifest, the DualShock 4 will show up as 2 devices at the same time -- an XInput gamepad and the HID DualShock 4 gamepad. While true XInput gamepads provide a way to identify them as such through the HID system, Microsoft has provided no way to determine that these pseudo-XInput devices (HID devices are being  treated as XInput devices) are being handled by XInput, so there is no way to programatically filter out these duplicate devices. The only workaround is to disable HID device support. You can either do this by removing HID support from the package manifest in the Visual Studio build project or by disabling the <a href="RewiredEditor.html#settings-uwp">&quot;Support HID Devices&quot; option in the Rewired Input Manager -&gt; Settings -&gt; Windows UWP page</a>. This allows you to choose to support the Gamepad (XInput) system and/or the HID system for input devices. This is still not ideal, but it at least gives you the option to disable XInput to allow for wider device support without risking duplicate devices, though disabling XInput will also disable support for controller vibration. There is no perfect solution because Microsoft simply has not provided the ability to get the necessary information to allow devices to be filtered properly.</p>
 <p>&nbsp;</p>
@@ -414,7 +545,7 @@
 public class GamepadTest : MonoBehaviour {
 #if ENABLE_WINMD_SUPPORT
     void OnGUI() {
-        GUILayout.Label("Gamepad Count: " + Windows.Gaming.Input.Gamepad.Gamepads.Count);
+        GUILayout.Label(&quot;Gamepad Count: &quot; + Windows.Gaming.Input.Gamepad.Gamepads.Count);
     }
 #endif
 }</pre>
@@ -422,8 +553,8 @@ public class GamepadTest : MonoBehaviour {
 <pre class="code">UnityPlayer.dll!dynamic_array&lt;class GameControllers::Gamepads::XboxGamepad,0&gt;::erase(class GameControllers::Gamepads::XboxGamepad *,class GameControllers::Gamepads::XboxGamepad *)
 UnityPlayer.dll!GameControllers::Gamepads::XboxGamepads::UpdateCurrentGamepadList(void)
 UnityPlayer.dll!GameControllers::Gamepads::XboxGamepads::GetCurrentGamepads(void)
-UnityPlayer.dll!GameControllers::Gamepads::ProcessGamepadInput(class InputManager &,class std::map&lt;unsigned int,int,struct std::less&lt;unsigned int&gt;,class std::allocator&lt;struct std::pair&lt;unsigned int const ,int&gt; &gt; &gt; &,struct dynamic_array&lt;unsigned int,0&gt; &)
-UnityPlayer.dll!Input::PreProcess(class Vector2f const &)
+UnityPlayer.dll!GameControllers::Gamepads::ProcessGamepadInput(class InputManager &amp;,class std::map&lt;unsigned int,int,struct std::less&lt;unsigned int&gt;,class std::allocator&lt;struct std::pair&lt;unsigned int const ,int&gt; &gt; &gt; &amp;,struct dynamic_array&lt;unsigned int,0&gt; &amp;)
+UnityPlayer.dll!Input::PreProcess(class Vector2f const &amp;)
 UnityPlayer.dll!UnityPlayer::AppCallbacks::DoPerformUpdateAndRender(void)
 UnityPlayer.dll!UnityPlayer::AppCallbacks::PerformUpdateAndRender(void)
 UnityPlayer.dll!UnityPlayer::AppCallbacks::_AppThreadImplementation(void *)
@@ -447,7 +578,7 @@ ntdll.dll!RtlUserThreadStart()</pre>
 <hr />
 <h3><a name="uwp-net-550-reference-rewriter-error" id="uwp-net-550-reference-rewriter-error"></a>Windows 10 Universal .NET: UnityException: Failed to run reference rewriter error on Unity 5.5.0, 5.5.1</h3>
 <p>You may receve an error similar to below when building to Windows 10 Universal on .NET on Unity 5.5.0 and 5.5.1:</p>
-<pre class="code">UnityException: Failed to run reference rewriter with command --target="Temp\StagingArea\Rewired_Core.dll" --additionalreferences="Temp\StagingArea","C:\Program Files (x86)\Windows Kits\10\UnionMetadata\Facade","C:\Program Files (x86)\Windows Kits\10\References\Windows.ApplicationModel.Calls.CallsVoipContract\1.0.0.0","C:\Program Files (x86)\Windows 
+<pre class="code">UnityException: Failed to run reference rewriter with command --target=&quot;Temp\StagingArea\Rewired_Core.dll&quot; --additionalreferences=&quot;Temp\StagingArea&quot;,&quot;C:\Program Files (x86)\Windows Kits\10\UnionMetadata\Facade&quot;,&quot;C:\Program Files (x86)\Windows Kits\10\References\Windows.ApplicationModel.Calls.CallsVoipContract\1.0.0.0&quot;,&quot;C:\Program Files (x86)\Windows 
 
 ...
 
@@ -456,30 +587,17 @@ Catastrophic failure while running rrw: Mono.Cecil.AssemblyResolutionException: 
 <ol>
   <li> Install Unity 5.5.2 or later.</li>
   <li>Install an <a href="https://developer.microsoft.com/en-us/windows/downloads/sdk-archive" target="_blank">older version of the Windows 10 SDK</a> also.</li>
-</ol>
-<p>&nbsp;</p>
-<hr />
-<h3><a name="windows-ri-hid-error" id="windows-ri-hid-error"></a>Windows Editor: &lt;RI.Hid&gt; Failed to create device file: 2 The system cannot find the file specified.</h3>
-<p>You may see the following error when starting the Unity Editor:</p>
-<ul>
-  <li>&lt;RI.Hid&gt; Failed to create device file: 2 The system cannot find the file specified.</li>
-</ul>
-<p>This error is logged by Unity itself and is not created by Rewired, nor is it related to Rewired in any way. It cannot be silenced or fixed. <a href="http://forum.unity3d.com/threads/ri-hid-failed-to-create-device-file.202934/" target="_blank">There is a forum thread detailing the issue here</a>.</p>
-<p>&nbsp;</p>
-<hr />
-<h3><a name="windows-stuck-button-right-click-window-title-bar" id="windows-stuck-button-right-click-window-title-bar"></a>Windows Standalone: Keyboard and mouse keys get stuck on when holding a key, right-clicking on the window's title bar, and then releasing the key</h3>
-<p>This  bug affects the Unity Editor and builds running in windowed mode on Windows, OSX, and (possibly) Linux.</p>
-<p>This is due to a bug in UnityEngine.Input which is used as the source of keyboard input on most platforms at the present time. Mouse buttons will also get stuck on in this same scenario of UnityEngine.Input is being used as the mouse input source (OSX, Linux, or if Native Mouse Handling is disabled on Windows.)</p>
-<p>On Windows, enabling <a href="RewiredEditor.html#Settings">Native Keyboard Handling</a> will eliminate this issue. Unfortunately, for other platforms, there is no workaround possible for this issue at this time. The bug has been reported to Unity.</p>
-<p>&nbsp;</p>
-<hr />
-<h3><a name="windows-app-store-u5" id="windows-app-store-u5"></a>Windows App Store support not working in Unity 5.0.0, fixed in 5.0.1</h3>
-<p>Due to a new bug introduced in Unity 5.0.0, Rewired is unable to be compiled in this version of Unity. The bug was fixed in Unity 5.0.1, so upgrade to 5.0.1 if you need Windows App Store support.</p>
+  </ol>
 <p>&nbsp;</p>
 <hr />
 <p>&nbsp;</p>
 <h2><a name="osx" id="osx"></a>OSX:</h2>
 <p>&nbsp;</p>
+<h3><a name="osx-apple-silicon-crash" id="osx-apple-silicon-crash"></a>OSX, Apple Silicon: Build crashes when a controller is connected</h3>
+<p>Unity has a bug that causes a crash when any native code calls back into managed code. This cannot be fixed or worked around. Only Unity can fix this bug and Rewired's native input cannot function without this feature. The only way to get around this issue is to build to IL2CPP.</p>
+<p><a href="https://issuetracker.unity3d.com/issues/macos-aot-dot-monopinvokecallback-native-to-managed-callback-fails-with-apple-silicon-when-scripting-backend-is-mono">More information about the Mono bug can be found at the Unity bug tracker</a>.</p>
+<p>&nbsp;</p>
+<hr />
 <h3><a name="osx-standalone-il2cpp" id="osx-standalone-il2cpp2"></a>OSX, IL2CPP: Rewired falls back to Unity input</h3>
 <p>Support for IL2CPP on desktop platforms was added in Rewired 1.1.22.0.</p>
 <p><strong>Solution:</strong> <a href="Updating.html">Update Rewired</a>.</p>
@@ -514,7 +632,7 @@ Catastrophic failure while running rrw: Mono.Cecil.AssemblyResolutionException: 
 <p>This is not a Rewired issue, it's a Unity bug:<br />
   <a href="http://forum.unity3d.com/threads/unity-5-1-1-broke-input-for-linux-standalone.335113/">http://forum.unity3d.com/threads/unity-5-1-1-broke-input-for-linux-standalone.335113/</a></p>
 <p>Update to Unity 5.1.2 to fix it.</p>
-<p></p>
+<p>&nbsp;</p>
 <hr />
 <h3><a name="linux-keyboard-repeat-bug-builds" id="linux-keyboard-repeat-bug-builds"></a>Keyboard keys repeat when held on Linux in builds
 </h3>

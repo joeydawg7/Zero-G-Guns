@@ -79,6 +79,7 @@ namespace Rewired.UI.ControlMapper {
         public abstract string GetActionName(int actionId);
         public abstract string GetActionName(int actionId, AxisRange axisRange);
         public abstract string GetMapCategoryName(int id);
+        public abstract string GetActionCategoryName(int id);
         public abstract string GetLayoutName(ControllerType controllerType, int id);
         public abstract string ModifierKeyFlagsToString(ModifierKeyFlags flags);
     }

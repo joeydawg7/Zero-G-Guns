@@ -1,3 +1,420 @@
+1.1.39.2:
+    
+    Changes:
+      - Missing mouse axis entries in the Unity Input Manager entries no longer cause Rewired to fail initialization, but instead log an error.
+    
+    API Changes:
+      - Added public setter to InputManager_Base.dataFiles property.
+    
+    Bug Fixes:
+      - Windows Standalone, Native Mouse Handling: Virtual desktop mouse delta value is no longer ~1/2 size of local mouse delta.
+      - Fixd missing stick buttons mappings for Steam Controller (emulated) in Gamepad Template.
+
+1.1.39.1:
+  
+    Bug Fixes:
+      - Fixed IL2CPP compile errors and runtime exceptions on some platforms due to error in obfuscation introduced in 1.1.39.0.
+      - Disabled debug logging in OSX builds in Unity 2020 and 2021 branches introduced in 1.1.39.0.
+
+1.1.39.0:
+
+    Changes:
+      - Added Unity 2021.x branch.
+      - Windows Native, OSX Native: Marginally improved DualShock 4 and DualSense gyro drift in computed orientation.
+      - Changed inspector settings on Rewired_DirectInput.dll to explicitly exclude OSX platforms due to new Unity bug in Unity 2020.x including Windows DLLs on MacOS builds.
+      - Added changes for new Xbox Wireless Controller firmware on MacOS.
+
+1.1.38.4:
+
+    Changes:
+      - Updated Universal Fighting Engine 2 integration due to major breaking changes made in UFE 2.4.1 update.
+      - Updated Bolt integration implementing workaround to prevent Rewired Bolt DLL containing custom units from being stripped from project in IL2CPP builds resulting in deserialization errors.
+      - Windows 10 Universal: Added workaround for new bug in IL2CPP that causes builds to fail in Unity 2020.2.x and later.
+
+1.1.38.3:
+    
+    Changes:
+      - Updated Universal Fighting Engine 2 integration to fix issues caused by changes in UFE2 since last update.
+      - RewiredEventSystem script execution order is now automatically set to -1000.
+    
+    Bug Fixes:
+      - Editor script now enables building to Game Core platforms in Rewired_Core.dll.
+
+1.1.38.2:
+    
+    Changes:
+      - Changed WebGL native library to prevent failure in Chrome browser on MacOS 11+.
+      - Changed WebGL OS version parsing to handle inconsistencies between browsers in how the os version is reported.
+      - Touch Controller Disable Mouse Input When Enabled toggle now records original mouse state when component is intialized and restores this value when disabled.
+      - Xbox One controller definition now used on Stadia instead of Xbox 360 controller definition for Xbox-compatible controllers.
+
+1.1.38.1:
+
+    Bug Fixes:
+      - Fixed D-pad mapping bug in Sony DualSense controller definition internal driver mapping.
+
+1.1.38.0:
+
+    Changes:
+      - Added support for Game Core Xbox platforms through additional plugin.
+      - Added Enhanced Device Support for Sony DualSense controller (Windows and MacOS).
+      - Changed display name of Nintendo Switch handheld controller to meet Nintendo's new naming requirements.
+      
+    API Changes:
+      - Added ControllerExtensions.DualSenseExtension class.
+      - Added ControllerExtensions.DualSenseMicrophoneLightMode enum.
+      - Added ControllerExtensions.DualSenseOtherLightBrightness enum.
+      - Added ControllerExtensions.DualSensePlayerLightFlags enum.
+
+    New Controller Definitions:
+      - Sony DualSense
+
+    Bug Fixes:
+      - Fixed broken ReInput.MappingHelper.GetActionElementMap function.
+
+1.1.37.0:
+
+  Changes:
+    - Windows Standalone, Raw Input, Use XInput disabled: Implemented workaround for Steam not creating device notifications when creating or removing virtual controllers so controller changes can be detected correctly.
+    - Export constants variable, class, and namespace sanitization now uses a blacklist instead of a whitelist so unicode characters such as non-English characters are no longer filtered out. (May lead to compiler errors if certain invalid characters are used in identifier strings.)
+    - Bolt integration: Added PreserveAttribute to all classes to prevent Unity from stripping the classes on certain platforms.
+
+  API Changes:
+    - Added Platforms.PS4.PS4ControllerExtension.deviceHandle property.
+    
+  Bug Fixes:
+    - Action Element Maps that bind to an invalid controller element are filtered out when loading Joystick Maps in Players.
+    - Control Mapper: Null Reference Exception is no longer thrown when looking up a controller element name for an Action Element Map that maps to an invalid controller element.
+    - MacOS Standalone, Native: When using multiple identical controllers that do not provide enough identifying information to differentiate the controller from the others and one controller is disconnected and reconnected, it will now be detected and re-appear in the Joysticks list.
+    - Fixed bug in ComponentControls.TouchPad.pressStartDelay property causing value to always be set to float.MaxValue if set from scripting.
+
+1.1.36.1:
+    
+    Changes:
+      - Windows Standalone, Raw Input: Raw Input devices that do not appear as a HID device are no longer filtered out and are supported as controllers to support Steam virtual/remote devices when Use XInput is disabled.
+    
+    Bug Fixes:
+      - UserDataStore_PlayerPrefs: Deferred Joystick assignment loading when the first Joystick is connected no longer happens if a Joystick is detected on Awake.
+      - RewiredStandaloneInputModule: Unsubscribed to events in OnDestroy.
+
+1.1.36.0:
+
+    Changes:
+      - Added Unity 2020 support.
+      - Added UWP ARM64 native library (Unity 2019+, untested).
+      - Removed GUILayer on cameras in examples to stop errors reported in Unity 2019+
+      - Rewired Editor: Copying an Action Category that contains Actions and copying those Actions now copies the sort order of the Actions.
+      - Changed Player input event system to allow modifying the event listeners inside an event callback without causing issues.
+
+1.1.35.3:
+
+    Bug Fixes:
+      - Fixed issue in RewiredStandaloneInputModule causing joystick axes to not be able to navigate the UI left or down when "Activate Action Buttons on Negative Value" is enabled in the Rewired Input Manager settings.
+
+1.1.35.2:
+
+    New Controller Definitions:
+      - Steel Series Nimbus+
+      
+    Modified Controller Definitions:
+      - Updated Xbox One Controller definition for breaking changes caused by Windows 10 2004 update on Windows Standalone and Windows UWP platforms with Raw Input and Direct Input with Use XInput disabled.
+      - Updated Stadia Controller definition for breaking changes caused by firmware update on all desktop platforms.
+
+1.1.35.1:
+    
+    Bug Fixes:
+      - Control Mapper changes that were supposed to be inlcuded in 1.1.35.0 are now included.
+
+1.1.35.0:
+
+    Changes:
+      - Control Mapper: Added LanguageDataBase.GetActionCategoryName method.
+
+    Changed Controller Definitions:
+      - Ipega Bluetooth Classic GamePad, Android Fallback: Added new variant for changes made to device / firmware.
+      - 8Bitdo SN30 Pro: Added support for changes made to firmware 1.33 and mappings for SN30 Pro+.
+    
+    Bug Fixes:
+      - Control Mapper: Fixed bug introduced in 1.1.33.0 causing Action Category names to be read from Map Category instead.
+
+1.1.34.1:
+
+    Changes:
+      - Added Rewired category to component menu.
+      - UnityInputOverride: Made additional functions re-route to Rewired instead of passing through to UnityEngine.Input (anyKey, anyKeyDown, mousePosition, GetKey, GetKeyDown, GetKeyUp).
+      - Windows Standalone, Raw Input: Added workarounds to try to prevent calling the Windows HidD_GetProductString function on HID devices until the device has been determined to be a supportable HID device in an attempt to avoid a 5-10 second stall when this function is called on certain problem HID devices. This issue is being reported with increasing frequency, I can only assume due to a new bug/change in a recent Windows update that affects a variety of different HID device types. This is not an issue with Rewired, it is an issue with the device, its driver, and/or Windows. This is merely an attempt to plaster over the problem so I don't keep getting this reported to me as an issue with Rewired.
+      
+    Bug Fixes:
+      - Fixed bug when replacing an Action Element Map keyboard key binding with the same keyboard key causing ActionElementMap.elementIdentifierName to return a blank string. Bug was introduced in 1.1.33.0.
+      - Fixed bug when changing Action Element Map modifier key values manually causing ActionElementMap.elementIdentifierName to not be updated. Bug was introduced in 1.1.33.0.
+
+1.1.34.0:
+    
+    Changes:
+      - Added support for horizontal mouse wheel.
+      - Windows Standalone, Native Mouse Handling: Added remote desktop mouse support.
+      - Added RewiredEventSystem component.
+      - Rewired Standalone Input Module: Changed axis movement threshold to use Input Behavior Button Dead Zone.
+      - Changed method for finding canvas position from screen position in UIPointer.cs example.
+     
+   API Changes:
+    - Added MouseInputElement.Axis4 value.
+    - Added PlayerMouse.clampToMovementArea property.
+    - Added PlayerMouse.Definition.clampToMovementArea property.
+    - Added Rewired.Components.PlayerMouse.clampToMovementArea property.
+    
+   Integration Chagnes:
+    - PlayMaker: Added "By Axis Contribution" selection criteria option to RewiredPlayerGetFirstElementMapIdWithAction action.
+        
+    Bug Fixes:
+      - Eliminated calls to EditorPrefs every frame when using Debug Information in Rewired Input Manager inspector in the editor causing heavy CPU usage.
+      - Rewired Editor controller map bindings list no longer displays positive/negative Action names if a positive/negative name was set in the Action as an Axis-type Action then changed to a Button-type Action without clearing these values.
+      - Fixed PlayerMouse inspector display of certain values not updating when changing them by scripting.
+      - Touch Controls: Fixed bug in Touch Pad when Touch Pad Mode is set to Vector from Center causing vector to be calculated from the pivot point of the Rect Transform instead of the center.
+      - Player Mouse no longer applies Absolute To Relative Sensitivity to axis values is axis Coordinate Mode is set to Absolute and Action value supplied to the axis is in absolute coordinates.
+      - Player Mouse no longer adds Absolute axis values to the screen position but passes the value through unmodified.
+
+1.1.33.0:
+    
+    Changes:
+      - Internal refactoring that breaks compatibility with Nintendo Switch and Stadia plugins. Plugins must be updated after updating to 1.1.33.0.
+      - Added Font Size field to DebugInformation inspector.
+      - Control Mapper: Expanded language system to allow for translation Rewired object strings (Player names, Action names, Controller names, Controller element names, etc.).
+    
+    Controller Definitions:
+      - Windows Fallback: Open VR controller definitions changed to match breaking changes to controller names returned by Unity made in an unknown version of Unity.
+    
+    Bug Fixes:
+      - Fixed exception thrown by some Keyboard methods when passing new KeyCodes added in later versions of Unity.
+      - Fixed bug in Debug Information causing Button Maps foldout to open and close simultaneously across all open Controller Maps.
+      - Windows Fallback: Fixed Microsoft Xbox 360 Controller mappings due to undocumented breaking change made in Unity 2018.3 causing both triggers to activate when either trigger is pressed.
+      - Control Mapper (Text Mesh Pro): Enabled Auto Size setting on Text Mesh Pro Text components on several static buttons.
+
+1.1.32.0:
+
+    Changes:
+      - *** BREAKING CHANGE *** Changed additional time calculations to use doubles to avoid issues with time measurement precision loss when application runs for days or weeks. Some members were missed in 1.1.31.0 update and have been changed.
+      - Added additional information to Debug Information.
+
+    API Changes:
+      - Changed return type of the following to double:
+        - Player.GetButtonTimePressed
+        - Player.GetButtonTimeUnpressed
+        - Player.GetNegativeButtonTimePressed
+        - Player.GetNegativeButtonTimeUnpressed
+        - Player.GetAxisTimeActive
+        - Player.GetAxisTimeInactive
+        - Player.GetAxisRawTimeActive
+        - Player.GetAxisRawTimeInactive
+        - InputActionEventData.GetAxisTimeActive
+        - InputActionEventData.GetAxisTimeInactive
+        - InputActionEventData.GetAxisRawTimeActive
+        - InputActionEventData.GetAxisRawTimeInactive
+        - InputActionEventData.GetButtonTimePressed
+        - InputActionEventData.GetButtonTimeUnpressed
+        - InputActionEventData.GetNegativeButtonTimePressed
+        - InputActionEventData.GetNegativeButtonTimeUnpressed
+        
+    Behavior Designer Integration:
+      - Updated to reflect return value type change of time functions. Behavior Designer does not support double-precision values, so return values are cast to floats.
+      
+    PlayMaker Integration:
+      - Updated to reflect return value type change of time functions.
+
+1.1.31.0:
+
+    Changes:
+      - *** BREAKING CHANGE *** Changed all time calculations to use doubles to avoid issues with time measurement precision loss when application runs for days or weeks. All members that return time values now return a double value instead of a float value.
+      - RewiredStandaloneInputModule: Changed to use double precision time.
+      - Improved accuracy of identifying reconnected controllers on some platforms.
+    
+    API Changes:
+      - Changed return type of the following to double:
+        - Controller.GetButtonTimePressed
+        - Controller.GetButtonTimeUnpressed
+        - Controller.GetButtonLastTimePressed
+        - Controller.GetButtonLastTimeUnpressed
+        - Controller.GetButtonTimePressedById
+        - Controller.GetButtonTimeUnpressedById
+        - Controller.GetButtonLastTimePressedById
+        - Controller.GetButtonLastTimeUnpressedById
+        - Controller.GetLastTimeActive
+        - Controller.GetLastTimeAnyElementChanged
+        - Controller.GetLastTimeAnyButtonPressed
+        - Controller.GetLastTimeAnyButtonChanged
+        - Controller.Axis.lastTimeActive
+        - Controller.Axis.lastTimeActiveRaw
+        - Controller.Axis.lastTimeInactive
+        - Controller.Axis.lastTimeInactiveRaw
+        - Controller.Axis.lastTimeValueChanged
+        - Controller.Axis.lastTimeValueChangedRaw
+        - Controller.Axis.timeActive
+        - Controller.Axis.timeActiveRaw
+        - Controller.Axis.timeInactive
+        - Controller.Axis.timeInactiveRaw
+        - Controller.Button.timePressed
+        - Controller.Button.timeUnpressed
+        - Controller.Button.lastTimePressed
+        - Controller.Button.lastTimeUnpressed
+        - Controller.Button.lastTimeStateChanged
+        - ControllerWithAxes.GetAxisTimeActive
+        - ControllerWithAxes.GetAxisTimeInactive
+        - ControllerWithAxes.GetAxisLastTimeActive
+        - ControllerWithAxes.GetAxisLastTimeInactive
+        - ControllerWithAxes.GetAxisRawTimeActive
+        - ControllerWithAxes.GetAxisRawTimeInactive
+        - ControllerWithAxes.GetAxisRawLastTimeActive
+        - ControllerWithAxes.GetAxisRawLastTimeInactive
+        - ControllerWithAxes.GetAxisTimeActiveById
+        - ControllerWithAxes.GetAxisTimeInactiveById
+        - ControllerWithAxes.GetAxisLastTimeActiveById
+        - ControllerWithAxes.GetAxisLastTimeInactiveById
+        - ControllerWithAxes.GetAxisRawTimeActiveById
+        - ControllerWithAxes.GetAxisRawTimeInactiveById
+        - ControllerWithAxes.GetAxisRawLastTimeActiveById
+        - ControllerWithAxes.GetAxisRawLastTimeInactiveById
+        - ControllerWithAxes.GetLastTimeAnyAxisActive
+        - ControllerWithAxes.GetLastTimeAnyAxisChanged
+        - Keyboard.GetKeyTimePressed
+        - Keyboard.GetKeyTimeUnpressed
+        - Keyboard.GetModifierKeyTimePressed
+        - Keyboard.GetModifierKeyTimeUnpressed
+        - ReInput.TimeHelper.unscaledTime
+      
+    Behavior Designer Integration:
+      - Updated to reflect return value type change of time functions. Behavior Designer does not support double-precision values, so return values are cast to floats.
+      - Added RewiredGetKeyboard
+      - Added RewiredGetMouse
+      - Added RewiredPlayerSetHasKeyboard
+      
+    PlayMaker Integration:
+      - Updated to reflect return value type change of time functions.
+    
+    Corgi Engine Integration:
+      - Removed usage of InformationAttribute due to breaking change in later versions of Corgi Engine causing compiler errors.
+
+1.1.30.3:
+
+    Bug Fixes:
+      - OSX Native: Fixed bug causing joysticks created from HID devices with multiple logical sub devices to possibly shift around when another joystick device is connected or disconnected.
+
+1.1.30.2:
+
+    Changes:
+      - Input is no longer blocked when application is in full-screen mode and "Ignore Input When App Not In Focus" is disabled due to problems with Steam and VR games.
+      - OSX Native: Added support for HID devices with multiple logical sub devices (some multi-port controller adapters including Mayflash GameCube contorller adapters).
+
+1.1.30.1:
+
+    Changes:
+      - Rewired Editor: Tools -> Export Consts last saved path reverts to the project Assets folder if the last saved path was outside the current project.
+      - RewiredPointerInputModule: Disabling PlayerMouse by setting PlayerMouse.enabled to false or disabling the Component or GameObject if using the Component version now results in mouse exit events being sent when disabled if hovering over a Selectable.
+      - Windows Standalone, Raw Input / Direct Input + Native Keyboard Handling: Added workaround for Steam bug. Steam overlay blocks Raw Input key up events from reaching the application causing keys held when the overlay is opened to be stuck on when the overlay is closed with the mouse.
+    
+    Controller Definition Changes:
+      - Windows Fallback: Changed definitions for XInput controllers due to undocumented breaking change made in Unity 2018.3 causing both triggers to activate when either trigger is pressed. (Microsoft Xbox 360, Microsoft Xbox One, Logitech F310 (X), Logitech F710 (X), Zhidong V Plus (XI Mode).
+    
+    Bug Fixes:
+      - Control Mapper (Text MeshPro): Fixed Players and Controllers headers not loading values from language.
+
+1.1.30.0:
+
+    Changes:
+      - Windows Standalone: Added additional workarounds to prevent Raw Input mouse and keyboard registration from being reclaimed by Unity when making various sequences of calls to display and screen settings in Unity at runtime in a build.
+      - Windows Standalone, Raw Input / Direct Input + Native Keyboard Handling: Changed Shift key handling to prevent issues with the wrong Shift key being activated or deactivated by Shift key events generated by Windows when shifting number pad keys.
+      - Windows Standalone, Raw Input / Direct Input + Native Keyboard Handling: Changed Control key handling to filter out extranneous Control key events generated by other non-Control keys when using some non-US keyboard layouts.
+      - Corgi Engine integration:
+        - Updated minimum Unity version to 5.6.7f1.
+        - Fixed PrefabUtility.DisconnectPrefabInstance deprecation warning message in Unity 2018.3+.
+      - OSX Standalone, Native: Low-level joystick events are now discarded when the application loses focus and Unity Player -> Run in Background is disabled.
+
+    API Changes:
+       - Added Controller.Axis.pollingDeadZone property.
+       - Added ReInput.ConfigHelper.defaultAbsoluteAxisPollingDeadZone property.
+       - Added ReInput.ConfigHelper.defaultRelativeAxisPollingDeadZone property.
+
+    Bug Fixes:
+      - Gamepad Template: Removed duplicate Right Trigger mapping for Xbox 360 Controller.
+      - Fixed error in Debug Information possibly displaying a different Custom Controller than is assigned to the Player.
+
+1.1.29.4:
+    
+    Changes:
+      - Increased stick dead zones on Nintendo Switch Pro Controllers on all non-Switch console platforms.
+    
+    Bug Fixes:
+      - Fixed transposed Options and Menu button mappings on Stadia Controller definition on all platforms.
+      - Fixed transposed Options and Menu button mappings in Gamepad Template for Stadia Controller.
+      - Fixed inverted Right Stick Y mapping on Nintendo Switch Pro Controller on OSX Standalone, Native.
+
+1.1.29.3:
+
+    Changes:
+      - Added new version of Control Mapper that uses Text Mesh Pro (Unity 2018.1+).
+      - Windows Standalone, Raw Input / Direct Input + Native Mouse Handling: Input values are now cleared when any mouse is disconnected to prevent buttons from getting stuck on because Windows does not send button up events when a device is disconnected.
+      - Windows Standalone, Raw Input / Direct Input + Native Keyboard Handling: Input values are now cleared when any keyboard is disconnected to prevent buttons from getting stuck on because Windows does not send button up events when a device is disconnected.
+      - OSX, Native: Added system sleep prevention to prevent display from powering off or entering screen saver mode when using joysticks.
+
+    Bug Fixes:
+      - Fixed Start button mapping for Oculus Touch Left controller due to documentation bug in Unity documentation listing the wrong button index.
+
+1.1.29.2:
+
+    Changes:
+      - Improved detection of rapid button taps at lower frame rates.
+
+    Bug Fixes:
+      - Rewired Editor saves prefab before exporting constants so changes made before editor recompiles are not lost. (Unity 2018.3+)
+      - Windows Standalone, XInput, Direct Input: Fixed issue causing fast button taps to be missed at high input thread frequency and low frame rates (increased buffer size).
+
+1.1.29.1:
+
+    Changes:
+      - Android Platforms: Added native workaround to handle keymapped and non-keymapped Sony DualShock 4 controllers (Unity 5+).
+      - Android: Added keymapped and non-keymapped Sony DualShock 4 controller definition variants.
+      - Amazon Fire TV: Added keymapped and non-keymapped Sony DualShock 4 controller definition variants.
+
+1.1.29.0:
+  
+    Changes:
+      - Rewired Standalone Input Module: Added Deselect If Background Clicked inspector option.
+      - Rewired Standalone Input Module: Added Deselect Before Selecting inspector option.
+      - Windows Standalone, XInput: Moved vibration to separate thread from input to eliminate input lag when sending vibration to a problem XInput device.
+        - PlayStation 4: Added Aim Controller support.
+
+    API Changes:
+      - Added RewiredStandaloneInputModule.deselectIfBackgroundClicked property.
+      - Added RewiredStandaloneInputModule.deselectBeforeSelecting property.
+      - Added Rewired.Platforms.PS4.Ps4AimExtension class.
+      - Added Rewired.Platforms.PS4.PS4AimMotorType enum.
+      
+    Controller Definitions:
+      - Added Sony PS4 Aim Controller.
+      
+    Bug Fixes:
+      - ControllerMapWithAxes.GetElementMapsWithAction: Fixed bug causing button maps to not be returned in List<ActionElementMap> results method overloads.
+
+1.1.28.0:
+
+    Changes:
+      - Added Stadia platform plugin support.
+      - Changed editor compilation system to work with "Recompile After Finished Playing" setting in Unity editor preferences.
+      - iOS/tvOS: Controller.deviceInstanceGuid changed to more accurately identify controllers.
+      - Changed callback/event exception logging to log the Exception.InnerException.
+
+    API Changes:
+      - ReInput.ControllerHelper.GetJoysticks now returns an empty array when no Joysticks are found instead of null.
+      - ReInput.ControllerHelper.GetJoystickNames now returns an empty array when no Joysticks are found instead of null.
+      - ReInput.ControllerHelper.GetCustomControllers now returns an empty array when no Custom Controllers are found instead of null.
+      - ReInput.ControllerHelper.GetCustomControllerNames now returns an empty array when no Custom Controllers are found instead of null.
+    
+    Controller Definitions:
+      - Added Stadia Gamepad.
+      
+    Bug Fixes:
+      - Fixed Null Reference Exception in RewiredPointerInputModule.GetPointerData when called with create == false and no pointer data has been created.
+      - Fixed Null Reference Exception in RewiredPointerInputModule when removing a mouse input source from a UI event callback.
+
 1.1.27.3:
     
     - Rebuild due to Windows Standalone IL2CPP issues in Unity 2018 branch.

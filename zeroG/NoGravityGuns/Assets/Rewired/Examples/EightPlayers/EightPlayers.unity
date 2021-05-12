@@ -832,7 +832,6 @@ GameObject:
   m_Component:
   - 4: {fileID: 1449713602}
   - 20: {fileID: 1449713601}
-  - 92: {fileID: 1449713600}
   - 124: {fileID: 1449713599}
   - 81: {fileID: 1449713598}
   m_Layer: 0
@@ -850,13 +849,6 @@ AudioListener:
   m_GameObject: {fileID: 1449713597}
   m_Enabled: 1
 --- !u!124 &1449713599
-Behaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1449713597}
-  m_Enabled: 1
---- !u!92 &1449713600
 Behaviour:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
@@ -1455,6 +1447,7 @@ MonoBehaviour:
       xboxOne_primaryInputSource: 0
       ps4_primaryInputSource: 0
       webGL_primaryInputSource: 0
+      stadia_primaryInputSource: 0
       useXInput: 1
       useNativeMouse: 1
       useEnhancedDeviceSupport: 1
@@ -1521,6 +1514,11 @@ MonoBehaviour:
       platformVars_webGL:
         disableKeyboard: 0
         ignoreInputWhenAppNotInFocus: 1
+      platformVars_stadia:
+        disableKeyboard: 0
+        ignoreInputWhenAppNotInFocus: 1
+        useNativeKeyboard: 1
+        useNativeMouse: 1
       maxJoysticksPerPlayer: 1
       autoAssignJoysticks: 1
       assignJoysticksToPlayingPlayersOnly: 0

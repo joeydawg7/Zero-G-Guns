@@ -145,7 +145,7 @@
 
     <h2>Dependencies</h2>
     <p><strong>Windows Standalone</strong></p>
-    <p>OPTIONAL: If using XInput or Direct Input, the <a href="http://www.microsoft.com/en-us/download/details.aspx?id=8109" target="_blank">DirectX End-user Runtimes (June 2010)</a> from Microsoft may need to be installed. You should include this runtime in your game installer. This is not necessary if only using Raw Input or Unity input.</p>
+    <p>OPTIONAL: If using XInput or Direct Input, the <a href="http://www.microsoft.com/en-us/download/details.aspx?id=8109" target="_blank">DirectX End-user Runtimes (June 2010)</a>from Microsoft may need to be installed. You should include this runtime in your game installer. This is not necessary if only using Raw Input or Unity input.</p>
     <p>If XInput is enabled, Rewired can use any of these versions of XInput if they are installed on the system:</p>
     <p>XInput_1_4.dll<br />
       XInput_1_3.dll<br />
@@ -153,6 +153,7 @@
       XInput_1_1.dll<br />
       XInput_9_1_0.dll    </p>
     <p>Windows Vista, Windows 7, Windows 8, and Windows 10 all come with a version of XInput pre-installed.</p>
+    <p>If using Direct Input, the <a href="https://support.microsoft.com/en-us/help/2977003/the-latest-supported-visual-c-downloads">Visual C++ Redistributable for Visual Studio 2015, 2017, and 2019</a> must be installed.</p>
     <p><strong>SDL2</strong></p>
     <p>If you are using SDL2 as the input source (optional) on any platforms, you must include the appropriate SDL2 libraries in your build package, unless you know the target operating system already provides this library (eg: SteamOS). The library you include and the location in your package in which to place it depends on the target platform and architecture. Failure to include the SDL2 libraries will result in an error being logged and input falling back to Unity input as the source.</p>
     <p>The latest libraries for Windows and OSX can be obtained at the <a href="https://www.libsdl.org/download-2.0.php" target="_blank">SDL2 website</a>.</p>

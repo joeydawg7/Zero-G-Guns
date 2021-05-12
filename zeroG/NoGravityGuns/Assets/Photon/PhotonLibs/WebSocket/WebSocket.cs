@@ -1,11 +1,19 @@
-﻿#if UNITY_WEBGL || UNITY_XBOXONE || WEBSOCKET
+﻿#if UNITY_WEBGL || WEBSOCKET || ((UNITY_XBOXONE || UNITY_GAMECORE) && UNITY_EDITOR)
+
+// --------------------------------------------------------------------------------------------------------------------
+// <summary>
+//   Provided originally by Unity to cover WebSocket support in WebGL and the Editor. Modified by Exit Games GmbH.
+// </summary>
+// <author>developer@exitgames.com</author>
+// --------------------------------------------------------------------------------------------------------------------
+
 
 using System;
 using System.Text;
-
 #if UNITY_WEBGL && !UNITY_EDITOR
 using System.Runtime.InteropServices;
 #else
+using WebSocketSharp;
 using System.Collections.Generic;
 using System.Security.Authentication;
 #endif
@@ -125,8 +133,24 @@ public class WebSocket
         m_Socket.SslConfiguration.EnabledSslProtocols = m_Socket.SslConfiguration.EnabledSslProtocols | (SslProtocols)(3072| 768);
         m_Socket.OnMessage += (sender, e) => m_Messages.Enqueue(e.RawData);
         m_Socket.OnOpen += (sender, e) => m_IsConnected = true;
+        //this.m_Socket.Log.Level = LogLevel.Debug;
+        //this.m_Socket.Log.Output += Output;
+        this.m_Socket.OnClose += SocketOnClose;
         m_Socket.OnError += (sender, e) => m_Error = e.Message + (e.Exception == null ? "" : " / " + e.Exception);
         m_Socket.ConnectAsync();
+    }
+
+    private void SocketOnClose(object sender, CloseEventArgs e)
+    {
+        //UnityEngine.Debug.Log(e.Code.ToString());
+
+        // this code is used for cases when the socket failed to get created (specifically used to detect "blocked by Windows firewall")
+        // for some reason this situation is not calling OnError
+        if (e.Code == 1006)
+        {
+            this.m_Error = e.Reason;
+            this.m_IsConnected = false;
+        }
     }
 
     public bool Connected { get { return m_IsConnected; } }// added by TS

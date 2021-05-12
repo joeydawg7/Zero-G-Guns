@@ -137,7 +137,7 @@
     	<div class="main-body">
 	        <div class="logo"><a href="http://guavaman.com/projects/rewired" title="Rewired"><img src="files/images/rewired-logo.png" width="173" height="139" alt="Rewired" /></a></div>
                      
-            <h1>
+          <h1>
             <!-- InstanceBeginEditable name="PageHeader" -->Frequently Asked Questions<!-- InstanceEndEditable -->
             </h1>
             
@@ -159,6 +159,9 @@
       <li><a href="#multiple-mice-and-keyboards">Does Rewired support multiple independent mice and keyboards?</a></li>
       <li><a href="#where-is-data-saved">Where is Rewired's input configuration data saved?</a></li>
       <li><a href="#copy-input-config">How can I copy my input configuration to another project?</a></li>
+      <li><a href="#code-purist">I don't like using visual editors and like to code everything myself. Can I use Rewired without using the Rewired Editor?</a></li>
+      <li><a href="#edit-rewired-input-manager-data-scripting">Can I create new Players, Actions, Controller Map definitions, Input Behaviors, and other data managed by the Rewired Editor through scripting in the Unity Editor instead of using the Rewired Editor?</a></li>
+      <li><a href="#edit-rewired-input-manager-data-at-runtime">Can I create new Players, Actions, Controller Map definitions, Input Behaviors, and other data managed by the Rewired Editor at runtime?</a></li>
       <li><a href="#consume-input">How do you consume/use an input?</a></li>
       <li><a href="#default-dead-zone">My joystick's dead zone is too large/small. How do I change it?</a></li>
       <li><a href="#gesture-bindings">How can I bind an Action to a button short-press  and another Action to a long-press?</a></li>
@@ -241,7 +244,8 @@
     <td align="center"><strong>Linux</strong></td>
     <td align="center"><strong>Windows 8.0 &amp; 8.1 Store</strong></td>
     <td align="center"><strong>Windows 10 Universal</strong></td>
-    <td align="center"><strong>XBox One</strong></td>
+    <td align="center"><strong>Xbox One</strong></td>
+    <td align="center"><strong>Xbox Series S/X</strong></td>
     <td align="center"><strong>PlayStation 4</strong></td>
     <td align="center"><strong>Nintendo Switch</strong></td>
     <td align="center"><strong>Stadia</strong></td>
@@ -261,6 +265,7 @@
     <td align="center" valign="top">Native</td>
     <td align="center" valign="top">Native</td>
     <td align="center" valign="top">&mdash;</td>
+    <td align="center" valign="top">&nbsp;</td>
     <td align="center" valign="top">&mdash;</td>
     <td align="center" valign="top">&mdash;</td>
     <td align="center" valign="top">Native</td>
@@ -278,6 +283,8 @@
     <td align="center" valign="top">Not tested</td>
     <td align="center" valign="top">Native<br />
       <span class="note">(2 of 4 motors supported)</span></td>
+    <td align="center" valign="top">Native<br />
+      <span class="note">(All 4 motors supported)</span></td>
     <td align="center" valign="top">Native<br />
       <span class="note">(All 4 motors supported)</span></td>
     <td align="center" valign="top">Native<br />
@@ -300,6 +307,8 @@
       <span class="note">(All 4 motors supported)</span></td>
     <td align="center" valign="top">Native<br />
       <span class="note">(All 4 motors supported)</span></td>
+    <td align="center" valign="top">Native<br />
+      <span class="note">(All 4 motors supported)</span></td>
     <td align="center" valign="top">&mdash;</td>
     <td align="center" valign="top">&mdash;</td>
     <td align="center" valign="top">Native</td>
@@ -314,7 +323,23 @@
     <td align="center" valign="top">&mdash;</td>
     <td align="center" valign="top">&mdash;</td>
     <td align="center" valign="top">&mdash;</td>
+    <td align="center" valign="top">&nbsp;</td>
     <td align="center" valign="top">Native</td>
+    <td align="center" valign="top">&mdash;</td>
+    <td align="center" valign="top">Native</td>
+  </tr>
+  <tr>
+    <td valign="top">Sony DualSense</td>
+    <td align="center" valign="top">Raw Input<br />
+      <span class="note">(<a href="RewiredEditor.html#settings-windows-enhanced-device-support">Enhanced Device Support</a> required)</span></td>
+    <td align="center" valign="top">Native<br />
+      <span class="note">(<a href="RewiredEditor.html#settings-osx-enhanced-device-support">Enhanced Device Support</a> required, wired only)</span></td>
+    <td align="center" valign="top">&mdash;</td>
+    <td align="center" valign="top">&mdash;</td>
+    <td align="center" valign="top">&mdash;</td>
+    <td align="center" valign="top">&mdash;</td>
+    <td align="center" valign="top">&nbsp;</td>
+    <td align="center" valign="top">&mdash;</td>
     <td align="center" valign="top">&mdash;</td>
     <td align="center" valign="top">Native</td>
   </tr>
@@ -326,6 +351,7 @@
     <td align="center" valign="top">&mdash;</td>
     <td align="center" valign="top">&mdash;</td>
     <td align="center" valign="top">&mdash;</td>
+    <td align="center" valign="top">&nbsp;</td>
     <td align="center" valign="top">&mdash;</td>
     <td align="center" valign="top">Native<br />
       <span class="note">(All motors and features supported)</span></td>
@@ -340,6 +366,7 @@
     <td align="center" valign="top">&mdash;</td>
     <td align="center" valign="top">&mdash;</td>
     <td align="center" valign="top">&mdash;</td>
+    <td align="center" valign="top">&nbsp;</td>
     <td align="center" valign="top">&mdash;</td>
     <td align="center" valign="top">&mdash;</td>
     <td align="center" valign="top">Native</td>
@@ -393,6 +420,22 @@
   is not a correct   usage. This way there is no need for something like 
   consuming input and   injecting your game state permission management into the input 
   system.</p>
+<p>&nbsp;</p>
+<hr />
+<h3><a name="code-purist" id="code-purist"></a>I don't like using visual editors and like to code everything myself. Can I use Rewired without using the Rewired Editor?</h3>
+<p>Generally, no. The Rewired Editor is the heart of Rewired. The entire Player-Action system is dependent on data configured in the editor before runtime. If you want to use Rewired's Player-Action system (Controller Maps, etc.), you must configure the data using the Rewired Editor.</p>
+<p>The only way you could use Rewired without using the Rewired Editor to configure data is if you completely ignore the entire Player-Action system and read input directly from the Controllers, largely defeating the purpose of using Rewired.</p>
+<p>If you want to manage and configure every single thing in code instead of in an editor or you don't want to rely on Unity's serialization system for storing this data, you should use a different input system.</p>
+<p>&nbsp;</p>
+<hr />
+<h3><a name="edit-rewired-input-manager-data-scripting" id="edit-rewired-input-manager-data-scripting"></a>Can I create new Players, Actions, Controller Map definitions, Input Behaviors, and other data managed by the Rewired Editor through scripting in the Unity Editor instead of using the Rewired Editor?</h3>
+<p>No. The Rewired Editor is the only supported way to configure the data stored in the Rewired Input Manager. The API for modifying this data through scripting is undocumented and partially internal. Rewired's data is intended to be configured using the Rewired Editor, not through scripting.</p>
+<p>Do not mistake this for meaning you cannot change settings and bindings at runtime. The developer-defined data stored in the Rewired Input Manager is static at runtime and cannot be changed, but the live instances created from that static data can certainly be changed at runtime through scripting. (Live instances include Players, Controller Maps, Input Behaviors, Rules and Rule Sets, etc.)</p>
+<p>&nbsp;</p>
+<hr />
+<h3><a name="edit-rewired-input-manager-data-at-runtime" id="edit-rewired-input-manager-data-at-runtime"></a>Can I create new Players, Actions, Controller Map definitions, Input Behaviors, and other data managed by the Rewired Editor at runtime?</h3>
+<p>No. The majority of data stored in the Rewired Input Manager is totally static at runtime (everything except settings). Upon initialization, Rewired instantiates all objects in the system including  Players, Actions, Input Behaviors, Controller Maps, Custom Controllers, Rules and Rule Sets, etc. based on what you've configured in the editor. The static data in the Rewired Input Manager cannot be changed at runtime. This means you cannot define new Actions, Players, Input Behaviors, etc. at runtime. However, the live instances of these objects (Players, Controller Maps, etc.) can be modified at runtime through scripting, and can even be saved to XML/JSON and reloaded at runtime. This means you can change controller bindings and various other properties at runtime and have those changes persist to the next game session.</p>
+<p>You could think of the data stored in the Rewired Input Manager as the &quot;parent&quot; data (similar to the Prefab system in Unity) and the runtime Players, Controller Maps, etc., as instances of their parent. The parent cannot be changed at runtime, but the instances can. Parent data (Players, Actions, etc.) can only be created or modified at edit time in the Rewired Editor.</p>
 <p>&nbsp;</p>
 <hr />
 <h3><a name="default-dead-zone" id="default-dead-zone"></a>My joystick's dead zone is too large/small. How do I change it?</h3>

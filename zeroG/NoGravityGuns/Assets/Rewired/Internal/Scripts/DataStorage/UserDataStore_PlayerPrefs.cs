@@ -343,6 +343,7 @@ namespace Rewired.Data {
                 // This will not save over controller assignment data if no joysticks were attached initially.
                 // This is not always saved because of delayed joystick connection on some platforms like iOS.
                 if(loadControllerAssignments && ReInput.controllers.joystickCount > 0) {
+                    wasJoystickEverDetected = true;
                     SaveControllerAssignments();
                 }
             }

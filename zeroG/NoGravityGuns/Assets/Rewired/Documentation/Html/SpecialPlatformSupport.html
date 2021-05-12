@@ -149,10 +149,12 @@
       <li><a href="#windows-app-store">Windows 8 Store</a></li>
       <li><a href="#windows-uwp">Windows 10 Universal</a></li>
       <li><a href="#ouya">OUYA</a></li>
-      <li><a href="#xbox-one">XBox One</a></li>
+      <li><a href="#xbox-one">Xbox One (XDK)</a></li>
+      <li><a href="#xbox-game-core">Xbox Game Core</a></li>
       <li><a href="#ps4">PlayStation 4</a></li>
       <li><a href="#nintendo-switch">Nintendo Switch</a></li>
       <li><a href="#stadia">Stadia</a></li>
+      <li><a href="#steam">Steam</a></li>
     </ul>
     <p>&nbsp;</p>
     <hr />
@@ -196,6 +198,8 @@
 <hr />
 <h3><a name="windows-uwp" id="windows-app-store2"></a>Windows 10 Universal</h3>
 <p>Windows 10 Universal support requires Unity 5.2+</p>
+<p><a href="KnownIssues.html#uwp">See Known Issues for Windows 10 Universal</a></p>
+<p><strong>CRITICAL WARNING:</strong> Versions of Rewired prior to 1.1.38.4 no longer work on the UWP platform as of Unity 2020.2.0f1 due to a new bug in IL2CPP. Update to Rewired 1.1.38.4+ to build on this platform.</p>
 <p><strong>CRITICAL WARNING:</strong> There is a known issue with Unity on both .NET and IL2CPP builds in Unity 2018.2.0 - 2018.2.18 that causes the application to crash when a gamepad is disconnected. It is recommended you update to a version of Unity of 2018.2.19 or greater. <a href="KnownIssues.html#uwp-il2cpp-controller-disconnect-crash">See this form more information</a>.</p>
 <p><strong>Installation:</strong></p>
 <p>To build for the Windows 10 Universal platform, you must install Windows 10 Universal support. In order to build for this platform, you must be using the Windows Unity editor.</p>
@@ -247,7 +251,8 @@
 <p>To enable Ouya Everywhere SDK  on the Razer Forge TV, follow the above steps and additionally check the &quot;Use Ouya SDK on Razer Forge TV&quot; option in the Rewired Global Options window.</p>
 <p>&nbsp;</p>
 <hr />
-<h3><a name="xbox-one" id="xbox-one"></a>XBox One</h3>
+<h3><a name="xbox-one" id="xbox-one"></a>Xbox One (XDK)</h3>
+<p><strong>The following information applies only to XDK builds:</strong></p>
 <p>Rewired includes special support for XBox One for better controller support and more accurate hot-plugging behavior. Rewired supports gamepad vibration on XBox One, however you must first install the prerequisite Xbox One native library provided by Unity.</p>
 <p>If you receive an error when switching to the Xbox One build target in Unity, make sure the <a href="Troubleshooting.html#compile-errors-ps4-xbone">Xbox One platform is checked on the Rewired_Core.dll import options</a>.</p>
 <p><strong>Dependencies</strong></p>
@@ -259,6 +264,7 @@
 Unity Xbox Forums &gt; Unity for Xbox One Downloads (Sticky Topic) &gt; Under the &quot;Plugins&quot; section</p>
 <p>The file Gamepad.dll can be found in Binaries\Native\Variations\Durango_Release in the plugins package.</p>
 <p>If this dependiency is not installed correctly, XBox One builds will not function. You will only see black screen when launching the build on the Xbox One if the library is not installed.</p>
+<p>If Gamepad.dll throws exceptions or causes errors, you will need to rebuild it from source code. Unity provides the source code. They do not continually update the built DLL for every new version of the SDK, so it may not work without being rebuilt to the version of the SDK you are using.</p>
 <p><strong>Crashes on Start</strong></p>
 <p>This is <em>always</em> due to improper set up of the dependency noted above. If Gamepad.dll is not found, not in the proper location, or does not have the proper inspector settings to enable it to be included with the XBox One build, all p/invoke calls to Gamepad.dll will fail, which crashes the XBox One rather than throwing an exception which can be caught and handled as happens on all other platforms. If the version of Gamepad.dll you are using does not have the exact method signature  Rewired expects, it will also crash. If you upgrade Unity versions but do not update the Gamepad.dll also, it may also crash if the gamepad.dll has been built to a different version of the Xbox One SDK.</p>
 <p>If for any reason you cannot get the Gamepad.dll, you can disable all calls to the DLL by setting &quot;Xbox One: Disable Vibration&quot; in the Rewired Global Options window which can be found at:  Window -&gt; Rewired -&gt; Global Options. This will disable support for gamepad vibration.</p>
@@ -266,6 +272,12 @@ Unity Xbox Forums &gt; Unity for Xbox One Downloads (Sticky Topic) &gt; Under th
 <p>Special controller features of the XBox One gamepad such as vibration can be accessed via the <a href="http://guavaman.com/projects/rewired/docs/api-reference/html/T_Rewired_Platforms_XboxOne_XboxOneGamepadExtension.htm">XboxOneGamepadExtension</a> class available in the Joystick class <a href="HowTos.html#xbox-one-controller-special-features">as seen in this example</a>.</p>
 <p><strong>Troubleshooting</strong></p>
 <p>See <a href="Troubleshooting.html#xbox-one">Troubleshooting - Xbox One</a> for solutions to issues on the Xbox One platform.</p>
+<p>&nbsp;</p>
+<hr />
+<h3><a name="xbox-game-core" id="xbox-game-core"></a>Xbox Game Core</h3>
+<p>Rewired requires a separate plugin to support the Xbox Game Core platforms. This plugin is only available to licensed Xbox Game Core developers. <a href="https://guavaman.com/rewired#support">Please contact support</a> requesting access to the Game Core plugin providing your email address and contact information (including company) that is reigstered with Microsoft and is authorized for Xbox Game Core development. Please be patient as the information has to be validated with Microsoft. You will receive download instructions when the information has been validated.</p>
+<p><strong>IMPORTANT</strong></p>
+<p><a href="KnownIssues.html#windows-standalone-il2cpp-vs2019-hang">Game Core builds are compiled by the Visual Studio compiler and are therefore susceptable to the known Visual Studio 2019 IL2CPP jump optimizer bug.</a></p>
 <p>&nbsp;</p>
 <hr />
 <h3><a name="ps4" id="ps4"></a>PlayStation 4</h3>
@@ -285,6 +297,9 @@ Unity Xbox Forums &gt; Unity for Xbox One Downloads (Sticky Topic) &gt; Under th
 <h3><a name="stadia" id="stadia"></a>Stadia</h3>
 <p>Rewired requires a separate plugin to support the Stadia platform. This plugin is only available to licensed Stadia developers. Please contact your Stadia developer account manager for details on how to register for the plugin.</p>
 <p>&nbsp;</p>
+<hr />
+<h3><a name="steam" id="steam"></a>Steam</h3>
+<p>See <a href="BestPractices.html#steam">Best Practices - Steam</a> and the <a href="Troubleshooting.html#steam">Troubleshooting - Steam</a> documentation for more information.</p>
 <div class="bottom-pager clearfix">
   <a class="back-button" href="Documentation.html" title="Documentation"><span class="button-img"></span>Documentation</a>
 </div>

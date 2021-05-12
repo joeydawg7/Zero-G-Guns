@@ -60,17 +60,15 @@
     	<div class="main-body">
 	        <div class="logo"><a href="http://guavaman.com/projects/rewired" title="Rewired"><img src="files/images/rewired-logo.png" width="173" height="139" alt="Rewired" /></a></div>
                      
-            <h1>
+          <h1>
             <!-- InstanceBeginEditable name="PageHeader" -->Rewired Documentation<!-- InstanceEndEditable -->
             </h1>
             
 			<!-- InstanceBeginEditable name="MainBody" -->
-    <h2 >For Rewired version 1.1.34.1</h2>
+    <h2 >For Rewired version 1.1.39.2</h2>
     <div style="border: 3px solid; padding: 2em; font-weight: bold; font-size: 24px">Notice:
       <ul>
-        <li><a href="KnownIssues.html#windows-standalone-il2cpp-vs2019-hang">Windows Standalone IL2CPP builds never finish or built exe hangs at launch</a></li>
-        <li><a href="KnownIssues.html#assembly-errors-2019-2">Unity 2019.2: Could not load signature   of
-          ... Could not load file or assembly 'UnityEngine.UI errors. </a><br />
+        <li><a href="KnownIssues.html#windows-standalone-il2cpp-vs2019-hang">Visual Studio 2019 -- All platforms compiled with IL2CPP on Windows: Builds never finish, build fails with errors, builds crash, built exe hangs at launch, or builds throw exceptions about duplicate Actions</a><br />
         </li>
       </ul>
       </div>
@@ -90,8 +88,8 @@
       <li><a href="BestPractices.html">Best Practices</a> - Important guidelines on various topics.</li>
       <li><a href="RewiredEditor.html">Rewired Editor</a> - Detailed information about the Rewired Input Manager editor.</li>
       <li><a href="http://guavaman.com/projects/rewired/docs/api-reference" target="_blank">API Reference</a> - A complete reference for the Rewired scripting API.</li>
-    </ol>
-	<p>&nbsp;</p>
+      </ol>
+    <p>&nbsp;</p>
 <h3 style="background-color: #ddd">Concepts:</h3>
 <p>The topics in this section are <em>CRITICAL</em> to understanding the Rewired system. Do not skip over these sections! The answers to the vast majority of support questions I receive on a daily basis are already clearly outlined in these topics. It is very important that you take the time to read this information and familiarize yourself with the Rewired system before contacting support for basic usage and conceptual questions.</p>
 <ul>
@@ -108,12 +106,16 @@
   <li><a href="MapEnabler.html">Map Enabler</a></li>
   <li><a href="CustomControllers.html">Custom Controllers</a></li>
 </ul>
+    <p><br />
+    </p>
+    <h3 style="background-color: #ddd">Support issues:</h3>
+    <p><span style="background-color:yellow"><a href="Troubleshooting.html#debug-information"><strong>Debug Information</strong> is the single most powerful tool to figure out why &quot;it doesn't work.&quot;</a></span> Use it. It allows you to visualize every single Rewired object in the system at runtime including Controller Maps and bindings. Before contacting support asking why something doesn't work, debug your issue using Debug Information.</p>
     <p>&nbsp;</p>
 <h3 style="background-color:#ddd">Extras:</h3>
     <ul>
       <li><a href="ControlMapper.html">Control Mapper</a></li>
       <li><a href="TouchControls.html">Touch Controls</a></li>
-      <li><a href="RewiredStandaloneInputModule.html">Rewired Standalone Input Module</a></li>
+      <li><a href="RewiredStandaloneInputModule.html">Rewired Standalone Input Module</a> - <strong><em>*Required to control Unity UI with Rewired</em></strong><em>*</em> -- If you are not using the Rewired Standalone Input Module instead of the default Standalone Input Module on your EventSystem, <em>Rewired input is not controlling the UI -- Unity is</em>.</li>
       <li><a href="UnityInputOverride.html">Unity Input Override</a></li>
       </ul>
     <p>&nbsp;</p>
@@ -159,6 +161,7 @@
   <li><a href="HowTos.html#modifying-input-behaviors-during-runtime">Modifying Input Behaviors during runtime</a></li>
   <li><a href="HowTos.html#touch-controls">Creating on-screen touch controls</a></li>
   <li><a href="HowTos.html#controller-mapping-screen">Creating a controller mapping screen</a></li>
+  <li><a href="HowTos.html#conflict-checking">Conflict Checking</a></li>
   <li><a href="HowTos.html#new-controller-definitions">Creating new controller definitions</a></li>
   <li><a href="HowTos.html#new-controller-templates">Creating new controller templates</a></li>
   <li><a href="HowTos.html#add-controller-to-existing-controller-template">Adding a controller to an existing controller template</a></li>
@@ -171,6 +174,7 @@
   <li><a href="HowTos.html#appletv-siri-remote">Using Apple Siri Remote on Apple TV</a></li>
   <li><a href="HowTos.html#using-arcadeguns-g500">Using ArcadeGuns G-500 AimTrak Light Guns</a><a href="HowTos.html#configuring-arcadeguns-g500"></a></li>
   <li><a href="HowTos.html#dualshock-4-special-features">Using Sony DualShock 4 special features</a></li>
+  <li><a href="HowTos.html#dualsense-special-features">Using Sony DualSense special features</a></li>
   <li><a href="HowTos.html#raildriver-special-features">Using P.I. Engineering Rail Driver special features</a></li>
   <li><a href="HowTos.html#xbox-one-controller-special-features">Using XBox One controller special features on XBox One platform</a></li>
   <li><a href="HowTos.html#ps4-gamepad-special-features">Using PS4 gamepad special features on PS4 platform</a></li>
@@ -188,10 +192,12 @@
       <li><a href="SpecialPlatformSupport.html#windows-app-store">Windows 8 Store</a></li>
       <li><a href="SpecialPlatformSupport.html#windows-uwp">Windows 10 Universal</a></li>
       <li><a href="SpecialPlatformSupport.html#ouya">OUYA</a></li>
-      <li><a href="SpecialPlatformSupport.html#xbox-one">XBox One</a></li>
+      <li><a href="SpecialPlatformSupport.html#xbox-one">XBox One (XDK)</a></li>
+      <li><a href="SpecialPlatformSupport.html#xbox-game-core">Xbox Game Core</a></li>
       <li><a href="SpecialPlatformSupport.html#ps4">Playstation 4</a></li>
       <li><a href="SpecialPlatformSupport.html#nintendo-switch">Nintendo Switch</a></li>
       <li><a href="SpecialPlatformSupport.html#stadia">Stadia</a></li>
+      <li><a href="SpecialPlatformSupport.html#steam">Steam</a></li>
       </ul>
   </li>
   <li><a href="Examples.html" title="Examples">Examples</a></li>
@@ -255,6 +261,9 @@
       <li><a href="FAQ.html#where-is-data-saved">Where is Rewired's input configuration data saved?</a></li>
       <li><a href="FAQ.html#copy-input-config">How can I copy my input configuration to another project?</a></li>
       <li><a href="FAQ.html#consume-input">How do you consume/use an input?</a></li>
+      <li><a href="FAQ.html#code-purist">I don't like using visual editors and like to code everything myself. Can I use Rewired without using the Rewired Editor?</a></li>
+      <li><a href="FAQ.html#edit-rewired-input-manager-data-scripting">Can I create new Players, Actions, Controller Map definitions, Input Behaviors, and other data managed by the Rewired Editor through scripting in the Unity Editor instead of using the Rewired Editor?</a></li>
+      <li><a href="FAQ.html#edit-rewired-input-manager-data-at-runtime">Can I create new Players, Actions, Controller Map definitions, Input Behaviors, and other data managed by the Rewired Editor at runtime?</a></li>
       <li><a href="FAQ.html#default-dead-zone">My joystick's dead zone is too large/small. How do I change it?</a></li>
       <li><a href="FAQ.html#gesture-bindings">How can I bind an Action to a button short-press  and another Action to a long-press?</a></li>
       <li><a href="FAQ.html#nintendo-wiiu-adapter-driver">Can the Nintendo WiiU 4-player adapter be used without requiring users to install a driver?</a></li>

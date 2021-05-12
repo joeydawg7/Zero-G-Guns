@@ -13,7 +13,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   controllerName: 8Bitdo SN30 Pro
   editorControllerName: 8Bitdo SN30/SF30 Pro
-  description: 
+  description: Includes SN30 Pro+
   controllerGuid: 6d33fb97-9b0b-4100-a015-668acb50eeeb
   templateGuids:
   - 83b427e4-086f-47f3-bb06-be266abd1ca5
@@ -179,6 +179,7 @@ MonoBehaviour:
       disabled: 0
       tag: 
       hatCount: 0
+      alternateElementCounts: []
       productName_useRegex: 0
       productName: []
       productGUID: []
@@ -190,20 +191,36 @@ MonoBehaviour:
     variants: []
   rawInput:
     description: Android mode. (Wired button count = 15, Bluetooth button count =
-      16, no other changes)
+      16, no other changes) Firmware 1.25 = Axis count 6, Firmware 1.33 = Axis count
+      4.
     matchingCriteria:
       axisCount: 6
-      buttonCount: -1
+      buttonCount: 15
       disabled: 0
       tag: 
       hatCount: 1
+      alternateElementCounts:
+      - axisCount: 6
+        buttonCount: 16
+        hatCount: 1
+      - axisCount: 4
+        buttonCount: 15
+        hatCount: 1
+      - axisCount: 4
+        buttonCount: 16
+        hatCount: 1
       productName_useRegex: 0
       productName:
       - 8Bitdo SN30 Pro
       - 8Bitdo SF30 Pro
+      - 8BitDo SN30 Pro+
       productGUID:
-      - 6012dc8
-      - 6002dc8
+      - 61012dc8
+      - 60012dc8
+      - 60002dc8
+      - 61002dc8
+      - 60022dc8
+      - 61022dc8
       productId: 00900000
       deviceType: 21
     elements:
@@ -224,6 +241,7 @@ MonoBehaviour:
           _dataFormat: 0
           _excludeFromPolling: 0
           _specialAxisType: 0
+          _pollingDeadZone: -1
         alternateCalibrations: []
         sourceButton: 0
         buttonAxisContribution: 0
@@ -247,6 +265,7 @@ MonoBehaviour:
           _dataFormat: 0
           _excludeFromPolling: 0
           _specialAxisType: 0
+          _pollingDeadZone: -1
         alternateCalibrations: []
         sourceButton: 0
         buttonAxisContribution: 0
@@ -270,6 +289,7 @@ MonoBehaviour:
           _dataFormat: 0
           _excludeFromPolling: 0
           _specialAxisType: 0
+          _pollingDeadZone: -1
         alternateCalibrations: []
         sourceButton: 0
         buttonAxisContribution: 0
@@ -293,6 +313,7 @@ MonoBehaviour:
           _dataFormat: 0
           _excludeFromPolling: 0
           _specialAxisType: 0
+          _pollingDeadZone: -1
         alternateCalibrations: []
         sourceButton: 0
         buttonAxisContribution: 0
@@ -493,6 +514,25 @@ MonoBehaviour:
         sourceOtherAxis: 0
       - customCalculation: {fileID: 0}
         customCalculationSourceData: []
+        elementIdentifier: 23
+        sourceType: 0
+        sourceButton: 2
+        sourceAxis: 0
+        sourceAxisPole: 0
+        axisDeadZone: 0
+        sourceHat: 0
+        sourceHatType: 0
+        sourceHatDirection: 3
+        requireMultipleButtons: 0
+        requiredButtons: 
+        ignoreIfButtonsActive: 0
+        ignoreIfButtonsActiveButtons: 
+        buttonInfo:
+          _excludeFromPolling: 0
+          _isPressureSensitive: 0
+        sourceOtherAxis: 0
+      - customCalculation: {fileID: 0}
+        customCalculationSourceData: []
         elementIdentifier: 14
         sourceType: 0
         sourceButton: 13
@@ -620,22 +660,34 @@ MonoBehaviour:
     variants: []
   osx:
     description: Android mode. (Wired button count = 15, Bluetooth button count =
-      16, no other changes)
+      16, no other changes) Firmware 1.25 = Axis count 6, Firmware 1.33 = Axis count
+      4.
     matchingCriteria:
       axisCount: 6
-      buttonCount: -1
+      buttonCount: 15
       disabled: 0
       tag: 
       hatCount: 1
+      alternateElementCounts:
+      - axisCount: 6
+        buttonCount: 16
+        hatCount: 1
+      - axisCount: 4
+        buttonCount: 15
+        hatCount: 1
+      - axisCount: 4
+        buttonCount: 16
+        hatCount: 1
       productName_useRegex: 0
       productName:
       - 8Bitdo SN30 Pro
       - 8Bitdo SF30 Pro
+      - 8BitDo SN30 Pro+
       manufacturer:
       - 8Bitdo SN30 Pro
       - 8Bitdo SF30 Pro
-      productId: 0160000000600000
-      vendorId: c82d0000c82d0000
+      productId: 016100000160000000600000006100000260000002610000
+      vendorId: c82d0000c82d0000c82d0000c82d0000c82d0000c82d0000
     elements:
       axes:
       - elementIdentifier: 0
@@ -655,6 +707,7 @@ MonoBehaviour:
           _dataFormat: 0
           _excludeFromPolling: 0
           _specialAxisType: 0
+          _pollingDeadZone: -1
         sourceButton: 0
         buttonAxisContribution: 0
         sourceHat: 0
@@ -677,6 +730,7 @@ MonoBehaviour:
           _dataFormat: 0
           _excludeFromPolling: 0
           _specialAxisType: 0
+          _pollingDeadZone: -1
         sourceButton: 0
         buttonAxisContribution: 0
         sourceHat: 0
@@ -699,6 +753,7 @@ MonoBehaviour:
           _dataFormat: 0
           _excludeFromPolling: 0
           _specialAxisType: 0
+          _pollingDeadZone: -1
         sourceButton: 0
         buttonAxisContribution: 0
         sourceHat: 0
@@ -721,6 +776,7 @@ MonoBehaviour:
           _dataFormat: 0
           _excludeFromPolling: 0
           _specialAxisType: 0
+          _pollingDeadZone: -1
         sourceButton: 0
         buttonAxisContribution: 0
         sourceHat: 0
@@ -892,6 +948,24 @@ MonoBehaviour:
       - elementIdentifier: 13
         sourceType: 0
         sourceButton: 11
+        sourceStick: 0
+        sourceAxis: 0
+        sourceOtherAxis: 0
+        sourceAxisPole: 0
+        axisDeadZone: 0
+        sourceHat: 0
+        sourceHatType: 0
+        sourceHatDirection: 0
+        requireMultipleButtons: 0
+        requiredButtons: 
+        ignoreIfButtonsActive: 0
+        ignoreIfButtonsActiveButtons: 
+        buttonInfo:
+          _excludeFromPolling: 0
+          _isPressureSensitive: 0
+      - elementIdentifier: 23
+        sourceType: 0
+        sourceButton: 2
         sourceStick: 0
         sourceAxis: 0
         sourceOtherAxis: 0
@@ -1018,13 +1092,24 @@ MonoBehaviour:
     variants: []
   linux:
     description: Android mode. (Wired button count = 15, Bluetooth button count =
-      16, no other changes)
+      16, no other changes) Firmware 1.25 = Axis count 6, Firmware 1.33 = Axis count
+      4.
     matchingCriteria:
       axisCount: 6
-      buttonCount: -1
+      buttonCount: 15
       disabled: 0
       tag: 
       hatCount: 1
+      alternateElementCounts:
+      - axisCount: 6
+        buttonCount: 16
+        hatCount: 1
+      - axisCount: 4
+        buttonCount: 15
+        hatCount: 1
+      - axisCount: 4
+        buttonCount: 16
+        hatCount: 1
       manufacturer_useRegex: 0
       productName_useRegex: 0
       systemName_useRegex: 0
@@ -1032,10 +1117,15 @@ MonoBehaviour:
       productName:
       - 8Bitdo SN30 Pro
       - 8Bitdo SF30 Pro
+      - 8BitDo SN30 Pro+
       systemName: []
       productGUID:
-      - 6012dc8
-      - 6002dc8
+      - 61012dc8
+      - 60012dc8
+      - 60002dc8
+      - 61002dc8
+      - 60022dc8
+      - 61022dc8
     elements:
       axes:
       - elementIdentifier: 0
@@ -1053,6 +1143,7 @@ MonoBehaviour:
           _dataFormat: 0
           _excludeFromPolling: 0
           _specialAxisType: 0
+          _pollingDeadZone: -1
         sourceButton: 0
         buttonAxisContribution: 0
         sourceHat: 0
@@ -1073,6 +1164,7 @@ MonoBehaviour:
           _dataFormat: 0
           _excludeFromPolling: 0
           _specialAxisType: 0
+          _pollingDeadZone: -1
         sourceButton: 0
         buttonAxisContribution: 0
         sourceHat: 0
@@ -1093,6 +1185,7 @@ MonoBehaviour:
           _dataFormat: 0
           _excludeFromPolling: 0
           _specialAxisType: 0
+          _pollingDeadZone: -1
         sourceButton: 0
         buttonAxisContribution: 0
         sourceHat: 0
@@ -1113,6 +1206,7 @@ MonoBehaviour:
           _dataFormat: 0
           _excludeFromPolling: 0
           _specialAxisType: 0
+          _pollingDeadZone: -1
         sourceButton: 0
         buttonAxisContribution: 0
         sourceHat: 0
@@ -1266,6 +1360,22 @@ MonoBehaviour:
       - elementIdentifier: 13
         sourceType: 0
         sourceButton: 11
+        sourceAxis: 0
+        sourceAxisPole: 0
+        axisDeadZone: 0
+        sourceHat: 0
+        sourceHatType: 0
+        sourceHatDirection: 0
+        requireMultipleButtons: 0
+        requiredButtons: 
+        ignoreIfButtonsActive: 0
+        ignoreIfButtonsActiveButtons: 
+        buttonInfo:
+          _excludeFromPolling: 0
+          _isPressureSensitive: 0
+      - elementIdentifier: 23
+        sourceType: 0
+        sourceButton: 2
         sourceAxis: 0
         sourceAxisPole: 0
         axisDeadZone: 0
@@ -1378,22 +1488,38 @@ MonoBehaviour:
     variants: []
   windowsUWP:
     description: Android mode. (Wired button count = 15, Bluetooth button count =
-      16, no other changes)
+      16, no other changes) Firmware 1.25 = Axis count 6, Firmware 1.33 = Axis count
+      4.
     matchingCriteria:
       axisCount: 6
-      buttonCount: -1
+      buttonCount: 15
       disabled: 0
       tag: 
       hatCount: 1
+      alternateElementCounts:
+      - axisCount: 6
+        buttonCount: 16
+        hatCount: 1
+      - axisCount: 4
+        buttonCount: 15
+        hatCount: 1
+      - axisCount: 4
+        buttonCount: 16
+        hatCount: 1
       manufacturer_useRegex: 0
       productName_useRegex: 0
       manufacturer: []
       productName:
       - 8Bitdo SN30 Pro
       - 8Bitdo SF30 Pro
+      - 8BitDo SN30 Pro+
       productGUID:
-      - 6012dc8
-      - 6002dc8
+      - 61012dc8
+      - 60012dc8
+      - 60002dc8
+      - 61002dc8
+      - 60022dc8
+      - 61022dc8
     elements:
       axes:
       - elementIdentifier: 0
@@ -1411,6 +1537,7 @@ MonoBehaviour:
           _dataFormat: 0
           _excludeFromPolling: 0
           _specialAxisType: 0
+          _pollingDeadZone: -1
         sourceButton: 0
         buttonAxisContribution: 0
         sourceHat: 0
@@ -1431,6 +1558,7 @@ MonoBehaviour:
           _dataFormat: 0
           _excludeFromPolling: 0
           _specialAxisType: 0
+          _pollingDeadZone: -1
         sourceButton: 0
         buttonAxisContribution: 0
         sourceHat: 0
@@ -1451,6 +1579,7 @@ MonoBehaviour:
           _dataFormat: 0
           _excludeFromPolling: 0
           _specialAxisType: 0
+          _pollingDeadZone: -1
         sourceButton: 0
         buttonAxisContribution: 0
         sourceHat: 0
@@ -1471,6 +1600,7 @@ MonoBehaviour:
           _dataFormat: 0
           _excludeFromPolling: 0
           _specialAxisType: 0
+          _pollingDeadZone: -1
         sourceButton: 0
         buttonAxisContribution: 0
         sourceHat: 0
@@ -1624,6 +1754,22 @@ MonoBehaviour:
       - elementIdentifier: 13
         sourceType: 0
         sourceButton: 11
+        sourceAxis: 0
+        sourceAxisPole: 0
+        axisDeadZone: 0
+        sourceHat: 0
+        sourceHatType: 0
+        sourceHatDirection: 0
+        requireMultipleButtons: 0
+        requiredButtons: 
+        ignoreIfButtonsActive: 0
+        ignoreIfButtonsActiveButtons: 
+        buttonInfo:
+          _excludeFromPolling: 0
+          _isPressureSensitive: 0
+      - elementIdentifier: 23
+        sourceType: 0
+        sourceButton: 2
         sourceAxis: 0
         sourceAxisPole: 0
         axisDeadZone: 0
@@ -1749,6 +1895,9 @@ MonoBehaviour:
       matchUnityVersion: 0
       matchUnityVersion_min: 
       matchUnityVersion_max: 
+      matchSysVersion: 0
+      matchSysVersion_min: 
+      matchSysVersion_max: 
     elements:
       axes:
       - elementIdentifier: 0
@@ -1771,6 +1920,7 @@ MonoBehaviour:
           _dataFormat: 0
           _excludeFromPolling: 0
           _specialAxisType: 0
+          _pollingDeadZone: -1
       - elementIdentifier: 1
         sourceType: 1
         sourceAxis: 2
@@ -1791,6 +1941,7 @@ MonoBehaviour:
           _dataFormat: 0
           _excludeFromPolling: 0
           _specialAxisType: 0
+          _pollingDeadZone: -1
       - elementIdentifier: 2
         sourceType: 1
         sourceAxis: 3
@@ -1811,6 +1962,7 @@ MonoBehaviour:
           _dataFormat: 0
           _excludeFromPolling: 0
           _specialAxisType: 0
+          _pollingDeadZone: -1
       - elementIdentifier: 3
         sourceType: 1
         sourceAxis: 4
@@ -1831,6 +1983,7 @@ MonoBehaviour:
           _dataFormat: 0
           _excludeFromPolling: 0
           _specialAxisType: 0
+          _pollingDeadZone: -1
       buttons:
       - elementIdentifier: 4
         sourceType: 0
@@ -2230,6 +2383,9 @@ MonoBehaviour:
       matchUnityVersion: 0
       matchUnityVersion_min: 
       matchUnityVersion_max: 
+      matchSysVersion: 0
+      matchSysVersion_min: 
+      matchSysVersion_max: 
     elements:
       axes: []
       buttons: []
@@ -2249,6 +2405,9 @@ MonoBehaviour:
       matchUnityVersion: 0
       matchUnityVersion_min: 
       matchUnityVersion_max: 
+      matchSysVersion: 0
+      matchSysVersion_min: 
+      matchSysVersion_max: 
     elements:
       axes:
       - elementIdentifier: 0
@@ -2271,6 +2430,7 @@ MonoBehaviour:
           _dataFormat: 0
           _excludeFromPolling: 0
           _specialAxisType: 0
+          _pollingDeadZone: -1
       - elementIdentifier: 1
         sourceType: 1
         sourceAxis: 2
@@ -2291,6 +2451,7 @@ MonoBehaviour:
           _dataFormat: 0
           _excludeFromPolling: 0
           _specialAxisType: 0
+          _pollingDeadZone: -1
       - elementIdentifier: 2
         sourceType: 1
         sourceAxis: 3
@@ -2311,6 +2472,7 @@ MonoBehaviour:
           _dataFormat: 0
           _excludeFromPolling: 0
           _specialAxisType: 0
+          _pollingDeadZone: -1
       - elementIdentifier: 3
         sourceType: 1
         sourceAxis: 4
@@ -2331,6 +2493,7 @@ MonoBehaviour:
           _dataFormat: 0
           _excludeFromPolling: 0
           _specialAxisType: 0
+          _pollingDeadZone: -1
       buttons:
       - elementIdentifier: 4
         sourceType: 0
@@ -2731,6 +2894,9 @@ MonoBehaviour:
         matchUnityVersion: 0
         matchUnityVersion_min: 
         matchUnityVersion_max: 
+        matchSysVersion: 0
+        matchSysVersion_min: 
+        matchSysVersion_max: 
       elements:
         axes:
         - elementIdentifier: 0
@@ -2753,6 +2919,7 @@ MonoBehaviour:
             _dataFormat: 0
             _excludeFromPolling: 0
             _specialAxisType: 0
+            _pollingDeadZone: -1
         - elementIdentifier: 1
           sourceType: 1
           sourceAxis: 2
@@ -2773,6 +2940,7 @@ MonoBehaviour:
             _dataFormat: 0
             _excludeFromPolling: 0
             _specialAxisType: 0
+            _pollingDeadZone: -1
         - elementIdentifier: 2
           sourceType: 1
           sourceAxis: 3
@@ -2793,6 +2961,7 @@ MonoBehaviour:
             _dataFormat: 0
             _excludeFromPolling: 0
             _specialAxisType: 0
+            _pollingDeadZone: -1
         - elementIdentifier: 3
           sourceType: 1
           sourceAxis: 4
@@ -2813,6 +2982,7 @@ MonoBehaviour:
             _dataFormat: 0
             _excludeFromPolling: 0
             _specialAxisType: 0
+            _pollingDeadZone: -1
         buttons:
         - elementIdentifier: 4
           sourceType: 0
@@ -3239,6 +3409,9 @@ MonoBehaviour:
       matchUnityVersion: 0
       matchUnityVersion_min: 
       matchUnityVersion_max: 
+      matchSysVersion: 0
+      matchSysVersion_min: 
+      matchSysVersion_max: 
     elements:
       axes:
       - elementIdentifier: 0
@@ -3261,6 +3434,7 @@ MonoBehaviour:
           _dataFormat: 0
           _excludeFromPolling: 0
           _specialAxisType: 0
+          _pollingDeadZone: -1
       - elementIdentifier: 1
         sourceType: 1
         sourceAxis: 2
@@ -3281,6 +3455,7 @@ MonoBehaviour:
           _dataFormat: 0
           _excludeFromPolling: 0
           _specialAxisType: 0
+          _pollingDeadZone: -1
       - elementIdentifier: 2
         sourceType: 1
         sourceAxis: 3
@@ -3301,6 +3476,7 @@ MonoBehaviour:
           _dataFormat: 0
           _excludeFromPolling: 0
           _specialAxisType: 0
+          _pollingDeadZone: -1
       - elementIdentifier: 3
         sourceType: 1
         sourceAxis: 4
@@ -3321,6 +3497,7 @@ MonoBehaviour:
           _dataFormat: 0
           _excludeFromPolling: 0
           _specialAxisType: 0
+          _pollingDeadZone: -1
       buttons:
       - elementIdentifier: 4
         sourceType: 0
@@ -3720,6 +3897,9 @@ MonoBehaviour:
       matchUnityVersion: 0
       matchUnityVersion_min: 
       matchUnityVersion_max: 
+      matchSysVersion: 0
+      matchSysVersion_min: 
+      matchSysVersion_max: 
     elements:
       axes: []
       buttons: []
@@ -3738,9 +3918,14 @@ MonoBehaviour:
       - 8Bitdo SF30 Pro  8Bitdo SF30 Pro
       - 8Bitdo SN30 Pro
       - 8Bitdo SF30 Pro
+      - 8BitDo SN30 Pro+  8BitDo SN30 Pro+
+      - 8BitDo SN30 Pro+
       matchUnityVersion: 0
       matchUnityVersion_min: 
       matchUnityVersion_max: 
+      matchSysVersion: 0
+      matchSysVersion_min: 
+      matchSysVersion_max: 
     elements:
       axes:
       - elementIdentifier: 0
@@ -3763,6 +3948,7 @@ MonoBehaviour:
           _dataFormat: 0
           _excludeFromPolling: 0
           _specialAxisType: 0
+          _pollingDeadZone: -1
       - elementIdentifier: 1
         sourceType: 1
         sourceAxis: 2
@@ -3783,6 +3969,7 @@ MonoBehaviour:
           _dataFormat: 0
           _excludeFromPolling: 0
           _specialAxisType: 0
+          _pollingDeadZone: -1
       - elementIdentifier: 2
         sourceType: 1
         sourceAxis: 3
@@ -3803,6 +3990,7 @@ MonoBehaviour:
           _dataFormat: 0
           _excludeFromPolling: 0
           _specialAxisType: 0
+          _pollingDeadZone: -1
       - elementIdentifier: 3
         sourceType: 1
         sourceAxis: 4
@@ -3823,6 +4011,7 @@ MonoBehaviour:
           _dataFormat: 0
           _excludeFromPolling: 0
           _specialAxisType: 0
+          _pollingDeadZone: -1
       buttons:
       - elementIdentifier: 4
         sourceType: 0
@@ -4222,6 +4411,9 @@ MonoBehaviour:
       matchUnityVersion: 0
       matchUnityVersion_min: 
       matchUnityVersion_max: 
+      matchSysVersion: 0
+      matchSysVersion_min: 
+      matchSysVersion_max: 
     elements:
       axes: []
       buttons: []
@@ -4239,6 +4431,9 @@ MonoBehaviour:
       matchUnityVersion: 0
       matchUnityVersion_min: 
       matchUnityVersion_max: 
+      matchSysVersion: 0
+      matchSysVersion_min: 
+      matchSysVersion_max: 
     elements:
       axes: []
       buttons: []
@@ -4256,6 +4451,9 @@ MonoBehaviour:
       matchUnityVersion: 0
       matchUnityVersion_min: 
       matchUnityVersion_max: 
+      matchSysVersion: 0
+      matchSysVersion_min: 
+      matchSysVersion_max: 
     elements:
       axes: []
       buttons: []
@@ -4273,6 +4471,9 @@ MonoBehaviour:
       matchUnityVersion: 0
       matchUnityVersion_min: 
       matchUnityVersion_max: 
+      matchSysVersion: 0
+      matchSysVersion_min: 
+      matchSysVersion_max: 
     elements:
       axes: []
       buttons: []
@@ -4290,6 +4491,9 @@ MonoBehaviour:
       matchUnityVersion: 0
       matchUnityVersion_min: 
       matchUnityVersion_max: 
+      matchSysVersion: 0
+      matchSysVersion_min: 
+      matchSysVersion_max: 
     elements:
       axes: []
       buttons: []
@@ -4307,6 +4511,9 @@ MonoBehaviour:
       matchUnityVersion: 0
       matchUnityVersion_min: 
       matchUnityVersion_max: 
+      matchSysVersion: 0
+      matchSysVersion_min: 
+      matchSysVersion_max: 
     elements:
       axes: []
       buttons: []
@@ -4324,6 +4531,9 @@ MonoBehaviour:
       matchUnityVersion: 0
       matchUnityVersion_min: 
       matchUnityVersion_max: 
+      matchSysVersion: 0
+      matchSysVersion_min: 
+      matchSysVersion_max: 
     elements:
       axes: []
       buttons: []
@@ -4341,6 +4551,9 @@ MonoBehaviour:
       matchUnityVersion: 0
       matchUnityVersion_min: 
       matchUnityVersion_max: 
+      matchSysVersion: 0
+      matchSysVersion_min: 
+      matchSysVersion_max: 
     elements:
       axes: []
       buttons: []
@@ -4358,6 +4571,9 @@ MonoBehaviour:
       matchUnityVersion: 0
       matchUnityVersion_min: 
       matchUnityVersion_max: 
+      matchSysVersion: 0
+      matchSysVersion_min: 
+      matchSysVersion_max: 
     elements:
       axes: []
       buttons: []
@@ -4375,6 +4591,9 @@ MonoBehaviour:
       matchUnityVersion: 0
       matchUnityVersion_min: 
       matchUnityVersion_max: 
+      matchSysVersion: 0
+      matchSysVersion_min: 
+      matchSysVersion_max: 
     elements:
       axes: []
       buttons: []
@@ -4392,6 +4611,9 @@ MonoBehaviour:
       matchUnityVersion: 0
       matchUnityVersion_min: 
       matchUnityVersion_max: 
+      matchSysVersion: 0
+      matchSysVersion_min: 
+      matchSysVersion_max: 
     elements:
       axes: []
       buttons: []
@@ -4409,6 +4631,9 @@ MonoBehaviour:
       matchUnityVersion: 0
       matchUnityVersion_min: 
       matchUnityVersion_max: 
+      matchSysVersion: 0
+      matchSysVersion_min: 
+      matchSysVersion_max: 
     elements:
       axes: []
       buttons: []
@@ -4426,6 +4651,9 @@ MonoBehaviour:
       matchUnityVersion: 0
       matchUnityVersion_min: 
       matchUnityVersion_max: 
+      matchSysVersion: 0
+      matchSysVersion_min: 
+      matchSysVersion_max: 
     elements:
       axes: []
       buttons: []
@@ -4501,6 +4729,21 @@ MonoBehaviour:
     elements:
       axes: []
       buttons: []
+    variants: []
+  stadia:
+    description: 
+    matchingCriteria:
+      axisCount: 0
+      buttonCount: 0
+      disabled: 0
+      tag: 
+      alwaysMatch: 0
+      productName_useRegex: 0
+      productName: []
+    elements:
+      axes: []
+      buttons: []
+    controllerName: 
     variants: []
   internalDriver:
     description: 

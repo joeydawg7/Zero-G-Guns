@@ -170,11 +170,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10efa70eea88e69459c632aac286892d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rewiredInputManager: {fileID: 0}
   useAllRewiredGamePlayers: 1
   useRewiredSystemPlayer: 1
   rewiredPlayerIds: 00000000
   usePlayingPlayersOnly: 0
+  playerMice: []
   moveOneElementPerAxisPress: 0
+  setActionsById: 0
+  horizontalActionId: -1
+  verticalActionId: -1
+  submitActionId: -1
+  cancelActionId: -1
   m_HorizontalAxis: UIHorizontal
   m_VerticalAxis: UIVertical
   m_SubmitButton: UISubmit
@@ -183,6 +190,9 @@ MonoBehaviour:
   m_RepeatDelay: 0
   m_allowMouseInput: 1
   m_allowMouseInputIfTouchSupported: 1
+  m_allowTouchInput: 1
+  m_deselectIfBackgroundClicked: 1
+  m_deselectBeforeSelecting: 1
   m_ForceModuleActive: 0
 --- !u!114 &29124414
 MonoBehaviour:
@@ -6367,7 +6377,6 @@ GameObject:
   m_Component:
   - 4: {fileID: 1309302958}
   - 20: {fileID: 1309302957}
-  - 92: {fileID: 1309302956}
   - 124: {fileID: 1309302955}
   - 81: {fileID: 1309302954}
   m_Layer: 0
@@ -6385,13 +6394,6 @@ AudioListener:
   m_GameObject: {fileID: 1309302953}
   m_Enabled: 1
 --- !u!124 &1309302955
-Behaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1309302953}
-  m_Enabled: 1
---- !u!92 &1309302956
 Behaviour:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
@@ -11266,6 +11268,8 @@ MonoBehaviour:
       windowsUWP_primaryInputSource: 0
       xboxOne_primaryInputSource: 0
       ps4_primaryInputSource: 0
+      webGL_primaryInputSource: 0
+      stadia_primaryInputSource: 0
       useXInput: 1
       useNativeMouse: 1
       useEnhancedDeviceSupport: 1
@@ -11274,12 +11278,14 @@ MonoBehaviour:
       android_supportUnknownGamepads: 1
       ps4_assignJoysticksByPS4JoyId: 1
       useSteamControllerSupport: 1
-      platformVars_allPlatforms:
-        disableKeyboard: 0
-        ignoreInputWhenAppNotInFocus: 1
+      logToScreen: 0
+      runInEditMode: 0
+      allowInputInEditorSceneView: 0
       platformVars_windowsStandalone:
         disableKeyboard: 0
         ignoreInputWhenAppNotInFocus: 1
+        useNativeKeyboard: 1
+        joystickRefreshRate: 240
       platformVars_linuxStandalone:
         disableKeyboard: 0
         ignoreInputWhenAppNotInFocus: 1
@@ -11292,6 +11298,8 @@ MonoBehaviour:
       platformVars_windowsUWP:
         disableKeyboard: 0
         ignoreInputWhenAppNotInFocus: 1
+        useGamepadAPI: 1
+        useHIDAPI: 1
       platformVars_iOS:
         disableKeyboard: 0
         ignoreInputWhenAppNotInFocus: 1
@@ -11322,16 +11330,30 @@ MonoBehaviour:
       platformVars_wiiu:
         disableKeyboard: 0
         ignoreInputWhenAppNotInFocus: 1
+      platformVars_switch:
+        disableKeyboard: 0
+        ignoreInputWhenAppNotInFocus: 1
       platformVars_webGL:
         disableKeyboard: 0
         ignoreInputWhenAppNotInFocus: 1
+      platformVars_stadia:
+        disableKeyboard: 0
+        ignoreInputWhenAppNotInFocus: 1
+        useNativeKeyboard: 1
+        useNativeMouse: 1
       maxJoysticksPerPlayer: 1
       autoAssignJoysticks: 1
       assignJoysticksToPlayingPlayersOnly: 0
       distributeJoysticksEvenly: 1
       reassignJoystickToPreviousOwnerOnReconnect: 1
       defaultJoystickAxis2DDeadZoneType: 1
+      defaultJoystickAxis2DSensitivityType: 0
+      defaultAxisSensitivityType: 0
       force4WayHats: 0
+      throttleCalibrationMode: 0
+      activateActionButtonsOnNegativeValue: 0
+      deferControllerConnectedEventsOnStart: 0
+      logLevel: 7
       editorSettings:
         exportConsts_useParentClass: 0
         exportConsts_parentClassName: RewiredConsts
@@ -11340,16 +11362,24 @@ MonoBehaviour:
         exportConsts_actions: 1
         exportConsts_actionsClassName: Action
         exportConsts_actionsIncludeActionCategory: 0
+        exportConsts_actionsCreateClassesForActionCategories: 0
         exportConsts_mapCategories: 1
         exportConsts_mapCategoriesClassName: Category
         exportConsts_layouts: 1
         exportConsts_layoutsClassName: Layout
         exportConsts_players: 1
         exportConsts_playersClassName: Player
+        exportConsts_inputBehaviors: 0
+        exportConsts_inputBehaviorsClassName: InputBehavior
         exportConsts_customControllers: 1
         exportConsts_customControllersClassName: CustomController
         exportConsts_customControllersAxesClassName: Axis
         exportConsts_customControllersButtonsClassName: Button
+        exportConsts_layoutManagerRuleSets: 1
+        exportConsts_layoutManagerRuleSetsClassName: LayoutManagerRuleSet
+        exportConsts_mapEnablerRuleSets: 1
+        exportConsts_mapEnablerRuleSetsClassName: MapEnablerRuleSet
+        exportConsts_allCapsConstantNames: 0
     players:
     - _id: 9999999
       _name: System
@@ -11363,6 +11393,13 @@ MonoBehaviour:
       _assignMouseOnStart: 1
       _assignKeyboardOnStart: 1
       _excludeFromControllerAutoAssignment: 1
+      _controllerMapLayoutManagerSettings:
+        _enabled: 1
+        _loadFromUserDataStore: 1
+        _ruleSets: []
+      _controllerMapEnablerSettings:
+        _enabled: 1
+        _ruleSets: []
     - _id: 1
       _name: Player0
       _descriptiveName: Player0
@@ -11393,6 +11430,13 @@ MonoBehaviour:
       _assignMouseOnStart: 1
       _assignKeyboardOnStart: 1
       _excludeFromControllerAutoAssignment: 0
+      _controllerMapLayoutManagerSettings:
+        _enabled: 1
+        _loadFromUserDataStore: 1
+        _ruleSets: []
+      _controllerMapEnablerSettings:
+        _enabled: 1
+        _ruleSets: []
     actions:
     - _id: 0
       _name: Horizontal
@@ -11523,6 +11567,8 @@ MonoBehaviour:
       _buttonLongPressExpiresIn: 0
       _buttonDeadZone: .5
       _buttonDownBuffer: 0
+      _buttonRepeatRate: 30
+      _buttonRepeatDelay: 0
     mapCategories:
     - _name: Default
       _descriptiveName: Default
@@ -12113,29 +12159,42 @@ MonoBehaviour:
     - _name: CustomController0
       _descriptiveName: CustomController0
       _id: 0
+      _typeGuidString: 
       _elementIdentifiers:
       - _id: 0
         _name: Horizontal
+        _positiveName: 
+        _negativeName: 
         _elementType: 0
         _compoundElementType: 0
       - _id: 1
         _name: Vertical
+        _positiveName: 
+        _negativeName: 
         _elementType: 0
         _compoundElementType: 0
       - _id: 2
         _name: Rotate Horizontal
+        _positiveName: 
+        _negativeName: 
         _elementType: 0
         _compoundElementType: 0
       - _id: 3
         _name: Rotate Vertical
+        _positiveName: 
+        _negativeName: 
         _elementType: 0
         _compoundElementType: 0
       - _id: 4
         _name: Cycle Color
+        _positiveName: 
+        _negativeName: 
         _elementType: 1
         _compoundElementType: 0
       - _id: 5
         _name: Cycle Color Reverse
+        _positiveName: 
+        _negativeName: 
         _elementType: 1
         _compoundElementType: 0
       _axes:
@@ -12148,6 +12207,18 @@ MonoBehaviour:
         min: -1
         max: 1
         doNotCalibrateRange: 0
+        sensitivityType: 0
+        sensitivity: 1
+        sensitivityCurve:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+        axisInfo:
+          _dataFormat: 0
+          _excludeFromPolling: 0
+          _specialAxisType: 0
+          _pollingDeadZone: -1
       - elementIdentifierId: 1
         name: Vertical
         range: 0
@@ -12157,6 +12228,18 @@ MonoBehaviour:
         min: -1
         max: 1
         doNotCalibrateRange: 0
+        sensitivityType: 0
+        sensitivity: 1
+        sensitivityCurve:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+        axisInfo:
+          _dataFormat: 0
+          _excludeFromPolling: 0
+          _specialAxisType: 0
+          _pollingDeadZone: -1
       - elementIdentifierId: 2
         name: Rotate Horizontal
         range: 0
@@ -12166,6 +12249,18 @@ MonoBehaviour:
         min: -1
         max: 1
         doNotCalibrateRange: 1
+        sensitivityType: 0
+        sensitivity: 1
+        sensitivityCurve:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+        axisInfo:
+          _dataFormat: 0
+          _excludeFromPolling: 0
+          _specialAxisType: 0
+          _pollingDeadZone: -1
       - elementIdentifierId: 3
         name: Rotate Vertical
         range: 0
@@ -12175,12 +12270,26 @@ MonoBehaviour:
         min: -1
         max: 1
         doNotCalibrateRange: 1
+        sensitivityType: 0
+        sensitivity: 1
+        sensitivityCurve:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+        axisInfo:
+          _dataFormat: 0
+          _excludeFromPolling: 0
+          _specialAxisType: 0
+          _pollingDeadZone: -1
       _buttons:
       - elementIdentifierId: 4
         name: Cycle Color
       - elementIdentifierId: 5
         name: Cycle Color Reverse
       _elementIdentifierIdCounter: 6
+    controllerMapLayoutManagerRuleSets: []
+    controllerMapEnablerRuleSets: []
     playerIdCounter: 2
     actionIdCounter: 10
     actionCategoryIdCounter: 2
@@ -12195,6 +12304,8 @@ MonoBehaviour:
     mouseMapIdCounter: 1
     customControllerMapIdCounter: 1
     customControllerIdCounter: 1
+    controllerMapLayoutManagerSetIdCounter: 0
+    controllerMapEnablerSetIdCounter: 0
   _controllerDataFiles: {fileID: 11400000, guid: d21d2b20df8369642b76aafbb2576ba7,
     type: 2}
 --- !u!4 &2043202410

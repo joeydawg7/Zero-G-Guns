@@ -257,22 +257,6 @@ player.controllers.maps.layoutManager.Apply();</pre>
 </ol>
 <p>When Layout Manager evaluates the Rules, for the specified Controller(s), it will unload any Controller Maps in Map Categories that match the specified Catgories in the Rule but do not match the specified Layout in the Rule. Then it will load Controller Maps in the specified Map Categories in the specified Layout.</p>
 <p>Rules can be created in the <a href="RewiredEditor.html#LayoutManagerRules">Rewired Editor on the Layout Manager Rules page</a> or created <a href="#creating-rule-sets-scripting">at runtime via scripting</a>.</p>
-<p><strong><a name="enabling-disabling-rules" id="enabling-disabling-rules"></a>Enabling and disabling Rules:</strong></p>
-<p>Rules can be enabled and disabled to control whether they are evaluated or not when <a href="https://guavaman.com/projects/rewired/docs/api-reference/html/M_Rewired_ControllerMapLayoutManager_Apply.htm">ControllerMapLayoutManager.Apply</a><a href="https://guavaman.com/projects/rewired/docs/api-reference/html/M_Rewired_ControllerMapEnabler_Apply.htm"></a> is called or whenever rules are evaluated.</p>
-<p>Find the Rule(s) you want to change the enabled state on in the Rule Set, change the state, then call <a href="https://guavaman.com/projects/rewired/docs/api-reference/html/M_Rewired_ControllerMapLayoutManager_Apply.htm">ControllerMapLayoutManager.Apply</a><a href="https://guavaman.com/projects/rewired/docs/api-reference/html/M_Rewired_ControllerMapEnabler_Apply.htm"></a> to evaluate the rules and apply the changes to the Player's Controller Maps.</p>
-<pre class="code"><span class="comment">// Get the Rule Set that contains the rules you want to enable or disable</span>
-var ruleSet = player.controllers.maps.layoutManager.ruleSets.Find(item =&gt; item.tag == &quot;MyRuleSet&quot;);
-
-<span class="comment">// Disable all rules in the Rule Set</span>
-foreach(var rule in ruleSet) {
-    rule.enabled = false;
-}
-
-<span class="comment">// Enable the Rule with the tag &quot;MyRule&quot;</span>
-ruleSet.Find(item =&gt; item.tag == &quot;MyRule&quot;).enabled = true;
-
-<span class="comment">// Apply the changes to the Player's Controller Maps</span>
-player.controllers.maps.layoutManager.Apply();         </pre>
 <h3>API Reference:</h3>
 <ul>
   <li><a href="http://guavaman.com/projects/rewired/docs/api-reference/html/T_Rewired_ControllerMapLayoutManager.htm">ControllerMapLayoutManager</a></li>

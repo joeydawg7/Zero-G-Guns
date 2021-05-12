@@ -276,6 +276,7 @@ namespace Rewired.UI.ControlMapper {
             ControllerElementIdentifier eid = controller.GetElementIdentifierById(elementIdentifierId);
             if(eid == null) throw new ArgumentException("Invalid element identifier id: " + elementIdentifierId);
             Controller.Element element = controller.GetElementById(elementIdentifierId);
+            if(element == null) return string.Empty;
             switch(element.type) {
                 case ControllerElementType.Axis:
                     return eid.GetDisplayName(element.type, axisRange);
@@ -321,6 +322,12 @@ namespace Rewired.UI.ControlMapper {
         public override string GetMapCategoryName(int id) {
             InputMapCategory category = ReInput.mapping.GetMapCategory(id);
             if(category == null) throw new ArgumentException("Invalid map category id: " + id);
+            return category.descriptiveName;
+        }
+
+        public override string GetActionCategoryName(int id) {
+            InputCategory category = ReInput.mapping.GetActionCategory(id);
+            if(category == null) throw new ArgumentException("Invalid action category id: " + id);
             return category.descriptiveName;
         }
 

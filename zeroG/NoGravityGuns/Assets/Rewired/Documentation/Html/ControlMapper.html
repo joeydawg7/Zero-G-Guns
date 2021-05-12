@@ -290,15 +290,10 @@
     <p>&nbsp;</p>
 <hr />
     <h2><a name="conflict-checking" id="conflict-checking"></a>Conflict Checking</h2>
-<p>Rewired's conflict checking system tries to prevent the user from cross-assigning his controls. For example, if the user tries to assign the key A to &quot;Fire&quot; after it has already been assigned to &quot;Jump&quot;, a warning will be displayed asking the user whether they would like to replace the assignment or (optionally) add the new conflicting assignment anyway. (See <a href="#inspector-options">Inspector Options</a> for the option to allow conflicting assignments.)</p>
-<p>The Rewired Input Manager has many options for controlling conflict checking. These are handled on a Map Category basis. You are able to set which Map Categories perform conflict checking against other Map Categories. This conflict checking is configurable independently each way, so if you want one Map Category to conflict check against another but not vice versa, this is possible. Additionally, this allows you to have categories such as &quot;Common&quot;, &quot;Infantry Mode&quot;, &quot;Tank Mode&quot;, &quot;Airplane Mode&quot; and have all these maps configurable by the user without having conflict checking between mutually-exclusive Map Categories such as &quot;Tank Mode&quot; and &quot;Infantry Mode&quot; while all still conflict checking against &quot;Common&quot; and vice versa. See <a href="RewiredEditor.html#MapCategories">Rewired Editor - Map Categories</a> for more information.</p>
-<p><strong>Protected controls</strong></p>
-<p>You may want to have certain controls protected from re-assignment. One example of this might be the ESC key if you use that for some important system control and you don't want the user removing this assignment by trying to assign ESC to another Action. In Rewired, protection of controls is handled on the Map Category level. To protect a set of System controls from ever being re-assigned, uncheck the <a href="RewiredEditor.html#MapCategories">&quot;User Assignable&quot; checkbox in the Map Category</a> that contains the Action in the Rewired Input Manager.</p>
-<ul>
-  <li>Map Category -&gt; User Assignable</li>
-</ul>
-<p>&nbsp;</p>
-<hr />
+    <p><a href="HowTos.html#conflict-checking">See How To's - Conflict Checking.</a></p>
+    <p>(See <a href="#inspector-options">Inspector Options</a> for the option to allow conflicting assignments.)</p>
+    <p>&nbsp;</p>
+    <hr />
     <h2><a name="theming" id="theming"></a>Theming</h2>
 <p><img src="files/images/controlmapper_theme1.png" width="300" height="279" /></p>
     <p>Control Mapper comes with a basic theming system to allow you to change colors, fonts, and sprites by simply editing a theme file.</p>

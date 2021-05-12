@@ -150,7 +150,7 @@
     <ul>
       <li>Works in Unity free and Pro.</li>
       <li>Player-centric input system.</li>
-      <li>Full hot-plugging support on Windows, OSX, Linux, Windows 8 Store, Windows 10 Universal, Ouya, WebGL, Xbox One, PS4, and Switch. (Other platforms depend on Unity's input system's support for hot-plugging on that platform.)</li>
+      <li>Full hot-plugging support on Windows, OSX, Linux, Windows 8 Store, Windows 10 Universal, Ouya, WebGL, Xbox One, Xbox Series S/X, PS4, and Switch. (Other platforms depend on Unity's input system's support for hot-plugging on that platform.)</li>
       <li>Extended native input support on several platforms.</li>
       <li>Optional XInput support for Windows (mandatory for Windows 8 Store).</li>
       <li>Fallback on Unity input for all other platforms. Most features still work.</li>
@@ -176,8 +176,8 @@
       <li>For any controller not included, you can map an Unknown controller which includes all possible buttons/axes on the platform (Windows 128 buttons &amp; 32 axes, etc.) Regardless of whether you define a map for this, users will always be able to manually map every element on the controller. This means support for the vast majority of USB and Bluetooth controllers. <span style="vertical-align: super; font-size: 65%;">[<a href="#clarifications">1</a>]</span></li>
       <li>Controller template system so you can either choose to create default maps for every controller you wish to explicitly support, or save time and just map the template. All controllers that use that template will be mapped automatically. Rewired comes with controller templates for gamepads, flight controllers, racing wheels, and 6-dof controllers. User can always map any remaining controller elements even if they're not defined on the template.</li>
       <li>Named buttons and controller elements for supported controllers (for help messages and config screens).</li>
-      <li>Vibration (Windows, Windows 8 Store, Windows 10 Universal, OSX, Linux, XBox One, PS4, Switch currently).</li>
-      <li>Advanced controller features such as vibration, touchpad, light, and gyro on the Dual Shock 4.</li>
+      <li>Vibration (Windows, Windows 8 Store, Windows 10 Universal, OSX, Linux, XBox One, Xbox Series S/X, PS4, Switch currently).</li>
+      <li>Advanced controller features such as vibration, touchpad, light, and gyro on the Sony DualShock 4 and DualSense controllers.</li>
       <li>Custom Controllers  - Any source can be used to drive the controller's element values. Custom Controllers can be used for on-screeen touch controllers and more.</li>
     </ul>
     <h4>Mapping:<br>
@@ -356,21 +356,26 @@
         <td align="center"><span class="semi-native">Semi Native</span> <span style="vertical-align: super; font-size: 65%">[<a href="#clarifications">2</a>]</span><br /><span class="note">(controllers)</span></td>
       </tr>
       <tr>
-        <td>Microsoft XBox One</td>
+        <td>Microsoft XBox One (XDK)</td>
         <td align="center"><span class="semi-native">Semi Native</span> <span style="vertical-align: super; font-size: 65%">[<a href="#clarifications">2</a>]</span><br />
           <span class="note">(controllers)</span></td>
         <td align="center"><span class="semi-native">Semi Native</span> <span style="vertical-align: super; font-size: 65%">[<a href="#clarifications">2</a>]</span><br />
           <span class="note">(controllers)</span></td>
       </tr>
       <tr>
-        <td>Nintendo Switch</td>
+        <td>Microsoft Xbox One, Series S/X (Game Core) <span style="vertical-align: super; font-size: 65%">[<a href="#clarifications">4</a>]</span></td>
+        <td align="center">--</td>
+        <td align="center"><span class="native">Native</span></td>
+      </tr>
+      <tr>
+        <td>Nintendo Switch <span style="vertical-align: super; font-size: 65%">[<a href="#clarifications">4</a>]</span></td>
         <td align="center">--</td>
         <td align="center"><span class="native">Native<br />
           <span class="note">(keyboard, controllers)</span><br />
         </span></td>
       </tr>
       <tr>
-        <td>Google Stadia</td>
+        <td>Google Stadia <span style="vertical-align: super; font-size: 65%">[<a href="#clarifications">4</a>]</span></td>
         <td align="center">--</td>
         <td align="center"><span class="native">Native<br />
           <span class="note">(keyboard, mouse, controllers)</span></span></td>
@@ -412,6 +417,7 @@
     <p style="font-size: 65%"><span style="vertical-align: super">1</span> Controller must be compatible with underlying system. On Windows the controller must be compatible with Raw Input, Direct Input, or XInput. On OSX, it must be compatible with I/O Kit. On Linux, it must be compatible with UDev. Support for exotic controller types not guaranteed.</p>
     <p style="font-size: 65%"><span class="superscript">2</span> These platforms make use of Unity's special platform-specific input classes which allow for much greater control over input than with just UnityEngine.Input and are functionally equivalent to native input libraries.</p>
     <p style="font-size: 65%">3 Linux native support has been tested under Ubuntu 12.04 amd64, Ubuntu 14.04 x86/amd64, Ubuntu 15.04 amd64, Ubuntu 17.04 amd64, Mint 17.2 amd64, and SteamOS. Compatibility with other distros is not guranteed or implied.    </p>
+    <p style="font-size: 65%">4 Platform requires additional plugin. <a href="SpecialPlatformSupport.html">See documentation for details.</a></p>
     <p>&nbsp;</p>
 <div class="bottom-pager clearfix">
 	    <a class="back-button" href="Documentation.html" title="Documentation"><span class="button-img"></span>Documentation</a>

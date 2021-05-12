@@ -1076,21 +1076,21 @@
         </member>
         <member name="M:Rewired.ElementAssignmentConflictCheck.ToElementAssignment">
             <summary>
-            Converts ElementAssignmentConflictChec into an ElementAssignment.
+            Converts ElementAssignmentConflictCheck into an ElementAssignment.
             Can be used to make an element assignment.
             </summary>
             <returns>ElementAssignment</returns>
         </member>
         <member name="M:Rewired.ElementAssignmentConflictCheck.ToFullAxisAssignment">
             <summary>
-            Converts ElementAssignmentConflictChec into an ElementAssignment for a full axis assignment.
+            Converts ElementAssignmentConflictCheck into an ElementAssignment for a full axis assignment.
             Can be used to make an element assignment.
             </summary>
             <returns>ElementAssignment</returns>
         </member>
         <member name="M:Rewired.ElementAssignmentConflictCheck.ToSplitAxisAssignment">
             <summary>
-            Converts ElementAssignmentConflictChec into an ElementAssignment for a split axis assignment.
+            Converts ElementAssignmentConflictCheck into an ElementAssignment for a split axis assignment.
             Can be used to make an element assignment.
             </summary>
             <returns>ElementAssignment</returns>
@@ -3828,6 +3828,12 @@
             </summary>
             <exclude></exclude>
         </member>
+        <member name="P:Rewired.Consts.unknownJoystickElementIdentifiers_orig">
+            <summary>
+            Original array! DO NOT WRITE TO THIS!
+            </summary>
+            <exclude></exclude>
+        </member>
         <member name="T:Rewired.Controller">
             <summary>
             The base class for all controllers.
@@ -5025,9 +5031,84 @@
             attached depends greatly on the platform and input source(s) currently in use.
             </summary>
         </member>
-        <member name="T:Rewired.ControllerExtensions.IDualShock4Extension">
+        <member name="T:Rewired.ControllerExtensions.DualSenseMicrophoneLightMode">
             <summary>
-            Common interface for PS4 platform and desktop platform DualShock 4 Controller Extensions.
+            Dual Sense controller microphone light mode.
+            </summary>
+        </member>
+        <member name="F:Rewired.ControllerExtensions.DualSenseMicrophoneLightMode.Off">
+            <summary>
+            Off
+            </summary>
+        </member>
+        <member name="F:Rewired.ControllerExtensions.DualSenseMicrophoneLightMode.On">
+            <summary>
+            On
+            </summary>
+        </member>
+        <member name="F:Rewired.ControllerExtensions.DualSenseMicrophoneLightMode.Flash">
+            <summary>
+            Flash
+            </summary>
+        </member>
+        <member name="T:Rewired.ControllerExtensions.DualSenseOtherLightBrightness">
+            <summary>
+            Dual Sense controller player and microphone light brightness.
+            </summary>
+        </member>
+        <member name="F:Rewired.ControllerExtensions.DualSenseOtherLightBrightness.Low">
+            <summary>
+            Low
+            </summary>
+        </member>
+        <member name="F:Rewired.ControllerExtensions.DualSenseOtherLightBrightness.Medium">
+            <summary>
+            Medium
+            </summary>
+        </member>
+        <member name="F:Rewired.ControllerExtensions.DualSenseOtherLightBrightness.High">
+            <summary>
+            High
+            </summary>
+        </member>
+        <member name="T:Rewired.ControllerExtensions.DualSensePlayerLightFlags">
+            <summary>
+            Dual Sense controller player light flags.
+            </summary>
+        </member>
+        <member name="F:Rewired.ControllerExtensions.DualSensePlayerLightFlags.None">
+            <summary>
+            None
+            </summary>
+        </member>
+        <member name="F:Rewired.ControllerExtensions.DualSensePlayerLightFlags.One">
+            <summary>
+            Light #1
+            </summary>
+        </member>
+        <member name="F:Rewired.ControllerExtensions.DualSensePlayerLightFlags.Two">
+            <summary>
+            Light #2
+            </summary>
+        </member>
+        <member name="F:Rewired.ControllerExtensions.DualSensePlayerLightFlags.Three">
+            <summary>
+            Light #3
+            </summary>
+        </member>
+        <member name="F:Rewired.ControllerExtensions.DualSensePlayerLightFlags.Four">
+            <summary>
+            Light #4
+            </summary>
+        </member>
+        <member name="F:Rewired.ControllerExtensions.DualSensePlayerLightFlags.Five">
+            <summary>
+            Light #5
+            </summary>
+        </member>
+        <member name="T:Rewired.ControllerExtensions.DualSenseExtension">
+            <summary>
+            Allows access to controller-specific functions such as vibration.
             </summary>
         </member>
         <member name="T:Rewired.Interfaces.IControllerVibrator">
@@ -5082,6 +5163,11 @@
         <member name="P:Rewired.Interfaces.IControllerVibrator.vibrationMotorCount">
             <summary>
             Number of vibration motors in the controller.
+            </summary>
+        </member>
+        <member name="T:Rewired.ControllerExtensions.IDualShock4Extension">
+            <summary>
+            Common interface for PS4 platform and desktop platform DualShock 4 Controller Extensions.
             </summary>
         </member>
         <member name="M:Rewired.ControllerExtensions.IDualShock4Extension.GetAccelerometerValue">
@@ -5207,6 +5293,308 @@
         <member name="P:Rewired.ControllerExtensions.IDualShock4Extension.touchCount">
             <summary>
             The current touch count.
+            </summary>
+        </member>
+        <member name="M:Rewired.ControllerExtensions.DualSenseExtension.SetVibration(System.Int32,System.Single)">
+            <summary>
+            Sets vibration level for a motor at a specified index.
+            </summary>
+            <param name="motorIndex">Motor index</param>
+            <param name="motorLevel">Motor level [float: 0.0 - 1.0]</param>
+        </member>
+        <member name="M:Rewired.ControllerExtensions.DualSenseExtension.SetVibration(System.Int32,System.Single,System.Single)">
+            <summary>
+            Sets vibration level for a motor at a specified index with a timeout.
+            </summary>
+            <param name="motorIndex">Motor index</param>
+            <param name="motorLevel">Motor level [float: 0.0 - 1.0]</param>
+            <param name="duration">Length of time in seconds to activate the motor before it stops. [0 = Infinite]</param>
+        </member>
+        <member name="M:Rewired.ControllerExtensions.DualSenseExtension.SetVibration(System.Int32,System.Single,System.Boolean)">
+            <summary>
+            Sets vibration level for a motor at a specified index.
+            </summary>
+            <param name="motorIndex">Motor index</param>
+            <param name="motorLevel">Motor level [float: 0.0 - 1.0]</param>
+            <param name="stopOtherMotors">Stop other motors?</param>
+        </member>
+        <member name="M:Rewired.ControllerExtensions.DualSenseExtension.SetVibration(System.Int32,System.Single,System.Single,System.Boolean)">
+            <summary>
+            Sets vibration level for a motor at a specified index with a timeout.
+            </summary>
+            <param name="motorIndex">Motor index</param>
+            <param name="motorLevel">Motor level [float: 0.0 - 1.0]</param>
+            <param name="duration">Length of time in seconds to activate the motor before it stops. [0 = Infinite]</param>
+            <param name="stopOtherMotors">Stop other motors?</param>
+        </member>
+        <member name="M:Rewired.ControllerExtensions.DualSenseExtension.GetVibration(System.Int32)">
+            <summary>
+            Gets vibration level for a motor at a specified index.
+            </summary>
+            <param name="motorIndex">Motor index</param>
+            <returns>Motor level [float: 0.0 - 1.0]</returns>
+        </member>
+        <member name="M:Rewired.ControllerExtensions.DualSenseExtension.StopVibration">
+            <summary>
+            Stops vibration on all motors.
+            </summary>
+        </member>
+        <member name="M:Rewired.ControllerExtensions.DualSenseExtension.GetVibration(Rewired.ControllerExtensions.DualShock4MotorType)">
+            <summary>
+            Gets vibration level for a specific motor.
+            </summary>
+            <param name="motor">Motor type</param>
+            <returns>Motor level [float: 0.0 - 1.0]</returns>
+        </member>
+        <member name="M:Rewired.ControllerExtensions.DualSenseExtension.SetVibration(Rewired.ControllerExtensions.DualShock4MotorType,System.Single)">
+            <summary>
+            Sets vibration leves on an individual motor.
+            </summary>
+            <param name="motor">Motor type</param>
+            <param name="motorLevel">Motor level [float: 0.0 - 1.0]</param>
+        </member>
+        <member name="M:Rewired.ControllerExtensions.DualSenseExtension.SetVibration(Rewired.ControllerExtensions.DualShock4MotorType,System.Single,System.Single)">
+            <summary>
+            Sets vibration leves on an individual motor.
+            </summary>
+            <param name="motor">Motor type</param>
+            <param name="motorLevel">Motor level [float: 0.0 - 1.0]</param>
+            <param name="duration">Length of time in seconds to activate the motor before it stops. [0 = Infinite]</param>
+        </member>
+        <member name="M:Rewired.ControllerExtensions.DualSenseExtension.SetVibration(Rewired.ControllerExtensions.DualShock4MotorType,System.Single,System.Boolean)">
+            <summary>
+            Sets vibration level on an individual motor.
+            </summary>
+            <param name="motor">Motor type</param>
+            <param name="motorLevel">Motor level [float: 0.0 - 1.0]</param>
+            <param name="stopOtherMotors">Stop other motors?</param>
+        </member>
+        <member name="M:Rewired.ControllerExtensions.DualSenseExtension.SetVibration(Rewired.ControllerExtensions.DualShock4MotorType,System.Single,System.Single,System.Boolean)">
+            <summary>
+            Sets vibration level on an individual motor.
+            </summary>
+            <param name="motor">Motor type</param>
+            <param name="motorLevel">Motor level [float: 0.0 - 1.0]</param>
+            <param name="duration">Length of time in seconds to activate the motor before it stops. [0 = Infinite]</param>
+            <param name="stopOtherMotors">Stop other motors?</param>
+        </member>
+        <member name="M:Rewired.ControllerExtensions.DualSenseExtension.SetVibration(System.Single,System.Single)">
+            <summary>
+            Sets vibration level for left and right motors.
+            </summary>
+            <param name="leftMotorLevel">float: 0.0 - 1.0</param>
+            <param name="rightMotorLevel">float: 0.0 - 1.0</param>
+        </member>
+        <member name="M:Rewired.ControllerExtensions.DualSenseExtension.SetVibration(System.Single,System.Single,System.Single,System.Single)">
+            <summary>
+            Sets vibration level for left and right motors.
+            </summary>
+            <param name="leftMotorLevel">float: 0.0 - 1.0</param>
+            <param name="rightMotorLevel">float: 0.0 - 1.0</param>
+            <param name="leftMotorDuration">Length of time in seconds to activate the left motor before it stops. [0 = Infinite]</param>
+            <param name="rightMotorDuration">Length of time in seconds to activate the right motor before it stops. [0 = Infinite]</param>
+        </member>
+        <member name="M:Rewired.ControllerExtensions.DualSenseExtension.GetLightColor">
+            <summary>
+            Gets the current light color.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Rewired.ControllerExtensions.DualSenseExtension.SetLightColor(UnityEngine.Color)">
+            <summary>
+            Sets the light color. Alpha can be used to set intensity.
+            </summary>
+            <param name="color">Light color</param>
+        </member>
+        <member name="M:Rewired.ControllerExtensions.DualSenseExtension.SetLightColor(System.Single,System.Single,System.Single)">
+            <summary>
+            Sets the light color.
+            </summary>
+            <param name="red">Red channel [0.0 - 1.0]</param>
+            <param name="green">Green channel [0.0 - 1.0]</param>
+            <param name="blue">Blue channel [0.0 - 1.0]</param>
+        </member>
+        <member name="M:Rewired.ControllerExtensions.DualSenseExtension.SetLightColor(System.Single,System.Single,System.Single,System.Single)">
+            <summary>
+            Sets the light color.
+            </summary>
+            <param name="red">Red channel [0.0 - 1.0]</param>
+            <param name="green">Green channel [0.0 - 1.0]</param>
+            <param name="blue">Blue channel [0.0 - 1.0]</param>
+            <param name="intensity">Intensity [0.0 - 1.0]</param>
+        </member>
+        <member name="M:Rewired.ControllerExtensions.DualSenseExtension.GetAccelerometerValueRaw">
+            <summary>
+            Gets the raw value from the accelerometer as reported by the device.
+            Reported device coordinates do not match Unity's coordinate system.
+            Format: 1G = 8192f
+            This value represents the last value reported by the accelerometer.
+            </summary>
+            <returns>Raw accelerometer data</returns>
+        </member>
+        <member name="M:Rewired.ControllerExtensions.DualSenseExtension.GetAccelerometerValue">
+            <summary>
+            Gets the value from the accelerometer and processes it so that 1G = 1.0 and so that coordinates match Unity coordinate system.
+            The value returned could be thought of as a gravity vector and user acceleration combined.
+            If using this value to apply a force in the direction of the vector, invert each axis first.
+            This value represents the last value reported by the accelerometer.
+            </summary>
+            <returns>Accelerometer data</returns>
+        </member>
+        <member name="M:Rewired.ControllerExtensions.DualSenseExtension.GetLastGyroscopeValueRaw">
+            <summary>
+            Gets the last raw value from the gyroscope as reported by the device.
+            Reported device coordinates do not match Unity's coordinate system.
+            The sensor can return more than one value per frame.
+            This represents only the last measurement recorded, not an accumulated value.
+            This value is not fused with the accelerometer value and can drift.
+            </summary>
+            <returns>Raw gyroscope data</returns>
+        </member>
+        <member name="M:Rewired.ControllerExtensions.DualSenseExtension.GetLastGyroscopeValue">
+            <summary>
+            Gets the last value from the gyroscope processed into Unity's coordinate system and adjusted for sensitivity.
+            The sensor can return more than one value per frame.
+            This represents only the last measurement recorded, not an accumulated value.
+            This value is not fused with the accelerometer value and can drift.
+            </summary>
+            <returns>Gyroscope data</returns>
+        </member>
+        <member name="M:Rewired.ControllerExtensions.DualSenseExtension.GetGyroscopeValueRaw">
+            <summary>
+            Gets the raw value from the gyroscope as reported by the device accumulated over time since the last update.
+            Reported device coordinates do not match Unity's coordinate system.
+            This value is not fused with the accelerometer value and can drift.
+            </summary>
+            <returns>Raw gyroscope data</returns>
+        </member>
+        <member name="M:Rewired.ControllerExtensions.DualSenseExtension.GetGyroscopeValue">
+            <summary>
+            Gets the value from the gyroscope processed into Unity's coordinate system, adjusted for sensitivity, and accumulated over time since the last update.
+            This value is not fused with the accelerometer value and can drift.
+            </summary>
+            <returns>Gyroscope data</returns>
+        </member>
+        <member name="M:Rewired.ControllerExtensions.DualSenseExtension.GetOrientation">
+            <summary>
+            Gets the orientation of the controller in Unity coordinates.
+            This is only an estimate because accelerometer + gyroscope is not accurate enough to perfectly determine orientation at all angles.
+            Drift can occur on the world Y axis over time. The orientation can be reset by calling ResetOrientation().
+            Note: Orientation is not very reliable when connected via Bluetooth due to the possibility of dropped gyro data.
+            </summary>
+            <returns>Orientation</returns>
+        </member>
+        <member name="M:Rewired.ControllerExtensions.DualSenseExtension.ResetOrientation">
+            <summary>
+            Resets the orientation to zero state. (Controller laying on back with buttons facing up and the top edge of the controller facing the screen.)
+            </summary>
+        </member>
+        <member name="M:Rewired.ControllerExtensions.DualSenseExtension.GetTouchId(System.Int32)">
+            <summary>
+            Gets the touch id for the touch at the specified index.
+            </summary>
+            <param name="index"></param>
+            <returns>Touch id. Returns -1 if there is no current touch at the specified index.</returns>
+        </member>
+        <member name="M:Rewired.ControllerExtensions.DualSenseExtension.GetTouchPosition(System.Int32,UnityEngine.Vector2@)">
+            <summary>
+            Gets the touch position for a particular index normalized to a 0 - 1 range. (Left = 0, Bottom = 0)
+            </summary>
+            <param name="index">The index of the touch for which to return position.</param>
+            <param name="position">X/Y position of the touch [0 - 1]</param>
+            <returns>True if the touch at index is currently touching. False if there is no touch at index.</returns>
+        </member>
+        <member name="M:Rewired.ControllerExtensions.DualSenseExtension.GetTouchPositionByTouchId(System.Int32,UnityEngine.Vector2@)">
+            <summary>
+            Gets the touch position for a particular touch id normalized to a 0 - 1 range. (Left = 0, Bottom = 0)
+            </summary>
+            <param name="touchId">The id of the touch for which to return position.</param>
+            <param name="position">X/Y position of the touch [0 - 1]</param>
+            <returns>True if the touch at touchId is currently touching. False if there is no touch at touchId.</returns>
+        </member>
+        <member name="M:Rewired.ControllerExtensions.DualSenseExtension.GetTouchPositionAbsolute(System.Int32,UnityEngine.Vector2@)">
+            <summary>
+            Gets the touch position for a particular index in absolute units as returned by the device. (Left = 0, Bottom = 0)
+            </summary>
+            <param name="index">The index of the touch for which to return position.</param>
+            <param name="position">X/Y position of the touch in absolute units.</param>
+            <returns>True if the touch at index is currently touching. False if there is no touch at index.</returns>
+        </member>
+        <member name="M:Rewired.ControllerExtensions.DualSenseExtension.GetTouchPositionAbsoluteByTouchId(System.Int32,UnityEngine.Vector2@)">
+            <summary>
+            Gets the touch position for a particular touch id in absolute units as returned by the device. (Left = 0, Bottom = 0)
+            </summary>
+            <param name="touchId">The id of the touch for which to return position.</param>
+            <param name="position">X/Y position of the touch in absolute units.</param>
+            <returns>True if the touch at touchId is currently touching. False if there is no touch at touchId.</returns>
+        </member>
+        <member name="M:Rewired.ControllerExtensions.DualSenseExtension.IsTouching(System.Int32)">
+            <summary>
+            Determines if the current touch id is valid for any currently active touch.
+            </summary>
+            <param name="index">The index of the touch</param>
+            <returns>True/False</returns>
+        </member>
+        <member name="M:Rewired.ControllerExtensions.DualSenseExtension.IsTouchingByTouchId(System.Int32)">
+            <summary>
+            Determines if the current touch id is valid for any currently active touch.
+            </summary>
+            <param name="touchId">The id of the touch</param>
+            <returns>True/False</returns>
+        </member>
+        <member name="P:Rewired.ControllerExtensions.DualSenseExtension.vibrationMotorCount">
+            <summary>
+            The number of vibration motors in this controller.
+            </summary>
+        </member>
+        <member name="P:Rewired.ControllerExtensions.DualSenseExtension.lightColorRed">
+            <summary>
+            Light color red channel.
+            </summary>
+        </member>
+        <member name="P:Rewired.ControllerExtensions.DualSenseExtension.lightColorGreen">
+            <summary>
+            Light color green channel.
+            </summary>
+        </member>
+        <member name="P:Rewired.ControllerExtensions.DualSenseExtension.lightColorBlue">
+            <summary>
+            Light color blue channel.
+            </summary>
+        </member>
+        <member name="P:Rewired.ControllerExtensions.DualSenseExtension.microphoneLightMode">
+            <summary>
+            Microphone light mode.
+            </summary>
+        </member>
+        <member name="P:Rewired.ControllerExtensions.DualSenseExtension.otherLightBrightness">
+            <summary>
+            Player and microphone light brightness level.
+            </summary>
+        </member>
+        <member name="P:Rewired.ControllerExtensions.DualSenseExtension.playerLights">
+            <summary>
+            Player lights.
+            </summary>
+        </member>
+        <member name="P:Rewired.ControllerExtensions.DualSenseExtension.maxTouches">
+            <summary>
+            Number of simultaneous touches supported by this device.
+            </summary>
+        </member>
+        <member name="P:Rewired.ControllerExtensions.DualSenseExtension.touchCount">
+            <summary>
+            The current touch count.
+            </summary>
+        </member>
+        <member name="P:Rewired.ControllerExtensions.DualSenseExtension.batteryLevel">
+            <summary>
+            Battery level as a percentage. [0 - 100]
+            </summary>
+        </member>
+        <member name="P:Rewired.ControllerExtensions.DualSenseExtension.batteryCharging">
+            <summary>
+            Is the battery charging?
             </summary>
         </member>
         <member name="T:Rewired.ControllerExtensions.DualShock4Extension">
@@ -7643,6 +8031,11 @@
             Runtime only!
             </summary>
         </member>
+        <member name="M:Rewired.Data.ConfigVars.GetPlatformVar_assignJoysticksBySystemId">
+            <summary>
+            Runtime only!
+            </summary>
+        </member>
         <member name="M:Rewired.Data.ConfigVars.SetPlatformVar_ignoreInputWhenAppNotInFocus(System.Boolean)">
             <summary>
             Runtime only!
@@ -7664,6 +8057,11 @@
             </summary>
         </member>
         <member name="M:Rewired.Data.ConfigVars.SetPlatformVar_joystickRefreshRate(System.Int32)">
+            <summary>
+            Runtime only!
+            </summary>
+        </member>
+        <member name="M:Rewired.Data.ConfigVars.SetPlatformVar_assignJoysticksBySystemId(System.Boolean)">
             <summary>
             Runtime only!
             </summary>
@@ -8047,6 +8445,54 @@
             <exclude></exclude>
         </member>
         <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_Stadia">
+            <exclude></exclude>
+        </member>
+        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_GameCore_Base">
+            <exclude></exclude>
+        </member>
+        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_GameCore_Base.MatchingCriteria">
+            <exclude></exclude>
+        </member>
+        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_GameCore_Base.Elements">
+            <exclude></exclude>
+        </member>
+        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_GameCore_Base.Button">
+            <exclude></exclude>
+        </member>
+        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_GameCore_Base.Axis">
+            <exclude></exclude>
+        </member>
+        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_GameCore_Base.DeviceType">
+            <summary>
+            DO NOT CHANGE THESE VALUES.
+            MUST MATCH TO THE GameCore PrimaryTemplateType enum
+            </summary>
+        </member>
+        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_GameCore_Base.GamepadSubType">
+            <summary>
+            DO NOT MODIFY THE NUMBERING.
+            THIS MUST MATCH THE HARDWARE JOYSTICK MAP GamepadSubType
+            </summary>
+        </member>
+        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_GameCore">
+            <exclude></exclude>
+        </member>
+        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_PS5_Base">
+            <exclude></exclude>
+        </member>
+        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_PS5_Base.MatchingCriteria">
+            <exclude></exclude>
+        </member>
+        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_PS5_Base.Elements">
+            <exclude></exclude>
+        </member>
+        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_PS5_Base.Button">
+            <exclude></exclude>
+        </member>
+        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_PS5_Base.Axis">
+            <exclude></exclude>
+        </member>
+        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_PS5">
             <exclude></exclude>
         </member>
         <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_InternalDriver_Base">
@@ -8992,6 +9438,17 @@
             <summary>
             Interface for a touch input source for UI interaction.
             </summary>
+        </member>
+        <member name="M:Rewired.HID.Drivers.DualSenseDriver.GetTwist(UnityEngine.Quaternion,UnityEngine.Vector3)">
+                       Decompose the rotation on to 2 parts.
+                       1. Twist - rotation around the "direction" vector
+                       2. Swing - rotation around axis that is perpendicular to "direction" vector
+                       The rotation can be composed back by 
+                       rotation = swing * twist
+            
+                       has singularity in case of swing_rotation close to 180 degrees rotation.
+                       if the input quaternion is of non-unit length, the outputs are non-unit as well
+                       otherwise, outputs are both unit
         </member>
         <member name="M:Rewired.HID.Drivers.DualShock4Driver.GetTwist(UnityEngine.Quaternion,UnityEngine.Vector3)">
                        Decompose the rotation on to 2 parts.
@@ -13150,9 +13607,24 @@
             Xbox One input sources.
             </summary>
         </member>
+        <member name="T:Rewired.Platforms.GameCoreXboxOnePrimaryInputSource">
+            <summary>
+            GameCore Xbox One input sources.
+            </summary>
+        </member>
+        <member name="T:Rewired.Platforms.GameCoreScarlettPrimaryInputSource">
+            <summary>
+            GameCore Xbox Series X input sources.
+            </summary>
+        </member>
         <member name="T:Rewired.Platforms.PS4PrimaryInputSource">
             <summary>
             PS4 input sources.
+            </summary>
+        </member>
+        <member name="T:Rewired.Platforms.PS5PrimaryInputSource">
+            <summary>
+            PS5 input sources.
             </summary>
         </member>
         <member name="T:Rewired.Platforms.WebGLPrimaryInputSource">
@@ -15642,7 +16114,7 @@
             <summary>
             Loads a controller map from the maps defined in the Rewired Editor. Replaces if a map already exists with the same category and layout.
             When replaced, map enabled state is copied from the existing map into the replacement. Otherwise, map starts disabled and must be enabled before it can contribute to input.
-            If <see cref="P:Rewired.ControllerMapEnabler.enabled"/> is set to true and rules exist that apply to the map, the enabled state will be set based on those settings.
+            If <see cref="T:Rewired.ControllerMapEnabler"/>.<see cref="P:Rewired.ControllerMapEnabler.enabled"/> is set to true and rules exist that apply to the map, the enabled state will be set based on those settings.
             </summary>
             <typeparam name="T">Controller map type</typeparam>
             <param name="controllerId">Controller id - Get this from the Controller.id property. For Keyboard and Mouse, just use 0.</param>
@@ -15653,7 +16125,7 @@
             <summary>
             Loads a controller map from the maps defined in the Rewired Editor. Replaces if a map already exists with the same category and layout.
             When replaced, map enabled state is copied from the existing map into the replacement. Otherwise, map starts disabled and must be enabled before it can contribute to input.
-            If <see cref="P:Rewired.ControllerMapEnabler.enabled"/> is set to true and rules exist that apply to the map, the enabled state will be set based on those settings.
+            If <see cref="T:Rewired.ControllerMapEnabler"/>.<see cref="P:Rewired.ControllerMapEnabler.enabled"/> is set to true and rules exist that apply to the map, the enabled state will be set based on those settings.
             </summary>
             <typeparam name="T">Controller map type</typeparam>
             <param name="controllerId">Controller id - Get this from the Controller.id property. For Keyboard and Mouse, just use 0.</param>
@@ -15664,7 +16136,7 @@
             <summary>
             Loads a controller map from the maps defined in the Rewired Editor. Replaces if a map already exists with the same category and layout.
             When replaced, map enabled state is copied from the existing map into the replacement. Otherwise, map starts disabled and must be enabled before it can contribute to input.
-            If <see cref="P:Rewired.ControllerMapEnabler.enabled"/> is set to true and rules exist that apply to the map, the enabled state will be set based on those settings.
+            If <see cref="T:Rewired.ControllerMapEnabler"/>.<see cref="P:Rewired.ControllerMapEnabler.enabled"/> is set to true and rules exist that apply to the map, the enabled state will be set based on those settings.
             </summary>
             <param name="controllerType">Controller type</param>
             <param name="controllerId">Controller id - Get this from the Controller.id property. For Keyboard and Mouse, just use 0.</param>
@@ -15675,7 +16147,7 @@
             <summary>
             Loads a controller map from the maps defined in the Rewired Editor. Replaces if a map already exists with the same category and layout.
             When replaced, map enabled state is copied from the existing map into the replacement. Otherwise, map starts disabled and must be enabled before it can contribute to input.
-            If <see cref="P:Rewired.ControllerMapEnabler.enabled"/> is set to true and rules exist that apply to the map, the enabled state will be set based on those settings.
+            If <see cref="T:Rewired.ControllerMapEnabler"/>.<see cref="P:Rewired.ControllerMapEnabler.enabled"/> is set to true and rules exist that apply to the map, the enabled state will be set based on those settings.
             </summary>
             <param name="controllerType">Controller type</param>
             <param name="controllerId">Controller id - Get this from the Controller.id property. For Keyboard and Mouse, just use 0.</param>
@@ -17535,7 +18007,7 @@
             For Joysticks that have been previously assigned to this Player but are no longer assigned at the time this method is called, the Joystick Map history for
             these Joysticks will be cleared so the next time the Joystick is assigned to this Player, the default Joystick Maps will be loaded instead of Joystick Maps
             stored in the history.
-            If <see cref="P:Rewired.ControllerMapEnabler.enabled"/> is set to true and rules exist that apply to the map, the enabled state will be set based on those settings.
+            If <see cref="T:Rewired.ControllerMapEnabler"/>.<see cref="P:Rewired.ControllerMapEnabler.enabled"/> is set to true and rules exist that apply to the map, the enabled state will be set based on those settings.
             </summary>
             <param name="controllerType">The controller type.</param>
         </member>
@@ -17779,6 +18251,11 @@
         <member name="M:Rewired.Platforms.PS4.PS4ControllerExtension.ResetLight">
             <summary>
             Resets the light to the default settings.
+            </summary>
+        </member>
+        <member name="P:Rewired.Platforms.PS4.PS4ControllerExtension.deviceHandle">
+            <summary>
+            Gets the PS4 device handle.
             </summary>
         </member>
         <member name="P:Rewired.Platforms.PS4.PS4ControllerExtension.userStatusCode">
@@ -21183,6 +21660,11 @@
         </member>
         <member name="M:Rewired.Utils.Libraries.TinyJson.JsonWriter.ToJson(System.Object)">
             <exclude></exclude>
+        </member>
+        <member name="M:Rewired.Utils.Libraries.JoyShock.Motion.Update(System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single)">
+            <summary>
+            The gyro inputs should be calibrated degrees per second but have no other processing
+            </summary>
         </member>
         <member name="T:Rewired.Utils.SafeDelegate">
             <summary>

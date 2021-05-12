@@ -184,6 +184,11 @@ namespace Rewired.Demos {
             if(mouse.middleButton.justPressed) CreateClickEffect(new Color(1f, 1f, 0f, 1f)); // yellow for middle
         }
 
+        void OnDestroy() {
+            if (!ReInput.isReady) return;
+            mouse.ScreenPositionChangedEvent -= OnScreenPositionChanged;
+        }
+
         void CreateClickEffect(Color color) {
             GameObject go = (GameObject)GameObject.Instantiate(clickEffectPrefab);
             go.transform.localScale = new Vector3(spriteScale, spriteScale, spriteScale);

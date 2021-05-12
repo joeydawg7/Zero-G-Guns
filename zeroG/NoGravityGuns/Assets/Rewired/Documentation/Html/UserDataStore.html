@@ -173,7 +173,7 @@ public class MyUserDataStore : Rewired.Data.UserDataStore {
     <p><strong>Data that is saved and loaded</strong></p>
     <div>
       <p>UserDataStore_PlayerPrefs does not take a snapshot of the entire current Player state.</p>
-    </div>
+  </div>
     
     <p>Saved data does not include:</p>
     <ol>
@@ -194,9 +194,24 @@ public class MyUserDataStore : Rewired.Data.UserDataStore {
         <li>Input Behavior settings for each Player.</li>
         <li>All saved Controller Maps found for each Player.</li>
         <li>Optionally, controller assignments for mouse, keyboard, and joysticks for each Player.</li>
+        </ol>
+      <p>When does UserDataStore_PlayerPrefs automatically load data:</p>
+      <ol>
+        <li>If &quot;Load Data on Start&quot; is enabled,  on Awake.</li>
+        <li>When a Joystick is connected. This only applies if Joystick Auto Assignment is enabled and the Joystick is assigned to the Player.</li>
       </ol>
-      <p>If you need to save which Controller Maps are currently assigned to a Player, for example if you've manually loaded an alternate layout at some point and you want that new layout to be loaded the next time you call UserDataStore.Load instead of the default defined in the Rewired Input Manager, you will have to make a new UserDataStore class extension that can handle these special needs. Copy the UserDataStore_PlayerPrefs, change the class name, and make any modifications necessary to what data is saved and loaded.</p>
-      <p><strong><a name="saved-xml-not-synced" id="saved-xml-not-synced"></a>IMPORTANT: Saved XML data is not updated when you make changes to the Rewired Input Manager</strong></p>
+<p>When does UserDataStore_PlayerPrefs automatically save data:</p>
+<ol>
+  <li>If one or more of &quot;Load Joystick Assignments&quot;, &quot;Load Keyboard Assignments&quot;, or &quot;Load Mouse Assignments&quot;  and &quot;Load Data on Start&quot; are enabled,  on Awake, controller assignments will be saved after data has been loaded.</li>
+  <li>When a Joystick is disconnected.</li>
+  </ol>
+<p><strong>Warning:</strong></p>
+<p>Loading saved data is subject to the normal functioning of the Controller Map system. <a href="ControllerMaps.html#joystick-maps">As is documented</a>, Joystick Maps cannot exist in a Player unless that Joystick is connected and assigned to that Player at the time of loading. That means, if saved user data is loaded when a Joystick is not currently assigned to the Player, no saved data will be loaded for that Joystick. Only if the Joystick is first assigned to the Player will the data be loaded for that Joystick in that Player when Load is called. Joystick Maps are not automatically loaded from saved user data when you assign a Joystick to a Player or change Joystick assignments between Players.</p>
+<p><strong>Limitations:</strong></p>
+<p>UserDataStore_PlayerPrefs is not the be-all, end-all, automatic data storage system. It has limitations. It does not fully automate everything so you can just set it and forget it. It provides an interface for you to save/load data as necessary for the needs of your game. This sometimes requires manual calls to functions to make data save or load at a particular time.  Functionality beyond what is described above is up to the user to implement if desired. UserDataStore_PlayerPrefs is a minimum viable product designed for the most common use case needs and was primarily designed for Control Mapper.</p>
+<p>PlayerPrefs itself has significant limitations and negatives, for example, it isn't possible to clear only Rewired's save data from PlayerPrefs without wiping out all other PlayerPrefs data. If this is something you anticipate needing to do for whatever reason, do not use UserDataStore_PlayerPrefs and instead implement your own extension of the UserDataStore class that saves/loads data to whatever storage system you desire so you can have more control over how data is stored and managed.</p>
+<p>If you need to save which Controller Maps are currently assigned to a Player, for example if you've manually loaded an alternate layout at some point and you want that new layout to be loaded the next time you call UserDataStore.Load instead of the default defined in the Rewired Input Manager, you will have to make a new UserDataStore class extension that can handle these special needs. Copy the UserDataStore_PlayerPrefs, change the class name, and make any modifications necessary to what data is saved and loaded.</p>
+<p><strong><a name="saved-xml-not-synced" id="saved-xml-not-synced"></a>IMPORTANT: Saved XML data is not updated when you make changes to the Rewired Input Manager</strong></p>
 <p>UserDataStore does not manage changes between the Rewired Input Manager and data that is already saved to XML. If you make changes to the Rewired Input Manager settings such as adding new controls to a Joystick Map, these new changes will not be preserved when loading saved XML data. The only automated solutions would be to either clear the save data by clearing Player Prefs so that the Rewired Input Manager defaults are used instead or load the default maps in the Player for the any controllers that changed and save those to XML overwriting the existing saved mappings.</p>
       <p>Management of saved user data is up to the developer. If you have special needs beyond the basic use cases, you should extend and replace the UserDataStore_PlayerPrefs component with a new UserDataStore component that meets your specific needs.</p>
       <p><strong><a name="clearing-playerprefs" id="clearing-playerprefs"></a>IMPORTANT:</strong></p>

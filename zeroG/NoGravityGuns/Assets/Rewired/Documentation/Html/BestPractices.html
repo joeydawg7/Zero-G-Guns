@@ -157,18 +157,19 @@
     </ul>
 <h3><a name="windows" id="windows"></a>Windows Standalone Platform:</h3>
 <ul>
-  <li><strong>Always enable Use XInput (enabled by default).</strong> XInput provides automatic controller comaptibility with all XInput-compatible  controllers such as Xbox controllers and clones. It also provides support for vibration and independent triggers on these controllers. There are many problems your players will encounter if you disable XInput. Most problematic is Steam which relies on creating emulated XInput devices for the Steam Controller, Steam Streaming, Steam Link, and controller remapping through Steam Big Picture mode. With XInput disabled, the Steam Controller, Steam Streaming, and Steam Link cannot be supported.</li>
+  <li><strong>Always enable Use XInput (enabled by default).</strong> XInput provides universal comaptibility with all XInput-compatible  controllers such as Xbox controllers and clones. It also provides support for vibration and independent triggers on these controllers.</li>
   </ul>
 <h3><a name="steam" id="steam"></a>Steam:</h3>
 <ul>
-  <li>Always initialize Rewired before intializing Steam to avoid potential exceptions being thrown (at least on Windows.) <a href="Troubleshooting.html#steamworks">See this for more information on this issue</a>.</li>
-  <li>For the best controller support, it is recommended that you disable Steam's PS4, Xbox, and Generic Gamepad Configuration Support in the Steam developer back-end as well as informing your users to disable these settings in their Steam Big Picture controller configuration settings. <a href="Troubleshooting.html#steam-gamepad-appears-as-two-devices">See this for more information on this issue</a>. Note that doing this has some tradeoffs which are addressed in the previous link.</li>
-  <li><strong>Windows</strong> requires that you <a href="RewiredEditor.html#Settings">enable XInput or use Direct Input as the primary input source</a> in order to support the Steam Controller, Steam Streaming, and Steam Link. The recommended <a href="RewiredEditor.html#Settings">primary input source setting</a> is Raw Input + Use XInput.</li>
-  <li><strong>OSX </strong>should be set to <a href="RewiredEditor.html#Settings">Native for the primary input source</a>. Steam Controller, Steam Streaming, and Steam Link work using the Native input source. (<a href="Troubleshooting.html#steam-osx-linux-duplicate-controllers">See this for known issues on OSX with Steam emulated controllers.</a>)</li>
-  <li><strong>Linux</strong> should be set to <a href="RewiredEditor.html#Settings">Native for the primary input source</a>. Steam Controller, Steam Streaming, and Steam Link work using the Native input source. (<a href="Troubleshooting.html#steam-osx-linux-duplicate-controllers">See this for known issues on Linux with Steam emulated controllers.</a>)</li>
+  <li><a href="Troubleshooting.html#steam">Read this important information about Rewired and Steam.</a></li>
+  <li><a href="Troubleshooting.html#steam-rewired-setup">Initialize Steam before initializing Rewired.</a></li>
+  <li><a href="Troubleshooting.html#steam-controller">Configure the Steam Controller settings correctly in the Steam developer backend.</a></li>
+  <li><a href="Troubleshooting.html#steam-controller">Make sure you are using the correct input source(s) for each platform.</a></li>
+  <li><a href="Troubleshooting.html#steam-configured-controllers-recommendations">Decide if you want to opt in to Steam controller configuration support for any controllers.</a></li>
+  <li>Make sure you have Joystick Maps configured for the <a href="ControllerTemplates.html#gamepad-template">Gamepad Template</a>.</li>
+  <li><a href="Troubleshooting.html#steam">See these  topics for more information on Steam and Steam issues.</a><br/>
+  </li>
 </ul>
-<p><a href="Troubleshooting.html#steam"><a href="Troubleshooting.html#steam">See these Troubleshooting topics for more information on Steam issues.</a><br/>
-</p>
 <div class="bottom-pager clearfix">
   <a class="back-button" href="Deployment.html" title="Documentation"><span class="button-img"></span>Deployment</a>
   <a class="forward-button" href="RewiredEditor.html" title="Rewired Editor"><span class="button-img"></span>Rewired Editor</a>

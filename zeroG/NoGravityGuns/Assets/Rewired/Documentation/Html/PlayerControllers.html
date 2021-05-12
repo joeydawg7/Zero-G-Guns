@@ -204,7 +204,7 @@ PlayerController playerController = PlayerController.Factory.Create(definition);
 
 <span class="comment">// ... use the controller</span>
 </pre>
-<p><strong><a name="player-controller-additional-info" id="player-controller-additional-info"></a>Additional Info</strong></p>
+<p style="background-color: #ffff00"><strong><a name="player-controller-additional-info" id="player-controller-additional-info"></a>Additional Info</strong></p>
 <p>The PlayerController Component is a wrapper class for the <a href="https://guavaman.com/projects/rewired/docs/api-reference/html/T_Rewired_PlayerController.htm">PlayerController</a> class and exists in the <a href="https://guavaman.com/projects/rewired/docs/api-reference/html/N_Rewired_Components.htm">Rewired.Components</a> namespace. If you create a PlayerController by adding a Component on a GameObject, you can access it from scripts by calling GetComponent&lt;<a href="https://guavaman.com/projects/rewired/docs/api-reference/html/T_Rewired_Components_PlayerController.htm">Rewired.Components.PlayerController</a>&gt;(). You cannot use GetComponent with the non-Monobehaviour derived class PlayerController.</p>
 <p><strong><a name="player-controller-inspector-options" id="player-controller-inspector-options"></a>Inspector Options</strong></p>
 <p><img src="files/images/playercontrollers_playercontroller_inspector.png" alt="Touch Controller Inspector" /></p>
@@ -318,7 +318,7 @@ mouse.middleButton.actionName = middleButtonAction;
 <p>Relative coordinate mode should be used when the pointer is intended to be controlled by a joystick or keyboard. Absolute values are converted into delta values and added to the current Screen Position to determine the new position.</p>
 <p>Absolute coordinate mode should be used when the pointer is intended to be controlled by a Custom Controller that provides absolute screen coordinates. Values will be applied directly to the Screen Position.</p>
 <p>If you have special needs that require you be able to move a single Player Mouse using both Absolute and Relative axis values, you should set up the axes in Relative mode and feed those values in as Actions, and for the Absolute values, feed them in directly into the Screen Position property using a script.</p>
-<p><strong><a name="player-mouse-additional-info" id="player-mouse-additional-info"></a>Additional Info</strong></p>
+<p style="background-color: #ffff00"><strong><a name="player-mouse-additional-info" id="player-mouse-additional-info"></a>Additional Info</strong></p>
 <p>The PlayerMouse Component is a wrapper class for the <a href="https://guavaman.com/projects/rewired/docs/api-reference/html/T_Rewired_PlayerMouse.htm">PlayerMouse</a> class and exists in the <a href="https://guavaman.com/projects/rewired/docs/api-reference/html/N_Rewired_Components.htm">Rewired.Components</a> namespace. If you create a PlayerMouse by adding a Component on a GameObject, you can access it from scripts by calling GetComponent&lt;<a href="https://guavaman.com/projects/rewired/docs/api-reference/html/T_Rewired_Components_PlayerMouse.htm">Rewired.Components.PlayerMouse</a>&gt;(). You cannot use GetComponent with the non-Monobehaviour derived class PlayerMouse.</p>
 <p><strong>Examples</strong></p>
 <ul>

@@ -137,7 +137,7 @@
     	<div class="main-body">
 	        <div class="logo"><a href="http://guavaman.com/projects/rewired" title="Rewired"><img src="files/images/rewired-logo.png" width="173" height="139" alt="Rewired" /></a></div>
                      
-            <h1>
+          <h1>
             <!-- InstanceBeginEditable name="PageHeader" -->How To's
       <!-- InstanceEndEditable -->
             </h1>
@@ -180,6 +180,7 @@
       <li><a href="#modifying-input-behaviors-during-runtime">Modifying Input Behaviors during runtime</a></li>
       <li><a href="#touch-controls">Creating on-screen touch controls</a></li>
       <li><a href="#controller-mapping-screen">Creating a controller mapping screen</a></li>
+      <li><a href="#conflict-checking">Conflcit Checking</a></li>
       <li><a href="#new-controller-definitions">Creating new controller definitions</a></li>
       <li><a href="#new-controller-templates">Creating new controller templates</a></li>
       <li><a href="#add-controller-to-existing-controller-template">Adding a controller to an existing controller template</a></li>
@@ -192,6 +193,7 @@
       <li><a href="#appletv-siri-remote">Using Apple Siri Remote on Apple TV</a></li>
       <li><a href="#using-arcadeguns-g500">Using ArcadeGuns G-500 AimTrak Light Guns</a></li>
       <li><a href="#dualshock-4-special-features">Using Sony DualShock 4 special features</a></li>
+      <li><a href="#dualsense-special-features">Using Sony DualSense special features</a></li>
       <li><a href="#raildriver-special-features">Using P.I. Engineering Rail Driver special features</a></li>
       <li><a href="#xbox-one-controller-special-features">Using XBox One controller special features on XBox One platform</a></li>
       <li><a href="#ps4-gamepad-special-features">Using PS4 gamepad special features on PS4 platform</a></li>
@@ -902,7 +904,7 @@ for(int i = 0; i &lt; targetCount; i++) {
 <ol>
   <li>Get the last used <a href="Controllers.html">Controller</a> from the <a href="Players.html">Player</a> using <a href="http://guavaman.com/projects/rewired/docs/api-reference/html/Overload_Rewired_ReInput_ControllerHelper_GetLastActiveController.htm">Player.controllers.GetLastActiveController</a>.</li>
   <li>Determine the type of the <a href="Controllers.html">Controller</a> using the <a href="http://guavaman.com/projects/rewired/docs/api-reference/html/P_Rewired_Controller_type.htm">Controller.type</a> property.</li>
-  <li>If a <a href="Controllers.html#joysticks">Joystick</a>, identify this <a href="Controllers.html#joysticks">Joystick</a> as a recognized type using the <a href="http://guavaman.com/projects/rewired/docs/api-reference/html/P_Rewired_Joystick_hardwareTypeGuid.htm">Joystick.hardwareTypeGuid</a> property. (The type GUID for each recognized <a href="Controllers.html">Controller</a> can be found <a href="http://guavaman.com/rewired/files/docs/RewiredControllersCSV.zip">in this CSV file</a>.)</li>
+  <li>If a <a href="Controllers.html#joysticks">Joystick</a>, identify this <a href="Controllers.html#joysticks">Joystick</a> as a recognized type using the <a href="http://guavaman.com/projects/rewired/docs/api-reference/html/P_Rewired_Controller_hardwareTypeGuid.htm">Joystick.hardwareTypeGuid</a> property. (The type GUID for each recognized <a href="Controllers.html">Controller</a> can be found <a href="http://guavaman.com/rewired/files/docs/RewiredControllersCSV.zip">in this CSV file</a>.)</li>
   <li>Check if any element on this <a href="Controllers.html">Controller</a> is mapped to the <a href="Actions.html">Action</a> in question using one of the following methods:
 <ul>
       <li><a href="http://guavaman.com/projects/rewired/docs/api-reference/html/Overload_Rewired_Player_ControllerHelper_MapHelper_GetFirstElementMapWithAction.htm">Player.controllers.maps.GetFirstElementMapWithAction</a></li>
@@ -913,7 +915,7 @@ for(int i = 0; i &lt; targetCount; i++) {
       <li><a href="http://guavaman.com/projects/rewired/docs/api-reference/html/Overload_Rewired_Player_ControllerHelper_MapHelper_AxisMapsWithAction.htm">Player.controllers.maps.AxisMapsWithAction</a></li>
     </ul>
   </li>
-  <li>If the element is mapped, use this information to look up the glyph from your lookup table using the <a href="http://guavaman.com/projects/rewired/docs/api-reference/html/T_Rewired_ActionElementMap.htm">ActionElementMap.elementIdentifierId</a> property and the <a href="http://guavaman.com/projects/rewired/docs/api-reference/html/P_Rewired_Joystick_hardwareTypeGuid.htm">Joystick.hardwareTypeGuid</a> property.</li>
+  <li>If the element is mapped, use this information to look up the glyph from your lookup table using the <a href="http://guavaman.com/projects/rewired/docs/api-reference/html/T_Rewired_ActionElementMap.htm">ActionElementMap.elementIdentifierId</a> property and the <a href="http://guavaman.com/projects/rewired/docs/api-reference/html/P_Rewired_Controller_hardwareTypeGuid.htm">Joystick.hardwareTypeGuid</a> property.</li>
   <li>Optional: Further information about the mapping can be found in the ActionElementMap such as the Axis Range, Axis Contribution, type, or other useful information should you need more specific glyphs for a finer level of detail.</li>
   </ol>
 <p>Below is a basic example that shows both one method of storing the glyph lookup data and how to get the current element glyph for an <a href="Actions.html">Action</a>.</p>
@@ -2112,7 +2114,7 @@ private void LoadAllMaps() {
     <p>&nbsp;</p>
     <hr />
     <h3><a name="controller-mapping-screen" id="controller-mapping-screen"></a>Creating a controller mapping screen</h3>
-    <p>Rewired now includes <a href="ControlMapper.html">Control Mapper</a>, a customizable UI control mapping system built with Unity UI that should fit the needs of many games. Please see <a href="ControlMapper.html">Control Mapper</a> for more information.</p>
+<p>Rewired now includes <a href="ControlMapper.html">Control Mapper</a>, a customizable UI control mapping system built with Unity UI that should fit the needs of many games. Please see <a href="ControlMapper.html">Control Mapper</a> for more information.</p>
     <p><strong>Creating a mapping screen from scratch</strong></p>
     <p> To get you started, for an exhaustive example, see the example mapping screen in <a href="Examples.html#control-remapping-1">Rewired/Examples/ControlRemapping1</a>. The example uses Unity's legacy GUI system.  For a much simpler but less complete example, see <a href="Examples.html#simple-control-remapping">Rewired/Examples/SimpleControlRemapping</a>.</p>
     <p>Every game's needs are different with regards to user mapping screens. The ControlRemapping1 example was built for a fairly complex game with a number of players and various game modes and supports saving and loading <a href="ControllerMaps.html">Controller Maps</a>, <a href="Controllers.html#joysticks">Joystick</a> assignment, element remapping, calibration, conflict checking, and more. You should be able to learn what you need to from the example project to create your own mapping screen.</p>
@@ -2125,7 +2127,34 @@ private void LoadAllMaps() {
         <a href="http://guavaman.com/projects/rewired/docs/api-reference/html/Overload_Rewired_Player_ControllerHelper_MapHelper_GetMap.htm">player.controllers.maps.GetMap</a></li>
       <li>Listen for controller input using <a href="InputMapper.html">Input Mapper</a>.</li>
       <li><a href="InputMapper.html#conflicts">Handle assignment conflicts</a>.</li>
-    </ol>
+      </ol>
+    <p>Examples:</p>
+    <ul>
+      <li><a href="Examples.html#simple-control-remapping">Simple Control Remapping</a></li>
+      <li><a href="Examples.html#simple-combined-keyboard-mouse-remapping">Combined Keyboard Mouse Remapping</a></li>
+      <li><a href="Examples.html#control-remapping-1">Control Remapping 1</a></li>
+      <li><a href="ControlMapper.html">Control Mapper (see source code)</a>    </li>
+    </ul>
+    <p><strong>IMPORTANT:</strong></p>
+<p><em>I do not provide support for making your own control remapping system.</em></p>
+    <ul>
+      <li> I have provided 4 working examples for those expert programmers to use to learn the API so they can make their own remapping systems.</li>
+      <li>I have provided a complete, drop-in UI system, <a href="ControlMapper.html">Control Mapper</a>, for those that can't write their own system or don't want to spend the time reading the examples to learn how to do so.</li>
+      </li>
+    </ul>
+    <p>If looking through the examples to learn is too difficult, use <a href="ControlMapper.html">Control Mapper</a>.</p>
+    <p>Do not contact support asking for help writing your remapping system, asking  how to do each step of the process, asking for tutorials or code examples, or sending code asking why it doesn't work. All the answers to all questions related to this topic are in the examples provided.</p>
+    <p>&nbsp;</p>
+<hr />
+    <h3><a name="conflict-checking" id="conflict-checking"></a>Conflict Checking</h3>
+    <p>When using <a href="ControlMapper.html">Control Mapper</a>, <a href="InputMapper.html">Input Mapper</a>, or when manually creating a control remapping system using the low-level API, before a controller element is bound, a conflict check can be performed to determine if any existing bindings exist that would conflict with the new binding so you can determine what action to take to resolve the conflict(s).</p>
+    <p>Rewired's conflict checking system tries to prevent the user from cross-assigning his controls. For example, if the user tries to assign the key A to &quot;Fire&quot; after it has already been assigned to &quot;Jump&quot;, a warning will be displayed asking the user whether they would like to replace the assignment or (optionally) add the new conflicting assignment anyway.</p>
+    <p>The Rewired Input Manager has many options for controlling conflict checking. These are handled on a Map Category basis. You are able to set which Map Categories perform conflict checking against other Map Categories. This conflict checking is configurable independently each way, so if you want one Map Category to conflict check against another but not vice versa, this is possible. Additionally, this allows you to have categories such as &quot;Common&quot;, &quot;Infantry Mode&quot;, &quot;Tank Mode&quot;, &quot;Airplane Mode&quot; and have all these maps configurable by the user without having conflict checking between mutually-exclusive Map Categories such as &quot;Tank Mode&quot; and &quot;Infantry Mode&quot; while all still conflict checking against &quot;Common&quot; and vice versa. See <a href="https://guavaman.com/projects/rewired/docs/RewiredEditor.html#MapCategories">Rewired Editor - Map Categories</a> for more information.</p>
+    <p><strong>Protected controls</strong></p>
+    <p>You may want to have certain controls protected from re-assignment. One example of this might be the ESC key if you use that for some important system control and you don't want the user removing this assignment by trying to assign ESC to another Action. In Rewired, protection of controls is handled on the Map Category level. To protect a set of System controls from ever being re-assigned, uncheck the <a href="https://guavaman.com/projects/rewired/docs/RewiredEditor.html#MapCategories">&quot;User Assignable&quot; checkbox in the Map Category</a> that contains the Action in the Rewired Input Manager.</p>
+    <ul>
+      <li>Map Category -&gt; User Assignable</li>
+    </ul>
     <p>&nbsp;</p>
     <hr />
     <h3><a name="new-controller-definitions" id="new-controller-definitions"></a>Creating new controller definitions</h3>
@@ -2210,7 +2239,7 @@ private void LoadAllMaps() {
 <hr />
   <h3><a name="identifying-recognized-controllers" id="identifying-recognized-controllers"></a>Identifying recognized Joysticks</h3>
 <p>
-  If you need to identify a <a href="Controllers.html#joysticks">Joystick</a> for some reason (you're building <a href="#display-glyph-for-action">a controller element glyph table</a> for example), you can determine the identity of a <a href="Controllers.html#joysticks">Joystick</a> by using the <a href="http://guavaman.com/projects/rewired/docs/api-reference/html/P_Rewired_Joystick_hardwareTypeGuid.htm">joystick.hardwareTypeGuid property</a>. This will return the unique GUID of the <a href="Controllers.html#joysticks">Joystick</a> type. (Note: This is a Rewired-generated GUID, not  from the hardware.) This GUID can be found in each HardwareJoystickMap on the Settings page. HardwareJoystickMaps can be found in the Assets/Rewired/Internal/Data/Controllers/HardwareMaps/Joysticks/ folder in your project.</p>
+  If you need to identify a <a href="Controllers.html#joysticks">Joystick</a> for some reason (you're building <a href="#display-glyph-for-action">a controller element glyph table</a> for example), you can determine the identity of a <a href="Controllers.html#joysticks">Joystick</a> by using the <a href="http://guavaman.com/projects/rewired/docs/api-reference/html/P_Rewired_Controller_hardwareTypeGuid.htm">joystick.hardwareTypeGuid property</a>. This will return the unique GUID of the <a href="Controllers.html#joysticks">Joystick</a> type. (Note: This is a Rewired-generated GUID, not  from the hardware.) This GUID can be found in each HardwareJoystickMap on the Settings page. HardwareJoystickMaps can be found in the Assets/Rewired/Internal/Data/Controllers/HardwareMaps/Joysticks/ folder in your project.</p>
 <p>(To save time, you can <a href="http://guavaman.com/rewired/files/docs/RewiredControllersCSV.zip">download a CSV file of the current controllers here</a>.)</p>
 <p>If a <a href="Controllers.html#joysticks">Joystick</a> is not a recognized controller, it will always return Guid.Empty (all zeros).</p>
 <p>Be sure to note the <a href="ControllerMaps.html#xinput-devices-windows">special cases for certain controllers on some platfoms/input sources as noted here</a> as this affects what a controller is identified as.</p>
@@ -2438,7 +2467,7 @@ using System.Collections.Generic;
   <h3><a name="using-arcadeguns-g500"></a>Using ArcadeGuns G-500 AimTrak Light Guns</h3>
   <p>In order for the AimTrak G-500 to work with Rewired, the device must first be configured properly. See <a href="SupportedControllers.html#configuring-arcadeguns-g500">Supported Controllers - Configuring ArcadeGuns G-500 AimTrak Light Guns</a> for more information.</p>
   <p>The data returned by the AimTrak light guns is not processed by Rewired into  a screen-space or world-space coordinate system. The data is returned as it is received from the device. The data must be processed in your scripts in the appropriate manner for your intended use.</p>
-<p>The easiest way to tell that the data is from the AimTrak would be to create 2 special <a href="Actions.html">Actions</a> specifically for this controller. Something like AimTrakX and AimTrackY. Then in your scripts you can simply check for these <a href="Actions.html">Actions</a> and process the values in to the appropriate coordinate system. Alternately, you could check an <a href="#get-contributing-input-sources">Action's contributing input sources</a> to determine if that <a href="Actions.html">Action</a> was contributed to by the AimTrak by checking the <a href="http://guavaman.com/projects/rewired/docs/api-reference/html/P_Rewired_Joystick_hardwareTypeGuid.htm">joystick.hardwareTypeGuid</a> property. If the guid is 1708268b-3914-42c4-a339-7bf4fe83fde2, then it is from the AimTrak G-500. (This guid can be found in the HardwareJoystickMap controller definition.)</p>
+<p>The easiest way to tell that the data is from the AimTrak would be to create 2 special <a href="Actions.html">Actions</a> specifically for this controller. Something like AimTrakX and AimTrackY. Then in your scripts you can simply check for these <a href="Actions.html">Actions</a> and process the values in to the appropriate coordinate system. Alternately, you could check an <a href="#get-contributing-input-sources">Action's contributing input sources</a> to determine if that <a href="Actions.html">Action</a> was contributed to by the AimTrak by checking the <a href="http://guavaman.com/projects/rewired/docs/api-reference/html/P_Rewired_Controller_hardwareTypeGuid.htm">joystick.hardwareTypeGuid</a> property. If the guid is 1708268b-3914-42c4-a339-7bf4fe83fde2, then it is from the AimTrak G-500. (This guid can be found in the HardwareJoystickMap controller definition.)</p>
   <p>&nbsp;</p>
 <hr />
   <h3><a name="dualshock-4-special-features"></a>Using Sony DualShock 4 special features</h3>
@@ -2500,7 +2529,7 @@ class DS4Test {
   }
 }</pre>
 <p><strong>Common Interface<br />
-</strong><a name="dualshock-4-special-features-common-interface" id="dualshock-4-special-features-common-interface"></a>You can use the <a href="http://guavaman.com/projects/rewired/docs/api-reference/html/T_Rewired_ControllerExtensions_IDualShock4Extension.htm">ControllerExtensions.IDualShock4Extension</a> interface instead if you want to run the same code on the PS4 platform and a desktop platform. The controller does not support all the same features on both the desktop and PS4 platforms, but the common features between the two platforms are supported through the interface. Cast to the concrete extension class if you need access to features that are only supported on that version.</p>
+</strong><a name="dualshock-4-special-features-common-interface" id="dualshock-4-special-features-common-interface"></a>You can use the <a href="http://guavaman.com/projects/rewired/docs/api-reference/html/T_Rewired_ControllerExtensions_IDualShock4Extension.htm">ControllerExtensions.IDualShock4Extension</a> interface instead if you want to run the same code on the PS4 platform and a desktop platform. (This interface also works with the Sony DualSense controller.) The controller does not support all the same features on both the desktop and PS4 platforms, but the common features between the two platforms are supported through the interface. Cast to the concrete extension class if you need access to features that are only supported on that version.</p>
 <pre class="code">
 <span class="comment">// Get the Dual Shock 4 Extension interface from the Joystick</span>
 var ds4 = joystick.GetExtension&lt;IDualShock4Extension&gt;();
@@ -2522,6 +2551,74 @@ if(ds4 is DualShock4Extension) { <span class="comment">// desktop version</span>
     Rewired.Platforms.PS4.PS4GamepadExtension ps4DS4 = (Rewired.Platforms.PS4.PS4GamepadExtension)ds4;
     ps4DS4.SetAngularVelocityDeadbandState(true); <span class="comment">// this feature is only available on the PS4 version</span>
 }<br /></pre>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<hr />
+<h3><a name="dualsense-special-features" id="dualsense-special-features"></a>Using Sony DualSense special features</h3>
+<p>The Sony DualSense supports vibration, gyro/accelerometer, touchpad, and changing the light color on Windows Standalone and OSX* only at present (<a href="http://guavaman.com/projects/rewired/docs/RewiredEditor.html#Settings">Enhanced Device Support</a> option required.) (* Special features are only supported on OSX via wired USB connection.)</p>
+<p>The special features of this controller are accessible through the <a href="http://guavaman.com/projects/rewired/docs/api-reference/html/T_Rewired_ControllerExtensions_DualSenseExtension.htm">ControllerExtensions.DualSenseExtension</a> class.</p>
+<p>You can <a href="#dualshock-4-special-features-common-interface">use the common interface to support the DualShock 4 and DualSense simultaneously</a>.</p>
+<p><a href="Examples.html#dualshock-4-special-features">Also see the Dual Shock 4 Special Features example.</a></p>
+<p>An example on how to use this class is shown below:</p>
+<pre class="code">
+using Rewired;
+using Rewired.ControllerExtensions;
+
+class DualSenseTest {
+
+  <span class="comment">// Getting and setting various values on all DualSense's assigned to this Player</span>
+  public void TestDualSense(Player player) {
+
+<span class="comment">    // Loop through all Joysticks assigned to this Player</span>
+    foreach(Joystick joystick in player.controllers.Joysticks) {
+
+      <span class="comment">// Get the DualSense Controller Extension from the Joystick</span>
+      var ds = joystick.GetExtension&lt;DualSenseExtension&gt;();
+      if(ds == null) continue; <span class="comment">// this is not a DualSense, skip it</span>
+
+      <span class="comment">// Get the accelerometer value</span>
+      Vector3 accelerometer = ds.GetAccelerometerValue();
+
+      <span class="comment">// Get the gyroscope value</span>
+      Vector3 gyro = ds.GetGyroscopeValue();
+
+      <span class="comment">// Get the controller orientation</span>
+      Quaternion orientation = ds.GetOrientation();
+
+      <span class="comment">// Get the touch positions for both fingers</span>
+      bool touch1isTouching, touch2isTouching;
+      Vector2 touch1Pos, touch2Pos;
+      touch1isTouching = ds4.GetTouchPosition(0, out touch1Pos);
+      touch2isTouching = ds4.GetTouchPosition(1, out touch2Pos);
+
+      <span class="comment">// Get/Set vibration
+      // Note: Vibration can also be set in a generic way through Joystick.SetVibration</span>
+      float vibration = ds.GetVibration(DualShock4MotorType.WeakMotor);
+      ds.SetVibration(DualShock4MotorType.StrongMotor, 1.0f); <span class="comment">// set vibration on a single motor by type</span>
+      ds.SetVibration(1.0f, 1.0f); <span class="comment">// set vibration on both motors simultaneously</span>
+      ds.StopVibration(); <span class="comment">// stop all vibration</span>
+
+      <span class="comment">// Get the light color</span>
+      Color lightColor = ds.GetLightColor();
+
+      <span class="comment">// Set the light color</span>
+      ds.SetLightColor(new Color(1.0f, 1.0f, 0.0f, 0.5f)); <span class="comment">// alpha is multiplied by rgb to get final value</span>
+    
+      <span class="comment">// Set the player lights</span>
+      ds.playerLights = DualSensePlayerLightFlags.Two | DualSensePlayerLightFlags.Four; <span class="comment">// enable lights 2 and 4 to signify Player 2</span>
+      
+		<span class="comment">// Enable the microphone button light</span>
+		ds.microphoneLightMode = DualSenseMicrophoneLightMode.On;
+
+		<span class="comment">// Set the player lights and microphone light brigtness</span>
+		ds.otherLightBrightness = DualSenseOtherLightBrightness.Low;
+
+      <span class="comment">// Get battery information</span>
+      float battery = ds.batteryLevel;
+		bool batteryCharging = ds.batteryCharging;
+    }
+  }
+}</pre>
 <p>&nbsp;</p>
 <hr />
 <h3><a name="raildriver-special-features" id="raildriver-special-features"></a>Using P.I. Engineering Rail Driver special features</h3>
