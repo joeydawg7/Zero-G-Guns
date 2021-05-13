@@ -33,7 +33,6 @@ public class PlayerScript : MonoBehaviour
     public Player player;
     public Controller controller;
 
-
     public enum DamageType { head = 4, torso = 3, legs = 2, feet = 1, self = 5, explosive = 6, blackhole = 7 };
 
     [Header("Bools")]
@@ -226,8 +225,6 @@ public class PlayerScript : MonoBehaviour
             }
 
         }
-
-
     }
 
     float speedIndicationTimer = 0;
@@ -1134,5 +1131,13 @@ public class PlayerScript : MonoBehaviour
 
     }
     #endregion
+
+    public void CheckRotationAmount()
+    {
+        if(Mathf.Abs(this.gameObject.GetComponent<Rigidbody2D>().angularVelocity) > 250.0f)
+        {
+            ///shake free
+        }
+    }
 
 }
