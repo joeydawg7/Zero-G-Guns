@@ -195,9 +195,6 @@ public class ObjectPooler : MonoBehaviour
 
         }
 
-
-
-
         System.GC.Collect();
 
         Extensions.EndCodeTimer(t, "ResettingCode");
