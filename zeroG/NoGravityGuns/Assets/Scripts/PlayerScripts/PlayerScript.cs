@@ -32,6 +32,7 @@ public class PlayerScript : MonoBehaviour
     public int playerID;
     public Player player;
     public Controller controller;
+    public bool isStunned;
 
     public enum DamageType { head = 4, torso = 3, legs = 2, feet = 1, self = 5, explosive = 6, blackhole = 7 };
 
@@ -171,6 +172,7 @@ public class PlayerScript : MonoBehaviour
         gameManager = GameManager.Instance;
 
         lastHitDamageType = DamageType.self;
+        isStunned = false;
     }
 
     private void Start()
@@ -499,6 +501,53 @@ public class PlayerScript : MonoBehaviour
             SR.color = defaultColor;
         }
     }
+
+    public void DamageOverTime(float duration, float frequency, float damage, Vector2 dir, DamageType damageType, PlayerScript PlayerWhoShotYou, bool playBulletSFX, Guns gunThatShotYou)
+    {
+        StartCoroutine(DoDOTs(duration, frequency, damage, dir, damageType, PlayerWhoShotYou, playBulletSFX, gunThatShotYou));
+    }
+
+    public IEnumerator DoDOTs(float duration, float frequency, float damage, Vector2 dir, DamageType damageType, PlayerScript PlayerWhoShotYou, bool playBulletSFX, Guns gunThatShotYou)
+    {
+        float DOT_Timer = 0;
+        while (DOT_Timer < duration)
+        {
+            TakeDamage(damage, dir, damageType, PlayerWhoShotYou, playBulletSFX, gunThatShotYou);
+            yield return new WaitForSeconds(frequency);
+            DOT_Timer += frequency;
+        }
+
+    }
+
+    public void Stun(float duration)
+    {
+        StartCoroutine(DoStun(duration));
+    }
+
+    private IEnumerator DoStun(float duration)
+    {
+        isStunned = true;
+        float timer = 0.0f;
+        while (timer < duration)
+        {
+            //TEMP STUN indicator
+            torsoSR.color = Color.gray;
+            foreach (var SR in armsSR)
+            {
+                SR.color = invulnerabilityColorFlash;
+            }
+
+            timer += Time.deltaTime;
+            yield return null;
+        }
+        torsoSR.color = defaultColor;
+        foreach (var SR in armsSR)
+        {
+            SR.color = defaultColor;
+        }
+        isStunned = false;
+    }
+
     #endregion
 
     #region Die and respawn

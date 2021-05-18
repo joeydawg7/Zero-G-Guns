@@ -161,7 +161,8 @@ public class DOT_Bullet : MonoBehaviour, IPooledObject
         {
             //hitPlayerScript.TakeDamage(damage, startingForce, dmgType, this.player, true, gun);
 
-            hitPlayerScript.DamageOverTime(duration, frequency, Random.Range(damage-2.0f,damage+2.0f), startingForce, dmgType, this.player, true, gun);
+            hitPlayerScript.DamageOverTime
+                (duration, frequency, Random.Range(damage-2.0f,damage+2.0f), startingForce, dmgType, this.player, true, gun);
             // collision.transform.GetComponentInChildren<ParticleSystem>().Emit(30);
             GetComponent<Collider2D>().enabled = false;
         }

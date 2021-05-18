@@ -154,7 +154,7 @@ public class ArmsScript : MonoBehaviour
                 return;
 
             if (!basePlayer.isDead)
-            {
+            {               
                 //AimController();
                 //OnReload();
                 ShootController();
@@ -162,8 +162,7 @@ public class ArmsScript : MonoBehaviour
                 //if(currentWeapon != GameManager.Instance.pistol)
                 //{
                 //    ReduceTimeToHoldGun();
-                //}
-
+                //}                
             }
         }
     }
@@ -180,8 +179,11 @@ public class ArmsScript : MonoBehaviour
 
             if (!basePlayer.isDead)
             {
-                AimController();
-                DrawLaserPointer();
+                if (!basePlayer.isStunned)
+                {
+                    AimController();
+                    DrawLaserPointer();
+                }
             }
         }
     }
