@@ -54,7 +54,7 @@ public abstract class Guns : MonoBehaviour
     public abstract void Fire(PlayerScript player);
 
 
-    public IEnumerator DelayShotCoroutine(PlayerScript player, float delayBeforeShot, float bulletSpeed, int minDamage, int maxDamage, Guns gun)
+    public virtual IEnumerator DelayShotCoroutine(PlayerScript player, float delayBeforeShot, float bulletSpeed, int minDamage, int maxDamage, Guns gun)
     {
 
         timeSinceLastShot = Time.time;
@@ -78,7 +78,7 @@ public abstract class Guns : MonoBehaviour
 
             if (prefireSound != null)
                 SoundPooler.Instance.PlaySoundEffect(prefireSound);
-                //arms.audioSource.PlayOneShot(prefireSound);
+            //arms.audioSource.PlayOneShot(prefireSound);
         }
 
         if (player.armsScript.currentWeapon != gun)
@@ -87,7 +87,7 @@ public abstract class Guns : MonoBehaviour
 
         yield return new WaitForSeconds(delayBeforeShot);
 
-        if(player.armsScript.currentWeapon!=gun)
+        if (player.armsScript.currentWeapon != gun)
             yield break;
 
         KnockBack(player, player.knockbackMultiplier);
@@ -96,7 +96,7 @@ public abstract class Guns : MonoBehaviour
 
         if (timeSinceLastShot > recoilDelay && player.armsScript.currentWeapon == gun)
             SpawnBullet(player, bulletSpeed, minDamage, maxDamage, gun);
-           
+
     }
 
 
@@ -116,7 +116,7 @@ public abstract class Guns : MonoBehaviour
         }
     }
 
-    public void SpawnBullet(PlayerScript player, float bulletSpeed, int minDamagae, int maxDamage, Guns gun)
+    public virtual void SpawnBullet(PlayerScript player, float bulletSpeed, int minDamagae, int maxDamage, Guns gun)
     {
         //before spawing a bullet, check that the held weapon is the same as the one that was intended to shoot the shot. Fixes a bug where you switch weapons mid-fire causing an error
         if (player.armsScript.currentWeapon != gun)
@@ -196,7 +196,7 @@ public abstract class Guns : MonoBehaviour
         {
             if (!bulletSpawn)
             {
-                bulletSpawn.position = player.armsScript.GetBulletSpawnPos();         
+                bulletSpawn.position = player.armsScript.GetBulletSpawnPos();
             }
 
             GameObject bulletGo = ObjectPooler.Instance.SpawnFromPool(projectileTypeName, bulletSpawn.position, Quaternion.identity);
@@ -218,7 +218,7 @@ public abstract class Guns : MonoBehaviour
         }
     }
 
-    public void KnockBack(PlayerScript player, float knockBackModifier)
+    public virtual void KnockBack(PlayerScript player, float knockBackModifier)
     {
         ArmsScript arms = player.armsScript;
 
