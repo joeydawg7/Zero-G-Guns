@@ -62,7 +62,6 @@ public class ExplosiveObjectScript : MonoBehaviour
         //explodey object is dead
         if (health <= 0)
         {
-            //StartCoroutine(DelayExplosion(hitPos));
             Explode();
         }
     }
@@ -91,7 +90,7 @@ public class ExplosiveObjectScript : MonoBehaviour
             //play the effect
             ps.Play(true);
 
-            //burn babeee
+            //set to burning 
             alreadyBurning = true;
         }
  

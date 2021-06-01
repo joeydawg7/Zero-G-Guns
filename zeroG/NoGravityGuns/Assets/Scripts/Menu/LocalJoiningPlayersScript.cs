@@ -115,7 +115,7 @@ public class LocalJoiningPlayersScript : MonoBehaviour
 
     void AssignAllJoysticksToSystemPlayer(bool removeFromOtherPlayers)
     {
-        Debug.Log("assigning all to systemplayer!");
+        //Debug.Log("assigning all to systemplayer!");
         foreach (var j in ReInput.controllers.Joysticks)
         {
             ReInput.players.GetSystemPlayer().controllers.AddController(j, removeFromOtherPlayers);
@@ -142,7 +142,7 @@ public class LocalJoiningPlayersScript : MonoBehaviour
         // Get the next Rewired Player Id
         int rewiredPlayerId = GetNextGamePlayerId();
 
-        Debug.Log("rewird player id : " + rewiredPlayerId);
+       // Debug.Log("rewird player id : " + rewiredPlayerId);
 
         // Get the Rewired Player
         Player rewiredPlayer = ReInput.players.GetPlayer(rewiredPlayerId);

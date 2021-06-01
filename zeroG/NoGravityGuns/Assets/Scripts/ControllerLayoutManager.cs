@@ -12,7 +12,7 @@ public static class ControllerLayoutManager
     /// </summary>
     public static void SwapToGameplayMaps()
     {
-        Debug.Log("swapped to Gameplay maps");
+        //Debug.Log("swapped to Gameplay maps");
 
         ControllerLayoutManager.RemoveAllJoysticksFromSystemPlayer();
         ControllerLayoutManager.SetAllPlayersToGameplayMaps();
@@ -24,7 +24,7 @@ public static class ControllerLayoutManager
     /// </summary>
     public static void SwapToUIMaps(bool removeFromOtherPlayers)
     {
-        Debug.Log("swapped to UI maps");
+       // Debug.Log("swapped to UI maps");
 
         ControllerLayoutManager.AssignAllJoysticksToSystemPlayer(removeFromOtherPlayers);
         ControllerLayoutManager.SetAllPlayersToUIMaps();

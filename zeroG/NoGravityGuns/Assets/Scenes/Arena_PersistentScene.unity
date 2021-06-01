@@ -97,7 +97,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 0
+  m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -511,7 +511,8 @@ PrefabInstance:
         type: 3}
       propertyPath: debugStayOnThisScene
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 11400000, guid: ac716a56b9baf6a4fbc1084c32422944,
+        type: 2}
     - target: {fileID: 2181779809021178793, guid: 03b570c18870f384c992d818d6c5581e,
         type: 3}
       propertyPath: rooms.Array.data[0]
